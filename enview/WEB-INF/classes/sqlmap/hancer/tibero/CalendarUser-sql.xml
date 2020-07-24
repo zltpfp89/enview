@@ -1,0 +1,99 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="cal">
+
+	<resultMap id="calendar.user.list" class="com.saltware.enhancer.calendar.service.CalendarUserVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>
+		<result property="userId" columnIndex="2"/> 
+		<result property="permissions" column="PERMISSIONS" columnIndex="3"/>
+		<result property="insDatim" column="INS_DATIM" columnIndex="4"/>
+		<result property="updDatim" column="UPD_DATIM" columnIndex="5"/>
+		<result property="userName" columnIndex="6"/>
+	</resultMap>
+	
+	<select id="calendar.user.list" resultMap="calendar.user.list">/* calendar.user.list */
+		SELECT a.* 
+			<isNotNull property="langKnd">
+				<isEqual property="langKnd" compareValue="ko">, b.NM_KOR AS USER_NAME</isEqual>
+				<isEqual property="langKnd" compareValue="en">, b.NM_ENG AS USER_NAME</isEqual>
+			</isNotNull> 
+		FROM (
+			SELECT CALENDAR_ID, OWNER_ID AS USER_ID, 'CRUDA' AS PERMISSIONS, INS_DATIM, UPD_DATIM
+			FROM CALENDAR
+			WHERE CALENDAR_ID=#calendarId# AND OWNER_ID=#ownerId#
+			UNION ALL
+			SELECT CALENDAR_ID, USER_ID, PERMISSIONS, INS_DATIM, UPD_DATIM
+			FROM CALENDAR_USER
+			WHERE CALENDAR_ID=#calendarId# AND USER_ID!=#ownerId#
+		) a
+		JOIN USERPASS b ON b.USER_ID = a.USER_ID
+	</select>
+	
+	<resultMap id="calendar.user.popup" class="com.saltware.enhancer.calendar.service.CalendarUserVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>
+		<result property="userId" columnIndex="2"/> 
+		<result property="permissions" column="PERMISSIONS" columnIndex="3"/>
+		<result property="fgColor" column="FG_COLOR" columnIndex="4"/>
+		<result property="bgColor" column="BG_COLOR" columnIndex="5"/>
+		<result property="insDatim" column="INS_DATIM" columnIndex="6"/>
+		<result property="updDatim" column="UPD_DATIM" columnIndex="7"/>	 
+	</resultMap>
+	
+	<select id="calendar.user.popup.detail.owner" resultMap="calendar.user.popup">/* calendar.user.popup.detail.owner */
+		SELECT CALENDAR_ID, a.OWNER_ID, 'CRUDA' AS PERMISSIONS, FG_COLOR, BG_COLOR, a.INS_DATIM, a.UPD_DATIM
+		FROM CALENDAR a
+		JOIN USERPASS b ON b.USER_ID = a.OWNER_ID
+		WHERE CALENDAR_ID=#calendarId# AND a.OWNER_ID=#ownerId#
+	</select>
+	
+	<select id="calendar.user.popup.detail.joint" resultMap="calendar.user.popup">/* calendar.user.popup.detail.joint */
+		SELECT CALENDAR_ID, a.USER_ID, PERMISSIONS, FG_COLOR, BG_COLOR, a.INS_DATIM, a.UPD_DATIM
+		FROM CALENDAR_USER a
+		JOIN USERPASS b ON b.USER_ID = a.USER_ID
+		WHERE CALENDAR_ID=#calendarId# AND a.USER_ID=#userId#
+	</select>
+	
+	<insert id="calendar.user.insert">/* calendar.user.insert */
+		INSERT INTO CALENDAR_USER (CALENDAR_ID, USER_ID, PERMISSIONS, FG_COLOR, BG_COLOR, INS_DATIM, UPD_DATIM)
+		VALUES (#calendarId#, #userId#, #permissions#, 'white', 'rgb(73, 134, 231)', SYSDATE, SYSDATE)
+	</insert>
+	
+	<update id="calendar.user.update">/* calendar.user.update */
+		UPDATE CALENDAR_USER SET PERMISSIONS=#permissions#, UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=#calendarId# AND USER_ID=#userId#
+	</update>
+	
+	<delete id="calendar.user.delete.all">/* calendar.user.delete */
+		DELETE FROM CALENDAR_USER
+		WHERE CALENDAR_ID=#calendarId#
+	</delete>
+	
+	<delete id="calendar.user.delete">/* calendar.user.delete */
+		DELETE FROM CALENDAR_USER
+		WHERE CALENDAR_ID=#calendarId#
+		<isNotNull property="userId" prepend=" AND ">USER_ID=#userId#</isNotNull>
+	</delete>
+	
+	<resultMap id="calendar.user.search" class="com.saltware.enhancer.calendar.service.CalendarUserVO">
+		<result property="userId" column="USER_ID" columnIndex="1"/>
+		<result property="userName" columnIndex="2"/>
+		<result property="langKnd" columnIndex="3"/>
+	</resultMap>
+	
+	<select id="calendar.user.search" resultMap="calendar.user.search">/* calendar.user.search */
+		SELECT USER_ID 
+			<isNotNull property="langKnd">
+				<isEqual property="langKnd" compareValue="ko">, decode(NM_KOR, null, NM_ENG, NM_KOR) AS USER_NAME</isEqual>
+				<isEqual property="langKnd" compareValue="en">, decode(NM_ENG, null, NM_KOR, NM_ENG) AS USER_NAME</isEqual>
+			</isNotNull>
+			, #langKnd# 
+		FROM USERPASS
+		WHERE USER_ID !=#userId# AND( 
+			USER_ID LIKE #searchUser#
+			OR NM_KOR LIKE #searchUser# 
+			OR NM_ENG LIKE #searchUser#
+		)
+	</select>
+	
+</sqlMap>
+

@@ -1,0 +1,54 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sche">
+
+	<resultMap id="schedule.user" class="com.saltware.enhancer.calendar.service.ScheduleUserVO">
+		<result property="scheduleId" column="SCHEDULE_ID" columnIndex="1"/>
+		<result property="userId" columnIndex="2"/>
+		<result property="isOwner" columnIndex="3"/> 
+		<result property="insDatim" column="INS_DATIM" columnIndex="4"/>
+		<result property="updDatim" column="UPD_DATIM" columnIndex="5"/>	
+		<result property="userName" columnIndex="6"/> 
+	</resultMap>
+
+	<select id="schedule.user.list" resultMap="schedule.user">/* schedule.user.list */
+		SELECT a.*
+			<isNotNull property="langKnd">
+				<isEqual property="langKnd" compareValue="ko">, b.NM_KOR AS USER_NAME</isEqual>
+				<isEqual property="langKnd" compareValue="en">, b.NM_ENG AS USER_NAME</isEqual>
+			</isNotNull> 
+		FROM (
+			SELECT SCHEDULE_ID, OWNER_ID AS USER_ID, 'Y' AS IS_OWNER, INS_DATIM, UPD_DATIM
+			FROM SCHEDULE
+			WHERE SCHEDULE_ID=CAST(#scheduleId# AS INTEGER) AND OWNER_ID=#ownerId#
+			UNION ALL
+			SELECT SCHEDULE_ID, USER_ID, 'N' AS IS_OWNER, INS_DATIM, UPD_DATIM
+			FROM SCHEDULE_USER
+			WHERE SCHEDULE_ID=CAST(#scheduleId# AS INTEGER) AND USER_ID!=#ownerId#
+		) a 
+		JOIN USERPASS b ON b.USER_ID = a.USER_ID
+		ORDER BY IS_OWNER DESC
+	</select>
+		
+	<insert id="schedule.user.insert">/* schedule.user.insert */
+		INSERT INTO SCHEDULE_USER (SCHEDULE_ID, USER_ID, INS_DATIM, UPD_DATIM)
+		VALUES (CAST(#scheduleId# AS INTEGER), #userId#, GETDATE(), GETDATE())
+	</insert>
+	
+	<delete id="schedule.user.delete">/* schedule.user.delete */
+		DELETE FROM SCHEDULE_USER
+		WHERE SCHEDULE_ID=CAST(#scheduleId# AS INTEGER)
+		<isNotNull property="userId" prepend=" AND ">USER_ID=#userId#</isNotNull>
+	</delete>
+	
+	<delete id="schedule.user.delete.all">/* schedule.user.delete.all */
+		DELETE FROM SCHEDULE_USER
+		WHERE SCHEDULE_ID=CAST(#scheduleId# AS INTEGER)
+	</delete>
+	
+	<delete id="schedule.user.delete.all.calendar">/* schedule.user.delete.all.calendar */
+		DELETE FROM SCHEDULE_USER
+		WHERE SCHEDULE_ID IN (SELECT SCHEDULE_ID FROM SCHEDULE WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER))
+	</delete>
+</sqlMap>
+

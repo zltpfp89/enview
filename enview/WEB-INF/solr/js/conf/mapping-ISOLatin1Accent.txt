@@ -1,0 +1,246 @@
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Syntax:
+#   "source" => "target"
+#     "source".length() > 0 (source cannot be empty.)
+#     "target".length() >= 0 (target can be empty.)
+
+# example:
+#   "?" => "A"
+#   "\u00C0" => "A"
+#   "\u00C0" => "\u0041"
+#   "횩" => "ss"
+#   "\t" => " "
+#   "\n" => ""
+
+# ? => A
+"\u00C0" => "A"
+
+# 횁 => A
+"\u00C1" => "A"
+
+# 횂 => A
+"\u00C2" => "A"
+
+# 횄 => A
+"\u00C3" => "A"
+
+# 횆 => A
+"\u00C4" => "A"
+
+# 횇 => A
+"\u00C5" => "A"
+
+# 횈 => AE
+"\u00C6" => "AE"
+
+# 횉 => C
+"\u00C7" => "C"
+
+# 횊 => E
+"\u00C8" => "E"
+
+# 횋 => E
+"\u00C9" => "E"
+
+# 횎 => E
+"\u00CA" => "E"
+
+# 횏 => E
+"\u00CB" => "E"
+
+# 횑 => I
+"\u00CC" => "I"
+
+# 횒 => I
+"\u00CD" => "I"
+
+# 횓 => I
+"\u00CE" => "I"
+
+# 횕 => I
+"\u00CF" => "I"
+
+# 캉 => IJ
+"\u0132" => "IJ"
+
+# 횖 => D
+"\u00D0" => "D"
+
+# 횗 => N
+"\u00D1" => "N"
+
+# 횘 => O
+"\u00D2" => "O"
+
+# 횙 => O
+"\u00D3" => "O"
+
+# 횚 => O
+"\u00D4" => "O"
+
+# 횛 => O
+"\u00D5" => "O"
+
+# 횜 => O
+"\u00D6" => "O"
+
+# 횠 => O
+"\u00D8" => "O"
+
+# 흸 => OE
+"\u0152" => "OE"
+
+# 횧
+"\u00DE" => "TH"
+
+# 횢 => U
+"\u00D9" => "U"
+
+# 횣 => U
+"\u00DA" => "U"
+
+# 횤 => U
+"\u00DB" => "U"
+
+# 횥 => U
+"\u00DC" => "U"
+
+# 횦 => Y
+"\u00DD" => "Y"
+
+# 타 => Y
+"\u0178" => "Y"
+
+# 횪 => a
+"\u00E0" => "a"
+
+# 찼 => a
+"\u00E1" => "a"
+
+# 창 => a
+"\u00E2" => "a"
+
+# 찾 => a
+"\u00E3" => "a"
+
+# 채 => a
+"\u00E4" => "a"
+
+# 책 => a
+"\u00E5" => "a"
+
+# 챈 => ae
+"\u00E6" => "ae"
+
+# 챌 => c
+"\u00E7" => "c"
+
+# 챔 => e
+"\u00E8" => "e"
+
+# 챕 => e
+"\u00E9" => "e"
+
+# 챗 => e
+"\u00EA" => "e"
+
+# 챘 => e
+"\u00EB" => "e"
+
+# 챙 => i
+"\u00EC" => "i"
+
+# 챠 => i
+"\u00ED" => "i"
+
+# 챤 => i
+"\u00EE" => "i"
+
+# 챦 => i
+"\u00EF" => "i"
+
+# 캐 => ij
+"\u0133" => "ij"
+
+# 챨 => d
+"\u00F0" => "d"
+
+# 챰 => n
+"\u00F1" => "n"
+
+# 챵 => o
+"\u00F2" => "o"
+
+# 처 => o
+"\u00F3" => "o"
+
+# 척 => o
+"\u00F4" => "o"
+
+# 천 => o
+"\u00F5" => "o"
+
+# 철 => o
+"\u00F6" => "o"
+
+# 첩 => o
+"\u00F8" => "o"
+
+# 흹 => oe
+"\u0153" => "oe"
+
+# 횩 => ss
+"\u00DF" => "ss"
+
+# 첸 => th
+"\u00FE" => "th"
+
+# 첫 => u
+"\u00F9" => "u"
+
+# 첬 => u
+"\u00FA" => "u"
+
+# 청 => u
+"\u00FB" => "u"
+
+# 체 => u
+"\u00FC" => "u"
+
+# 첵 => y
+"\u00FD" => "y"
+
+# 첼 => y
+"\u00FF" => "y"
+
+# 詮 => ff
+"\uFB00" => "ff"
+
+# 詮?=> fi
+"\uFB01" => "fi"
+
+# 詮?=> fl
+"\uFB02" => "fl"
+
+# 詮?=> ffi
+"\uFB03" => "ffi"
+
+# 詮?=> ffl
+"\uFB04" => "ffl"
+
+# 詮?=> ft
+"\uFB05" => "ft"
+
+# 詮?=> st
+"\uFB06" => "st"

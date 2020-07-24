@@ -1,0 +1,9 @@
+.iconPickerPanel	{ display: none; z-index: 20000; border: 1px solid silver; width: 125px; height: 150px;	background-color: white; padding-top: 10px; cursor: default; }
+
+ul.iconSetList		{ width: 105px; height: 130px; margin: 0px auto 0px auto; cursor: default; }
+.iconSelectedBox 	{ display: none; position: absolute; border: 2px solid highlight; z-index: 20000; }
+.menuIconSet 		{ width: 105px; height: 21px; margin: 0px auto 5px auto; cursor: pointer; background-color: white; background-repeat: no-repeat; }
+.menuIconPageList	{ width: 105px; height: 13px; font-size: 11px; font-family: sans-serif; color: #828282; margin: 3px auto 0px auto; }
+.menuIconPageList span.selected	{ font-size: 11px; font-family: sans-serif; font-weight: bold;  color: black; }
+.menuIconPageList a.selectable { cursor: pointer; }
+.menuIconPage		{ width: 7px; height: 10px; padding: 1px; }

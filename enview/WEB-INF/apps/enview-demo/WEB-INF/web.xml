@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+                         "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+  <display-name>Enview Demo Portlets</display-name>
+  <description>Enview Demo Portlets</description>
+  
+  <servlet>
+    <servlet-name>EnviewContainer</servlet-name>
+    <display-name>Enview Container</display-name>
+    <description>MVC Servlet for Enview Portlet Applications</description>
+    <servlet-class>com.saltware.enview.container.EnviewContainerServlet</servlet-class>
+    <init-param>
+      <param-name>contextName</param-name>
+      <param-value>enview-demo</param-value>
+    </init-param>    
+	<load-on-startup>100</load-on-startup>
+  </servlet>
+  
+  <servlet> 
+    <servlet-name>action</servlet-name> 
+    <servlet-class>org.apache.struts.action.ActionServlet</servlet-class> 
+    <init-param> 
+      <param-name>application</param-name> 
+      <param-value>resources.application</param-value> 
+    </init-param> 
+    <init-param> 
+      <param-name>config</param-name> 
+      <param-value>/WEB-INF/struts-config.xml</param-value> 
+    </init-param> 
+    <init-param> 
+      <param-name>debug</param-name> 
+      <param-value>2</param-value> 
+    </init-param> 
+    <init-param> 
+      <param-name>detail</param-name> 
+      <param-value>2</param-value> 
+    </init-param> 
+    <load-on-startup>2</load-on-startup> 
+  </servlet> 
+
+  
+  <servlet>
+    <servlet-name>velocity</servlet-name>
+    <servlet-class>org.apache.velocity.tools.view.servlet.VelocityViewServlet</servlet-class>
+    <init-param>
+      <param-name>org.apache.velocity.toolbox</param-name>
+      <param-value>/WEB-INF/velocity/toolbox.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>org.apache.velocity.properties</param-name>
+      <param-value>/WEB-INF/velocity/velocity.properties</param-value>
+    </init-param>
+    <load-on-startup>10</load-on-startup>
+  </servlet>
+  
+  <!-- Define Velocity Servlet -->
+	<servlet>
+		<servlet-name>springinit</servlet-name>
+		<servlet-class>com.saltware.enview.portlet.common.rss.servlets.SpringInitServlet</servlet-class>
+		<init-param>
+			<param-name>spring-configuration</param-name>
+			<param-value>/WEB-INF/spring/spring-portlet-configuration.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+  
+  <servlet>
+    <servlet-name>UploadServlet</servlet-name>
+    <servlet-class>com.saltware.enview.http.UploadServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>DownloadServlet</servlet-name>
+    <servlet-class>com.saltware.enview.http.DownloadServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>AcquireContentServlet</servlet-name>
+    <servlet-class>com.saltware.enview.http.AcquireContentServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>StoreContentServlet</servlet-name>
+    <servlet-class>com.saltware.enview.http.StoreContentServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+     <servlet-name>EnviewContainer</servlet-name>
+     <url-pattern>/container/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping> 
+    <servlet-name>action</servlet-name> 
+    <url-pattern>*.do</url-pattern> 
+  </servlet-mapping> 
+  
+  <servlet-mapping>
+    <servlet-name>velocity</servlet-name>
+    <url-pattern>*.vm</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+        <servlet-name>UploadServlet</servlet-name>
+        <url-pattern>/contents/upload</url-pattern>
+    </servlet-mapping>
+	
+	<servlet-mapping>
+        <servlet-name>DownloadServlet</servlet-name>
+        <url-pattern>/contents/download</url-pattern>
+    </servlet-mapping>
+	
+	<servlet-mapping>
+        <servlet-name>AcquireContentServlet</servlet-name>
+        <url-pattern>/contents/acquireContent</url-pattern>
+    </servlet-mapping>
+	
+	<servlet-mapping>
+        <servlet-name>StoreContentServlet</servlet-name>
+        <url-pattern>/contents/storeContent</url-pattern>
+    </servlet-mapping>
+  
+  <!-- Portlet tag library TLD -->
+  <taglib>
+    <taglib-uri>portlet.tld</taglib-uri>
+    <taglib-location>/WEB-INF/portlet.tld</taglib-location>
+  </taglib>
+  
+</web-app>

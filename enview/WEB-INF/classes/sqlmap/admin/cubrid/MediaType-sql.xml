@@ -1,0 +1,96 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ MEDIA_TYPE : MymeType ] Table -->
+	<resultMap id="admin_MediaTypeVO_PK" class="com.saltware.enview.admin.capability.service.MediaTypePK">
+	
+		<result property="mediatypeId" column="MEDIATYPE_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_MediaTypeVO" class="com.saltware.enview.admin.capability.service.MediaTypeVO">
+	 
+		<result property="mediatypeId" column="MEDIATYPE_ID" columnIndex="1"/>	 
+		<result property="name" column="NAME" columnIndex="2"/>	 
+		<result property="characterSet" column="CHARACTER_SET" columnIndex="3"/>	 
+		<result property="title" column="TITLE" columnIndex="4"/>	 
+		<result property="description" column="DESCRIPTION" columnIndex="5"/>	
+	</resultMap>
+	
+	<select id="mediaType.totalCount" resultClass="int">
+	/* mediaType.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM MEDIA_TYPE
+	</select>
+	
+	<select id="mediaType.findByPage" resultMap="admin_MediaTypeVO_PK">
+	/* mediaType.findByPage */
+		SELECT * FROM (
+			SELECT MEDIATYPE_ID,ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY MEDIATYPE_ID ASC</isNull>
+			) as rnum 
+			FROM MEDIA_TYPE
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="mediaType.findAll" resultMap="admin_MediaTypeVO_PK">
+		SELECT MEDIATYPE_ID
+		FROM MEDIA_TYPE
+	</select>
+	
+	<select id="mediaType.findByMimeTypes" resultMap="admin_MediaTypeVO">
+	/* mediaType.findByMimeTypes */
+			SELECT a.MEDIATYPE_ID,a.NAME,a.CHARACTER_SET,a.TITLE,a.DESCRIPTION
+			FROM MEDIA_TYPE a INNER JOIN MEDIATYPE_TO_MIMETYPE b ON a.MEDIATYPE_ID=b.MEDIATYPE_ID
+							  INNER JOIN MIMETYPE c ON b.MIMETYPE_ID=c.MIMETYPE_ID
+			WHERE c.NAME IN ($mimeTypes$)
+	</select>
+	
+	<select id="mediaType.findByMimeType" resultMap="admin_MediaTypeVO">
+	/* mediaType.findByMimeType */
+			SELECT a.MEDIATYPE_ID,a.NAME,a.CHARACTER_SET,a.TITLE,a.DESCRIPTION
+			FROM MEDIA_TYPE a INNER JOIN MEDIATYPE_TO_MIMETYPE b ON a.MEDIATYPE_ID=b.MEDIATYPE_ID
+							  INNER JOIN MIMETYPE c ON b.MIMETYPE_ID=c.MIMETYPE_ID
+			WHERE c.NAME=#mimeType#
+	</select>
+
+	<select id="mediaType.detail" resultMap="admin_MediaTypeVO">
+		<![CDATA[
+			SELECT MEDIATYPE_ID,NAME,CHARACTER_SET,TITLE,DESCRIPTION
+			FROM MEDIA_TYPE
+			WHERE 1=1 
+				AND MEDIATYPE_ID=#mediatypeId#
+		]]>
+	</select>
+	
+	<insert id="mediaType.insert">
+		<![CDATA[
+			INSERT INTO MEDIA_TYPE
+				( MEDIATYPE_ID,NAME,CHARACTER_SET,TITLE,DESCRIPTION )
+			VALUES ( #mediatypeId#,#name#,#characterSet#,#title#,#description# )
+		]]>
+	</insert>
+	
+	<update id="mediaType.update">
+		<![CDATA[
+			UPDATE MEDIA_TYPE
+			SET MEDIATYPE_ID=#mediatypeId#,NAME=#name#,CHARACTER_SET=#characterSet#,TITLE=#title#,DESCRIPTION=#description#
+			WHERE 1=1 
+				AND MEDIATYPE_ID=#mediatypeId#
+		]]>
+	</update>
+	
+	<delete id="mediaType.delete">
+		<![CDATA[
+			DELETE FROM MEDIA_TYPE
+			WHERE 1=1 
+				AND MEDIATYPE_ID=#mediatypeId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

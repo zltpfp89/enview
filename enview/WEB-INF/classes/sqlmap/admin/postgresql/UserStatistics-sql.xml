@@ -1,0 +1,19 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+	<select id="userStatistics.todayAccessCount.postgresql" resultClass="int">
+	/* userStatistics.todayAccessCount.postgresql */
+		SELECT count(*) 
+		FROM USER_STATISTICS 
+		WHERE status &lt;&gt; 2 AND TO_CHAR(time_stamp, 'yyyyMMdd')=TO_CHAR(CURRENT_DATE, 'yyyyMMdd')
+		<isNotNull prepend=" AND " property="userId">USER_ID=#userId#</isNotNull>
+		<isNotNull  prepend=" AND " property="groupIdCond">ORG_CD LIKE #groupIdCond#||'%'</isNotNull>
+		<isNotNull  prepend=" AND " property="roleIdCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE r WHERE ROLE_ID IN $roleIds$ UNION SELECT USER_ID FROM SECURITY_USER_GROUP g WHERE GROUP_ID IN ( SELECT GROUP_ID FROM SECURITY_GROUP_ROLE gr WHERE ROLE_ID IN $roleIds$ ))</isNotNull>
+		<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE #userIdCond#||'%'</isNotNull>
+		<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE #userNameCond#||'%'</isNotNull>
+		<isGreaterThan prepend=" AND " property="domainId" compareValue="0">DOMAIN_ID = #domainId#</isGreaterThan>
+	</select>
+
+
+</sqlMap>
+

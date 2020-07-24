@@ -1,0 +1,401 @@
+@charset "utf-8";
+
+/*  ///////////////////////*/
+/* �ҷα׷��̾ƿ� */
+.blog_contents {
+	max-width:930px;
+	min-width:750px;
+	width:768px;
+	margin:0 0 0 200px;
+	padding:0px;
+	border:1px solid #e8e8e8;
+	float:right;
+}
+
+.blog_Maincontents {
+	float:left;
+	width:480px;
+	padding:15px 20px;
+	clear:both;
+	padding-bottom:200px;
+	border-right:1px solid #e8e8e8;
+}
+
+.blog_Sidecontents {
+	width:215px;
+	float:right;
+	border-left:0px solid #e8e8e8;
+	padding:10px 15px;
+}
+/* �˻��ɼ� */
+
+/* �������� */
+#userbox {
+	border:1px solid #e8e8e8;
+	background:#fafafa;
+	margin-bottom:10px;
+	padding:12px 12px 0 12px;
+}
+
+#userbox p.user_name {
+	border-bottom:1px solid #e8e8e8;
+	display:block;
+	font:bold 12px dotum,����,arial;
+	margin:0;
+	padding-bottom:10px;
+}
+
+#userbox p.welcome {
+	border-top:1px solid #ffffff;
+	display:block;
+	font:11px dotum,����,arial;
+	margin:0;
+	padding:10px 0 0 0;
+}
+
+#userbox p.select {
+	border-top:1px solid #ffffff;
+	border-bottom:1px solid #e8e8e8;
+	display:block;
+	margin:0;
+	padding:10px 0;
+}
+
+#userbox p.select select {
+	font:12px Arial;
+}
+#userbox p.btn_area {
+	text-align:center;
+}
+#userbox p.btn_area input {
+	border:0;
+	margin-bottom:10px;
+}
+
+/* ��������&�̺�Ʈ*/
+#blogNotice {
+	border:1px solid #e8e8e8;
+	margin-bottom:10px;
+	padding:12px;
+	position:relative;
+}
+
+#blogNotice .title {
+	position:relative;
+	border-bottom:1px solid #e8e8e8;
+	height:28px;
+}
+
+#blogNotice .more {
+	position:absolute;
+	right:17px; top:3px;
+	*top:15px;
+}
+
+#blogNotice .list_area {
+	margin-top:10px;
+}
+
+#blogNotice .list_area ul li{
+	height:20px;
+	overflow:hidden;	
+	padding:0 0 0 8px;
+	white-space:nowrap ;
+	background:url(./img/blog/bullet1.gif) no-repeat 1px 6px;
+	*background:url(./img/blog/bullet1.gif) no-repeat 1px 8px;
+}
+
+/* �����ں� */
+#build {
+	border:1px solid #e8e8e8;
+	margin-bottom:10px;
+	padding:12px;
+	position:relative;
+}
+
+#build .title {
+	position:relative;
+	border-bottom:1px solid #e8e8e8;
+	height:28px;
+}
+
+#build .more {
+	position:absolute;
+	right:17px; top:3px;
+	*top:15px;
+}
+
+#build .list_area {
+	margin-top:10px;
+}
+
+#build .list_area ul li{
+	height:20px;
+	overflow:hidden;	
+	padding:0 0 0 8px;
+	white-space:nowrap ;
+	background:url(./img/blog/bullet1.gif) no-repeat 1px 6px;
+	*background:url(./img/blog/bullet1.gif) no-repeat 1px 8px;
+}
+
+/* ��� */
+#blogB {
+	border:1px solid #e8e8e8;
+	margin-bottom:10px;
+	padding:0 12px;
+}
+
+#blogB li {
+	border-top:1px solid #e8e8e8;
+	padding:10px 0;
+}
+
+#blogB li.first {
+	border-top:none;
+}
+
+/* -----------����������-------------- */
+/* �˻����� */
+#searchArea {
+	background:#f3f9ff;
+	border:1px solid #aec4e0;
+	width:480px;
+	height:43px;
+	text-align:center;
+	padding-top:20px;
+	margin-bottom:25px;
+}
+
+#searchArea select {
+	font:12px Arial;	
+	vertical-align:middle;
+}
+#searchArea input {
+	vertical-align:middle;
+	margin:0; padding:0;
+	line-height:20px;
+}
+
+#searchArea input.text {
+	height:20px;
+	width:175px;
+	border:1px solid #aec4e0;
+}
+
+#searchArea input.image {
+	border:0 none;
+}
+
+/* ������ �α�� */
+#hotList {
+	margin:20px 0 25px 0;
+}
+
+
+#hotList li{
+	height:60px;
+	overflow:hidden;
+	border:0px solid #000;
+	margin-bottom:20px;
+}
+
+#hotList .thumb{
+	width:78px; height:58px;
+	border:1px solid #e8e8e8;
+	display:block;
+	float:left;
+	margin-right:10px;
+}
+
+#hotList .disc {
+	line-height:170%;
+}
+
+/* ���&ȫ����α� */
+#hotB {
+	background:#fafafa;
+	height:134px;
+	border-top:1px solid #e8e8e8;
+	border-bottom:1px solid #e8e8e8;
+	overflow:hidden;
+	margin-bottom:20px;
+}
+
+#hotB li{
+	float:left;
+	padding:20px 20px 0 20px;
+	position:relative;
+	background:none;
+}
+
+#hotB li.first{
+	border-right:1px solid #e8e8e8;
+	background:none;
+}
+
+#hotB dl{
+	width:195px;
+	height:90px;
+	position:relative;
+	margin-top:20px;
+}
+
+#hotB dd{
+	letter-spacing:-1px;
+}
+
+#hotB dd.image {
+	display:block;
+	width:78px; height:58px;
+	border:1px solid #e8e8e8;
+	float:left;
+	margin-right:10px;
+}
+
+
+#hotB dt {
+	font:bold 12px dotum,����,arial;
+	letter-spacing:-1px;
+	height:20px;
+}
+
+#hotB .more {
+	position:absolute;
+	right:10px; top:9px;
+	*top:21px;
+	font:11px dotum,����,arial;
+	color:#989898;
+}
+
+
+#hotB .more a{
+	color:#989898;
+	text-decoration:underline;
+}
+
+
+/* ������ī�װ? */
+#blogCategory {
+	border:1px solid #e8e8e8;
+	padding:15px 20px;
+	position:relative;
+}
+
+#blogCategory h2{
+	background:none;
+	padding:0 0 10px 0;
+	border-bottom:1px solid #e8e8e8;
+}
+
+#blogCategory .list {
+	overflow:hidden;
+	clear:both;
+}
+
+#blogCategory li {
+	float:left;
+	padding-left:10px;
+	width:135px;
+	background:url(./img/blog/bullet2.gif) no-repeat 2px 6px;
+	*background:url(./img/blog/bullet2.gif) no-repeat 2px 8px;
+}
+
+/* ���̵�������2 */
+/* ���οö�±� */
+#blogLatestlist  {
+	margin-bottom:10px;
+	padding:0;
+	border:0px solid gold;
+	position:relative;
+}
+
+#blogLatestlist .title {
+	position:relative;
+	border:0px solid red;
+	padding:10px 0;
+}
+
+#blogLatestlist .more {
+	position:absolute;
+	right:0; top:0;
+	*top:13px;
+}
+
+
+#blogLatestlist .list_area {
+	margin-top:10px;
+	padding:0 0 20px 0;
+	border-bottom:1px solid #e8e8e8;
+}
+
+#blogLatestlist .list_area ul li{
+	height:20px;
+	*height:18px;
+	overflow:hidden;
+	padding:0 0 0 8px;
+	white-space:nowrap ;
+	position:relative;
+	background:url(./img/blog/bullet1.gif) no-repeat 1px 6px;
+	*background:url(./img/blog/bullet1.gif) no-repeat 1px 8px;
+}
+
+#blogLatestlist .list_area ul li a{
+	overflow:hidden;
+	width:150px;
+	border:0px solid gold;
+	display:block;
+}
+#blogLatestlist .list_area span.date{
+	position:absolute;
+	right:0; top:0;
+	color:#989898;
+}
+
+/* �űԺ�α� */
+#blogLatestb  {
+	margin-bottom:10px;
+	padding:0;
+	border:0px solid gold;
+	position:relative;
+}
+
+#blogLatestb .title {
+	position:relative;
+	border:0px solid red;
+	padding:10px 0;
+}
+
+#blogLatestb .more {
+	position:absolute;
+	right:0; top:0;
+	*top:15px;
+}
+
+#blogLatestb .list_area {
+	margin-top:10px;
+	padding:0 0 20px 0;
+	border-bottom:1px solid #e8e8e8;
+}
+
+#blogLatestb .list_area ul li{
+	height:20px;
+	*height:18px;
+	overflow:hidden;	
+	padding:0 0 0 8px;
+	white-space:nowrap ;
+	position:relative;
+	background:url(./img/blog/bullet1.gif) no-repeat 1px 6px;
+	*background:url(./img/blog/bullet1.gif) no-repeat 1px 8px;
+}
+
+#blogLatestb .list_area ul li a{
+	overflow:hidden;
+	width:150px;
+	border:0px solid gold;
+	display:block;
+}
+#blogLatestb .list_area span.date{
+	position:absolute;
+	right:0; top:0;
+	color:#989898;
+}

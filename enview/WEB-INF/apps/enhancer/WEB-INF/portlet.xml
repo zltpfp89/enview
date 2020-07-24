@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app id="enhancer"
+  xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+  version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+    <portlet id="RSSsevice">
+        <portlet-name>RSS Service</portlet-name>
+		<description xml:lang="ko">RSS Service</description>
+        <display-name xml:lang="ko">RSS Service</display-name>
+		<description xml:lang="en">RSS Service</description>
+        <display-name xml:lang="en">RSS Service</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>internet-news-reader.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>RSS Service</title>
+            <short-title>RSS Service</short-title>
+			<keywords>rss</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>SYSTEM_CODE</name>
+                <value>PT</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/rss/service.hanc</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>TITLE-SHOW</name>
+                <value>false</value>
+            </preference>
+            <preference>
+				<name>AUTO-RESIZE</name>
+				<value>true</value>
+			</preference>
+		</portlet-preferences>
+	</portlet>
+	<portlet id="MyRSS">
+        <portlet-name>My RSS</portlet-name>
+		<description xml:lang="ko">나의 RSS</description>
+        <display-name xml:lang="ko">나의 RSS</display-name>
+		<description xml:lang="en">My RSS</description>
+        <display-name xml:lang="en">My RSS</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>internet-news-reader.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>My RSS</title>
+            <short-title>My RSS</short-title>
+			<keywords>rss</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>SYSTEM_CODE</name>
+                <value>PT</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/rss/myNews.hanc</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>TITLE-SHOW</name>
+                <value>false</value>
+            </preference>
+            <preference>
+				<name>AUTO-RESIZE</name>
+				<value>true</value>
+			</preference>
+		</portlet-preferences>
+	</portlet>
+	<portlet id="miniCalendarPortlet">
+        <portlet-name>MiniCalendarPortlet</portlet-name>
+		<description xml:lang="ko">미니 캘린더 포틀릿</description>
+        <display-name xml:lang="ko">미니 캘린더</display-name>
+		<description xml:lang="en">Mini Calendar</description>
+        <display-name xml:lang="en">MiniCalendar</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.DynamicContentPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>icon_schedule.gif</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>MiniCalendar</title>
+            <short-title>MiniCalendar</short-title>
+			<keywords>calendar</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>SYSTEM_CODE</name>
+                <value>PT</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/calendar/miniCalendar.hanc</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>100%</value>
+            </preference>
+			<preference>
+                <name>MORE_SRC_TAGET</name>
+                <value>_blank</value>
+            </preference>
+			<preference>
+                <name>MORE_SRC</name>
+                <value>/calendar/calendar.hanc</value>
+			</preference>
+		</portlet-preferences>
+	</portlet>
+	<portlet id="calendarPortlet"> 
+		<portlet-name>CalendarPortlet</portlet-name>
+		<description xml:lang="ko">캘린더 포틀릿</description>
+        <display-name xml:lang="ko">캘린더 포틀릿</display-name>
+		<description xml:lang="en">Calendar</description>
+        <display-name xml:lang="en">Calendar</display-name>
+		<portlet-class>com.saltware.enview.portlet.common.DynamicContentPortlet</portlet-class>
+		<init-param>
+			<name>portlet-icon</name>
+			<value>icon_schedule.gif</value>
+		</init-param>
+		<resource-bundle></resource-bundle>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+		<portlet-info>
+			<title>Calendar</title>
+			<short-title>Calendar</short-title>
+			<keywords>calendar</keywords>
+		</portlet-info>
+		<portlet-preferences>
+			<preference>
+				<name>ID</name>
+				<value>calendar</value>
+			</preference>
+			<preference>
+				<name>SRC</name>
+				<value>/calendar/calendar.hanc</value>
+			</preference>
+			<preference>
+				<name>AUTO-RESIZE</name>
+				<value>true</value>
+			</preference>
+			<preference>
+				<name>WIDTH</name>
+				<value>100%</value>
+			</preference>
+			<preference>
+				<name>HEIGHT</name>
+				<value>100</value>
+			</preference>
+			<preference>
+				<name>MAX-WIDTH</name>
+				<value>100%</value>
+			</preference>
+			<preference>
+				<name>SCROLLING</name>
+				<value>no</value>
+			</preference>
+		</portlet-preferences>
+	</portlet>
+
+	<portlet id="publicCalendarPortlet"> 
+		<portlet-name>PublicCalendarPortlet</portlet-name>
+		<description xml:lang="ko">공개 캘린더 포틀릿</description>
+        <display-name xml:lang="ko">공개 캘린더 포틀릿</display-name>
+		<description xml:lang="en">Public Caleandar</description>
+        <display-name xml:lang="en">Public Calendar</display-name>
+		
+		<portlet-class>com.saltware.enview.portlet.common.DynamicContentPortlet</portlet-class>
+		<init-param>
+			<name>portlet-icon</name>
+			<value>icon_schedule.gif</value>
+		</init-param>
+		<resource-bundle></resource-bundle>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+		<portlet-info>
+			<title>Public Calendar</title>
+			<short-title>Public Calendar</short-title>
+			<keywords>calendar</keywords>
+		</portlet-info>
+		<portlet-preferences>
+			<preference>
+				<name>ID</name>
+				<value>publicCalendar</value>
+			</preference>
+			<preference>
+				<name>SRC</name>
+				<value>/calendar/publicCalendar.hanc</value>
+			</preference>
+			<preference>
+				<name>AUTO-RESIZE</name>
+				<value>true</value>
+			</preference>
+			<preference>
+				<name>WIDTH</name>
+				<value>100%</value>
+			</preference>
+			<preference>
+				<name>HEIGHT</name>
+				<value>100</value>
+			</preference>
+			<preference>
+				<name>MAX-WIDTH</name>
+				<value>100%</value>
+			</preference>
+			<preference>
+				<name>SCROLLING</name>
+				<value>no</value>
+			</preference>
+		</portlet-preferences>
+	</portlet>
+	
+	<portlet id="NoteManagerPortlet"> 
+		<portlet-name>NoteManagerPortlet</portlet-name>
+		<description xml:lang="ko">쪽지 관리 포틀릿</description>
+        <display-name xml:lang="ko">쪽지 관리 포틀릿</display-name>
+		<description xml:lang="en">Note</description>
+        <display-name xml:lang="en">Note</display-name>
+		<portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+		<init-param>
+			<name>portlet-icon</name>
+			<value>icon_poll.gif</value>
+		</init-param>
+		<resource-bundle></resource-bundle>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+		</supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+		<portlet-info>
+			<title>Note Manager</title>
+			<short-title>Note Manager</short-title>
+			<keywords>Memo</keywords>
+		</portlet-info>
+		<portlet-preferences>
+			<preference>
+				<name>ID</name>
+				<value>noteManager</value>
+			</preference>
+			<preference>
+				<name>SRC</name>
+				<value>/note/note.hanc</value>
+			</preference>
+			<preference>
+				<name>AUTO-RESIZE</name>
+				<value>true</value>
+			</preference>
+			<preference>
+				<name>WIDTH</name>
+				<value>100%</value>
+			</preference>
+			<preference>
+				<name>HEIGHT</name>
+				<value>100</value>
+			</preference>
+			<preference>
+				<name>MAX-WIDTH</name>
+				<value>100%</value>
+			</preference>
+			<preference>
+				<name>SCROLLING</name>
+				<value>no</value>
+			</preference>
+		</portlet-preferences>
+	</portlet>
+</portlet-app>

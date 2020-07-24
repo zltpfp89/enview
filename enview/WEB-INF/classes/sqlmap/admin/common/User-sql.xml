@@ -1,0 +1,322 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ USER : 사용자관리 ] Table -->
+	<resultMap id="admin_UserVO_PK" class="com.saltware.enview.admin.user.service.UserPK">
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="1"/>	
+		<result property="shortPath" column="SHORT_PATH" columnIndex="2"/>
+	</resultMap>
+	
+	<resultMap id="admin_UserVO" class="com.saltware.enview.admin.user.service.UserVO">
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="1"/>	 
+		<result property="shortPath" column="SHORT_PATH" columnIndex="2"/>	 
+		<result property="principalName" column="PRINCIPAL_NAME" columnIndex="3"/>	 
+		<result property="theme" column="THEME" columnIndex="4"/>	 
+		<result property="defaultPage" column="DEFAULT_PAGE" columnIndex="5"/>	 
+		<result property="columnValue0" column="COLUMN_VALUE0" columnIndex="6"/>	 
+		<result property="isEnabled" column="IS_ENABLED" columnIndex="7"/>	 
+		<result property="updateRequired0" column="UPDATE_REQUIRED0" columnIndex="8"/>	 
+		<result property="authFailures0" column="AUTH_FAILURES0" columnIndex="9"/>	 
+		<result property="modifiedDate0" column="MODIFIED_DATE0" columnIndex="10"/>	 
+		<result property="authMethod" column="AUTH_METHOD" columnIndex="11"/>	 
+		<result property="principalType" column="PRINCIPAL_TYPE" columnIndex="12"/>	 
+		<result property="principalInfo01" column="PRINCIPAL_INFO01" columnIndex="13"/>	 
+		<result property="principalInfo02" column="PRINCIPAL_INFO02" columnIndex="14"/>	 
+		<result property="principalInfo03" column="PRINCIPAL_INFO03" columnIndex="15"/>	 
+		<result property="creationDate" column="CREATION_DATE" columnIndex="16"/>	 
+		<result property="modifiedDate" column="MODIFIED_DATE" columnIndex="17"/>	 
+		<result property="principalDesc" column="PRINCIPAL_DESC" columnIndex="18"/>
+		<result property="domainId" columnIndex="19" nullValue="0"/>
+		<result property="domainNm" columnIndex="20" nullValue=""/>
+	</resultMap>
+	
+	<select id="user.totalCount" resultClass="int">
+   /* user.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM SECURITY_PRINCIPAL a 
+		<isNull property="byDomain">
+			LEFT OUTER JOIN DOMAIN_PRINCIPAL b ON a.PRINCIPAL_ID=b.PRINCIPAL_ID
+			LEFT OUTER JOIN DOMAIN_LANG c ON b.DOMAIN_ID=c.DOMAIN_ID AND c.LANG_KND= #langKnd#
+		</isNull>
+		WHERE PRINCIPAL_TYPE='U'
+		<isNull property="byDomain">
+			<isGreaterEqual prepend=" AND " property="domainId" compareValue="1">b.DOMAIN_ID = CAST(#domainId# AS INTEGER)</isGreaterEqual>
+			<isNotNull  prepend=" AND " property="groupIdJoinCond">a.PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_GROUP WHERE GROUP_ID=#groupIdJoinCond#)</isNotNull>
+			<isNotNull  prepend=" AND " property="roleIdJoinCond">a.PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID in $roleIds$ )</isNotNull>
+			<isNotNull  prepend=" AND " property="shortPathCond">SHORT_PATH LIKE COALESCE(#shortPathCond#,'%')||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="principalInfo02Cond">PRINCIPAL_INFO02 LIKE COALESCE(#principalInfo02Cond#,'%')||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="principalNameCond">PRINCIPAL_NAME LIKE COALESCE(#principalNameCond#,'%')||'%'</isNotNull>
+		</isNull>
+		<isNotNull prepend=" AND " property="byDomain">
+				<isEqual property="existsDomain" compareValue="Y">EXISTS</isEqual>
+				<isEqual property="existsDomain" compareValue="N">NOT EXISTS</isEqual>
+				(
+					SELECT DOMAIN_ID FROM DOMAIN_PRINCIPAL d 			
+					WHERE a.PRINCIPAL_ID=d.PRINCIPAL_ID 
+					<isGreaterEqual prepend=" AND " property="domainId" compareValue="1">d.DOMAIN_ID = CAST(#domainId# AS INTEGER)</isGreaterEqual>
+				)
+		</isNotNull>
+		<isNotNull  prepend=" AND " property="byGroup">					    	
+				<isEqual property="existsGroup" compareValue="Y">EXISTS</isEqual>
+				<isEqual property="existsGroup" compareValue="N">NOT EXISTS</isEqual>
+				(
+					SELECT GROUP_ID FROM SECURITY_USER_GROUP e 
+					WHERE a.PRINCIPAL_ID=e.USER_ID
+					<isNotNull prepend=" AND " property="groupId">e.GROUP_ID=#groupId#</isNotNull>
+				)
+		</isNotNull>
+		<isNotNull  prepend=" AND " property="byRole">					    	
+				<isEqual property="existsRole" compareValue="Y">EXISTS</isEqual>
+				<isEqual property="existsRole" compareValue="N">NOT EXISTS</isEqual>
+				(
+					SELECT ROLE_ID FROM SECURITY_USER_ROLE f 
+					WHERE a.PRINCIPAL_ID=f.USER_ID
+					<isNotNull prepend=" AND " property="roleId">f.ROLE_ID=#roleId#</isNotNull>
+				)
+		</isNotNull>
+				<isNotNull  prepend=" AND " property="groupIdJoinCond">a.PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_GROUP WHERE GROUP_ID=#groupIdJoinCond#)</isNotNull>
+				<isNotNull  prepend=" AND " property="roleIdJoinCond">a.PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID in $roleIds$)</isNotNull>
+				<isNotNull  prepend=" AND " property="shortPathCond">SHORT_PATH LIKE #shortPathCond#||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="principalInfo02Cond">PRINCIPAL_INFO02 LIKE #principalInfo02Cond#||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="principalNameCond">PRINCIPAL_NAME LIKE #principalNameCond#||'%'</isNotNull>		
+	</select>
+	
+	<select id="user.exist" resultClass="int">
+			/* user.exist */
+			SELECT COUNT(*) cnt
+			FROM SECURITY_PRINCIPAL
+			WHERE PRINCIPAL_TYPE='U' AND SHORT_PATH=#shortPath#
+	</select>
+	
+	<select id="user.findByPage" resultMap="admin_UserVO_PK">
+	/* user.findByPage */
+		SELECT * FROM (
+			<isNull property="byDomain">
+				SELECT a.PRINCIPAL_ID, SHORT_PATH, b.DOMAIN_ID, a.PRINCIPAL_TYPE,ROW_NUMBER() OVER(
+				<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+				<isNull property="sortColumn">ORDER BY a.SHORT_PATH ASC</isNull>
+				) as rnum 
+				FROM SECURITY_PRINCIPAL a
+				LEFT OUTER JOIN DOMAIN_PRINCIPAL b ON a.PRINCIPAL_ID=b.PRINCIPAL_ID
+				LEFT OUTER JOIN DOMAIN_LANG c ON b.DOMAIN_ID=c.DOMAIN_ID AND c.LANG_KND=#langKnd#
+				WHERE 1=1 AND PRINCIPAL_TYPE='U'
+				<isGreaterEqual prepend=" AND " property="domainId" compareValue="1">b.DOMAIN_ID = CAST(#domainId# AS INTEGER)</isGreaterEqual>
+			</isNull>
+			<isNotNull property="byDomain">
+			    SELECT a.PRINCIPAL_ID, a.SHORT_PATH,ROW_NUMBER() OVER(
+				<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+				<isNull property="sortColumn">ORDER BY a.SHORT_PATH ASC</isNull>
+				) as rnum 
+				FROM SECURITY_PRINCIPAL a 
+				WHERE 1=1 AND PRINCIPAL_TYPE='U' AND
+				<isEqual property="existsDomain" compareValue="Y">EXISTS</isEqual>
+				<isEqual property="existsDomain" compareValue="N">NOT EXISTS</isEqual>
+				(
+					SELECT DOMAIN_ID FROM DOMAIN_PRINCIPAL b 			
+					WHERE a.PRINCIPAL_ID=b.PRINCIPAL_ID 
+					<isGreaterEqual prepend=" AND " property="domainId" compareValue="1">b.DOMAIN_ID = CAST(#domainId# AS INTEGER)</isGreaterEqual>
+				)
+			</isNotNull>
+			<isNotNull  prepend=" AND " property="byGroup">					    	
+				<isEqual property="existsGroup" compareValue="Y">EXISTS</isEqual>
+				<isEqual property="existsGroup" compareValue="N">NOT EXISTS</isEqual>
+				(
+					SELECT GROUP_ID FROM SECURITY_USER_GROUP e 
+					WHERE a.PRINCIPAL_ID=e.USER_ID
+					<isNotNull prepend=" AND " property="groupId">e.GROUP_ID=#groupId#</isNotNull>
+				)
+			</isNotNull>
+			<isNotNull  prepend=" AND " property="byRole">					    	
+				<isEqual property="existsRole" compareValue="Y">EXISTS</isEqual>
+				<isEqual property="existsRole" compareValue="N">NOT EXISTS</isEqual>
+				(
+					SELECT ROLE_ID FROM SECURITY_USER_ROLE f 
+					WHERE a.PRINCIPAL_ID=f.USER_ID
+					<isNotNull prepend=" AND " property="roleId">f.ROLE_ID=#roleId#</isNotNull>
+				)
+			</isNotNull>
+				<isNotNull  prepend=" AND " property="groupIdJoinCond">a.PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_GROUP WHERE GROUP_ID=#groupIdJoinCond#)</isNotNull>
+				<isNotNull  prepend=" AND " property="roleIdJoinCond">a.PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID in $roleIds$)</isNotNull>
+				<isNotNull  prepend=" AND " property="shortPathCond">SHORT_PATH LIKE #shortPathCond#||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="principalInfo02Cond">PRINCIPAL_INFO02 LIKE #principalInfo02Cond#||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="principalNameCond">PRINCIPAL_NAME LIKE #principalNameCond#||'%'</isNotNull>
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="user.findAll" resultMap="admin_UserVO_PK">
+		/* user.findAll */
+			SELECT PRINCIPAL_ID, SHORT_PATH
+			FROM SECURITY_PRINCIPAL
+			WHERE PRINCIPAL_TYPE='U' 
+	</select>
+	
+	<select id="user.findByOwner" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+		/* user.findByOwner */
+		SELECT b.PRINCIPAL_ID,b.SHORT_PATH AS USER_ID,b.PRINCIPAL_NAME AS NM_KOR,c.OFFC_TEL,c.MOBILE_TEL,c.EMAIL_ADDR,c.USER_INFO04,c.USER_INFO05,c.USER_INFO06,c.USER_INFO07,c.USER_INFO08,c.USER_INFO09,c.USER_INFO10
+		FROM SECURITY_PRINCIPAL b, USERPASS c
+		WHERE b.SHORT_PATH=c.USER_ID AND b.PRINCIPAL_ID IN ($owner$)
+	</select>
+
+	<select id="user.detail" resultMap="admin_UserVO">
+		/* user.detail */
+		SELECT a.PRINCIPAL_ID, a.SHORT_PATH, a.PRINCIPAL_NAME, a.THEME, a.DEFAULT_PAGE, b.COLUMN_VALUE COLUMN_VALUE0, a.IS_ENABLED, b.UPDATE_REQUIRED UPDATE_REQUIRED0, b.AUTH_FAILURES AUTH_FAILURES0, b.MODIFIED_DATE MODIFIED_DATE0, a.AUTH_METHOD, a.PRINCIPAL_TYPE, a.PRINCIPAL_INFO01, a.PRINCIPAL_INFO02, a.PRINCIPAL_INFO03, a.CREATION_DATE, a.MODIFIED_DATE, a.PRINCIPAL_DESC, 
+		c.DOMAIN_ID, (SELECT DOMAIN_NM FROM DOMAIN_LANG d WHERE d.DOMAIN_ID = c.DOMAIN_ID AND d.LANG_KND=#langKnd#) AS DOMAIN_NM
+		FROM SECURITY_PRINCIPAL a 
+		INNER JOIN SECURITY_CREDENTIAL b ON a.PRINCIPAL_ID=b.PRINCIPAL_ID
+		LEFT OUTER JOIN DOMAIN_PRINCIPAL c ON a.PRINCIPAL_ID = c.PRINCIPAL_ID AND c.DOMAIN_ID = CAST(#domainId# AS INTEGER)
+		WHERE 1=1 
+			AND a.PRINCIPAL_ID=CAST(#principalId# AS INTEGER) 
+	</select>
+	
+	<select id="user.detailForDomain" resultMap="admin_UserVO">
+		/* user.detailForDomain */
+			SELECT a.PRINCIPAL_ID, a.SHORT_PATH, a.PRINCIPAL_NAME, a.THEME, a.DEFAULT_PAGE, b.COLUMN_VALUE COLUMN_VALUE0, a.IS_ENABLED, b.UPDATE_REQUIRED UPDATE_REQUIRED0, b.AUTH_FAILURES AUTH_FAILURES0, b.MODIFIED_DATE MODIFIED_DATE0, a.AUTH_METHOD, a.PRINCIPAL_TYPE, a.PRINCIPAL_INFO01, a.PRINCIPAL_INFO02, a.PRINCIPAL_INFO03, a.CREATION_DATE, a.MODIFIED_DATE, a.PRINCIPAL_DESC, 
+				   0, ''
+			FROM SECURITY_PRINCIPAL a 
+			INNER JOIN SECURITY_CREDENTIAL b ON a.PRINCIPAL_ID=b.PRINCIPAL_ID
+			WHERE 1=1 
+				AND a.PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+	</select>
+	
+	<insert id="user.insert">
+		/* user.insert */
+		<![CDATA[
+			INSERT INTO SECURITY_PRINCIPAL
+				( PRINCIPAL_ID,DOMAIN_ID,SHORT_PATH,FULL_PATH,PRINCIPAL_NAME,CLASSNAME,THEME,DEFAULT_PAGE,IS_MAPPING_ONLY,IS_ENABLED,AUTH_METHOD,PRINCIPAL_TYPE,PRINCIPAL_INFO01,PRINCIPAL_INFO02,PRINCIPAL_INFO03,CREATION_DATE,MODIFIED_DATE,PRINCIPAL_DESC )
+			VALUES ( CAST(#principalId# AS INTEGER),1,#shortPath#,'/user/'||#shortPath#,#principalName#,'com.saltware.enview.security.InternalUserPrincipalImpl',#theme#,#defaultPage#,0,CAST(#isEnabled# AS INTEGER),#authMethod#,'U',#principalInfo01#,#principalInfo02#,#principalInfo03#,#creationDate#,#modifiedDate#,#principalDesc# )
+		]]>
+	</insert>
+	
+	<update id="user.update">
+		/* user.update */
+		<![CDATA[
+			UPDATE SECURITY_PRINCIPAL
+			SET PRINCIPAL_ID=CAST(#principalId# AS INTEGER),SHORT_PATH=#shortPath#,PRINCIPAL_NAME=#principalName#,THEME=#theme#,DEFAULT_PAGE=#defaultPage#,IS_ENABLED=CAST(#isEnabled# AS INTEGER),AUTH_METHOD=#authMethod#,PRINCIPAL_INFO01=#principalInfo01#,PRINCIPAL_INFO02=#principalInfo02#,PRINCIPAL_INFO03=#principalInfo03#,MODIFIED_DATE=#modifiedDate#,PRINCIPAL_DESC=#principalDesc#
+			WHERE 1=1 
+				AND PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+		]]>
+	</update>
+	
+	<delete id="user.delete">
+		/* user.delete */
+		<![CDATA[
+			DELETE FROM SECURITY_PRINCIPAL
+			WHERE 1=1 
+				AND PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+		]]>
+	</delete>
+	
+	<delete id="user.deleteCheckWithInvalidUser">
+	/* user.deleteCheckWithInvalidUser */
+			DELETE FROM SECURITY_PRINCIPAL
+			WHERE 1=1 
+				AND PRINCIPAL_TYPE = 'U'
+				AND PRINCIPAL_ID IN <iterate property="userIds" open="(" close=")" conjunction=",">#userIds[].principalId#</iterate> 
+				AND SHORT_PATH NOT IN <iterate property="invalidUsers" open="(" close=")" conjunction=",">#invalidUsers[]#</iterate>
+	</delete>
+	
+	
+	<delete id="user.deleteChildren">
+		/* user.deleteChildren */
+		<![CDATA[
+			DELETE FROM SECURITY_PRINCIPAL
+			WHERE 1=1 
+		]]>
+	</delete>
+	
+	<select id="user.detailInfo" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+		/* user.detailInfo */
+			SELECT a.reg_no, a.org_cd, a.emp_no, a.kind_cd, a.type_cd, a.nm_kor, a.nm_eng, a.mobile_tel, a.email_addr, 
+				   a.user_info04, a.lang_knd, a.reg_datim, a.home_Zip, a.home_Addr1, a.home_Addr2, a.last_logon,
+				   b.principal_id, b.principal_name, b.auth_method, b.default_page, b.theme, 
+				   c.update_required
+    		FROM userpass a INNER JOIN security_principal b ON a.user_id=b.short_path
+    					  	INNER JOIN security_credential c ON b.principal_id=c.principal_id
+    		WHERE b.principal_type='U' and a.user_id=#userId#
+	</select>
+	
+	<select id="user.findGroupRole" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+		/* user.findGroupRole */
+			SELECT principal_id, short_path, parent_id, principal_type, theme, default_page, site_name, principal_name
+			FROM security_principal
+			WHERE principal_id in (
+			    SELECT role_id FROM security_group_role WHERE group_id in (
+			        SELECT a.principal_id
+			        FROM security_principal a INNER JOIN security_user_group b ON a.PRINCIPAL_ID=b.GROUP_ID
+			        WHERE b.user_id=#principal_id# AND b.sort_order=0
+			    )  
+			    UNION
+			    SELECT role_id FROM security_user_role 
+			    WHERE user_id =#principal_id#
+			    UNION
+			    SELECT group_id FROM security_user_group 
+			    WHERE user_id =#principal_id# AND sort_order=0
+			)
+	</select>
+	
+	<select id="user.findParentGroupRole" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+		/* user.findParentGroupRole */
+			SELECT principal_id, short_path, parent_id, principal_type, theme, default_page, site_name, principal_name 
+			FROM security_principal
+			WHERE principal_id=#parent_id#
+	</select>
+	
+	<select id="user.getPermission" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+		/* user.getPermission */
+	        SELECT * FROM ( 
+				SELECT a.permission_id,a.title,a.res_url,a.res_type,a.action_mask,a.is_allow, '1' AS row_num 
+				FROM security_permission a 
+				WHERE a.principal_id=$principal_id$ AND a.RES_TYPE IN (0,1,2,3,4)
+				UNION
+				SELECT a.permission_id,a.title,a.res_url,a.res_type,a.action_mask,a.is_allow, '2' AS row_num 
+				FROM security_permission a
+				WHERE a.principal_id=#groupPagePrincipalId# AND a.RES_TYPE IN (0,1,2,3,4)
+	       
+				<iterate prepend="UNION" property="roleIdList" open="" close="" conjunction="UNION">
+				SELECT a.permission_id,a.title,a.res_url,a.res_type,a.action_mask,a.is_allow, '3'||#roleIdList[].index# AS row_num 
+		        FROM security_permission a
+		        WHERE a.principal_id=#roleIdList[].id# AND a.RES_TYPE IN (0,1,2,3,4)
+				</iterate>
+	        ) ORDER BY ROW_NUM, RES_TYPE, IS_ALLOW ASC
+	</select>
+	
+	<select id="user.findAllGrade" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+		/* user.findAllGrade */
+			SELECT PRINCIPAL_ID AS GRADE_ID,PRINCIPAL_NAME AS GRADE_NAME
+			FROM SECURITY_PRINCIPAL
+			WHERE PRINCIPAL_TYPE='g' AND SHORT_PATH LIKE '/PT/%'
+			ORDER BY SHORT_PATH ASC
+	</select>
+	<select id="user.detailGrade" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+		/* user.detailGrade */
+			SELECT g.GRADE_ID, s.PRINCIPAL_NAME AS GRADE_NAME
+			FROM SECURITY_GRADE_USER g INNER JOIN SECURITY_PRINCIPAL s ON g.GRADE_ID=s.PRINCIPAL_ID
+			WHERE g.USER_ID=CAST(#principalId# AS INTEGER) AND s.PRINCIPAL_TYPE='g' AND s.SHORT_PATH LIKE '/PT/%'
+	</select>
+	<insert id="user.insertGrade">
+		/* user.insertGrade */
+			INSERT INTO SECURITY_GRADE_USER
+				( GRADE_ID,USER_ID )
+			VALUES ( #gradeId#,#userId# )
+	</insert>
+	<update id="user.updateGrade">
+		/* user.updateGrade */
+			UPDATE SECURITY_GRADE_USER 
+			SET GRADE_ID=#gradeId#
+			WHERE USER_ID=#userId#
+	</update>
+	<delete id="user.deleteGrade">
+		/* user.deleteGrade */
+			DELETE FROM SECURITY_GRADE_USER 
+			WHERE USER_ID=#userId# AND GRADE_ID=#gradeId#
+	</delete>
+	<delete id="user.deleteAllGrade">
+		/* user.deleteAllGrade */
+			DELETE FROM SECURITY_GRADE_USER 
+			WHERE USER_ID=#userId#
+	</delete>
+</sqlMap>
+

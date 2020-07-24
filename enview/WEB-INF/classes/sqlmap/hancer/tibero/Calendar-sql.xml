@@ -1,0 +1,136 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="cal">
+
+	<resultMap id="calendar.list" class="com.saltware.enhancer.calendar.service.CalendarVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>
+		<result property="isDefault" column="IS_DEFAULT" columnIndex="2"/>
+		<result property="bgColor" column="BG_COLOR" columnIndex="3"/>
+		<result property="ownerId" column="OWNER_ID" columnIndex="4"/>
+		<result property="name" columnIndex="5"/>
+	</resultMap>
+	
+	<select id="calendar.list.owner" resultMap="calendar.list">/* calendar.list.owner */
+		SELECT a.CALENDAR_ID, IS_DEFAULT, BG_COLOR, OWNER_ID, b.NAME
+		FROM CALENDAR a
+		JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID
+		WHERE IS_PUBLIC='N' AND OWNER_ID=#ownerId# AND b.LANG_KND=#langKnd#
+		ORDER BY a.INS_DATIM ASC
+	</select>
+	
+	<select id="calendar.list.joint" resultMap="calendar.list">/* calendar.list.joint */
+		SELECT a.CALENDAR_ID, IS_DEFAULT, nvl(c.BG_COLOR, a.BG_COLOR)AS BG_COLOR, OWNER_ID, b.NAME
+		FROM CALENDAR a
+		JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID
+		JOIN CALENDAR_USER c ON c.CALENDAR_ID = a.CALENDAR_ID
+		WHERE IS_PUBLIC='N' AND c.USER_ID=#userId# AND b.LANG_KND=#langKnd#
+		<isNotNull property="permissions" prepend=" AND ">c.PERMISSIONS LIKE '%'||#permissions#||'%'</isNotNull>
+		ORDER BY a.INS_DATIM ASC
+	</select>
+	
+	<select id="calendar.list.public" resultMap="calendar.list">/* calendar.list.public */
+		SELECT a.CALENDAR_ID, IS_DEFAULT, BG_COLOR, OWNER_ID, b.NAME
+		FROM CALENDAR a
+		JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID
+		WHERE IS_PUBLIC='Y' AND b.LANG_KND=#langKnd#
+		ORDER BY a.INS_DATIM ASC
+	</select>
+
+	<resultMap id="calendar.list.permit" class="com.saltware.enhancer.calendar.service.CalendarVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>	 
+		<result property="ownerId" column="OWNER_ID" columnIndex="2"/>
+		<result property="name" columnIndex="3"/>
+		<result property="permissions" columnIndex="4"/>
+		<result property="isPublic" column="IS_PUBLIC" columnIndex="5"/>
+		<result property="isDefault" column="IS_DEFAULT" columnIndex="6"/>
+		<result property="insDatim" column="INS_DATIM" columnIndex="7"/>
+		
+	</resultMap>
+		
+	<select id="calendar.list.permit" resultMap="calendar.list.permit">/* calendar.list.permit */
+		SELECT * FROM (
+			SELECT a.CALENDAR_ID, OWNER_ID, b.NAME, 'CRUDA' AS PERMISSIONS, IS_PUBLIC, IS_DEFAULT, a.INS_DATIM
+			FROM CALENDAR a
+			JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID
+			WHERE OWNER_ID=#ownerId# AND b.LANG_KND=#langKnd#
+			UNION
+			SELECT a.CALENDAR_ID, OWNER_ID, b.NAME, c.PERMISSIONS, IS_PUBLIC, IS_DEFAULT, a.INS_DATIM
+			FROM CALENDAR a
+			JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID
+			JOIN CALENDAR_USER c ON c.CALENDAR_ID = a.CALENDAR_ID
+			WHERE c.USER_ID=#userId# AND b.LANG_KND=#langKnd#
+		)
+		ORDER BY IS_DEFAULT DESC, IS_PUBLIC ASC, INS_DATIM ASC
+	</select>
+	
+	<resultMap id="calendar.detail" class="com.saltware.enhancer.calendar.service.CalendarVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>
+		<result property="isPublic" column="IS_PUBLIC" columnIndex="2"/>
+		<result property="isDefault" column="IS_DEFAULT" columnIndex="3"/>
+		<result property="fgColor" column="FG_COLOR" columnIndex="4"/>
+		<result property="bgColor" column="BG_COLOR" columnIndex="5"/>
+		<result property="ownerId" column="OWNER_ID" columnIndex="6"/>
+		<result property="permissions" columnIndex="7"/>
+	</resultMap>
+
+	<select id="calendar.detail" resultMap="calendar.detail"> /* calendar.detail */
+		SELECT a.CALENDAR_ID, IS_PUBLIC, IS_DEFAULT, nvl(b.FG_COLOR, a.FG_COLOR) AS FG_COLOR, nvl(b.BG_COLOR, a.BG_COLOR)AS BG_COLOR, OWNER_ID, b.PERMISSIONS 
+		FROM CALENDAR a
+		LEFT OUTER JOIN CALENDAR_USER b ON b.CALENDAR_ID = a.CALENDAR_ID
+		WHERE b.USER_ID=#userId#
+		<isNotNull property="calendarId" prepend=" AND ">a.CALENDAR_ID=#calendarId#</isNotNull>
+	</select>
+	
+	<select id="calendar.detail.owner" resultMap="calendar.detail"> /* calendar.detail.owner */
+		SELECT CALENDAR_ID, IS_PUBLIC, IS_DEFAULT, FG_COLOR, BG_COLOR, OWNER_ID, 'CRUDA' AS PERMISSIONS 
+		FROM CALENDAR
+		WHERE OWNER_ID=#ownerId# AND IS_PUBLIC=#isPublic#
+		<isNotNull property="calendarId" prepend=" AND ">CALENDAR_ID=#calendarId#</isNotNull>
+		<isNotNull property="isDefault" prepend=" AND ">IS_DEFAULT=#isDefault#</isNotNull>
+	</select>
+	
+	<select id="calendar.detail.joint" resultMap="calendar.detail"> /* calendar.detail.joint */
+		SELECT a.CALENDAR_ID, IS_PUBLIC, IS_DEFAULT, nvl(b.FG_COLOR, a.FG_COLOR) AS FG_COLOR, nvl(b.BG_COLOR, a.BG_COLOR)AS BG_COLOR, OWNER_ID, b.PERMISSIONS 
+		FROM CALENDAR a
+		LEFT OUTER JOIN CALENDAR_USER b ON b.CALENDAR_ID = a.CALENDAR_ID
+		WHERE b.USER_ID=#userId# AND IS_PUBLIC=#isPublic#
+		<isNotNull property="calendarId" prepend=" AND ">a.CALENDAR_ID=#calendarId#</isNotNull>
+	</select>
+	
+	<insert id="calendar.insert">/* calendar.insert */
+		INSERT INTO CALENDAR (CALENDAR_ID, IS_PUBLIC, IS_DEFAULT, FG_COLOR, BG_COLOR, OWNER_ID, INS_DATIM, UPD_DATIM)
+		VALUES (#calendarId#, #isPublic#, #isDefault#, #fgColor#, #bgColor#, #ownerId#, SYSDATE, SYSDATE)
+	</insert>
+	
+	<update id="calendar.update">/* calendar.update */
+		UPDATE CALENDAR SET UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=#calendarId#
+	</update>
+	
+	<update id="calendar.update.bg.owner">/* calendar.update.bg.owner */
+		UPDATE CALENDAR SET 
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=#calendarId# AND OWNER_ID=#ownerId#
+	</update>	
+	
+	<update id="calendar.update.bg.joint">/* calendar.update.bg.joint */
+		UPDATE CALENDAR_USER SET 
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=#calendarId# AND USER_ID=#userId#
+	</update>	
+	
+	<delete id="calendar.delete">/* calendar.delete */
+		DELETE FROM CALENDAR 
+		WHERE CALENDAR_ID=#calendarId# AND OWNER_ID=#ownerId# AND IS_DEFAULT='N'
+	</delete>
+	
+	<delete id="calendar.delete.joint">/* calendar.delete.joint */
+		DELETE FROM CALENDAR_USER
+		WHERE CALENDAR_ID=#calendarId# AND USER_ID=#userId#
+	</delete>
+</sqlMap>
+

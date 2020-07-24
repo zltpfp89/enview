@@ -1,0 +1,16 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="cal.cubrid">
+
+	<insert id="calendar.user.insert.cubrid">/* calendar.user.insert.cubrid */
+		INSERT INTO CALENDAR_USER (CALENDAR_ID, USER_ID, PERMISSIONS, FG_COLOR, BG_COLOR, INS_DATIM, UPD_DATIM)
+		VALUES (#calendarId#, #userId#, #permissions#, 'white', 'rgb(73, 134, 231)', SYSDATETIME, SYSDATETIME)
+	</insert>
+	
+	<update id="calendar.user.update.cubrid">/* calendar.user.update.cubrid */
+		UPDATE CALENDAR_USER SET PERMISSIONS=#permissions#, UPD_DATIM=SYSDATETIME
+		WHERE CALENDAR_ID=#calendarId# AND USER_ID=#userId#
+	</update>
+	
+</sqlMap>
+

@@ -1,0 +1,241 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ SECURITY_PRINCIPAL : 역할관리 ] Table -->
+	<resultMap id="admin_RoleVO_PK" class="com.saltware.enview.admin.role.service.RolePK">
+	
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_RoleVO" class="com.saltware.enview.admin.role.service.RoleVO">
+	 
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="1"/>	 
+		<result property="parentId" column="PARENT_ID" columnIndex="2"/>	 
+		<result property="shortPath" column="SHORT_PATH" columnIndex="3"/>	 
+		<result property="principalName" column="PRINCIPAL_NAME" columnIndex="4"/>	 
+		<result property="theme" column="THEME" columnIndex="5"/>	 
+		<result property="defaultPage" column="DEFAULT_PAGE" columnIndex="6"/>	 
+		<result property="principalType" column="PRINCIPAL_TYPE" columnIndex="7"/>	 
+		<result property="principalOrder" column="PRINCIPAL_ORDER" columnIndex="8"/>	 
+		<result property="creationDate" column="CREATION_DATE" columnIndex="9"/>	 
+		<result property="modifiedDate" column="MODIFIED_DATE" columnIndex="10"/>	 
+		<result property="principalInfo01" column="PRINCIPAL_INFO01" columnIndex="11"/>	 
+		<result property="principalInfo02" column="PRINCIPAL_INFO02" columnIndex="12"/>	 
+		<result property="principalInfo03" column="PRINCIPAL_INFO03" columnIndex="13"/>	 
+		<result property="principalDesc" column="PRINCIPAL_DESC" columnIndex="14"/>	
+		<result property="domain" column="DOMAIN" columnIndex="15" nullValue=""/>	 
+		<result property="domainId" column="DOMAIN_ID" columnIndex="16" nullValue="0"/>	
+		
+	</resultMap>
+	
+	<select id="role.totalCount" resultClass="int">
+	/* role.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM SECURITY_PRINCIPAL
+		WHERE 1=1 AND PRINCIPAL_TYPE='R'
+			<isNull property="isAdmin">
+				<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">DOMAIN_Id = CAST( #domainId# AS INTEGER)</isGreaterEqual>
+			</isNull>
+			<isNotEqual prepend=" AND " property="parentId" compareValue="0">PARENT_ID=#parentId#</isNotEqual>
+			<isNotNull  prepend=" AND " property="shortPathCond">SHORT_PATH LIKE '%' || #shortPathCond#||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="principalNameCond">PRINCIPAL_NAME LIKE '%' || #principalNameCond#||'%'</isNotNull>
+			<isNotNull prepend=" AND " property="byGroup">
+				<isEqual property="existsGroup" compareValue="Y">EXISTS</isEqual>
+				<isEqual property="existsGroup" compareValue="N">NOT EXISTS</isEqual> (
+					SELECT GROUP_ID FROM SECURITY_GROUP_ROLE
+					WHERE PRINCIPAL_ID = ROLE_ID
+					AND GROUP_ID = CAST(#groupId# AS INTEGER)
+				)
+			</isNotNull>
+	</select>
+	
+	<select id="role.exist" resultClass="int">
+	/* role.exist */
+		SELECT COUNT(*) cnt
+		FROM SECURITY_PRINCIPAL
+		WHERE PRINCIPAL_TYPE='R' AND SHORT_PATH=#shortPath#
+	</select>
+	
+	<select id="role.findByPage" resultMap="admin_RoleVO_PK">
+	/* role.findByPage */
+		SELECT * FROM (
+			SELECT PRINCIPAL_ID,ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY PRINCIPAL_ID ASC</isNull>
+			) as rnum 
+			FROM SECURITY_PRINCIPAL
+			WHERE 1=1 AND PRINCIPAL_TYPE='R'
+			<isNull property="isAdmin">
+				<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">DOMAIN_Id = CAST(#domainId# AS INTEGER)</isGreaterEqual>
+			</isNull>
+			<isNotEqual prepend=" AND " property="parentId" compareValue="0">PARENT_ID=#parentId#</isNotEqual>
+			<isNotNull  prepend=" AND " property="shortPathCond">SHORT_PATH LIKE '%' || COALESCE(#shortPathCond#,'%')||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="principalNameCond">PRINCIPAL_NAME LIKE '%' || COALESCE(#principalNameCond#,'%')||'%'</isNotNull>
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="role.findAll" resultMap="admin_RoleVO">
+	/* role.findAll */
+		SELECT a.PRINCIPAL_ID,a.PARENT_ID,a.SHORT_PATH,a.PRINCIPAL_NAME,a.THEME,a.DEFAULT_PAGE,a.PRINCIPAL_TYPE,a.PRINCIPAL_ORDER,a.CREATION_DATE,a.MODIFIED_DATE,a.PRINCIPAL_INFO01,a.PRINCIPAL_INFO02,a.PRINCIPAL_INFO03,a.PRINCIPAL_DESC,b.DOMAIN,a.DOMAIN_ID
+		FROM SECURITY_PRINCIPAL a
+		LEFT OUTER JOIN DOMAIN b ON a.DOMAIN_ID = b.DOMAIN_ID
+		WHERE a.PRINCIPAL_TYPE='R' 
+	</select>
+	
+	<select id="role.findByMaster" resultMap="admin_RoleVO_PK">
+			/* role.findByMaster */
+			SELECT PRINCIPAL_ID
+			FROM SECURITY_PRINCIPAL
+			WHERE 1=1 AND PRINCIPAL_TYPE='R' 
+				<isNotEqual prepend=" AND " property="parentId" compareValue="0">PARENT_ID=#parentId#</isNotEqual>
+	</select>
+	
+
+	<select id="role.detail" resultMap="admin_RoleVO">
+		/* role.detail */
+		SELECT a.PRINCIPAL_ID,a.PARENT_ID,a.SHORT_PATH,a.PRINCIPAL_NAME,a.THEME,a.DEFAULT_PAGE,a.PRINCIPAL_TYPE,a.PRINCIPAL_ORDER,a.CREATION_DATE,a.MODIFIED_DATE,a.PRINCIPAL_INFO01,a.PRINCIPAL_INFO02,a.PRINCIPAL_INFO03,a.PRINCIPAL_DESC,b.DOMAIN_CODE DOMAIN, a.DOMAIN_ID
+		FROM SECURITY_PRINCIPAL a
+		LEFT OUTER JOIN DOMAIN b ON a.DOMAIN_ID = b.DOMAIN_ID
+		WHERE 1=1 
+		<isNotEqual property="principalId" compareValue="0">
+		    AND a.PRINCIPAL_ID=CAST(#principalId# AS INTEGER)    
+		</isNotEqual>
+		<isNotNull property="shortPath">
+		    AND a.SHORT_PATH=#shortPath#
+		</isNotNull>
+	</select>
+	
+	<select id="role.validateInsertable" resultClass="int">
+		/* role.validateInsertable */
+	   SELECT COUNT(PARENT_ID) FROM SECURITY_PRINCIPAL WHERE PRINCIPAL_ID = #parentId#
+	</select>
+	
+	<insert id="role.insert">
+		/* role.insert */
+		<![CDATA[
+			INSERT INTO SECURITY_PRINCIPAL
+				( PRINCIPAL_ID, DOMAIN_ID,PARENT_ID,SHORT_PATH,FULL_PATH,PRINCIPAL_NAME,CLASSNAME,IS_MAPPING_ONLY,IS_ENABLED,THEME,DEFAULT_PAGE,PRINCIPAL_TYPE,PRINCIPAL_ORDER,CREATION_DATE,MODIFIED_DATE,PRINCIPAL_INFO01,PRINCIPAL_INFO02,PRINCIPAL_INFO03,PRINCIPAL_DESC )
+			VALUES ( CAST(#principalId# AS INTEGER),CAST(#domainId# AS INTEGER),#parentId#,#shortPath#,'/role/'||#shortPath#,#principalName#,'com.saltware.enview.security.InternalRolePrincipalImpl',0,1,#theme#,#defaultPage#,'R',(SELECT count(PRINCIPAL_ID) FROM SECURITY_PRINCIPAL WHERE PARENT_ID=#parentId#),#creationDate#,#modifiedDate#,#principalInfo01#,#principalInfo02#,#principalInfo03#,#principalDesc# )
+		]]>
+	</insert>
+	
+	<update id="role.update">
+		/* role.update */
+		UPDATE SECURITY_PRINCIPAL
+			SET PRINCIPAL_ID=CAST(#principalId# AS INTEGER),
+			<isNotNull property="parentId">PARENT_ID=#parentId#,</isNotNull>
+			SHORT_PATH=#shortPath#,PRINCIPAL_NAME=#principalName#,THEME=#theme#,DEFAULT_PAGE=#defaultPage#,
+			<isNotNull property="principalOrder">PRINCIPAL_ORDER=#principalOrder#,</isNotNull>
+			MODIFIED_DATE=#modifiedDate#,
+			PRINCIPAL_INFO01=#principalInfo01#,
+			PRINCIPAL_INFO02=#principalInfo02#,
+			PRINCIPAL_INFO03=#principalInfo03#,
+			PRINCIPAL_DESC=#principalDesc#
+			WHERE 1=1 
+				<isNotNull prepend=" AND " property="principalId">PRINCIPAL_ID=CAST(#principalId# AS INTEGER)</isNotNull>		
+	</update>
+	
+	<select id="role.validateDeletable" resultClass="int">
+		/* role.validateDeletable */
+		SELECT COUNT(*)	FROM DOMAIN 
+		WHERE DOMAIN_ID IN (
+			  SELECT DOMAIN_ID FROM SECURITY_PRINCIPAL
+			  WHERE PRINCIPAL_TYPE = 'R' AND PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+			  AND PARENT_ID = ( SELECT PRINCIPAL_ID FROM SECURITY_PRINCIPAL WHERE PRINCIPAL_TYPE = 'R' AND PARENT_ID IS NULL )
+		)
+	</select>
+	
+	<delete id="role.delete">
+		<![CDATA[
+			DELETE FROM SECURITY_PRINCIPAL
+			WHERE 1=1 
+				AND PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+		]]>
+	</delete>
+	
+	<delete id="role.deleteChildren">
+		<![CDATA[
+			DELETE FROM SECURITY_PRINCIPAL
+			WHERE 1=1 
+				AND PARENT_ID=#parentId#
+		]]>
+	</delete>
+	
+	<select id="role.detailParent" resultMap="admin_RoleVO">
+			SELECT a.PRINCIPAL_ID,a.PARENT_ID,a.SHORT_PATH,a.PRINCIPAL_NAME,a.THEME,DEFAULT_PAGE,a.PRINCIPAL_TYPE,a.PRINCIPAL_ORDER,a.CREATION_DATE,a.MODIFIED_DATE,a.PRINCIPAL_INFO01,a.PRINCIPAL_INFO02,a.PRINCIPAL_INFO03,a.PRINCIPAL_DESC,b.DOMAIN,b.DOMAIN_ID
+			FROM SECURITY_PRINCIPAL aLEFT OUTER JOIN DOMAIN b ON a.DOMAIN_ID = b.DOMAIN_ID
+			WHERE a.PRINCIPAL_ID=(SELECT PARENT_ID FROM SECURITY_PRINCIPAL WHERE PRINCIPAL_ID=CAST(#principalId# AS INTEGER))
+	</select>
+	
+	<select id="role.findChildren" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+			SELECT PRINCIPAL_ID,PARENT_ID,SHORT_PATH,PRINCIPAL_NAME,THEME,DEFAULT_PAGE,PRINCIPAL_TYPE,PRINCIPAL_ORDER,CREATION_DATE,MODIFIED_DATE,PRINCIPAL_INFO01,PRINCIPAL_INFO02,PRINCIPAL_INFO03,PRINCIPAL_DESC
+			FROM SECURITY_PRINCIPAL
+			WHERE PARENT_ID=CAST(#id# AS INTEGER)
+			<isNull property="isAdmin">
+				<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">DOMAIN_Id = CAST(#domainId# AS INTEGER)</isGreaterEqual>
+			</isNull>
+			<isNotNull prepend=" AND " property="byGroup">
+				<isEqual property="existsGroup" compareValue="Y">EXISTS</isEqual>
+				<isEqual property="existsGroup" compareValue="N">NOT EXISTS</isEqual> (
+					SELECT GROUP_ID FROM SECURITY_GROUP_ROLE
+					WHERE PRINCIPAL_ID = ROLE_ID
+					AND GROUP_ID = CAST(#groupId# AS INTEGER)
+				)
+			</isNotNull>
+			ORDER BY PRINCIPAL_ORDER ASC
+	</select>
+	
+	<select id="role.findSibling" resultMap="admin_RoleVO">
+			SELECT a.PRINCIPAL_ID,a.PARENT_ID,a.SHORT_PATH,a.PRINCIPAL_NAME,a.THEME,DEFAULT_PAGE,a.PRINCIPAL_TYPE,a.PRINCIPAL_ORDER,a.CREATION_DATE,a.MODIFIED_DATE,a.PRINCIPAL_INFO01,a.PRINCIPAL_INFO02,a.PRINCIPAL_INFO03,a.PRINCIPAL_DESC,b.DOMAIN,b.DOMAIN_ID
+			FROM SECURITY_PRINCIPAL a
+			LEFT OUTER JOIN DOMAIN b ON a.DOMAIN_ID = b.DOMAIN_ID
+			WHERE a.PARENT_ID=(SELECT PARENT_ID FROM SECURITY_PRINCIPAL WHERE PRINCIPAL_ID=CAST(#id# AS INTEGER))
+			ORDER BY PRINCIPAL_ORDER ASC
+
+	</select>
+	
+	<update id="role.changeParent">
+		<![CDATA[
+			UPDATE SECURITY_PRINCIPAL
+			SET PARENT_ID=#parentId#,
+			    PRINCIPAL_ORDER=(SELECT MAX(PRINCIPAL_ORDER)+1 FROM SECURITY_PRINCIPAL WHERE PARENT_ID=#parentId#)
+			WHERE PRINCIPAL_ID=CAST(#id# AS INTEGER)
+		]]>
+	</update>
+	
+	<update id="role.changeOrder">
+		<![CDATA[
+			UPDATE SECURITY_PRINCIPAL
+			SET PRINCIPAL_ORDER=#principalOrder#
+			WHERE PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+		]]>
+	</update>
+	
+	<select id="role.detailGrade" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+			SELECT g.GRADE_ID, s.PRINCIPAL_NAME AS GRADE_NAME
+			FROM SECURITY_GRADE_ROLE g INNER JOIN SECURITY_PRINCIPAL s ON g.GRADE_ID=s.PRINCIPAL_ID
+			WHERE g.ROLE_ID=CAST(#principalId# AS INTEGER) AND s.PRINCIPAL_TYPE='g' AND s.SHORT_PATH LIKE '/PT/%'
+	</select>
+	<insert id="role.insertGrade">
+			INSERT INTO SECURITY_GRADE_ROLE
+				( GRADE_ID,ROLE_ID )
+			VALUES ( CAST(#gradeId# AS INTEGER),CAST(#roleId# AS INTEGER) )
+	</insert>
+	<update id="role.updateGrade">
+			UPDATE SECURITY_GRADE_ROLE 
+			SET GRADE_ID=CAST(#gradeId# AS INTEGER)
+			WHERE ROLE_ID=CAST(#roleId# AS INTEGER)
+	</update>
+	<delete id="role.deleteGrade">
+			DELETE FROM SECURITY_GRADE_ROLE 
+			WHERE ROLE_ID=CAST(#roleId# AS INTEGER) AND GRADE_ID=CAST(#gradeId# AS INTEGER)
+	</delete>
+	<delete id="role.deleteAllGrade">
+			DELETE FROM SECURITY_GRADE_ROLE 
+			WHERE ROLE_ID=CAST(#roleId# AS INTEGER)
+	</delete>
+</sqlMap>
+

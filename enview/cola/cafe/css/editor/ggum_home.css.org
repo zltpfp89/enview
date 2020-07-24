@@ -1,0 +1,645 @@
+body, .bg, .cafeon, .cafeon_search .inp_search, .cafeon_search, .cafegroup .inp, .cafeLayer, .inp {
+    background-color: #FFFFFF;
+}
+.bg_sub, #cafeLayout .blank_thumb, .blank_thumb, .cafeLayer a:hover, #write_etcset_detial, .multi_post_layer_inBox {
+    background-color: #F7F7F7;
+}
+.commentBox .num_box {
+    border-color: #F7F7F7;
+}
+.scroll {
+}
+#cafeLayout .line, .line, .home_bbsList td, .home_memo ul, .home_memo li, .inp, .cafeon_search, .cafeon_search .btn_search, .cafeon_search .btn_search_all, .bbsList td, .cafeLayer, .cafeLayer li.layer_dotline, .boxTable .cb, .lineT, .write_etcset_ccl, #write_etcset_detial, .multi_post_layer_inBox, .box, #album_navi td, #cafeLayout .blank_thumb, .blank_thumb, .component .blank_thumb {
+    border-color: #E9E9E9;
+}
+.bar2, #footer .bar2 {
+    color: #E9E9E9;
+}
+.linebg {
+    background-color: #E9E9E9;
+}
+.line_sub, .bbsList th, .cafeSearchBox .inp, .article_subject, .box_sub, #rssList li, .rssList_tit {
+    border-color: #D5D5D5;
+}
+.linebg_sub {
+    background-color: #D5D5D5;
+}
+body, #content, .cafe_gnb, .cafe_gnb a:link, .cafe_gnb a:visited, .cafe_gnb a:hover, .cafe_gnb a:active, .side_rss, .side_rss a:link, .side_rss a:visited, .side_rss a:hover, .side_rss a:active, .side_secede, .side_secede a:link, .side_secede a:visited, .side_secede a:hover, .side_secede a:active, #footer, #footer a, .cafeon_search .inp_search, textarea, .inp, .cafegroup .inp, a:link, a:visited, a:hover, a:active, a.btn:link, a.btn:visited, a.btn:hover, a.btn:active, .searchBox .inp_search, .btn_txt, .admin_btn_area, .admin_area, .admin_area a.p11, .txt a:link, .txt a:visited, .txt a:hover, .txt a:active, a.txt:link, a.txt:visited, a.txt *:hover, a.txt:active, .txt {
+    color: #444444;
+}
+.txt_sub, .txt_sub a:link, .txt_sub a:visited, .txt_sub a:hover, .txt_sub a:active, a.txt_sub:link, a.txt_sub:visited, a.txt_sub:hover, a.txt_sub:active {
+    color: #999999;
+}
+.txt_point, .txt_point a:link, .txt_point a:visited, .txt_point a:hover, .txt_point a:active, a.txt_point:link, a.txt_point:visited, a.txt_point:hover, a.txt_point:active, a.num_box:hover {
+    color: #6173E8;
+}
+a.num_box:hover, .box_point {
+    border-color: #6173E8;
+}
+.txt_point_bg {
+    background-color: #6173E8;
+}
+.cafeon_search .btn_search {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_cafeon_search.png");
+}
+* html .cafeon_search .btn_search {
+    background-image: none;
+}
+.cafeon_search .btn_search_all {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_cafeon_list.gif");
+}
+#minidaum #cafe_favCafeList, #minidaum #goServiceLayer {
+    background-color: #FFFFFF;
+}
+#minidaum #cafe_favCafeList a:hover, #minidaum #cafe_favCafeList a.system:hover, #minidaum #goServiceLayer.cafeLayer li a:hover {
+    background-color: #F7F7F7;
+}
+#minidaum #cafe_favCafeList, #minidaum #cafe_favCafeList li.favor_line, #minidaum #goServiceLayer, #minidaum #goServiceLayer.cafeLayer li.layer_dotlin {
+    color: #D9D9D9;
+}
+#minidaum, #minidaum a:link, #minidaum a:visited, #minidaum a:hover, #minidaum a:active, #bgm, #notiList, #notiList a:link, #notiList a:visited, #notiList a:hover, #notiList a:active, #minidaum #cafe_favCafeList li.favor_msg, #minidaum #goServiceLayer.cafeLayer li a:link, #minidaum #goServiceLayer.cafeLayer li a:visited, #minidaum #goServiceLayer.cafeLayer li a:active {
+    color: #444444;
+}
+#minidaum #cafe_favCafeList .newdt a:link, #minidaum #cafe_favCafeList .newdt a:visited, #minidaum #cafe_favCafeList .newdt a:hover, #minidaum #cafe_favCafeList .newdt a:active {
+    color: #6173E8;
+}
+#minidaum li a.out {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/icon_view.gif");
+}
+#minidaum li a.over {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/icon_hide.gif");
+}
+#minidaum #cafe_favCafeTitle {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/icon_view.gif");
+}
+#minidaum #cafe_favCafeTitle.on {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/icon_hide.gif");
+}
+#minidaum .btn_txt {
+    color: #444444;
+}
+#cafe_favCafeList .scroll {
+}
+#minidaum #daumServiceLink {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/icon_view.gif");
+}
+#minidaum #daumServiceLink.on {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/icon_hide.gif");
+}
+#minidaum #daumServiceLayer {
+    background-color: #FFFFFF;
+}
+#minidaum #daumServiceLayer ul {
+    color: #D9D9D9;
+}
+#minidaum #daumServiceLayer li a:hover {
+    background-color: #F7F7F7;
+}
+#minidaum #daumServiceLayer li a:link, #minidaum #daumServiceLayer li a:visited, #minidaum #daumServiceLayer li a:active {
+    color: #444444;
+}
+.bgm_volumebg {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/bgm_bar01.gif");
+}
+.bgm_volume {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/bgm_bar02.gif");
+}
+.icon_bgmcontrol {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/bgm_scroll.gif");
+}
+.btn_bgm_back {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/bgm_back.gif");
+}
+.btn_bgm_stop {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/bgm_stop.gif");
+}
+.btn_bgm_play {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/bgm_play.gif");
+}
+.btn_bgm_next {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/bgm_front.gif");
+}
+.btn_bgm_list {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/icon_list.gif");
+}
+.icon_guide {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/icon_guide.gif");
+}
+.icon_noti {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/icon_noti.gif");
+}
+.icon_recom {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/icon_recommend.gif");
+}
+.icon_lock2 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/icon_lock.gif");
+}
+.icon_slide_prev {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/icon_left.gif");
+}
+.icon_slide_next {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/icon_right.gif");
+}
+.bg01 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg01.gif?v=4");
+}
+.bt01 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg01.gif?v=4");
+}
+.bg02 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg02.gif?v=4");
+}
+.bt02 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg02.gif?v=4");
+}
+.bg03 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg03.gif?v=4");
+}
+.bt03 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg03.gif?v=4");
+}
+.bg04 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg04.gif?v=4");
+}
+.bt04 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg04.gif?v=4");
+}
+.bg05 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg05.gif?v=4");
+}
+.bt05 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg05.gif?v=4");
+}
+.bg06 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg06.gif?v=4");
+}
+.bt06 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg06.gif?v=4");
+}
+.bg07 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg07.gif?v=4");
+}
+.bt07 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg07.gif?v=4");
+}
+.bg08 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg08.gif?v=4");
+}
+.bt08 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg08.gif?v=4");
+}
+.bt01n {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg01.gif?v=4");
+}
+.bt02n {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg02.gif?v=4");
+}
+.bt03n {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg03.gif?v=4");
+}
+.bt04n {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg04.gif?v=4");
+}
+.bt05n {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg05.gif?v=4");
+}
+.bt06n {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg06.gif?v=4");
+}
+.bt07n {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg07.gif?v=4");
+}
+.bt08n {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/btn_bg08.gif?v=4");
+}
+.btn_icon_select {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bg/b01_1/icon_select.gif");
+    background-position: 0 40%;
+    background-repeat: no-repeat;
+    padding-left: 14px;
+}
+* html .btn_icon_select {
+    width: 60px;
+}
+#TITLEBACKGROUND {
+    height: 138px;
+}
+#TITLEBACKGROUND .tbg_m {
+    height: 98px;
+}
+#TITLECAFENAME {
+    left: 16px;
+    position: absolute;
+    top: 31px;
+    z-index: 201;
+}
+#TITLECAFENAME h1 {
+    color: #333333;
+    display: block;
+    font-family: dotum;
+    font-size: 17px;
+}
+#TITLECAFENAME h1 a {
+    color: #333333;
+    font-family: dotum;
+    font-size: 17px;
+    text-decoration: none;
+}
+#TITLECAFENAME img {
+    display: none;
+}
+#TITLECAFEADDRESS {
+    left: 16px;
+    position: absolute;
+    top: 55px;
+    z-index: 202;
+}
+#TITLECAFEADDRESS h2 {
+    color: #ADADAD;
+    display: block;
+    font-family: dotum;
+    font-size: 11px;
+}
+#TITLECAFEADDRESS h2 a {
+    color: #ADADAD;
+    font-family: dotum;
+    font-size: 11px;
+    text-decoration: none;
+}
+#TITLECAFEADDRESS img {
+    display: none;
+}
+#TITLEMENUGROUP {
+    background-color: transparent;
+    height: 37px;
+    width: 100%;
+}
+#TITLEMENUGROUP ul {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/title/b01_1/bar_c.png") repeat-x scroll 0 0 transparent;
+    margin: 0 20px;
+}
+#TITLEMENUGROUP .roundL {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/title/b01_1/bar_l.png") no-repeat scroll 0 0 transparent;
+    height: 37px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 20px;
+}
+#TITLEMENUGROUP .roundR {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/title/b01_1/bar_r.png") no-repeat scroll 0 0 transparent;
+    height: 37px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20px;
+}
+#TITLEMENUGROUP li.mbar {
+    color: #D0D7F6;
+}
+#TITLEMENUGROUP li a {
+    color: #D0D7F6;
+}
+#TITLEMENUGROUP li a.first {
+    margin-left: 0;
+}
+#TITLEMENUGROUP li.on a {
+    color: #FFFFFF;
+}
+#TITLEMENUGROUP {
+    left: 0;
+    top: 101px;
+    z-index: 203;
+}
+#TITLEMENUGROUP {
+}
+#TITLEMENUGROUP li a {
+    color: #D0D7F6;
+}
+#TITLEMENUGROUP li.mbar {
+    color: #D0D7F6;
+}
+#TITLEMENUGROUP li.on a {
+    color: #FFFFFF;
+}
+#TITLESEARCH .searchBg {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/title/b01_1/search_box.png") no-repeat scroll 0 0 transparent;
+    height: 23px;
+    width: 190px;
+}
+* html #TITLESEARCH .searchBg {
+    background: none repeat scroll 0 0 transparent;
+}
+#TITLESEARCH .inpSearch {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    color: #696969;
+    float: left;
+    font-family: gulim;
+    font-size: 12px;
+    margin: 0 0 0 10px;
+    padding: 4px 0 0;
+    position: relative;
+    width: 149px;
+}
+#TITLESEARCH .btnSearch {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/title/b01_1/search_btn.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 23px;
+    margin: 0 0 0 10px;
+    padding: 0;
+    position: relative;
+    vertical-align: top;
+    width: 21px;
+}
+* html #TITLESEARCH .btnSearch {
+    background: none repeat scroll 0 0 transparent;
+}
+#TITLESEARCH {
+    left: 774px;
+    top: 108px;
+    z-index: 204;
+}
+.cafeinfoBox {
+    background-color: transparent;
+}
+.cafeinfoBox, .cafeinfoBox a:link, .cafeinfoBox a:visited, .cafeinfoBox a:hover, .cafeinfoBox a:active {
+    color: #444444;
+}
+.cafeinfoBox .txt_point, .cafeinfoBox a.txt_point:link, .cafeinfoBox a.txt_point:visited, .cafeinfoBox a.txt_point:hover, .cafeinfoBox a.txt_point:active {
+    color: #6173E8;
+}
+.cafeinfoBox .infoLine {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/cafeinfo/b01_1_bg_line.gif");
+    background-repeat: repeat-x;
+}
+.cafeinfoBoxT {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/cafeinfo/b01_1_bg.gif");
+    height: 11px;
+}
+.cafeinfo_bg {
+    background-color: transparent;
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/cafeinfo/b01_1_bg.gif");
+    padding-top: 11px;
+}
+.myFolder .icon_view {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/cafeinfo/b01_1_icon_view.gif");
+}
+.myFolder .icon_hide {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/cafeinfo/b01_1_icon_hide.gif");
+}
+.myFolder .arrow {
+    display: none;
+}
+.infobox_line {
+    opacity: 1;
+}
+.btn_write {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/cafeinfo/b01_1_btn_write.gif");
+    background-repeat: no-repeat;
+    height: 35px;
+    width: 159px;
+}
+.btn_join {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/cafeinfo/b01_1_btn_entry.gif");
+    background-repeat: no-repeat;
+    height: 35px;
+    width: 159px;
+}
+.btn_register2 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/bbs/b01_1_btn_regi.gif");
+    background-repeat: no-repeat;
+    height: 48px;
+    width: 50px;
+}
+.menuBox {
+    background-color: transparent;
+    background-image: none;
+    background-position: left top;
+    background-repeat: no-repeat;
+    border: 0 solid black;
+}
+.menuBoxT {
+    background-color: transparent;
+    background-image: none;
+    height: 0;
+}
+.menuBoxB {
+    background-color: transparent;
+    background-image: none;
+    height: 0;
+}
+.menuList {
+    background-color: transparent;
+    background-image: none;
+    padding: 10px 0;
+}
+.menuList .group_bg {
+    background-color: transparent;
+    background-image: none;
+    background-repeat: no-repeat;
+}
+.menuList .group_ic img {
+    display: none;
+}
+.menuList .group_ic a {
+    display: block;
+    height: 17px;
+    overflow: hidden;
+    width: 19px;
+}
+.menuList, .menuList a:link, .menuList a:visited, .menuList a:hover, .menuList a:active {
+    color: #75747D;
+}
+.menuList .group_tit, .menuList .group_tit a:link, .menuList .group_tit a:visited, .menuList .group_tit a:hover, .menuList .group_tit a:active, .menuList .group_ic a:link, .menuList .group_ic a:visited, .menuList .group_ic a:hover, .menuList .group_ic a:active {
+    color: #62626E;
+}
+.menuList .group_line {
+    background-image: none;
+    border-top: 0 solid #000000;
+    height: 0;
+    line-height: 0;
+}
+.menuList ul li {
+    background-position: 12px 2px;
+    padding: 0 5px 2px 28px;
+}
+.menuList img.icon_indent {
+    margin-right: 20px;
+}
+.icon_know {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_know.gif");
+}
+.icon_lock {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_lock.gif");
+}
+.icon_memo {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_memo.gif");
+}
+.icon_phone {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_phone.gif");
+}
+.icon_album {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_album.gif");
+}
+.icon_board {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_board.gif");
+}
+.icon_link {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_link.gif");
+}
+.icon_plus {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_store.gif");
+}
+.icon_rss {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_rss.gif");
+}
+.icon_recent {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_new.gif");
+}
+.icon_favor {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_new.gif");
+}
+.icon_etc {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_etc.gif");
+}
+.icon_best {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_best.gif");
+}
+.icon_movie_all {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_movie.gif");
+}
+.icon_indent {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_indent.gif");
+    height: 11px;
+    width: 11px;
+}
+.icon_yozm {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_yozm.gif");
+}
+.icon_escrow {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/menu/b01_1/icon_market.gif");
+}
+.searchBox {
+    background-image: none;
+}
+.searchBox .inp_search {
+    background-color: #FFFFFF;
+    border-color: #BBBBBB #E1E1E1 #E1E1E1 #BBBBBB;
+    border-style: solid;
+    border-width: 1px;
+    color: #444444;
+    padding: 3px 0 2px 3px;
+    width: 136px;
+}
+.searchBox .btn_search {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/search/b01_1_btn_search.gif");
+    background-repeat: no-repeat;
+    height: 21px;
+    top: 1px;
+    width: 37px;
+}
+.component, .component a:link, .component a:visited, .component a:hover, .component a:active {
+    color: #444444;
+}
+#sidebar1 .component .blank_thumb, #sidebar2 .component .blank_thumb, #sidebar3 .component .blank_thumb, #sidebar4 .component .blank_thumb {
+    background-color: #444444;
+    border-color: #444444;
+}
+.component_tit_line {
+    border-bottom: 1px solid #444444;
+}
+.component .txt_point, .component .txt_point a:link, .component .txt_point a:visited, .component .txt_point a:hover, .component .txt_point a:active, .component a.txt_point:link, .component a.txt_point:visited, .component a.txt_point:hover, .component a.txt_point:active {
+    color: #6173E8;
+}
+.component h4 {
+    background-position: 0 0;
+    padding-left: 3px;
+}
+.component .outBox, .component .outBoxT, .component .outBoxC {
+    background-color: transparent;
+}
+.grph_wrap dl dd {
+    background-color: #6173E8 !important;
+}
+.grph_tooltip {
+    background-color: #FFFFFF !important;
+    border-color: #6173E8 !important;
+}
+.list_title, .list_title a:link, .txt_tit_point, a.txt_tit_point:link, .list_title a:visited, a.txt_tit_point:visited, .list_title a:hover, .list_title a:active, a.txt_tit_point:hover, a.txt_tit_point:active {
+    color: #6173E8;
+}
+.list_title_sub, a.list_title_sub:link, a.list_title_sub:visited, a.list_title_sub:hover, a.list_title_sub:active {
+    color: #6173E8;
+}
+.line_title_sub {
+    border-color: #6173E8;
+}
+.list_title {
+    background-color: transparent;
+    border-bottom: 1px solid #9EA9F1;
+}
+.list_title .list_txt_tit {
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    padding: 7px 0 4px 12px;
+}
+.list_title .list_txt_tit {
+    font-family: 돋움,dotum,sans-serif;
+    font-size: 14px;
+    letter-spacing: -1px;
+}
+.list_title .list_txt_tit a:link {
+    font-family: 돋움,dotum,sans-serif;
+    font-size: 14px;
+    letter-spacing: -1px;
+    text-decoration: none;
+}
+.list_title .list_txt_tit a:visited {
+    font-family: 돋움,dotum,sans-serif;
+    font-size: 14px;
+    letter-spacing: -1px;
+    text-decoration: none;
+}
+.list_title .list_txt_tit a:hover, .list_title .list_txt_tit a:active {
+    font-family: 돋움,dotum,sans-serif;
+    font-size: 14px;
+    letter-spacing: -1px;
+    text-decoration: underline;
+}
+.list_title .title {
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+.list_title .more_tit {
+    background-position: 100% 0;
+    background-repeat: no-repeat;
+    padding: 9px 12px 0 20px;
+    width: 43px;
+}
+.list_title .more_tit a, .list_title .more_tit .arrowR {
+    color: #999999;
+    opacity: 0.8;
+    position: relative;
+}
+.list_title .more span, .list_title .arrowR {
+    display: block;
+}
+.list_title .more_img {
+    display: none;
+}
+#content, textarea, .inp, a:link, a:visited, a:hover, a:active {
+    color: #444444;
+}
+.txt_sub, .txt_sub a:link, .txt_sub a:visited, .txt_sub a:hover, .txt_sub a:active, a.txt_sub:link, a.txt_sub:visited, a.txt_sub:hover, a.txt_sub:active {
+    color: #A1A1A1;
+}
+.txt_point, .txt_point a:link, .txt_point a:visited, .txt_point a:hover, .txt_point a:active, a.txt_point:link, a.txt_point:visited, a.txt_point:hover, a.txt_point:active, a.num_box:hover {
+    color: #6173E8;
+}
+a.num_box:hover, .box_point {
+    border-color: #6173E8;
+}
+.txt_point_bg {
+    background-color: #6173E8;
+}

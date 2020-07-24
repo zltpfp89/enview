@@ -1,0 +1,89 @@
+/*searchArea*/
+.searchArea{height:25px; line-height:25px; padding:8px 0; border-top:1px solid #e6e7e9; border-bottom:1px solid #e6e7e9; background:#e5e6e8; text-align:center;  }
+.searchArea fieldset{height:24px; border:0px solid red; }
+.searchArea input{width:50%;height:22px; line-height:22px; padding:0 0 0 3px; vertical-align:top; *vertical-align:12px;}
+.searchArea select{width:100px;height:24px; line-height:24px; *line-height:18px;  padding:1px; *margin:0; *vertical-align:10px;}
+.searchArea span.btn{vertical-align:middle;*vertical-align:22px;}
+
+
+/*table*/
+/*list*/
+#contents_box table{width:100%; margin:20px 0; border-top:2px solid #3b3736; border-bottom:1px solid #acacac;}
+#contents_box table th{height:40px;  text-align:center; font-weight:bold; }
+#contents_box table td{height:35px; text-align:center; padding:0 7px; border:1px solid #ebebeb; border-right:0 none; border-bottom:0 none; color:#757575; letter-spacing:0; }
+#contents_box table td.first{border-left:0 none;border-top:0 none;  border-top:1px solid #ebebeb;}
+#contents_box table td.title{text-align:left; }
+#contents_box table td.title a{color:#000; }
+#contents_box table td.title a:hover{color:#000; text-decoration:none;}
+#contents_box table td.b_Top{border-top:1px solid #3b3736;}
+#contents_box table td.reple{background:url(../images/board/repleIcon.gif) no-repeat 10px 12px; padding:0 0 0 25px; }
+#contents_box table td span{display:inline-block; overflow:hidden;}
+#contents_box table td span.eclipsis{width:405px; text-overflow:ellipsis; white-space:nowrap;}
+/*mypage_add*/
+#contents_box table .row{border-right:1px solid #ebebeb; }
+
+/*view*/
+#contents_box table.view{width:100%; margin:20px 0; border-top:2px solid #3b3736; border-bottom:1px solid #acacac;}
+#contents_box table.view th{height:40px;  text-align:center; font-weight:bold; background:url(../images/board/thBg.gif) no-repeat right 12px; color:#757575; border-top:1px solid #acacac;}
+#contents_box table.view td{height:35px; text-align:left; padding:0 15px; border:0 none;  border-top:1px solid #acacac; color:#757575; letter-spacing:0; }
+#contents_box table.view th.add, #contents_box table.view td.add{border-top:1px solid #ebebeb;}
+#contents_box table.view td.title{color:#333; font-weight:bold; }
+#contents_box table td a{color:#757575;}
+#contents_box table td a:hover{color:#000; text-decoration:none;}
+#contents_box table.view td span.file{background:url(../images/board/fileIcon.gif) no-repeat 0 1px ;  padding:0 0 0 15px; margin:0 12px 0 0; }
+#contents_box table.view td.txt_con{padding:20px; }
+#contents_box table.view td.txt_con p{line-height:21px; color:#333; }
+#contents_box table.view02{border-top:1px solid #acacac; border-bottom:1px solid #acacac; }
+#contents_box table.view02 td{text-align:left;}
+#contents_box table.view02 th, #contents_box table.view02 td{border:0 none; border-bottom:1px solid #acacac;  }
+#contents_box table.view02 th.first, #contents_box table.view02 td.first{ border-bottom:1px solid #ebebeb;}
+
+/*설문조사table*/
+table ul{margin:0 0 10px 0 ; }
+table ul li{height:18px; line-height:18px;  padding:3px 0;}
+table ul li span{color:#555;}
+table ul li span.type{width:120px;}
+table ul li span.graph_50{height:18px;background:#e0e0e0; width:50%;}
+table ul li span.graph_30{height:18px;background:#e0e0e0; width:30%;}
+table ul li span.graph_20{height:18px;background:#e0e0e0; width:20%;}
+table ul li span.result{font-size:11px; color:#bb3c3c;}
+
+/*white*/
+/* 게시판 쓰기 */
+#contents_box table.white {width:100%; border-top:2px solid #3b3736;border-bottom:1px solid #acacac;}
+#contents_box table.white th {height:40px;  text-align:center; font-weight:bold; color:#757575; border-top:1px solid #ebebeb;}
+#contents_box table.white th.subject {height:35px; font-weight:bold; line-height:35px; text-align:left; padding:0 10px;}
+#contents_box table.white td {height:35px; line-height:35px; text-align:left; padding:0 10px; }
+#contents_box table.white td.btnArea{text-align:right; padding:10px 0 0 0;  }
+#contents_box table.white td textarea.txt_white{width:97%; padding:10px; height:300px; margin:10px 0; border:1px solid #acacac;}
+#contents_box table.white input.subject {width:100%; height:19px; border:1px solid #c6c6c6;}
+#contents_box table.white textarea{margin:5px; }
+/* 첨부파일 */ 
+.addFile { padding:5px;}
+.addFile p {font-size:11px; ; color:#ce676f;}
+.addFile p span {font-weight:bold;}
+.addFile .filelist select {width:100%; border:1px solid #c9c9c9; }
+.addFile input.filefiled {width:60%;height:19px; line-height:14px; border:1px solid #c9c9c9; background:#fff; margin:3px 0; }
+.file_BtnArea{display:inline-block; *display:inline;  height:18px; line-height:18px;margin:0;outline:0px solid gold; vertical-align:middle;}
+
+/*input*/
+.txt_20{width:20px; height:21px;  padding:0 0 0 3px; color:#666; }
+.txt_50{width:50px; height:21px;  padding:0 0 0 3px; color:#666; }
+.txt_80{width:80px; height:21px;  padding:0 0 0 3px;  color:#666;}
+.txt_100{width:100px; height:21px;  padding:0 0 0 3px; color:#666;}
+.txt_120{width:120px; height:21px;  padding:0 0 0 3px; color:#666; }
+.txt_150{width:150px; height:21px;  padding:0 0 0 3px; color:#666; }
+.txt_200{width:200px; height:21px;  padding:0 0 0 3px; color:#666; }
+.txt_1000{width:98%; height:21px;  padding:0 0 0 3px; color:#666; }
+
+
+/*btnArea*/
+.btnArea{text-align:right;  }
+.btnArea a{margin:0 0 0 5px;}
+
+/*paging*/
+.paging{text-align:center;  }
+.paging a.first{margin:0; }
+.paging a{margin:0 10px; }
+.paging a.on{font-weight:bold; color:#f15a23;margin:0 15px; }
+

@@ -1,0 +1,21 @@
+#colorPickerPanel { background-color: white; }
+#colorPicker {position:absolute; z-index:99999; width:195px; background:#fbfbfb; border:1px solid #333333; cursor:default; }
+#colorPicker td {padding:0;}
+#colorPicker .colorInner {padding:7px 6px 7px;}
+#colorPicker #colorPreview { margin-top: 4px; margin-left: auto; margin-right: auto; width: 183px; }
+#colorPicker #colorThumb  {width:75px; height:14px; margin-left:1px; border:1px solid #d9d9d9; overflow:hidden;}
+#colorPicker #colorInput {width:55px; height:14px; color:#333; font-family:'돋음', dotum; font-size:11px; padding:0 0 0 3px; border:1px solid #a7a7a7; border-right:1px solid #eaeaea; border-bottom:1px solid #eaeaea;}
+#colorPicker #colorInputBtn {margin:0 !important; padding:0 !important; cursor:pointer;}
+#colorPicker #colorInputBtn img {border:none; margin:0 !important; padding:0 !important;}
+#colorPicker #colorSwatches {border-collapse:separate; display:block; margin-top:4px; margin-left: auto; margin-right: auto; overflow:hidden; width: 183px; }
+#colorPicker #colorSwatches td div {width:12px; height:12px; cursor:pointer; overflow:hidden;}
+#colorPicker #colorSwatches #transN {cursor:default;}
+#colorPicker #resetArea { position:relative; height:18px; width: 183px; margin-left: auto; margin-right: auto; }
+#colorPicker #colorResetBtn { position:absolute; display:block; top:2px; left:1px; margin:0 !important; padding:0 !important; cursor:pointer;}
+#colorPicker #colorResetBtn img {border:none; margin:0 !important; padding:0 !important;}
+#colorGradeArea {clear:both; padding:4px; width:172px; height:120px; margin-top:10px; background-color:#f9f9f9; border:1px solid #d9d9d9;}
+
+.colorPickerPanel	{ display: none; z-index: 20000; border: 1px solid silver; width: 195px; height: 130px;  }
+.colorPicker { float: left; width: 22px; height: 21px; margin-top: 2px; background-image: url('../../images/editor/colorPicker.png'); background-color: rgb(234, 234, 234); cursor: pointer; }
+
+.fontColorPicker { float: left; width: 22px; height: 21px; background-image: url('../../images/editor/fontColorPicker.gif'); background-color: rgb(234, 234, 234); cursor: pointer; }

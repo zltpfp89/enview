@@ -1,0 +1,130 @@
+BODY {
+	leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" MARGIN-TOP: 0px; TEXT-ALIGN: justify; FONT: 12px Dotum,Verdana ; BACKGROUND-COLOR: #ffffff ;SCROLLBAR-FACE-COLOR: #cfcfcf; SCROLLBAR-HIGHLIGHT-COLOR: #ffffff; SCROLLBAR-SHADOW-COLOR: #595959; SCROLLBAR-3DLIGHT-COLOR: #595959; SCROLLBAR-ARROW-COLOR: #ffffff; SCROLLBAR-DARKSHADOW-COLOR: #ffffff; SCROLLBAR-BASE-COLOR: #cfcfcf
+    }
+TD {
+	FONT-WEIGHT: normal; FONT-SIZE: 12px ; COLOR: #757575; LINE-HEIGHT: 20px; FONT-FAMILY: "Dotum"
+}
+IMG {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; LINE-HEIGHT: 25px; BORDER-BOTTOM: 0px
+}
+A:link {
+	FONT: 12px "Dotum", "Verdana"; COLOR: #737373; TEXT-DECORATION: none
+}
+A:visited {
+	FONT: 12px Dotum ,Verdana; COLOR: #858585; TEXT-DECORATION: none
+}
+A:active {
+	FONT: 12px Dotum ,Verdana; COLOR: #585858; TEXT-DECORATION: none
+}
+A:hover {
+	FONT: 12px Dotum ,Verdana; COLOR: #585858; TEXT-DECORATION: none
+}
+.Form_01 {
+	BORDER-RIGHT: #999999 1px solid; BORDER-TOP: #999999 1px solid;  FONT-SIZE: 9pt ; BORDER-LEFT: #999999 1px solid; BORDER-BOTTOM: #999999 1px solid; BACKGROUND-COLOR: #f5f5f5  FONT-FAMILY: "Dotum";
+}
+.Form_02 {
+	BORDER-RIGHT: #CCCCCC 1px solid; BORDER-TOP: #CCCCCC 1px solid; FONT-SIZE: 9pt; BORDER-LEFT: #CCCCCC 1px solid; BORDER-BOTTOM: #CCCCCC 1px solid; FONT-FAMILY: "Dotum"; color: #585858
+}
+.Form_03 {
+	BORDER-RIGHT: #D3D2CE 1px solid; BORDER-TOP: #D3D2CE 1px solid; FONT-SIZE: 9pt; BORDER-LEFT: #D3D2CE 1px solid; BORDER-BOTTOM: #D3D2CE 1px solid; FONT-FAMILY: "Dotum"; color: #585858 solid; BACKGROUND-COLOR: #FAFAFA
+}
+textarea {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; BORDER-RIGHT: #A9A8A0 1px solid; BORDER-TOP: #A9A8A0 1px solid; FONT: 12px Dotum,Verdana ; BORDER-LEFT: #A9A8A0 1px solid; BORDER-BOTTOM: #A9A8A0 1px solid; TEXT-DECORATION: none
+}
+SELECT {
+	BORDER-RIGHT: #b0b0b0 1px solid; BORDER-TOP: #b0b0b0 1px solid; FONT: 12px Dotum,Verdana ; BORDER-LEFT: #b0b0b0 1px solid; BORDER-BOTTOM: #b0b0b0 1px solid; BACKGROUND-COLOR: white
+}
+INPUT {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; COLOR: #666666; PADDING-TOP: 1px ; FONT-FAMILY: Dotum,Verdana ; FONT-SIZE: 12px 
+}
+.justify {
+FONT: normal 12px/20px "Dotum", "Verdana"; COLOR: #757575; TEXT-ALIGN: justify
+}
+.td_content1 { 
+    PADDING-LEFT: 4px; PADDING-BOTTOM: 2px;  PADDING-TOP: 5px ; FONT: 12px/18px "Dotum", "Verdana"; COLOR: #757575
+} 
+.td_content2 { 
+    PADDING-LEFT: 4px; PADDING-BOTTOM: 2px;  PADDING-TOP: 3px ; FONT: 12px/18px "Dotum", "Verdana"; COLOR: #757575; BACKGROUND-COLOR: #ffffff 
+} 
+.td_content3 { 
+    PADDING-LEFT: 4px; PADDING-BOTTOM: 2px;  PADDING-TOP: 5px ; FONT: 12px/18px "Dotum", "Verdana"; COLOR: #757575; BACKGROUND-COLOR: #E3E3E3 
+} 
+.TD_B {
+	FONT-WEIGHT: normal; FONT: bold 16px Dotum ; COLOR: #000000; LINE-HEIGHT: 18px; FONT-FAMILY: "dotum"
+}
+.TD_S {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #757575; LINE-HEIGHT: 18px; FONT-FAMILY: "dotum"
+}
+.b2c_price {
+	DISPLAY: block
+}
+.b2e_price {
+	DISPLAY: none
+}
+
+.msg-alert {
+    color:#CCCC00;
+    font-style:italic;
+	font-size:11px;
+}
+
+.layout-empty .portlet-edit-bar
+{
+	/*background: #6B6772;*/
+	background: #E9E9E9;
+	font-size: 11px;
+	color: #000000;
+	font-weight: bold;
+	/*padding: 1px;*/
+	height: 16pt;
+	cursor: move;
+	border: 1px solid #ACA899;
+}
+
+.layout-empty  .portlet
+{
+	background: #FFFFFF;
+	font-size: 11px;
+	/*padding: 2px;*/
+	/*border: 1px solid lightgray;*/
+}
+
+.layout-empty  .portlet-title
+{
+	background-image:  url(../images/portlet/bg_title.gif);
+	padding-top: 2px;
+    padding-bottom: 16px;
+    padding-right: 2px;
+    border-left: 5px solid #DDDDDD;
+    border-right: 1px solid #666666;
+    border-top: 1px solid #DDDDDD;
+    border-bottom: 1px solid #666666;
+    color: #000000;
+    background-color: #DDDDDD;
+}
+
+.layout-empty  .portlet-title-action
+{
+	float: right;
+	display: inline;
+}
+
+.layout-empty  .portlet-title-more
+{
+	float: right;
+	display: inline;
+}
+
+.layout-empty  .portlet-title-content
+{
+	font-weight:bold;
+    display: inline;
+    float: left;
+    white-space: normal;
+}
+
+.layout-empty  .portlet-content
+{
+	background: #FFFFFF;
+	border: 1px solid lightgray;
+}

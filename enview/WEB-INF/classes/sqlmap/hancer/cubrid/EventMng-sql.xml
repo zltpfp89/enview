@@ -1,0 +1,751 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="event.cubrid">
+
+	<!-- 오늘날짜구하기 -->
+	<select id="eventMng.getSysdate.cubrid" parameterClass="java.util.Map" resultClass="string">          /* eventMng.getSysdate */
+		SELECT TO_CHAR (SYSDATE, 'yyyymmdd')
+	</select>
+	
+	<!-- 이벤트 등록 -->  
+	<insert id="eventMng.insertEvent.cubrid" parameterClass="com.saltware.enhancer.admin.event.model.EventMngVO"> /* eventMng.insertEvent */
+	<![CDATA[
+		INSERT INTO EVENT
+		(
+		     EVENT_SEQ
+		    ,CATEGORY_SEQ
+		    ,PRIORTY
+		    ,TITLE_KOR
+			,TITLE_ENG
+		    ,CONTENTS_KOR
+			,CONTENTS_ENG
+			,TARGET_LINK
+			,START_DATE
+			,START_TIME
+			,END_DATE
+			,END_TIME
+			,STATE
+			,EVENT_FEE_KOR
+			,EVENT_FEE_ENG
+			,OWNER_USER_ID
+			,OWNER_PHONE
+			,OWNER_EMAIL
+			,PLACE_NO
+			,PLACE_SUB_NO
+			,PLACE_NM
+			,PLACE_BUILDING_KOR
+			,PLACE_BUILDING_ENG
+			,PLACE_LATITUDE
+			,PLACE_LONGITUDE
+			,IMAGE_PATH_KOR
+			,IMAGE_NM_KOR
+			,IMAGE_PATH_ENG
+			,IMAGE_NM_ENG
+			,DEPT_CODE_KOR
+			,DEPT_CODE_ENG
+			,ATTACH_NO
+			,GROUP_ID
+			,REG_DATIM
+			,REG_USER_ID
+			,REG_USER_NM
+			,EVENT_START
+			,EVENT_START_TIME
+			,EVENT_END
+			,EVENT_END_TIME
+		)VALUES(
+		     #EVENT_SEQ#
+		    ,#CATEGORY_SEQ#
+		    ,#PRIORTY#
+		    ,#TITLE_KOR#
+			,#TITLE_ENG#
+		    ,#CONTENTS_KOR#
+			,#CONTENTS_ENG#
+			,#TARGET_LINK#
+			,TO_DATE(#START_DATE#,'YYYYMMDD')
+			,#START_TIME#
+			,TO_DATE(#END_DATE#,'YYYYMMDD')
+			,#END_TIME#
+			,#STATE#
+			,#EVENT_FEE_KOR#
+			,#EVENT_FEE_ENG#
+			,#OWNER_USER_ID#
+			,#OWNER_PHONE#
+			,#OWNER_EMAIL#
+			,#PLACE_NO#
+			,#PLACE_SUB_NO#
+			,#PLACE_NM#
+			,#PLACE_BUILDING_KOR#
+			,#PLACE_BUILDING_ENG#
+			,#PLACE_LATITUDE#
+			,#PLACE_LONGITUDE#
+			,#IMAGE_PATH_KOR#
+			,#IMAGE_NM_KOR#
+			,#IMAGE_PATH_ENG#
+			,#IMAGE_NM_ENG#
+			,#DEPT_CODE_KOR#
+			,#DEPT_CODE_ENG#
+			,#ATTACH_NO#
+			,#GROUP_ID#
+			,SYSDATE
+			,#REG_USER_ID#
+			,#REG_USER_NM#
+			,TO_DATE(#EVENT_START_DATE#,'YYYYMMDD')
+			,#EVENT_START_TIME#
+			,TO_DATE(#EVENT_END_DATE#,'YYYYMMDD')
+			,#EVENT_END_TIME#			
+		)
+	 ]]>
+	</insert>
+	
+	<!-- 이벤트수정 -->
+	<update id="eventMng.updateEvent.cubrid" parameterClass="com.saltware.enhancer.admin.event.model.EventMngVO"> /* eventMng.updateEvent */
+		UPDATE EVENT SET CATEGORY_SEQ = #CATEGORY_SEQ#
+						,PRIORTY = #PRIORTY#
+						,TITLE_KOR = #TITLE_KOR#
+						,TITLE_ENG = #TITLE_ENG#
+						,CONTENTS_KOR = #CONTENTS_KOR#
+						,CONTENTS_ENG = #CONTENTS_ENG#
+						,TARGET_LINK = #TARGET_LINK#
+						,START_DATE = TO_DATE(#START_DATE#,'YYYYMMDD')
+						,START_TIME = #START_TIME#
+						,END_DATE = TO_DATE(#END_DATE#,'YYYYMMDD')
+						,END_TIME = #END_TIME#
+						,EVENT_START = TO_DATE(#EVENT_START_DATE#,'YYYYMMDD')
+						,EVENT_START_TIME = #EVENT_START_TIME#
+						,EVENT_END = TO_DATE(#EVENT_END_DATE#,'YYYYMMDD')
+						,EVENT_END_TIME = #EVENT_END_TIME#						
+						<isNotNull property="STATE">
+						,STATE = #STATE#
+						</isNotNull>
+						,EVENT_FEE_KOR = #EVENT_FEE_KOR#
+						,EVENT_FEE_ENG = #EVENT_FEE_ENG#
+						,OWNER_USER_ID = #OWNER_USER_ID#
+						,OWNER_PHONE = #OWNER_PHONE#
+						,OWNER_EMAIL = #OWNER_EMAIL#
+						,PLACE_NO = #PLACE_NO#
+						,PLACE_SUB_NO = #PLACE_SUB_NO#
+						,PLACE_NM = #PLACE_NM#
+						,PLACE_BUILDING_KOR = #PLACE_BUILDING_KOR#
+						,PLACE_BUILDING_ENG = #PLACE_BUILDING_ENG#
+						,PLACE_LATITUDE = #PLACE_LATITUDE#
+						,PLACE_LONGITUDE = #PLACE_LONGITUDE#
+						<isNotNull property="IMAGE_PATH_KOR">
+						,IMAGE_PATH_KOR = #IMAGE_PATH_KOR#
+						,IMAGE_NM_KOR = #IMAGE_NM_KOR#
+						</isNotNull>
+						<isNotNull property="IMAGE_PATH_ENG">
+						,IMAGE_PATH_ENG = #IMAGE_PATH_ENG#
+						,IMAGE_NM_ENG = #IMAGE_NM_ENG#		
+						</isNotNull>						
+						,UPD_DATIM = SYSDATE
+						,UPD_USER_ID = #UPD_USER_ID#
+			     WHERE  EVENT_SEQ = #EVENT_SEQ#
+	</update>
+	
+	<!-- 첨부번호 등록 -->
+	<insert id="eventMng.insertAttach.cubrid" parameterClass="string"> /* eventMng.insertAttach */
+		INSERT INTO EVENT_ATTACH(ATTACH_NO)VALUES(#value#)
+	</insert>
+	
+	<!-- 첨부파일 등록 -->
+	<insert id="eventMng.insertAttachFile.cubrid" parameterClass="java.util.Map"> /* eventMng.insertAttachFile */
+		INSERT INTO EVENT_FILE
+		(
+			ATTACH_SEQ
+		   ,ATTACH_NO
+		   ,FILE_NM
+		   ,FILE_SIZE
+		   ,FILE_MASK
+		   ,FILE_PATH
+		   ,REG_DATIM
+		   ,REG_USER_ID
+		)VALUES(
+			( SELECT  NVL( MAX(ATTACH_SEQ), 0) + 1 FROM EVENT_FILE)
+		   ,#ATTACH_NO#
+		   ,#FILE_NM#
+		   ,#FILE_SIZE#
+		   ,#FILE_MASK#
+		   ,#FILE_PATH#
+		   ,SYSDATE
+		   ,#REG_USER_ID#
+		)
+	</insert>
+	
+	<!-- 첨부파일 삭제 -->
+	<delete id="eventMng.deleteAttachFile.cubrid" parameterClass="java.lang.String"> /* eventMng.deleteAttachFile */
+		DELETE FROM EVENT_FILE WHERE ATTACH_NO = #value#
+	</delete>
+	
+	<!-- 행사대상 등록 -->
+	<insert id="eventMng.insertEventTarget.cubrid" parameterClass="java.util.Map"> /* eventMng.insertEventTarget */
+		INSERT INTO EVENT_TARGET
+		(
+			EVENT_SEQ
+		   ,TARGET_SEQ
+		   ,DEPT_CODE	/*신분그룹코드*/
+		   ,USER_ID		/*신분그룹명*/
+		   ,STATE
+		   ,REG_DATIM
+		   ,REG_USER_ID
+		)VALUES(
+			#EVENT_SEQ#
+		   ,#TARGET_SEQ#
+		   ,#DEPT_CODE#
+		   ,#USER_ID#
+		   ,#STATE#
+		   ,SYSDATE
+		   ,#REG_USER_ID#
+		)
+	</insert>
+	
+	<!-- 행사대상 삭제 -->
+	<delete id="eventMng.deleteEventTarget.cubrid" parameterClass="java.lang.String"> /* eventMng.deleteEventTarget */
+		DELETE FROM EVENT_TARGET WHERE EVENT_SEQ = #value#
+	</delete>	
+	
+	<!--등록된 주요이벤트 갯수-->
+	<select id="eventMng.getMajorEventCnt.cubrid" parameterClass="java.util.Map" resultClass="java.lang.Integer"> /* eventMng.getMajorEventCnt */
+		SELECT 
+				COUNT(*) AS CNT 
+		  FROM EVENT 
+		 WHERE PRIORTY = 'Y' 
+		   AND(
+			     (TO_CHAR(SYSDATE, 'YYYYMMDD') = TO_CHAR(START_DATE, 'YYYYMMDD'))    
+			       OR
+			      (TO_CHAR(SYSDATE, 'YYYYMMDD') <![CDATA[ > ]]> TO_CHAR(START_DATE, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD') <![CDATA[ <= ]]> TO_CHAR(END_DATE, 'YYYYMMDD'))
+			       OR
+			     (TO_CHAR(SYSDATE, 'YYYYMMDD') <![CDATA[ < ]]> TO_CHAR(START_DATE, 'YYYYMMDD') ) AND ( TO_CHAR(START_DATE, 'YYYYMMDD') <![CDATA[ < ]]> TO_CHAR(SYSDATE+30, 'YYYYMMDD'))
+		      )
+	</select>
+
+	<!-- 이벤트상세조회 -->
+	<select id="eventMng.getExplEvent.cubrid" parameterClass="java.util.Map" resultMap="event.viewEventObj"> /* eventMng.getExplEvent */
+		SELECT
+		         T1.EVENT_SEQ
+		        ,T1.DOMAIN_ID
+		        ,T1.CATEGORY_SEQ
+		        ,T1.EVENT_TYPE
+				,T1.PRIORTY
+				,T1.TITLE_KOR
+				,T1.TITLE_ENG
+				,T1.CONTENTS_KOR
+				,T1.CONTENTS_ENG
+				,TRIM(T1.TARGET_LINK) AS TARGET_LINK
+				,TO_CHAR(T1.START_DATE,'YYYYMMDD') AS START_DATE
+				,TO_CHAR(T1.START_DATE,'YYYY/MM/DD') AS START_DATE1
+				,TO_CHAR(T1.END_DATE,'YYYYMMDD') AS END_DATE
+				,TO_CHAR(T1.END_DATE,'YYYY/MM/DD') AS END_DATE1
+				,SUBSTR(T1.START_TIME,1,2)||':'||SUBSTR(T1.START_TIME,3,4) AS START_TIME
+                ,SUBSTR(T1.END_TIME,1,2)||':'||SUBSTR(T1.END_TIME,3,4) AS END_TIME
+				,T1.INQ_TIMES
+				,T1.STATE
+				<isEqual property="LANG_KND" compareValue="ko">
+				 ,(CASE WHEN T1.STATE = '0' THEN '신청'
+						WHEN T1.STATE = '1' THEN '승인' END) AS STATE_NM    
+				 ,T2.NM_KOR AS CATEGORY_NM
+				</isEqual>
+				<isEqual property="LANG_KND" compareValue="en">
+				 ,(CASE WHEN T1.STATE = '0' THEN 'Request'
+						WHEN T1.STATE = '1' THEN 'Approval' END) AS STATE_NM  
+				 ,T2.NM_ENG AS CATEGORY_NM
+				</isEqual>
+				,T1.EVENT_FEE_KOR
+				,T1.EVENT_FEE_ENG
+				,T1.OWNER_USER_ID
+				,T1.OWNER_PHONE
+				,T1.OWNER_EMAIL
+				,T1.PLACE_NO
+				,T1.PLACE_SUB_NO
+				,T1.PLACE_NM
+				,T1.PLACE_BUILDING_KOR
+				,T1.PLACE_BUILDING_ENG
+				,T1.PLACE_LATITUDE
+				,T1.PLACE_LONGITUDE
+				,T1.IMAGE_PATH_KOR
+				,T1.IMAGE_NM_KOR
+				,T1.IMAGE_PATH_ENG
+				,T1.IMAGE_NM_ENG
+				,T1.DEPT_CODE_KOR
+				,T1.DEPT_CODE_ENG
+				,T1.ATTACH_NO
+				,T1.GROUP_ID
+				,T1.REG_DATIM
+				,T1.REG_USER_ID
+				,T1.REG_USER_NM
+				,T1.UPD_DATIM
+				,T1.UPD_USER_ID
+				,TO_CHAR(T1.EVENT_START,'YYYYMMDD') AS EVENT_START_DATE
+				,TO_CHAR(T1.EVENT_START,'YYYY/MM/DD') AS EVENT_START_DATE1
+				,TO_CHAR(T1.EVENT_END,'YYYYMMDD') AS EVENT_END_DATE
+				,TO_CHAR(T1.EVENT_END,'YYYY/MM/DD') AS EVENT_END_DATE1
+				,SUBSTR(T1.EVENT_START_TIME,1,2)||':'||SUBSTR(T1.EVENT_START_TIME,3,4) AS EVENT_START_TIME
+                ,SUBSTR(T1.EVENT_END_TIME,1,2)||':'||SUBSTR(T1.EVENT_END_TIME,3,4) AS EVENT_END_TIME
+				
+		FROM    EVENT T1,EVENT_CATEGORY T2       
+	   WHERE    T1.EVENT_SEQ = #EVENT_SEQ#
+		 AND    T1.CATEGORY_SEQ = T2.CATEGORY_SEQ
+		 AND    T1.DOMAIN_ID = #DOMAIN_ID#
+	</select>
+	
+	<!-- 이벤트첨부파일목록 -->
+	<select id="eventMng.getAttachFile.cubrid" parameterClass="java.util.Map" resultClass="java.util.HashMap"> /* eventMng.getAttachFile */
+		SELECT  T1.ATTACH_NO
+		       ,T1.ATTACH_SEQ
+		       ,T1.FILE_NM
+		       ,T1.FILE_SIZE
+		       ,T1.FILE_PATH
+			   ,T1.FILE_MASK
+		       ,T1.FILE_TYPE
+		       ,T1.REG_DATIM
+		       ,T1.REG_USER_ID 		        
+		  FROM EVENT_FILE T1
+		 WHERE ATTACH_NO = (SELECT  ST1.ATTACH_NO FROM EVENT ST1 WHERE EVENT_SEQ = #EVENT_SEQ#)
+	</select>
+
+	<!-- 승인전 신청 이벤트목록 -->
+	<select id="eventMng.getMyRegEvList.cubrid" parameterClass="java.util.Map" resultMap="event.listEventObj"> /* eventMng.getMyRegEvList */
+		SELECT
+		        T1.EVENT_SEQ
+		        ,T1.CATEGORY_SEQ
+				<isEqual property="LANG_KND" compareValue="ko">
+				,T1.TITLE_KOR AS TITLE
+				,T1.CONTENTS_KOR AS CONTENTS
+				,T1.IMAGE_PATH_ENG AS IMAGE_PATH_SUB
+				,T1.PLACE_BUILDING_KOR AS PLACE_BUILDING
+				,T1.IMAGE_PATH_KOR AS IMAGE_PATH
+				,T1.IMAGE_NM_KOR AS IMAGE_NM
+				,T2.NM_KOR AS CATEGORY_NM
+				</isEqual>
+				<isEqual property="LANG_KND" compareValue="en">
+				,T1.TITLE_ENG AS TITLE
+				,T1.CONTENTS_ENG AS CONTENTS
+				,T1.IMAGE_PATH_KOR AS IMAGE_PATH_SUB
+				,T1.PLACE_BUILDING_ENG AS PLACE_BUILDING
+				,T1.IMAGE_PATH_ENG AS IMAGE_PATH
+				,T1.IMAGE_NM_ENG AS IMAGE_NM
+				,T2.NM_ENG AS CATEGORY_NM
+				</isEqual>
+		        ,TO_CHAR(T1.START_DATE,'YYYY/MM/DD') AS START_DATE
+				,TO_CHAR(T1.END_DATE,'YYYY/MM/DD') AS END_DATE
+		        ,SUBSTR(T1.START_TIME,1,2)||':'||SUBSTR(T1.START_TIME,3,4) AS START_TIME
+                ,SUBSTR(T1.END_TIME,1,2)||':'||SUBSTR(T1.END_TIME,3,4) AS END_TIME
+				,T1.TARGET_LINK
+				,T1.REG_DATIM
+		 FROM  EVENT T1  
+		     ,(
+				SELECT   CATEGORY_SEQ 
+						,NM_KOR 
+						,NM_ENG  
+				  FROM EVENT_CATEGORY
+              )T2
+	    WHERE  T1.CATEGORY_SEQ = T2.CATEGORY_SEQ
+		  AND  T1.STATE ='0' /*승인전*/
+		  AND  REG_USER_ID = #USER_ID#
+		ORDER BY REG_DATIM DESC
+	</select>
+	
+	<!-- 이벤트 다중삭제(상태변경) -->
+	<update id="eventMng.deleteEventMulti.cubrid" parameterClass="java.util.Map"> /* eventMng.deleteEventMulti */
+		UPDATE EVENT SET STATE = '2' 
+						,UPD_USER_ID = #USER_ID#
+						,UPD_DATIM = SYSDATE
+				   WHERE EVENT_SEQ = #EVENT_SEQ#
+	</update>
+	
+	<!-- 카테고리관리 목록조회 -->
+	<select id="eventMng.getCategoryList.cubrid" parameterClass="java.util.Map" resultClass="java.util.HashMap"> /* eventMng.getCategoryList */
+		SELECT  T1.CATEGORY_SEQ
+		       ,T1.DOMAIN_ID
+			   ,T1.NM_KOR
+			   ,T1.NM_ENG
+			   ,T1.DSP_ORDER
+		  FROM  EVENT_CATEGORY T1
+		 WHERE  T1.STATE = 'Y'
+		 <isEqual prepend=" AND " property="ADMIN_ROLE" compareValue="N">
+		  	    T1.DOMAIN_ID = #DOMAIN_ID#
+		 </isEqual>
+		 ORDER BY T1.DSP_ORDER ASC
+	</select>
+	
+	<!-- 카테고리 삭제(상태변경) -->
+	<update id="eventMng.deleteCategory.cubrid" parameterClass="java.util.List">  /* eventMng.deleteCategory */
+		 UPDATE EVENT_CATEGORY SET STATE='N'
+								  ,UPD_DATIM = SYSDATE
+		 <dynamic prepend="WHERE CATEGORY_SEQ IN ">
+			 <iterate open="(" close=")" conjunction=",">
+				 #[].CATEGORY_SEQ#
+			 </iterate>
+		 </dynamic>
+	</update>
+	
+	<!-- 카테고리 수정 -->
+	<update id="eventMng.updateCategory.cubrid" parameterClass="java.util.Map"> /* eventMng.updateCategory */
+		UPDATE   EVENT_CATEGORY 
+		   SET   DOMAIN_ID = #DOMAIN_ID#
+		        ,NM_KOR = #NM_KOR#
+				,NM_ENG = #NM_ENG#
+				,DSP_ORDER = #DSP_ORDER#
+				,UPD_USER_ID = #UPD_USER_ID#
+				,UPD_DATIM = SYSDATE
+		 WHERE  CATEGORY_SEQ = #CATEGORY_SEQ#
+			
+	</update>
+	
+	<!-- 카테고리 추가 -->
+	<insert id="eventMng.insertCategory.cubrid" parameterClass="java.util.Map"> /* eventMng.insertCategory */
+		INSERT  INTO EVENT_CATEGORY
+			(
+				 CATEGORY_SEQ
+				,DOMAIN_ID
+				,STATE
+				,NM_KOR
+				,NM_ENG
+				,DSP_ORDER
+				,REG_DATIM
+				,REG_USER_ID
+			)VALUES(
+				 NVL((SELECT  MAX(CATEGORY_SEQ + 1) AS NEXT_SEQ FROM EVENT_CATEGORY),1)
+				,#DOMAIN_ID#
+				,'Y'
+				,#NM_KOR#	
+				,#NM_ENG#					
+				,#DSP_ORDER#
+				,SYSDATE
+				,#UPD_USER_ID#
+			)     
+	</insert>
+	
+	<!-- 카테고리 코드리스트 -->
+	<select id="eventMng.getCateCode.cubrid"  parameterClass="java.util.Map" resultClass="java.util.HashMap">  /* eventMng.getCateCode */
+		SELECT
+		        T1.CATEGORY_SEQ,
+		        T1.DOMAIN_ID
+			   <isEqual property="LANG_KND" compareValue="ko">
+		       ,T1.NM_KOR AS CATEGORY_NM
+			   </isEqual>
+			   <isEqual property="LANG_KND" compareValue="en">
+		       ,T1.NM_ENG AS CATEGORY_NM
+			   </isEqual>
+        
+		FROM  EVENT_CATEGORY T1  	
+		WHERE  T1.STATE ='Y' /*사용중*/
+		 <isEqual prepend=" AND " property="ADMIN_ROLE" compareValue="N">
+		  	 	 T1.DOMAIN_ID = #DOMAIN_ID#
+		 </isEqual>
+		ORDER BY DSP_ORDER ASC
+	</select>
+	
+	<!-- 대상그룹리스트 -->
+	<select id="eventMng.getTargetGp.cubrid" resultClass="java.util.HashMap"> /* eventMng.getTargetGp */
+		SELECT 
+				T1.PRINCIPAL_ID
+			   ,NVL(T1.PRINCIPAL_DESC,T1.PRINCIPAL_NAME) AS PRINCIPAL_NAME
+			   ,T1.PRINCIPAL_ORDER
+		  FROM  SECURITY_PRINCIPAL T1
+		 WHERE  T1.PRINCIPAL_TYPE = 'G'
+		   AND  T1.IS_ENABLED = 1
+		   AND  T1.DOMAIN_ID = #domainId#
+	   <!--AND  T1.THEME = 'mysnu'
+		   AND  T1.SITE_NAME LIKE '%'||'/MS0'||'%'--> 
+		   AND  T1.SHORT_PATH  LIKE '%'||'GRP_'||'%'
+		 ORDER BY PRINCIPAL_ORDER ASC
+	</select>
+	
+	<!-- 이벤트에 부속된 대상리스트 -->
+	<select id="eventMng.getEventTarget.cubrid" parameterClass="java.util.Map" resultClass="java.util.HashMap"> /* eventMng.getEventTarget */
+		SELECT 
+				T1.DEPT_CODE
+			   ,T1.USER_ID
+		  FROM  EVENT_TARGET T1
+		 WHERE  T1.EVENT_SEQ = #EVENT_SEQ#
+		 ORDER BY TARGET_SEQ ASC
+	</select>
+
+	<!-- 이벤트승인리스트 -->
+	<select id="eventMng.getApproveList.cubrid" parameterClass="java.util.Map" resultClass="java.util.HashMap"> /* eventMng.getApproveList */
+		SELECT
+				B.*
+			FROM
+			(
+				SELECT
+					A.*,ROWNUM AS RNUM
+				FROM
+				(
+					SELECT
+							  T1.EVENT_SEQ
+							 ,T1.DOMAIN_ID
+							 ,T1.REG_USER_NM
+							 ,T1.REG_USER_ID
+							 ,T1.STATE AS STATE_CODE
+							<isEqual property="LANG_KND" compareValue="ko">
+							 ,(CASE WHEN T1.STATE = '0' THEN '신청'
+									WHEN T1.STATE = '1' THEN '승인' END) AS STATE    
+							 ,T1.DEPT_CODE_KOR AS DEPT_CODE
+							 ,T2.NM_KOR AS CATEGORY_NM
+							 ,T1.TITLE_KOR AS TITLE
+							 ,T1.PLACE_BUILDING_KOR || T1.PLACE_NM AS PLACE_BUILDING
+							</isEqual>
+							<isEqual property="LANG_KND" compareValue="en">
+							 ,(CASE WHEN T1.STATE = '0' THEN 'Request'
+									WHEN T1.STATE = '1' THEN 'Approval' END) AS STATE    
+							 ,T1.DEPT_CODE_ENG AS DEPT_CODE
+							 ,T2.NM_ENG AS CATEGORY_NM
+							 ,T1.TITLE_ENG AS TITLE	
+							 ,T1.PLACE_BUILDING_ENG || T1.PLACE_NM AS PLACE_BUILDING
+							</isEqual>
+							 ,T1.CATEGORY_SEQ						 						 					 						
+							 ,TO_CHAR(T1.REG_DATIM,'YYYY-MM-DD') AS REG_DATIM
+							 ,TO_CHAR(T1.START_DATE,'YYYY/MM/DD') AS START_DATE
+							 ,TO_CHAR(T1.END_DATE,'YYYY/MM/DD') AS END_DATE
+							 ,(SELECT COUNT(*) FROM EVENT_PEOPLE ST1 WHERE ST1.EVENT_SEQ = T1.EVENT_SEQ)AS JOINCNT
+					 FROM    EVENT T1 
+							,(
+								SELECT  ST1.CATEGORY_SEQ
+									   ,ST1.STATE
+									   ,ST1.NM_KOR
+									   ,ST1.NM_ENG
+								  FROM  EVENT_CATEGORY ST1
+								 WHERE  STATE = 'Y'
+							)T2
+							 <isNotEmpty property="GROUP_CD">
+							,EVENT_TARGET T3 
+							 </isNotEmpty>
+					WHERE 1=1
+					  AND T1.DOMAIN_ID = #DOMAIN_ID#
+					  <isNotEmpty property="GROUP_CD">/*신분별검색*/
+					  AND T1.EVENT_SEQ = T3.EVENT_SEQ 
+					  AND T3.DEPT_CODE = #GROUP_CD#  
+					  </isNotEmpty>
+					  <isEmpty property="STATE">
+					  AND T1.STATE IN('0','1')  /*상태*/
+					  </isEmpty>
+					  <isNotEmpty property="STATE">
+					  AND T1.STATE = #STATE#    /*상태*/
+					  </isNotEmpty>
+					  AND T1.CATEGORY_SEQ = T2.CATEGORY_SEQ
+					  AND TO_CHAR(T1.REG_DATIM,'YYYYMMDD') BETWEEN #REG_FROM# AND #REG_TO#
+					  <isEqual property="PRIORTY" compareValue="Y">
+					  AND T1.PRIORTY = 'Y'
+					  </isEqual>
+					  <isNotEmpty property="TITLE_NM">
+						<isEqual property="LANG_KND" compareValue="ko">
+						AND T1.TITLE_KOR LIKE '%'||#TITLE_NM#||'%' /*행사명KOR*/
+						</isEqual>
+						<isEqual property="LANG_KND" compareValue="en">
+						AND T1.TITLE_ENG LIKE '%'||#TITLE_NM#||'%' /*행사명ENG*/
+						</isEqual>
+					  </isNotEmpty>
+					  <isNotEmpty property="CATE_CD">
+					  AND T1.CATEGORY_SEQ = #CATE_CD#  /*카테고리*/
+					  </isNotEmpty>
+					  <isNotEmpty property="REG_USER">
+					  AND T1.REG_USER_NM = #REG_USER#  /*작성자*/
+					  </isNotEmpty>
+					  <isNotEmpty property="DEPT_CODE">
+						  <isEqual property="LANG_KND" compareValue="ko">
+						  AND T1.DEPT_CODE_KOR = #DEPT_CODE#  /*등록기관*/
+						  </isEqual>
+						  <isEqual property="LANG_KND" compareValue="en">
+						  AND T1.DEPT_CODE_ENG = #DEPT_CODE#  /*등록기관*/
+						  </isEqual>
+					  </isNotEmpty>
+					<isEmpty property="SORT_JOIN">/*일반검색*/
+						ORDER BY REG_DATIM DESC   
+					</isEmpty>
+					<isNotEmpty property="SORT_JOIN">/*참여인원순검색*/
+						ORDER BY JOINCNT DESC   
+					</isNotEmpty>
+				) A
+			) B
+		WHERE
+			RNUM BETWEEN ((#PAGE_NUM#-1)*#PAGE_SIZE#+1) AND #PAGE_NUM#*#PAGE_SIZE#
+	</select>
+
+	<!-- 이벤트승인리스트 토탈카운트 -->
+	<select id="eventMng.getApproveListCnt.cubrid" parameterClass="java.util.Map" resultClass="java.lang.Integer"> /* eventMng.getApproveListCnt */
+		SELECT
+				COUNT(*) AS CNT
+						 
+		 FROM    EVENT T1 
+				,(
+					SELECT  ST1.CATEGORY_SEQ
+						   ,ST1.STATE
+						   ,ST1.NM_KOR
+						   ,ST1.NM_ENG
+					  FROM  EVENT_CATEGORY ST1
+					 WHERE  STATE = 'Y'
+				)T2       
+				<isNotEmpty property="GROUP_CD">
+				,EVENT_TARGET T3 
+				</isNotEmpty>
+		  WHERE 1=1
+		  AND DOMAIN_ID = #DOMAIN_ID#
+		  <isNotEmpty property="GROUP_CD">/*신분별검색*/
+		  AND T1.EVENT_SEQ = T3.EVENT_SEQ 
+		  AND T3.DEPT_CODE = #GROUP_CD#  
+		  </isNotEmpty>
+		  <isEmpty property="STATE">
+		  AND T1.STATE IN('0','1')  /*상태*/
+		  </isEmpty>
+		  <isNotEmpty property="STATE">
+		  AND T1.STATE = #STATE#    /*상태*/
+		  </isNotEmpty>
+		  AND T1.CATEGORY_SEQ = T2.CATEGORY_SEQ
+		  AND TO_CHAR(T1.REG_DATIM,'YYYYMMDD') BETWEEN #REG_FROM# AND #REG_TO#
+		  <isEqual property="PRIORTY" compareValue="Y">
+		  AND T1.PRIORTY = 'Y'
+		  </isEqual>
+		  <isNotEmpty property="TITLE_NM">
+			<isEqual property="LANG_KND" compareValue="ko">
+			AND T1.TITLE_KOR LIKE '%'||#TITLE_NM#||'%' /*행사명KOR*/
+			</isEqual>
+			<isEqual property="LANG_KND" compareValue="en">
+			AND T1.TITLE_ENG LIKE '%'||#TITLE_NM#||'%' /*행사명ENG*/
+			</isEqual>
+		  </isNotEmpty>
+		  <isNotEmpty property="CATE_CD">
+		  AND T1.CATEGORY_SEQ = #CATE_CD#  /*카테고리*/
+		  </isNotEmpty>
+		  <isNotEmpty property="REG_USER">
+		  AND T1.REG_USER_NM = #REG_USER#  /*작성자*/
+		  </isNotEmpty>
+		  <isNotEmpty property="DEPT_CODE">
+			  <isEqual property="LANG_KND" compareValue="ko">
+			  AND T1.DEPT_CODE_KOR = #DEPT_CODE#  /*등록기관*/
+			  </isEqual>
+			  <isEqual property="LANG_KND" compareValue="en">
+			  AND T1.DEPT_CODE_ENG = #DEPT_CODE#  /*등록기관*/
+			  </isEqual>
+		  </isNotEmpty>	
+	</select>
+	
+	<!--이벤트상태리스트-->
+	<select id="eventMng.getStateList.cubrid" parameterClass="java.util.Map" resultClass="java.util.HashMap">   /* eventMng.getStateList */
+		SELECT
+				T1.SYSTEM_CODE
+			   ,T1.CODE_ID
+			   ,T1.CODE
+			   ,T1.LANG_KND
+			   ,T1.CODE_NAME
+		  FROM  CODEBASE T1       
+		 WHERE  SYSTEM_CODE = 'PT'
+		   AND  CODE != '0000000000'/*상위코드제외*/
+		   AND  CODE_ID = '995'
+		   <isEqual property="LANG_KND" compareValue="ko">
+		   AND  LANG_KND = 'ko'
+		   </isEqual>
+		    <isEqual property="LANG_KND" compareValue="en">
+		   AND  LANG_KND = 'en'
+		   </isEqual>
+		   AND  CODE <![CDATA[ < ]]> 2
+	</select>
+	
+	<!--이벤트등록기관 리스트-->
+	<select id="eventMng.getRegDeptList.cubrid" parameterClass="java.util.Map" resultClass="java.util.HashMap">  /* eventMng.getRegDeptList */
+		SELECT 
+			<isEqual property="LANG_KND" compareValue="ko">
+				DEPT_CODE_KOR AS DEPT_CODE
+			</isEqual>
+			<isEqual property="LANG_KND" compareValue="en">
+				DEPT_CODE_ENG AS DEPT_CODE
+			</isEqual>
+		FROM EVENT T1 
+		WHERE T1.DOMAIN_ID = #DOMAIN_ID#
+		<isEqual property="LANG_KND" compareValue="ko">
+			GROUP BY DEPT_CODE_KOR 
+		</isEqual>
+		<isEqual property="LANG_KND" compareValue="en">
+			GROUP BY DEPT_CODE_ENG
+		</isEqual>
+	</select>
+	
+	<!-- 이벤트시간 코드조회(시) -->
+	<select id="eventMng.getEventHour.cubrid" parameterClass="java.util.Map" resultClass="java.util.HashMap"> /* eventMng.getEventHour */
+		SELECT T1.CODE AS CODE
+			  ,T1.CODE_NAME AS CODE_NAME
+		  FROM CODEBASE T1 
+		 WHERE SYSTEM_CODE='PT' 
+		   AND CODE_ID='994' 
+		   AND CODE!='0000000000'
+	  ORDER BY CODE ASC
+	</select>
+
+	<!-- 이벤트시간 코드조회(분) -->
+	<select id="eventMng.getEventMinute.cubrid" parameterClass="java.util.Map" resultClass="java.util.HashMap"> /* eventMng.getEventMinute */
+		SELECT T1.CODE AS CODE
+			  ,T1.CODE_NAME AS CODE_NAME
+		  FROM CODEBASE T1 
+		 WHERE SYSTEM_CODE='PT' 
+		   AND CODE_ID='993' 
+		   AND CODE!='0000000000'
+		   AND CODE_TAG1 = 'Y'
+	  ORDER BY CODE ASC
+	</select>
+
+	<!-- 이벤트RSS조회 -->
+	<select id="eventMng.getEventRssList.cubrid" parameterClass="java.util.Map" resultMap="event.viewEventObj"> /* eventMng.getEventRssList */
+		SELECT
+		         T1.EVENT_SEQ
+		        ,T1.DOMAIN_ID
+		        ,T1.CATEGORY_SEQ
+		        ,T1.EVENT_TYPE
+				,T1.PRIORTY
+				,T1.TITLE_KOR
+				,T1.TITLE_ENG
+				,T1.CONTENTS_KOR
+				,T1.CONTENTS_ENG
+				,TRIM(T1.TARGET_LINK) AS TARGET_LINK
+				,TO_CHAR(T1.START_DATE,'YYYYMMDD') AS START_DATE
+				,TO_CHAR(T1.START_DATE,'YYYY/MM/DD') AS START_DATE1
+				,TO_CHAR(T1.END_DATE,'YYYYMMDD') AS END_DATE
+				,TO_CHAR(T1.END_DATE,'YYYY/MM/DD') AS END_DATE1
+				,SUBSTR(T1.START_TIME,1,2)||':'||SUBSTR(T1.START_TIME,3,4) AS START_TIME
+                ,SUBSTR(T1.END_TIME,1,2)||':'||SUBSTR(T1.END_TIME,3,4) AS END_TIME
+				,T1.INQ_TIMES
+				,T1.STATE
+				,(CASE WHEN T1.STATE = '0' THEN '신청'
+					   WHEN T1.STATE = '1' THEN '승인' END) AS STATE_NM    
+				,T2.NM_KOR AS CATEGORY_NM
+				,T1.EVENT_FEE_KOR
+				,T1.EVENT_FEE_ENG
+				,T1.OWNER_USER_ID
+				,T1.OWNER_PHONE
+				,T1.OWNER_EMAIL
+				,T1.PLACE_NO
+				,T1.PLACE_SUB_NO
+				,T1.PLACE_NM
+				,T1.PLACE_BUILDING_KOR
+				,T1.PLACE_BUILDING_ENG
+				,T1.PLACE_LATITUDE
+				,T1.PLACE_LONGITUDE
+				,T1.IMAGE_PATH_KOR
+				,T1.IMAGE_NM_KOR
+				,T1.IMAGE_PATH_ENG
+				,T1.IMAGE_NM_ENG
+				,T1.DEPT_CODE_KOR
+				,T1.DEPT_CODE_ENG
+				,T1.ATTACH_NO
+				,T1.GROUP_ID
+				,TO_CHAR(T1.REG_DATIM,'YYYYMMDDHH24MISS') AS REG_DATIM
+				,T1.REG_USER_ID
+				,T1.REG_USER_NM
+				,T1.UPD_DATIM
+				,T1.UPD_USER_ID
+				,TO_CHAR(T1.EVENT_START,'YYYYMMDD') AS EVENT_START_DATE
+				,TO_CHAR(T1.EVENT_START,'YYYY/MM/DD') AS EVENT_START_DATE1
+				,TO_CHAR(T1.EVENT_END,'YYYYMMDD') AS EVENT_END_DATE
+				,TO_CHAR(T1.EVENT_END,'YYYY/MM/DD') AS EVENT_END_DATE1
+				,SUBSTR(T1.EVENT_START_TIME,1,2)||':'||SUBSTR(T1.START_TIME,3,4) AS EVENT_START_TIME
+                ,SUBSTR(T1.EVENT_END_TIME,1,2)||':'||SUBSTR(T1.EVENT_END_TIME,3,4) AS EVENT_END_TIME
+		FROM    EVENT T1,EVENT_CATEGORY T2       
+	   WHERE    T1.CATEGORY_SEQ = T2.CATEGORY_SEQ
+	     AND    T1.STATE ='1'
+	     AND    T1.DOMAIN_ID = #DOMAIN_ID#
+	     ORDER BY  EVENT_END_DATE, EVENT_START_DATE ASC
+	</select>
+	
+	<!-- 이벤트 취소시 일정에서 삭제:20120313 -->
+	<delete id="eventMng.deleteSchedule.cubrid" parameterClass="java.util.Map"> /* eventMng.deleteSchedule */
+		DELETE FROM EVENT_SCHEDULE WHERE PRINCIPAL_ID = #PRINCIPAL_ID# AND TAGS = #DEL_KEY#
+	</delete>
+</sqlMap>

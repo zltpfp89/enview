@@ -1,0 +1,218 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="cal">
+
+	<resultMap id="calendar.public.list" class="com.saltware.enhancer.admin.calendar.control.CalendarVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>
+		<result property="bgColor" column="BG_COLOR" columnIndex="2"/>
+		<result property="ownerId" column="OWNER_ID" columnIndex="3"/>
+		<result property="name" columnIndex="4"/>
+		<result property="domainId" columnIndex="5"/>
+		<result property="domainNm" columnIndex="6"/>
+		<result property="isUse" columnIndex="7"/>
+		<result property="isBilingual" columnIndex="8"/>
+	</resultMap>
+	
+	<select id="calendar.public.list" resultMap="calendar.public.list">/* calendar.public.list */
+		SELECT * FROM (
+			SELECT a.CALENDAR_ID, BG_COLOR, OWNER_ID, b.NAME, a.DOMAIN_ID, c.DOMAIN_NM, IS_USE, IS_BILINGUAL, ROW_NUMBER() OVER(ORDER BY a.CALENDAR_ID) AS RNUM
+			FROM CALENDAR_PUBLIC a
+			JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID
+			JOIN DOMAIN_LANG c ON c.DOMAIN_ID = a.DOMAIN_ID AND c.LANG_KND = b.LANG_KND
+			WHERE b.LANG_KND=#langKnd#
+			<isNotNull property="name" prepend=" AND ">b.NAME LIKE '%'||#name#||'%'</isNotNull>
+			<isNotNull property="domainId">
+				<isGreaterThan property="domainId" compareValue="-1" prepend=" AND ">a.DOMAIN_ID=#domainId#</isGreaterThan>
+			</isNotNull>
+		) WHERE RNUM BETWEEN $startRow$ AND $endRow$
+	</select>
+	
+	<select id="calendar.user.public.list" resultMap="calendar.public.list">/* calendar.user.public.list */
+		SELECT * FROM (
+			SELECT a.CALENDAR_ID, a.BG_COLOR, OWNER_ID, b.NAME, a.DOMAIN_ID, c.DOMAIN_NM, '1' AS IS_USE, '0' AS IS_BILINGUAL, ROW_NUMBER() OVER(ORDER BY a.CALENDAR_ID) AS RNUM
+			FROM CALENDAR a
+			JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID
+			JOIN DOMAIN_LANG c ON c.DOMAIN_ID = a.DOMAIN_ID AND c.LANG_KND = b.LANG_KND
+			WHERE a.IS_PUBLIC='Y' AND b.LANG_KND=#langKnd#
+			<isNotNull property="name" prepend=" AND ">b.NAME LIKE '%'||#name#||'%'</isNotNull>
+			<isNotNull property="domainId">
+				<isGreaterThan property="domainId" compareValue="-1" prepend=" AND ">a.DOMAIN_ID=#domainId#</isGreaterThan>
+			</isNotNull>
+		) WHERE RNUM BETWEEN $startRow$ AND $endRow$
+	</select>
+
+	<resultMap id="calendar.public.detail" class="com.saltware.enhancer.admin.calendar.control.CalendarVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>
+		<result property="bgColor" column="BG_COLOR" columnIndex="2"/>
+		<result property="ownerId" column="OWNER_ID" columnIndex="3"/>
+		<result property="name" columnIndex="4"/>
+		<result property="comments" columnIndex="5"/>
+		<result property="domainId" columnIndex="6"/>
+		<result property="domainNm" columnIndex="7"/>
+		<result property="isUse" columnIndex="8"/>
+		<result property="isBilingual" columnIndex="9"/>
+	</resultMap>
+
+	<select id="calendar.public.detail" resultMap="calendar.public.detail"> /* calendar.public.detail */
+		SELECT a.CALENDAR_ID, BG_COLOR, OWNER_ID, b.NAME, b.COMMENTS, a.DOMAIN_ID, c.DOMAIN_NM, IS_USE, IS_BILINGUAL
+		FROM CALENDAR_PUBLIC a
+		JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID
+		JOIN DOMAIN_LANG c ON c.DOMAIN_ID = a.DOMAIN_ID AND c.LANG_KND = b.LANG_KND
+		WHERE b.LANG_KND=#langKnd# AND a.CALENDAR_ID=#calendarId#
+		<isNotNull property="name" prepend=" AND ">b.NAME LIKE '%'||#name#||'%'</isNotNull>
+		<isNotNull property="domainId">
+			<isGreaterThan property="domainId" compareValue="-1" prepend=" AND ">a.DOMAIN_ID=#domainId#</isGreaterThan>
+		</isNotNull>
+	</select>
+	
+	<select id="calendar.user.public.detail" resultMap="calendar.public.detail"> /* calendar.user.public.detail */
+		SELECT a.CALENDAR_ID, BG_COLOR, OWNER_ID, b.NAME, b.COMMENTS, a.DOMAIN_ID, c.DOMAIN_NM, '1' AS IS_USE, '0' AS IS_BILINGUAL
+		FROM CALENDAR a
+		JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID
+		JOIN DOMAIN_LANG c ON c.DOMAIN_ID = a.DOMAIN_ID AND c.LANG_KND = b.LANG_KND
+		WHERE b.LANG_KND=#langKnd# AND a.CALENDAR_ID=#calendarId#
+		<isNotNull property="name" prepend=" AND ">b.NAME LIKE '%'||#name#||'%'</isNotNull>
+		<isNotNull property="domainId">
+			<isGreaterThan property="domainId" compareValue="-1" prepend=" AND ">a.DOMAIN_ID=#domainId#</isGreaterThan>
+		</isNotNull>
+	</select>
+	
+	<resultMap id="calendar.public.detail.system" class="com.saltware.enhancer.admin.calendar.control.CalendarVO">
+		<result property="fgColor" column="FG_COLOR" columnIndex="1"/>
+		<result property="bgColor" column="BG_COLOR" columnIndex="2"/>
+		<result property="isUse" columnIndex="3"/>
+		<result property="isBilingual" columnIndex="4"/>
+	</resultMap>
+	
+	<select id="calendar.public.detail.system" resultMap="calendar.public.detail.system"> /* calendar.public.detail.system */
+		SELECT FG_COLOR, BG_COLOR, IS_USE, IS_BILINGUAL
+		FROM CALENDAR_PUBLIC a
+		WHERE a.CALENDAR_ID=#calendarId# AND owner_id=#ownerId#
+	</select>
+	
+	<insert id="calendar.public.insert">/* calendar.public.insert */
+		INSERT INTO CALENDAR_PUBLIC (CALENDAR_ID, DOMAIN_ID, FG_COLOR, BG_COLOR, IS_USE, IS_BILINGUAL, OWNER_ID, INS_DATIM, UPD_DATIM)
+		VALUES (#calendarId#, #domainId#, #fgColor#, #bgColor#, #isUse#, #isBilingual#, #ownerId#, SYSDATE, SYSDATE)
+	</insert>
+	
+	<insert id="calendar.user.public.insert">/* calendar.user.public.insert */
+		UPDATE CALENDAR SET IS_PUBLIC='Y', UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=#calendarId#
+	</insert>
+	
+	<update id="calendar.public.update">/* calendar.public.update */
+		UPDATE CALENDAR_PUBLIC SET
+		<isNotNull property="domainId">DOMAIN_ID=#domainId#, </isNotNull> 
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		<isNotNull property="isUse">IS_USE=#isUse#, </isNotNull>
+		<isNotNull property="isBilingual">IS_BILINGUAL=#isBilingual#, </isNotNull>		
+		UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=#calendarId#
+	</update>
+	
+	<update id="calendar.user.public.update">/* calendar.user.public.update */
+		UPDATE CALENDAR SET
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=#calendarId#
+	</update>
+	
+	<delete id="calendar.user.public.delete">/* calendar.user.public.delete */
+		UPDATE CALENDAR SET IS_PUBLIC='N', UPD_DATIM=SYSDATE
+		WHERE 1=1
+		<isNotNull property="calendarId" prepend=" AND ">CALENDAR_ID=#calendarId#</isNotNull>
+		<isNotNull property="calendarIds" prepend=" AND ">CALENDAR_ID IN <iterate property="calendarIds" open="(" close=")" conjunction=",">(#calendarIds[]#)</iterate></isNotNull>
+	</delete>
+	
+	<resultMap id="calendar.public.lang" class="com.saltware.enhancer.admin.calendar.control.CalendarLangVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>	 
+		<result property="langKnd" column="LANG_KND" columnIndex="2"/>	 
+		<result property="name" column="NAME" columnIndex="3"/>	 
+		<result property="comments" column="COMMENTS" columnIndex="4"/>
+		<result property="insDatim" column="INS_DATIM" columnIndex="5"/>
+		<result property="updDatim" column="UPD_DATIM" columnIndex="6"/>	 
+	</resultMap>
+	
+	<select id="calendar.public.lang.list" resultMap="calendar.public.lang">/* calendar.public.lang.list */
+		SELECT * FROM (
+			SELECT CALENDAR_ID, LANG_KND, NAME, COMMENTS, INS_DATIM, UPD_DATIM, ROW_NUMBER() OVER(ORDER BY CALENDAR_ID) AS RNUM
+			FROM CALENDAR_LANG
+			WHERE CALENDAR_ID=#calendarId#
+			<isNotNull property="name" prepend=" AND ">NAME LIKE '%'||#name#||'%'</isNotNull>
+		) WHERE RNUM BETWEEN $startRow$ AND $endRow$
+	</select>
+	
+	<select id="calendar.public.lang.detail" resultMap="calendar.public.lang">/* calendar.public.lang.detail */
+		SELECT CALENDAR_ID, LANG_KND, NAME, COMMENTS, INS_DATIM, UPD_DATIM
+		FROM CALENDAR_LANG
+		WHERE CALENDAR_ID=#calendarId# AND LANG_KND=#langKnd#
+	</select>
+	
+	<insert id="calendar.public.insert.lang">/* calendar.public.insert.lang */
+		INSERT INTO CALENDAR_LANG (CALENDAR_ID, LANG_KND, NAME, COMMENTS, INS_DATIM, UPD_DATIM)
+		VALUES (#calendarId#, #langKnd#, #name#, #comments#, SYSDATE, SYSDATE)
+	</insert>
+	
+	<update id="calendar.public.update.lang">/* calendar.public.update.lang */
+		UPDATE CALENDAR_LANG SET
+		<isNotNull property="name">NAME=#name#, </isNotNull>
+		<isNotNull property="comments">COMMENTS=#comments#, </isNotNull>
+		UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=#calendarId#
+		<isNotNull property="langKnd" prepend=" AND ">LANG_KND=#langKnd#</isNotNull>
+	</update>
+	
+	<delete id="calendar.public.delete.lang.all">/* calendar.public.delete.lang */
+		DELETE FROM CALENDAR_LANG
+		WHERE 1=1
+		<isNotNull property="calendarId" prepend=" AND ">CALENDAR_ID=#calendarId#</isNotNull>
+		<isNotNull property="calendarIds" prepend=" AND ">CALENDAR_ID IN <iterate property="calendarIds" open="(" close=")" conjunction=",">(#calendarIds[]#)</iterate></isNotNull>
+	</delete>
+	
+	<delete id="calendar.public.delete.lang">/* calendar.public.delete.lang */
+		DELETE FROM CALENDAR_LANG
+		WHERE 1=1
+		<isNotNull property="calendarId" prepend=" AND ">CALENDAR_ID=#calendarId#</isNotNull>
+		<isNotNull property="calendarIds" prepend=" AND ">CALENDAR_ID IN <iterate property="calendarIds" open="(" close=")" conjunction=",">(#calendarIds[]#)</iterate></isNotNull>
+		<isNotNull property="langKnd" prepend=" AND ">LANG_KND=#langKnd#</isNotNull>
+		<isNotNull property="langKnds" prepend=" AND ">LANG_KND IN <iterate property="langKnds" open="(" close=")" conjunction=",">#langKnds[]#</iterate></isNotNull>
+	</delete>
+	
+	
+	<delete id="schedule.public.delete.all">/* schedule.public.delete.all */
+		DELETE FROM SCHEDULE 
+		WHERE 1=1
+		<isNotNull property="calendarId" prepend=" AND ">CALENDAR_ID=#calendarId#</isNotNull>
+		<isNotNull property="calendarIds" prepend=" AND ">CALENDAR_ID IN <iterate property="calendarIds" open="(" close=")" conjunction=",">(#calendarIds[]#)</iterate></isNotNull>
+	</delete>
+	
+	<delete id="schedule.public.lang.delete.all">/* schedule.public.lang.delete.all */
+		DELETE FROM SCHEDULE_LANG
+		WHERE SCHEDULE_ID IN (
+			SELECT SCHEDULE_ID 
+			FROM SCHEDULE 
+			WHERE 1=1
+			<isNotNull property="calendarId" prepend=" AND ">CALENDAR_ID=#calendarId#</isNotNull>
+			<isNotNull property="calendarIds" prepend=" AND ">CALENDAR_ID IN <iterate property="calendarIds" open="(" close=")" conjunction=",">(#calendarIds[]#)</iterate></isNotNull>
+		)
+	</delete>
+	
+	<delete id="schedule.public.lang.delete">/* schedule.public.lang.delete */
+		DELETE FROM SCHEDULE_LANG
+		WHERE SCHEDULE_ID IN (SELECT SCHEDULE_ID FROM SCHEDULE WHERE CALENDAR_ID=#calendarId#)
+	</delete>
+	
+	
+	<delete id="schedule.public.user.delete.all">/* schedule.public.user.delete.all */
+		DELETE FROM SCHEDULE_USER
+		WHERE SCHEDULE_ID IN (
+			SELECT SCHEDULE_ID 
+			FROM SCHEDULE 
+			WHERE 1=1
+			<isNotNull property="calendarId" prepend=" AND ">CALENDAR_ID=#calendarId#</isNotNull>
+			<isNotNull property="calendarIds" prepend=" AND ">CALENDAR_ID IN <iterate property="calendarIds" open="(" close=")" conjunction=",">(#calendarIds[]#)</iterate></isNotNull>
+		)
+	</delete>
+</sqlMap>

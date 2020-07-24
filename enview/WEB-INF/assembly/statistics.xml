@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <!-- Statistics Implementation -->
+  <bean id="PortalStatistics" 
+	  class="com.saltware.statistics.impl.PortalStatisticsImpl"
+	  init-method="springInit"
+	  destroy-method="springDestroy"
+	  >
+	<meta key="j2:cat" value="default" />
+	<!-- logToCLF -->
+	<constructor-arg index='0' type="boolean"><value>true</value></constructor-arg>
+	
+	<!-- maxRecordToFlush_Portlet -->
+	<constructor-arg   index='1' ><value>300</value></constructor-arg>
+	
+	<!-- maxRecordToFlush_User -->
+	<constructor-arg   index='2'><value>50</value></constructor-arg>
+	
+	<!-- maxRecordToFlush_Page -->
+	<constructor-arg   index='3' ><value>100</value></constructor-arg>
+	
+	<!-- maxTimeMsToFlush_Portlet -->
+	<constructor-arg  index='4'  ><value>300000</value></constructor-arg>
+	
+	<!-- maxTimeMsToFlush_User -->
+	<constructor-arg  index='5'  ><value>5000</value></constructor-arg>
+	
+	<!-- maxTimeMsToFlush_Page -->
+	<constructor-arg  index='6' ><value>60000</value></constructor-arg>
+	
+	<constructor-arg  index='7' ><ref bean="com.saltware.enview.statistics.StatisticsManager" /></constructor-arg>
+  </bean>
+
+  <!-- Audit Activity Implementation -->
+  <bean id="com.saltware.enview.audit.AuditActivity" class="com.saltware.enview.audit.impl.AuditActivityImpl">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index='0'>
+      <ref bean="EnviewDS" />
+    </constructor-arg>
+    <property name="enabled">
+      <value type='boolean'>${portal.audit.enable}</value>
+    </property>
+  </bean>
+  
+  <bean id="com.saltware.enview.statistics.StatisticsManager" class="com.saltware.enview.statistics.impl.StatisticsManagerImpl" >
+	<meta key="j2:cat" value="default" />
+	<constructor-arg index="0">
+		<value>ENVIEW-INF/ojb/statistics_repository.xml</value>
+	</constructor-arg>
+	<constructor-arg index="1">
+		<value>${enview.db.type}</value>
+	</constructor-arg>
+  </bean>
+
+</beans>

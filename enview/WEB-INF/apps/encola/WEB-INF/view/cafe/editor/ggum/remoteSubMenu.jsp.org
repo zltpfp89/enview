@@ -1,0 +1,202 @@
+<%@ page language="java" contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--BEGIN::스킨--%>
+		  <ul class="remote_menu_dep2 rmd2_skin">
+			<li class="rmd2_skin_txt" style="width: 37px">
+			  <a class="home_stxt555 selected" onclick="cube.controller.home.RemoteController.onClickSkinMenu('skin'); return false;" href="#">스킨</a>
+			</li>
+			<li class="rmd2_skin_txt">
+			  <span class="rmd_bar">|</span>
+			</li>
+			<li class="rmd2_skin_txt" style="width: 37px">
+			  <a class="home_stxt555" onclick="cube.controller.home.RemoteController.onClickSkinMenu('cafeBg');return false;" href="#">배경</a>
+			</li>
+			<li class="rmd2_list_one">
+			  <a id="RemoteSubMenuSkinOne" title="크게 보기" onclick="cube.controller.home.RemoteController.onClickSkinSubMenu('one');return false;" href="#">한개씩</a>
+			</li>
+			<li class="rmd2_list_list">
+			  <a id="RemoteSubMenuSkinList" class="selected" title="리스트형태로 보기" onclick="cube.controller.home.RemoteController.onClickSkinSubMenu('list');return false;" href="#">리스트</a>
+			</li>
+		  </ul>
+<%--END::스킨--%>
+<%--BEGIN::스킨(배경)--%>
+		  <ul class="remote_menu_dep2 rmd2_skin">
+			<li class="rmd2_skin_txt" style="width: 37px">
+			  <a class="home_stxt555" onclick="cube.controller.home.RemoteController.onClickSkinMenu('skin'); return false;" href="#">스킨</a>
+			</li>
+			<li class="rmd2_skin_txt">
+			  <span class="rmd_bar">|</span>
+			</li>
+			<li class="rmd2_skin_txt" style="width: 37px">
+			  <a class="home_stxt555 selected" onclick="cube.controller.home.RemoteController.onClickSkinMenu('cafeBg');return false;" href="#">배경</a>
+			</li>
+			<li class="rmd2_list_one">
+			  <div class="skinMenuDimmed" title="스킨에서만 사용가능"></div>
+			  <a id="RemoteSubMenuSkinOne" title="크게 보기" onclick="cube.controller.home.RemoteController.onClickSkinSubMenu('one');return false;" href="#">한개씩</a>
+			</li>
+			<li class="rmd2_list_list">
+			  <div class="skinMenuDimmed" title="스킨에서만 사용가능"></div>
+			  <a id="RemoteSubMenuSkinList" title="리스트형태로 보기" onclick="cube.controller.home.RemoteController.onClickSkinSubMenu('list');return false;" href="#">리스트</a>
+			</li>
+		  </ul>
+		  <ul class="rmd2_sub_sub remoteControlBg">
+			<li class="rmd2_sub_sub_li">
+			  <img id="d2w_d2w_styletypeDesign" class="img_radiobtn rb_checked" width="13" height="14" tabindex="" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif">
+			  <input id="styletypeDesign" class="checkradio_styled" type="radio" onclick="javascript:(new cube.controller.home.CafeBackgroundController()).onClickDesignSetTab(this); return false;" checked="checked" value="1" name="styletype">
+			  <label for="styletypeDesign" style="cursor: pointer;">디자인</label>
+			</li>
+			<li class="rmd2_sub_sub_li">
+			  <img id="d2w_d2w_styletypeCustom" class="img_radiobtn" width="13" height="14" tabindex="" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif">
+			  <input id="styletypeCustom" class="checkradio_styled" type="radio" onclick="javascript:(new cube.controller.home.CafeBackgroundController()).onClickCustomTab(this);return false;" value="2" name="styletype">
+			  <label for="styletypeCustom" style="cursor: pointer;">색상</label>
+			</li>
+			<li class="rmd2_sub_sub_li">
+			  <img id="d2w_d2w_styletypeUpload" class="img_radiobtn" width="13" height="14" tabindex="" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif">
+			  <input id="styletypeUpload" class="checkradio_styled" type="radio" onclick="javascript:(new cube.controller.home.CafeBackgroundController()).onClickUploadTab(this);return false;" value="3" name="styletype">
+			  <label for="styletypeUpload" style="cursor: pointer;">직접올리기</label>
+			</li>
+			<li id="cibColorTypeList" class="cibSelectBox" style="display:none">
+			  <a id="d2w_cibColorTypeSelectBox" class="img_selectbox" tabindex="0" style="width: 37px;">편안한색</a>
+			  <select id="cibColorTypeSelectBox" class="selectbox_styled" fixedsize="72">
+				<option value="1">편안한색</option>
+				<option value="2">선명한색</option>
+			  </select>
+			</li>
+		  </ul>		  
+<%--END::스킨(배경)--%>
+<%--BEGIN::레이아웃--%>
+		  <ul id="remoteDesignSubTab" class="remote_menu_dep2 rmd2_design">
+			<li style="width: 53px">
+			  <a class="home_stxt555 selected" onclick="cube.controller.home.RemoteController.onClickColumnMenu();return false;" href="#">단 구성</a>
+			</li>
+			<li>
+			  <span class="rmd_bar">|</span>
+			</li>
+			<li style="width: 63px">
+			  <a class="home_stxt555" onclick="cube.controller.home.RemoteController.onClickHomeBoardGroupMenu();return false;" href="#">홈 게시판</a>
+			</li>
+			<li>
+			  <span class="rmd_bar">|</span>
+			</li>
+			<li style="width: 46px">
+			  <a class="home_stxt555" onclick="cube.controller.home.RemoteController.onClickHomeContentsMenu();return false;" href="#">컨텐츠</a>
+			</li>
+			<li>
+			  <span class="rmd_bar">|</span>
+			</li>
+			<li style="width: 36px">
+			  <a class="home_stxt555" onclick="cube.controller.home.RemoteController.onClickWidgetMenu();return false;" href="#">위젯</a>
+			</li>
+			<li id="rmd_layout_wire">
+			  <a id="wfVisible" onclick="cube.controller.home.RemoteController.onClickWireframeView();blur();return false;" href="#">와이어프레임</a>
+			</li>
+		  </ul>
+<%--END::레이아웃--%>
+<%--BEGIN::영역별 꾸미기--%>
+		  <ul id="remoteDesignSubTab" class="remote_menu_dep2 rmd2_design">
+			<li style="width: 63px;">
+			  <a class="home_stxt555 selected" onclick="javascript:cube.controller.home.RemoteController.onClickDesignMenu('CafeInfoBox');return false;" href="#">카페정보</a>
+			</li>
+			<li>
+			  <span class="rmd_bar">|</span>
+			</li>
+			<li style="width: 63px;">
+			  <a class="home_stxt555" onclick="javascript:cube.controller.home.RemoteController.onClickDesignMenu('CafeMenu');return false;" href="#">카페메뉴</a>
+			</li>
+			<li>
+			  <span class="rmd_bar">|</span>
+			</li>
+			<li style="width: 52px;">
+			  <a class="home_stxt555" onclick="javascript:cube.controller.home.RemoteController.onClickDesignMenu('SearchBox');return false;" href="#">검색창</a>
+			</li>
+			<li>
+			  <span class="rmd_bar">|</span>
+			</li>
+			<li style="width: 52px;">
+			  <a class="home_stxt555" onclick="javascript:cube.controller.home.RemoteController.onClickDesignMenu('HomeBoardGroupDesign');return false;" href="#">게시판</a>
+			</li>
+			<li>
+			  <span class="rmd_bar">|</span>
+			</li>
+			<li style="width: 74px;">
+			  <a class="home_stxt555" onclick="javascript:cube.controller.home.RemoteController.onClickDesignMenu('AccessaryGroup');return false;" href="#">부가컨텐츠</a>
+			</li>
+		  </ul>
+		  <%--BEGIN::영역별꾸미기(카페정보)--%>
+		  <ul class="rmd2_sub_sub remoteControlBg">
+			<li class="rmd2_sub_sub_li">
+			  <img id="d2w_d2w_styletypeDesign" class="img_radiobtn rb_checked" width="13" height="14" tabindex="" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif">
+			  <input id="styletypeDesign" class="checkradio_styled" type="radio" onclick="javascript:(new cube.controller.home.CafeInfoBoxController()).onClickDesignSetTab(this); return false;" checked="checked" value="1" name="styletype">
+			  <label for="styletypeDesign" style="cursor: pointer;">디자인</label>
+			</li>
+			<li class="rmd2_sub_sub_li">
+			  <img id="d2w_d2w_styletypeCustom" class="img_radiobtn" width="13" height="14" tabindex="" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif">
+			  <input id="styletypeCustom" class="checkradio_styled" type="radio" onclick="javascript:(new cube.controller.home.CafeInfoBoxController()).onClickCustomTab(this);return false;" value="2" name="styletype">
+			  <label for="styletypeCustom" style="cursor: pointer;">색상</label>
+			</li>
+			<li class="cibSelectBox">
+			  <a id="d2w_cibDisptypeSelectBox" class="img_selectbox" tabindex="0" style="width: 37px;">기본형</a>
+			  <select id="cibDisptypeSelectBox" class="selectbox_styled" fixedsize="72">
+				<option selected="" value="FOLDING">기본형</option>
+				<option value="TAB">탭형</option>
+			  </select>
+			</li>
+		  </ul>
+		  <%--END::영역별꾸미기(카페정보)--%>
+		  <%--BEGIN::영역별꾸미기(카페메뉴)--%>
+		  <ul class="rmd2_sub_sub remoteControlBg">
+			<li class="rmd2_sub_sub_li">
+			  <img id="d2w_d2w_styletypeDesign" class="img_radiobtn rb_checked" width="13" height="14" tabindex="" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif">
+			  <input id="styletypeDesign" class="checkradio_styled" type="radio" onclick="javascript:(new cube.controller.home.CafeMenuController()).onClickDesignSetTab(this); return false;" checked="checked" value="1" name="styletype">
+			  <label for="styletypeDesign" style="cursor: pointer;">디자인</label>
+			</li>
+			<li class="rmd2_sub_sub_li">
+			  <img id="d2w_d2w_styletypeCustom" class="img_radiobtn" width="13" height="14" tabindex="" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif">
+			  <input id="styletypeCustom" class="checkradio_styled" type="radio" onclick="javascript:(new cube.controller.home.CafeMenuController()).onClickCustomTab(this);return false;" value="2" name="styletype">
+			  <label for="styletypeCustom" style="cursor: pointer;">색상</label>
+			</li>
+			<li class="rmd2_sub_sub_li">
+			  <img id="d2w_d2w_styletypeUpload" class="img_radiobtn" width="13" height="14" tabindex="" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif">
+			  <input id="styletypeUpload" class="checkradio_styled" type="radio" onclick="javascript:(new cube.controller.home.CafeMenuController()).onClickUploadTab(this);return false;" value="3" name="styletype">
+			  <label for="styletypeUpload" style="cursor: pointer;">직접올리기</label>
+			</li>
+		  </ul>
+		  <%--END::영역별꾸미기(카페메뉴)--%>
+		  <%--BEGIN::영역별꾸미기(게시판)--%>
+		  <ul class="rmd2_sub_sub remoteControlBg">
+			<li class="rmd2_sub_sub_li">
+			  <img id="d2w_d2w_styletypeDesign" class="img_radiobtn rb_checked" width="13" height="14" tabindex="" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif">
+			  <input id="styletypeDesign" class="checkradio_styled" type="radio" onclick="javascript:(new cube.controller.home.HomeBoardGroupDesignController()).onClickDesignSetTab(this); return false;" checked="checked" value="1" name="styletype">
+			  <label for="styletypeDesign" style="cursor: pointer;">디자인</label>
+			</li>
+			<li class="rmd2_sub_sub_li">
+			  <img id="d2w_d2w_styletypeCustom" class="img_radiobtn" width="13" height="14" tabindex="" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif">
+			  <input id="styletypeCustom" class="checkradio_styled" type="radio" onclick="javascript:(new cube.controller.home.HomeBoardGroupDesignController()).onClickCustomTab(this);return false;" value="2" name="styletype">
+			  <label for="styletypeCustom" style="cursor: pointer;">색상</label>
+			</li>
+			<li class="cibSelectBoxFix">
+			  <span class="home_stxt555 defaultFontSizeLabel">기본폰트</span>
+			  <a id="d2w_cibFontSizeSelectBox" class="img_selectbox" tabindex="0" style="width: 27px;">9pt</a>
+			  <select id="cibFontSizeSelectBox" class="selectbox_styled" onchange="(new cube.controller.home.HomeBoardGroupDesignController()).onChangeDefaultFontSize(this);" fixedsize="62">
+				<option selected="" value="9">9pt</option>
+				<option value="10">10pt</option>
+			  </select>
+			  <div id="defaultFontSizeTipLayer" class="tip_icon"></div>
+			</li>
+		  </ul>		  
+		  <%--END::영역별꾸미기(게시판)--%>
+		  <%--BEGIN::영역별꾸미기(부가컨텐츠)--%>
+		  <ul class="rmd2_sub_sub remoteControlBg">
+			<li class="rmd2_sub_sub_li">
+			  <img id="d2w_d2w_styletypeDesign" class="img_radiobtn rb_checked" width="13" height="14" tabindex="" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif">
+			  <input id="styletypeDesign" class="checkradio_styled" type="radio" onclick="javascript:(new cube.controller.home.AccessaryGroupController()).onClickDesignSetTab(this); return false;" checked="checked" value="1" name="styletype">
+			  <label for="styletypeDesign" style="cursor: pointer;">디자인</label>
+			</li>
+			<li class="rmd2_sub_sub_li">
+			  <img id="d2w_d2w_styletypeCustom" class="img_radiobtn" width="13" height="14" tabindex="" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif">
+			  <input id="styletypeCustom" class="checkradio_styled" type="radio" onclick="javascript:(new cube.controller.home.AccessaryGroupController()).onClickCustomTab(this);return false;" value="2" name="styletype">
+			  <label for="styletypeCustom" style="cursor: pointer;">색상</label>
+			</li>
+		  </ul>		  
+		  <%--END::영역별꾸미기(부가컨텐츠)--%>
+<%--END::영역별 꾸미기--%>

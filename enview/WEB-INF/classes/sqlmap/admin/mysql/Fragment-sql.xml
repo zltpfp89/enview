@@ -1,0 +1,122 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ FRAGMENT : 페이지구성요소 ] Table -->
+	<resultMap id="admin_FragmentVO_PK" class="com.saltware.enview.admin.page.service.FragmentPK">
+	
+		<result property="fragmentId" column="FRAGMENT_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_FragmentVO" class="com.saltware.enview.admin.page.service.FragmentVO">
+	 
+		<result property="fragmentId" column="FRAGMENT_ID" columnIndex="1"/>	 
+		<result property="parentId" column="PARENT_ID" columnIndex="2"/>	 
+		<result property="pageId" column="PAGE_ID" columnIndex="3"/>	 
+		<result property="name" column="NAME" columnIndex="4"/>	 
+		<result property="title" column="TITLE" columnIndex="5"/>	 
+		<result property="shortTitle" column="SHORT_TITLE" columnIndex="6"/>	 
+		<result property="type" column="TYPE" columnIndex="7"/>	 
+		<result property="contentType" column="CONTENT_TYPE" columnIndex="8"/>	 
+		<result property="decorator" column="DECORATOR" columnIndex="9"/>	 
+		<result property="state" column="STATE" columnIndex="10"/>	 
+		<result property="pmode" column="PMODE" columnIndex="11"/>	 
+		<result property="align" column="ALIGN" columnIndex="12"/>	 
+		<result property="layoutRow" column="LAYOUT_ROW" columnIndex="13"/>	 
+		<result property="layoutColumn" column="LAYOUT_COLUMN" columnIndex="14"/>	 
+		<result property="layoutSizes" column="LAYOUT_SIZES" columnIndex="15"/>	
+		<result property="actionMask" column="ACTION_MASK" columnIndex="16"/>	
+	</resultMap>
+	
+	<select id="fragment.totalCount" resultClass="int">
+	/* fragment.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM FRAGMENT
+		WHERE 1=1	
+			<isNotEqual prepend=" AND " property="pageId" compareValue="0">PAGE_ID=#pageId#</isNotEqual>
+	</select>
+	
+	<select id="fragment.findByPage" resultMap="admin_FragmentVO_PK">
+	/* fragment.findByPage */
+			SELECT FRAGMENT_ID
+			FROM FRAGMENT
+			WHERE 1=1 
+			<isNotEqual prepend=" AND " property="pageId" compareValue="0">PAGE_ID=#pageId#</isNotEqual>
+		<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+		<isNull property="sortColumn">ORDER BY FRAGMENT_ID ASC</isNull>
+		LIMIT #limit# OFFSET #offset# 
+	</select>
+
+	<select id="fragment.findAll" resultMap="admin_FragmentVO">
+			SELECT FRAGMENT_ID,PARENT_ID,PAGE_ID,NAME,TITLE,SHORT_TITLE,TYPE,CONTENT_TYPE,DECORATOR,STATE,PMODE,ALIGN,LAYOUT_ROW,LAYOUT_COLUMN,LAYOUT_SIZES,ACTION_MASK
+			FROM FRAGMENT
+	</select>
+	
+	<select id="fragment.findByMaster" resultMap="admin_FragmentVO">
+			SELECT FRAGMENT_ID,PARENT_ID,PAGE_ID,NAME,TITLE,SHORT_TITLE,TYPE,CONTENT_TYPE,DECORATOR,STATE,PMODE,ALIGN,LAYOUT_ROW,LAYOUT_COLUMN,LAYOUT_SIZES,ACTION_MASK
+			FROM FRAGMENT
+			WHERE PAGE_ID=#pageId#
+	</select>
+	
+	<select id="fragment.findChildren" resultMap="admin_FragmentVO_PK">
+			SELECT FRAGMENT_ID
+			FROM FRAGMENT
+			WHERE PARENT_ID=#fragmentId#
+	</select>
+	
+	<select id="fragment.detail" resultMap="admin_FragmentVO">
+		<![CDATA[
+			SELECT FRAGMENT_ID,PARENT_ID,PAGE_ID,NAME,TITLE,SHORT_TITLE,TYPE,CONTENT_TYPE,DECORATOR,STATE,PMODE,ALIGN,LAYOUT_ROW,LAYOUT_COLUMN,LAYOUT_SIZES,ACTION_MASK
+			FROM FRAGMENT
+			WHERE 1=1 
+				AND FRAGMENT_ID=#fragmentId#
+		]]>
+	</select>
+	
+	<insert id="fragment.insert">
+		<![CDATA[
+			INSERT INTO FRAGMENT
+				( FRAGMENT_ID,PARENT_ID,PAGE_ID,NAME,TITLE,SHORT_TITLE,TYPE,CONTENT_TYPE,DECORATOR,STATE,PMODE,ALIGN,LAYOUT_ROW,LAYOUT_COLUMN,LAYOUT_SIZES,ACTION_MASK )
+			VALUES ( #fragmentId#,#parentId:INTEGER#,#pageId#,#name:VARCHAR#,#title:VARCHAR#,#shortTitle:VARCHAR#,#type:VARCHAR#,#contentType:VARCHAR#,#decorator:VARCHAR#,#state:VARCHAR#,#pmode:VARCHAR#,#align:VARCHAR#,#layoutRow:INTEGER#,#layoutColumn:INTEGER#,#layoutSizes:VARCHAR#,#actionMask:INTEGER# )
+		]]>
+	</insert>
+	
+	<update id="fragment.update">
+		<![CDATA[
+			UPDATE FRAGMENT
+			SET FRAGMENT_ID=#fragmentId#,PARENT_ID=#parentId:INTEGER#,PAGE_ID=#pageId#,NAME=#name:VARCHAR#,TITLE=#title:VARCHAR#,SHORT_TITLE=#shortTitle:VARCHAR#,TYPE=#type:VARCHAR#,CONTENT_TYPE=#contentType:VARCHAR#,DECORATOR=#decorator:VARCHAR#,STATE=#state:VARCHAR#,PMODE=#pmode:VARCHAR#,ALIGN=#align:VARCHAR#,LAYOUT_ROW=#layoutRow:INTEGER#,LAYOUT_COLUMN=#layoutColumn:INTEGER#,LAYOUT_SIZES=#layoutSizes:VARCHAR#,ACTION_MASK=#actionMask:INTEGER#
+			WHERE 1=1 
+				AND FRAGMENT_ID=#fragmentId#
+		]]>
+	</update>
+	
+	<update id="fragment.reorderFragments">
+			UPDATE FRAGMENT
+			SET 
+			<isNotEmpty property="parentId">
+				PARENT_ID=#parentId:INTEGER#,
+			</isNotEmpty>
+				LAYOUT_ROW=#layoutRow:INTEGER#,
+				LAYOUT_COLUMN=#layoutColumn:INTEGER#
+			WHERE 1=1 
+				AND FRAGMENT_ID=#fragmentId:INTEGER#
+	</update>
+	
+	<delete id="fragment.delete">
+		<![CDATA[
+			DELETE FROM FRAGMENT
+			WHERE 1=1 
+				AND FRAGMENT_ID=#fragmentId#
+		]]>
+	</delete>
+	
+	<delete id="fragment.deleteChildren">
+		<![CDATA[
+			DELETE FROM FRAGMENT
+			WHERE 1=1 
+				AND PAGE_ID=#pageId#
+		]]>
+	</delete>
+</sqlMap>

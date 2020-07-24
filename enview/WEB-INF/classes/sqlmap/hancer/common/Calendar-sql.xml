@@ -1,0 +1,386 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="cal">
+
+	<select id="calendar.my.count" resultClass="int">/* calendar.my.count */
+		SELECT COUNT(*) FROM CALENDAR
+		WHERE IS_DEFAULT = 'Y' AND OWNER_ID=#ownerId#
+		<isNotNull property="domainId">
+			<isGreaterThan property="domainId" compareValue="-1" prepend=" AND ">DOMAIN_ID=#domainId#</isGreaterThan>
+		</isNotNull>		
+	</select>
+	
+	<resultMap id="calendar.list" class="com.saltware.enhancer.calendar.service.CalendarVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>
+		<result property="isUsers" column="IS_USERS" columnIndex="2"/>
+		<result property="isPublic" column="IS_PUBLIC" columnIndex="3"/>
+		<result property="isDefault" column="IS_DEFAULT" columnIndex="4"/>
+		<result property="bgColor" column="BG_COLOR" columnIndex="5"/>
+		<result property="ownerId" column="OWNER_ID" columnIndex="6"/>
+		<result property="name" columnIndex="7"/>
+		<result property="hasJoint" columnIndex="8"/>
+	</resultMap>
+	
+	<select id="calendar.list.owner" resultMap="calendar.list">/* calendar.list.owner */
+		SELECT a.CALENDAR_ID, 'Y' AS IS_USERS, IS_PUBLIC, IS_DEFAULT, BG_COLOR, OWNER_ID, b.NAME, DECODE((SELECT COUNT(*) FROM CALENDAR_USER WHERE CALENDAR_ID=a.CALENDAR_ID), 0, 'N', 'Y') AS HAS_JOINT
+		FROM CALENDAR a
+		JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID
+		WHERE OWNER_ID=#ownerId# AND b.LANG_KND=#langKnd#
+		<isNotNull property="domainId" prepend=" AND ">a.DOMAIN_ID=#domainId#</isNotNull>
+		ORDER BY a.CALENDAR_ID ASC
+	</select>
+	
+	<select id="calendar.list.joint" resultMap="calendar.list">/* calendar.list.joint */
+		SELECT a.CALENDAR_ID, 'Y' AS IS_USERS, IS_PUBLIC, IS_DEFAULT, COALESCE(c.BG_COLOR, a.BG_COLOR)AS BG_COLOR, OWNER_ID, b.NAME, DECODE((SELECT COUNT(*) FROM CALENDAR_USER WHERE CALENDAR_ID=a.CALENDAR_ID), 0, 'N', 'Y') AS HAS_JOINT
+		FROM CALENDAR a
+		JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID
+		JOIN CALENDAR_USER c ON c.CALENDAR_ID = a.CALENDAR_ID
+		WHERE a.IS_PUBLIC='N' AND c.USER_ID=#userId# AND b.LANG_KND=#langKnd#
+		<isNotNull property="permissions" prepend=" AND ">c.PERMISSIONS LIKE '%'||#permissions#||'%'</isNotNull>
+		<isNotNull property="domainId" prepend=" AND ">a.DOMAIN_ID=#domainId#</isNotNull>
+		ORDER BY a.CALENDAR_ID ASC
+	</select>
+	
+	<resultMap id="calendar.list.public" class="com.saltware.enhancer.calendar.service.CalendarVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>
+		<result property="isUsers" column="IS_USERS" columnIndex="2"/>
+		<result property="isPublic" columnIndex="3"/>
+		<result property="isUserPublic" columnIndex="4"/>
+		<result property="bgColor" column="BG_COLOR" columnIndex="5"/>
+		<result property="ownerId" column="OWNER_ID" columnIndex="6"/>
+		<result property="name" column="NAME" columnIndex="7"/>
+		<result property="isBilingual" column="IS_BILINGUAL" columnIndex="8"/>
+		<result property="permissions" column="PERMISSIONS" columnIndex="9"/>
+	</resultMap>
+	
+	<select id="calendar.list.public" resultMap="calendar.list.public">/* calendar.list.public */
+		SELECT * FROM (
+			<isNotNull property="isWithUserPublic">
+				<isEqual property="isWithUserPublic" compareValue="Y">
+					SELECT a.CALENDAR_ID, 'Y' AS IS_USERS, IS_PUBLIC, 'Y' AS IS_USER_PUBLIC, a.BG_COLOR, OWNER_ID, b.NAME, '0' AS IS_BILINGUAL, 'P' AS PUBLIC_TYPE
+					CASE WHEN PERMISSIONS IS NULL
+					THEN 'R'
+					ELSE PERMISSIONS
+					END AS PERMISSIONS
+					FROM CALENDAR a
+					JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID AND b.LANG_KND=#langKnd#
+					LEFT OUTER JOIN CALENDAR_USER c ON c.CALENDAR_ID = a.CALENDAR_ID AND c.USER_ID = #userId#
+					WHERE a.IS_PUBLIC='Y' AND a.OWNER_ID != #userId#
+					<isNotNull property="domainId" prepend=" AND ">
+						<isGreaterThan property="domainId" compareValue="-1">( a.DOMAIN_ID=0 OR a.DOMAIN_ID=#domainId# )</isGreaterThan>
+					</isNotNull>
+					UNION
+				</isEqual>
+			</isNotNull>
+			SELECT a.CALENDAR_ID, 'N' AS IS_USERS, 'Y' AS IS_PUBLIC, 'N' AS IS_USER_PUBLIC, BG_COLOR, OWNER_ID, b.NAME, IS_BILINGUAL, a.PUBLIC_TYPE,
+			CASE WHEN a.OWNER_ID = #userId# 
+			THEN 'CRUDA' 
+			ELSE CASE WHEN c.PERMISSIONS IS NULL
+				THEN CASE WHEN f.PERMISSIONS IS NULL
+					THEN 'R' ELSE f.PERMISSIONS END
+				ELSE c.PERMISSIONS
+				END
+			END AS PERMISSIONS
+			FROM CALENDAR_PUBLIC a
+			JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID AND b.LANG_KND=#langKnd#
+			<isNotNull property="userId">
+			LEFT OUTER JOIN CALENDAR_PUBLIC_USER c ON c.CALENDAR_ID = a.CALENDAR_ID AND c.USER_ID = #userId#
+			LEFT OUTER JOIN (
+				SELECT d.CALENDAR_ID, d.GROUP_ID, d.PERMISSIONS, e.USER_ID
+				FROM CALENDAR_PUBLIC_GROUP d
+				JOIN USERPASS e ON e.ORG_CD = d.GROUP_ID
+				WHERE e.USER_ID=#userId#
+			) f ON f.CALENDAR_ID = a.CALENDAR_ID
+			</isNotNull>
+			WHERE a.IS_USE='1'
+			<isNotNull property="domainId" prepend=" AND ">
+				<isGreaterThan property="domainId" compareValue="-1">( a.DOMAIN_ID=0 OR a.DOMAIN_ID=#domainId# )</isGreaterThan>
+			</isNotNull>
+			<isNotNull property="calendarId" prepend=" AND ">a.CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+			AND (a.PUBLIC_TYPE='P' OR  (a.PUBLIC_TYPE='G' AND f.PERMISSIONS IS NOT NULL) OR  a.OWNER_ID = #userId#)
+		) u1
+		ORDER BY u1.CALENDAR_ID ASC
+	</select>
+	
+	<select id="calendar.list.user.public" resultMap="calendar.list.public">/* calendar.list.user.public */
+		SELECT a.CALENDAR_ID, 'Y' AS IS_USERS, IS_PUBLIC, 'Y' AS IS_USER_PUBLIC, a.BG_COLOR, OWNER_ID, b.NAME, '0' AS IS_BILINGUAL,
+		CASE WHEN PERMISSIONS IS NULL
+		THEN 'R'
+		ELSE PERMISSIONS
+		END AS PERMISSIONS
+		FROM CALENDAR a
+		JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID AND b.LANG_KND=#langKnd#
+		LEFT OUTER JOIN CALENDAR_USER c ON c.CALENDAR_ID = a.CALENDAR_ID<isNotNull property="userId" prepend=" AND ">c.USER_ID = #userId#</isNotNull>
+		WHERE a.IS_PUBLIC='Y' 
+		<isNotNull property="isOnlyUserPUblic" prepend=" AND "></isNotNull>
+			<isEqual property="isOnlyUserPUblic" compareValue="N">a.OWNER_ID != #userId#</isEqual>
+		<isNotNull property="domainId" prepend=" AND ">
+			<isGreaterThan property="domainId" compareValue="-1">( a.DOMAIN_ID=0 OR a.DOMAIN_ID=#domainId# )</isGreaterThan>
+		</isNotNull>
+		<isNotNull property="calendarId" prepend=" AND ">a.CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+		ORDER BY a.CALENDAR_ID ASC
+	</select>
+
+	<resultMap id="calendar.list.permit" class="com.saltware.enhancer.calendar.service.CalendarVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>
+		<result property="isUsers" column="IS_USERS" columnIndex="2"/> 
+		<result property="ownerId" column="OWNER_ID" columnIndex="3"/>
+		<result property="name" columnIndex="4"/>
+		<result property="permissions" columnIndex="5"/>
+		<result property="isPublic" column="IS_PUBLIC" columnIndex="6"/>
+		<result property="isDefault" column="IS_DEFAULT" columnIndex="7"/>
+		<result property="insDatim" column="INS_DATIM" columnIndex="8"/>
+		
+	</resultMap>
+		
+	<select id="calendar.list.permit" resultMap="calendar.list.permit">/* calendar.list.permit */
+		SELECT * FROM (
+			SELECT a.CALENDAR_ID, 'Y' AS IS_USERS, OWNER_ID, b.NAME, 'CRUDA' AS PERMISSIONS, 
+			IS_PUBLIC, IS_DEFAULT, a.INS_DATIM, 0 AS IDX
+			FROM CALENDAR a
+			JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID AND b.LANG_KND=#langKnd#
+			WHERE OWNER_ID=#ownerId#
+			<isNotNull property="domainId" prepend=" AND ">a.DOMAIN_ID=#domainId#</isNotNull>
+			<isNotNull property="calendarId" prepend=" AND ">a.CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+			UNION
+			SELECT c.CALENDAR_ID, 'Y' AS IS_USERS, #userId# AS OWNER_ID, e.NAME, PERMISSIONS, 
+			IS_PUBLIC, 'N' AS IS_DEFAULT, d.INS_DATIM, 1 AS IDX
+			FROM CALENDAR c 
+			JOIN CALENDAR_USER d ON d.CALENDAR_ID = c.CALENDAR_ID
+			JOIN CALENDAR_LANG e ON e.CALENDAR_ID = c.CALENDAR_ID AND e.LANG_KND=#langKnd#
+			WHERE USER_ID=#userId# AND c.IS_PUBLIC='N'
+			<isNotNull property="domainId" prepend=" AND ">c.DOMAIN_ID=#domainId#</isNotNull>
+			<isNotNull property="calendarId" prepend=" AND ">c.CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+			UNION
+			SELECT f.CALENDAR_ID, 'N' AS IS_USERS, f.OWNER_ID, g.NAME, 
+			CASE WHEN f.OWNER_ID = #userId# 
+			THEN 'CRUDA' 
+			ELSE CASE WHEN h.PERMISSIONS IS NULL
+				THEN CASE WHEN h3.PERMISSIONS IS NULL
+					THEN 'R' ELSE h3.PERMISSIONS END
+				ELSE h.PERMISSIONS
+				END
+			END AS PERMISSIONS,
+			'Y' AS IS_PUBLIC, 'N' AS IS_DEFAULT, f.INS_DATIM, 3 AS IDX
+			FROM CALENDAR_PUBLIC f
+			JOIN CALENDAR_LANG g ON g.CALENDAR_ID = f.CALENDAR_ID AND g.LANG_KND=#langKnd#
+			LEFT OUTER JOIN CALENDAR_PUBLIC_USER h ON h.CALENDAR_ID = f.CALENDAR_ID AND h.USER_ID = #userId#
+			LEFT OUTER JOIN (
+				SELECT h1.CALENDAR_ID, h1.GROUP_ID, h1.PERMISSIONS, h2.USER_ID
+				FROM CALENDAR_PUBLIC_GROUP h1
+				JOIN USERPASS h2 ON h2.ORG_CD = h1.GROUP_ID
+				WHERE h2.USER_ID=#userId#
+			) h3 ON h3.CALENDAR_ID = f.CALENDAR_ID
+			WHERE f.IS_USE='1'
+			<isNotNull property="domainId" prepend=" AND ">
+				<isGreaterThan property="domainId" compareValue="-1">( f.DOMAIN_ID=0 OR f.DOMAIN_ID=#domainId# )</isGreaterThan>
+			</isNotNull>
+			<isNotNull property="calendarId" prepend=" AND ">f.CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+			AND (f.PUBLIC_TYPE='P' OR  f.PUBLIC_TYPE='G' AND h3.PERMISSIONS IS NOT NULL )
+			<isNotNull property="isWithUserPublic">
+				<isEqual property="isWithUserPublic" compareValue="Y">
+					UNION
+					SELECT i.CALENDAR_ID, 'Y' AS IS_USERS, i.OWNER_ID, j.NAME,
+					CASE WHEN PERMISSIONS IS NULL
+					THEN 'R'
+					ELSE PERMISSIONS
+					END AS PERMISSIONS,
+					'Y' AS IS_PUBLIC, 'N' AS IS_DEFAULT, i.INS_DATIM, 2 AS IDX
+					FROM CALENDAR i
+					JOIN CALENDAR_LANG j ON j.CALENDAR_ID = i.CALENDAR_ID AND j.LANG_KND=#langKnd#
+					LEFT OUTER JOIN CALENDAR_USER k ON k.CALENDAR_ID = i.CALENDAR_ID AND k.USER_ID = #userId#
+					WHERE i.IS_PUBLIC='Y' AND i.OWNER_ID != #userId#
+					<isNotNull property="domainId" prepend=" AND ">
+						<isGreaterThan property="domainId" compareValue="-1">( i.DOMAIN_ID=0 OR a.DOMAIN_ID=#domainId# )</isGreaterThan>
+					</isNotNull>
+					<isNotNull property="calendarId" prepend=" AND ">i.CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+				</isEqual>
+			</isNotNull>
+		) t1
+		ORDER BY IDX ASC, IS_DEFAULT DESC, IS_PUBLIC ASC, INS_DATIM ASC
+	</select>
+	
+	<resultMap id="calendar.detail" class="com.saltware.enhancer.calendar.service.CalendarVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>
+		<result property="isUsers" column="IS_USERS" columnIndex="2"/>
+		<result property="isPublic" column="IS_PUBLIC" columnIndex="3"/>
+		<result property="isUserPublic" column="IS_PUBLIC" columnIndex="3"/>
+		<result property="isDefault" column="IS_DEFAULT" columnIndex="4"/>
+		<result property="fgColor" column="FG_COLOR" columnIndex="5"/>
+		<result property="bgColor" column="BG_COLOR" columnIndex="6"/>
+		<result property="ownerId" column="OWNER_ID" columnIndex="7"/>
+		<result property="permissions" columnIndex="8"/>
+	</resultMap>
+
+	<select id="calendar.detail" resultMap="calendar.detail"> /* calendar.detail */
+		SELECT a.CALENDAR_ID, 'Y' AS IS_USERS, IS_PUBLIC, IS_DEFAULT, COALESCE(b.FG_COLOR, a.FG_COLOR) AS FG_COLOR, COALESCE(b.BG_COLOR, a.BG_COLOR)AS BG_COLOR, OWNER_ID, b.PERMISSIONS 
+		FROM CALENDAR a
+		LEFT OUTER JOIN CALENDAR_USER b ON b.CALENDAR_ID = a.CALENDAR_ID
+		WHERE b.USER_ID=#userId#
+		<isNotNull property="calendarId" prepend=" AND ">a.CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+		<isNotNull property="domainId" prepend=" AND ">a.DOMAIN_ID=#domainId#</isNotNull>
+	</select>
+	
+	<select id="calendar.detail.owner" resultMap="calendar.detail"> /* calendar.detail.owner */
+		SELECT CALENDAR_ID, 'Y' AS IS_USERS, IS_PUBLIC, IS_DEFAULT, FG_COLOR, BG_COLOR, OWNER_ID, 'CRUDA' AS PERMISSIONS 
+		FROM CALENDAR
+		WHERE OWNER_ID=#ownerId#
+		<isNotNull property="calendarId" prepend=" AND ">CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+		<isNotNull property="isDefault" prepend=" AND ">IS_DEFAULT=#isDefault#</isNotNull>
+		<isNotNull property="domainId" prepend=" AND ">DOMAIN_ID=#domainId#</isNotNull>
+	</select>
+	
+	<select id="calendar.detail.joint" resultMap="calendar.detail"> /* calendar.detail.joint */
+		SELECT a.CALENDAR_ID, 'Y' AS IS_USERS, IS_PUBLIC, IS_DEFAULT, COALESCE(b.FG_COLOR, a.FG_COLOR) AS FG_COLOR, COALESCE(b.BG_COLOR, a.BG_COLOR)AS BG_COLOR, OWNER_ID, b.PERMISSIONS 
+		FROM CALENDAR a
+		LEFT OUTER JOIN CALENDAR_USER b ON b.CALENDAR_ID = a.CALENDAR_ID
+		WHERE b.USER_ID=#userId#
+		<isNotNull property="calendarId" prepend=" AND ">a.CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+		<isNotNull property="domainId" prepend=" AND ">a.DOMAIN_ID=#domainId#</isNotNull>
+	</select>
+	
+	<resultMap id="calendar.detail.public" class="com.saltware.enhancer.calendar.service.CalendarVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>
+		<result property="isUsers" column="IS_USERS" columnIndex="2"/>
+		<result property="isPublic" column="IS_PUBLIC" columnIndex="3"/>
+		<result property="isDefault" column="IS_DEFAULT" columnIndex="4"/>
+		<result property="isBilingual" column="IS_BILINGUAL" columnIndex="5"/>
+		<result property="publicType" column="OWNER_ID" columnIndex="6"/>
+		<result property="ownerId" column="OWNER_ID" columnIndex="7"/>
+		<result property="permissions" columnIndex="8"/>
+		<result property="isUserPublic" columnIndex="9"/>
+	</resultMap>
+
+	<select id="calendar.detail.public" resultMap="calendar.detail.public"> /* calendar.detail.public */
+		SELECT a.CALENDAR_ID, 'N' AS IS_USERS, 'Y' AS IS_PUBLIC, 'N' AS IS_DEFAULT, IS_BILINGUAL, PUBLIC_TYPE, OWNER_ID,
+		CASE WHEN a.OWNER_ID = #userId# 
+		THEN 'CRUDA'
+		ELSE CASE WHEN b.PERMISSIONS IS NULL 
+			THEN CASE WHEN e.PERMISSIONS IS NULL
+				THEN 'R' ELSE e.PERMISSIONS END
+			ELSE b.PERMISSIONS 
+			END
+		END AS PERMISSIONS,
+		'N' AS IS_USER_PUBLIC
+		FROM CALENDAR_PUBLIC a
+		LEFT OUTER JOIN CALENDAR_PUBLIC_USER b ON b.CALENDAR_ID = a.CALENDAR_ID AND b.USER_ID=#userId#
+		LEFT OUTER JOIN (
+				SELECT c.CALENDAR_ID, c.GROUP_ID, c.PERMISSIONS, d.USER_ID
+				FROM CALENDAR_PUBLIC_GROUP c
+				JOIN USERPASS d ON d.ORG_CD = c.GROUP_ID
+				WHERE d.USER_ID=#userId#
+			) e ON e.CALENDAR_ID = a.CALENDAR_ID
+		WHERE (a.PUBLIC_TYPE='P' OR a.PUBLIC_TYPE='G' AND e.PERMISSIONS IS NOT NULL )
+		<isNotNull property="calendarId" prepend=" AND ">a.CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+		<isNotNull property="domainId" prepend=" AND ">a.DOMAIN_ID=#domainId#</isNotNull>
+	</select>
+	
+	<select id="calendar.detail.user.public" resultMap="calendar.detail.public"> /* calendar.detail.user.public */
+		SELECT a.CALENDAR_ID, 'Y' AS IS_USERS, IS_PUBLIC, 'N' AS IS_DEFAULT, '0' AS IS_BILINGUAL, 'P' AS PUBLIC_TYPE, OWNER_ID, 
+		<isNotEqual property="isOwner" compareValue="Y">DECODE(b.PERMISSIONS, null, 'R')</isNotEqual>
+		<isEqual property="isOwner" compareValue="Y">'CRUDA'</isEqual> AS PERMISSIONS,
+		'Y' AS IS_USER_PUBLIC
+		FROM CALENDAR a
+		<isNotEqual property="isOwner" compareValue="Y">
+			LEFT OUTER JOIN CALENDAR_USER b ON b.CALENDAR_ID = a.CALENDAR_ID AND b.USER_ID=#userId#
+		</isNotEqual>
+		WHERE a.IS_PUBLIC = 'Y'
+		<isNotNull property="calendarId" prepend=" AND ">a.CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+		<isNotNull property="domainId" prepend=" AND ">a.DOMAIN_ID=#domainId#</isNotNull>
+	</select>
+	
+	<insert id="calendar.insert">/* calendar.insert */
+		INSERT INTO CALENDAR (CALENDAR_ID, DOMAIN_ID, IS_PUBLIC, IS_DEFAULT, FG_COLOR, BG_COLOR, OWNER_ID, INS_DATIM, UPD_DATIM)
+		VALUES (CAST(#calendarId# AS INTEGER), #domainId#, #isPublic#, #isDefault#, #fgColor#, #bgColor#, #ownerId#, SYSDATE, SYSDATE)
+	</insert>
+	
+	<update id="calendar.update">/* calendar.update */
+		UPDATE CALENDAR SET UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+	</update>
+	
+	<update id="calendar.update.bg.owner">/* calendar.update.bg.owner */
+		UPDATE CALENDAR SET 
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER) AND OWNER_ID=#ownerId#
+	</update>	
+	
+	<update id="calendar.update.bg.joint">/* calendar.update.bg.joint */
+		UPDATE CALENDAR_USER SET 
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER) AND USER_ID=#userId#
+	</update>
+	
+	<update id="calendar.update.bg.public">/* calendar.update.bg.public */
+		UPDATE CALENDAR_PUBLIC SET 
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+		AND IS_USE='1'
+		AND ( 
+			OWNER_ID=#userId#
+			OR (SELECT COUNT(*) FROM CALENDAR_PUBLIC_USER WHERE USER_ID=#userId# AND CALENDAR_ID=CAST(#calendarId# AS INTEGER) AND PERMISSIONS LIKE '%U%') > 0
+			OR (SELECT COUNT(*) FROM CALENDAR_PUBLIC_GROUP WHERE GROUP_ID = (SELECT ORG_CD FROM USERPASS WHERE USER_ID=#userId# ) AND CALENDAR_ID=CAST(#calendarId# AS INTEGER) AND PERMISSIONS LIKE '%U%') > 0 )
+	</update>
+	
+	<update id="calendar.update.bg.user.public">/* calendar.update.bg.public */
+		UPDATE CALENDAR SET 
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+		AND ( OWNER_ID=#userId# OR (SELECT COUNT(*) FROM CALENDAR_USER WHERE USER_ID=#userId# AND CALENDAR_ID=CAST(#calendarId# AS INTEGER) AND PERMISSIONS LIKE '%U%') > 0 )
+	</update>		
+	
+	<delete id="calendar.delete">/* calendar.delete */
+		DELETE FROM CALENDAR 
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER) AND OWNER_ID=#ownerId# AND IS_DEFAULT='N'
+	</delete>
+	
+	<delete id="calendar.delete.joint">/* calendar.delete.joint */
+		DELETE FROM CALENDAR_USER
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER) AND USER_ID=#userId#
+	</delete>
+	
+	<resultMap id="calendar.detail.ical" class="com.saltware.enhancer.calendar.service.CalendarVO">
+		<result property="name" column="NAME" columnIndex="1"/>
+		<result property="comments" column="COMMENTS" columnIndex="2"/>
+		<result property="insDatim" column="INS_DATIM" columnIndex="3"/>
+		<result property="updDatim" column="UPD_DATIM" columnIndex="4"/>
+	</resultMap>
+
+	<select id="calendar.detail.ical" resultMap="calendar.detail.ical"> /* calendar.detail.ical */
+		SELECT NAME, COMMENTS, INS_DATIM, UPD_DATIM 
+		FROM CALENDAR_LANG
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER) AND LANG_KND=#langKnd#
+	</select>
+	
+	
+	<select id="calendar.check.duplicate.default" resultClass="int"> /* calendar.check.duplicate.default */
+		SELECT COUNT(CALENDAR_ID) FROM CALENDAR WHERE IS_DEFAULT = 'Y' AND OWNER_ID=#ownerId# 
+		<isNotNull property="domainId" prepend=" AND ">DOMAIN_ID=#domainId#</isNotNull>
+		GROUP BY IS_DEFAULT
+	</select>
+		
+	<update id="calendar.check.duplicate.default.update.n">/* calendar.check.duplicate.default.update.n */
+		UPDATE CALENDAR SET IS_DEFAULT ='N' WHERE OWNER_ID=#ownerId#
+		<isNotNull property="domainId" prepend=" AND ">DOMAIN_ID=#domainId#</isNotNull>
+	</update>	
+	
+	<update id="calendar.check.duplicate.default.update.y">/* calendar.check.duplicate.default.update.y */
+		UPDATE CALENDAR SET IS_DEFAULT ='Y' WHERE CALENDAR_ID = (
+			SELECT CALENDAR_ID FROM (
+				SELECT CALENDAR_ID, ROW_NUMBER() OVER(ORDER BY INS_DATIM) RNUM
+				FROM CALENDAR
+				WHERE OWNER_ID=#ownerId#
+				<isNotNull property="domainId" prepend=" AND ">DOMAIN_ID=#domainId#</isNotNull>
+			) WHERE RNUM=1
+		)
+	</update>		
+	
+</sqlMap>

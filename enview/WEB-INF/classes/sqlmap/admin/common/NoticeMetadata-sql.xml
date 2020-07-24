@@ -1,0 +1,124 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ NOTICE_METADATA : 공지사항 다국어 ] Table -->
+	<resultMap id="admin_NoticeMetadataVO_PK" class="com.saltware.enview.admin.notice.service.NoticeMetadataPK">
+	
+		<result property="id" column="ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_NoticeMetadataVO" class="com.saltware.enview.admin.notice.service.NoticeMetadataVO">
+	 
+		<result property="id" column="ID" columnIndex="1"/>	 
+		<result property="noticeId" column="NOTICE_ID" columnIndex="2"/>	 
+		<result property="langKnd" column="LANG_KND" columnIndex="3"/>	 
+		<result property="title" column="TITLE" columnIndex="4"/>	 
+		<result property="content" column="CONTENT" columnIndex="5"/>	
+	</resultMap>
+	
+	<select id="noticeMetadata.totalCount" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM NOTICE_METADATA
+			WHERE 1=1	
+				<isNotEqual prepend=" AND " property="noticeId" compareValue="0">NOTICE_ID=#noticeId#</isNotEqual>
+	</select>
+	
+	<select id="noticeMetadata.exist" resultClass="int">
+
+			SELECT COUNT(*) cnt
+			FROM NOTICE_METADATA
+			WHERE NOTICE_ID=#noticeId#
+			  AND LANG_KND=#langKnd#
+	</select>
+	
+	<select id="noticeMetadata.findByPage" resultMap="admin_NoticeMetadataVO_PK">
+	/* noticeMetadata.findByPage */
+		SELECT tb1.* FROM (
+			SELECT ID, row_number() over(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY ID ASC</isNull>
+			) as rnum
+			FROM NOTICE_METADATA
+			WHERE 1=1 
+			<isNotEqual prepend=" AND " property="noticeId" compareValue="0">NOTICE_ID=#noticeId#</isNotEqual>
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="noticeMetadata.findAll" resultMap="admin_NoticeMetadataVO_PK">
+			SELECT ID
+			FROM NOTICE_METADATA
+	</select>
+	
+	<select id="noticeMetadata.findByMaster" resultMap="admin_NoticeMetadataVO">
+			SELECT ID,NOTICE_ID,LANG_KND,TITLE,CONTENT
+			FROM NOTICE_METADATA
+			WHERE 1=1 
+				<isNotEqual prepend=" AND " property="noticeId" compareValue="0">NOTICE_ID=#noticeId#</isNotEqual>
+	</select>
+	
+
+	<select id="noticeMetadata.detail" resultMap="admin_NoticeMetadataVO">
+		<![CDATA[
+			SELECT ID,NOTICE_ID,LANG_KND,TITLE,CONTENT
+			FROM NOTICE_METADATA
+			WHERE 1=1 
+				AND ID=#id#
+		]]>
+	</select>
+	
+	<insert id="noticeMetadata.insert">
+		<![CDATA[
+			INSERT INTO NOTICE_METADATA
+				( ID,NOTICE_ID,LANG_KND,TITLE,CONTENT )
+			VALUES ( #id#,#noticeId#,#langKnd#,#title#,#content# )
+		]]>
+	</insert>
+	
+	<update id="noticeMetadata.update">
+		<![CDATA[
+			UPDATE NOTICE_METADATA
+			SET ID=#id#,NOTICE_ID=#noticeId#,LANG_KND=#langKnd#,TITLE=#title#,CONTENT=#content#
+			WHERE 1=1 
+				AND ID=#id#
+		]]>
+	</update>
+	
+	<delete id="noticeMetadata.delete">
+		DELETE FROM NOTICE_METADATA
+		WHERE 1=1 
+			AND ID=#id#
+	</delete>
+	
+	<delete id="noticeMetadata.deleteChildren">
+		DELETE FROM NOTICE_METADATA
+		WHERE 1=1 
+			AND NOTICE_ID=#noticeId#
+	</delete>
+	
+	<insert id="noticeMetadata.copy">
+		<![CDATA[
+			insert into notice_metadata
+			(
+			   id
+			 , notice_id
+			 , lang_knd
+			 , title
+			 , content
+			)
+			select CAST (#newId# AS DECIMAL) as id
+			     , CAST(#noticeId# AS DECIMAL) as notice_id
+			     , lang_knd
+			     , title
+			     , content
+			from NOTICE_METADATA
+			where id = #id#
+		
+		]]>
+	</insert>	
+
+</sqlMap>
+

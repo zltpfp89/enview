@@ -1,0 +1,94 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ SECURITY_POLICY : 관리화면 접근관리 ] Table -->
+	<resultMap id="admin_SecurityPolicyVO_PK" class="com.saltware.enview.admin.security.service.SecurityPolicyPK">
+	
+		<result property="policyId" column="POLICY_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_SecurityPolicyVO" class="com.saltware.enview.admin.security.service.SecurityPolicyVO">
+	 
+		<result property="policyId" column="POLICY_ID" columnIndex="1"/>	 
+		<result property="ipaddress" column="IPADDRESS" columnIndex="2"/>	 
+		<result property="resUrl" column="RES_URL" columnIndex="3"/>	 
+		<result property="authMethod" column="AUTH_METHOD" columnIndex="4"/>	 
+		<result property="isAllow" column="IS_ALLOW" columnIndex="5"/>	 
+		<result property="isEnabled" column="IS_ENABLED" columnIndex="6"/>	 
+		<result property="startDate" column="START_DATE" columnIndex="7"/>	 
+		<result property="endDate" column="END_DATE" columnIndex="8"/>	
+	</resultMap>
+	
+	<select id="securityPolicy.totalCount" resultClass="int">
+	/* securityPolicy.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM SECURITY_POLICY
+		WHERE 1=1	
+				<isNotNull  prepend=" AND " property="ipaddressCond">IPADDRESS LIKE COALESCE(#ipaddressCond#,'%')+'%'</isNotNull>
+	</select>
+	
+	<select id="securityPolicy.findByPage" resultMap="admin_SecurityPolicyVO_PK">
+	/* securityPolicy.findByPage */
+		SELECT tb1.* FROM (
+			SELECT POLICY_ID, ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY POLICY_ID ASC</isNull>
+			) as rnum
+			FROM SECURITY_POLICY
+			WHERE 1=1 
+			<isNotNull  prepend=" AND " property="ipaddressCond">IPADDRESS LIKE #ipaddressCond#+'%'</isNotNull>
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="securityPolicy.findAll" resultMap="admin_SecurityPolicyVO">
+			/* securityPolicy.findAll */
+			SELECT POLICY_ID,IPADDRESS,RES_URL,AUTH_METHOD,IS_ALLOW,IS_ENABLED,START_DATE,END_DATE
+			FROM SECURITY_POLICY
+			WHERE IS_ENABLED=1 AND END_DATE>GETDATE()
+	</select>
+	
+
+	<select id="securityPolicy.detail" resultMap="admin_SecurityPolicyVO">
+		/* securityPolicy.detail */
+		<![CDATA[
+			SELECT POLICY_ID,IPADDRESS,RES_URL,AUTH_METHOD,IS_ALLOW,IS_ENABLED,START_DATE,END_DATE
+			FROM SECURITY_POLICY
+			WHERE 1=1 
+				AND POLICY_ID=#policyId#
+		]]>
+	</select>
+	
+	<insert id="securityPolicy.insert">
+		/* securityPolicy.insert */
+		<![CDATA[
+			INSERT INTO SECURITY_POLICY
+				( POLICY_ID,IPADDRESS,RES_URL,AUTH_METHOD,IS_ALLOW,IS_ENABLED,START_DATE,END_DATE )
+			VALUES ( #policyId#,#ipaddress#,#resUrl#,#authMethod#,CAST(#isAllow# AS INTEGER),CAST(#isEnabled# AS INTEGER),#startDate#,#endDate# )
+		]]>
+	</insert>
+	
+	<update id="securityPolicy.update">
+		/* securityPolicy.update */
+		<![CDATA[
+			UPDATE SECURITY_POLICY
+			SET POLICY_ID=#policyId#,IPADDRESS=#ipaddress#,RES_URL=#resUrl#,AUTH_METHOD=#authMethod#,IS_ALLOW=CAST(#isAllow# AS INTEGER),IS_ENABLED=CAST(#isEnabled# AS INTEGER),START_DATE=#startDate#,END_DATE=#endDate#
+			WHERE 1=1 
+				AND POLICY_ID=#policyId#
+		]]>
+	</update>
+	
+	<delete id="securityPolicy.delete">
+		/* securityPolicy.delete */
+		<![CDATA[
+			DELETE FROM SECURITY_POLICY
+			WHERE 1=1 
+				AND POLICY_ID=#policyId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

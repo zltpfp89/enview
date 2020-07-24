@@ -1,0 +1,18 @@
+<chart caption='Enview' subCaption='Memory Monitor' dataStreamURL='/enview/widget/data/MemoryValue.jsp' refreshInterval='1' numberPrefix='' setAdaptiveYMin='1' xAxisName='Time' showRealTimeValue='1' realTimeValuePadding='50' labelDisplay='Rotate' slantLabels='1'>
+   <categories>
+   </categories>
+
+   <dataset seriesName='Memory' showValues='1'>
+   </dataset>
+   
+   <styles>
+      <definition>
+         <style type='font' name='captionFont' fontcolor='red' size='12' />
+      </definition>
+      
+      <application>
+         <apply toObject='Caption' styles='captionFont' />
+         <apply toObject='Realtimevalue' styles='captionFont' />
+      </application>
+   </styles>
+</chart>

@@ -1,0 +1,211 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ SECURITY_USER_GROUP : 사용자그룹 ] Table -->
+	<resultMap id="admin_UserGroupVO_PK" class="com.saltware.enview.admin.user.service.UserGroupPK">
+	
+		<result property="userId" column="USER_ID" columnIndex="1"/>	
+		<result property="groupId" column="GROUP_ID" columnIndex="2"/>	
+	</resultMap>
+	
+	<resultMap id="admin_UserGroupVO" class="com.saltware.enview.admin.user.service.UserGroupVO">
+		<result property="groupId" column="GROUP_ID" columnIndex="1"/>	 
+		<result property="userId" column="USER_ID" columnIndex="2"/>	 
+		<result property="shortPath" column="SHORT_PATH" columnIndex="3"/>	 
+		<result property="principalName0" column="PRINCIPAL_NAME0" columnIndex="4"/>	 
+		<result property="mileageTag" column="MILEAGE_TAG" columnIndex="5"/>	 
+		<result property="sortOrder" column="SORT_ORDER" columnIndex="6"/>	
+		<result property="domain" column="DOMAIN" columnIndex="7"/>	
+		<result property="domainId" column="DOMAIN_ID" columnIndex="8"/>	
+		<result property="domainNm" column="DOMAIN_NM" columnIndex="9"/>
+		<result property="empNo" column="EMP_NO" columnIndex="10"/>
+		<result property="orgCd" column="ORG_CD" columnIndex="11"/>
+		<result property="principalInfo01" column="PRINCIPAL_INFO01" columnIndex="12"/>
+		<result property="principalInfo02" column="PRINCIPAL_INFO02" columnIndex="13"/>
+		<result property="principalInfo03" column="PRINCIPAL_INFO03" columnIndex="14"/>
+	</resultMap>
+	
+	<select id="userGroup.totalCountGroup" resultClass="int">
+	/* userGroup.totalCountGroup */
+		SELECT COUNT(*) totcnt
+		FROM SECURITY_USER_GROUP
+		WHERE 1=1
+		<isGreaterEqual prepend=" AND " property="domainId" compareValue="1">
+			GROUP_ID IN ( 
+				SELECT PRINCIPAL_ID 
+				FROM SECURITY_PRINCIPAL 
+				WHERE PRINCIPAL_TYPE='G'
+                  		AND (DOMAIN_ID=0 OR DOMAIN_ID=CAST(#domainId# AS INTEGER))
+			)
+		</isGreaterEqual>
+		<isNotEqual prepend=" AND " property="userId" compareValue="0">USER_ID=CAST(#userId# AS INTEGER)</isNotEqual>
+	</select>
+	
+	<select id="userGroup.totalCountUser" resultClass="int">
+	/* userGroup.totalCountUser */
+		SELECT COUNT(*) totcnt     
+        FROM
+            SECURITY_USER_GROUP A JOIN SECURITY_PRINCIPAL B ON A.USER_ID = B.PRINCIPAL_ID AND B.PRINCIPAL_TYPE = 'U'
+        WHERE
+            1=1        
+            <isNotEqual prepend=" AND " property="groupId" compareValue="0">A.GROUP_ID=CAST(#groupId# AS INTEGER)</isNotEqual>
+            <isNotNull  prepend=" AND " property="shortPathCond">B.SHORT_PATH LIKE '%'+#shortPathCond#+'%'</isNotNull>
+            <isNotNull  prepend=" AND " property="principalNameCond">B.PRINCIPAL_NAME LIKE '%'+#principalNameCond#+'%'</isNotNull>
+	</select>
+	
+	<select id="userGroup.exist" resultClass="int">
+	/* userGroup.exist */
+		SELECT COUNT(*) cnt
+		FROM SECURITY_USER_GROUP
+		WHERE USER_ID=CAST(#userId# AS INTEGER) AND GROUP_ID=CAST(#groupId# AS INTEGER)
+	</select>
+	
+	<select id="userGroup.findGroupByPage" resultMap="admin_UserGroupVO_PK">
+	/* userGroup.findGroupByPage */
+		SELECT * FROM (
+			SELECT USER_ID,GROUP_ID,ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY SORT_ORDER ASC</isNull>
+			) as rnum 
+			FROM SECURITY_USER_GROUP
+			WHERE 1=1
+			<isGreaterEqual prepend=" AND " property="domainId" compareValue="1">
+				GROUP_ID IN ( 
+					SELECT PRINCIPAL_ID 
+					FROM SECURITY_PRINCIPAL 
+					WHERE PRINCIPAL_TYPE='G'
+                   		AND (DOMAIN_ID=0 OR DOMAIN_ID=CAST(#domainId# AS INTEGER))
+				)
+			</isGreaterEqual>
+			<isNotEqual prepend=" AND " property="userId" compareValue="0">USER_ID=CAST(#userId# AS INTEGER)</isNotEqual>
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+	
+	<select id="userGroup.findUserByPage" resultMap="admin_UserGroupVO_PK">
+	    SELECT tb.* FROM (      
+	    	SELECT A.USER_ID, A.GROUP_ID, B.SHORT_PATH, B.PRINCIPAL_NAME, ROW_NUMBER() OVER(          
+	        		<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+					<isNull property="sortColumn">ORDER BY SORT_ORDER ASC</isNull>
+				) as rnum       
+	        FROM SECURITY_USER_GROUP A JOIN SECURITY_PRINCIPAL B ON A.USER_ID = B.PRINCIPAL_ID AND B.PRINCIPAL_TYPE = 'U'
+	        WHERE 1=1        
+            <isNotEqual prepend=" AND " property="groupId" compareValue="0">A.GROUP_ID=CAST(#groupId# AS INTEGER)</isNotEqual>
+            <isNotNull  prepend=" AND " property="shortPathCond">B.SHORT_PATH LIKE '%'+#shortPathCond#+'%'</isNotNull>
+            <isNotNull  prepend=" AND " property="principalNameCond">B.PRINCIPAL_NAME LIKE '%'+#principalNameCond#+'%'</isNotNull>    
+	    ) tb 
+	    WHERE tb.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="userGroup.findAll" resultMap="admin_UserGroupVO_PK">
+			SELECT USER_ID,GROUP_ID
+			FROM SECURITY_USER_GROUP
+	</select>
+	
+	<select id="userGroup.findGroupByMaster" resultMap="admin_UserGroupVO_PK">
+			SELECT USER_ID,GROUP_ID
+			FROM SECURITY_USER_GROUP
+			WHERE 1=1 
+				<isNotEqual prepend=" AND " property="userId" compareValue="0">=CAST(#userId# AS INTEGER)</isNotEqual>
+	</select>
+	
+	<select id="userGroup.findUserByMaster" resultMap="admin_UserGroupVO_PK">
+			SELECT USER_ID,GROUP_ID
+			FROM SECURITY_USER_GROUP
+			WHERE 1=1 
+				<isNotEqual prepend=" AND " property="groupId" compareValue="0">=CAST(#groupId# AS INTEGER)</isNotEqual>
+	</select>
+	
+	<select id="userGroup.detailGroup" resultMap="admin_UserGroupVO">
+	/* userGroup.detailGroup */
+<!-- 		<![CDATA[
+			SELECT a.GROUP_ID, a.USER_ID, b.SHORT_PATH, b.PRINCIPAL_NAME PRINCIPAL_NAME0, a.MILEAGE_TAG, a.SORT_ORDER
+			FROM SECURITY_USER_GROUP a INNER JOIN SECURITY_PRINCIPAL b ON a.GROUP_ID=b.PRINCIPAL_ID
+			WHERE 1=1 
+				AND a.USER_ID=CAST(#userId# AS INTEGER)
+				AND a.GROUP_ID=CAST(#groupId# AS INTEGER)
+		]]> -->
+		
+		SELECT a.GROUP_ID, a.USER_ID, b.SHORT_PATH, b.PRINCIPAL_NAME PRINCIPAL_NAME0, a.MILEAGE_TAG, a.SORT_ORDER,c.DOMAIN, c.DOMAIN_ID, d.DOMAIN_NM, a.EMP_NO, a.ORG_CD, b.PRINCIPAL_INFO01, b.PRINCIPAL_INFO02, b.PRINCIPAL_INFO03
+		FROM SECURITY_USER_GROUP a INNER JOIN SECURITY_PRINCIPAL b  ON a.GROUP_ID=b.PRINCIPAL_ID, DOMAIN c, DOMAIN_LANG d
+		WHERE 1=1 
+		AND a.USER_ID=CAST(#userId# AS INTEGER)
+		AND a.GROUP_ID=CAST(#groupId# AS INTEGER) 
+		AND b.DOMAIN_ID=c.DOMAIN_ID
+		AND b.DOMAIN_ID=d.DOMAIN_ID
+		AND d.LANG_KND=#langKnd#
+	</select>
+	
+	<select id="userGroup.detailUser" resultMap="admin_UserGroupVO">
+		/* userGroup.detailUser */
+<!-- 		<![CDATA[
+			SELECT a.GROUP_ID, a.USER_ID, b.SHORT_PATH, b.PRINCIPAL_NAME PRINCIPAL_NAME0, a.MILEAGE_TAG, a.SORT_ORDER
+			FROM SECURITY_USER_GROUP a INNER JOIN SECURITY_PRINCIPAL b ON a.USER_ID=b.PRINCIPAL_ID
+			WHERE 1=1 
+				AND a.USER_ID=CAST(#userId# AS INTEGER)
+				AND a.GROUP_ID=CAST(#groupId# AS INTEGER)
+		]]> -->			
+			SELECT a.GROUP_ID, a.USER_ID, b.SHORT_PATH, b.PRINCIPAL_NAME PRINCIPAL_NAME0, a.MILEAGE_TAG, a.SORT_ORDER, c.DOMAIN, c.DOMAIN_ID, d.DOMAIN_NM, a.EMP_NO, a.ORG_CD, b.PRINCIPAL_INFO01, b.PRINCIPAL_INFO02, b.PRINCIPAL_INFO03
+			FROM SECURITY_USER_GROUP a INNER JOIN SECURITY_PRINCIPAL b ON a.USER_ID=b.PRINCIPAL_ID,DOMAIN c, DOMAIN_LANG d
+			WHERE 1=1 
+		    AND a.USER_ID=CAST(#userId# AS INTEGER)
+			AND a.GROUP_ID=CAST(#groupId# AS INTEGER)
+			AND b.DOMAIN_ID = c.DOMAIN_ID
+			AND b.DOMAIN_ID = d.DOMAIN_ID
+			AND d.lang_knd = #langKnd#
+	</select>
+	
+	<insert id="userGroup.insert">
+			INSERT INTO SECURITY_USER_GROUP
+				( GROUP_ID,USER_ID,MILEAGE_TAG,SORT_ORDER, EMP_NO, ORG_CD)
+			VALUES ( CAST(#groupId# AS INTEGER),CAST(#userId# AS INTEGER),'N',(SELECT count(USER_ID) FROM SECURITY_USER_GROUP WHERE USER_ID=CAST(#userId# AS INTEGER)),#empNo#,#orgCd#)
+	</insert>
+	
+	<update id="userGroup.update">
+		<![CDATA[
+			UPDATE SECURITY_USER_GROUP
+			SET GROUP_ID=CAST(#groupId# AS INTEGER),USER_ID=CAST(#userId# AS INTEGER),MILEAGE_TAG=#mileageTag#,SORT_ORDER=#sortOrder#, EMP_NO=#empNo#, ORG_CD=#orgCd#
+			WHERE 1=1 
+				AND USER_ID=CAST(#userId# AS INTEGER)
+				AND GROUP_ID=CAST(#groupId# AS INTEGER)
+		]]>
+	</update>
+	
+	<delete id="userGroup.delete">
+		<![CDATA[
+			DELETE FROM SECURITY_USER_GROUP
+			WHERE 1=1 
+				AND USER_ID=CAST(#userId# AS INTEGER)
+				AND GROUP_ID=CAST(#groupId# AS INTEGER)
+		]]>
+	</delete>
+	
+	<delete id="userGroup.deleteGroupChildren">
+		<![CDATA[
+			DELETE FROM SECURITY_USER_GROUP
+			WHERE 1=1 
+				AND USER_ID=CAST(#userId# AS INTEGER)
+		]]>
+	</delete>
+	
+	<delete id="userGroup.deleteUserChildren">
+		<![CDATA[
+			DELETE FROM SECURITY_USER_GROUP
+			WHERE 1=1 
+				AND GROUP_ID=CAST(#groupId# AS INTEGER)
+		]]>
+	</delete>
+	
+	<update id="userGroup.changeOrder">
+		<![CDATA[
+			UPDATE SECURITY_USER_GROUP
+			SET SORT_ORDER=#sortOrder#
+			WHERE GROUP_ID=CAST(#groupId# AS INTEGER)
+			AND USER_ID=CAST(#userId# AS INTEGER)
+		]]>
+	</update>
+	
+</sqlMap>
+

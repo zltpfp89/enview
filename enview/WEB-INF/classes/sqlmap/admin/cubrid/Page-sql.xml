@@ -1,0 +1,349 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ PAGE : 페이지관리 ] Table -->
+	<resultMap id="admin_PageVO_PK" class="com.saltware.enview.admin.page.service.PagePK">
+	
+		<result property="pageId" column="PAGE_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_PageVO" class="com.saltware.enview.admin.page.service.PageVO">
+		<result property="pageId" column="PAGE_ID" columnIndex="1"/>	 
+		<result property="parentId" column="PARENT_ID" columnIndex="2"/>	 
+		<result property="systemCode" column="SYSTEM_CODE" columnIndex="3"/>	 
+		<result property="path" column="PATH" columnIndex="4"/>	 
+		<result property="depth" column="DEPTH" columnIndex="5"/>	 
+		<result property="name" column="NAME" columnIndex="6"/>	 
+		<result property="type" column="TYPE" columnIndex="7"/>	 
+		<result property="pageType" column="PAGE_TYPE" columnIndex="8"/>	 
+		<result property="title" column="TITLE" columnIndex="9"/>	 
+		<result property="shortTitle" column="SHORT_TITLE" columnIndex="10"/>	 
+		<result property="sortOrder" column="SORT_ORDER" columnIndex="11"/>	 
+		<result property="isHidden" column="IS_HIDDEN" columnIndex="12"/>	 
+		<result property="isQuickMenu" column="IS_QUICK_MENU" columnIndex="13"/>	 
+		<result property="isProtected" column="IS_PROTECTED" columnIndex="14"/>	 
+		<result property="useTheme" column="USE_THEME" columnIndex="15"/>	 
+		<result property="useIframe" column="USE_IFRAME" columnIndex="16"/>	 
+		<result property="defaultPageName" column="DEFAULT_PAGE_NAME" columnIndex="17"/>	 
+		<result property="defaultPagePath" column="DEFAULT_PAGE_PATH" columnIndex="18"/>	 
+		<result property="target" column="TARGET" columnIndex="19"/>	 
+		<result property="url" column="URL" columnIndex="20"/>	 
+		<result property="parameter" column="PARAMETER" columnIndex="21"/>	 
+		<result property="skin" column="SKIN" columnIndex="22"/>	 
+		<result property="defaultLayoutDecorator" column="DEFAULT_LAYOUT_DECORATOR" columnIndex="23"/>	 
+		<result property="defaultPortletDecorator" column="DEFAULT_PORTLET_DECORATOR" columnIndex="24"/>	 
+		<result property="owner" column="OWNER" columnIndex="25"/>	 
+		<result property="masterPagePath" column="MASTER_PAGE_PATH" columnIndex="26"/>	 
+		<result property="pageInfo01" column="PAGE_INFO01" columnIndex="27"/>	 
+		<result property="pageInfo02" column="PAGE_INFO02" columnIndex="28"/>	 
+		<result property="pageInfo03" column="PAGE_INFO03" columnIndex="29"/>	
+		<result property="domain" column="DOMAIN" columnIndex="30" nullValue=""/>	
+		<result property="domainId" column="DOMAIN_ID" columnIndex="31" nullValue="0"/>
+		<result property="domainCode" column="DOMAIN_CODE" columnIndex="32" nullValue=""/>
+	</resultMap>
+	
+	<select id="page.totalCount" resultClass="int">
+	/* page.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM PAGE a
+		LEFT OUTER JOIN "DOMAIN" b ON a.DOMAIN_ID = b.DOMAIN_ID
+		WHERE 1=1 AND PATH NOT LIKE '/user%' AND PATH NOT LIKE '/group%' AND PATH NOT LIKE '/cafe%' AND PATH NOT LIKE '/blog%'
+		<isNotNull property="hideIfSelfId">AND a.PAGE_ID != #hideIfSelfId# </isNotNull>
+		<isNull property="isAdmin">AND a.PATH NOT LIKE '/admin%' AND a.PATH NOT LIKE '/demo%'</isNull>
+		<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">
+			(
+			<isNotNull property="showPublic">a.DOMAIN_ID=0 OR </isNotNull>
+				a.DOMAIN_ID=CAST(#domainId# AS INTEGER)
+			)
+		</isGreaterEqual>
+		<isNotEqual prepend=" AND " property="parentId" compareValue="0">PARENT_ID=CAST( #parentId# AS INTEGER)</isNotEqual>
+		<isNotNull  prepend=" AND " property="pathCond">PATH LIKE COALESCE(#pathCond#,'%')||'%'</isNotNull>
+	</select>
+	
+	<select id="page.exist" resultClass="int">
+	/* page.exist */
+		SELECT COUNT(*) cnt
+		FROM (SELECT NAME FROM PAGE WHERE PARENT_ID=CAST( #parentId# AS INTEGER)) a
+		WHERE NAME=#name#
+	</select>
+	
+	<select id="page.findByPage" resultMap="admin_PageVO">
+    /* page.findByPage */
+	    SELECT t1.* 
+		, ( SELECT "value" FROM  PAGE_METADATA WHERE page_id = t1.page_id AND name='title' and locale=#langKnd#) TITLE
+		, ( SELECT "value" FROM  PAGE_METADATA WHERE page_id = t1.page_id AND name='short-title' and locale=#langKnd#) SHORT_TITLE
+	    FROM (
+			SELECT a.PAGE_ID,a.PARENT_ID,a.SYSTEM_CODE,a.PATH,a."DEPTH",a.NAME,a.TYPE,a.PAGE_TYPE,a.SORT_ORDER,a.IS_HIDDEN,a.IS_QUICK_MENU,a.IS_PROTECTED,a.USE_THEME,a.USE_IFRAME,a.DEFAULT_PAGE_NAME,(SELECT b.PATH FROM PAGE b WHERE b.PAGE_ID=CAST(a.DEFAULT_PAGE_NAME AS INTEGER)) AS DEFAULT_PAGE_PATH,a.TARGET,a.URL,a.PARAMETER,a.SKIN,a.DEFAULT_LAYOUT_DECORATOR,a.DEFAULT_PORTLET_DECORATOR,a.OWNER,a.MASTER_PAGE_PATH,a.PAGE_INFO01,a.PAGE_INFO02,a.PAGE_INFO03,b."DOMAIN",a.DOMAIN_ID,b.DOMAIN_CODE, ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY a.SORT_ORDER ASC</isNull>
+			) as rnum
+			FROM PAGE a
+			LEFT OUTER JOIN "DOMAIN" b ON a.DOMAIN_ID = b.DOMAIN_ID
+			WHERE 1=1 AND PATH NOT LIKE '/user%' AND PATH NOT LIKE '/group%' AND PATH NOT LIKE '/cafe%' AND PATH NOT LIKE '/blog%'
+			<isNotNull property="hideIfSelfId">AND a.PAGE_ID != #hideIfSelfId# </isNotNull>
+			<isNull property="isAdmin">AND a.PATH NOT LIKE '/admin%' AND a.PATH NOT LIKE '/demo%'</isNull>
+			<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">
+				(
+				<isNotNull property="showPublic">a.DOMAIN_ID=0 OR </isNotNull>
+					a.DOMAIN_ID=CAST(#domainId# AS INTEGER)
+				)
+			</isGreaterEqual>
+			<isNotEqual prepend=" AND " property="parentId" compareValue="0">PARENT_ID=CAST( #parentId# AS INTEGER)</isNotEqual>
+			<isNotNull  prepend=" AND " property="pathCond">PATH LIKE COALESCE(#pathCond#,'%')||'%'</isNotNull>
+		) t1 WHERE t1.rnum BETWEEN CAST(#startRow# AS INTEGER) AND CAST(#endRow# AS INTEGER)
+	</select>
+
+	<select id="page.findAll" resultMap="admin_PageVO">
+			/* page.findAll */ 
+			SELECT a.PAGE_ID,a.PARENT_ID,a.SYSTEM_CODE,a.PATH,a."DEPTH",a.NAME,a.TYPE,a.PAGE_TYPE,a.TITLE,a.SHORT_TITLE,a.SORT_ORDER,a.IS_HIDDEN,a.IS_QUICK_MENU,a.IS_PROTECTED,a.USE_THEME,a.USE_IFRAME,a.DEFAULT_PAGE_NAME,(SELECT b.PATH FROM PAGE b WHERE b.PAGE_ID=CAST(a.DEFAULT_PAGE_NAME AS INTEGER)) AS DEFAULT_PAGE_PATH,a.TARGET,a.URL,a.PARAMETER,a.SKIN,a.DEFAULT_LAYOUT_DECORATOR,a.DEFAULT_PORTLET_DECORATOR,a.OWNER,a.MASTER_PAGE_PATH,a.PAGE_INFO01,a.PAGE_INFO02,a.PAGE_INFO03,b."DOMAIN",b.DOMAIN_ID,b.DOMAIN_CODE
+			FROM PAGE a
+			LEFT OUTER JOIN "DOMAIN" b ON a.DOMAIN_ID = b.DOMAIN_ID
+			WHERE a.PATH NOT LIKE '/user%' AND PATH NOT LIKE '/group%' AND a.PATH NOT LIKE '/cafe%' AND a.PATH NOT LIKE '/blog%'
+	</select>
+	
+	<select id="page.findByCondition" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+			/* page.findByCondition */
+			SELECT PAGE_ID, PATH, SHORT_TITLE
+	        FROM PAGE
+	        WHERE PAGE_ID IN ($pages$)
+	</select>
+	
+	<select id="page.findByPath" resultMap="admin_PageVO">
+			/* page.findByPath */
+			SELECT a.PAGE_ID,a.PARENT_ID,a.SYSTEM_CODE,a.PATH,a."DEPTH",a.NAME,a.TYPE,a.PAGE_TYPE,a.TITLE,a.SHORT_TITLE,a.SORT_ORDER,a.IS_HIDDEN,a.IS_QUICK_MENU,a.IS_PROTECTED,a.USE_THEME,a.USE_IFRAME,a.DEFAULT_PAGE_NAME,(SELECT b.PATH FROM PAGE b WHERE b.PAGE_ID=CAST(a.DEFAULT_PAGE_NAME AS INTEGER)) AS DEFAULT_PAGE_PATH,a.TARGET,a.URL,a.PARAMETER,a.SKIN,a.DEFAULT_LAYOUT_DECORATOR,a.DEFAULT_PORTLET_DECORATOR,a.OWNER,a.MASTER_PAGE_PATH,a.PAGE_INFO01,a.PAGE_INFO02,a.PAGE_INFO03,b."DOMAIN",b.DOMAIN_ID,b.DOMAIN_CODE
+			FROM PAGE a
+			LEFT OUTER JOIN "DOMAIN" b ON a.DOMAIN_ID = b.DOMAIN_ID
+			WHERE PATH=#path#
+	</select>
+	
+	<select id="page.findByMaster" resultMap="admin_PageVO_PK">
+			/* page.findByMaster */
+			SELECT PAGE_ID
+			FROM PAGE
+			WHERE 1=1 
+				<isNotEqual prepend=" AND " property="parentId" compareValue="0">=#parentId#</isNotEqual>
+	</select>
+	
+	<select id="page.findChildren" resultMap="admin_PageVO">
+	    /* page.findChildren */
+			SELECT a.PAGE_ID,a.PARENT_ID,a.SYSTEM_CODE,a.PATH,a."DEPTH",a.NAME,a.TYPE,a.PAGE_TYPE,a.TITLE,a.SHORT_TITLE,a.SORT_ORDER,a.IS_HIDDEN,a.IS_QUICK_MENU,a.IS_PROTECTED,a.USE_THEME,a.USE_IFRAME,a.DEFAULT_PAGE_NAME,(SELECT b.PATH FROM PAGE b WHERE b.PAGE_ID=CAST(a.DEFAULT_PAGE_NAME AS INTEGER)) AS DEFAULT_PAGE_PATH,a.TARGET,a.URL,a.PARAMETER,a.SKIN,a.DEFAULT_LAYOUT_DECORATOR,a.DEFAULT_PORTLET_DECORATOR,a.OWNER,a.MASTER_PAGE_PATH,a.PAGE_INFO01,a.PAGE_INFO02,a.PAGE_INFO03,b."DOMAIN",b.DOMAIN_ID,b.DOMAIN_CODE
+			FROM PAGE a
+			LEFT OUTER JOIN "DOMAIN" b ON a.DOMAIN_ID = b.DOMAIN_ID
+			WHERE a.PARENT_ID=CAST( #id# AS INTEGER)
+			<isGreaterThan prepend=" AND " property="domainId" compareValue="0">a.DOMAIN_ID=CAST(#domainId# AS INTEGER)</isGreaterThan>
+			ORDER BY a.SORT_ORDER ASC
+	</select>
+	
+	<select id="page.findChildrenByPath" resultMap="admin_PageVO">
+	/* page.findChildrenByPath */
+			SELECT a.PAGE_ID,a.PARENT_ID,a.SYSTEM_CODE,a.PATH,a."DEPTH",a.NAME,a.TYPE,a.PAGE_TYPE,a.TITLE,a.SHORT_TITLE,a.SORT_ORDER,a.IS_HIDDEN,a.IS_QUICK_MENU,a.IS_PROTECTED,a.USE_THEME,a.USE_IFRAME,a.DEFAULT_PAGE_NAME,(SELECT b.PATH FROM PAGE b WHERE b.PAGE_ID=CAST(a.DEFAULT_PAGE_NAME AS INTEGER)) AS DEFAULT_PAGE_PATH,a.TARGET,a.URL,a.PARAMETER,a.SKIN,a.DEFAULT_LAYOUT_DECORATOR,a.DEFAULT_PORTLET_DECORATOR,a.OWNER,a.MASTER_PAGE_PATH,a.PAGE_INFO01,a.PAGE_INFO02,a.PAGE_INFO03,b."DOMAIN",a.DOMAIN_ID,b.DOMAIN_CODE
+			FROM PAGE a
+			LEFT OUTER JOIN "DOMAIN" b ON a.DOMAIN_ID = b.DOMAIN_ID
+			WHERE a.PATH = #path# OR a.PATH like #path#||'%'
+	</select>
+
+	<select id="page.detail" resultMap="admin_PageVO">
+		/* page.detail */
+	    SELECT a.PAGE_ID,a.PARENT_ID,a.SYSTEM_CODE,a.PATH,a."DEPTH",a.NAME,a.TYPE,a.PAGE_TYPE,a.TITLE,a.SHORT_TITLE,a.SORT_ORDER,a.IS_HIDDEN,a.IS_QUICK_MENU,a.IS_PROTECTED,a.USE_THEME,a.USE_IFRAME,a.DEFAULT_PAGE_NAME,(SELECT b.PATH FROM PAGE b WHERE b.PAGE_ID=CAST(a.DEFAULT_PAGE_NAME AS INTEGER)) AS DEFAULT_PAGE_PATH,a.TARGET,a.URL,a.PARAMETER,a.SKIN,a.DEFAULT_LAYOUT_DECORATOR,a.DEFAULT_PORTLET_DECORATOR,a.OWNER,a.MASTER_PAGE_PATH,a.PAGE_INFO01,a.PAGE_INFO02,a.PAGE_INFO03, b."DOMAIN", a.DOMAIN_ID, b.DOMAIN_CODE
+		FROM PAGE a
+		LEFT OUTER JOIN "DOMAIN" b ON b.DOMAIN_ID = a.DOMAIN_ID
+		WHERE 1=1 AND  a.PAGE_ID=CAST( #pageId# AS INTEGER)
+	</select>
+	
+	<select id="page.validateInsertable" resultClass="int">
+		SELECT COUNT(PARENT_ID) FROM PAGE WHERE PAGE_ID=CAST(#parentId# AS INTEGER)
+	</select>
+	
+	<insert id="page.insert">
+		/* page.insert */
+		<![CDATA[
+			INSERT INTO PAGE
+				( PAGE_ID,PARENT_ID,SYSTEM_CODE,DOMAIN_ID,PATH,"DEPTH",NAME,TYPE,PAGE_TYPE,TITLE,SHORT_TITLE,SORT_ORDER,IS_HIDDEN,IS_QUICK_MENU,IS_PROTECTED,USE_THEME,USE_IFRAME,DEFAULT_PAGE_NAME,TARGET,URL,PARAMETER,SKIN,DEFAULT_LAYOUT_DECORATOR,DEFAULT_PORTLET_DECORATOR,OWNER,MASTER_PAGE_PATH,PAGE_INFO01,PAGE_INFO02,PAGE_INFO03)
+			VALUES ( #pageId#,#parentId:INTEGER#,#systemCode:VARCHAR#,#domainId:INTEGER#,#path:VARCHAR#,#depth:INTEGER#,#name:VARCHAR#,#type:VARCHAR#,#pageType:VARCHAR#,#title:VARCHAR#,#shortTitle:VARCHAR#,(SELECT count(PAGE_ID) FROM PAGE WHERE PARENT_ID=#parentId:INTEGER#),
+			CAST(#isHidden:INTEGER# AS INTEGER),
+			CAST(#isQuickMenu:INTEGER# AS INTEGER),
+			CAST(#isProtected:INTEGER# AS INTEGER),
+			CAST(#useTheme:INTEGER# AS INTEGER),
+			CAST(#useIframe:INTEGER# AS INTEGER),
+			#defaultPageName:VARCHAR#,#target:VARCHAR#,#url:VARCHAR#,#parameter:VARCHAR#,#skin:VARCHAR#,#defaultLayoutDecorator:VARCHAR#,#defaultPortletDecorator:VARCHAR#,#owner:VARCHAR#,#masterPagePath:VARCHAR#,#pageInfo01:VARCHAR#,#pageInfo02:VARCHAR#,#pageInfo03:VARCHAR#)
+		]]>
+	</insert>
+	
+	<select id="page.validateUpdateable" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+	/* page.validateUpdateable */
+		SELECT PAGE_ID, PARENT_ID, NAME, PATH FROM PAGE 
+		WHERE PATH NOT LIKE '/user%' AND PATH NOT LIKE '/group%' AND PATH NOT LIKE '/cafe%' AND PATH NOT LIKE '/blog%'
+		<isNotNull property="pageId">AND PAGE_ID=CAST( #pageId# AS INTEGER)</isNotNull>
+	</select>
+	
+	<update id="page.update">
+		/* page.update */
+		<![CDATA[
+			UPDATE PAGE
+			SET PAGE_ID=CAST( #pageId# AS INTEGER),
+				PARENT_ID=#parentId:INTEGER#,
+				SYSTEM_CODE=#systemCode:VARCHAR#,
+				PATH=#path:VARCHAR#,
+				"DEPTH"=#depth#,
+				NAME=#name:VARCHAR#,
+				TYPE=#type:VARCHAR#,
+				PAGE_TYPE=#pageType:VARCHAR#,
+				TITLE=#title:VARCHAR#,
+				SHORT_TITLE=#shortTitle:VARCHAR#,
+				SORT_ORDER=#sortOrder:INTEGER#,
+				IS_HIDDEN=CAST( #isHidden:INTEGER# AS INTEGER),
+				IS_QUICK_MENU=CAST( #isQuickMenu:INTEGER# AS INTEGER),
+				IS_PROTECTED=CAST( #isProtected:INTEGER# AS INTEGER),
+				USE_THEME=CAST( #useTheme:INTEGER# AS INTEGER),
+				USE_IFRAME=CAST( #useIframe:INTEGER# AS INTEGER),
+				DEFAULT_PAGE_NAME=#defaultPageName:VARCHAR#,
+				TARGET=#target:VARCHAR#,
+				URL=#url:VARCHAR#,
+				PARAMETER=#parameter:VARCHAR#,
+				SKIN=#skin:VARCHAR#,
+				DEFAULT_LAYOUT_DECORATOR=#defaultLayoutDecorator:VARCHAR#,
+				DEFAULT_PORTLET_DECORATOR=#defaultPortletDecorator:VARCHAR#,
+				OWNER=#owner:VARCHAR#,
+				MASTER_PAGE_PATH=#masterPagePath:VARCHAR#,
+				PAGE_INFO01=#pageInfo01:VARCHAR#,
+				PAGE_INFO02=#pageInfo02:VARCHAR#,
+				PAGE_INFO03=#pageInfo03:VARCHAR#
+			WHERE 1=1 
+				AND PAGE_ID=CAST( #pageId# AS INTEGER)
+		]]>
+	</update>
+	
+	<update id="page.updateSecurityPsermission">
+			/* page.updateSecurityPsermission */
+			UPDATE SECURITY_PERMISSION
+			SET RES_URL = #path#
+			WHERE RES_URL=#oldPath#
+	</update>
+	
+	<update id="page.updateTitle">
+		/* page.updateTitle */
+		<![CDATA[
+			UPDATE PAGE
+			SET TITLE=#title#,SHORT_TITLE=#shortTitle#
+			WHERE 1=1 
+				AND PAGE_ID=CAST( #pageId# AS INTEGER)
+		]]>
+	</update>
+	
+	<update id="page.updatePath">
+			/* page.updatePath */
+			UPDATE PAGE
+			SET PATH=#path#
+			WHERE PAGE_ID=CAST( #pageId# AS INTEGER)
+	</update>
+	
+	<select id="page.validateDeletable" resultClass="int">
+		/* page.validateDeletable */
+	    SELECT COUNT(*)	FROM "DOMAIN" 
+		WHERE DOMAIN_ID IN (
+			  SELECT DOMAIN_ID FROM PAGE
+			  WHERE PAGE_ID = CAST(#pageId# AS INTEGER) AND PARENT_ID = ( SELECT PAGE_ID FROM PAGE WHERE PARENT_ID IS NULL)
+		)
+	</select>
+	
+	<delete id="page.delete">
+		/* page.delete */
+		<![CDATA[
+			DELETE FROM PAGE
+			WHERE 1=1 
+				AND PAGE_ID=CAST( #pageId# AS INTEGER)
+		]]>
+	</delete>
+	
+	<delete id="page.deleteSecurityPsermission">
+		/* page.deleteSecurityPsermission */
+		<![CDATA[
+			DELETE FROM SECURITY_PERMISSION
+			WHERE RES_URL=#path#
+            AND RES_TYPE=0
+		]]>
+	</delete>
+	
+	
+	<delete id="page.deleteChildren">
+		/* page.deleteChildren */
+		<![CDATA[
+			DELETE FROM PAGE
+			WHERE 1=1 
+				AND PARENT_ID=CAST( #parentId# AS INTEGER) 
+		]]>
+	</delete>
+	
+	<select id="page.detailParent" resultMap="admin_PageVO">
+			/* page.detailParent */
+            SELECT a.PAGE_ID,a.PARENT_ID,a.SYSTEM_CODE,a.PATH,a."DEPTH",a.NAME,a.TYPE,a.PAGE_TYPE,a.TITLE,a.SHORT_TITLE,a.SORT_ORDER,a.IS_HIDDEN,a.IS_QUICK_MENU,a.IS_PROTECTED,a.USE_THEME,a.USE_IFRAME,a.DEFAULT_PAGE_NAME,(SELECT b.PATH FROM PAGE b WHERE b.PAGE_ID=CAST(a.DEFAULT_PAGE_NAME AS INTEGER)) AS DEFAULT_PAGE_PATH,a.TARGET,a.URL,a.PARAMETER,a.SKIN,a.DEFAULT_LAYOUT_DECORATOR,a.DEFAULT_PORTLET_DECORATOR,a.OWNER,a.MASTER_PAGE_PATH,a.PAGE_INFO01,a.PAGE_INFO02,a.PAGE_INFO03,b."DOMAIN", b.DOMAIN_ID, b.DOMAIN_CODE
+			FROM PAGE a
+			LEFT OUTER JOIN "DOMAIN" b ON a.DOMAIN_ID = b.DOMAIN_ID
+			WHERE a.PAGE_ID=(SELECT PARENT_ID FROM PAGE WHERE PAGE_ID=CAST( #pageId# AS INTEGER))
+	</select>
+	
+	<select id="page.findTreeChildren" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+	/* page.findTreeChildren */
+		SELECT a.PAGE_ID,a.SYSTEM_CODE,a.PARENT_ID,a.PATH,a.TITLE,a.SHORT_TITLE, b."value" AS LANG_SHORT_TITLE
+		FROM PAGE a LEFT OUTER JOIN PAGE_METADATA b ON a.PAGE_ID=b.PAGE_ID AND b.LOCALE=#langKnd# AND b.NAME='short-title'
+		WHERE a.PARENT_ID=CAST( #id# AS INTEGER) AND a.PATH NOT LIKE '/user%' AND PATH NOT LIKE '/group%' AND a.PATH NOT LIKE '/cafe%' AND a.PATH NOT LIKE '/blog%' 
+		<isNotNull property="hideIfSelfId">AND a.PAGE_ID != CAST(#hideIfSelfId# AS INTEGER) </isNotNull>
+		<isNull property="isAdmin">AND a.PATH NOT LIKE '/admin%' AND a.PATH NOT LIKE '/demo%'</isNull>
+		<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">
+			(
+			<isNotNull property="showPublic">a.DOMAIN_ID=0 OR </isNotNull>
+				a.DOMAIN_ID=CAST(#domainId# AS INTEGER)
+			)
+		</isGreaterEqual>
+		ORDER BY a.SORT_ORDER ASC
+	</select>
+	
+	<select id="page.findTreeSibling" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+			/* page.findTreeSibling  */
+			SELECT PAGE_ID,PARENT_ID,PATH,TITLE,SHORT_TITLE,SORT_ORDER
+			FROM PAGE
+			WHERE PARENT_ID=(SELECT PARENT_ID FROM PAGE WHERE PAGE_ID=CAST(#id# AS INTEGER))
+			ORDER BY SORT_ORDER ASC
+	</select>
+	
+	<update id="page.changeTreeParent">
+		/* page.changeTreeParent */
+		<![CDATA[
+			UPDATE PAGE
+			SET PARENT_ID=CAST( #parentId# AS INTEGER),
+				PATH=#path#,
+			    SORT_ORDER=(SELECT MAX(SORT_ORDER)+1 FROM PAGE WHERE PARENT_ID=CAST( #parentId# AS INTEGER)),
+				"DEPTH"=(SELECT "DEPTH"+1 FROM PAGE WHERE PAGE_ID=CAST(#parentId# AS INTEGER))
+			WHERE PAGE_ID=CAST(#id# AS INTEGER)
+		]]>
+	</update>
+	
+	<update id="page.changeTreeParentupdateSecurityPsermission">
+		/* page.changeTreeParentupdateSecurityPsermission */
+		UPDATE SECURITY_PERMISSION
+		SET RES_URL = #path#
+		WHERE RES_URL = #oldPath#
+	</update>
+	
+		
+	<update id="page.changeTreeOrder">
+		/* page.changeTreeOrder */
+		<![CDATA[
+			UPDATE PAGE
+			SET SORT_ORDER=CAST(#SORT_ORDER# AS INTEGER)
+			WHERE PAGE_ID=CAST(#PAGE_ID# AS INTEGER)
+		]]>
+	</update>
+	
+	<update id="page.setHomepage">
+		/* page.setHomepage */
+		UPDATE DOMAIN_PRINCIPAL
+		SET DEFAULT_PAGE=#pagePath:VARCHAR#
+		WHERE PRINCIPAL_ID=CAST(#principalId# AS INTEGER) AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+	</update>
+
+</sqlMap>
+

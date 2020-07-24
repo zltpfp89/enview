@@ -1,0 +1,57 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="cal">
+
+	<insert id="calendar.public.insert.postgresql">/* calendar.public.insert.postgresql */
+		INSERT INTO CALENDAR_PUBLIC (CALENDAR_ID, DOMAIN_ID, FG_COLOR, BG_COLOR, IS_USE, IS_BILINGUAL, OWNER_ID, PUBLIC_TYPE, INS_DATIM, UPD_DATIM)
+		VALUES (CAST(#calendarId# AS INTEGER), #domainId#, #fgColor#, #bgColor#, #isUse#, #isBilingual#, #ownerId#, #publicType#, LOCALTIMESTAMP, LOCALTIMESTAMP)
+	</insert>
+	
+	<update id="calendar.user.public.insert.postgresql">/* calendar.user.public.insert.postgresql */
+		UPDATE CALENDAR SET IS_PUBLIC='Y', UPD_DATIM=LOCALTIMESTAMP
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+	</update>
+	
+	<update id="calendar.public.update.postgresql">/* calendar.public.update.postgresql */
+		UPDATE CALENDAR_PUBLIC SET
+		<isNotNull property="domainId">DOMAIN_ID=#domainId#, </isNotNull> 
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		<isNotNull property="isUse">IS_USE=#isUse#, </isNotNull>
+		<isNotNull property="isBilingual">IS_BILINGUAL=#isBilingual#, </isNotNull>
+		<isNotNull property="publicType">PUBLIC_TYPE=#publicType#, </isNotNull>
+		UPD_DATIM=LOCALTIMESTAMP
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+	</update>
+	
+	<update id="calendar.user.public.update.postgresql">/* calendar.user.public.update.postgresql */
+		UPDATE CALENDAR SET
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		UPD_DATIM=LOCALTIMESTAMP
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+	</update>
+	
+	<insert id="calendar.public.insert.lang.postgresql">/* calendar.public.insert.lang.postgresql */
+		INSERT INTO CALENDAR_LANG (CALENDAR_ID, LANG_KND, NAME, COMMENTS, INS_DATIM, UPD_DATIM)
+		VALUES (CAST(#calendarId# AS INTEGER), #langKnd#, #name#, #comments#, LOCALTIMESTAMP, LOCALTIMESTAMP)
+	</insert>
+	
+	<update id="calendar.public.update.lang.postgresql">/* calendar.public.update.lang.postgresql */
+		UPDATE CALENDAR_LANG SET
+		<isNotNull property="name">NAME=#name#, </isNotNull>
+		<isNotNull property="comments">COMMENTS=#comments#, </isNotNull>
+		UPD_DATIM=LOCALTIMESTAMP
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+		<isNotNull property="langKnd" prepend=" AND ">LANG_KND=#langKnd#</isNotNull>
+	</update>
+	
+	<update id="calendar.user.public.delete.postgresql">
+	/* calendar.user.public.delete.postgresql */
+		UPDATE CALENDAR SET IS_PUBLIC='N', UPD_DATIM=LOCALTIMESTAMP
+		WHERE 1=1
+		<isNotNull property="calendarId" prepend=" AND ">CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+		<isNotNull property="calendarIds" prepend=" AND ">CALENDAR_ID IN <iterate property="calendarIds" open="(" close=")" conjunction=",">(CAST(#calendarIds[]# AS INTEGER))</iterate></isNotNull>
+	</update>
+
+</sqlMap>

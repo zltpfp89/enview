@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE weblogic-web-app PUBLIC "-//BEA Systems, Inc.//DTD Web
+Application 8.1//EN"
+"http://www.bea.com/servers/wls810/dtd/weblogic810-web-jar.dtd">
+
+<weblogic-web-app>
+	<context-root>/</context-root>
+	<reference-descriptor>
+		<resource-description>
+			<res-ref-name>EnviewDS</res-ref-name>
+			<jndi-name>jdbc/enview</jndi-name>
+		</resource-description>
+	</reference-descriptor>
+
+	<!-- 
+	javolution 관련 오류 대응. WEB-INF이하의 라이브러리를 먼저 사용하도록 설정
+	 -->
+<container-descriptor>
+	<!--      
+	<prefer-web-inf-classes>true</prefer-web-inf-classes>
+	 -->
+	<prefer-application-packages>
+		<package-name>javax.persistence.*</package-name>
+		<package-name>javolution.*</package-name>
+	</prefer-application-packages>		
+</container-descriptor>
+	 
+</weblogic-web-app>

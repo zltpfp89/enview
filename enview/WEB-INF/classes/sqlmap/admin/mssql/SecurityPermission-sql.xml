@@ -1,0 +1,234 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ SECURITY_PERMISSION : 권한관리 ] Table -->
+	<resultMap id="admin_SecurityPermissionVO_PK" class="com.saltware.enview.admin.security.service.SecurityPermissionPK">
+		<result property="permissionId" column="PERMISSION_ID" columnIndex="1"/>
+		<result property="domainId" column="DOMAIN_ID" columnIndex="2"/>	
+	</resultMap>
+	
+	<resultMap id="admin_SecurityPermissionVO" class="com.saltware.enview.admin.security.service.SecurityPermissionVO">
+		<result property="permissionId" column="PERMISSION_ID" columnIndex="1"/>	 
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="2"/>
+		<result property="domainId" column="DOMAIN_ID" columnIndex="3"/>	 
+		<result property="title" column="TITLE" columnIndex="4"/>	 
+		<result property="resUrl" column="RES_URL" columnIndex="5"/>	 
+		<result property="resType" column="RES_TYPE" columnIndex="6"/>	 
+		<result property="actionMask" column="ACTION_MASK" columnIndex="7"/>	 
+		<result property="isAllow" column="IS_ALLOW" columnIndex="8"/>	 
+		<result property="creationDate" column="CREATION_DATE" columnIndex="9"/>	 
+		<result property="modifiedDate" column="MODIFIED_DATE" columnIndex="10"/>	
+		<result property="shortPath" column="SHORT_PATH" columnIndex="11"/>
+		<result property="principalName" column="PRINCIPAL_NAME" columnIndex="12"/>	 
+	</resultMap>
+	
+	<select id="securityPermission.exist" resultClass="int">
+	/* securityPermission.exist */
+		SELECT COUNT(*) cnt
+		FROM SECURITY_PERMISSION
+		WHERE PRINCIPAL_ID=CAST(#principalId# AS INTEGER) AND DOMAIN_ID=CAST(#domainId# AS INTEGER) AND RES_URL=#resUrl# AND RES_TYPE=#resType#
+	</select>
+	
+	<select id="securityPermission.totalCountPagePermission" resultClass="int">
+	/* securityPermission.totalCountPagePermission */
+		SELECT COUNT(*) totcnt
+		FROM SECURITY_PERMISSION
+		WHERE 1=1 AND (RES_TYPE=0 OR RES_TYPE=1)
+			<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">(DOMAIN_ID = 0 OR DOMAIN_ID=CAST(#domainId# AS INTEGER))</isGreaterEqual>
+			<isNotEqual prepend=" AND " property="principalId" compareValue="0">PRINCIPAL_ID=CAST(#principalId# AS INTEGER)</isNotEqual>
+			<isNotNull  prepend=" AND " property="titleCond">TITLE LIKE #titleCond#+'%'</isNotNull>
+	</select>
+	
+	<select id="securityPermission.findPagePermissionByPage" resultMap="admin_SecurityPermissionVO_PK">
+	/* securityPermission.findPagePermissionByPage */
+		SELECT * FROM (
+			SELECT PERMISSION_ID, DOMAIN_ID,ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY PERMISSION_ID ASC</isNull>
+			) as rnum 
+			FROM SECURITY_PERMISSION
+			WHERE 1=1 AND (RES_TYPE=0 OR RES_TYPE=1)
+			<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">(DOMAIN_ID = 0 OR DOMAIN_ID=CAST(#domainId# AS INTEGER))</isGreaterEqual>
+			<isNotEqual prepend=" AND " property="principalId" compareValue="0">PRINCIPAL_ID=CAST(#principalId# AS INTEGER)</isNotEqual>
+			<isNotNull  prepend=" AND " property="titleCond">TITLE LIKE #titleCond#+'%'</isNotNull>
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+	
+	<select id="securityPermission.totalCountPortletPermission" resultClass="int">
+	/* securityPermission.totalCountPortletPermission */
+		SELECT COUNT(*) totcnt
+		FROM SECURITY_PERMISSION
+		WHERE 1=1 AND (RES_TYPE=2 OR RES_TYPE=3)
+			<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">(DOMAIN_ID = 0 OR DOMAIN_ID=CAST(#domainId# AS INTEGER))</isGreaterEqual>
+			<isNotEqual prepend=" AND " property="principalId" compareValue="0">PRINCIPAL_ID=CAST(#principalId# AS INTEGER)</isNotEqual>
+			<isNotNull  prepend=" AND " property="titleCond">TITLE LIKE '%' + #titleCond# + '%'</isNotNull>
+	</select>
+	
+	<select id="securityPermission.findPortletPermissionByPage" resultMap="admin_SecurityPermissionVO_PK">
+	/* securityPermission.findPortletPermissionByPage */
+		SELECT tb1.* FROM (
+			SELECT PERMISSION_ID, DOMAIN_ID,ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY PERMISSION_ID ASC</isNull>
+			) as rnum 
+			FROM (
+				SELECT PERMISSION_ID, DOMAIN_ID, TITLE, RES_URL
+				FROM SECURITY_PERMISSION
+				WHERE 1=1 AND (RES_TYPE=2 OR RES_TYPE=3)
+				<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">(DOMAIN_ID = 0 OR DOMAIN_ID=CAST(#domainId# AS INTEGER))</isGreaterEqual>
+				<isNotEqual prepend=" AND " property="principalId" compareValue="0">PRINCIPAL_ID=CAST(#principalId# AS INTEGER)</isNotEqual>
+				<isNotNull  prepend=" AND " property="titleCond">TITLE LIKE '%' + #titleCond# + '%'</isNotNull>
+			) t1
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+	
+	<select id="securityPermission.totalCountPrincipalPermission" resultClass="int">
+	/* securityPermission.totalCountPrincipalPermission */
+		SELECT COUNT(*) totcnt
+		FROM SECURITY_PERMISSION a INNER JOIN SECURITY_PRINCIPAL b ON a.PRINCIPAL_ID=b.PRINCIPAL_ID
+		WHERE 1=1 AND PRINCIPAL_TYPE=#principalType# AND RES_URL=#resUrl#
+			<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">( a.DOMAIN_ID = 0 OR a.DOMAIN_ID=CAST(#domainId# AS INTEGER))</isGreaterEqual>
+			<isNotEqual prepend=" AND " property="principalId" compareValue="0">a.PRINCIPAL_ID=CAST(#principalId# AS INTEGER)</isNotEqual>
+			<isNotNull  prepend=" AND " property="titleCond">b.PRINCIPAL_NAME LIKE '%'+#titleCond#+'%'</isNotNull>
+	</select>
+	
+	<select id="securityPermission.findPrincipalPermissionByPage" resultMap="admin_SecurityPermissionVO_PK">
+	/* securityPermission.findPrincipalPermissionByPage */
+		SELECT tb1.* FROM (
+			SELECT PERMISSION_ID, DOMAIN_ID,ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY PERMISSION_ID ASC</isNull>
+			) as rnum 
+			FROM (
+				SELECT PERMISSION_ID, a.DOMAIN_ID, SHORT_PATH, PRINCIPAL_NAME
+				FROM SECURITY_PERMISSION a INNER JOIN SECURITY_PRINCIPAL b ON a.PRINCIPAL_ID=b.PRINCIPAL_ID
+				WHERE 1=1 AND PRINCIPAL_TYPE=#principalType# AND RES_URL=#resUrl#
+			<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">( a.DOMAIN_ID = 0 OR a.DOMAIN_ID=CAST(#domainId# AS INTEGER))</isGreaterEqual>
+			<isNotEqual prepend=" AND " property="principalId" compareValue="0">a.PRINCIPAL_ID=CAST(#principalId# AS INTEGER)</isNotEqual>
+			<isNotNull  prepend=" AND " property="titleCond">b.PRINCIPAL_NAME LIKE '%'+#titleCond#+'%'</isNotNull>
+			) a
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+	
+	<select id="securityPermission.totalCountUrlPermission" resultClass="int">
+	/* securityPermission.totalCountUrlPermission */
+		SELECT COUNT(*) totcnt
+		FROM SECURITY_PERMISSION
+		WHERE 1=1 AND RES_TYPE=4
+			<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">(DOMAIN_ID = 0 OR DOMAIN_ID=CAST(#domainId# AS INTEGER))</isGreaterEqual>
+			<isNotEqual prepend=" AND " property="principalId" compareValue="0">PRINCIPAL_ID=CAST(#principalId# AS INTEGER)</isNotEqual>
+			<isNotNull  prepend=" AND " property="titleCond">'%' + TITLE LIKE #titleCond# + '%'</isNotNull>
+	</select>
+	
+	<select id="securityPermission.findUrlPermissionByPage" resultMap="admin_SecurityPermissionVO_PK">
+	/* securityPermission.findUrlPermissionByPage */
+		SELECT tb1.* FROM (
+			SELECT PERMISSION_ID, DOMAIN_ID,ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY PERMISSION_ID ASC</isNull>
+			) as rnum 
+			FROM (
+				SELECT PERMISSION_ID, DOMAIN_ID, PRINCIPAL_ID, TITLE, RES_URL
+				FROM SECURITY_PERMISSION
+				WHERE 1=1 AND RES_TYPE=4
+				<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">(DOMAIN_ID = 0 OR DOMAIN_ID=CAST(#domainId# AS INTEGER))</isGreaterEqual>
+				<isNotEqual prepend=" AND " property="principalId" compareValue="0">PRINCIPAL_ID=CAST(#principalId# AS INTEGER)</isNotEqual>
+				<isNotNull  prepend=" AND " property="titleCond">'%' + TITLE LIKE #titleCond# + '%'</isNotNull>
+			) t1
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="securityPermission.findAll" resultMap="admin_SecurityPermissionVO">
+	/* securityPermission.findAll */
+		SELECT a.PERMISSION_ID,a.PRINCIPAL_ID,a.DOMAIN_ID,a.TITLE,a.RES_URL,a.RES_TYPE,a.ACTION_MASK,a.IS_ALLOW,a.CREATION_DATE,a.MODIFIED_DATE,b.SHORT_PATH,b.PRINCIPAL_NAME
+		FROM SECURITY_PERMISSION a INNER JOIN SECURITY_PRINCIPAL b ON a.PRINCIPAL_ID=b.PRINCIPAL_ID
+		WHERE a.RES_TYPE IN (0,1,2,3,4)
+		ORDER BY RES_TYPE, IS_ALLOW ASC
+	</select>
+	
+	<select id="securityPermission.findByRole" resultMap="admin_SecurityPermissionVO">
+	/* securityPermission.findByRole */
+		SELECT a.PERMISSION_ID,a.PRINCIPAL_ID,a.DOMAIN_ID,a.TITLE,a.RES_URL,a.RES_TYPE,a.ACTION_MASK,a.IS_ALLOW,a.CREATION_DATE,a.MODIFIED_DATE,b.SHORT_PATH,b.PRINCIPAL_NAME
+		FROM SECURITY_PERMISSION a INNER JOIN SECURITY_PRINCIPAL b ON a.PRINCIPAL_ID=b.PRINCIPAL_ID
+		WHERE a.PRINCIPAL_ID=(SELECT PRINCIPAL_ID FROM SECURITY_PRINCIPAL WHERE PRINCIPAL_TYPE='R' AND SHORT_PATH=#role#) AND a.RES_TYPE IN (0,1,2,3,4)
+		ORDER BY RES_TYPE, IS_ALLOW ASC
+	</select>
+	
+	<select id="securityPermission.findByMaster" resultMap="admin_SecurityPermissionVO_PK">
+	/* securityPermission.findByMaster */
+		SELECT PERMISSION_ID, DOMAIN_ID
+		FROM SECURITY_PERMISSION
+		WHERE 1=1 
+			<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">(DOMAIN_ID = 0 OR DOMAIN_ID=CAST(#domainId# AS INTEGER))</isGreaterEqual>
+			<isNotEqual prepend=" AND " property="principalId" compareValue="0">=CAST(#principalId# AS INTEGER)</isNotEqual>
+	</select>
+	
+	<select id="securityPermission.findByCondition" resultMap="admin_SecurityPermissionVO">
+	/* securityPermission.findByCondition */
+		SELECT a.PERMISSION_ID,a.PRINCIPAL_ID,a.DOMAIN_ID,a.TITLE,a.RES_URL,a.RES_TYPE,a.ACTION_MASK,a.IS_ALLOW,a.CREATION_DATE,a.MODIFIED_DATE,b.SHORT_PATH,b.PRINCIPAL_NAME
+		FROM SECURITY_PERMISSION a INNER JOIN SECURITY_PRINCIPAL b ON a.PRINCIPAL_ID=b.PRINCIPAL_ID
+		<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">(a.DOMAIN_ID = 0 OR a.DOMAIN_ID=CAST(#domainId# AS INTEGER))</isGreaterEqual>
+		WHERE a.PERMISSION_ID IN ($permissionIds$)
+	</select>
+	
+	<select id="securityPermission.detail" resultMap="admin_SecurityPermissionVO">
+	/* securityPermission.detail */
+		SELECT a.PERMISSION_ID,a.PRINCIPAL_ID,a.DOMAIN_ID,a.TITLE,a.RES_URL,a.RES_TYPE,a.ACTION_MASK,a.IS_ALLOW,a.CREATION_DATE,a.MODIFIED_DATE,b.SHORT_PATH,b.PRINCIPAL_NAME
+		FROM SECURITY_PERMISSION a INNER JOIN SECURITY_PRINCIPAL b ON a.PRINCIPAL_ID=b.PRINCIPAL_ID
+		WHERE 1=1 
+			AND a.PERMISSION_ID=#permissionId#
+		<isGreaterEqual prepend=" AND " property="domainId" compareValue="0">(a.DOMAIN_ID = 0 OR a.DOMAIN_ID=CAST(#domainId# AS INTEGER))</isGreaterEqual>
+	</select>
+	
+	<insert id="securityPermission.insert">
+	/* securityPermission.insert */
+		<![CDATA[
+			INSERT INTO SECURITY_PERMISSION
+				( PERMISSION_ID,PRINCIPAL_ID,DOMAIN_ID,TITLE,RES_URL,RES_TYPE,ACTION_MASK,IS_ALLOW,CREATION_DATE,MODIFIED_DATE )
+			VALUES ( #permissionId#,CAST(#principalId# AS INTEGER),CAST(#domainId# AS INTEGER),#title#,#resUrl#,#resType#,#actionMask#,CAST(#isAllow# AS INTEGER),#creationDate#,#modifiedDate# )
+		]]>
+	</insert>
+	
+	<update id="securityPermission.update">
+	/* securityPermission.update */
+		<![CDATA[
+			UPDATE SECURITY_PERMISSION
+			SET PERMISSION_ID=#permissionId#,PRINCIPAL_ID=CAST(#principalId# AS INTEGER),TITLE=#title#,RES_URL=#resUrl#,RES_TYPE=#resType#,
+				ACTION_MASK=#actionMask#,IS_ALLOW=CAST(#isAllow# AS INTEGER),CREATION_DATE=#creationDate#,MODIFIED_DATE=#modifiedDate#
+			WHERE 1=1 
+				AND PERMISSION_ID=#permissionId#
+		]]>
+	</update>
+	
+	<delete id="securityPermission.delete">
+	/* securityPermission.delete */
+		<![CDATA[
+			DELETE FROM SECURITY_PERMISSION
+			WHERE 1=1 
+				AND PERMISSION_ID=#permissionId#
+		]]>
+	</delete>
+	
+	<delete id="securityPermission.deleteByCondition">
+	/* securityPermission.deleteByCondition */
+		<![CDATA[
+			DELETE FROM SECURITY_PERMISSION
+			WHERE 1=1 
+				AND PRINCIPAL_ID=CAST(#principalId# AS INTEGER) AND RES_URL=#resUrl# AND RES_TYPE=#resType#
+		]]>
+	</delete>
+	
+	<delete id="securityPermission.deleteChildren">
+	/* securityPermission.deleteChildren */
+		<![CDATA[
+			DELETE FROM SECURITY_PERMISSION
+			WHERE 1=1 
+				AND PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+		]]>
+	</delete>
+
+</sqlMap>
+

@@ -1,0 +1,109 @@
+
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="util" uri="/WEB-INF/tld/utility.tld" %>
+
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/admin/css/styles.css">
+
+<script type="text/javascript" src="<%=request.getContextPath()%>/admin/javascript/roleManager.js"></script>
+
+<table width="100%" height="300px" border="0" cellspacing="0" cellpadding="0" >
+	<tr>
+		<td valign='top'>
+			<div id="RoleChooser_PageTabPage">
+				<br style='line-height:5px;'>
+				<div>
+					<form id="RoleChooser_SearchForm" name="RoleChooser_SearchForm" style="display:inline" action="javascript:aRoleChooser.doSearch('RoleChooser_SearchForm')" onkeydown="if(event.keyCode==13) aRoleChooser.doSearch('RoleChooser_SearchForm')" method="post">
+					  <table width="99%">
+						<input type='hidden' name='sortMethod' value='ASC'/>                    
+						<input type='hidden' name='sortColumn' value=''/>  
+						<input type='hidden' name='pageNo' value='1'/>
+						<!--input type='hidden' name='pageSize' value='10'/-->
+						<input type='hidden' name='pageFunction' value='aRoleChooser.doPage'/>
+						<input type='hidden' name='formName' value='RoleChooser_SearchForm'/>
+					  <tr>
+						<td align="right">
+							<input type="text" name="shortPathCond" size="15" class="webtextfield" value="*<util:message key='pt.ev.property.shortPath'/>*" onfocus="whenSrchFocus(this,'*<util:message key='pt.ev.property.shortPath'/>*');" onblur="whenSrchBlur(this,'*<util:message key='pt.ev.property.shortPath'/>*');"/> 
+							<input type="text" name="principalNameCond" size="20" class="webtextfield" value="*<util:message key='pt.ev.property.principalName'/>*" onfocus="whenSrchFocus(this,'*<util:message key='pt.ev.property.principalName'/>*');" onblur="whenSrchBlur(this,'*<util:message key='pt.ev.property.principalName'/>*');"/> 
+							<select name='pageSize'>
+								<option value="5">5</option>
+								<option value="10" selected>10</option>
+								<option value="20" >20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span class="btn_pack small"><a href="javascript:aRoleChooser.doSearch('RoleChooser_SearchForm')"><util:message key='ev.title.search'/></a></span>
+						</td>
+					  </tr>
+					  </table>    
+					</form>
+				</div>
+				<div class="webgridpanel">
+				  <form id="RoleChooser_ListForm" style="display:inline" name="RoleChooser_ListForm" action="" method="post">
+				  <table id="grid-table" width="100%" border="0" cellspacing="0" cellpadding="0">
+					<thead>
+						<tr> 
+							<td colspan="100" class="webgridheaderline"></td>
+						</tr>
+						<tr style="cursor: pointer;">
+							<th class="webgridheader" align="center" width="30px">
+								<input type="checkbox" id="delCheck" class="webcheckbox" onclick="aRoleChooser.m_checkBox.chkAll(this)"/>
+							</th>
+							<th class="webgridheader" align="center" width="30px">No</th>
+							<th class="webgridheader" ch="0" onclick="aRoleChooser.doSort(this, 'PRINCIPAL_ID');" >
+								<span ><util:message key='pt.ev.property.principalId'/></span>
+							</th>	
+							<th class="webgridheader" ch="0" onclick="aRoleChooser.doSort(this, 'SHORT_PATH');" >
+								<span ><util:message key='pt.ev.property.shortPath'/></span>
+							</th>	
+							<th class="webgridheader" ch="0" onclick="aRoleChooser.doSort(this, 'PRINCIPAL_NAME');" >
+								<span ><util:message key='pt.ev.property.principalName'/></span>
+							</th>	
+						</tr>
+					</thead>
+					<tbody id="RoleChooser_ListBody">
+					<c:forEach items="${results}" var="role" varStatus="status">
+						<tr ch="<c:out value="${status.index}"/>" style="cursor:pointer;" class="<c:choose><c:when test="${status.index%2 == 0}">even</c:when><c:otherwise>odd</c:otherwise></c:choose>" onmouseover="whenListMouseOver(this)" onmouseout="whenListMouseOut(this)">
+							<td align="center" class="webgridbody">
+								<input type="checkbox" id="RoleChooser[<c:out value="${status.index}"/>].checkRow" class="webcheckbox"/>
+								<input type="hidden" id="RoleChooser[<c:out value="${status.index}"/>].principalId" value="<c:out value='${role.principalId}'/>"/>
+								<input type="hidden" id="RoleChooser[<c:out value="${status.index}"/>].shortPath" value="<c:out value='${role.shortPath}'/>"/>
+								<input type="hidden" id="RoleChooser[<c:out value="${status.index}"/>].principalName" value="<c:out value='${role.principalName}'/>"/>
+							</td>
+							<td align="center" class="webgridbody" >
+								<span class="webgridrowlabel" >&nbsp;<c:out value="${status.index + 1}"/></span>
+							</td>
+							<td align="left" class="webgridbody" onclick="aRoleChooser.doSelect(this)">
+								<span class="webgridrowlabel" id="RoleChooser[<c:out value="${status.index}"/>].principalId.label">&nbsp;<c:out value="${role.principalId}"/></span>
+							</td>
+							<td align="left" class="webgridbody" onclick="aRoleChooser.doSelect(this)">
+								<span class="webgridrowlabel" id="RoleChooser[<c:out value="${status.index}"/>].shortPath.label">&nbsp;<c:out value="${role.shortPath}"/></span>
+							</td>
+							<td align="left" class="webgridbody" onclick="aRoleChooser.doSelect(this)">
+								<span class="webgridrowlabel" id="RoleChooser[<c:out value="${status.index}"/>].principalName.label">&nbsp;<c:out value="${role.principalName}"/></span>
+							</td>
+						</tr>
+					</c:forEach>
+					</tbody>
+				  </table>
+				  </form>
+				  <div id="RoleChooser_ListMessage"/>
+					<c:out value='${resultMessage}'/>
+				</div>
+				<div>
+					<table style="width:99%;" class="webbuttonpanel">
+					<tr>
+					    <td align="center">
+					    <div id="RoleChooser_PAGE_ITERATOR" class="webnavigationpanel">
+							<c:out escapeXml='false' value='${pageIterator}'/>
+					    </div>
+					    </td>    
+					</tr>
+					</table>
+				</div>
+			</div>
+		</td>
+	</tr>
+</table>
+

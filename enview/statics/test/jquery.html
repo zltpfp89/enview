@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>드래그&Sort</title>
+<style type="text/css">
+	.column { width: 170px; float: left; padding-bottom: 100px; }
+	.portlet { margin: 0 1em 1em 0; }
+	.portlet-header { margin: 0.3em; padding-bottom: 4px; padding-left: 0.2em; }
+	.portlet-header .ui-icon { float: right; }
+	.portlet-content { padding: 0.4em; }
+	.ui-sortable-placeholder { border: 1px dotted black; visibility: visible !important;  }
+	.ui-sortable-placeholder * { visibility: hidden; }
+	#debug {width:300px; height:300px; border:solid 1px; position:absolute; top:600px;}
+</style>
+<link type="text/css" href="/enview-admin/css/base/jquery.ui.all.css" rel="stylesheet" />
+<script type="text/javascript" src="/enview-admin/javascript/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="/enview-admin/javascript/jquery-ui-1.8.2.custom.min.js"></script>
+<script type="text/javascript">
+	function saveOrder() { 
+		$(".column").each(function(index, value){ 
+			var colid = value.id; 
+			alert("colid=" + colid);
+			var cookieName = "cookie-" + colid; 
+			// Get the order for this column. 
+			var order = $('#' + colid).sortable("toArray"); 
+			// For each portlet in the column 
+			for ( var i = 0, n = order.length; i < n; i++ ) { 
+				// Determine if it is 'opened' or 'closed' 
+				var v = $('#' + order[i] ).find('.portlet- content').is(':visible'); 
+				// Modify the array we're saving to indicate what's open and 
+				// what's not. 
+				order[i] = order[i] + ":" + v; 
+				alert("order=" + order[i]);
+			} 
+			//$.cookie(cookieName, order, { path: "/", expiry: new Date(2012, 1, 1)});
+		}); 
+	} 
+	$(function() {
+		$(".column").sortable({
+			connectWith: '.column',
+			start : function(event, ui) {
+				alert("start=" + event.target.id);
+			},
+			update : function(event, ui) {
+				
+			},
+			stop : function(event, ui) {
+				alert("stop=" + event.which.id);
+				
+				$(".column").each(function(){
+					alert($(this).sortable("toArray"));
+				}); 
+				//saveOrder();
+				//alert( "id=" + $(this).attr("id")  + ", item=" + ui.item.tagName);
+			}
+		});
+
+		$(".portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
+			.find(".portlet-header")
+				.addClass("ui-widget-header ui-corner-all")
+				.prepend('<span class="ui-icon ui-icon-plusthick"></span>')
+				.end()
+			.find(".portlet-content");
+
+		$(".portlet-header .ui-icon").click(function() {
+			var options = { 
+				path : '/' , 
+				expires : 1
+			}; //쿠키의 파기시간 1일로 설정
+
+			$(this).toggleClass("ui-icon-minusthick");
+			$(this).parents(".portlet:first").find(".portlet-content").toggle();
+
+			alert( "id=" + $(this).parents().parents().attr("id") );
+		});
+
+		$(".column").disableSelection();
+
+	});
+</script>
+</head>
+<body>
+<h2>드래그&Sort</h2>
+<h3>igoogle과 비슷한 레이어 드래그&드랍 기능과 이동한 레이어의 위치를 쿠키로 기억하여, 새로고침을 해도 위치를 그대로 있게하는 기능입니다.
+<br><br>
+쿠키는 하루로 설정되어있으며, 하루동안을 브라우져를 닫아도 위치를 기억하고 있습니다.
+</h3>
+<div id="range">
+	<div id="column1" class="column">
+		<div  id="Feeds" class="portlet">
+
+			<div class="portlet-header">Feeds</div>
+			<div class="portlet-content">피드</div>
+		</div>	
+		<div id="News" class="portlet">
+			<div class="portlet-header">News</div>
+			<div class="portlet-content">뉴스</div>
+		</div>
+
+	</div>
+	<div id="column2" class="column">
+		<div id="Shopping" class="portlet">
+			<div class="portlet-header">Shopping</div>
+			<div class="portlet-content">쇼핑<br>쇼핑<br>쇼핑<br>쇼핑<br>쇼핑<br></div>
+		</div>
+
+	</div>
+	<div id="column3" class="column">
+		<div id="Links" class="portlet">
+			<div class="portlet-header">Links</div>
+			<div class="portlet-content">링크</div>
+		</div>
+		<div id="Images" class="portlet">
+			<div class="portlet-header">Images</div>
+
+			<div class="portlet-content">이미지</div>
+		</div>
+	</div>
+</div><!-- end range-->
+<div id="debug"></div>
+</body>
+</html>

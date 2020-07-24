@@ -1,0 +1,965 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:flow="http://www.springframework.org/schema/webflow-config"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/webflow-config
+		                   http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd">
+
+    <!-- View Resolver for JSPs -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/apps/enview-admin/WEB-INF/view/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- Method Resolver -->
+	<bean id="methodNameResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName">
+			<value>method</value>
+		</property>
+		<property name="defaultMethodName">
+			<value>list</value>
+		</property>
+	</bean>
+	
+	<!-- Exception Resolver -->
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.lang.Exception">friendlyError</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- Multipart Resolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="EUC-KR"/>
+	</bean>
+	
+	<bean id="urlFilenameViewController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController"/>
+	
+    <bean id="admin.beanValidator" class="org.springmodules.validation.commons.DefaultBeanValidator">
+        <property name="validatorFactory" ref="admin.validatorFactory"/>
+    </bean>
+
+    <bean id="admin.validatorFactory" class="org.springmodules.validation.commons.DefaultValidatorFactory">
+        <property name="validationConfigLocations">
+            <list>
+                <value>/WEB-INF/apps/enview-admin/WEB-INF/validator/validator-rules.xml</value>
+                <value>/WEB-INF/apps/enview-admin/WEB-INF/validator/validator.xml</value>
+            </list>
+        </property>
+    </bean>
+
+	<!--  Controller Define --> 	 
+	<bean id="admin.UserController" class="com.saltware.enview.admin.user.web.UserController">	
+	    <property name="roleService" ref="com.saltware.enview.admin.role.service.RoleService"/>
+		<property name="userService" ref="com.saltware.enview.admin.user.service.UserService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.UserpassController" class="com.saltware.enview.admin.user.web.UserpassController">	
+		<property name="userpassService" ref="com.saltware.enview.admin.user.service.UserpassService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.CredentialController" class="com.saltware.enview.admin.user.web.CredentialController">	
+		<property name="credentialService" ref="com.saltware.enview.admin.user.service.CredentialService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.UserGroupController" class="com.saltware.enview.admin.user.web.UserGroupController">	
+		<property name="userGroupService" ref="com.saltware.enview.admin.user.service.UserGroupService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.UserRoleController" class="com.saltware.enview.admin.user.web.UserRoleController">	
+		<property name="userRoleService" ref="com.saltware.enview.admin.user.service.UserRoleService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.TotalPagePermissionController" class="com.saltware.enview.admin.user.web.TotalPagePermissionController">	
+		<property name="totalPagePermissionService" ref="com.saltware.enview.admin.user.service.TotalPagePermissionService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.GroupController" class="com.saltware.enview.admin.group.web.GroupController">	
+		<property name="groupService" ref="com.saltware.enview.admin.group.service.GroupService"/>
+		<property name="userService" ref="com.saltware.enview.admin.user.service.UserService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.GroupUserController" class="com.saltware.enview.admin.group.web.GroupUserController">	
+		<property name="userGroupService" ref="com.saltware.enview.admin.user.service.UserGroupService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.GroupRoleController" class="com.saltware.enview.admin.group.web.GroupRoleController">	
+		<property name="groupRoleService" ref="com.saltware.enview.admin.group.service.GroupRoleService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.RoleController" class="com.saltware.enview.admin.role.web.RoleController">	
+		<property name="roleService" ref="com.saltware.enview.admin.role.service.RoleService"/>
+		<property name="userService" ref="com.saltware.enview.admin.user.service.UserService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.RoleUserController" class="com.saltware.enview.admin.role.web.RoleUserController">	
+		<property name="userRoleService" ref="com.saltware.enview.admin.user.service.UserRoleService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.PagePermissionController" class="com.saltware.enview.admin.security.web.PagePermissionController">	
+		<property name="securityPermissionService" ref="com.saltware.enview.admin.security.service.SecurityPermissionService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.PortletPermissionController" class="com.saltware.enview.admin.security.web.PortletPermissionController">	
+		<property name="securityPermissionService" ref="com.saltware.enview.admin.security.service.SecurityPermissionService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	
+	<bean id="admin.UrlPermissionController" class="com.saltware.enview.admin.security.web.UrlPermissionController">	
+		<property name="securityPermissionService" ref="com.saltware.enview.admin.security.service.SecurityPermissionService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>
+	<bean id="admin.PrincipalPermissionController" class="com.saltware.enview.admin.security.web.PrincipalPermissionController">	
+		<property name="securityPermissionService" ref="com.saltware.enview.admin.security.service.SecurityPermissionService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	
+	<bean id="admin.SecurityPolicyController" class="com.saltware.enview.admin.security.web.SecurityPolicyController">	
+		<property name="securityPolicyService" ref="com.saltware.enview.admin.security.service.SecurityPolicyService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	
+	<bean id="admin.PortletApplicationController" class="com.saltware.enview.admin.portlet.web.PortletApplicationController">	
+		<property name="portletApplicationService" ref="com.saltware.enview.admin.portlet.service.PortletApplicationService"/>
+	</bean>	 
+	<bean id="admin.PortletDefinitionController" class="com.saltware.enview.admin.portlet.web.PortletDefinitionController">	
+		<property name="portletDefinitionService" ref="com.saltware.enview.admin.portlet.service.PortletDefinitionService"/>
+	</bean>	 
+	<bean id="admin.PortletTitleController" class="com.saltware.enview.admin.portlet.web.PortletTitleController">	
+		<property name="portletTitleService" ref="com.saltware.enview.admin.portlet.service.PortletTitleService"/>
+	</bean>	 
+	<bean id="admin.PortletParamController" class="com.saltware.enview.admin.portlet.web.PortletParamController">	
+		<property name="portletParamService" ref="com.saltware.enview.admin.portlet.service.PortletParamService"/>
+	</bean>	 
+	<bean id="admin.PortletMetadataController" class="com.saltware.enview.admin.portlet.web.PortletMetadataController">	
+		<property name="portletMetadataService" ref="com.saltware.enview.admin.portlet.service.PortletMetadataService"/>
+	</bean>	 
+	<bean id="admin.PortletTypeController" class="com.saltware.enview.admin.portlet.web.PortletTypeController">	
+		<property name="portletTypeService" ref="com.saltware.enview.admin.portlet.service.PortletTypeService"/>
+	</bean>	 
+	<bean id="admin.PortletOptionController" class="com.saltware.enview.admin.portlet.web.PortletOptionController">	
+		<property name="portletOptionService" ref="com.saltware.enview.admin.portlet.service.PortletOptionService"/>
+	</bean>	
+
+	<bean id="admin.PortletServiceController" class="com.saltware.enview.admin.portletService.web.PortletServiceController">	
+		<property name="portletServiceService" ref="com.saltware.enview.admin.portletService.service.PortletServiceService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>
+	
+	
+	
+	<bean id="admin.PageController" class="com.saltware.enview.admin.page.web.PageController">	
+		<property name="pageService" ref="com.saltware.enview.admin.page.service.PageService"/>
+		<property name="domainService" ref="com.saltware.enview.admin.domain.service.DomainService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.PageEditController" class="com.saltware.enview.admin.page.web.PageEditController">	
+		<property name="pageService" ref="com.saltware.enview.admin.page.service.PageService"/>
+		<property name="portletDefinitionService" ref="com.saltware.enview.admin.portlet.service.PortletDefinitionService"/>
+		<property name="fileService" ref="com.saltware.enview.admin.file.service.FileService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	
+	<bean id="admin.PageMetadataController" class="com.saltware.enview.admin.page.web.PageMetadataController">	
+		<property name="pageService" ref="com.saltware.enview.admin.page.service.PageService"/>
+		<property name="pageMetadataService" ref="com.saltware.enview.admin.page.service.PageMetadataService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.PageComponentController" class="com.saltware.enview.admin.page.web.PageComponentController">	
+		<property name="pageService" ref="com.saltware.enview.admin.page.service.PageService"/>
+		<property name="pageComponentService" ref="com.saltware.enview.admin.page.service.PageComponentService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.ThemeMappingController" class="com.saltware.enview.admin.themeMapping.web.ThemeMappingController">	
+		<property name="themeMappingService" ref="com.saltware.enview.admin.themeMapping.service.ThemeMappingService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.CodebaseController" class="com.saltware.enview.admin.codebase.web.CodebaseController">	
+		<property name="codebaseService" ref="com.saltware.enview.admin.codebase.service.CodebaseService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.NoticeController" class="com.saltware.enview.admin.notice.web.NoticeController">	
+		<property name="noticeService" ref="com.saltware.enview.admin.notice.service.NoticeService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.NoticeMetadataController" class="com.saltware.enview.admin.notice.web.NoticeMetadataController">	
+		<property name="noticeMetadataService" ref="com.saltware.enview.admin.notice.service.NoticeMetadataService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.PropertyController" class="com.saltware.enview.admin.property.web.PropertyController">	
+		<property name="propertyService" ref="com.saltware.enview.admin.property.service.PropertyService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.LangController" class="com.saltware.enview.admin.lang.web.LangController">	
+		<property name="langService" ref="com.saltware.enview.admin.lang.service.LangService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.SyncController" class="com.saltware.enview.admin.sync.web.SyncController">	
+		<property name="syncService" ref="com.saltware.enview.admin.sync.service.SyncService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.CurrentSessionController" class="com.saltware.enview.admin.monitor.web.CurrentSessionController">	
+		<property name="currentSessionService" ref="com.saltware.enview.admin.monitor.service.CurrentSessionService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.AccessStatisticsController" class="com.saltware.enview.admin.statistics.web.AccessStatisticsController">	
+	    <property name="roleService" ref="com.saltware.enview.admin.role.service.RoleService"/>
+		<property name="userStatisticsService" ref="com.saltware.enview.admin.statistics.service.UserStatisticsService"/>
+		<property name="domainService" ref="com.saltware.enview.admin.domain.service.DomainService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.PageStatisticsController" class="com.saltware.enview.admin.statistics.web.PageStatisticsController">
+	    <property name="roleService" ref="com.saltware.enview.admin.role.service.RoleService"/>
+		<property name="pageStatisticsService" ref="com.saltware.enview.admin.statistics.service.PageStatisticsService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.UserStatisticsController" class="com.saltware.enview.admin.statistics.web.UserStatisticsController">
+	    <property name="roleService" ref="com.saltware.enview.admin.role.service.RoleService"/>	
+		<property name="userStatisticsService" ref="com.saltware.enview.admin.statistics.service.UserStatisticsService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+
+	<!-- 2012. 7. 10 푸쉬 부분 추가-->
+	<bean id="admin.PushManagerController" class="com.saltware.enview.admin.pushManager.web.PushManagerController">	
+		<property name="pushManagerService" ref="com.saltware.enview.admin.pushManager.service.PushManagerService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<!-- 2012. 7. 25 위치 부분 추가-->
+	<bean id="admin.GpsManagerController" class="com.saltware.enview.admin.user.web.GpsManagerController">	
+		<property name="gpsManagerService" ref="com.saltware.enview.admin.user.service.GpsManagerService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>
+	
+	<bean id="admin.RealtimeMonitorController" class="com.saltware.enview.admin.monitor.web.RealtimeMonitorController">	
+		<property name="realtimeMonitorService" ref="com.saltware.enview.admin.monitor.service.RealtimeMonitorService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	
+ 
+ 
+   <!-- 2012. 1. 18 CPU부분 추가-->
+	<bean id="admin.CpuMonitorController" class="com.saltware.enview.admin.monitor.web.CpuMonitorController">	
+		<property name="cpuMonitorService" ref="com.saltware.enview.admin.monitor.service.CpuMonitorService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>
+	
+	
+	<!-- 2012. 1. 18  세션 모니터 추가-->
+	<bean id="admin.SessionMonitorController" class="com.saltware.enview.admin.monitor.web.SessionMonitorController">	
+		<property name="sessionMonitorService" ref="com.saltware.enview.admin.monitor.service.SessionMonitorService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>
+
+		
+
+	
+	<bean id="admin.FileController" class="com.saltware.enview.admin.file.web.FileController">	
+		<property name="fileService" ref="com.saltware.enview.admin.file.service.FileService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.BatchScheduleController" class="com.saltware.enview.admin.batchSchedule.web.BatchScheduleController">	
+		<property name="batchScheduleService" ref="com.saltware.enview.admin.batchSchedule.service.BatchScheduleService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.BatchActionController" class="com.saltware.enview.admin.batchSchedule.web.BatchActionController">	
+		<property name="batchActionService" ref="com.saltware.enview.admin.batchSchedule.service.BatchActionService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.BatchResultController" class="com.saltware.enview.admin.batchSchedule.web.BatchResultController">	
+		<property name="batchResultService" ref="com.saltware.enview.admin.batchSchedule.service.BatchResultService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.ConfigurationController" class="com.saltware.enview.admin.configuration.web.ConfigurationController">	
+		<property name="configurationService" ref="com.saltware.enview.admin.configuration.service.ConfigurationService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	
+	
+	<bean id="admin.monitorUtilityController" class="com.saltware.enview.admin.monitor.web.MonitorController"/>
+	
+	<bean id="admin.ClientController" class="com.saltware.enview.admin.capability.web.ClientController">	
+		<property name="clientService" ref="com.saltware.enview.admin.capability.service.ClientService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	
+	
+	<bean id="admin.DomainController" class="com.saltware.enview.admin.domain.web.DomainController">	
+		<property name="domainService" ref="com.saltware.enview.admin.domain.service.DomainService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.DomainLangController" class="com.saltware.enview.admin.domain.web.DomainLangController">	
+		<property name="domainLangService" ref="com.saltware.enview.admin.domain.service.DomainLangService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.DomainPrincipalController" class="com.saltware.enview.admin.domain.web.DomainPrincipalController">	
+		<property name="domainPrincipalService" ref="com.saltware.enview.admin.domain.service.DomainPrincipalService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	 
+	<bean id="admin.DomainPortletController" class="com.saltware.enview.admin.domain.web.DomainPortletController">	
+		<property name="domainPortletService" ref="com.saltware.enview.admin.domain.service.DomainPortletService"/>
+		<property name="beanValidator" ref="admin.beanValidator"/>
+	</bean>	
+	
+	<!--  URL Mapping --> 
+	<bean id="guestUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+				<prop key="/notice/activeListForAjax.admin">admin.NoticeController</prop>
+			</props>
+		</property>
+	</bean>
+				
+    <bean id="memberUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="com.saltware.enview.admin.security.SecurityInterceptor"/>
+			</list>
+		</property>
+        <property name="mappings">
+            <props>
+	 
+				<prop key="/user/list.admin">admin.UserController</prop>
+				<prop key="/user/listForAjax.admin">admin.UserController</prop>
+				<prop key="/user/listForChooser.admin">admin.UserController</prop>
+				<prop key="/user/detail.admin">admin.UserController</prop>
+				<prop key="/user/detailForAjax.admin">admin.UserController</prop>
+				<prop key="/user/newForm.admin">admin.UserController</prop>
+				<prop key="/user/add.admin">admin.UserController</prop>
+				<prop key="/user/addForAjax.admin">admin.UserController</prop>
+				<prop key="/user/update.admin">admin.UserController</prop>
+				<prop key="/user/updateForAjax.admin">admin.UserController</prop>
+				<prop key="/user/remove.admin">admin.UserController</prop>
+				<prop key="/user/removeForAjax.admin">admin.UserController</prop>
+				<prop key="/user/initializePasswordForAjax.admin">admin.UserController</prop>
+				<prop key="/user/generateUserMenuForAjax.admin">admin.UserController</prop>
+				<prop key="/user/exportExcelForAjax.admin">admin.UserController</prop>
+				 
+				<prop key="/user/userpass/list.admin">admin.UserpassController</prop>
+				<prop key="/user/userpass/listForAjax.admin">admin.UserpassController</prop>
+				<prop key="/user/userpass/listForChooser.admin">admin.UserpassController</prop>
+				<prop key="/user/userpass/detail.admin">admin.UserpassController</prop>
+				<prop key="/user/userpass/detailForAjax.admin">admin.UserpassController</prop>
+				<prop key="/user/userpass/newForm.admin">admin.UserpassController</prop>
+				<prop key="/user/userpass/add.admin">admin.UserpassController</prop>
+				<prop key="/user/userpass/addForAjax.admin">admin.UserpassController</prop>
+				<prop key="/user/userpass/update.admin">admin.UserpassController</prop>
+				<prop key="/user/userpass/updateForAjax.admin">admin.UserpassController</prop>
+				<prop key="/user/userpass/remove.admin">admin.UserpassController</prop>
+				<prop key="/user/userpass/removeForAjax.admin">admin.UserpassController</prop>
+				 
+				<prop key="/user/credential/list.admin">admin.CredentialController</prop>
+				<prop key="/user/credential/listForAjax.admin">admin.CredentialController</prop>
+				<prop key="/user/credential/listForChooser.admin">admin.CredentialController</prop>
+				<prop key="/user/credential/detail.admin">admin.CredentialController</prop>
+				<prop key="/user/credential/detailForAjax.admin">admin.CredentialController</prop>
+				<prop key="/user/credential/newForm.admin">admin.CredentialController</prop>
+				<prop key="/user/credential/add.admin">admin.CredentialController</prop>
+				<prop key="/user/credential/addForAjax.admin">admin.CredentialController</prop>
+				<prop key="/user/credential/update.admin">admin.CredentialController</prop>
+				<prop key="/user/credential/updateForAjax.admin">admin.CredentialController</prop>
+				<prop key="/user/credential/remove.admin">admin.CredentialController</prop>
+				<prop key="/user/credential/removeForAjax.admin">admin.CredentialController</prop>
+				 
+				<prop key="/user/userGroup/list.admin">admin.UserGroupController</prop>
+				<prop key="/user/userGroup/listForAjax.admin">admin.UserGroupController</prop>
+				<prop key="/user/userGroup/listForChooser.admin">admin.UserGroupController</prop>
+				<prop key="/user/userGroup/detail.admin">admin.UserGroupController</prop>
+				<prop key="/user/userGroup/detailForAjax.admin">admin.UserGroupController</prop>
+				<prop key="/user/userGroup/newForm.admin">admin.UserGroupController</prop>
+				<prop key="/user/userGroup/add.admin">admin.UserGroupController</prop>
+				<prop key="/user/userGroup/addForAjax.admin">admin.UserGroupController</prop>
+				<prop key="/user/userGroup/update.admin">admin.UserGroupController</prop>
+				<prop key="/user/userGroup/updateForAjax.admin">admin.UserGroupController</prop>
+				<prop key="/user/userGroup/remove.admin">admin.UserGroupController</prop>
+				<prop key="/user/userGroup/removeForAjax.admin">admin.UserGroupController</prop>
+				<prop key="/user/userGroup/changeOrderForAjax.admin">admin.UserGroupController</prop>
+				 
+				<prop key="/user/userRole/list.admin">admin.UserRoleController</prop>
+				<prop key="/user/userRole/listForAjax.admin">admin.UserRoleController</prop>
+				<prop key="/user/userRole/listForChooser.admin">admin.UserRoleController</prop>
+				<prop key="/user/userRole/detail.admin">admin.UserRoleController</prop>
+				<prop key="/user/userRole/detailForAjax.admin">admin.UserRoleController</prop>
+				<prop key="/user/userRole/newForm.admin">admin.UserRoleController</prop>
+				<prop key="/user/userRole/add.admin">admin.UserRoleController</prop>
+				<prop key="/user/userRole/addForAjax.admin">admin.UserRoleController</prop>
+				<prop key="/user/userRole/update.admin">admin.UserRoleController</prop>
+				<prop key="/user/userRole/updateForAjax.admin">admin.UserRoleController</prop>
+				<prop key="/user/userRole/remove.admin">admin.UserRoleController</prop>
+				<prop key="/user/userRole/removeForAjax.admin">admin.UserRoleController</prop>
+				 
+				<prop key="/user/totalPagePermission/list.admin">admin.TotalPagePermissionController</prop>
+				<prop key="/user/totalPagePermission/listForAjax.admin">admin.TotalPagePermissionController</prop>
+				<prop key="/user/totalPagePermission/listForChooser.admin">admin.TotalPagePermissionController</prop>
+				<prop key="/user/totalPagePermission/detail.admin">admin.TotalPagePermissionController</prop>
+				<prop key="/user/totalPagePermission/detailForAjax.admin">admin.TotalPagePermissionController</prop>
+				 
+				<prop key="/group/list.admin">admin.GroupController</prop>
+				<prop key="/group/listForAjax.admin">admin.GroupController</prop>
+				<prop key="/group/listForChooser.admin">admin.GroupController</prop>
+				<prop key="/group/detail.admin">admin.GroupController</prop>
+				<prop key="/group/detailForAjax.admin">admin.GroupController</prop>
+				<prop key="/group/newForm.admin">admin.GroupController</prop>
+				<prop key="/group/add.admin">admin.GroupController</prop>
+				<prop key="/group/addForAjax.admin">admin.GroupController</prop>
+				<prop key="/group/update.admin">admin.GroupController</prop>
+				<prop key="/group/updateForAjax.admin">admin.GroupController</prop>
+				<prop key="/group/remove.admin">admin.GroupController</prop>
+				<prop key="/group/removeForAjax.admin">admin.GroupController</prop>
+				<prop key="/group/retrieveTreeForAjax.admin">admin.GroupController</prop>
+				<prop key="/group/changeParentForAjax.admin">admin.GroupController</prop>
+				<prop key="/group/changeOrderForAjax.admin">admin.GroupController</prop>
+			    <prop key="/group/domainName.admin">admin.GroupController</prop>
+			    <prop key="/group/domainRegSearchAjax.admin">admin.GroupController</prop>
+			 
+			 
+				<prop key="/group/groupUser/list.admin">admin.GroupUserController</prop>
+				<prop key="/group/groupUser/listForAjax.admin">admin.GroupUserController</prop>
+				<prop key="/group/groupUser/listForChooser.admin">admin.GroupUserController</prop>
+				<prop key="/group/groupUser/detail.admin">admin.GroupUserController</prop>
+				<prop key="/group/groupUser/detailForAjax.admin">admin.GroupUserController</prop>
+				<prop key="/group/groupUser/newForm.admin">admin.GroupUserController</prop>
+				<prop key="/group/groupUser/add.admin">admin.GroupUserController</prop>
+				<prop key="/group/groupUser/addForAjax.admin">admin.GroupUserController</prop>
+				<prop key="/group/groupUser/update.admin">admin.GroupUserController</prop>
+				<prop key="/group/groupUser/updateForAjax.admin">admin.GroupUserController</prop>
+				<prop key="/group/groupUser/remove.admin">admin.GroupUserController</prop>
+				<prop key="/group/groupUser/removeForAjax.admin">admin.GroupUserController</prop>
+				 
+				<prop key="/group/groupRole/list.admin">admin.GroupRoleController</prop>
+				<prop key="/group/groupRole/listForAjax.admin">admin.GroupRoleController</prop>
+				<prop key="/group/groupRole/listForChooser.admin">admin.GroupRoleController</prop>
+				<prop key="/group/groupRole/detail.admin">admin.GroupRoleController</prop>
+				<prop key="/group/groupRole/detailForAjax.admin">admin.GroupRoleController</prop>
+				<prop key="/group/groupRole/newForm.admin">admin.GroupRoleController</prop>
+				<prop key="/group/groupRole/add.admin">admin.GroupRoleController</prop>
+				<prop key="/group/groupRole/addForAjax.admin">admin.GroupRoleController</prop>
+				<prop key="/group/groupRole/update.admin">admin.GroupRoleController</prop>
+				<prop key="/group/groupRole/updateForAjax.admin">admin.GroupRoleController</prop>
+				<prop key="/group/groupRole/remove.admin">admin.GroupRoleController</prop>
+				<prop key="/group/groupRole/removeForAjax.admin">admin.GroupRoleController</prop>
+				 
+				<prop key="/role/list.admin">admin.RoleController</prop>
+				<prop key="/role/listForAjax.admin">admin.RoleController</prop>
+				<prop key="/role/listForChooser.admin">admin.RoleController</prop>
+				<prop key="/role/detail.admin">admin.RoleController</prop>
+				<prop key="/role/detailForAjax.admin">admin.RoleController</prop>
+				<prop key="/role/newForm.admin">admin.RoleController</prop>
+				<prop key="/role/add.admin">admin.RoleController</prop>
+				<prop key="/role/addForAjax.admin">admin.RoleController</prop>
+				<prop key="/role/update.admin">admin.RoleController</prop>
+				<prop key="/role/updateForAjax.admin">admin.RoleController</prop>
+				<prop key="/role/remove.admin">admin.RoleController</prop>
+				<prop key="/role/removeForAjax.admin">admin.RoleController</prop>
+				<prop key="/role/retrieveTreeForAjax.admin">admin.RoleController</prop>
+				<prop key="/role/changeParentForAjax.admin">admin.RoleController</prop>
+				<prop key="/role/changeOrderForAjax.admin">admin.RoleController</prop>
+			 
+				<prop key="/role/roleUser/list.admin">admin.RoleUserController</prop>
+				<prop key="/role/roleUser/listForAjax.admin">admin.RoleUserController</prop>
+				<prop key="/role/roleUser/listForChooser.admin">admin.RoleUserController</prop>
+				<prop key="/role/roleUser/detail.admin">admin.RoleUserController</prop>
+				<prop key="/role/roleUser/detailForAjax.admin">admin.RoleUserController</prop>
+				<prop key="/role/roleUser/newForm.admin">admin.RoleUserController</prop>
+				<prop key="/role/roleUser/add.admin">admin.RoleUserController</prop>
+				<prop key="/role/roleUser/addForAjax.admin">admin.RoleUserController</prop>
+				<prop key="/role/roleUser/update.admin">admin.RoleUserController</prop>
+				<prop key="/role/roleUser/updateForAjax.admin">admin.RoleUserController</prop>
+				<prop key="/role/roleUser/remove.admin">admin.RoleUserController</prop>
+				<prop key="/role/roleUser/removeForAjax.admin">admin.RoleUserController</prop>
+				 
+				<prop key="/pagePermission/list.admin">admin.PagePermissionController</prop>
+				<prop key="/pagePermission/listForAjax.admin">admin.PagePermissionController</prop>
+				<prop key="/pagePermission/listForChooser.admin">admin.PagePermissionController</prop>
+				<prop key="/pagePermission/detail.admin">admin.PagePermissionController</prop>
+				<prop key="/pagePermission/detailForAjax.admin">admin.PagePermissionController</prop>
+				<prop key="/pagePermission/newForm.admin">admin.PagePermissionController</prop>
+				<prop key="/pagePermission/add.admin">admin.PagePermissionController</prop>
+				<prop key="/pagePermission/addsForAjax.admin">admin.PagePermissionController</prop>
+				<prop key="/pagePermission/addByPatternForAjax.admin">admin.PagePermissionController</prop>
+				<prop key="/pagePermission/update.admin">admin.PagePermissionController</prop>
+				<prop key="/pagePermission/updateForAjax.admin">admin.PagePermissionController</prop>
+				<prop key="/pagePermission/remove.admin">admin.PagePermissionController</prop>
+				<prop key="/pagePermission/removeForAjax.admin">admin.PagePermissionController</prop>
+				 
+				<prop key="/portletPermission/list.admin">admin.PortletPermissionController</prop>
+				<prop key="/portletPermission/listForAjax.admin">admin.PortletPermissionController</prop>
+				<prop key="/portletPermission/listForChooser.admin">admin.PortletPermissionController</prop>
+				<prop key="/portletPermission/detail.admin">admin.PortletPermissionController</prop>
+				<prop key="/portletPermission/detailForAjax.admin">admin.PortletPermissionController</prop>
+				<prop key="/portletPermission/newForm.admin">admin.PortletPermissionController</prop>
+				<prop key="/portletPermission/add.admin">admin.PortletPermissionController</prop>
+				<prop key="/portletPermission/addsForAjax.admin">admin.PortletPermissionController</prop>
+				<prop key="/portletPermission/update.admin">admin.PortletPermissionController</prop>
+				<prop key="/portletPermission/updateForAjax.admin">admin.PortletPermissionController</prop>
+				<prop key="/portletPermission/remove.admin">admin.PortletPermissionController</prop>
+				<prop key="/portletPermission/removeForAjax.admin">admin.PortletPermissionController</prop>
+				
+				<prop key="/urlPermission/list.admin">admin.UrlPermissionController</prop>
+				<prop key="/urlPermission/listForAjax.admin">admin.UrlPermissionController</prop>
+				<prop key="/urlPermission/listForChooser.admin">admin.UrlPermissionController</prop>
+				<prop key="/urlPermission/detail.admin">admin.UrlPermissionController</prop>
+				<prop key="/urlPermission/detailForAjax.admin">admin.UrlPermissionController</prop>
+				<prop key="/urlPermission/newForm.admin">admin.UrlPermissionController</prop>
+				<prop key="/urlPermission/add.admin">admin.UrlPermissionController</prop>
+				<prop key="/urlPermission/addForAjax.admin">admin.UrlPermissionController</prop>
+				<prop key="/urlPermission/addsForAjax.admin">admin.UrlPermissionController</prop>
+				<prop key="/urlPermission/update.admin">admin.UrlPermissionController</prop>
+				<prop key="/urlPermission/updateForAjax.admin">admin.UrlPermissionController</prop>
+				<prop key="/urlPermission/remove.admin">admin.UrlPermissionController</prop>
+				<prop key="/urlPermission/removeForAjax.admin">admin.UrlPermissionController</prop>
+				
+				<prop key="/principalPermission/list.admin">admin.PrincipalPermissionController</prop>
+				<prop key="/principalPermission/listForAjax.admin">admin.PrincipalPermissionController</prop>
+				<prop key="/principalPermission/detailForAjax.admin">admin.PrincipalPermissionController</prop>
+				<prop key="/principalPermission/addsForAjax.admin">admin.PrincipalPermissionController</prop>
+				<prop key="/principalPermission/updateForAjax.admin">admin.PrincipalPermissionController</prop>
+				<prop key="/principalPermission/removeForAjax.admin">admin.PrincipalPermissionController</prop>
+				 
+				<prop key="/securityPolicy/list.admin">admin.SecurityPolicyController</prop>
+				<prop key="/securityPolicy/listForAjax.admin">admin.SecurityPolicyController</prop>
+				<prop key="/securityPolicy/listForChooser.admin">admin.SecurityPolicyController</prop>
+				<prop key="/securityPolicy/detail.admin">admin.SecurityPolicyController</prop>
+				<prop key="/securityPolicy/detailForAjax.admin">admin.SecurityPolicyController</prop>
+				<prop key="/securityPolicy/newForm.admin">admin.SecurityPolicyController</prop>
+				<prop key="/securityPolicy/add.admin">admin.SecurityPolicyController</prop>
+				<prop key="/securityPolicy/addForAjax.admin">admin.SecurityPolicyController</prop>
+				<prop key="/securityPolicy/update.admin">admin.SecurityPolicyController</prop>
+				<prop key="/securityPolicy/updateForAjax.admin">admin.SecurityPolicyController</prop>
+				<prop key="/securityPolicy/remove.admin">admin.SecurityPolicyController</prop>
+				<prop key="/securityPolicy/removeForAjax.admin">admin.SecurityPolicyController</prop>
+				 
+				<prop key="/portletApplication/list.admin">admin.PortletApplicationController</prop>
+				<prop key="/portletApplication/listForAjax.admin">admin.PortletApplicationController</prop>
+				<prop key="/portletApplication/listForChooser.admin">admin.PortletApplicationController</prop>
+				<prop key="/portletApplication/detail.admin">admin.PortletApplicationController</prop>
+				<prop key="/portletApplication/detailForAjax.admin">admin.PortletApplicationController</prop>
+				<prop key="/portletApplication/newForm.admin">admin.PortletApplicationController</prop>
+				<prop key="/portletApplication/add.admin">admin.PortletApplicationController</prop>
+				<prop key="/portletApplication/addForAjax.admin">admin.PortletApplicationController</prop>
+				<prop key="/portletApplication/update.admin">admin.PortletApplicationController</prop>
+				<prop key="/portletApplication/updateForAjax.admin">admin.PortletApplicationController</prop>
+				<prop key="/portletApplication/remove.admin">admin.PortletApplicationController</prop>
+				<prop key="/portletApplication/startForAjax.admin">admin.PortletApplicationController</prop>
+				<prop key="/portletApplication/stopForAjax.admin">admin.PortletApplicationController</prop>
+				<prop key="/portletApplication/reloadForAjax.admin">admin.PortletApplicationController</prop>
+				<prop key="/portletApplication/writeForAjax.admin">admin.PortletApplicationController</prop>
+				 
+				<prop key="/portletApplication/portletDefinition/list.admin">admin.PortletDefinitionController</prop>
+				<prop key="/portletApplication/portletDefinition/listForAjax.admin">admin.PortletDefinitionController</prop>
+				<prop key="/portletApplication/portletDefinition/listIconForAjax.admin">admin.PortletDefinitionController</prop>
+				<prop key="/portletApplication/portletDefinition/listForChooser.admin">admin.PortletDefinitionController</prop>
+				<prop key="/portletApplication/portletDefinition/detail.admin">admin.PortletDefinitionController</prop>
+				<prop key="/portletApplication/portletDefinition/detailForAjax.admin">admin.PortletDefinitionController</prop>
+				<prop key="/portletApplication/portletDefinition/newForm.admin">admin.PortletDefinitionController</prop>
+				<prop key="/portletApplication/portletDefinition/add.admin">admin.PortletDefinitionController</prop>
+				<prop key="/portletApplication/portletDefinition/addForAjax.admin">admin.PortletDefinitionController</prop>
+				<prop key="/portletApplication/portletDefinition/update.admin">admin.PortletDefinitionController</prop>
+				<prop key="/portletApplication/portletDefinition/updateForAjax.admin">admin.PortletDefinitionController</prop>
+				<prop key="/portletApplication/portletDefinition/changeCategoryForAjax.admin">admin.PortletDefinitionController</prop>
+				<prop key="/portletApplication/portletDefinition/remove.admin">admin.PortletDefinitionController</prop>
+				<prop key="/portletApplication/portletDefinition/removeForAjax.admin">admin.PortletDefinitionController</prop>
+				<prop key="/portletApplication/portletDefinition/activeForAjax.admin">admin.PortletDefinitionController</prop>
+				
+				<prop key="/portletApplication/portletDefinition/portletTitle/list.admin">admin.PortletTitleController</prop>
+				<prop key="/portletApplication/portletDefinition/portletTitle/listForAjax.admin">admin.PortletTitleController</prop>
+				<prop key="/portletApplication/portletDefinition/portletTitle/listForChooser.admin">admin.PortletTitleController</prop>
+				<prop key="/portletApplication/portletDefinition/portletTitle/detail.admin">admin.PortletTitleController</prop>
+				<prop key="/portletApplication/portletDefinition/portletTitle/detailForAjax.admin">admin.PortletTitleController</prop>
+				<prop key="/portletApplication/portletDefinition/portletTitle/newForm.admin">admin.PortletTitleController</prop>
+				<prop key="/portletApplication/portletDefinition/portletTitle/add.admin">admin.PortletTitleController</prop>
+				<prop key="/portletApplication/portletDefinition/portletTitle/addForAjax.admin">admin.PortletTitleController</prop>
+				<prop key="/portletApplication/portletDefinition/portletTitle/update.admin">admin.PortletTitleController</prop>
+				<prop key="/portletApplication/portletDefinition/portletTitle/updateForAjax.admin">admin.PortletTitleController</prop>
+				<prop key="/portletApplication/portletDefinition/portletTitle/remove.admin">admin.PortletTitleController</prop>
+				<prop key="/portletApplication/portletDefinition/portletTitle/removeForAjax.admin">admin.PortletTitleController</prop>
+				 
+				<prop key="/portletApplication/portletDefinition/portletParam/list.admin">admin.PortletParamController</prop>
+				<prop key="/portletApplication/portletDefinition/portletParam/listForAjax.admin">admin.PortletParamController</prop>
+				<prop key="/portletApplication/portletDefinition/portletParam/listForChooser.admin">admin.PortletParamController</prop>
+				<prop key="/portletApplication/portletDefinition/portletParam/detail.admin">admin.PortletParamController</prop>
+				<prop key="/portletApplication/portletDefinition/portletParam/detailForAjax.admin">admin.PortletParamController</prop>
+				<prop key="/portletApplication/portletDefinition/portletParam/newForm.admin">admin.PortletParamController</prop>
+				<prop key="/portletApplication/portletDefinition/portletParam/add.admin">admin.PortletParamController</prop>
+				<prop key="/portletApplication/portletDefinition/portletParam/addForAjax.admin">admin.PortletParamController</prop>
+				<prop key="/portletApplication/portletDefinition/portletParam/update.admin">admin.PortletParamController</prop>
+				<prop key="/portletApplication/portletDefinition/portletParam/updateForAjax.admin">admin.PortletParamController</prop>
+				<prop key="/portletApplication/portletDefinition/portletParam/remove.admin">admin.PortletParamController</prop>
+				<prop key="/portletApplication/portletDefinition/portletParam/removeForAjax.admin">admin.PortletParamController</prop>
+				 
+				<prop key="/portletApplication/portletDefinition/portletMetadata/list.admin">admin.PortletMetadataController</prop>
+				<prop key="/portletApplication/portletDefinition/portletMetadata/listForAjax.admin">admin.PortletMetadataController</prop>
+				<prop key="/portletApplication/portletDefinition/portletMetadata/listForChooser.admin">admin.PortletMetadataController</prop>
+				<prop key="/portletApplication/portletDefinition/portletMetadata/detail.admin">admin.PortletMetadataController</prop>
+				<prop key="/portletApplication/portletDefinition/portletMetadata/detailForAjax.admin">admin.PortletMetadataController</prop>
+				<prop key="/portletApplication/portletDefinition/portletMetadata/newForm.admin">admin.PortletMetadataController</prop>
+				<prop key="/portletApplication/portletDefinition/portletMetadata/add.admin">admin.PortletMetadataController</prop>
+				<prop key="/portletApplication/portletDefinition/portletMetadata/addForAjax.admin">admin.PortletMetadataController</prop>
+				<prop key="/portletApplication/portletDefinition/portletMetadata/update.admin">admin.PortletMetadataController</prop>
+				<prop key="/portletApplication/portletDefinition/portletMetadata/updateForAjax.admin">admin.PortletMetadataController</prop>
+				<prop key="/portletApplication/portletDefinition/portletMetadata/remove.admin">admin.PortletMetadataController</prop>
+				<prop key="/portletApplication/portletDefinition/portletMetadata/removeForAjax.admin">admin.PortletMetadataController</prop>
+				 
+				<prop key="/portletApplication/portletDefinition/portletType/list.admin">admin.PortletTypeController</prop>
+				<prop key="/portletApplication/portletDefinition/portletType/listForAjax.admin">admin.PortletTypeController</prop>
+				<prop key="/portletApplication/portletDefinition/portletType/listForChooser.admin">admin.PortletTypeController</prop>
+				<prop key="/portletApplication/portletDefinition/portletType/detail.admin">admin.PortletTypeController</prop>
+				<prop key="/portletApplication/portletDefinition/portletType/detailForAjax.admin">admin.PortletTypeController</prop>
+				<prop key="/portletApplication/portletDefinition/portletType/newForm.admin">admin.PortletTypeController</prop>
+				<prop key="/portletApplication/portletDefinition/portletType/add.admin">admin.PortletTypeController</prop>
+				<prop key="/portletApplication/portletDefinition/portletType/addForAjax.admin">admin.PortletTypeController</prop>
+				<prop key="/portletApplication/portletDefinition/portletType/update.admin">admin.PortletTypeController</prop>
+				<prop key="/portletApplication/portletDefinition/portletType/updateForAjax.admin">admin.PortletTypeController</prop>
+				<prop key="/portletApplication/portletDefinition/portletType/remove.admin">admin.PortletTypeController</prop>
+				<prop key="/portletApplication/portletDefinition/portletType/removeForAjax.admin">admin.PortletTypeController</prop>
+				 
+				<prop key="/portletApplication/portletDefinition/portletOption/list.admin">admin.PortletOptionController</prop>
+				<prop key="/portletApplication/portletDefinition/portletOption/listForAjax.admin">admin.PortletOptionController</prop>
+				<prop key="/portletApplication/portletDefinition/portletOption/listForChooser.admin">admin.PortletOptionController</prop>
+				<prop key="/portletApplication/portletDefinition/portletOption/detail.admin">admin.PortletOptionController</prop>
+				<prop key="/portletApplication/portletDefinition/portletOption/detailForAjax.admin">admin.PortletOptionController</prop>
+				<prop key="/portletApplication/portletDefinition/portletOption/newForm.admin">admin.PortletOptionController</prop>
+				<prop key="/portletApplication/portletDefinition/portletOption/add.admin">admin.PortletOptionController</prop>
+				<prop key="/portletApplication/portletDefinition/portletOption/addForAjax.admin">admin.PortletOptionController</prop>
+				<prop key="/portletApplication/portletDefinition/portletOption/update.admin">admin.PortletOptionController</prop>
+				<prop key="/portletApplication/portletDefinition/portletOption/updateForAjax.admin">admin.PortletOptionController</prop>
+				<prop key="/portletApplication/portletDefinition/portletOption/remove.admin">admin.PortletOptionController</prop>
+				<prop key="/portletApplication/portletDefinition/portletOption/removeForAjax.admin">admin.PortletOptionController</prop>
+				
+				
+				<prop key="/portletService/list.admin">admin.PortletServiceController</prop>
+				<prop key="/portletService/listForAjax.admin">admin.PortletServiceController</prop>
+				<prop key="/portletService/listForChooser.admin">admin.PortletServiceController</prop>
+				<prop key="/portletService/detail.admin">admin.PortletServiceController</prop>
+				<prop key="/portletService/detailForAjax.admin">admin.PortletServiceController</prop>
+				<prop key="/portletService/addForAjax.admin">admin.PortletServiceController</prop>
+				<prop key="/portletService/updateForAjax.admin">admin.PortletServiceController</prop>
+				<prop key="/portletService/removeForAjax.admin">admin.PortletServiceController</prop>
+
+				<prop key="/page/list.admin">admin.PageController</prop>
+				<prop key="/page/listForAjax.admin">admin.PageController</prop>
+				<prop key="/page/listForChooser.admin">admin.PageController</prop>
+				<prop key="/page/detail.admin">admin.PageController</prop>
+				<prop key="/page/detailForAjax.admin">admin.PageController</prop>
+				<prop key="/page/newForm.admin">admin.PageController</prop>
+				<prop key="/page/add.admin">admin.PageController</prop>
+				<prop key="/page/addForAjax.admin">admin.PageController</prop>
+				<prop key="/page/update.admin">admin.PageController</prop>
+				<prop key="/page/updateForAjax.admin">admin.PageController</prop>
+				<prop key="/page/remove.admin">admin.PageController</prop>
+				<prop key="/page/removeForAjax.admin">admin.PageController</prop>
+				<prop key="/page/retrieveTreeForAjax.admin">admin.PageController</prop>
+				<prop key="/page/changeParentForAjax.admin">admin.PageController</prop>
+				<prop key="/page/copyForAjax.admin">admin.PageController</prop>
+				<prop key="/page/changeOrderForAjax.admin">admin.PageController</prop>
+				<prop key="/page/importExcelForAjax.admin">admin.PageController</prop>
+				<prop key="/page/exportExcelForAjax.admin">admin.PageController</prop>
+				<prop key="/page/domainIdfind.admin">admin.PageController</prop>
+			 
+				<prop key="/page/pageMetadata/list.admin">admin.PageMetadataController</prop>
+				<prop key="/page/pageMetadata/listForAjax.admin">admin.PageMetadataController</prop>
+				<prop key="/page/pageMetadata/listForChooser.admin">admin.PageMetadataController</prop>
+				<prop key="/page/pageMetadata/detail.admin">admin.PageMetadataController</prop>
+				<prop key="/page/pageMetadata/detailForAjax.admin">admin.PageMetadataController</prop>
+				<prop key="/page/pageMetadata/newForm.admin">admin.PageMetadataController</prop>
+				<prop key="/page/pageMetadata/add.admin">admin.PageMetadataController</prop>
+				<prop key="/page/pageMetadata/addForAjax.admin">admin.PageMetadataController</prop>
+				<prop key="/page/pageMetadata/update.admin">admin.PageMetadataController</prop>
+				<prop key="/page/pageMetadata/updateForAjax.admin">admin.PageMetadataController</prop>
+				<prop key="/page/pageMetadata/remove.admin">admin.PageMetadataController</prop>
+				<prop key="/page/pageMetadata/removeForAjax.admin">admin.PageMetadataController</prop>
+				 
+				<prop key="/page/pageComponent/list.admin">admin.PageComponentController</prop>
+				<prop key="/page/pageComponent/listForAjax.admin">admin.PageComponentController</prop>
+				<prop key="/page/pageComponent/listForChooser.admin">admin.PageComponentController</prop>
+				<prop key="/page/pageComponent/detail.admin">admin.PageComponentController</prop>
+				<prop key="/page/pageComponent/detailForAjax.admin">admin.PageComponentController</prop>
+				<prop key="/page/pageComponent/newForm.admin">admin.PageComponentController</prop>
+				<prop key="/page/pageComponent/add.admin">admin.PageComponentController</prop>
+				<prop key="/page/pageComponent/addForAjax.admin">admin.PageComponentController</prop>
+				<prop key="/page/pageComponent/update.admin">admin.PageComponentController</prop>
+				<prop key="/page/pageComponent/updateForAjax.admin">admin.PageComponentController</prop>
+				<prop key="/page/pageComponent/remove.admin">admin.PageComponentController</prop>
+				<prop key="/page/pageComponent/removeForAjax.admin">admin.PageComponentController</prop>
+
+				<prop key="/themeMapping/list.admin">admin.ThemeMappingController</prop>
+				<prop key="/themeMapping/listForAjax.admin">admin.ThemeMappingController</prop>
+				<prop key="/themeMapping/listForChooser.admin">admin.ThemeMappingController</prop>
+				<prop key="/themeMapping/detail.admin">admin.ThemeMappingController</prop>
+				<prop key="/themeMapping/detailForAjax.admin">admin.ThemeMappingController</prop>
+				<prop key="/themeMapping/newForm.admin">admin.ThemeMappingController</prop>
+				<prop key="/themeMapping/add.admin">admin.ThemeMappingController</prop>
+				<prop key="/themeMapping/addForAjax.admin">admin.ThemeMappingController</prop>
+				<prop key="/themeMapping/update.admin">admin.ThemeMappingController</prop>
+				<prop key="/themeMapping/updateForAjax.admin">admin.ThemeMappingController</prop>
+				<prop key="/themeMapping/remove.admin">admin.ThemeMappingController</prop>
+				<prop key="/themeMapping/removeForAjax.admin">admin.ThemeMappingController</prop>
+				
+				<prop key="/codebase/list.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/listForAjax.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/listLanguageForAjax.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/listsubForAjax.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/listForChooser.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/detail.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/detailForAjax.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/newForm.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/add.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/addForAjax.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/update.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/updateForAjax.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/remove.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/removeForAjax.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/removeMasterForAjax.admin">admin.CodebaseController</prop>
+				<prop key="/codebase/removeLanguageForAjax.admin">admin.CodebaseController</prop>
+				 
+				<prop key="/notice/list.admin">admin.NoticeController</prop>
+				<prop key="/notice/listForAjax.admin">admin.NoticeController</prop>
+				<prop key="/notice/listForChooser.admin">admin.NoticeController</prop>
+				<prop key="/notice/detail.admin">admin.NoticeController</prop>
+				<prop key="/notice/detailForAjax.admin">admin.NoticeController</prop>
+				<prop key="/notice/newForm.admin">admin.NoticeController</prop>
+				<prop key="/notice/add.admin">admin.NoticeController</prop>
+				<prop key="/notice/addForAjax.admin">admin.NoticeController</prop>
+				<prop key="/notice/update.admin">admin.NoticeController</prop>
+				<prop key="/notice/updateForAjax.admin">admin.NoticeController</prop>
+				<prop key="/notice/remove.admin">admin.NoticeController</prop>
+				<prop key="/notice/removeForAjax.admin">admin.NoticeController</prop>
+				<prop key="/notice/copyForAjax.admin">admin.NoticeController</prop>
+				
+				<prop key="/notice/noticeMetadata/list.admin">admin.NoticeMetadataController</prop>
+				<prop key="/notice/noticeMetadata/listForAjax.admin">admin.NoticeMetadataController</prop>
+				<prop key="/notice/noticeMetadata/listForChooser.admin">admin.NoticeMetadataController</prop>
+				<prop key="/notice/noticeMetadata/detail.admin">admin.NoticeMetadataController</prop>
+				<prop key="/notice/noticeMetadata/detailForAjax.admin">admin.NoticeMetadataController</prop>
+				<prop key="/notice/noticeMetadata/newForm.admin">admin.NoticeMetadataController</prop>
+				<prop key="/notice/noticeMetadata/add.admin">admin.NoticeMetadataController</prop>
+				<prop key="/notice/noticeMetadata/addForAjax.admin">admin.NoticeMetadataController</prop>
+				<prop key="/notice/noticeMetadata/update.admin">admin.NoticeMetadataController</prop>
+				<prop key="/notice/noticeMetadata/updateForAjax.admin">admin.NoticeMetadataController</prop>
+				<prop key="/notice/noticeMetadata/remove.admin">admin.NoticeMetadataController</prop>
+				<prop key="/notice/noticeMetadata/removeForAjax.admin">admin.NoticeMetadataController</prop>
+				 
+				<prop key="/property/list.admin">admin.PropertyController</prop>
+				<prop key="/property/listForAjax.admin">admin.PropertyController</prop>
+				<prop key="/property/listForChooser.admin">admin.PropertyController</prop>
+				<prop key="/property/detail.admin">admin.PropertyController</prop>
+				<prop key="/property/detailForAjax.admin">admin.PropertyController</prop>
+				 
+				<prop key="/lang/list.admin">admin.LangController</prop>
+				<prop key="/lang/listForAjax.admin">admin.LangController</prop>
+				<prop key="/lang/listLangForAjax.admin">admin.LangController</prop>
+				<prop key="/lang/listForChooser.admin">admin.LangController</prop>
+				<prop key="/lang/detail.admin">admin.LangController</prop>
+				<prop key="/lang/detailForAjax.admin">admin.LangController</prop>
+				<prop key="/lang/newForm.admin">admin.LangController</prop>
+				<prop key="/lang/add.admin">admin.LangController</prop>
+				<prop key="/lang/addForAjax.admin">admin.LangController</prop>
+				<prop key="/lang/update.admin">admin.LangController</prop>
+				<prop key="/lang/updateForAjax.admin">admin.LangController</prop>
+				<prop key="/lang/remove.admin">admin.LangController</prop>
+				<prop key="/lang/removeForAjax.admin">admin.LangController</prop>
+				<prop key="/lang/removeMasterForAjax.admin">admin.LangController</prop>
+				<prop key="/lang/writeJavascriptForAjax.admin">admin.LangController</prop>
+				 
+				<prop key="/sync/list.admin">admin.SyncController</prop>
+				<prop key="/sync/listForAjax.admin">admin.SyncController</prop>
+				<prop key="/sync/listForChooser.admin">admin.SyncController</prop>
+				<prop key="/sync/detail.admin">admin.SyncController</prop>
+				<prop key="/sync/detailForAjax.admin">admin.SyncController</prop>
+				<prop key="/sync/invalidateForAjax.admin">admin.SyncController</prop>
+				 
+				<prop key="/currentSession/list.admin">admin.CurrentSessionController</prop>
+				<prop key="/currentSession/listForAjax.admin">admin.CurrentSessionController</prop>
+				<prop key="/currentSession/listForChooser.admin">admin.CurrentSessionController</prop>
+				<prop key="/currentSession/detail.admin">admin.CurrentSessionController</prop>
+				<prop key="/currentSession/detailForAjax.admin">admin.CurrentSessionController</prop>
+				<prop key="/currentSession/getTotalSessionCountForAjax.admin">admin.CurrentSessionController</prop>
+				<prop key="/currentSession/exportExcelForAjax.admin">admin.CurrentSessionController</prop>
+
+				<prop key="/accessStatistics/list.admin">admin.AccessStatisticsController</prop>
+				<prop key="/accessStatistics/listForAjax.admin">admin.AccessStatisticsController</prop>
+				<prop key="/accessStatistics/chartDataForAjax.admin">admin.AccessStatisticsController</prop>
+				<prop key="/accessStatistics/detail.admin">admin.AccessStatisticsController</prop>
+				<prop key="/accessStatistics/detailForAjax.admin">admin.AccessStatisticsController</prop>
+				<prop key="/accessStatistics/exportExcelForAjax.admin">admin.AccessStatisticsController</prop>
+				
+				<prop key="/pageStatistics/list.admin">admin.PageStatisticsController</prop>
+				<prop key="/pageStatistics/listForAjax.admin">admin.PageStatisticsController</prop>
+				<prop key="/pageStatistics/listForChooser.admin">admin.PageStatisticsController</prop>
+				<prop key="/pageStatistics/detail.admin">admin.PageStatisticsController</prop>
+				<prop key="/pageStatistics/detailForAjax.admin">admin.PageStatisticsController</prop>
+				<prop key="/pageStatistics/exportExcelForAjax.admin">admin.PageStatisticsController</prop>
+				 
+				<prop key="/userStatistics/list.admin">admin.UserStatisticsController</prop>
+				<prop key="/userStatistics/listForAjax.admin">admin.UserStatisticsController</prop>
+				<prop key="/userStatistics/exportExcelForAjax.admin">admin.UserStatisticsController</prop>
+				
+				
+				<!-- 2012. 7. 11. 푸쉬 부분 추가-->
+                <prop key="/pushManager/list.admin">admin.PushManagerController</prop>
+				<prop key="/pushManager/listForAjax.admin">admin.PushManagerController</prop>
+				<prop key="/pushManager/add.admin">admin.PushManagerController</prop>
+				<prop key="/pushManager/detailForAjax.admin">admin.PushManagerController</prop>
+				<prop key="/pushManager/PushSend.admin">admin.PushManagerController</prop>
+				<prop key="/pushManager/findId.admin">admin.PushManagerController</prop>
+				
+				<!-- 2012. 7. 25. 위치 부분 추가-->
+                <prop key="/gpsManager/list.admin">admin.GpsManagerController</prop>
+				<prop key="/gpsManager/listForAjax.admin">admin.GpsManagerController</prop>
+				<prop key="/gpsManager/add.admin">admin.GpsManagerController</prop>
+				<prop key="/gpsManager/detailForAjax.admin">admin.GpsManagerController</prop>
+				<prop key="/gpsManager/findId.admin">admin.GpsManagerController</prop>
+				
+				
+				<prop key="/realtimeMonitor/list.admin">admin.RealtimeMonitorController</prop>
+				<prop key="/realtimeMonitor/listForAjax.admin">admin.RealtimeMonitorController</prop>
+				<prop key="/realtimeMonitor/listForChooser.admin">admin.RealtimeMonitorController</prop>
+				<prop key="/realtimeMonitor/detail.admin">admin.RealtimeMonitorController</prop>
+				<prop key="/realtimeMonitor/detailForAjax.admin">admin.RealtimeMonitorController</prop>
+				<prop key="/realtimeMonitor/addForAjax.admin">admin.RealtimeMonitorController</prop>
+				<prop key="/realtimeMonitor/updateForAjax.admin">admin.RealtimeMonitorController</prop>
+				<prop key="/realtimeMonitor/removeForAjax.admin">admin.RealtimeMonitorController</prop>
+				
+
+				<!-- 2012. 1. 18. Cpu부분 추가--> 
+				<prop key="/cpuMonitor/list.admin">admin.CpuMonitorController</prop>
+				<prop key="/cpuMonitor/listForAjax.admin">admin.CpuMonitorController</prop>
+				<prop key="/cpuMonitor/listForChooser.admin">admin.CpuMonitorController</prop>
+				<prop key="/cpuMonitor/detail.admin">admin.CpuMonitorController</prop>
+				<prop key="/cpuMonitor/detailForAjax.admin">admin.CpuMonitorController</prop>
+				<prop key="/cpuMonitor/addForAjax.admin">admin.CpuMonitorController</prop>
+				<prop key="/cpuMonitor/updateForAjax.admin">admin.CpuMonitorController</prop>
+				<prop key="/cpuMonitor/removeForAjax.admin">admin.CpuMonitorController</prop>
+				
+				<!-- 2012. 1. 18. 세션 부분 추가-->
+				<prop key="/sessionMonitor/list.admin">admin.SessionMonitorController</prop>
+				<prop key="/sessionMonitor/listForAjax.admin">admin.SessionMonitorController</prop>
+				<prop key="/sessionMonitor/listForChooser.admin">admin.SessionMonitorController</prop>
+				<prop key="/sessionMonitor/detail.admin">admin.SessionMonitorController</prop>
+				<prop key="/sessionMonitor/detailForAjax.admin">admin.SessionMonitorController</prop>
+				<prop key="/sessionMonitor/addForAjax.admin">admin.SessionMonitorController</prop>
+				<prop key="/sessionMonitor/updateForAjax.admin">admin.SessionMonitorController</prop>
+				<prop key="/sessionMonitor/removeForAjax.admin">admin.SessionMonitorController</prop>
+				
+   		        <prop key="/file/list.admin">admin.FileController</prop>
+				<prop key="/file/listForAjax.admin">admin.FileController</prop>
+				<prop key="/file/listForChooser.admin">admin.FileController</prop>
+				<prop key="/file/detail.admin">admin.FileController</prop>
+				<prop key="/file/detailForAjax.admin">admin.FileController</prop>
+				<prop key="/file/newForm.admin">admin.FileController</prop>
+				<prop key="/file/add.admin">admin.FileController</prop>
+				<prop key="/file/addForAjax.admin">admin.FileController</prop>
+				<prop key="/file/update.admin">admin.FileController</prop>
+				<prop key="/file/updateForAjax.admin">admin.FileController</prop>
+				<prop key="/file/remove.admin">admin.FileController</prop>
+				<prop key="/file/removeForAjax.admin">admin.FileController</prop>
+				<prop key="/file/retrieveTreeForAjax.admin">admin.FileController</prop>
+				<prop key="/file/changeParentForAjax.admin">admin.FileController</prop>
+				<prop key="/file/uploadListForAjax.admin">admin.FileController</prop>
+				<prop key="/file/uploadProgress.admin">admin.FileController</prop>
+				<prop key="/file/uploadLastSave.admin">admin.FileController</prop>
+				<prop key="/file/postUploadProgress.admin">admin.FileController</prop> 
+				<prop key="/file/fileOpen.admin">admin.FileController</prop>
+				<prop key="/file/fileSave.admin">admin.FileController</prop>
+				
+				
+				
+				<prop key="/common/listForPortletSelector.admin">admin.PageEditController</prop>
+				<prop key="/common/listForPortletEditor.admin">admin.PageEditController</prop>
+				<prop key="/common/listPortletForAjax.admin">admin.PageEditController</prop>
+				
+				<prop key="/batchSchedule/list.admin">admin.BatchScheduleController</prop>
+				<prop key="/batchSchedule/listForAjax.admin">admin.BatchScheduleController</prop>
+				<prop key="/batchSchedule/listForChooser.admin">admin.BatchScheduleController</prop>
+				<prop key="/batchSchedule/detail.admin">admin.BatchScheduleController</prop>
+				<prop key="/batchSchedule/detailForAjax.admin">admin.BatchScheduleController</prop>
+				<prop key="/batchSchedule/addForAjax.admin">admin.BatchScheduleController</prop>
+				<prop key="/batchSchedule/updateForAjax.admin">admin.BatchScheduleController</prop>
+				<prop key="/batchSchedule/removeForAjax.admin">admin.BatchScheduleController</prop>
+				<prop key="/batchSchedule/runScheduleForAjax.admin">admin.BatchScheduleController</prop>
+				
+				 
+				<prop key="/batchAction/list.admin">admin.BatchActionController</prop>
+				<prop key="/batchAction/listForAjax.admin">admin.BatchActionController</prop>
+				<prop key="/batchAction/listForChooser.admin">admin.BatchActionController</prop>
+				<prop key="/batchAction/detail.admin">admin.BatchActionController</prop>
+				<prop key="/batchAction/detailForAjax.admin">admin.BatchActionController</prop>
+				<prop key="/batchAction/addForAjax.admin">admin.BatchActionController</prop>
+				<prop key="/batchAction/updateForAjax.admin">admin.BatchActionController</prop>
+				<prop key="/batchAction/removeForAjax.admin">admin.BatchActionController</prop>
+				 
+				<prop key="/batchResult/list.admin">admin.BatchResultController</prop>
+				<prop key="/batchResult/listForAjax.admin">admin.BatchResultController</prop>
+				<prop key="/batchResult/listForChooser.admin">admin.BatchResultController</prop>
+				<prop key="/batchResult/detail.admin">admin.BatchResultController</prop>
+				<prop key="/batchResult/detailForAjax.admin">admin.BatchResultController</prop>
+				<prop key="/batchResult/addForAjax.admin">admin.BatchResultController</prop>
+				<prop key="/batchResult/updateForAjax.admin">admin.BatchResultController</prop>
+				<prop key="/batchResult/removeForAjax.admin">admin.BatchResultController</prop>
+				 
+				<prop key="/configuration/list.admin">admin.ConfigurationController</prop>
+				<prop key="/configuration/listForAjax.admin">admin.ConfigurationController</prop>
+				<prop key="/configuration/listForChooser.admin">admin.ConfigurationController</prop>
+				<prop key="/configuration/detail.admin">admin.ConfigurationController</prop>
+				<prop key="/configuration/detailForAjax.admin">admin.ConfigurationController</prop>
+				<prop key="/configuration/addForAjax.admin">admin.ConfigurationController</prop>
+				<prop key="/configuration/updateForAjax.admin">admin.ConfigurationController</prop>
+				<prop key="/configuration/removeForAjax.admin">admin.ConfigurationController</prop>
+				
+				<prop key="/client/list.admin">admin.ClientController</prop>
+				<prop key="/client/listForAjax.admin">admin.ClientController</prop>
+				<prop key="/client/listForChooser.admin">admin.ClientController</prop>
+				<prop key="/client/detail.admin">admin.ClientController</prop>
+				<prop key="/client/detailForAjax.admin">admin.ClientController</prop>
+				<prop key="/client/addForAjax.admin">admin.ClientController</prop>
+				<prop key="/client/updateForAjax.admin">admin.ClientController</prop>
+				<prop key="/client/removeForAjax.admin">admin.ClientController</prop>
+				<prop key="/client/changeOrderForAjax.admin">admin.ClientController</prop>
+				
+				<prop key="/monitor/viewSessionInfo.admin">admin.monitorUtilityController</prop>
+				<prop key="/monitor/viewUserInfo.admin">admin.monitorUtilityController</prop>
+				
+				<prop key="/domain/list.admin">admin.DomainController</prop>
+				<prop key="/domain/listForAjax.admin">admin.DomainController</prop>
+				<prop key="/domain/listForChooser.admin">admin.DomainController</prop>
+				<prop key="/domain/detail.admin">admin.DomainController</prop>
+				<prop key="/domain/detailForAjax.admin">admin.DomainController</prop>
+				<prop key="/domain/addForAjax.admin">admin.DomainController</prop>
+				<prop key="/domain/updateForAjax.admin">admin.DomainController</prop>
+				<prop key="/domain/removeForAjax.admin">admin.DomainController</prop>
+				 
+				<prop key="/domain/domainLang/list.admin">admin.DomainLangController</prop>
+				<prop key="/domain/domainLang/listForAjax.admin">admin.DomainLangController</prop>
+				<prop key="/domain/domainLang/listForChooser.admin">admin.DomainLangController</prop>
+				<prop key="/domain/domainLang/detail.admin">admin.DomainLangController</prop>
+				<prop key="/domain/domainLang/detailForAjax.admin">admin.DomainLangController</prop>
+				<prop key="/domain/domainLang/addForAjax.admin">admin.DomainLangController</prop>
+				<prop key="/domain/domainLang/updateForAjax.admin">admin.DomainLangController</prop>
+				<prop key="/domain/domainLang/removeForAjax.admin">admin.DomainLangController</prop>
+				 
+				<prop key="/domain/domainPrincipal/list.admin">admin.DomainPrincipalController</prop>
+				<prop key="/domain/domainPrincipal/listForAjax.admin">admin.DomainPrincipalController</prop>
+				<prop key="/domain/domainPrincipal/listForChooser.admin">admin.DomainPrincipalController</prop>
+				<prop key="/domain/domainPrincipal/detail.admin">admin.DomainPrincipalController</prop>
+				<prop key="/domain/domainPrincipal/detailForAjax.admin">admin.DomainPrincipalController</prop>
+				<prop key="/domain/domainPrincipal/addForAjax.admin">admin.DomainPrincipalController</prop>
+				<prop key="/domain/domainPrincipal/addsForAjax.admin">admin.DomainPrincipalController</prop>
+				<prop key="/domain/domainPrincipal/updateForAjax.admin">admin.DomainPrincipalController</prop>
+				<prop key="/domain/domainPrincipal/removeForAjax.admin">admin.DomainPrincipalController</prop>
+				 
+				<prop key="/domain/domainPortlet/list.admin">admin.DomainPortletController</prop>
+				<prop key="/domain/domainPortlet/listForAjax.admin">admin.DomainPortletController</prop>
+				<prop key="/domain/domainPortlet/listForChooser.admin">admin.DomainPortletController</prop>
+				<prop key="/domain/domainPortlet/detail.admin">admin.DomainPortletController</prop>
+				<prop key="/domain/domainPortlet/detailForAjax.admin">admin.DomainPortletController</prop>
+				<prop key="/domain/domainPortlet/addForAjax.admin">admin.DomainPortletController</prop>
+				<prop key="/domain/domainPortlet/addsForAjax.admin">admin.DomainPortletController</prop>
+				<prop key="/domain/domainPortlet/updateForAjax.admin">admin.DomainPortletController</prop>
+				<prop key="/domain/domainPortlet/removeForAjax.admin">admin.DomainPortletController</prop>
+			</props>
+        </property> 
+    </bean>
+						   
+</beans>
+

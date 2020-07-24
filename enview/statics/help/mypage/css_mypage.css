@@ -1,0 +1,33 @@
+BODY {
+	SCROLLBAR-FACE-COLOR: #cfcfcf; FONT: 12px Dotum,Verdana; SCROLLBAR-HIGHLIGHT-COLOR: #ffffff; SCROLLBAR-SHADOW-COLOR: #595959; SCROLLBAR-3DLIGHT-COLOR: #595959; SCROLLBAR-ARROW-COLOR: #ffffff; SCROLLBAR-DARKSHADOW-COLOR: #ffffff; SCROLLBAR-BASE-COLOR: #cfcfcf; BACKGROUND-COLOR: #ffffff; TEXT-ALIGN: justify; leftmargin: "0" topmargin="0" marginwidth="0" marginheight="0" MARGIN-TOP: 0px
+}
+TD {
+	FONT-WEIGHT: normal; FONT-SIZE: 12px; COLOR: #737373; LINE-HEIGHT: 18px; FONT-FAMILY: Dotum
+}
+IMG {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; LINE-HEIGHT: 25px; BORDER-BOTTOM: 0px
+}
+A:link {
+	FONT: 12px Dotum ,Verdana; COLOR: #666666; TEXT-DECORATION: none
+}
+A:visited {
+	FONT: 12px Dotum ,Verdana; COLOR: #858585; TEXT-DECORATION: none
+}
+A:active {
+	FONT: 12px Dotum ,Verdana; COLOR: #666666; TEXT-DECORATION: none
+}
+A:hover {
+	FONT: 12px Dotum ,Verdana; COLOR: #666666; TEXT-DECORATION: none
+}
+.justify {
+	FONT: 12px/18px "Dotum", "Verdana"; COLOR: #737373; TEXT-ALIGN: justify
+}
+.td_content1 {
+	PADDING-LEFT: 31px; PADDING-BOTTOM: 2px; FONT: 12px/18px "Dotum", "Verdana"; COLOR: #666666; PADDING-TOP: 5px; BACKGROUND-COLOR: #ffffff
+}
+.td_content2 {
+	FONT-WEIGHT: bold; PADDING-LEFT: 4px; PADDING-BOTTOM: 2px; FONT: 12px/18px Dotum,Verdana; COLOR: #666666; PADDING-TOP: 3px; BACKGROUND-COLOR: #ffffff
+}
+.TD_S {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #666666; LINE-HEIGHT: 18px; FONT-FAMILY: dotum
+}

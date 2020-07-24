@@ -1,0 +1,182 @@
+
+/**** link css ****/
+
+/* member data link*/
+a.mem:link {  text-decoration: none;  color:#FF6000;font-weight: bold;}
+a.mem:visited {  text-decoration: none;  color:#FF6000;font-weight: bold;}
+a.mem:hover {  text-decoration: underline;  color:#FF6000;font-weight: bold;}
+a.mem:active {  text-decoration: none;  color:#FF6000;font-weight: bold;}			 
+
+
+
+/*Credits: CSSplay */
+/*URL: http://www.cssplay.co.uk/menus/pro_drop2 */
+.layout-Enview .preload2 {background:transparent url(../images/topmenu_over.gif);}
+.layout-Enview .menu2 {padding:0px 0px 0px 5px; margin:0px; list-style:none; height:38px; background:transparent url(../images/topmenu_bg.gif) repeat-x; position:relative; font-family:Dotum,Gulim,arial,verdana }
+.layout-Enview .menu2 li.top {padding:2px 0px 0px 0px;display:block; float:left; position:relative;}
+
+.layout-Enview .menu2 li a.top_link {display:block; float:left; height:38px; line-height:36px; color:#ffffff; text-decoration:none; font-size:12px; font-weight:bold; padding:0px 0px 0px 10px; cursor:pointer;}
+.layout-Enview .menu2 li a.top_link span {float:left; display:block; padding:0px 12px 0px 5px; height:36px;}
+
+.layout-Enview .menu2 li a.top_link:hover {color:#ffffff; background:transparent url(../images/topmenu_over.gif) no-repeat;}
+.layout-Enview .menu2 li a.top_link:hover span {background:transparent url(../images/topmenu_over.gif) no-repeat right top;}
+
+.layout-Enview .menu2 li.line {float:left;	position:relative;margin:0px;}
+
+
+/*images css*/
+.layout-Enview .imgleft_bg{background:transparent url(../images/img_left.gif) no-repeat left top;}
+.layout-Enview .imgleft_bg2{background:transparent url(../images/img_left2.gif) no-repeat left top;}
+
+
+/* form css */
+.layout-Enview .cafe {width:164px; height:20px;font-family: Dotum,Gulim,arial,verdana; border: #cccccc 1px solid; font-size: 12px; color: #666666;background-color: #ffffff; line-height:140%;}
+.layout-Enview .link {width:164px; height:20px;font-family: Dotum,Gulim,arial,verdana; border: #cccccc 1px solid; font-size: 12px; color: #666666;background-color: #ffffff; line-height:140%;}
+.layout-Enview .search_input { font-family: Dotum,Gulim,arial,verdana; border: 1px solid #8B8B8B; font-size: 12px; color: #222222; background-color: #ffffff;width:300px;}
+.layout-Enview .search_input2 { font-family: Dotum,Gulim,arial,verdana; border: 1px solid #8B8B8B; font-size: 12px; color: #222222; background-color: #ffffff;width:92px;height:20px;}
+
+/* Top Menu */
+.layout-Enview #topmenu {
+	position: relative;
+	z-index:1;
+	
+	margin: 0;
+	padding: 0;
+	
+	list-style: none;
+	font-weight: bold;
+	/*border: 1px solid #0000FF;*/
+}
+.layout-Enview #topmenu li {
+	float: left;
+	display: inline;
+	height: 30px;
+	padding: 5px 10px 0 10px;
+	/*border: 1px solid #FF0000;*/
+}
+
+.layout-Enview #topmenu li a {
+	color: #002980;
+}
+
+.layout-Enview #submenu {
+	position: relative;
+	margin-left: 10px; 
+	list-style: none;
+	font-weight: bold;
+	padding: 5px 0 0px;
+}
+.layout-Enview #submenu li {
+	position: relative;
+	padding: 0 0 0px;
+	height: 20px;
+	line-height: 20px;
+}
+.layout-Enview #submenu li a {
+	display: block;
+	color: #685B8F;
+	font-weight: bold;
+}
+.layout-Enview #submenu li a:hover, 
+.layout-Enview #submenu li a:active, 
+.layout-Enview #submenu li a.on {
+	color: #000;
+	
+}
+
+.layout-Enview #quickmenu {
+	position: relative;
+	margin-left: 10px; 
+	list-style: none;
+	font-weight: bold;
+	padding: 5px 0 0px;
+}
+.layout-Enview #quickmenu li {
+	position: relative;
+	padding: 0 0 0px;
+	height: 20px;
+	line-height: 20px;
+}
+.layout-Enview #quickmenu li a {
+	display: block;
+	color: #685B8F;
+	font-weight: bold;
+}
+
+.layout-Enview #mymenu {
+	position: relative;
+	margin-left: 10px; 
+	list-style: none;
+	font-weight: bold;
+	padding: 5px 0 0px;
+}
+.layout-Enview #mymenu li {
+	position: relative;
+	padding: 0 0 0px;
+	height: 20px;
+	line-height: 20px;
+}
+.layout-Enview #mymenu li a {
+	color: #685B8F;
+	font-weight: bold;
+}
+.layout-Enview #mypage {
+	position: relative;
+	margin-left: 10px; 
+	list-style: none;
+	font-weight: bold;
+	padding: 5px 0 0px;
+}
+.layout-Enview #mypage li {
+	position: relative;
+	padding: 0 0 0px;
+	height: 20px;
+	line-height: 20px;
+}
+.layout-Enview #mypage li a {
+	color: #685B8F;
+	font-weight: bold;
+
+
+.layout-Enview #left_layer .box-g-t {
+	height: 4px;
+	background-image: url(../images/menu-bg-t.gif);
+	width: 171px;
+	clear: both;
+	font-size: 0;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+}
+
+.layout-Enview #left_layer .box-g-m {
+	padding-top: 0;
+	padding-bottom: 5px;
+	background-image: url(../images/menu-bg-m.gif);
+	width: 171px;
+	overflow: hidden;
+	background-position: 0 0;
+	background-repeat: repeat-y;
+	/*text-align: center;*/
+}
+
+.layout-Enview #left_layer .box-g-b {
+	height: 4px;
+	background-image: url(../images/menu-bg-b.gif);
+	width: 171px;
+	clear: both;
+	font-size: 0;
+	background-position: 0 100%;
+	background-repeat: no-repeat;
+}
+
+.layout-Enview #left_layer .menu-title {
+	padding: 5px;
+	font-weight: bold;
+}
+	
+/* text */
+.layout-Enview .t11 {font-size:11px;line-height:1.3;}
+.layout-Enview .poll {font-size:11px;line-height:1.3;}
+.layout-Enview .lognom {font-size: 12px;color: #FF6000;font-weight: bold;}
+
+

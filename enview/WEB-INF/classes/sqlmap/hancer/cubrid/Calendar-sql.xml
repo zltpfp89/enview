@@ -1,0 +1,53 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="cal.cubrid">
+	
+	<insert id="calendar.insert.cubrid">/* calendar.insert.cubrid */
+		INSERT INTO CALENDAR (CALENDAR_ID, DOMAIN_ID, IS_PUBLIC, IS_DEFAULT, FG_COLOR, BG_COLOR, OWNER_ID, INS_DATIM, UPD_DATIM)
+		VALUES (#calendarId#, #domainId#, #isPublic#, #isDefault#, #fgColor#, #bgColor#, #ownerId#, SYSDATETIME, SYSDATETIME)
+	</insert>
+	
+	<update id="calendar.update.cubrid">/* calendar.update.cubrid */
+		UPDATE CALENDAR SET UPD_DATIM=SYSDATETIME
+		WHERE CALENDAR_ID=#calendarId#
+	</update>
+	
+	<update id="calendar.update.bg.owner.cubrid">/* calendar.update.bg.owner.cubrid */
+		UPDATE CALENDAR SET 
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		UPD_DATIM=SYSDATETIME
+		WHERE CALENDAR_ID=#calendarId# AND OWNER_ID=#ownerId#
+	</update>	
+	
+	<update id="calendar.update.bg.joint.cubrid">/* calendar.update.bg.joint.cubrid */
+		UPDATE CALENDAR_USER SET 
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		UPD_DATIM=SYSDATETIME
+		WHERE CALENDAR_ID=#calendarId# AND USER_ID=#userId#
+	</update>
+	
+	<update id="calendar.update.bg.public.cubrid">/* calendar.update.bg.public.cubrid */
+		UPDATE CALENDAR_PUBLIC SET 
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		UPD_DATIM=SYSDATETIME
+		WHERE CALENDAR_ID=#calendarId#
+		AND IS_USE='1'
+		AND ( 
+			OWNER_ID=#userId#
+			OR (SELECT COUNT(*) FROM CALENDAR_PUBLIC_USER WHERE USER_ID=#userId# AND CALENDAR_ID=#calendarId# AND PERMISSIONS LIKE '%U%') > 0
+			OR (SELECT COUNT(*) FROM CALENDAR_PUBLIC_GROUP WHERE GROUP_ID = (SELECT ORG_CD FROM USERPASS WHERE USER_ID=#userId# ) AND CALENDAR_ID=#calendarId# AND PERMISSIONS LIKE '%U%') > 0 )
+	</update>
+	
+	<update id="calendar.update.bg.user.public.cubrid">/* calendar.update.bg.public.cubrid */
+		UPDATE CALENDAR SET 
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		UPD_DATIM=SYSDATETIME
+		WHERE CALENDAR_ID=#calendarId#
+		AND ( OWNER_ID=#userId# OR (SELECT COUNT(*) FROM CALENDAR_USER WHERE USER_ID=#userId# AND CALENDAR_ID=#calendarId# AND PERMISSIONS LIKE '%U%') > 0 )
+	</update>		
+	
+</sqlMap>

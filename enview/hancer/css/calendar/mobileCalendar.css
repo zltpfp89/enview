@@ -1,0 +1,1443 @@
+h2 {
+	color: #222;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 30px;
+}
+
+boay {
+	font-family: '돋음', 'Arial';
+	font-size-adjust: none;
+	font-stretch: normal;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	line-height: normal;
+}
+
+
+.ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	word-break: break-all;
+	text-overflow: ellipsis;
+}
+
+
+.calbody { 
+	margin: 0px auto;
+	padding: 0;
+	float: left;
+}
+
+.wrap {
+	float: left;
+	width: 970px;
+	min-height: 743px;
+}
+
+.leftArea {
+	float: left;
+	width: 160px;
+	height: 641.4px;
+	padding: 5px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.contentsArea {
+	float: left;
+	width: 800px;
+	padding-top: 10px;
+	
+}
+
+.myCalendarArea {
+	width: 156px;
+	padding: 5px 3px;
+}
+
+#myCalendar {
+	font-size: 13px;
+}
+
+.myCalendarLabel {
+	float: left;
+	margin-left: 3px;
+	font-family: '돋음', 'Arial';
+}
+
+.caratButton {
+	cursor: pointer;
+	float: left;
+}
+
+.triangleButton {
+	display: none;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	cursor: pointer;
+	float: left;
+	width: 13px;
+	height: 13px;
+	margin-top: 3px;
+}
+
+.triangleButton:HOVER {
+	border: 1px solid #aaa;
+	background-color: #ccc;
+}
+
+.myCalendarRButton {
+	float: right;
+}
+
+.myPopup {
+	display: none;
+}
+
+.calendarInfo {
+	flaot: left;
+	font-size: 12px;
+	width: 150px;
+	height: 16px;
+	line-height: 18px;
+	padding: 5px 3px;
+	cursor: pointer;
+}
+
+.calendarInfo:HOVER {
+	background-color: #eee;
+}
+
+.calendarBgColor {
+	float: left;
+	width: 10px;
+	height: 10px;
+	padding: 1px;
+	border: 1px solid gray;
+	border-radius: 3px;
+	margin-right: 2px;
+	position: relative;
+}
+
+.calendarInfo .calendarName {
+	float: left;
+	font-size: 12px;
+	font-family: '돋음', 'Arial';
+	margin-left: 2px;
+	overflow: hidden;
+	white-space: nowrap;
+	word-break: break-all;
+	text-overflow: ellipsis;
+	width: 110px;
+}
+
+.publicCalendarArea {
+	width: 153px;
+	padding: 5px 3px;
+}
+
+#publicCalendar {
+	font-size: 13px;
+}
+
+.publicCalendarLabel {
+	float: left;
+	margin-left: 3px;
+	font-family: '돋음', 'Arial';
+}
+
+.publicCalendarButton {
+	cursor: pointer;
+	float: left;
+}
+
+.publicCalendarRButton {
+	float: right;
+}
+
+.publicPupop {
+	display: none;
+}
+
+.publicCalendar {
+	flaot: left;
+	width: 150px;
+	height: 20px;
+	line-height: 20px;
+	padding: 5px 3px;
+	cursor: pointer;
+}
+
+.publicCalendar:HOVER {
+	background-color: #dedede;
+}
+
+.caratToggle {
+	cursor: pointer;
+}
+
+.goToCalendar {
+	text-decoration: underline;
+	color: blue;
+	font-size: 13px;
+	font-weight: bold;
+	font-family: sans-serif;
+	cursor: pointer;
+}
+
+.shareUser {
+	width: 100%;
+	float: left;	
+}
+
+.searchUser {
+	width: 48%;
+	float: left;
+}
+
+.searchForm {
+	float: left;
+	width: 48%;
+	background-color: lightgray;
+	height: 20px;
+	padding: 4px 0;
+	margin-right: 2px;
+}
+.searchUserField {
+	float: left;
+	width: 250px;
+	height: 14px;
+	line-height: 14px;
+	font-size: 12px;
+}
+
+.searchUserButton {
+	margin-top: 2px;
+	float: left;
+}
+
+.searchedUserList {
+	width: 350px;
+	border: 1px solid darkgray;
+	float: left;
+	margin-top: 5px;
+	background-color: #eeeeff;
+	display: none;
+	overflow: hidden;
+}
+
+.searchUserList {
+	width: 385px;
+	border: 1px solid darkgray;
+	margin-top: 5px;
+	background-color: #fafafa;
+	overflow-x: hidden;
+	overflow-y: auto;
+	z-index: 3010;
+	height: 120px;
+	position: absolute;
+	 
+}
+
+.searchedUserRow {
+	float: left;
+	height: 22px;
+	line-height: 22px;
+	padding: 1px 4px;
+	width: 100%;
+	background-color: transparent;
+}
+
+.searchedUserRow:HOVER {
+	cursor: pointer;
+	background-color: #eee;
+}
+
+.searchedUser {
+	float: left;
+	font-family: '돋음', 'Arial';
+	font-size: 13px;
+	width: 100%;
+	height: 22px;
+	line-height: 22px;
+	
+}
+
+.sharedUser{
+	width: 48%;
+	float: left;
+	margin-top: 10px;
+}
+
+.deleteCalendar {
+	width: 100%;
+	float: left;
+}
+
+.calendarPopup {
+	float: left;
+	width: 250px;
+	border: 1px solid #ddd;
+	background-color: #fff;
+	position: absolute;
+	z-index: 20;
+}
+
+.popupMenus {
+	float: left;
+	width: 250px;
+	list-style: none;
+	padding: 5px 0px;
+	margin: 0px;
+	background-color: #fff;
+}
+
+.popupRow {
+	font-size: 13px;
+	font-family: '돋음', 'Arial';
+	list-style: none;
+	margin: 4px 0;
+	width: 220px;
+	padding: 10px 15px;
+}
+
+.popupRow:HOVER {
+	cursor: pointer;
+	background-color: #eee;
+}
+
+.popupRow a { color: #444; text-decoration: none; cursor:pointer; }
+
+.colorChooser {
+	float: left;
+	width: 220px;
+	padding: 15px 15px;
+	border-top: 1px solid #eee;
+}
+
+.colorPalette {
+	float: left;
+	width: 120px;
+}
+
+.color {
+	cursor: pointer;
+	float: left;
+	margin: 2px;
+	width: 14px;
+	height: 14px;
+	border-radius: 2px;
+}
+
+.color:HVOER {
+	border: 1px solid blue;
+}
+
+
+.fc-event-container .fc-event {
+	padding: 1px;
+}
+/*
+* 캘린더의 일정 시간
+*/
+.fc-grid .fc-event-time {
+	font-weight: normal; 	
+}
+
+.fc-event-time {
+	font-family: '돋음', 'Arial';
+	font-size: 12px;
+	line-height: 14px;
+	margin-right: 2px;
+}
+
+/*
+* 캘린더의 일정 제목
+*/
+.fc-event-title {
+	font-family: '돋음', 'Arial';
+	font-size: 12px;
+	line-height: 14px;
+}
+
+.ui-icon-triangle-1-s {
+	background-position-x: -66px;
+}
+
+.ui-state-bg-white .ui-icon {background-image: url(images/ui-icons_ffffff_256x240.png); }
+
+.fc-day-header {
+	height: 18px;
+	line-height: 20px;
+	font-family: '돋음', 'Arial';
+	font-size: 14px;
+}
+
+.fc-header-title *{
+	font-size: 1.3em;
+	font-family: '돋음', 'Arial';
+	font-weight: bold;
+}
+
+.fc-header-right {
+	float: right;
+	width: 200px;
+}
+
+.fc-header .fc-button { margin-bottom: 0; }
+
+.fc-button-today {
+	line-height: 2.05em;
+	font-family: '돋음', 'Arial';
+	font-size: 15px;
+}
+
+.fc-content { margin-top: 5px; }
+.fc-sat {
+	color: blue;
+}
+
+.fc-sun {
+	color: red;
+}
+
+.fc-event {
+	margin-top: 1px;
+}
+
+.fc-day-number {
+	font-size: 14px;
+	padding-top: 1px;
+	font-family: '돋음', 'Arial';
+}
+
+.seperatebar {
+	board-bottom: 1px solid #dedede;
+	height: 1px;
+	background-color: #ddd;
+}
+
+/*
+* 공유된 일정
+*/
+.ui-icon-link {
+	width: 14px;
+	height: 14px;
+	background-image: url("images/ui-icons_ffffff_256x240.png");
+	background-position-x: -241px;
+	background-position-y: -114px;
+}
+
+.ui-icon-link2 {
+	width: 10px;
+	height: 10px;
+	background-position-x: -242px;
+	background-position-y: -115px;
+}
+
+
+.schedulePops {
+	float: left;
+	width: 370px;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	position: absolute;
+	z-index: 20;
+	padding: 10px 15px 5px 15px;
+}
+
+.schedulePop {
+	float: left;
+	width: 100%;
+	background-color: #fff;
+	padding: 15px;
+}
+
+.scheduleDetails {
+	float: left;
+	/*width: 680px;*/
+	width: 385px;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	position: absolute;
+	z-index: 20;
+	padding: 10px 15px 5px 15px;
+}
+
+.scheduleDetailsPublic {
+	float: left;
+	width: 440px;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	position: absolute;
+	z-index: 20;
+	padding: 15px;
+}
+
+.calendarDetails {
+	float: left;
+	width: 720px;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	position: absolute;
+	z-index: 20;
+	padding: 10px 15px 5px 15px;
+}
+
+.calendarDetailsPublic {
+	float: left;
+	width: 410px;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	position: absolute;
+	z-index: 20;
+	padding: 15px;
+}
+
+.scheduleDetail {
+	float: left;
+	background-color: #fff;
+	padding: 15px;
+}
+
+.scheduleDetailPublic {
+	float: left;
+	width: 410px;
+	background-color: #fff;
+	padding: 15px;
+}
+
+.calendarDetail {
+	float: left;
+	width: 390px;
+	background-color: #fff;
+	padding: 15px;
+}
+
+.calendarDetailPublic {
+	float: left;
+	width: 410px;
+	background-color: #fff;
+	padding: 15px;
+}
+
+.header {
+	background-color: #fff;
+}
+
+.scheduleEdit .header {
+	padding: 0;
+}
+
+
+.scheduleDetails .header {
+	padding: 0;
+	/*width: 655px;*/
+	width: 100%;
+}
+
+.scheduleDetailsPublic .header {
+	padding: 0;
+	width: 410px;
+}
+
+.calendarEdit {
+	border-radius: 3px;
+}
+.calendarEdit .header {
+	padding: 0;
+}
+
+
+.calendarDetails .header {
+	padding: 0;
+	width: 100%;
+}
+
+.calendarDetailsPublic .header {
+	padding: 10px 0px 5px 0px;
+	width: 410px;
+}
+
+.scheduleEdit .scheduleEditType {
+	font-size: 14px;
+	font-family: '돋음', 'Arial';
+	float: left;
+	height: 20px;
+	line-height: 20px;
+}
+
+.calendarEdit .calendarEditType {
+	font-size: 14px;
+	font-family: '돋음', 'Arial';
+	float: left;
+	height: 16px;
+	line-height: 16px;
+	padding-bottom: 5px;
+}
+
+.scheduleEdit .content {
+	width: 100%;
+	padding: 5px 0px 5px 0px;
+}
+
+.calendarEdit .content {
+	padding: 5px 0px 1px 0px;
+}
+
+.scheduleEdit .contentR {
+	width: 210px;
+	height: 152px;
+	float: right;
+	padding: 10px 0px 5px 0px;
+}
+
+.scheduleEdit .contentR2 {
+	width: 210px;
+	float: right;
+	padding: 10px 0px 5px 0px;
+}
+
+.calendarEdit .contentR {
+	width: 310px;
+	height: 142px;
+	float: right;
+	padding: 5px 0px 5px 0px;
+}
+
+.scheduleEdit .footer {
+	padding: 0;
+}
+
+.scheduleDetails .footer {
+	/*width: 650px;*/
+	width: 100%;
+}
+
+.scheduleDetailsPublic .footer {
+	width: 410px;
+}
+
+.calendarEdit .footer {
+	padding: 0;
+}
+
+.calendarDetails .footer {
+	width: 100%;
+}
+
+.calendarDetailsPublic .footer {
+	width: 410px;
+}
+
+.escapeButton {
+	float: right;
+	cursor: pointer;
+}
+
+.scheduleCalendar {
+	font-family: '돋음', 'Arial';
+	font-size: 14px;
+	font-weight: bold;
+	width: 100%;
+	line-height: normal;
+	float: left;
+	padding: 5px 0 0 0;
+}
+
+.scheduleDetail .selectedCalendar {
+	cursor: pointer;
+	border: 1px solid #ddd;
+	font-family: '돋음', 'Arial';
+	font-weight: bold;
+	width: 385px;
+	line-height: 26px;
+	height: 30px;
+	padding: 2px 0 2px 0px;
+	font-size: 14px;
+	padding: 2px 4px;
+}
+
+.scheduleName {
+	font-family: '돋음', 'Arial';
+	font-size: 14px;
+	font-weight: bold;
+	line-height: normal;
+	margin-bottom: 10px;
+	float: left;
+	max-width: 350px;
+}
+
+.scheduleDetail .scheduleName {
+	margin-bottom: 0px;
+	padding: 10px 0px 5px 0px;
+	height: 26px;
+	line-height: 26px;
+}
+
+.calendarDetail .calendarName {
+	margin-bottom: 0px;
+	padding: 0;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+}
+
+.scheduleDetail .scheduleName input {
+	border: 1px solid #ddd;
+	font-family: '돋음', 'Arial';
+	font-weight: bold;
+	width: 375px;
+	line-height: 26px;
+	height: 24px;
+	padding: 2px 4px;
+	font-size: 16px;
+}
+
+.calendarDetail .calendarName input {
+	border: 1px solid #ddd;
+	font-family: '돋음', 'Arial';
+	font-weight: bold;
+	width: 375px;
+	line-height: 26px;
+	height: 24px;
+	padding: 2px 4px;
+	font-size: 16px;
+}
+
+.ui-widget {
+	font-size: 0.8em;
+}
+
+.startDates, .endDates, .dateRange {
+	float: left;
+}
+
+.startDates, .endDates {
+	max-width: 170px;
+}
+
+.timepickerPops {
+	background-color: white;
+	width: 97px;
+	height: 150px;
+	overflow: auto;
+	border: 1px solid #ddd;
+}
+
+.times{
+	cursor: pointer;
+	padding: 3px;
+	width: 60px;
+	height: 16px;
+	text-align: center;
+}
+
+.times:HOVER { background-color: #ddd; }
+
+.scheduleDate {
+	font-family: '돋음', 'Arial';
+	font-size: 14px;
+	float: left;
+	
+}
+
+.schedulePops .scheduleDate {
+	padding:3px 0;
+}
+
+.scheduleDetail .scheduleDate {
+	padding: 10px 0px;
+	height: 26px;
+	width: 100%;
+	line-height: 26px;
+}
+
+.scheduleDetail .scheduleDate input {
+	cursor: pointer;
+	border: 1px solid #ddd;
+	font-family: "Arial Unicode MS",Arial,Malgun Gothic,sans-serif;
+	line-height: 24px;
+	height: 24px;
+	padding: 2px 4px;
+	font-size: 14px;
+}
+
+.date {
+	float: left;
+	width: 72px;	
+}
+
+.dateTime {
+	float: left;
+	height: 24px;
+	border: 1px solid #ddd;
+	cursor: pointer;
+	padding: 2px;
+	margin-left: 5px;
+	width: 76px;
+}
+
+.dateRange {
+	height: 24px;
+	padding: 2px;
+	border: 1px solid transparent;
+}
+
+.scheduleDetail .scheduleAllday {
+	padding: 5px 0px;
+	height: 20px;
+	width: 100%;
+	line-height: 20px;
+	float: left;
+}
+
+.scheduleDetail .scheduleAllday input {
+	cursor: pointer;
+	margin: 0px;
+	top: 2px;
+	position: relative;
+}
+
+.scheduleDetail .scheduleAllday label {
+	font-family: '돋음', 'Arial';
+	cursor: pointer;
+	font-size: 12px;
+	margin: 0px;
+	padding: 3px;
+	height: 20px;
+}
+
+
+.schedulePlaces {
+	font-family: '돋음', 'Arial';
+	font-size: 14px;
+	height: 20px;
+	width: 100%;
+	margin-bottom: 5px;
+	float: left;
+}
+
+.schedulePlaceLabel {
+	float: left;
+	width: 60px;
+	height: 20px;
+	line-height: 22px;
+	font-weight: bold;
+}
+
+.schedulePlace {
+	float: left;
+	height: 20px;
+	line-height: 20px;
+	overflow: hidden;
+	white-space: nowrap;
+	word-break: break-all;
+	text-overflow: ellipsis;
+}
+
+.scheduleDetail .schedulePlaces {
+	font-family: '돋음', 'Arial';
+	font-size: 14px;
+	height: 26px;
+	width: 100%;
+	float: left;
+	padding: 5px 0px;
+	margin-bottom: 0px;
+}
+
+.scheduleDetail .schedulePlaceLabel {
+	float: left;
+	width: 50px;
+	height: 26px;
+	line-height: 26px;
+	font-weight: bold;
+	padding: 0px;
+}
+
+.scheduleDetail .schedulePlaces input {
+	float: left;
+	height: 22px;
+	width: 324px;
+	line-height: 24px;
+	font-size: 12px;
+	font-family: '돋음', 'Arial';
+	border: 1px solid #ddd;
+	padding: 2px 4px;
+}
+
+.scheduleDetail .scheduleComments {
+	float: left;
+	width: 100%px;
+	line-height: 26px;
+	padding: 5px 0px;
+}
+
+.scheduleDetail .scheduleCommentsLabel {
+	float: left;
+	width: 50px;
+	height: 26px;
+	line-height: 26px;
+	font-weight: bold;
+	font-size: 14px;
+	font-family: '돋음', 'Arial';
+}
+
+.scheduleDetail textarea {
+	border: 1px solid #ddd;
+	width: 324px;
+	height: 80px;
+	line-height: 18px;
+	overflow: hidden;
+	padding: 2px 4px;
+	font-size: 12px;
+	font-family: '돋음', 'Arial';
+}
+
+.calendarDetail .calendarComments {
+	float: left;
+	width: 100%px;
+	line-height: 26px;
+	padding: 5px 0px;
+}
+
+.calendarDetail .calendarCommentsLabel {
+	float: left;
+	width: 50px;
+	height: 26px;
+	line-height: 26px;
+	font-weight: bold;
+	font-size: 14px;
+	font-family: '돋음', 'Arial';
+}
+
+.calendarDetail textarea {
+	border: 1px solid #ddd;
+	width: 324px;
+	height: 90px;
+	line-height: 18px;
+	overflow: hidden;
+	padding: 2px 4px;
+	font-size: 12px;
+	font-family: '돋음', 'Arial';
+}
+
+.scheduleUsers {
+	float: left;
+	width: 100%;
+	font-family: '돋음', 'Arial';
+	font-size: 14px;
+	padding-top: 5px;
+}
+
+.calendarUsers {
+	font-family: '돋음', 'Arial';
+	font-size: 14px;
+	padding-top: 5px;
+	float: left;
+}
+
+
+.schedulePop .scheduleUserList {
+	float: left;
+	width: 260px;
+	line-height: 26px;
+}
+
+.schedulePop .scheduleUsers {
+	overflow: hidden;
+	white-space: nowrap;
+	word-break: break-all;
+	text-overflow: ellipsis;
+}
+
+.scheduleUserLabel {
+	float: left;
+	width: 60px;
+	height: 20px;
+	line-height: 20px;
+	font-weight: bold;
+}
+
+.scheduleUser {
+	float: left;
+	margin-right: 3px;
+	height: 20px;
+	line-height: 22px;
+}
+
+.calendarUserLabel {
+	float: left;
+	width: 50px;
+	height: 20px;
+	line-height: 20px;
+	font-weight: bold;
+}
+
+.calendarUser {
+	float: left;
+	margin-right: 3px;
+	height: 20px;
+	line-height: 24px;
+}
+
+.scheduleDetail .scheduleUsers {
+	font-family: '돋음', 'Arial';
+	font-size: 14px;
+	height: auto;
+	float: left;
+	width: 210px;
+	padding-bottom: 3px;
+}
+
+.scheduleDetail .scheduleUserLabel {
+	float: left;
+	width: 50px;
+	height: 22px;
+	line-height: 22px;
+	font-weight: bold;
+}
+
+.calendarDetail .calendarUsers {
+	font-family: '돋음', 'Arial';
+	font-size: 14px;
+	height: auto;
+	float: left;
+	width: 310px;
+	padding-bottom: 3px;
+}
+
+.calendarDetail .calendarUserLabel {
+	float: left;
+	width: 120px;
+	height: 22px;
+	line-height: 22px;
+	font-weight: bold;
+}
+
+.scheduleDetail .scheduleUser {
+	float: none;
+	height: 22px;
+	line-height: 22px;
+}
+
+.scheduleDetail .scheduleUser .name {
+	float: left;
+	width: 91%; /* 169px; */
+	overflow: hidden;
+	white-space: nowrap;
+	word-break: break-all;
+	text-overflow: ellipsis;
+}
+
+.calendarDetail .calendarUser {
+	float: none;
+	height: 22px;
+	line-height: 22px;
+	padding: 2px 0px;
+}
+
+.calendarDetail .calendarUser .name {
+	float: left;
+	width: 160px;
+	padding-right: 5px;
+	overflow: hidden;
+	white-space: nowrap;
+	word-break: break-all;
+	text-overflow: ellipsis;
+}
+
+.calendarDetail .calendarUser select {
+	float: left;
+	font-size: 12px;
+	font-family: '돋음', 'Arial';
+}
+
+.scheduleDetail .attends {
+	float: left;
+	width: 205px;
+	height: 115px;
+	overflow-y: auto;
+	padding-left: 5px;
+	line-height: 20px;
+	font-size: 13px;
+	font-family: '돋음', 'Arial';
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	padding: 2px 0px 2px 5px;
+}
+
+
+.scheduleDetail .attends .deleteUser {
+	cursor: pointer;
+	position: relative;
+	top: 3px;
+	float: right;
+}
+
+.calendarDetail .attends {
+	float: left;
+	width: 305px;
+	height: 97px;
+	overflow-y: auto;
+	padding-left: 5px;
+	line-height: 20px;
+	font-size: 13px;
+	font-family: '돋음', 'Arial';
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	padding: 2px 0px 2px 5px;
+}
+
+
+.calendarDetail .attends .deleteUser {
+	cursor: pointer;
+	position: relative;
+	top: 2px;
+	float: right;
+}
+
+.scheduleDetail .scheduleUsers .searchUser {
+	float: right;
+	height: 26px;
+	line-height: 26px;
+	width: auto;
+}
+
+.scheduleDetail .scheduleUsers .searchUser input {
+	float: left;
+	font-size: 13px;
+	font-family: '돋음', 'Arial';
+	width: 130px;
+	height: 16px;
+	line-height: 18px;
+	border: 1px solid #ddd;
+	padding: 2px 4px;
+}
+
+.scheduleDetail .scheduleUsers .searchUser .searchButton {
+	cursor: pointer;
+	position: relative;
+	top: 2px;
+	float: left;
+}
+
+.calendarDetail .calendarUsers .searchUser {
+	float: right;
+	height: 26px;
+	line-height: 26px;
+	width: auto;
+}
+
+.calendarDetail .calendarUsers .searchUser input {
+	float: left;
+	font-size: 13px;
+	font-family: '돋음', 'Arial';
+	width: 130px;
+	height: 16px;
+	line-height: 18px;
+	border: 1px solid #ddd;
+	padding: 2px 4px;
+}
+
+.calendarDetail .calendarUsers .searchUser .searchButton {
+	cursor: pointer;
+	position: relative;
+	top: 2px;
+	float: left;
+}
+
+.scheduleDetail .scheduleUserPermissions {
+	font-family: '돋음', 'Arial';
+	font-size: 14px;
+	height: 26px;
+	float: left;
+	width: 210px;
+	padding: 5px 0px;
+	margin-bottom: 0px;
+}
+
+.scheduleDetail .scheduleUserPermissionLabel {
+	float: left;
+	width: 150px;
+	height: 26px;
+	line-height: 26px;
+	font-weight: bold;
+}
+
+.scheduleDetail .permissions {
+	float: left;
+	width: 205px;
+	padding-left: 5px;
+	line-height: 20px;
+	font-size: 13px;
+	font-family: '돋음', 'Arial';
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	padding: 2px 0px 2px 5px;
+}
+
+.scheduleDetail .permissions .permission {
+	float: left;
+	width: 205px;
+	line-height: 20px;
+	font-size: 13px;
+	font-family: '돋음', 'Arial';
+	padding: 2px 0px 2px 5px;
+}
+
+input.permissionCheck {
+	font-size: 13px;
+	font-family: '돋음', 'Arial';
+}
+
+.scheduleDetail .permissionCheckLabel {
+	position: relative;
+	top: -2px;
+	font-size: 13px;
+	font-family: '돋음', 'Arial';
+	padding-left: 3px;
+}
+
+.scheduleControl {
+	border-top : 1px solid #ddd;
+	padding: 10px 0 0 0;
+	height: 20px;
+}
+
+.scheduleControlButton:HOVER {
+	color: blue;
+	text-decoration: underline; 
+}
+
+.calendarControl {
+	border-top : 1px solid #ddd;
+	padding: 5px 0 2px 0;
+	height: 20px;
+}
+
+.calendarControlButton:HOVER {
+	color: blue;
+	text-decoration: underline; 
+}
+
+.scheduleDelete {
+	font-family: '돋음', 'Arial';
+	font-size: 13px;
+	height: 20px;
+	float: left;
+	cursor: pointer;
+}
+
+.scheduleModify {
+	font-family: '돋음', 'Arial';
+	font-size: 13px;
+	height: 20px;
+	float: right;
+	cursor: pointer;
+}
+
+.scheduleSave {
+	font-family: '돋음', 'Arial';
+	font-size: 13px;
+	height: 20px;
+	float: right;
+	cursor: pointer;
+}
+
+.calendarSave {
+	font-family: '돋음', 'Arial';
+	font-size: 13px;
+	height: 20px;
+	float: right;
+	cursor: pointer;
+}
+
+
+.triangle {
+	
+}
+
+.triangleTop {
+	top: -9px;
+	height: 9px;
+	overflow: hidden;
+	position: absolute;
+	visibility: visible;
+	width: 18px;
+	line-height: normal;
+	left: 178px;
+}
+
+.triangle-tp {
+	border-top: 0px solid #ccc;
+	border-right: 9px solid transparent;
+	border-bottom: 9px solid #ccc;
+	border-left: 9px solid transparent;
+	left: 0px;
+	top: 0px;
+	position: absolute;
+	visibility: visible;
+	line-height: normal;
+}
+
+.triangle-tps {
+	border-top: 0px solid #fff;
+	border-right: 8px solid transparent;
+	border-bottom: 9px solid #fff;
+	border-left: 8px solid transparent;
+	left: 1px;
+	top: 0px;
+	position: absolute;
+	visibility: visible;
+	line-height: normal;
+}
+
+.triangleBottom {
+	bottom: -9px;
+	height: 9px;
+	overflow: hidden;
+	position: absolute;
+	visibility: visible;
+	width: 18px;
+	line-height: normal;
+	left: 178px;
+}
+
+.triangle-bt {
+	border-top: 9px solid #ccc;
+	border-right: 9px solid transparent;
+	border-bottom: 0px solid #ccc;
+	border-left: 9px solid transparent;
+	left: 0px;
+	top: 0px;
+	position: absolute;
+	visibility: visible;
+	line-height: normal;
+}
+
+.triangle-bts {
+	border-top: 8px solid #fff;
+	border-right: 8px solid transparent;
+	border-bottom: 0px solid #fff;
+	border-left: 8px solid transparent;
+	left: 1px;
+	top: 0px;
+	position: absolute;
+	visibility: visible;
+	line-height: normal;
+}
+
+.modalLayer {
+	background-color: #c8c8c8;
+	z-index: 2000;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	-ms-filter:alpha(opacity=40);	
+	filter:alpha(opacity=40);
+ 	-moz-opacity:0.4;
+ 	opacity:0.4;	
+}
+
+.icalMenu {
+	float: left;
+	position: absolute;
+	width: 300px;
+	min-height: 80px;
+	background-color: #fff;
+	padding: 10px;
+	z-index: 3000;
+	border: 1px solid #ccc;
+}
+
+.icalMenuHeader {
+	float: left;
+	width: 100%;
+}
+
+.icalMenuHeaderLabel {
+	float: left;
+	width: 80%;
+	height: 20px;
+	font-size: 14px;
+	font-family: '돋음', 'Arial';
+	font-weight: bold;
+}
+
+.icalClose {
+	float: right;
+}
+
+.icalCalendarName {
+	float: left;
+	width: 100%;
+	height: 20px;
+	padding: 5px 0;
+}
+
+.icalCalendarNameLabel {
+	float: left;
+	width: 100px;
+	height: 20px;
+	line-height: 18px;
+	font-size: 13px;
+	font-family: '돋음', 'Arial';
+	font-weight: bold;
+	padding-right: 5px;
+}
+
+.icsDownloadLink { 
+	float: left;
+	cursor: pointer;
+	height: 20px;
+	line-height: 18px;
+	font-size: 13px;
+	font-family: '돋음', 'Arial';
+}
+
+.icsDownloadLink:HOVER { color: blue; text-decoration: underline; }
+
+.icalMenuContent {
+	float: left;
+	width: 100%;
+}
+
+.icalYearSelect {
+	float: left;
+	width: 100%;
+	height: 20px;
+	padding: 5px 0;
+}
+
+.icalYearLabel {
+	float: left;
+	width: 100px;
+	height: 20px;
+	line-height: 18px;
+	font-size: 13px;
+	font-family: '돋음', 'Arial';
+	font-weight: bold;
+	padding-right: 5px;
+}
+
+.icalLangKndSelect {
+	float: left;
+	width: 100%;
+	height: 20px;
+	padding: 5px 0;
+}
+
+.icalLangKndLabel {
+	float: left;
+	width: 100px;
+	height: 20px;
+	line-height: 18px;
+	font-size: 13px;
+	font-family: '돋음', 'Arial';
+	font-weight: bold;
+	padding-right: 5px;
+}

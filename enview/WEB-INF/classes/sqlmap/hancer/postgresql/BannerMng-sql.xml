@@ -1,0 +1,9 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="banner">
+	<!-- 오늘날짜구하기 -->
+	<select id="bannerMng.getSysdate.postgresql" parameterClass="java.util.Map" resultClass="string">                 
+	    /* BannerMng.getSysdate.postgresql */
+		SELECT TO_CHAR (CURRENT_TIMESTAMP, 'yyyymmdd')
+	</select>
+</sqlMap>

@@ -1,0 +1,11 @@
+/* paging */
+.paging{text-align:center;  padding:0px;}
+.paging a{display:inline-block; font-size:14px; padding:0 2px; color:#666; font-weight:normal; }
+.paging a.noline{padding:0 2px; }
+.paging a.on{color:#f86c27; font-weight:600; padding:0 10px; }
+.paging a.webnavigation{padding:0 10px; }
+.paging font{color:#f86c27; font-weight:600; font-size:14px; padding:0 10px;}
+
+.ui-tabs .ui-tabs-panel {padding:10px 20px;}
+.btnArea{width:100%; margin:3px 0; }
+.tcontrol{width:100%; margin:3px 0; }

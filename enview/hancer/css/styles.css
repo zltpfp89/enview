@@ -1,0 +1,345 @@
+/***********************************************************************/
+/*   Tree style                                                        */
+/***********************************************************************/
+.defaultTreeTable{
+	margin : 0;
+	padding : 0;
+	border : 0;
+}
+.containerTableStyle { overflow : auto; font-size : 12px;}
+.standartTreeRow{	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif; 	font-size : 12px; -moz-user-select: none; }
+.selectedTreeRow{ background-color : navy; color:white; font-family : Verdana, Geneva, Arial, Helvetica, sans-serif; 		font-size : 12px;  -moz-user-select: none;  }
+.standartTreeImage{ width:18px; height:18px;  overflow:hidden; border:0; padding:0; margin:0; }
+.hiddenRow { width:1px;   overflow:hidden;  }
+.dragSpanDiv{ 	font-size : 12px; 	border: thin solid 1 1 1 1; }
+
+.menuTable{
+	border:1px solid;
+	margin : 0px;
+	padding : 3 1 4 1;
+}
+
+/***********************************************************************/
+/*   Form style                                                        */
+/***********************************************************************/
+.webformpanel {
+	/*background: #CACACA;*/
+	/*width: 100%; */
+	padding: 4px;
+	font-size: 11px;
+	color: #333367;
+}
+
+.webformpanel .webformheaderline{
+	background-color: #CACACA;
+	height:1px; 
+	width:100%;
+}
+
+.webformpanel .webformfooterline{
+	background:transparent url(../images/table_b_bg.gif) repeat left top;
+	height:4px;
+	width:100%
+}
+
+.webformpanel .webformlabel {
+	background-color: #f9fbff;
+	padding:3px 3px 3px 6px;
+	border:#CACACA solid;
+	border-width: 0px 1px 1px 0px;	
+	font-weight: bold;
+}
+
+.webformpanel .webformlabelmiddle {
+	background-color: #f9fbff;
+	padding:3px 3px 3px 6px;
+	border:#CACACA solid;
+	border-width: 0px 1px 1px 1px;	
+	font-weight: bold;
+}
+
+.webformpanel td {
+	font-size: 11px;
+	font-weight: bold;
+}
+
+
+.webformpanel .webformfield {
+	background-color: #FFFFFF;
+	padding:3px 3px 3px 6px;
+	border:#CACACA solid;
+	border-width: 0px 0px 1px 0px;	
+}
+
+.webformpanel .webtextfield {
+	color:#333333; 
+	font-size:11px; 
+	font-family:arial,verdana; 
+	border:1 solid #BABABA; 
+	background-color:#FFFFFF;
+}
+
+.webformpanel .full_webtextfield {
+    color:#333333; 
+	font-size:11px; 
+	font-family:arial,verdana; 
+	border:1 solid #BABABA; 
+	background-color: #FFFFFF;
+	width: 98%;
+}
+
+.webformpanel .webtextarea {
+    width: 98%;
+    padding: 2px 0px 0px 3px;
+    border: 1px solid #DCD5C2;
+    font-family: "Verdana", "";
+    font-size: 11px;
+    text-decoration: none;
+    background-color: #FFFFFF;
+    margin: 0px;
+
+}
+
+.webformpanel .webpasswordfield {
+    border: 1px solid rgb(102,144,184);
+}
+
+.webformpanel .webradiogroup {
+    border: 0px solid rgb(102,144,184);
+}
+
+.webformpanel .webdropdownlist {
+    border: 1px solid rgb(102,144,184);
+}
+
+.webformpanel .weblistbox {
+    border: 1px solid rgb(102,144,184);
+}
+
+
+.webgridpanel {
+	background-color: #FFFFFF;
+	/* border:1px solid Silver; */
+	padding: 4px;
+	font-size: 11px;
+	color: #333367;
+	border:1px solid #ccc;
+}
+
+.webgridpanel .webgridheaderline{
+	background-color: #333367;
+	height:2px;
+}
+
+.webgridpanel .webgridheader {
+	background:transparent url(../images/tl_top_line.gif) no-repeat right top;
+	background-color: #eef3ff;
+	padding:3px 3px 3px 3px;
+	border:#CACACA solid;
+	border-width: 0px 0px 1px 0px;	
+	font-size: 11px;
+	font-weight: bold;
+	color: #333367;
+	text-align: center;
+}
+
+.webgridpanel .webgridheaderlast {
+	background-color: #eef3ff;
+	padding:3px 3px 3px 6px;
+	border:#CACACA solid;
+	border-width: 0px 0px 1px 0px;	
+	font-size: 11px;
+	font-weight: bold;
+	color: #333367;
+	text-align: center;
+}
+
+.webgridpanel .even {
+    background-color:#ffffff;
+    text-align:left;
+}
+.webgridpanel .odd {
+    background-color: #f9fbff;
+    text-align:left;
+}
+
+.webgridpanel .mouseover {
+    background-color:#eef3ff;
+}
+
+.webgridpanel .webgridbody {
+	/*background:transparent url(../images/tl_con_line.gif) no-repeat right middle;*/
+	/*background-color: #FFFFFF;*/
+	padding:3px 5px 3px 5px;
+	border:#CACACA solid;
+	border-width: 0px 1px 1px 0px;	
+	font-size: 11px;
+}
+
+.webgridpanel .webgridbodylast {
+	/*background-color: #FFFFFF;*/
+	padding:3px 5px 3px 5px;
+	border:#CACACA solid;
+	border-width: 0px 0px 1px 0px;	
+	font-size: 11px;
+}
+
+.webgridpanel span,
+.webgridpanel td {
+	font-size: 11px;
+}
+
+.webpanel{
+	background-color: #FFFFFF;
+	/*padding:1px;*/
+	border:1px solid #CACACA;
+	border-width: 1px;	
+}
+
+.webnavigationpanel{
+	font-size: 11px;
+}
+
+a.webnavigation:link {  text-decoration: none; font-size:11px;}
+a.webnavigation:visited {  text-decoration: none; font-size:11px;}
+a.webnavigation:hover {  text-decoration: underline; font-size:11px;}
+a.webnavigation:active {  text-decoration: none; font-size:11px;}	
+
+.webdialogpanel{
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+    font-size: 8pt;
+	font-weight: bold;
+	background: #d9d4d2;
+	border: 1px solid #999999;
+	padding: 1px;
+	position: absolute;
+	z-index: 999;
+}
+
+.webdialogpanel .webdialogtitle {
+	height: 25px;
+	font-size: 16px;
+	font-weight: bold;
+	color: #333367;
+}
+
+.webbuttonpanel {
+
+}
+
+/***********************************************************************/
+/*   Context menu pane style                                           */
+/***********************************************************************/
+.contextMenu{
+	background-color:#ffffff;
+	border:1px solid;
+	font-family:arial; 
+	/*font-weight:bold;*/
+	font-size:8pt;
+	padding: 4px 2px 4px 2px;
+	margin: 0 1 0 1;
+	text-align:left;
+	cursor:pointer;	
+	position : absolute;
+	left: 0px;
+	top: 0px;
+	width: 200px;
+	z-index : 998;
+}
+
+.contextMenu_title {
+	/*padding: 2px;*/
+	font-weight:bold;
+	font-size:9pt;
+	text-align: center;
+	color: #2B2732; 
+}
+
+.contextMenu_outline {
+	padding: 4px 2px 4px 2px;
+}
+	
+.contextMenu_item {
+	display: block;
+	/*padding: 2px;*/
+}
+
+.contextMenu_itemDisable{
+	color: #eee;
+}
+
+.contextMenu_separator {
+	background:transparent url(../images/pop_line.gif) repeat left top;
+	height:8px;
+}
+
+.contextMenu_itemOver{
+	background-color:#B3ABBD;
+	color:white; 
+}
+
+.contextMenu_itemOverDisable{
+	background-color:#6495ed;
+}
+
+/*********************************************************/
+/*  CSS Button
+/*********************************************************/
+/* Temp */
+/*
+table{width:100%}
+th, td{padding:5px}
+*/
+caption{font-weight:bold;text-align:left}
+.btn_pack,
+.btn_pack *{display:inline-block;overflow:visible;position:relative;margin:0;padding:0;border:0;background:url(../images/button/btn_pack.gif) no-repeat;font-size:12px;font-family:Tahoma, Sans-serif;color:#333;text-decoration:none !important;vertical-align:top;white-space:nowrap}
+.btn_pack{margin-right:4px}
+.btn_pack *{left:4px;cursor:pointer;_cursor:hand}
+.btn_pack.medium,
+.btn_pack.medium *{height:24px;line-height:24px}
+.btn_pack.large,
+.btn_pack.large *{height:30px;line-height:30px}
+.btn_pack.xlarge,
+.btn_pack.xlarge *{height:36px;line-height:36px}
+.btn_pack.small,
+.btn_pack.small *{height:19px;line-height:19px}
+.btn_pack.medium{background-position:left 0}
+.btn_pack.large{background-position:left -30px}
+.btn_pack.xlarge{background-position:left -65px}
+.btn_pack.small{background-position:left -106px}
+.btn_pack.medium *{padding:0 10px 0 6px;background-position:right top;font-size:12px}
+.btn_pack.large *{padding:0 10px 0 6px;background-position:right -30px;font-size:16px}
+.btn_pack.xlarge *{padding:0 10px 0 6px;background-position:right -65px;font-size:20px}
+.btn_pack.small *{padding:0 6px 0 2px;background-position:right -106px;font-size:11px}
+.btn_pack *:hover,
+.btn_pack *:active,
+.btn_pack *:focus{color:#690}
+.btn_pack.strong *{font-weight:bold !important}
+.btn_pack.icon *{padding-left:20px}
+.btn_pack.small.icon *{padding-left:16px}
+.btn_pack.icon span{width:20px;margin-right:-20px;padding:0 !important}
+.btn_pack.medium .check{background-position:4px -150px}
+.btn_pack.large .check{background-position:4px -146px}
+.btn_pack.xlarge .check{background-position:5px -144px}
+.btn_pack.small .check{background-position:3px -153px}
+.btn_pack.medium .add{background-position:-16px -150px}
+.btn_pack.large .add{background-position:-14px -146px}
+.btn_pack.xlarge .add{background-position:-14px -144px}
+.btn_pack.small .add{background-position:-18px -153px}
+.btn_pack.medium .delete{background-position:-34px -150px}
+.btn_pack.large .delete{background-position:-34px -146px}
+.btn_pack.xlarge .delete{background-position:-34px -144px}
+.btn_pack.small .delete{background-position:-37px -153px}
+.btn_pack.medium .calendar{background-position:-56px -150px}
+.btn_pack.large .calendar{background-position:-56px -146px}
+.btn_pack.xlarge .calendar{background-position:-56px -144px}
+.btn_pack.small .calendar{background-position:-59px -153px}
+.btn_pack.medium .refresh{background-position:-76px -150px}
+.btn_pack.large .refresh{background-position:-76px -146px}
+.btn_pack.xlarge .refresh{background-position:-76px -144px}
+.btn_pack.small .refresh{background-position:-79px -153px}
+.btn_pack.medium .download{background-position:-96px -151px}
+.btn_pack.large .download{background-position:-96px -147px}
+.btn_pack.xlarge .download{background-position:-96px -145px}
+.btn_pack.small .download{background-position:-99px -154px}
+/* //UI Object */

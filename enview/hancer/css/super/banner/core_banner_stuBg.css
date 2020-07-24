@@ -1,0 +1,431 @@
+﻿@charset "utf-8";
+
+a{text-decoration:none; border:0px;}	
+/*   IMG    */
+.type00{
+	width:250px; height:105px;
+	padding:0;
+	margin:0;
+}
+#roll_banner{width: 224px; height: 77px;}
+
+/*   type1  */
+.type01{
+	padding:0;
+	margin:0;
+	background:url(./img/event/banner_bg01.gif) no-repeat;
+	font-family:Dotum,돋움,arial;
+	text-decoration:none;
+	letter-spacing:-1px;
+	text-align:center;
+}
+
+.type01 dt{
+	width:214px; height:15px;
+	overflow:hidden;
+	padding:10px 0 0 5px;
+	font:bold 15px Dotum,돋움,arial;
+	text-align:center;
+	color:#262688;
+}
+
+.type01 dd.place{
+	width:154px; height:11px;
+	overflow:hidden; 
+	padding:5px 0 0 35px;
+	border:0px solid red;
+	font:bold 11px Dotum,돋움,arial;
+	text-align:center;
+	color:#ffffff;
+}
+
+.type01 dd.period{
+	width:154px; height:11px;
+	overflow:hidden;
+	padding:5px 0 0 35px;
+	font:normal 11px Dotum,돋움,arial;
+	color:#ffffff;
+	text-align:center;
+}
+
+
+/*   type02  */
+
+.type02{
+	padding:0;
+	margin:0;
+	background:url(./img/event/banner_bg02.gif) no-repeat;
+	font-family:Dotum,돋움,arial;	
+	letter-spacing:-1px;
+	text-decoration:none;
+
+}
+ 
+.type02 dt{
+	width:204px; height:20px;
+	overflow:hidden;
+	padding:20px 0 0 20px;
+	font:bold 13px Dotum,돋움,arial;
+	text-align:left;
+	color:#223807;
+}
+
+.type02 dd.place{
+	width:170px; height:13px;
+	overflow:hidden;
+	padding:0px 0 0 20px;
+	border:0px solid red;
+	font:bold 10px Dotum,돋움,arial;
+	text-align:left;
+	color:#f3f6ed;
+}
+
+.type02 dd.period{
+	width:170px; height:11px;
+	overflow:hidden;
+	padding:0px 0 0 20px;
+	font:normal 10px Dotum,돋움,arial;
+	text-align:left;
+	color:#f0f4e8;
+}
+
+
+/*   type03  */
+
+.type03{
+	padding:0;
+	margin:0;
+	background:url(./img/event/banner_bg03.gif) no-repeat;
+	font-family:Dotum,돋움,arial;	
+	letter-spacing:-1px;
+	text-decoration:none;
+
+}
+ 
+.type03 dt{
+	width:210px; height:15px;
+	overflow:hidden;
+	padding:20px 0 0 15px;
+	font:bold 15px Dotum,돋움,arial;
+	text-decoration:underline;
+	color:#4846c5;
+}
+
+.type03 dd.place{
+	width:160px; height:11px;
+	overflow:hidden;
+	margin:-30px 0 0 15px;
+	border:0px solid red;
+	font:bold 10px Dotum,돋움,arial;
+	color:#272621;
+}
+
+.type03 dd.period{
+	width:145px; height:11px;
+	overflow:hidden;
+	margin:30px 0 0 15px;
+	font:normal 10px Dotum,돋움,arial;
+	color:#000;
+}
+
+
+	
+/*   type04  */
+
+.type04{
+	padding:0;
+	margin:0;
+	background:url(./img/event/banner_bg04.gif) no-repeat;
+	font-family:Dotum,돋움,arial;	
+	letter-spacing:-1px;
+	text-decoration:none;
+
+}
+ 
+.type04 dt{
+	width:224px; height:15px;
+	overflow:hidden;
+	padding:15px 0 0 0px;
+	font:bold 15px Dotum,돋움,arial;
+	color:#000000;
+	text-align:center;
+}
+
+.type04 dd.place{
+	width:214px; height:11px;
+	overflow:hidden;
+	margin:5px 0 0 0px;
+	border:0px solid red;
+	font:bold 11px Dotum,돋움,arial;
+	color:#000000;
+	text-align:center;
+}
+
+.type04 dd.period{
+	width:214px; height:11px;
+	overflow:hidden;
+	margin:5px 0 0 0px;
+	font:normal 11px Dotum,돋움,arial;
+	color:#000000;
+	text-align:center;
+}
+
+
+/*   type05  */
+
+.type05{
+	padding:0;
+	margin:0;
+	background:url(./img/event/banner_bg05.gif) no-repeat;
+	font-family:Dotum,돋움,arial;	
+	letter-spacing:-1px;
+	position:relative;
+	text-decoration:none;
+
+}
+ 
+.type05 dt{
+	width:204px; height:20px;
+	position:absolute; left:6px; top:35px;
+	border:0px solid red;
+	font:bold 15px Dotum,돋움,arial;
+	color:#d60303;
+	overflow:hidden;
+	text-decoration:underline;	
+	text-align:center;
+}
+
+.type05 dd.place{
+	width:180px; height:15px;	
+	position:absolute; left:6px; top:55px;
+	border:0px solid red;
+	font:bold 11px Dotum,돋움,arial;
+	color:#000000;
+	overflow:hidden;
+	text-align:center;
+}
+
+
+.type05 dd.period{
+	width:180px; height:15px;	
+	position:absolute; left:6px; top:20px;
+	font:normal 11px Dotum,돋움,arial;
+	color:#000000;
+	overflow:hidden;
+	text-align:center;
+}
+
+.type05 dd.seoul {position:absolute; right:88px;top:80px;font:11px dotum,돋움,arial; color:#fff;text-decoration:none;}
+/*   type06  */
+
+.type06{
+	width:200px; height:77px;
+	padding:0;
+	margin:0;
+	background:url(./img/event/banner_bg06.gif) no-repeat;
+	font-family:Dotum,돋움,arial;	
+	letter-spacing:-1px;
+	position:relative;
+	text-decoration:none;
+
+}
+ 
+.type06 dt{
+	width:190px; height:15px;	
+	position:absolute; left:24px; top:50px;
+	border:0px solid red;
+	font:bold 10px Dotum,돋움,arial;
+	color:#333333;
+	overflow:hidden;
+}
+
+.type06 dd.place{
+	width:190px; height:20px;
+	position:absolute; left:24px; top:15px;
+	border:0px solid red;
+	font:bold 13px Dotum,돋움,arial;
+	color:#472ba3;
+	overflow:hidden;
+}
+
+
+.type06 dd.period{
+	width:200px; height:15px;	
+	position:absolute; left:24px; top:35px;
+	font:normal 10px Dotum,돋움,arial;
+	color:#666666;
+	overflow:hidden;
+}
+
+
+
+/*   type07  */
+
+.type07{
+	padding:0;
+	margin:0;
+	background:url(./img/event/banner_bg07.gif) no-repeat;
+	font-family:Dotum,돋움,arial;	
+	letter-spacing:-1px;
+	position:relative;
+	text-decoration:none;
+
+}
+ 
+.type07 dt{	
+	width:180px; height:19px;
+	position:absolute;  left:29px; top:40px;
+	border:0px solid red;
+	overflow:hidden;
+	font:bold 13px Dotum,돋움,arial;
+	text-decoration:underline;
+	color:#d60303;
+}
+	
+
+.type07 dd.place{
+	width:200px; height:15px;
+	position:absolute;  left:45px; top:52px;
+	overflow:hidden;
+	border:0px solid lime;
+	font:bold 10px Dotum,돋움,arial;
+	color:#000000;
+}
+
+.type07 dd.period{
+	width:130px; height:11px;
+	position:absolute;  left:5px; top:8px;
+	overflow:hidden;
+	font:normal 10px Dotum,돋움,arial;
+	color:#ffffff;
+}
+
+
+
+/*   type08  */
+
+.type08{
+	padding:0;
+	margin:0;
+	background:url(./img/event/banner_bg08.gif) no-repeat;
+	font-family:Dotum,돋움,arial;	
+	letter-spacing:-1px;
+	position:relative;
+	text-decoration:none;
+
+}
+ 
+.type08 dt{	
+	width:220px; height:20px;
+	position:absolute; left:5px; top: 10px;
+	overflow:hidden;
+	border:0px solid #fff;
+	text-decoration:underline;
+	text-align:left;
+	font:bold 15px Dotum,돋움,arial;
+	color:#191919;
+}
+	
+
+.type08 dd.place{
+	width:200px; height:15px;
+	position:absolute; left:5px; top: 35px;
+	overflow:hidden;
+	
+	text-align:left;
+	font:bold 11px Dotum,돋움,arial;
+	color:#1f5ca7;
+}
+
+.type08 dd.period{
+	width:140px; height:11px;
+	position:absolute; left:5px; top:50px;
+	overflow:hidden;	
+	text-align:left;
+	font:normal 11px Dotum,돋움,arial;
+	color:#3591c8;
+}
+
+
+
+
+/*   type09  */
+
+.type09{
+	width:200px; height:77px;
+	padding:0;
+	margin:0;
+	background:url(./img/event/banner_bg09.gif) no-repeat;
+	font-family:Dotum,돋움,arial;	
+	letter-spacing:-1px;
+	position:relative;
+	text-decoration:none;
+}
+ 
+.type09 dt{
+	width:60px; height:36x;
+	position:absolute; left:15px; top:15px;
+	overflow:hidden;
+	border:0px solid #fff;
+	font:bold 12px Dotum,돋움,arial;
+	color:#fff;
+}
+
+.type09 dd.place{
+	width:135px; height:35px;
+	position:absolute; left:93px; top:8px;
+	overflow:hidden;
+	border:0px solid red;
+	text-decoration:underline;
+	font:bold 13px Dotum,돋움,arial; 
+	color:#fff;
+	
+}
+
+.type09 dd.period{
+	width:130px; height:30px;
+	position:absolute; left:90px; top:48px;
+	overflow:hidden;
+	font:bold 10px Dotum,돋움,arial;
+	color:#fff;
+
+}
+/*   type10  */
+
+.type10{
+	padding:0;
+	margin:0;
+	background:url(./img/event/banner_bg10.gif) no-repeat;
+	font-family:Dotum,돋움,arial;	
+	letter-spacing:-1px;
+	text-decoration:none;
+
+}
+ 
+.type10 dt{	
+	width:205px; height:35px;
+	overflow:hidden;
+	text-decoration:underline;	
+	padding:10px 0 0 15px;
+	font:bold 13px Dotum,돋움,arial;
+	color:#000;
+}
+	
+
+.type10 dd.place{	
+	width:130px; height:11px;
+	overflow:hidden;
+	margin:-5px 15px;
+	border:0px solid red;
+	font:bold 10px Dotum,돋움,arial;
+	color:#000;
+}
+
+.type10 dd.period{
+	width:125px; height:11px;
+	overflow:hidden;
+	margin:5px 15px;
+	font:normal 10px Dotum,돋움,arial;
+	color:#000;
+}
+

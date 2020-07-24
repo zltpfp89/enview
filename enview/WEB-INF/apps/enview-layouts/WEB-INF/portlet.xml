@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app id="enview-layouts"
+  xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+  version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+  <portlet id="VelocityOneColumn"> 
+    <portlet-name>VelocityOneColumn</portlet-name>
+	<display-name xml:lang="ko">1열 레이아웃</display-name>
+	<display-name xml:lang="en">1 column layout</display-name>
+   <init-param>
+      <name>ViewPage</name>
+      <value>columns</value>
+    </init-param>
+    <init-param>
+      <name>MaxPage</name>
+      <value>maximized</value>
+    </init-param>
+    <init-param>
+      <name>columns</name>
+      <value>1</value>
+    </init-param>
+    <init-param>
+      <name>sizes</name>
+      <value>100%</value>
+    </init-param>
+    <init-param>
+      <name>layoutType</name>
+      <value>OneColumn</value>
+    </init-param>
+	<init-param>
+	  <name>portlet-icon</name>
+	  <value>1line.png</value>
+	</init-param>
+    <portlet-class>com.saltware.enview.portlets.layout.MultiColumnPortlet</portlet-class>
+    <resource-bundle>com.saltware.enview.portlets.layout.resources.LayoutResource</resource-bundle>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>      
+    </supports>
+	<supported-locale>en</supported-locale>
+	<supported-locale>ko</supported-locale>
+    <portlet-info>
+      <title>1 column layout</title>
+      <short-title>1 column layout</short-title>
+	  <keywords>layout</keywords>
+    </portlet-info>
+	<portlet-preferences>
+	  <preference>
+		<name>SYSTEM_CODE</name>
+		<value>PT</value>
+	  </preference>
+	</portlet-preferences>
+</portlet>
+
+<portlet id="VelocityTwoColumns">
+    <portlet-name>VelocityTwoColumns</portlet-name>
+	<display-name xml:lang="ko">2열 레이아웃 (50%/50%)</display-name>
+	<display-name xml:lang="en">2 columns layout (50%/50%)</display-name>
+    <init-param>
+      <name>ViewPage</name>
+      <value>columns</value>
+    </init-param>
+    <init-param>
+      <name>MaxPage</name>
+      <value>maximized</value>
+    </init-param>
+    <init-param>
+      <name>columns</name>
+      <value>2</value>
+    </init-param>
+    <init-param>
+      <name>sizes</name>
+      <value>50%,50%</value>
+    </init-param>
+    <init-param>
+      <name>layoutType</name>
+      <value>TwoColumns</value>
+    </init-param>
+    <!-- <init-param>
+      <name>editorType</name>
+      <value>desktop</value>
+    </init-param> -->
+	<init-param>
+	  <name>portlet-icon</name>
+	  <value>2line_50.png</value>
+	</init-param>
+    <portlet-class>com.saltware.enview.portlets.layout.MultiColumnPortlet</portlet-class>
+    <resource-bundle>com.saltware.enview.portlets.layout.resources.LayoutResource</resource-bundle>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>      
+    </supports>
+	<supported-locale>en</supported-locale>
+	<supported-locale>ko</supported-locale>
+    <portlet-info>
+      <title>2 column layout</title>
+      <short-title>2 column layout</short-title>
+	  <keywords>layout</keywords>
+    </portlet-info>
+	<portlet-preferences>
+	  <preference>
+		<name>SYSTEM_CODE</name>
+		<value>PT</value>
+	  </preference>
+	</portlet-preferences>
+</portlet>
+
+<portlet id="VelocityTwoColumns2575">
+    <portlet-name>VelocityTwoColumns2575</portlet-name>
+	<display-name xml:lang="ko">2열 레이아웃 (25%/75%)</display-name>
+	<display-name xml:lang="en">2 columns layout (25%/75%)</display-name>
+    <init-param>
+      <name>ViewPage</name>
+      <value>columns</value>
+    </init-param>
+    <init-param>
+      <name>MaxPage</name>
+      <value>maximized</value>
+    </init-param>
+    <init-param>
+      <name>columns</name>
+      <value>2</value>
+    </init-param>
+    <init-param>
+      <name>sizes</name>
+      <value>25%,75%</value>
+    </init-param>
+    <init-param>
+      <name>layoutType</name>
+      <value>TwoColumns</value>
+    </init-param>
+	<init-param>
+	  <name>portlet-icon</name>
+	  <value>2line_25.png</value>
+	</init-param>
+    <portlet-class>com.saltware.enview.portlets.layout.MultiColumnPortlet</portlet-class>
+    <resource-bundle>com.saltware.enview.portlets.layout.resources.LayoutResource</resource-bundle>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>      
+    </supports>
+	<supported-locale>en</supported-locale>
+	<supported-locale>ko</supported-locale>
+    <portlet-info>
+      <title>2 column layout</title>
+      <short-title>2 column layout</short-title>
+	  <keywords>layout</keywords>
+    </portlet-info>
+	<portlet-preferences>
+	  <preference>
+		<name>SYSTEM_CODE</name>
+		<value>PT</value>
+	  </preference>
+	</portlet-preferences>
+</portlet>
+
+<portlet id="VelocityTwoColumnsSmallLeft">
+    <portlet-name>VelocityTwoColumnsSmallLeft</portlet-name>
+	<display-name xml:lang="ko">2열 레이아웃 (15%/85%)</display-name>
+	<display-name xml:lang="en">2 columns layout (15%/85%)</display-name>
+    <init-param>
+      <name>ViewPage</name>
+      <value>columns</value>
+    </init-param>
+    <init-param>
+      <name>MaxPage</name>
+      <value>maximized</value>
+    </init-param>
+    <init-param>
+      <name>columns</name>
+      <value>2</value>
+    </init-param>
+    <init-param>
+      <name>sizes</name>
+      <value>15%,85%</value>
+    </init-param>
+    <init-param>
+      <name>layoutType</name>
+      <value>TwoColumns</value>
+    </init-param>
+	<init-param>
+	  <name>portlet-icon</name>
+	  <value>2line_15.png</value>
+	</init-param>
+    <portlet-class>com.saltware.enview.portlets.layout.MultiColumnPortlet</portlet-class>
+    <resource-bundle>com.saltware.enview.portlets.layout.resources.LayoutResource</resource-bundle>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>      
+    </supports>
+	<supported-locale>en</supported-locale>
+	<supported-locale>ko</supported-locale>
+    <portlet-info>
+      <title>2 column layout</title>
+      <short-title>2 column layout</short-title>
+	  <keywords>layout</keywords>
+    </portlet-info>
+	<portlet-preferences>
+	  <preference>
+		<name>SYSTEM_CODE</name>
+		<value>PT</value>
+	  </preference>
+	</portlet-preferences>
+</portlet>
+
+
+<portlet id="VelocityThreeColumns">
+    <portlet-name>VelocityThreeColumns</portlet-name>
+	<display-name xml:lang="ko">3열 레이아웃 (33%/33%/34%)</display-name>
+	<display-name xml:lang="en">3 columns layout (33%/33%/34%)</display-name>
+    <init-param>
+      <name>ViewPage</name>
+      <value>columns</value>
+    </init-param>
+    <init-param>
+      <name>MaxPage</name>
+      <value>maximized</value>
+    </init-param>
+    <init-param>
+      <name>columns</name>
+      <value>3</value>
+    </init-param>
+    <init-param>
+      <name>sizes</name>
+      <value>33%,33%,34%</value>
+    </init-param>
+    <init-param>
+      <name>layoutType</name>
+      <value>ThreeColumns</value>
+    </init-param>
+	<init-param>
+	  <name>portlet-icon</name>
+	  <value>3line.png</value>
+	</init-param>
+    <portlet-class>com.saltware.enview.portlets.layout.MultiColumnPortlet</portlet-class>
+    <resource-bundle>com.saltware.enview.portlets.layout.resources.LayoutResource</resource-bundle>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>      
+    </supports>
+	<supported-locale>en</supported-locale>
+	<supported-locale>ko</supported-locale>
+    <portlet-info>
+      <title>3 column layout</title>
+      <short-title>3 column layout</short-title>
+	  <keywords>layout</keywords>
+    </portlet-info>
+	<portlet-preferences>
+	  <preference>
+		<name>SYSTEM_CODE</name>
+		<value>PT</value>
+	  </preference>
+	</portlet-preferences>
+</portlet>
+
+<portlet id="VelocityFourColumns">
+    <portlet-name>VelocityFourColumns</portlet-name>
+	<display-name xml:lang="ko">4열 레이아웃 (20%/30%/30%/20%)</display-name>
+	<display-name xml:lang="en">4 column layout (20%/30%/30%/20%)</display-name>
+    <init-param>
+      <name>ViewPage</name>
+      <value>columns</value>
+    </init-param>
+    <init-param>
+      <name>MaxPage</name>
+      <value>maximized</value>
+    </init-param>
+    <init-param>
+      <name>columns</name>
+      <value>4</value>
+    </init-param>
+    <init-param>
+      <name>sizes</name>
+      <value>20%,30%,30%,20%</value>
+    </init-param>
+    <init-param>
+      <name>layoutType</name>
+      <value>FourColumns</value>
+    </init-param>
+	<init-param>
+	  <name>portlet-icon</name>
+	  <value>4line.png</value>
+	</init-param>
+    <portlet-class>com.saltware.enview.portlets.layout.MultiColumnPortlet</portlet-class>
+    <resource-bundle>com.saltware.enview.portlets.layout.resources.LayoutResource</resource-bundle>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>      
+    </supports>
+	<supported-locale>en</supported-locale>
+	<supported-locale>ko</supported-locale>
+    <portlet-info>
+      <title>4 column layout</title>
+      <short-title>4 column layout</short-title>
+	  <keywords>layout</keywords>
+    </portlet-info>
+	<portlet-preferences>
+	  <preference>
+		<name>SYSTEM_CODE</name>
+		<value>PT</value>
+	  </preference>
+	</portlet-preferences>
+</portlet>
+
+<portlet id="Gridster">
+    <portlet-name>Gridster</portlet-name>
+	<display-name xml:lang="ko">그리드(4열)</display-name>
+	<display-name xml:lang="en">Girdster(4 columns)</display-name>
+    <init-param>
+      <name>ViewPage</name>
+      <value>columns</value>
+    </init-param>
+    <init-param>
+      <name>MaxPage</name>
+      <value>maximized</value>
+    </init-param>
+    <init-param>
+      <name>columns</name>
+      <value>4</value>
+    </init-param>
+    <init-param>
+      <name>sizes</name>
+      <value>285px,285px,15px,15px</value>
+    </init-param>
+    <init-param>
+      <name>layoutType</name>
+      <value>Grid</value>
+    </init-param>
+	<init-param>
+	  <name>portlet-icon</name>
+	  <value>4line.png</value>
+	</init-param>
+    <portlet-class>com.saltware.enview.portlets.layout.MultiColumnPortlet</portlet-class>
+    <resource-bundle>com.saltware.enview.portlets.layout.resources.LayoutResource</resource-bundle>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>      
+    </supports>
+	<supported-locale>en</supported-locale>
+	<supported-locale>ko</supported-locale>
+    <portlet-info>
+      <title>GridSter</title>
+      <short-title>GridSter</short-title>
+	  <keywords>layout</keywords>
+    </portlet-info>
+	<portlet-preferences>
+	  <preference>
+		<name>SYSTEM_CODE</name>
+		<value>PT</value>
+	  </preference>
+	</portlet-preferences>
+</portlet>
+<portlet id="Gridster3">
+    <portlet-name>Gridster3</portlet-name>
+	<display-name xml:lang="ko">그리드(3열)</display-name>
+	<display-name xml:lang="en">Gridster(3 columns)</display-name>
+    <init-param>
+      <name>ViewPage</name>
+      <value>columns</value>
+    </init-param>
+    <init-param>
+      <name>MaxPage</name>
+      <value>maximized</value>
+    </init-param>
+    <init-param>
+      <name>columns</name>
+      <value>3</value>
+    </init-param>
+    <init-param>
+      <name>sizes</name>
+      <value>285px,285px,15px,15px</value>
+    </init-param>
+    <init-param>
+      <name>layoutType</name>
+      <value>Grid</value>
+    </init-param>
+	<init-param>
+	  <name>portlet-icon</name>
+	  <value>4line.png</value>
+	</init-param>
+    <portlet-class>com.saltware.enview.portlets.layout.MultiColumnPortlet</portlet-class>
+    <resource-bundle>com.saltware.enview.portlets.layout.resources.LayoutResource</resource-bundle>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>      
+    </supports>
+	<supported-locale>en</supported-locale>
+	<supported-locale>ko</supported-locale>
+    <portlet-info>
+      <title>GridSter3</title>
+      <short-title>GridSter3</short-title>
+	  <keywords>layout</keywords>
+    </portlet-info>
+	<portlet-preferences>
+	  <preference>
+		<name>SYSTEM_CODE</name>
+		<value>PT</value>
+	  </preference>
+	</portlet-preferences>
+</portlet>
+
+<portlet id="Gridster5">
+    <portlet-name>Gridster5</portlet-name>
+	<display-name xml:lang="ko">그리드(5열)</display-name>
+	<display-name xml:lang="en">Gridster(5 columns)</display-name>
+    <init-param>
+      <name>ViewPage</name>
+      <value>columns</value>
+    </init-param>
+    <init-param>
+      <name>MaxPage</name>
+      <value>maximized</value>
+    </init-param>
+    <init-param>
+      <name>columns</name>
+      <value>5</value>
+    </init-param>
+    <init-param>
+      <name>sizes</name>
+      <value>200px,200px,200px,200px,200px</value>
+    </init-param>
+    <init-param>
+      <name>layoutType</name>
+      <value>Grid</value>
+    </init-param>
+	<init-param>
+	  <name>portlet-icon</name>
+	  <value>4line.png</value>
+	</init-param>
+    <portlet-class>com.saltware.enview.portlets.layout.MultiColumnPortlet</portlet-class>
+    <resource-bundle>com.saltware.enview.portlets.layout.resources.LayoutResource</resource-bundle>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>      
+    </supports>
+	<supported-locale>en</supported-locale>
+	<supported-locale>ko</supported-locale>
+    <portlet-info>
+      <title>GridSter5</title>
+      <short-title>GridSter5</short-title>
+	  <keywords>layout</keywords>
+    </portlet-info>
+	<portlet-preferences>
+	  <preference>
+		<name>SYSTEM_CODE</name>
+		<value>PT</value>
+	  </preference>
+	</portlet-preferences>
+</portlet>
+
+<portlet id="Gridster6">
+    <portlet-name>Gridster6</portlet-name>
+	<display-name xml:lang="ko">그리드(6열)</display-name>
+	<display-name xml:lang="en">Gridster(6 columns)</display-name>
+    <init-param>
+      <name>ViewPage</name>
+      <value>columns</value>
+    </init-param>
+    <init-param>
+      <name>MaxPage</name>
+      <value>maximized</value>
+    </init-param>
+    <init-param>
+      <name>columns</name>
+      <value>6</value>
+    </init-param>
+    <init-param>
+      <name>sizes</name>
+      <value>200px,200px,200px,200px,200px,200px</value>
+    </init-param>
+    <init-param>
+      <name>layoutType</name>
+      <value>Grid</value>
+    </init-param>
+	<init-param>
+	  <name>portlet-icon</name>
+	  <value>4line.png</value>
+	</init-param>
+    <portlet-class>com.saltware.enview.portlets.layout.MultiColumnPortlet</portlet-class>
+    <resource-bundle>com.saltware.enview.portlets.layout.resources.LayoutResource</resource-bundle>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>      
+    </supports>
+	<supported-locale>en</supported-locale>
+	<supported-locale>ko</supported-locale>
+    <portlet-info>
+      <title>GridSter6</title>
+      <short-title>GridSter6</short-title>
+	  <keywords>layout</keywords>
+    </portlet-info>
+	<portlet-preferences>
+	  <preference>
+		<name>SYSTEM_CODE</name>
+		<value>PT</value>
+	  </preference>
+	</portlet-preferences>
+</portlet>
+
+<portlet id="Gridster7">
+    <portlet-name>Gridster7</portlet-name>
+	<display-name xml:lang="ko">그리드(7열)</display-name>
+	<display-name xml:lang="en">Gridster(7 columns)</display-name>
+    <init-param>
+      <name>ViewPage</name>
+      <value>columns</value>
+    </init-param>
+    <init-param>
+      <name>MaxPage</name>
+      <value>maximized</value>
+    </init-param>
+    <init-param>
+      <name>columns</name>
+      <value>7</value>
+    </init-param>
+    <init-param>
+      <name>sizes</name>
+      <value>200px,200px,200px,200px,200px,200px,200px</value>
+    </init-param>
+    <init-param>
+      <name>layoutType</name>
+      <value>Grid</value>
+    </init-param>
+	<init-param>
+	  <name>portlet-icon</name>
+	  <value>4line.png</value>
+	</init-param>
+    <portlet-class>com.saltware.enview.portlets.layout.MultiColumnPortlet</portlet-class>
+    <resource-bundle>com.saltware.enview.portlets.layout.resources.LayoutResource</resource-bundle>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>      
+    </supports>
+	<supported-locale>en</supported-locale>
+	<supported-locale>ko</supported-locale>
+    <portlet-info>
+      <title>GridSter7</title>
+      <short-title>GridSter7</short-title>
+	  <keywords>layout</keywords>
+    </portlet-info>
+	<portlet-preferences>
+	  <preference>
+		<name>SYSTEM_CODE</name>
+		<value>PT</value>
+	  </preference>
+	</portlet-preferences>
+</portlet>
+
+<portlet id="Gridster8">
+    <portlet-name>Gridster8</portlet-name>
+	<display-name xml:lang="ko">그리드(8열)</display-name>
+	<display-name xml:lang="en">Gridster(8 columns)</display-name>
+    <init-param>
+      <name>ViewPage</name>
+      <value>columns</value>
+    </init-param>
+    <init-param>
+      <name>MaxPage</name>
+      <value>maximized</value>
+    </init-param>
+    <init-param>
+      <name>columns</name>
+      <value>8</value>
+    </init-param>
+    <init-param>
+      <name>sizes</name>
+      <value>200px,200px,200px,200px,200px,200px,200px,200px</value>
+    </init-param>
+    <init-param>
+      <name>layoutType</name>
+      <value>Grid</value>
+    </init-param>
+	<init-param>
+	  <name>portlet-icon</name>
+	  <value>4line.png</value>
+	</init-param>
+    <portlet-class>com.saltware.enview.portlets.layout.MultiColumnPortlet</portlet-class>
+    <resource-bundle>com.saltware.enview.portlets.layout.resources.LayoutResource</resource-bundle>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>      
+    </supports>
+	<supported-locale>en</supported-locale>
+	<supported-locale>ko</supported-locale>
+    <portlet-info>
+      <title>GridSter8</title>
+      <short-title>GridSter8</short-title>
+	  <keywords>layout</keywords>
+    </portlet-info>
+	<portlet-preferences>
+	  <preference>
+		<name>SYSTEM_CODE</name>
+		<value>PT</value>
+	  </preference>
+	</portlet-preferences>
+</portlet>
+
+</portlet-app>
+

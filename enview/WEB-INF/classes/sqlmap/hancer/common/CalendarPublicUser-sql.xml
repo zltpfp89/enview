@@ -1,0 +1,266 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="cal">
+
+	<resultMap id="calendar.public.user.list" class="com.saltware.enhancer.admin.calendar.control.CalendarUserVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>
+		<result property="userId" columnIndex="2"/> 
+		<result property="permissions" column="PERMISSIONS" columnIndex="3"/>
+		<result property="isDeletable" column="IS_DELETABLE" columnIndex="4"/>
+		<result property="insDatim" column="INS_DATIM" columnIndex="5"/>
+		<result property="updDatim" column="UPD_DATIM" columnIndex="6"/>
+		<result property="userName" columnIndex="7"/>
+		<result property="userOrgName" columnIndex="8"/>
+	</resultMap>
+
+
+	<select id="calendar.public.user.count" resultClass="int">/* calendar.public.user.count */
+		SELECT COUNT(*)
+		FROM (
+			SELECT CALENDAR_ID, OWNER_ID AS USER_ID, 'CRUDA' AS PERMISSIONS, 0 AS IS_DELETABLE, INS_DATIM, UPD_DATIM
+			FROM CALENDAR_PUBLIC
+			WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+			UNION ALL
+			SELECT CALENDAR_ID, USER_ID, PERMISSIONS, 1 AS IS_DELETABLE, INS_DATIM, UPD_DATIM
+			FROM CALENDAR_PUBLIC_USER
+			WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+		) a
+		JOIN USERPASS b ON b.USER_ID = a.USER_ID AND (
+			NM_KOR LIKE '%'||#searchValue#||'%' OR
+			NM_ENG LIKE '%'||#searchValue#||'%' OR
+			b.USER_ID LIKE '%'||#searchValue#||'%'
+		)
+	</select>
+	
+	<select id="calendar.public.user.list" resultMap="calendar.public.user.list">/* calendar.public.user.list */
+		SELECT * FROM (
+			SELECT a.*,
+				<isEqual property="langKnd" compareValue="ko">
+					CASE WHEN b.NM_KOR IS NULL THEN b.NM_ENG ELSE b.NM_KOR END AS USER_NAME,
+					'' AS USER_ORG_NAME,
+				</isEqual>
+				<isEqual property="langKnd" compareValue="en">
+					CASE WHEN b.NM_ENG IS NULL THEN b.NM_KOR ELSE b.NM_ENG END AS USER_NAME,
+					'' AS USER_ORG_NAME,	
+				</isEqual>
+				ROW_NUMBER() OVER(ORDER BY a.IS_DELETABLE, INS_DATIM) AS RNUM
+			FROM (
+				SELECT CALENDAR_ID, OWNER_ID AS USER_ID, 'CRUDA' AS PERMISSIONS, 0 AS IS_DELETABLE, INS_DATIM, UPD_DATIM
+				FROM CALENDAR_PUBLIC
+				WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+				UNION ALL
+				SELECT CALENDAR_ID, USER_ID, PERMISSIONS, 1 AS IS_DELETABLE, INS_DATIM, UPD_DATIM
+				FROM CALENDAR_PUBLIC_USER
+				WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+			) a
+			JOIN USERPASS b ON b.USER_ID = a.USER_ID AND (
+				NM_KOR LIKE '%'||#searchValue#||'%' OR
+				NM_ENG LIKE '%'||#searchValue#||'%' OR
+				b.USER_ID LIKE '%'||#searchValue#||'%'
+			)
+		) t1
+		WHERE RNUM BETWEEN $startRow$ AND $endRow$
+	</select>
+
+	<select id="calendar.user.public.user.count" resultClass="int">/* calendar.user.public.user.count */
+			SELECT COUNT(*) 
+			FROM (
+				SELECT CALENDAR_ID, OWNER_ID AS USER_ID, 'CRUDA' AS PERMISSIONS, 0 AS IS_DELETABLE, INS_DATIM, UPD_DATIM
+				FROM CALENDAR
+				WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+				UNION ALL
+				SELECT CALENDAR_ID, USER_ID, PERMISSIONS, 1 AS IS_DELETABLE, INS_DATIM, UPD_DATIM
+				FROM CALENDAR_USER
+				WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+			) a
+			JOIN USERPASS b ON b.USER_ID = a.USER_ID AND (
+				NM_KOR LIKE '%'||#searchValue#||'%' OR
+				NM_ENG LIKE '%'||#searchValue#||'%' OR
+				b.USER_ID LIKE '%'||#searchValue#||'%'
+			)
+	</select>
+	
+	<select id="calendar.user.public.user.list" resultMap="calendar.public.user.list">/* calendar.user.public.user.list */
+		SELECT * FROM (
+			SELECT a.*,
+				<isEqual property="langKnd" compareValue="ko">
+					CASE WHEN b.NM_KOR IS NULL THEN b.NM_ENG ELSE b.NM_KOR END AS USER_NAME,
+					'' AS USER_ORG_NAME,
+				</isEqual>
+				<isEqual property="langKnd" compareValue="en">
+					CASE WHEN b.NM_ENG IS NULL THEN b.NM_KOR ELSE b.NM_ENG END AS USER_NAME,
+					'' AS USER_ORG_NAME,	
+				</isEqual>
+				ROW_NUMBER() OVER(ORDER BY a.IS_DELETABLE, INS_DATIM) AS RNUM
+			FROM (
+				SELECT CALENDAR_ID, OWNER_ID AS USER_ID, 'CRUDA' AS PERMISSIONS, 0 AS IS_DELETABLE, INS_DATIM, UPD_DATIM
+				FROM CALENDAR
+				WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+				UNION ALL
+				SELECT CALENDAR_ID, USER_ID, PERMISSIONS, 1 AS IS_DELETABLE, INS_DATIM, UPD_DATIM
+				FROM CALENDAR_USER
+				WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+			) a
+			JOIN USERPASS b ON b.USER_ID = a.USER_ID AND (
+				NM_KOR LIKE '%'||#searchValue#||'%' OR
+				NM_ENG LIKE '%'||#searchValue#||'%' OR
+				b.USER_ID LIKE '%'||#searchValue#||'%'
+			)
+		) t1 WHERE RNUM BETWEEN $startRow$ AND $endRow$
+	</select>
+	
+	<select id="calendar.public.user.detail" resultMap="calendar.public.user.list">/* calendar.public.user.detail */
+		SELECT a.*,
+			<isEqual property="langKnd" compareValue="ko">
+				CASE WHEN b.NM_KOR IS NULL THEN b.NM_ENG ELSE b.NM_KOR END AS USER_NAME,
+				'' AS USER_ORG_NAME
+			</isEqual>
+			<isEqual property="langKnd" compareValue="en">
+				CASE WHEN b.NM_ENG IS NULL THEN b.NM_KOR ELSE b.NM_ENG END AS USER_NAME,
+				'' AS USER_ORG_NAME
+			</isEqual>
+		FROM (
+			SELECT CALENDAR_ID, OWNER_ID AS USER_ID, 'CRUDA' AS PERMISSIONS, 0 AS IS_DELETABLE, INS_DATIM, UPD_DATIM
+			FROM CALENDAR_PUBLIC
+			WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+			UNION ALL
+			SELECT CALENDAR_ID, USER_ID, PERMISSIONS, 1 AS IS_DELETABLE, INS_DATIM, UPD_DATIM
+			FROM CALENDAR_PUBLIC_USER
+			WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+		) a
+		JOIN USERPASS b ON b.USER_ID = a.USER_ID AND b.USER_ID=#userId#
+	</select>
+	
+	<select id="calendar.user.public.user.detail" resultMap="calendar.public.user.list">/* calendar.user.public.user.detail */
+		SELECT a.*,
+			<isEqual property="langKnd" compareValue="ko">
+				CASE WHEN b.NM_KOR IS NULL THEN b.NM_ENG ELSE b.NM_KOR END AS USER_NAME,
+				'' AS USER_ORG_NAME
+			</isEqual>
+			<isEqual property="langKnd" compareValue="en">
+				CASE WHEN b.NM_ENG IS NULL THEN b.NM_KOR ELSE b.NM_ENG END AS USER_NAME,
+				'' AS USER_ORG_NAME
+			</isEqual>
+		FROM (
+			SELECT CALENDAR_ID, OWNER_ID AS USER_ID, 'CRUDA' AS PERMISSIONS, 0 AS IS_DELETABLE, INS_DATIM, UPD_DATIM
+			FROM CALENDAR
+			WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+			UNION ALL
+			SELECT CALENDAR_ID, USER_ID, PERMISSIONS, 1 AS IS_DELETABLE, INS_DATIM, UPD_DATIM
+			FROM CALENDAR_USER
+			WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+		) a
+		JOIN USERPASS b ON b.USER_ID = a.USER_ID AND b.USER_ID=#userId#
+	</select>
+	
+	<insert id="calendar.public.user.insert">/* calendar.public.user.insert */
+		INSERT INTO CALENDAR_PUBLIC_USER (CALENDAR_ID, USER_ID, PERMISSIONS, INS_DATIM, UPD_DATIM)
+		VALUES (CAST(#calendarId# AS INTEGER), #userId#, #permissions#, SYSDATE, SYSDATE)
+	</insert>
+	
+	<insert id="calendar.user.public.user.insert">/* calendar.user.public.user.insert */
+		INSERT INTO CALENDAR_USER (CALENDAR_ID, USER_ID, PERMISSIONS, INS_DATIM, UPD_DATIM)
+		VALUES (CAST(#calendarId# AS INTEGER), #userId#, #permissions#, SYSDATE, SYSDATE)
+	</insert>
+	
+	<update id="calendar.public.user.update">/* calendar.public.user.update */
+		UPDATE CALENDAR_PUBLIC_USER SET PERMISSIONS=#permissions#, UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER) AND USER_ID=#userId#
+	</update>
+	
+	<update id="calendar.user.public.user.update">/* calendar.user.public.user.update */
+		UPDATE CALENDAR_USER SET PERMISSIONS=#permissions#, UPD_DATIM=SYSDATE
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER) AND USER_ID=#userId#
+	</update>
+	
+	<delete id="calendar.public.user.delete">/* calendar.public.user.delete */
+		DELETE FROM CALENDAR_PUBLIC_USER
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+		<isNotNull property="userId" prepend=" AND ">USER_ID=#userId#</isNotNull>
+		<isNotNull property="userIds" prepend=" AND ">USER_ID IN <iterate property="userIds" open="(" close=")" conjunction=",">#userIds[]#</iterate></isNotNull>
+	</delete>
+
+	<delete id="calendar.user.public.user.delete">/* calendar.user.public.user.delete */
+		DELETE FROM CALENDAR_USER
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+		<isNotNull property="userId" prepend=" AND ">USER_ID=#userId#</isNotNull>
+		<isNotNull property="userIds" prepend=" AND ">USER_ID IN <iterate property="userIds" open="(" close=")" conjunction=",">#userIds[]#</iterate></isNotNull>
+	</delete>
+		
+	<delete id="calendar.public.user.delete.all">/* calendar.public.user.delete.all */
+		DELETE FROM CALENDAR_PUBLIC_USER
+		WHERE 1=1
+		<isNotNull property="calendarId" prepend=" AND ">CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+		<isNotNull property="calendarIds" prepend=" AND ">CALENDAR_ID IN <iterate property="calendarIds" open="(" close=")" conjunction=",">(CAST(#calendarIds[]# AS INTEGER))</iterate></isNotNull>
+	</delete>
+
+	<delete id="calendar.user.public.user.delete.all">/* calendar.user.public.user.delete.all */
+		DELETE FROM CALENDAR_USER
+		WHERE 1=1
+		<isNotNull property="calendarId" prepend=" AND ">CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+		<isNotNull property="calendarIds" prepend=" AND ">CALENDAR_ID IN <iterate property="calendarIds" open="(" close=")" conjunction=",">(CAST(#calendarIds[]# AS INETGER))</iterate></isNotNull>
+	</delete>
+		
+	<resultMap id="calendar.public.user.search" class="com.saltware.enhancer.admin.calendar.control.CalendarUserVO">
+		<result property="userId" column="USER_ID" columnIndex="1"/>
+		<result property="userName" columnIndex="2"/>
+		<result property="userOrgName" columnIndex="3"/>
+		<result property="langKnd" columnIndex="4"/>
+	</resultMap>
+	
+	<select id="calendar.public.user.search" resultMap="calendar.public.user.search">/* calendar.public.user.search */
+		SELECT USER_ID, USER_NAME, CASE WHEN USER_ORG_NAME = 'N/A' THEN NULL ELSE USER_ORG_NAME END AS USER_ORG_NAME, USER_GROUP_CD, LANG_KND
+		FROM (
+	 		SELECT USER_ID,
+			<isEqual property="langKnd" compareValue="ko">
+				CASE WHEN NM_KOR IS NULL THEN NM_ENG ELSE NM_KOR END AS USER_NAME,
+				'' AS USER_ORG_NAME,
+			</isEqual>
+			<isEqual property="langKnd" compareValue="en">
+				CASE WHEN NM_ENG IS NULL THEN NM_KOR ELSE NM_ENG END AS USER_NAME,
+				'' AS USER_ORG_NAME,
+			</isEqual>
+			#langKnd# AS LANG_KND
+			FROM USERPASS
+			WHERE USER_ID !=#userId# AND( USER_ID LIKE #searchUser# OR NM_KOR LIKE #searchUser# OR NM_ENG LIKE #searchUser# ) AND TYPE_CD != 'R'
+		)
+	</select>
+	
+	<resultMap id="calendar.user.public.user.calendar.list" class="com.saltware.enhancer.admin.calendar.control.UserCalendarVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>
+		<result property="userId" columnIndex="2"/>
+		<result property="calendarName" columnIndex="3"/>
+		<result property="isDefault" columnIndex="4"/>
+		<result property="userName" columnIndex="5"/>
+		<result property="userOrgName" columnIndex="6"/>
+	</resultMap>
+	
+	<select id="calendar.user.public.user.calendar.list" resultMap="calendar.user.public.user.calendar.list">/* calendar.user.public.user.calendar.list */
+		SELECT * FROM (
+			SELECT a1.*, 
+				<isEqual property="langKnd" compareValue="ko">
+					CASE WHEN c.NM_KOR IS NULL THEN c.NM_ENG ELSE c.NM_KOR END AS USER_NAME,
+					'' AS USER_ORG_NAME,
+				</isEqual>
+				<isEqual property="langKnd" compareValue="en">
+					CASE WHEN c.NM_ENG IS NULL THEN c.NM_KOR ELSE c.NM_ENG END AS USER_NAME,
+					'' AS USER_ORG_NAME,	
+				</isEqual> 
+				ROW_NUMBER() OVER(ORDER BY a1.OWNER_ID ASC) AS RNUM 
+			FROM (
+				SELECT a.CALENDAR_ID, a.OWNER_ID, b.NAME, a.IS_DEFAULT
+				FROM CALENDAR a
+				JOIN CALENDAR_LANG b ON b.CALENDAR_ID = a.CALENDAR_ID AND b.LANG_KND = 'ko'
+				WHERE IS_PUBLIC = 'N' 
+				<isNotNull property="domainId">
+					<isGreaterThan property="domainId" compareValue="-1" prepend=" AND ">DOMAIN_ID=#domainId#</isGreaterThan>
+				</isNotNull>
+				<isNotNull property="isDefault" prepend=" AND ">IS_DEFAULT=#isDefault#</isNotNull>
+			) a1
+			JOIN USERPASS c ON c.USER_ID = a1.OWNER_ID 
+			<isNotNull property="searchValue" prepend=" AND ">( a1.OWNER_ID LIKE '%'||#searchValue#||'%' OR a1.NAME LIKE '%'||#searchValue#||'%' OR c.NM_KOR LIKE '%'||#searchValue#||'%' OR c.NM_ENG LIKE '%'||#searchValue#||'%' )</isNotNull>
+		) r1
+		WHERE r1.RNUM BETWEEN $startRow$ AND $endRow$
+	</select>
+</sqlMap>
+

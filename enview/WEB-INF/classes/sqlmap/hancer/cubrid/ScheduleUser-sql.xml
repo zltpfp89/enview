@@ -1,0 +1,11 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sche.cubrid">
+
+	<insert id="schedule.user.insert.cubrid">/* schedule.user.insert.cubrid */
+		INSERT INTO SCHEDULE_USER (SCHEDULE_ID, USER_ID, INS_DATIM, UPD_DATIM)
+		VALUES (#scheduleId#, #userId#, SYSDATETIME, SYSDATETIME)
+	</insert>
+	
+</sqlMap>
+

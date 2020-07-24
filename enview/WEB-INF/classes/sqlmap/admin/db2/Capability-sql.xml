@@ -1,0 +1,89 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ CAPABILITY : Capability ] Table -->
+	<resultMap id="admin_CapabilityVO_PK" class="com.saltware.enview.admin.capability.service.CapabilityPK">
+	
+		<result property="capabilityId" column="CAPABILITY_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_CapabilityVO" class="com.saltware.enview.admin.capability.service.CapabilityVO">
+	 
+		<result property="capabilityId" column="CAPABILITY_ID" columnIndex="1"/>	 
+		<result property="capability" column="CAPABILITY" columnIndex="2"/>	
+	</resultMap>
+	
+	<select id="capability.totalCount" resultClass="int">
+	/* capability.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM CAPABILITY
+	</select>
+	
+	<select id="capability.findByPage" resultMap="admin_CapabilityVO_PK">
+	/* capability.findByPage */
+		SELECT tb1.* FROM (
+			SELECT CAPABILITY_ID, ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY CAPABILITY_ID ASC</isNull>
+			) as rnum
+			FROM CAPABILITY
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="capability.findAll" resultMap="admin_CapabilityVO_PK">
+			SELECT CAPABILITY_ID
+			FROM CAPABILITY
+	</select>
+
+	<select id="capability.findByClient" resultMap="admin_CapabilityVO">
+			SELECT a.CAPABILITY_ID,a.CAPABILITY 
+			FROM CAPABILITY a INNER JOIN CLIENT_TO_CAPABILITY b ON a.CAPABILITY_ID=b.CAPABILITY_ID
+			WHERE b.CLIENT_ID=#clientId#
+	</select>
+	
+	<select id="capability.findByMediaType" resultMap="admin_CapabilityVO">
+			SELECT a.CAPABILITY_ID,a.CAPABILITY 
+			FROM CAPABILITY a INNER JOIN MEDIATYPE_TO_CAPABILITY b ON a.CAPABILITY_ID=b.CAPABILITY_ID
+			WHERE b.MEDIATYPE_ID=#mediatypeId#
+	</select>
+
+	<select id="capability.detail" resultMap="admin_CapabilityVO">
+		<![CDATA[
+			SELECT CAPABILITY_ID,CAPABILITY
+			FROM CAPABILITY
+			WHERE 1=1 
+				AND CAPABILITY_ID=#capabilityId#
+		]]>
+	</select>
+	
+	<insert id="capability.insert">
+		<![CDATA[
+			INSERT INTO CAPABILITY
+				( CAPABILITY_ID,CAPABILITY )
+			VALUES ( #capabilityId#,#capability# )
+		]]>
+	</insert>
+	
+	<update id="capability.update">
+		<![CDATA[
+			UPDATE CAPABILITY
+			SET CAPABILITY_ID=#capabilityId#,CAPABILITY=#capability#
+			WHERE 1=1 
+				AND CAPABILITY_ID=#capabilityId#
+		]]>
+	</update>
+	
+	<delete id="capability.delete">
+		<![CDATA[
+			DELETE FROM CAPABILITY
+			WHERE 1=1 
+				AND CAPABILITY_ID=#capabilityId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

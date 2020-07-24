@@ -1,0 +1,87 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ MIMETYPE : MymeType ] Table -->
+	<resultMap id="admin_MimetypeVO_PK" class="com.saltware.enview.admin.capability.service.MimetypePK">
+	
+		<result property="mimetypeId" column="MIMETYPE_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_MimetypeVO" class="com.saltware.enview.admin.capability.service.MimetypeVO">
+	 
+		<result property="mimetypeId" column="MIMETYPE_ID" columnIndex="1"/>	 
+		<result property="name" column="NAME" columnIndex="2"/>	
+	</resultMap>
+	
+	<select id="mimetype.totalCount" resultClass="int">
+	/* mimetype.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM MIMETYPE
+	</select>
+	
+	<select id="mimetype.findByPage" resultMap="admin_MimetypeVO_PK">
+	/* mimetype.findByPage */
+		SELECT MIMETYPE_ID
+		FROM MIMETYPE
+		<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+		<isNull property="sortColumn">ORDER BY MIMETYPE_ID ASC</isNull>
+		LIMIT #limit# OFFSET #offset# 
+	</select>
+
+	<select id="mimetype.findAll" resultMap="admin_MimetypeVO_PK">
+			SELECT MIMETYPE_ID
+			FROM MIMETYPE
+	</select>
+	
+	<select id="mimetype.findByClient" resultMap="admin_MimetypeVO">
+			SELECT a.MIMETYPE_ID,a.NAME 
+			FROM MIMETYPE a INNER JOIN CLIENT_TO_MIMETYPE b ON a.MIMETYPE_ID=b.MIMETYPE_ID
+			WHERE b.CLIENT_ID=#clientId#
+	</select>
+
+	<select id="mimetype.findByMediaType" resultMap="admin_MimetypeVO">
+			SELECT a.MIMETYPE_ID,a.NAME 
+			FROM MIMETYPE a INNER JOIN MEDIATYPE_TO_MIMETYPE b ON a.MIMETYPE_ID=b.MIMETYPE_ID
+			WHERE b.MEDIATYPE_ID=#mediatypeId#
+	</select>
+			
+	<select id="mimetype.detail" resultMap="admin_MimetypeVO">
+		<![CDATA[
+			SELECT MIMETYPE_ID,NAME
+			FROM MIMETYPE
+			WHERE 1=1 
+				AND MIMETYPE_ID=#mimetypeId#
+		]]>
+	</select>
+	
+	<insert id="mimetype.insert">
+		<![CDATA[
+			INSERT INTO MIMETYPE
+				( MIMETYPE_ID,NAME )
+			VALUES ( #mimetypeId#,#name# )
+		]]>
+	</insert>
+	
+	<update id="mimetype.update">
+		<![CDATA[
+			UPDATE MIMETYPE
+			SET MIMETYPE_ID=#mimetypeId#,NAME=#name#
+			WHERE 1=1 
+				AND MIMETYPE_ID=#mimetypeId#
+		]]>
+	</update>
+	
+	<delete id="mimetype.delete">
+		<![CDATA[
+			DELETE FROM MIMETYPE
+			WHERE 1=1 
+				AND MIMETYPE_ID=#mimetypeId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

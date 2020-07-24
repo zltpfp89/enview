@@ -1,0 +1,44 @@
+@charset "utf-8";
+
+/*  ////////////////////////////////////////////////////////////////////////////
+	Base		기본적인 세팅
+	Layout		최상위 레이아웃
+	Menu		메뉴관련
+	Btn			버튼관련
+	Table		테이블관련
+	Bullet		블릿관련
+	Popup		팝업관련
+	Etc			기타
+//////////////////////////////////////////////////////////////////////////// */
+
+@import url("core_base.css");
+@import url("core_layout.css");
+@import url("core_menu.css");
+@import url("core_btn.css");
+@import url("core_table.css");
+@import url("core_main.css");
+@import url("core_bullet.css");
+@import url("core_popup.css");
+@import url("core_etc.css");
+
+
+
+/*  ////////////////////////////////////////////////////////////////////////////
+추가되는 css는 본 페이지에 작업해주세요
+core_의 파일들은 수정하지 말것
+
+Event             이벤트
+Search            검색
+Blog               블로그
+Community    커뮤니티
+bbs                게시판관련
+Portlet           포틀릿
+
+//////////////////////////////////////////////////////////////////////////// */
+
+@import url("core_event.css");
+@import url("core_search.css");
+@import url("core_blog.css");
+@import url("core_community.css");
+@import url("core_bbs.css");
+@import url("core_portlet.css");

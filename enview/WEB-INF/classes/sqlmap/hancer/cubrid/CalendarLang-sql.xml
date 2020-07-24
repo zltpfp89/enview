@@ -1,0 +1,17 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="cal.cubrid">
+
+	<insert id="calendar.lang.insert.cubrid">/* calendar.lang.insert.cubrid */
+		INSERT INTO CALENDAR_LANG (CALENDAR_ID, LANG_KND, NAME, COMMENTS, INS_DATIM, UPD_DATIM)
+		VALUES (#calendarId#, #langKnd#, #name#, #comments#, SYSDATETIME, SYSDATETIME)
+	</insert>
+	
+	<update id="calendar.lang.update.cubrid">/* calendar.lang.update.cubrid */
+		UPDATE CALENDAR_LANG SET NAME=#name#, COMMENTS=#comments#, UPD_DATIM=SYSDATETIME
+		WHERE CALENDAR_ID=#calendarId#
+		<isNotNull property="langKnd" prepend=" AND ">LANG_KND=#langKnd#</isNotNull>
+	</update>
+	
+</sqlMap>
+

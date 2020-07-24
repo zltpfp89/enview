@@ -1,0 +1,182 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ SECURITY_USER_ROLE : 사용자역할 ] Table -->
+	<resultMap id="admin_UserRoleVO_PK" class="com.saltware.enview.admin.user.service.UserRolePK">
+	
+		<result property="userId" column="USER_ID" columnIndex="1"/>	
+		<result property="roleId" column="ROLE_ID" columnIndex="2"/>	
+	</resultMap>
+	
+	<resultMap id="admin_UserRoleVO" class="com.saltware.enview.admin.user.service.UserRoleVO">
+	 
+		<result property="roleId" column="ROLE_ID" columnIndex="1"/>	 
+		<result property="userId" column="USER_ID" columnIndex="2"/>	 
+		<result property="shortPath" column="SHORT_PATH" columnIndex="3"/>	 
+		<result property="principalName0" column="PRINCIPAL_NAME0" columnIndex="4"/>	 
+		<result property="mileageTag" column="MILEAGE_TAG" columnIndex="5"/>
+		<result property="sortOrder" column="SORT_ORDER" columnIndex="6"/>
+		<result property="principalInfo01" column="PRINCIPAL_INFO01" columnIndex="7"/>
+		<result property="principalInfo02" column="PRINCIPAL_INFO02" columnIndex="8"/>
+		<result property="principalInfo03" column="PRINCIPAL_INFO03" columnIndex="9"/>							
+	</resultMap>
+	
+	<select id="userRole.totalCountRole" resultClass="int">
+	/* userRole.totalCountRole */
+		SELECT COUNT(*) totcnt
+		FROM SECURITY_USER_ROLE
+		WHERE 1=1	
+		<isGreaterEqual prepend=" AND " property="domainId" compareValue="1">
+			ROLE_ID IN ( 
+				SELECT PRINCIPAL_ID 
+				FROM SECURITY_PRINCIPAL 
+				WHERE PRINCIPAL_TYPE='R'
+                  		AND (DOMAIN_ID=0 OR DOMAIN_ID=CAST(#domainId# AS INTEGER))
+			)
+		</isGreaterEqual>
+		<isNotEqual prepend=" AND " property="userId" compareValue="0">USER_ID=#userId#</isNotEqual>
+	</select>
+	
+	<select id="userRole.totalCountUser" resultClass="int">
+	/* userRole.totalCountUser */
+		SELECT COUNT(*) totcnt     
+        FROM
+            SECURITY_USER_ROLE A JOIN SECURITY_PRINCIPAL B ON A.USER_ID = B.PRINCIPAL_ID AND B.PRINCIPAL_TYPE = 'U'
+        WHERE
+            1=1        
+            <isNotEqual prepend=" AND " property="roleId" compareValue="0">A.ROLE_ID=#roleId#</isNotEqual>
+            <isNotNull  prepend=" AND " property="shortPathCond">B.SHORT_PATH LIKE '%' #shortPathCond#||'%'</isNotNull>
+            <isNotNull  prepend=" AND " property="principalNameCond">B.PRINCIPAL_NAME LIKE '%' #principalNameCond#||'%'</isNotNull>	    
+	</select>
+	
+	<select id="userRole.exist" resultClass="int">
+	/* userRole.exist */
+		SELECT COUNT(*) cnt
+		FROM SECURITY_USER_ROLE
+		WHERE USER_ID=#userId# AND ROLE_ID=#roleId#
+	</select>
+	
+	<select id="userRole.findRoleByPage" resultMap="admin_UserRoleVO_PK">
+	/* userRole.findRoleByPage */
+		SELECT * FROM (
+			SELECT USER_ID,ROLE_ID,ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY USER_ID ASC</isNull>
+			) as rnum 
+			FROM SECURITY_USER_ROLE
+			WHERE 1=1
+			<isGreaterEqual prepend=" AND " property="domainId" compareValue="1">
+				ROLE_ID IN ( 
+					SELECT PRINCIPAL_ID 
+					FROM SECURITY_PRINCIPAL 
+					WHERE PRINCIPAL_TYPE='R'
+                   		AND (DOMAIN_ID=0 OR DOMAIN_ID=CAST(#domainId# AS INTEGER))
+				)
+			</isGreaterEqual> 
+			<isNotEqual prepend=" AND " property="userId" compareValue="0">USER_ID=#userId#</isNotEqual>
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+	
+	<select id="userRole.findUserByPage" resultMap="admin_UserRoleVO_PK">
+	    SELECT tb.* FROM (      
+	    	SELECT A.USER_ID, A.ROLE_ID, B.SHORT_PATH, B.PRINCIPAL_NAME, ROW_NUMBER() OVER(          
+	        		<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+					<isNull property="sortColumn">ORDER BY SORT_ORDER ASC</isNull>
+				) as rnum       
+	        FROM SECURITY_USER_ROLE A JOIN SECURITY_PRINCIPAL B ON A.USER_ID = B.PRINCIPAL_ID AND B.PRINCIPAL_TYPE = 'U'
+	        WHERE 1=1        
+            <isNotEqual prepend=" AND " property="roleId" compareValue="0">A.ROLE_ID=#roleId#</isNotEqual>
+            <isNotNull  prepend=" AND " property="shortPathCond">B.SHORT_PATH LIKE #shortPathCond#||'%'</isNotNull>
+            <isNotNull  prepend=" AND " property="principalNameCond">B.PRINCIPAL_NAME LIKE #principalNameCond#||'%'</isNotNull>    
+	    ) tb 
+	    WHERE tb.rnum BETWEEN #startRow# AND #endRow#	    
+	</select>
+
+	<select id="userRole.findAll" resultMap="admin_UserRoleVO_PK">
+	/* userRole.findAll */
+		SELECT USER_ID,ROLE_ID
+		FROM SECURITY_USER_ROLE
+	</select>
+	
+	<select id="userRole.findRoleByMaster" resultMap="admin_UserRoleVO_PK">
+	/* userRole.findRoleByMaster */
+		SELECT USER_ID,ROLE_ID
+		FROM SECURITY_USER_ROLE
+		WHERE 1=1 
+			<isNotEqual prepend=" AND " property="userId" compareValue="0">=#userId#</isNotEqual>
+	</select>
+	
+	<select id="userRole.findUserByMaster" resultMap="admin_UserRoleVO_PK">
+	/* userRole.findUserByMaster */
+		SELECT USER_ID,ROLE_ID
+		FROM SECURITY_USER_ROLE
+		WHERE 1=1 
+			<isNotEqual prepend=" AND " property="roleId" compareValue="0">=#roleId#</isNotEqual>
+	</select>
+
+	<select id="userRole.detailRole" resultMap="admin_UserRoleVO">
+		<![CDATA[
+			SELECT a.ROLE_ID, a.USER_ID, b.SHORT_PATH, b.PRINCIPAL_NAME PRINCIPAL_NAME0, a.MILEAGE_TAG, a.SORT_ORDER, b.PRINCIPAL_INFO01, b.PRINCIPAL_INFO02, b.PRINCIPAL_INFO03
+			FROM SECURITY_USER_ROLE a INNER JOIN SECURITY_PRINCIPAL b ON a.ROLE_ID=b.PRINCIPAL_ID
+			WHERE 1=1 
+				AND a.USER_ID=#userId#
+				AND a.ROLE_ID=#roleId#
+		]]>
+	</select>
+	
+	<select id="userRole.detailUser" resultMap="admin_UserRoleVO">
+		<![CDATA[
+			SELECT a.ROLE_ID, a.USER_ID, b.SHORT_PATH, b.PRINCIPAL_NAME PRINCIPAL_NAME0, a.MILEAGE_TAG, a.SORT_ORDER, b.PRINCIPAL_INFO01, b.PRINCIPAL_INFO02, b.PRINCIPAL_INFO03
+			FROM SECURITY_USER_ROLE a INNER JOIN SECURITY_PRINCIPAL b ON a.USER_ID=b.PRINCIPAL_ID
+			WHERE 1=1 
+				AND a.USER_ID=#userId#
+				AND a.ROLE_ID=#roleId#
+		]]>
+	</select>
+	
+	<insert id="userRole.insert">
+			INSERT INTO SECURITY_USER_ROLE
+				( ROLE_ID,USER_ID,MILEAGE_TAG,SORT_ORDER )
+			VALUES ( #roleId#,#userId#,'N', (SELECT count(USER_ID) FROM SECURITY_USER_ROLE WHERE USER_ID=#userId#) )
+	</insert>
+	
+	<update id="userRole.update">
+		<![CDATA[
+			UPDATE SECURITY_USER_ROLE
+			SET ROLE_ID=#roleId#,USER_ID=#userId#,MILEAGE_TAG=#mileageTag#,SORT_ORDER=#sortOrder#
+			WHERE 1=1 
+				AND USER_ID=#userId#
+				AND ROLE_ID=#roleId#
+		]]>
+	</update>
+	
+	<delete id="userRole.delete">
+		<![CDATA[
+			DELETE FROM SECURITY_USER_ROLE
+			WHERE 1=1 
+				AND USER_ID=#userId#
+				AND ROLE_ID=#roleId#
+		]]>
+	</delete>
+	
+	<delete id="userRole.deleteRoleChildren">
+		<![CDATA[
+			DELETE FROM SECURITY_USER_ROLE
+			WHERE 1=1 
+				AND USER_ID=#userId#
+		]]>
+	</delete>
+	
+	<delete id="userRole.deleteUserChildren">
+		<![CDATA[
+			DELETE FROM SECURITY_USER_ROLE
+			WHERE 1=1 
+				AND ROLE_ID=#roleId#
+		]]>
+	</delete>
+
+</sqlMap>
+

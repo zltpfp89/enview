@@ -1,0 +1,73 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="userpreference">
+
+	<resultMap id="userpreference_UserPreferenceVO" class="com.saltware.enview.userpreference.service.UserPreferenceVO">
+		<result property="userId" column="USER_ID"/>	 
+		<result property="domainId" column="DOMAIN_ID"/>	 
+		<result property="systemCode" column="SYSTEM_CODE"/>	 
+		<result property="name" column="NAME"/>	 
+		<result property="value" column="VALUE"/>	 
+	</resultMap>
+	
+	<select id="userPreference.value" resultClass="java.lang.String">
+			SELECT `VALUE`
+			FROM USER_PREFERENCE
+			WHERE USER_ID=#userId# AND DOMAIN_ID=#domainId# AND SYSTEM_CODE=#systemCode# AND `NAME`=#name#
+	</select>
+
+	<select id="userPreference.find" resultMap="userpreference_UserPreferenceVO">
+			SELECT USER_ID, DOMAIN_ID, SYSTEM_CODE, `NAME`, `VALUE`
+			FROM USER_PREFERENCE
+			WHERE USER_ID=#userId# AND DOMAIN_ID=#domainId# 
+			  <isNotEmpty property="systemCode">
+			  AND SYSTEM_CODE=#systemCode# 
+			  </isNotEmpty> 
+			  <isNotEmpty property="name">
+			  AND `NAME`=#name#
+			  </isNotEmpty> 
+	</select>
+	
+	<select id="userPreference.detail" resultMap="userpreference_UserPreferenceVO">
+			SELECT USER_ID, DOMAIN_ID, SYSTEM_CODE, `NAME`, `VALUE`
+			FROM USER_PREFERENCE
+			WHERE USER_ID=#userId# AND DOMAIN_ID=#domainId# AND SYSTEM_CODE=#systemCode# AND `NAME`=#name#
+	</select>
+	
+	<update id="userPreference.insert">
+			INSERT INTO USER_PREFERENCE
+			( USER_ID, DOMAIN_ID, SYSTEM_CODE, `NAME`, `VALUE`)
+			VALUES 
+			( #userId#, #domainId#, #systemCode#, #name#, #value#)
+	</update>
+	
+	<update id="userPreference.update">
+			UPDATE USER_PREFERENCE
+			SET `VALUE` = #value#
+			WHERE USER_ID=#userId# 
+			  AND DOMAIN_ID=#domainId# 
+			  AND SYSTEM_CODE=#systemCode# 
+			  AND `NAME`=#name#
+	</update>
+	
+	<update id="userPreference.delete">
+			DELETE FROM  USER_PREFERENCE
+			WHERE USER_ID=#userId# 
+			  AND DOMAIN_ID=#domainId#
+			  AND SYSTEM_CODE=#systemCode# 
+			  AND `NAME`=#name#
+	</update>
+	<update id="userPreference.deleteAll">
+			DELETE FROM  USER_PREFERENCE
+			WHERE USER_ID=#userId# 
+			  AND DOMAIN_ID=#domainId#
+			  <isNotEmpty property="systemCode">
+			  AND SYSTEM_CODE=#systemCode# 
+			  </isNotEmpty> 
+			  <isNotEmpty property="name">
+			  AND `NAME`=#name#
+			  </isNotEmpty> 
+	</update>
+
+</sqlMap>
+

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app id="encola"
+  xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+  version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+<!-- 
+    <portlet id="encolaCafeTitlePortlet">
+        <portlet-name>CafeTitlePortlet</portlet-name>
+        <description xml:lang="ko">카페 타이틀 영역 포틀릿</description>
+        <display-name xml:lang="ko">카페 타이틀 영역</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.DynamicContentPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>start-here.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+		<portlet-info>
+			<title>CafeTitlePortlet</title>
+			<short-title>CafeTitlePortlet</short-title>
+			<keywords>collaboration,cafe</keywords>
+		</portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>SRC</name>
+                <value>/cafe/each.cafe?m=title</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>100%</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="encolaCafeInfoPortlet">
+        <portlet-name>CafeInfoPortlet</portlet-name>
+        <description xml:lang="ko">카페 정보 영역 포틀릿</description>
+        <display-name xml:lang="ko">카페 정보 영역</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.DynamicContentPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>start-here.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+		<portlet-info>
+			<title>CafeInfoPortlet</title>
+			<short-title>CafeInfoPortlet</short-title>
+			<keywords>collaboration,cafe</keywords>
+		</portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>SRC</name>
+                <value>/cafe/each.cafe?m=info</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>100%</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="encolaCafeSrchPortlet">
+        <portlet-name>CafeSrchPortlet</portlet-name>
+        <description xml:lang="ko">카페 검색 영역 포틀릿</description>
+        <display-name xml:lang="ko">카페 검색 영역</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.DynamicContentPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>start-here.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+		<portlet-info>
+			<title>CafeSrchPortlet</title>
+			<short-title>CafeSrchPortlet</short-title>
+			<keywords>collaboration,cafe</keywords>
+		</portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>SRC</name>
+                <value>/cafe/each.cafe?m=srch</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>100%</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="encolaCafeGatePortlet">
+        <portlet-name>CafeGatePortlet</portlet-name>
+        <description xml:lang="ko">카페 대문 영역 포틀릿</description>
+        <display-name xml:lang="ko">카페 대문 영역</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.DynamicContentPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>start-here.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+		<portlet-info>
+			<title>CafeGatePortlet</title>
+			<short-title>CafeGatePortlet</short-title>
+			<keywords>collaboration,cafe</keywords>
+		</portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>SRC</name>
+                <value>/cafe/each.cafe?m=gate&amp;view=eachHome</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>100%</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="encolaCafeCnttPortlet">
+        <portlet-name>CafeCnttPortlet</portlet-name>
+        <description xml:lang="ko">카페 컨텐츠 영역 포틀릿</description>
+        <display-name xml:lang="ko">카페 컨텐츠 영역</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.DynamicContentPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>start-here.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+		<portlet-info>
+			<title>CafeCnttPortlet</title>
+			<short-title>CafeCnttPortlet</short-title>
+			<keywords>collaboration,cafe</keywords>
+		</portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>SRC</name>
+                <value>/cafe/each.cafe?m=cntt</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>100%</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="encolaCafeMenuPortlet">
+        <portlet-name>CafeMenuPortlet</portlet-name>
+        <description xml:lang="ko">카페 메뉴 영역 포틀릿</description>
+        <display-name xml:lang="ko">카페 메뉴 영역</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.DynamicContentPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>start-here.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+		<portlet-info>
+			<title>CafeMenuPortlet</title>
+			<short-title>CafeMenuPortlet</short-title>
+			<keywords>collaboration,cafe</keywords>
+		</portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>SRC</name>
+                <value>/cafe/each.cafe?m=menu</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>100%</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+ -->
+</portlet-app>

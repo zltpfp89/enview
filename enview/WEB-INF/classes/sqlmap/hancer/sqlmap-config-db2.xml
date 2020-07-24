@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+	
+<sqlMapConfig>
+	<sqlMap resource="sqlmap/hancer/db2/Calendar-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/db2/CalendarLang-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/db2/CalendarUser-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/db2/CalendarPublic-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/db2/CalendarPublicUser-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/db2/Schedule-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/db2/ScheduleLang-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/db2/ScheduleUser-sql.xml"/>
+</sqlMapConfig>
+

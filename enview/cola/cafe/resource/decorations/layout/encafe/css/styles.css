@@ -1,0 +1,107 @@
+body {margin:0; padding:0; font-family:gulim;  list-style-type:none; background:#f2f7fa;}
+* {margin:0; padding:0; }
+img, fieldset {border:none}
+img {vertical-align:middle;}
+em {font-style:normal;}
+legend {display:none}
+table {border-collapse:collapse;}
+
+a{	text-decoration:none;}
+a:visited {text-decoration:none; }
+a:active {text-decoration:none; }
+
+#cafe_main {width:985px; margin:0 auto; overflow:hidden}
+.util_menu {position:absolute; top:0px; right:15px; }
+.util_menu a {color:#888; font-size:11px;}
+
+.blank_area {
+	padding-top:2px;
+	padding-bottom:3px;	
+	background:#f2f7fa;
+}
+
+/* colorpicker */
+#colorPicker {position:absolute; z-index:99999; width:195px; background:#fbfbfb; border:1px solid #bababa; cursor:default;}
+#colorPicker td {padding:0;}
+#colorPicker .colorInner {padding:7px 6px 7px;}
+#colorPicker #colorThumb  {width:75px; height:14px; margin-left:1px; border:1px solid #d9d9d9; overflow:hidden;}
+#colorPicker #colorInput {width:55px; height:14px; color:#333; font-family:'돋움', dotum; font-size:11px; padding:0 0 0 3px; border:1px solid #a7a7a7; border-right:1px solid #eaeaea; border-bottom:1px solid #eaeaea;}
+#colorPicker #colorInputBtn {margin:0 !important; padding:0 !important; cursor:pointer;}
+#colorPicker #colorInputBtn img {border:none; margin:0 !important; padding:0 !important;}
+#colorPicker #colorSwatches {border-collapse:separate; display:block; margin-top:4px; overflow:hidden;}
+#colorPicker #colorSwatches td div {width:12px; height:12px; cursor:pointer; overflow:hidden;}
+#colorPicker #colorSwatches #transN {cursor:default;}
+#colorPicker .more_area {position:relative; height:18px;}
+#colorPicker #colorGradeBtn {position:absolute; display:block; top:6px; right:2px; width:36px; height:10px; cursor:pointer; text-indent:-1000em; overflow:hidden;}
+#colorPicker #colorResetBtn {position:absolute; display:block; top:6px; left:1px; margin:0 !important; padding:0 !important; cursor:pointer;}
+#colorPicker #colorResetBtn img {border:none; margin:0 !important; padding:0 !important;}
+#colorGradeArea {clear:both; padding:4px; width:172px; height:120px; margin-top:10px; background-color:#f9f9f9; border:1px solid #d9d9d9;}
+
+
+
+
+.layout-encafe 
+{
+	
+}
+
+.layout-encafe .portlet-edit-bar
+{
+	/*background: #6B6772;*/
+	background: #E9E9E9;
+	font-size: 11px;
+	color: #000000;
+	font-weight: bold;
+	/*padding: 1px;*/
+	height: 16pt;
+	cursor: move;
+	border: 1px solid #ACA899;
+}
+
+.layout-encafe  .portlet
+{
+	background: #FFFFFF;
+	font-size: 11px;
+	/*padding: 2px;*/
+	/*border: 1px solid lightgray;*/
+}
+
+.layout-encafe  .portlet-title
+{
+	background-image:  url(../images/portlet/bg_title.gif);
+	padding-top: 2px;
+    padding-bottom: 16px;
+    padding-right: 2px;
+    border-left: 5px solid #DDDDDD;
+    border-right: 1px solid #666666;
+    border-top: 1px solid #DDDDDD;
+    border-bottom: 1px solid #666666;
+    color: #000000;
+    background-color: #DDDDDD;
+}
+
+.layout-encafe  .portlet-title-action
+{
+	float: right;
+	display: inline;
+}
+
+.layout-encafe  .portlet-title-more
+{
+	float: right;
+	display: inline;
+}
+
+.layout-encafe  .portlet-title-content
+{
+	font-weight:bold;
+    display: inline;
+    float: left;
+    white-space: normal;
+}
+
+.layout-encafe  .portlet-content
+{
+	background: #FFFFFF;
+	border: 0px solid lightgray;
+}

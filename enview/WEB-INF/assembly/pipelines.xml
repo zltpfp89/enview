@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <bean id="localizationValve" class="com.saltware.enview.localization.impl.LocalizationValveImpl"
+    init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <value><!--@defaultLanguage--><!--defaultLanguage@-->
+      </value>
+    </constructor-arg>
+  </bean>
+
+  <bean id="capabilityValve" class="com.saltware.enview.capabilities.impl.CapabilityValveImpl"
+    init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <ref bean="com.saltware.enview.capabilities.Capabilities" />
+    </constructor-arg>
+  </bean>
+
+  <!-- 
+    To customize capabilityMap and requestContext on capabilities,
+    add this valve after each capabilityValve entry in the pipeline configs 
+    below
+  -->
+  <bean id="capabilityCustomizerValve" class="com.saltware.enview.capabilities.impl.CapabilityCustomizerValveImpl"
+    init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <ref bean="com.saltware.enview.capabilities.Capabilities" />
+    </constructor-arg>
+    <!-- client name to media type mapping
+      If a client has same preferred mime type (e.g. text/html) but 
+      it should be treated with other media type,
+      put additional mapping(s) below.
+    -->
+    <constructor-arg>
+      <map>
+        <!-- If a client is IE4 of Pocket PC, then the media type will be html-basic. -->
+        <entry key="ie4ppc" value="html-basic" />
+      </map>
+    </constructor-arg>
+  </bean>
+
+  <bean id="portalURLValve" class="com.saltware.enview.container.url.impl.PortalURLValveImpl"
+    init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <ref bean="NavigationalStateComponent" />
+    </constructor-arg>
+  </bean>
+  
+  <bean id="pathInfoParamEnabledPortalURLValve" class="com.saltware.enview.container.url.impl.PortalURLValveImpl"
+    init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <ref bean="NavigationalStateComponent" />
+    </constructor-arg>
+    <property name="pathInfoParamAllowed" value="true" />
+    <property name="defaultPathInfoParam" value="/" />
+  </bean>
+  
+  <bean id="securityValve" class="com.saltware.enview.security.impl.SecurityValveImpl" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index='0'>
+      <ref bean="com.saltware.enview.profiler.Profiler" />
+    </constructor-arg>
+    <constructor-arg index='1'>
+      <ref bean="com.saltware.enview.security.UserManager" />
+    </constructor-arg>
+    <constructor-arg index='2'>
+      <ref bean="PortalStatistics" />
+    </constructor-arg>
+    <constructor-arg index='3'>
+      <ref bean="com.saltware.enview.administration.PortalAuthenticationConfiguration" />
+    </constructor-arg>
+  </bean>
+
+  <bean id="passwordCredentialValve" class="com.saltware.enview.security.impl.PasswordCredentialValveImpl"
+    init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg><value>/my-account.psml</value></constructor-arg>
+  </bean>
+
+  <bean id="loginValidationValve" class="com.saltware.enview.security.impl.LoginValidationValveImpl"
+    init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <!-- remove (from the session) the following list of session attributes upon login -->
+    <constructor-arg index="0">
+      <list>
+        <value>com.saltware.enview.powertool.actions</value>
+      </list>
+    </constructor-arg>
+  </bean>
+  <bean id="profilerValve" class="com.saltware.enview.profiler.impl.ProfilerValveImpl" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+	<constructor-arg index="0">
+       <ref bean="com.saltware.enview.profiler.Profiler" />
+   </constructor-arg>
+   <constructor-arg index="1">
+       <ref bean="com.saltware.enview.portalsite.EnviewPortalSite" />
+   </constructor-arg>
+  </bean>
+                                       
+  <bean id="pageProfilerValve" class="com.saltware.enview.pipeline.valve.impl.PageProfilerValveImpl" >
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index="0">
+      <ref bean="profilerValve" />
+    </constructor-arg>
+    <constructor-arg index="1">
+      <!--ref bean="pageValve" /-->
+	  <ref bean="profilerValve" />
+    </constructor-arg>
+    <constructor-arg><value>${jetui.customization.method}</value></constructor-arg>        
+  </bean>
+
+  <!--bean id="pageValve" class="com.saltware.enview.pipeline.valve.impl.PageValveImpl" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index="0">
+      <ref bean="com.saltware.enview.portalsite.PortalSite" />
+    </constructor-arg>
+    <constructor-arg index="1">
+      <ref bean="com.saltware.enview.layout.PageLayoutComponent" />
+    </constructor-arg>
+    <constructor-arg index="2">
+      <value>true</value>
+    </constructor-arg>
+    <constructor-arg index="3">
+      <value>true</value>
+    </constructor-arg>
+  </bean-->
+	
+  <!-- 
+    To create a new page when a user first logs in from their roles,
+    add this valve after each profilerValve entry in the pipeline configs 
+    below
+  -->
+  <!--bean id="createPageValve" class="com.saltware.enview.profiler.impl.CreatePageValveImpl">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index="0">
+      <ref bean="PortletActionSecurityBehavior" />
+    </constructor-arg>
+  </bean-->
+
+  
+  <!--
+    JS2-806 
+    - this valve effectively maintains a previous page id in the session giving the downstream valve
+    the ability to manipulate inter-page navigation characterstics.
+    
+    default : "true" (effectively disables the valve)
+    : "false" (enables it and sets the previous page id in session)
+  -->
+  <bean id="pageHistoryValve" class="com.saltware.enview.container.PageHistoryValve" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <property name="valveDisabled" value="true" />
+  </bean>
+
+  <bean id="containerValve" class="com.saltware.enview.container.ContainerValve" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+  </bean>
+
+  <bean id="actionValve" class="com.saltware.enview.pipeline.valve.impl.ActionValveImpl" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <ref bean="org.apache.pluto.PortletContainer" />
+    </constructor-arg>
+    <constructor-arg>
+      <ref bean="portletContentCache" />
+    </constructor-arg>
+    <!-- 
+      Setting to true will force Action response isCommitted to true
+      as there is a bug in Websphere 5 where request.isCommitted always returns false
+      Set this boolean to TRUE if running on Websphere 5 pre-cumulative fix 5.1.1.9  
+      <constructor-arg type="boolean">
+      <value>false</value>
+      </constructor-arg>                
+    -->
+  </bean>
+
+  <bean id="portletValve" class="com.saltware.enview.aggregator.PortletValve" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <ref bean="com.saltware.enview.aggregator.PortletAggregator" />
+    </constructor-arg>
+  </bean>
+
+  <bean id="portletValveTitleInHeader" class="com.saltware.enview.aggregator.PortletValve" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <ref bean="com.saltware.enview.aggregator.PortletAggregatorTitleInHeader" />
+    </constructor-arg>
+  </bean>
+
+  <bean id="fileServerValve" class="com.saltware.enview.aggregator.FileServerValve" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <!-- portlet -->
+    <constructor-arg index="0">
+      <value>j2-admin::ContentViewer</value>
+    </constructor-arg>
+    <!-- entity -->
+    <constructor-arg index="1">
+      <value>public.content.212</value>
+    </constructor-arg>
+  </bean>
+
+  <bean id="aggregatorValve" class="com.saltware.enview.aggregator.AggregatorValve" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <ref bean="com.saltware.enview.aggregator.PageAggregator" />
+    </constructor-arg>
+  </bean>
+
+  <bean id="headerAggregatorValvePortal" class="com.saltware.enview.aggregator.HeaderAggregatorValve"
+    init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <ref bean="HeaderAggregatorPortal" />
+    </constructor-arg>
+  </bean>
+
+  <bean id="cleanUpValve" class="com.saltware.enview.pipeline.valve.impl.CleanupValveImpl" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <ref bean="com.saltware.enview.page.PageManager" />
+    </constructor-arg>
+  </bean>
+
+  <!--bean id="AJAXValve" class="com.saltware.enview.ajax.AJAXValve" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <ref bean="AJAXService" />
+    </constructor-arg>
+    <constructor-arg>
+      <ref bean="RolesSecurityBehavior" />
+    </constructor-arg>
+  </bean-->
+  
+  <!--bean id="RestfulServicesValve" class="com.saltware.enview.services.rest.JaxrsServiceValve" 
+        init-method="initialize" destroy-method="destroy">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg value="org.apache.cxf.BusFactory" />
+    <constructor-arg ref="cxfJaxrsBus" />
+    <constructor-arg ref="cxfJaxrsServletController" />
+    <constructor-arg ref="cxfJaxrsServerFactoryBean" />
+  </bean-->
+  
+  <bean id="DecorationValve" class="com.saltware.enview.decoration.DecorationValve" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    
+    <!-- decoration factory -->
+    <constructor-arg index='0'>
+      <ref bean="DecorationFactory" />
+    </constructor-arg>
+    
+    <!-- security access controller -->
+    <constructor-arg index='1'>
+      <ref bean="com.saltware.enview.security.SecurityAccessController" />
+    </constructor-arg>
+    
+    <!-- decoration cache. set to null by default. -->
+    <!-- 
+    <constructor-arg index='2'>
+      <ref bean="decorationContentCache"/>
+    </constructor-arg>
+    -->
+    <constructor-arg index='2'><null/></constructor-arg>
+    
+    <!-- Flag to use http session for theme caching -->
+    <constructor-arg index='3'>
+      <value>false</value>
+    </constructor-arg>
+    
+    <!-- portlet factory -->
+    <constructor-arg index='4'>
+      <ref bean="portletFactory" />
+    </constructor-arg>
+    
+    <!-- default decorator actions factory -->
+    <constructor-arg index='5'>
+      <bean class="com.saltware.enview.decoration.DefaultDecoratorActionsFactory">
+        <meta key="j2:cat" value="default" />
+      </bean>
+    </constructor-arg>
+    
+    <!-- When clicking on Edit Mode, also switch to Maximize -->
+    <property name="maximizeOnEdit">
+      <value>false</value>
+    </property>
+    <!-- When clicking on Config Mode, also switch to Maximize -->
+    <property name="maximizeOnConfig">
+      <value>false</value>
+    </property>
+    <!-- When clicking on Edit_defaults Mode, also switch to Maximize -->
+    <property name="maximizeOnEditDefaults">
+      <value>false</value>
+    </property>
+    <!-- When config mode is not supported by a portlet, support the mode automatically. -->
+    <property name="autoSwitchingForConfigMode">
+      <value>${supported.portletmode.autoswitch.config}</value>
+    </property>
+    <!-- When edit_defaults mode is not supported by a portlet, support the mode automatically. -->
+    <property name="autoSwitchingToEditDefaultsModes">
+      <value>${supported.portletmode.autoswitch.edit_defaults}</value>
+    </property>
+  </bean>
+
+  <bean id="loginViewValve" class="com.saltware.enview.login.impl.LoginJSPViewValve" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <value>/WEB-INF/templates/login</value>
+    </constructor-arg>
+  </bean>
+
+  <bean id="resourceValve" class="com.saltware.enview.resource.ResourceValveImpl" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <ref bean="org.apache.pluto.PortletContainer" />
+    </constructor-arg>
+  </bean>
+
+  <bean id="cleanupPortalURLValve"
+    class="com.saltware.enview.container.url.impl.CleanPathInfoEncodedNavStateFromPortalURLValve">
+    <meta key="j2:cat" value="default" />
+  </bean>
+
+  <bean id="healthCheckValve" class="com.saltware.enview.pipeline.valve.HealthCheckValve" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index="0">
+      <!-- Validators -->
+      <list>
+        <ref bean="portletApplicationValidator" />
+        <ref bean="databaseValidator" />
+      </list>
+    </constructor-arg>
+    <constructor-arg index="1">
+      <!-- successMessage -->
+      <value>THE SERVER IS UP</value>
+    </constructor-arg>
+    <constructor-arg index="2">
+      <!-- failMessage -->
+      <value>THE SERVER IS DOWN</value>
+    </constructor-arg>
+    <constructor-arg index="3">
+      <!-- addValidationMessagesToResponse -->
+      <value>false</value>
+    </constructor-arg>
+    <constructor-arg index="4">
+      <!-- stopValidationOnError -->
+      <value>true</value>
+    </constructor-arg>
+  </bean>
+  
+  <bean id="portletApplicationValidator"
+    class="com.saltware.enview.healthcheck.validators.PortletApplicationAvailableHeathCheckValidator">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index="0">
+      <!-- requiredPortletApplications -->
+      <list>
+        <!-- names of the portlet applications which are required to be available -->
+        <!--
+          <value>j2-admin</value>
+        -->
+      </list>
+    </constructor-arg>
+    <constructor-arg index="1">
+      <!-- numberOfRetries -->
+      <value>0</value>
+    </constructor-arg>
+    <constructor-arg index="2">
+      <!-- retryDelay -->
+      <value>0</value>
+    </constructor-arg>
+    <constructor-arg index="3">
+      <!-- portletRegistry -->
+      <ref bean="portletRegistry" />
+    </constructor-arg>
+    <constructor-arg index="4">
+      <!-- portletFactory -->
+      <ref bean="portletFactory" />
+    </constructor-arg>
+    <constructor-arg index="5">
+      <!-- stopValidationOnError -->
+      <value>true</value>
+    </constructor-arg>
+  </bean>
+
+  <bean id="databaseValidator"
+    class="com.saltware.enview.healthcheck.validators.DatasourceAvailableHealthCheckValidator">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index="0">
+      <!-- resources -->
+      <map>
+        <!-- entries to DataSourceValidationBean instances which should be checked
+          see (commented out) example below -->
+        <!-- 
+          <entry key="mydata">
+          <bean class="com.saltware.enview.healthcheck.validators.DataSourcesValidationBean">
+          <constructor-arg index="0">
+          <!- - Oracle database specific validation query - ->
+          <value>SELECT * FROM SYS.DUAL</value>
+          </constructor-arg>
+          <constructor-arg index="1">
+          <list>
+          <!- - list of datasources (all using the same validation query)
+          which needs to be validated - ->
+          <bean id="mydataDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+          <property name="jndiName" value="java:comp/env/jdbc/mydata1" />
+          </bean>
+          <bean id="mydataDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+          <property name="jndiName" value="java:comp/env/jdbc/mydata2" />
+          </bean>
+          </list>
+          </constructor-arg>
+          </bean>
+          </entry>
+        -->
+      </map>
+    </constructor-arg>
+    <constructor-arg index="1">
+      <!-- numberOfRetries -->
+      <value>0</value>
+    </constructor-arg>
+    <constructor-arg index="2">
+      <!-- retryDelay -->
+      <value>0</value>
+    </constructor-arg>
+    <constructor-arg index="3">
+      <!-- stopValidationOnError -->
+      <value>true</value>
+    </constructor-arg>
+    <constructor-arg index="4">
+      <!-- requireAllValid -->
+      <value>true</value>
+    </constructor-arg>
+  </bean>
+
+  <bean id="enview-pipeline" class="com.saltware.enview.pipeline.EnviewPipeline" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <value>EnviewPipeline</value>
+    </constructor-arg>
+    <constructor-arg>
+      <list>
+        <ref bean="capabilityValve" />
+        <ref bean="portalURLValve" />
+        <ref bean="securityValve" />
+        <ref bean="localizationValve" />
+        <ref bean="passwordCredentialValve" />
+        <ref bean="loginValidationValve" />
+        <ref bean="pageProfilerValve" />
+        <!--
+          JS2-806  
+        -->
+        <ref bean="pageHistoryValve" />
+        <ref bean="containerValve" />
+        <ref bean="actionValve" />
+        <ref bean="resourceValve" />
+        <!-- 
+          JS2-834
+          <ref bean="cleanupPortalURLValve"/>
+        -->
+        <ref bean="DecorationValve" />
+        <ref bean="headerAggregatorValvePortal" />
+        <ref bean="aggregatorValve" />
+        <ref bean="cleanUpValve" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="configure-pipeline" class="com.saltware.enview.pipeline.EnviewPipeline" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <value>ConfigurePipeline</value>
+    </constructor-arg>
+    <constructor-arg>
+      <list>
+        <ref bean="capabilityValve" />
+        <ref bean="portalURLValve" />
+        <ref bean="securityValve" />
+        <ref bean="localizationValve" />
+        <ref bean="passwordCredentialValve" />
+        <ref bean="loginValidationValve" />
+        <ref bean="pageProfilerValve" />
+        <ref bean="containerValve" />
+        <ref bean="actionValve" />
+        <ref bean="resourceValve" />
+        <ref bean="DecorationValve" />
+        <ref bean="headerAggregatorValvePortal" />
+        <ref bean="aggregatorValve" />
+        <ref bean="cleanUpValve" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="login-pipeline" class="com.saltware.enview.pipeline.EnviewPipeline" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <value>LoginPipeline</value>
+    </constructor-arg>
+    <constructor-arg>
+      <list>
+        <ref bean="capabilityValve" />
+        <ref bean="localizationValve" />
+        <ref bean="loginViewValve" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="action-pipeline" class="com.saltware.enview.pipeline.EnviewPipeline" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <value>ActionPipeline</value>
+    </constructor-arg>
+    <constructor-arg>
+      <list>
+        <ref bean="localizationValve" />
+        <ref bean="capabilityValve" />
+        <ref bean="portalURLValve" />
+        <ref bean="pageProfilerValve" />
+        <ref bean="containerValve" />
+        <ref bean="actionValve" />
+        <ref bean="cleanUpValve" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="portlet-pipeline" class="com.saltware.enview.pipeline.EnviewPipeline" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <value>PortletPipeline</value>
+    </constructor-arg>
+    <constructor-arg>
+      <list>
+        <ref bean="portalURLValve" />
+        <ref bean="capabilityValve" />
+        <ref bean="securityValve" />
+        <ref bean="localizationValve" />
+        <ref bean="pageProfilerValve" />
+        <ref bean="containerValve" />
+        <ref bean="portletValveTitleInHeader" />
+        <ref bean="cleanUpValve" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="ajax-pipeline" class="com.saltware.enview.pipeline.EnviewPipeline" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <value>AjaxPipeline</value>
+    </constructor-arg>
+    <constructor-arg>
+      <list>
+        <ref bean="capabilityValve" />
+        <ref bean="portalURLValve" />
+        <ref bean="securityValve" />
+        <ref bean="localizationValve" />
+        <ref bean="passwordCredentialValve" />
+        <ref bean="pageProfilerValve" />
+        <!--ref bean="containerValve" /-->
+        <ref bean="layoutValve" />
+        <ref bean="cleanUpValve" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <!--bean id="ajax-direct-pipeline" class="com.saltware.enview.pipeline.EnviewPipeline" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <value>AjaxDirectPipeline</value>
+    </constructor-arg>
+    <constructor-arg>
+      <list>
+        <ref bean="capabilityValve" />
+        <ref bean="portalURLValve" />
+        <ref bean="securityValve" />
+        <ref bean="localizationValve" />
+        <ref bean="pageProfilerValve" />
+        <ref bean="containerValve" />
+        <ref bean="AJAXValve" />
+        <ref bean="cleanUpValve" />
+      </list>
+    </constructor-arg>
+  </bean-->
+
+  <!--bean id="restful-services-pipeline" class="com.saltware.enview.pipeline.EnviewPipeline" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <value>RestfulServicesPipeline</value>
+    </constructor-arg>
+    <constructor-arg>
+      <list>
+        <ref bean="capabilityValve" />
+        <ref bean="pathInfoParamEnabledPortalURLValve" />
+        <ref bean="securityValve" />
+        <ref bean="localizationValve" />
+        <ref bean="pageProfilerValve" />
+        <ref bean="containerValve" />
+        <ref bean="DecorationValve" />
+        <ref bean="RestfulServicesValve" />
+      </list>
+    </constructor-arg>
+  </bean-->
+  
+  <bean id="fileserver-pipeline" class="com.saltware.enview.pipeline.EnviewPipeline" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <value>FileServerPipeline</value>
+    </constructor-arg>
+    <constructor-arg>
+      <list>
+        <ref bean="portalURLValve" />
+        <ref bean="securityValve" />
+        <ref bean="localizationValve" />
+        <ref bean="pageProfilerValve" />
+        <ref bean="containerValve" />
+        <ref bean="fileServerValve" />
+        <ref bean="portletValve" />
+        <ref bean="cleanUpValve" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="healthcheck-pipeline" class="com.saltware.enview.pipeline.EnviewPipeline" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <value>HealthCheckPipeline</value>
+    </constructor-arg>
+    <constructor-arg>
+      <list>
+        <ref bean="healthCheckValve" />
+      </list>
+    </constructor-arg>
+  </bean>
+  
+  <bean id='pipeline-map' class='java.util.LinkedHashMap'>
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <map>
+        <entry key='/portlet'>
+          <value>portlet-pipeline</value>
+        </entry>
+        <entry key='/portal'>
+          <value>enview-pipeline</value>
+        </entry>
+        <entry key='/login'>
+          <value>enview-pipeline</value>
+        </entry>
+        <entry key='/fileserver'>
+          <value>fileserver-pipeline</value>
+        </entry>
+        <entry key='/ajaxapi'>
+          <value>ajax-pipeline</value>
+        </entry>
+        <entry key='/ajax'>
+          <value>ajax-direct-pipeline</value>
+        </entry>
+        <entry key='/services'>
+          <value>restful-services-pipeline</value>
+        </entry>
+        <entry key='/configure'>
+          <value>configure-pipeline</value>
+        </entry>
+        <entry key='/healthcheck'>
+          <value>healthcheck-pipeline</value>
+        </entry>
+        <entry key='/ui'>
+          <value>jetui-pipeline</value>
+        </entry>
+      </map>
+    </constructor-arg>
+  </bean>
+  
+  <bean id="pipeline-mapper" class="com.saltware.enview.pipeline.EnviewPipelineMapper">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg ref="pipeline-map" />
+  </bean>
+
+  <bean id="debugValve" class="com.saltware.enview.pipeline.valve.impl.DebugValveImpl">
+    <meta key="j2:cat" value="default" />
+  </bean>
+
+  <!--bean id="jetui-pipeline" class="com.saltware.enview.pipeline.EnviewPipeline" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <value>JetuiPipeline</value>
+    </constructor-arg>
+    <constructor-arg>
+      <list>
+        <ref bean="capabilityValve" />
+        <ref bean="portalURLValve" />
+        <ref bean="securityValve" />
+        <ref bean="localizationValve" />
+        <ref bean="passwordCredentialValve" />
+        <ref bean="loginValidationValve" />
+        <ref bean="pageProfilerValve" />
+        <ref bean="pageHistoryValve" />
+        <ref bean="containerValve" />
+        <ref bean="actionValve" />
+        <ref bean="resourceValve" />
+        <ref bean="DecorationValve" />
+        <ref bean="headerAggregatorValvePortal" />
+        <ref bean="jetuiValve" />
+        <ref bean="cleanUpValve" />
+      </list>
+    </constructor-arg>
+  </bean-->
+  
+  <!--bean id="jetuiValve" class="com.saltware.enview.ui.JetuiValve" init-method="initialize">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg><ref bean="jetuiAggregator" /></constructor-arg> 
+  </bean-->
+
+  <!--bean id="jetui" class="com.saltware.enview.ui.Jetui">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg><ref bean="com.saltware.enview.aggregator.PortletRenderer"/></constructor-arg>
+    <constructor-arg><ref bean="com.saltware.enview.headerresource.HeaderResourceFactory"/></constructor-arg>
+    <constructor-arg><ref bean="com.saltware.enview.layout.PageLayoutComponent" /></constructor-arg>
+    <constructor-arg><ref bean="PortalConfiguration" /></constructor-arg>
+    <constructor-arg><ref bean="DecorationFactory" /></constructor-arg>
+    <constructor-arg><value>${jetui.render.template}</value></constructor-arg>        
+  </bean-->
+  
+  <!--bean id="jetuiAggregator" class="com.saltware.enview.ui.JetuiAggregatorImpl">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index="0">
+      <ref bean="com.saltware.enview.aggregator.PortletRenderer" />
+    </constructor-arg>
+    <constructor-arg>
+      <ref bean="jetui" />
+    </constructor-arg>
+  </bean-->
+    
+
+</beans>

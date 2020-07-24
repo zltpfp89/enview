@@ -1,0 +1,500 @@
+@charset "utf-8";
+/* CSS Document */
+
+@charset "utf-8";
+
+/* BEGIN:: Default */
+/* Reset */
+html{width:100%;height:100%;}
+html{overflow-y:scroll;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td{margin:0;padding:0;}
+body,h1,h2,h4,input,button,select{font:12px dotum,돋움,"Trebuchet MS",Helvetica,sans-serif;color:#767676;}
+table {border-collapse:collapse;border-spacing:0;}
+caption,legend{display:none;}
+fieldset,img {	border:0;}
+address,caption,cite,code,dfn,em,strong,th,var {font-style:normal;font-weight:normal;}
+ul {list-style:none;}
+caption,th {text-align:left;}
+h1,h2,h3,h4,h5,h6 {font-size:100%;font-weight:normal;}
+a{color:#767676;text-decoration:none}
+a:hover{text-decoration:none;}
+
+img,input,select{vertical-align:middle;}
+q:before,q:after {content:'';}
+abbr,acronym { border:0;}
+
+select {border:1px solid #e9e9e9;}
+/* END:: Default */
+
+.cafepanel {
+	background-color: #F5F5F5;
+	/*padding:1px;*/
+	border:1px solid #CACACA;
+	border-width: 1px;	
+}
+
+.cafepanel TABLE, TR, TD {font-family: Dotum; font-size: 12px;  color: #666666; }
+
+.cafepanel image {border:0px}
+.cafepanel table {border:0px; word-break:break-all}
+.cafepanel input,select,textarea{font-family:Dotum;color:#666666;font-size:12px;}
+
+
+.cafepanel A:link		{color: #666666; text-decoration: none}
+.cafepanel A:visited	{color: #666666; text-decoration: none}
+.cafepanel A:active	{color: #666666; text-decoration: none}
+.cafepanel A:hover		{color: #666666;}
+/*.cafepanel A:hover		{color: #666666; text-decoration: underline}*/
+
+.cafegridpanel {
+	background-color: #FFFFFF;
+	/* border:1px solid Silver; */
+	padding: 4px;
+	font-size: 12px;
+	color: #333367;
+	border:1px solid #ccc;
+}
+.cafegridpanel TABLE, TR, TD, SPAN {font-family: Dotum; font-size: 12px;  color: #666666; }
+.cafegridpanel image {border:0px}
+.cafegridpanel table {border:0px; word-break:break-all}
+.cafegridpanel input,select,textarea{font-family:Dotum;color:#666666;font-size:12px;}
+
+.cafeformpanel {
+	/*background: #CACACA;*/
+	/*width: 100%; */
+	padding: 4px;
+	font-size: 12px;
+	color: #333367;
+}
+
+.cafegridpanel .cafegridlimit {
+	background-color:#333367
+}
+.cafegridpanel .cafegridheader {
+	background:transparent url(../../images/home/encafe/tl_top_line.gif) no-repeat right top;
+	background-color:#F2F0FB;
+	color:#333367;
+	font-weight:bold;
+	text-align: center;
+	padding:2px 4px 2px 4px;
+}
+.cafegridpanel .cafegridheaderlast {
+	background-color:#F2F0FB;
+	color:#333367;
+	font-weight:bold;
+	text-align: center;
+	padding:2px 4px 2px 4px;
+}
+.cafegridpanel .cafegridline {
+	background-color:#FAFAFD;
+	padding:2px 4px 2px 4px;
+}
+.cafegridpanel .cafegrid {
+	border:#CACACA solid;
+	border-width:1px 1px 0px 0px;
+	padding:2px 4px 2px 4px;
+}
+.cafegridpanel .cafegridlast {
+	border:#CACACA solid;
+	border-width:1px 0px 0px 0px;
+	padding:2px 4px 2px 4px;
+}
+.cafeformpanel .cafeformfield {
+	padding:2px 0px 2px 4px;
+	border:#CACACA solid;
+	border-width:1px 1px 0px 0px;
+}
+.cafeformpanel .cafeformfielddark {
+	background-color:#FCFCFE;
+	padding:2px 0px 2px 4px;
+	border:#CACACA solid;
+	border-width:1px 1px 0px 0px;
+}
+.cafeformpanel .cafeformfieldlast {
+	padding:2px 0px 2px 4px;
+	border:#CACACA solid;
+	border-width:1px 0px 0px 0px;
+}
+.cafeformpanel .cafeformfielddarklast {
+	background-color:#FCFCFE;
+	padding:2px 0px 2px 4px;
+	border:#CACACA solid;
+	border-width:1px 0px 0px 0px;
+}
+.cafeformpanel .cafeformlabel {
+	background-color:#F7F6FB;
+	padding:2px 0px 2px 4px;
+	border:#CACACA solid;
+	border-width:1px 1px 0px 0px;
+	color:#333367;
+	font-weight:bold;
+	height: 22px;
+}
+.cafeformpanel .cafeformlabellast {
+	background-color:#F7F6FB;
+	padding:2 0 2 4;
+	border:#CACACA solid;
+	border-width:1px 0px 0px 0px;
+	color:#333367;
+	font-weight:bold;
+	height: 22px;
+}
+.cafeformpanel .cafeformlabeldark {
+	background-color:#F0F0FC;
+	padding:2px 0px 2px 4px;
+	border:#CACACA solid;
+	border-width:1px 1px 0px 0px;
+	color:#333367;
+	font-weight:bold;
+}
+.cafeformpanel .cafeformlabeldarklast {
+	background-color:#F0F0FC;
+	padding:2px 0px 2px 4px;
+	border:#CACACA solid;
+	border-width:1px 0px 0px 0px;
+	color:#333367;
+	font-weight:bold;
+}
+.cafeformpanel .cafeformlimit {
+	background-color:#333367
+}
+
+div.cafecontrolpanel {
+	width: 100%;
+	height: 17px;
+	border: none;
+	border-top: 1px solid #CACACA;
+}
+
+div.cafecontrolpanel span {
+	margin-top: 7px;
+	margin-right: 50%;
+	margin-bottom: 0px;
+	margin-left: 50%;
+}
+
+
+/*********************************************************/
+/*  CSS Button
+/*********************************************************/
+/* Temp */
+/*
+table{width:100%}
+th, td{padding:5px}
+*/
+caption{font-weight:bold;text-align:left}
+.btn_pack,
+.btn_pack *{display:inline-block;overflow:visible;position:relative;margin:0;padding:0;border:0;background:url(../../images/home/encafe/btn_pack.gif) no-repeat;font-size:12px;font-family:Tahoma, Sans-serif;color:#333;text-decoration:none !important;vertical-align:top;white-space:nowrap}
+.btn_pack{margin-right:4px}
+.btn_pack *{left:4px;cursor:pointer;_cursor:hand}
+.btn_pack.medium,
+.btn_pack.medium *{height:24px;line-height:24px}
+.btn_pack.large,
+.btn_pack.large *{height:30px;line-height:30px}
+.btn_pack.xlarge,
+.btn_pack.xlarge *{height:36px;line-height:36px}
+.btn_pack.small,
+.btn_pack.small *{height:19px;line-height:19px}
+.btn_pack.medium{background-position:left 0}
+.btn_pack.large{background-position:left -30px}
+.btn_pack.xlarge{background-position:left -65px}
+.btn_pack.small{background-position:left -106px}
+.btn_pack.medium *{padding:0 10px 0 6px;background-position:right top;font-size:12px}
+.btn_pack.large *{padding:0 10px 0 6px;background-position:right -30px;font-size:16px}
+.btn_pack.xlarge *{padding:0 10px 0 6px;background-position:right -65px;font-size:20px}
+.btn_pack.small *{padding:0 6px 0 2px;background-position:right -106px;font-size:11px}
+.btn_pack *:hover,
+.btn_pack *:active,
+.btn_pack *:focus{color:#690}
+.btn_pack.strong *{font-weight:bold !important}
+.btn_pack.icon *{padding-left:20px}
+.btn_pack.small.icon *{padding-left:16px}
+.btn_pack.icon span{width:20px;margin-right:-20px;padding:0 !important}
+.btn_pack.medium .check{background-position:4px -150px}
+.btn_pack.large .check{background-position:4px -146px}
+.btn_pack.xlarge .check{background-position:5px -144px}
+.btn_pack.small .check{background-position:3px -153px}
+.btn_pack.medium .add{background-position:-16px -150px}
+.btn_pack.large .add{background-position:-14px -146px}
+.btn_pack.xlarge .add{background-position:-14px -144px}
+.btn_pack.small .add{background-position:-18px -153px}
+.btn_pack.medium .delete{background-position:-34px -150px}
+.btn_pack.large .delete{background-position:-34px -146px}
+.btn_pack.xlarge .delete{background-position:-34px -144px}
+.btn_pack.small .delete{background-position:-37px -153px}
+.btn_pack.medium .calendar{background-position:-56px -150px}
+.btn_pack.large .calendar{background-position:-56px -146px}
+.btn_pack.xlarge .calendar{background-position:-56px -144px}
+.btn_pack.small .calendar{background-position:-59px -153px}
+.btn_pack.medium .refresh{background-position:-76px -150px}
+.btn_pack.large .refresh{background-position:-76px -146px}
+.btn_pack.xlarge .refresh{background-position:-76px -144px}
+.btn_pack.small .refresh{background-position:-79px -153px}
+.btn_pack.medium .download{background-position:-96px -151px}
+.btn_pack.large .download{background-position:-96px -147px}
+.btn_pack.xlarge .download{background-position:-96px -145px}
+.btn_pack.small .download{background-position:-99px -154px}
+/* //UI Object */
+
+body{margin:0; padding:0;  letter-spacing:-1px;}
+
+/* main */
+#wrap{margin:0 auto; width:977px; }
+#wrap:after{clear:both; display:block; content:"";}
+
+/* headerArea */
+.searchArea{float:left; position:relative; min-width:368px; height:27px; background:url(../../images/home/encafe/search_bg.gif) no-repeat; }
+.subsystem{position:absolute; right:0; bottom:0px; border:0px solid}
+#gnb{ float: left; width: 100%; padding:9px 0px 9px 0px; background-color: #5F70AA; }
+#footer{ float: left; clear:both; width:100%; height:70px; padding-top:10px;text-align:center; font-size:11px;  color:#ccc; background-color:#fafafa;  border-top:1px solid #d3d3d3;}
+
+/**/
+#header{ position:relative; margin:25px 0 10px 2px; margin-left: 0px; float: left; width: 100%; }
+#header > fieldset { float: left; }
+h1 {float:left; margin-right:10px;}
+h2 {font-size:12px; font-weight:bold; color:#333; letter-spacing:-1px; }
+#LeftArea{float:left; margin:0 10px 0 0; outline:0px solid;}
+#RightArea{float:right; width:724px; outline:0px solid;}
+#container{ float: left; width: 100%; margin-top: 10px; margin-bottom:15px; }
+
+/*header*/
+.searchBg{ padding:6px; float: left; margin-right: 10px; }
+.searchBg select{ border:none; }
+.searchBg input{ width:200px; border:none; }
+.subsystem li{float:left; font-weight:bold; padding:0px 7px; background:url(../../images/home/encafe/subsystem_line.gif) no-repeat 0 0;}
+.subsystem li.first{background:none;}
+.subsystem a:hover{color:#5467a4;}
+
+
+/* Gnb*/
+#gnb ul { float: left; width: 100%; }
+#gnb li { float: left; font-size:14px; font-weight:bold; color:#fff; padding: 0 20px; }
+#gnb li.first { margin-left: 10px; }
+#gnb a { color:#fff; }
+#gnb a:hover{ color:yellow; }
+
+
+/*login*/
+#loginbox{width:210px; height:87px; margin-bottom:15px; background-color:#f5f7f9;}
+#loginbox span{padding:0 0 0 3px;}
+#loginbox span a{font-size:11px; }
+#loginbox span strong{color:#5467a4; font-weight:bold;}
+#loginbox span.find{text-decoration:underline; padding:0 0 0 5px;}
+#loginbox fieldset{position:relative;margin:7px 0;}
+#loginbox .userid{margin-bottom:3px;}
+#loginbox .userid, #loginbox .userpw{width:140px; height:21px; line-height:21px; padding:0 0 0 3px; font-size:11px; color:#aaa;}
+#loginbox .btn_login{position:absolute; top:0; right:0px;}
+#loginbox .uchk{margin:7px 0 0 1px; font-size:11px; line-height:14px;}
+#loginbox .uchk input{margin-right:3px; vertical-align:middle;}
+
+/* login_user */
+#login_user{width:210px; height:87px; padding:17px 15px; padding:15px; margin-bottom:10px; background-color:#f5f7f9; border:1px solid #e3e9f2; border-bottom:2px solid #8d96a0;}
+#login_user p.user{border-bottom:1px solid #e3e9f2;padding-bottom:5px;}
+#login_user p strong{color:#5467a4; font-weight:bold;}
+#login_user span.find{text-decoration:underline; padding:0 0 0 5px;}
+#login_user .infoarea{margin:5px 0;  background:#fff; padding:8px;}
+#login_user .infoarea span a{color:#5467a4; font-weight:bold; letter-spacing:0;}
+.btn_area{border-top:1px solid #e3e9f2; }
+.btn_basic a{display:inline-block; height:24px; color:#fff; font-weight:bold; line-height:21px; padding:0 12px; margin:7px; background-color:#5467a4; }
+
+/* 카페링크 */
+.rank_cafeLink { padding-top: 1px; line-height: 14px; cursor: pointer; width: 140px; height: 14px; word-break: break-all; }
+.rank_cafeLink:hover { color: #3e7ef2; text-decoration: underline; }
+.main_cafeLink { font-weight:bold; color: #454545; padding-top: 1px; line-height: 14px; cursor: pointer; width: 130px; height: 14px; word-break: break-all; }
+.main_cafeLink:hover { color: #3e7ef2; text-decoration: underline; }
+.main_cafeIntro { width:350px; }
+
+/*랭킹*/
+.hitSearch {position:relative; width:200px;  height:260px;padding:20px; border:1px solid #ddd; letter-spacing:0;}
+.hitSearch h2{margin:0 0 15px 0;}
+.hitSearch ul {margin:0 1px;}
+.hitSearch li {position:relative; font-size:11px; margin:0 0 10px 0; float: left; }
+.hitSearch li span { float: left; }
+.hitSearch .rank {width:14px; height:14px; display:inline-block; font-family:tahoma; font-size:8px; font-weight:bold; letter-spacing:0;line-height:14px; text-align:center; color:#fff; margin:0 5px 0 0; background:#ddd;}
+.hitSearch .point { float: right; width:35px; text-align:right; height:14px; display:inline-block; font-family:tahoma; font-size: 11px; letter-spacing:0;line-height:14px; }
+.hitSearch .updown {position:absolute; right:0; top:0; width:20px; font-family:dotum; font-size:11px; text-align:center; padding:0 0 0 7px; border:1px solid red; /*background:url(../../images/home/encafe/icon_up.gif) no-repeat 0  2px;*/}
+/*.hitSearch .downStatus {position:absolute; right:0; top:0; width:20px; font-family:dotum; font-size:11px; text-align:center; padding:0 0 0 7px; border:0px solid red; background:url(../../images/home/encafe/icon_down.gif) no-repeat 0  3px;}
+.hitSearch .new {position:absolute; right:0; top:0; width:20px; height:10px; display:block; font-family:tahoma; font-size:10px; text-align:center; padding:0 0 0 7px; border:0px solid red; background:url(../../images/home/encafe/icon_new.gif) no-repeat 0  4px;}
+.hitSearch .equal {position:absolute; right:0; top:0; width:20px; height:10px; display:block; padding:0 0 0 7px; border:0px solid red; background:url(../../images/home/encafe/icon_equal.gif) no-repeat 7px 6px;}*/
+.hitSearch .tsq_page{position:absolute; right:20px;  top:18px;}
+.tsq_page .rank_next{margin-left:-4px;}
+
+/* main Image */
+.visualarea { margin-bottom: 10px; width: 100%; height: 120px; }
+.visualarea img { width: 100%; height: 120px; }
+
+/* tab */
+.tab_wrap {position:relative; height: 432px; margin: 0 0 0 0; }
+.tab_wrap:after {display:block; clear:both; content:"";}
+.tab_wrap ul {position:relative;margin:0;padding:0;border-bottom:1px solid #ddd; border-left:none; font-family:dotum;font-size:12px;list-style:none;}
+.tab_wrap ul:after {display:block; clear:both; content:"";}
+.tab_wrap li{float:left; margin-bottom:-1px; }
+.tab_wrap li > a {/*float:left;position:relative; margin-top:1px;  border:1px solid #c7daea; border-bottom-color:#ddd;background:#f9fafd;color:#5b6da8;text-decoration:none;*/
+float:left;position:relative;margin-top:1px;border:1px solid #c7daea;border-bottom-color:#ddd; border-left:none; background:#f5f7f9;color:#5467a4;text-decoration:none;  border-left:1px solid #c7daea;}
+
+.tab_wrap li > a span{/*display:inline-block; padding:7px 15px 7px 15px; letter-spacing:normal; cursor:pointer; border:1px solid #ddd; */display:inline-block;padding:7px 15px 7px 15px;letter-spacing:normal;cursor:pointer;border-top:1px solid #fff;border-right:1px solid #fff; }
+.tab_wrap li div.tab_list {display:none; position:absolute;top:31px; left:0; width: 722px; height: 381px; margin:0;padding:8px 0 11px 0; list-style:none; }
+.tab_wrap li div.tab_list:after {display:block; clear:both; content:"";}
+
+.tab_wrap.m1 .m1 > a,
+.tab_wrap.m2 .m2 > a,
+.tab_wrap.m3 .m3 > a,
+.tab_wrap.m4 .m4 > a {margin-top:0; color:#000; font-weight:bold; background-color: #ffffff;  border:1px solid #ddd; border-bottom:2px solid #ffffff;}
+.tab_wrap.m1 .m1 > div,
+.tab_wrap.m2 .m2 > div,
+.tab_wrap.m3 .m3 > div,
+.tab_wrap.m4 .m4 > div{display:block; margin:0; border:1px solid #ddd; border-top:none;}
+
+
+/*CAFE*/
+.tab_list dl{margin:10px 20px 12px 20px;  padding-bottom:20px; border-bottom:1px solid #e8e8e8; }
+.tab_list dl:after{clear:both; display:block; }
+.tab_list dt{float:left;padding-right:15px; border:0px solid lime;}
+.tab_list dl dd{}
+.tab_list dl .title{border:none !important;font-size:14px; font-weight:bold; color:#454545; padding-bottom:7px;}
+.tab_list dl .mamberNum{color:#bdbdbd; padding-top:5px; }
+.tab_list dl .mamberNum span{text-decoration:underline; color:#959595; letter-spacing:0;}
+
+
+/* table */
+.table_type1{width:680px;margin: 0 20px;  }
+.table_type1 td{padding:7px 0;}
+.table_type1 td.title a{font-weight:bold; border:none !important; color:#757575;}
+.table_type1 td.type a{font-weight:normal !important;  border:none !important;}
+.table_type1 td.member{ background:url(../../images/home/encafe/table_bg.gif) no-repeat 0 6px; padding-left:7px;}
+.table_type1 td.num{text-decoration:underline; letter-spacing:0; text-align:right;color:#757575; border:0px solid;}
+
+
+/* extends */
+.txt_over_el { border: none; white-space: nowrap; overflow:hidden; text-overflow: ellipsis; }
+
+.table_type2 { width: 720px; }
+.table_type2 tr.titleRow { border-bottom: 1px solid #ddd; }
+.table_type2 td.star { }
+.table_type2 td span.favor { float: left; background-image: url("../../images/home/encafe/icon_favor.gif"); background-position: 0% 82%; background-size: auto; background-repeat: no-repeat;cursor: pointer;
+							text-decoration: none; text-indent: -100em; width: 14px; overflow: hidden; height: 14px; margin-left: 15px; }
+.table_type2 td span.staring { background-position: 0% 41%; }
+.table_type2 td span.starOn { background-position: 0% 0%; }
+.table_type2 td{padding: 7px 0;}
+.table_type2 td.title a{ font-weight:bold; border:none !important; color:#757575; padding-left: 10px;}
+.table_type2 td.cate { padding-left: 10px; }
+.table_type2 td.colpipe { background:url(../../images/home/encafe/table_bg.gif) no-repeat 0 6px; padding-left:7px;}
+.table_type2 td.Center { letter-spacing:0; text-align: center; color: #757575; border: 0px solid; padding-left:0px;}
+.table_type2 td.Right { letter-spacing:0; text-align:right; color: #757575; border: 0px solid;}
+
+.emptyCafeList { line-height: normal; padding-top: 50px; padding-bottom: 62px;}
+.mycafe_title { border-bottom: 2px solid #666; color: #444; margin: 0 0 20px 0; padding: 23px 10px 0px 10px; position: relative; height: 23px; }
+.mycafe_title > label { float: left; font-size: 12px; font-weight: normal; padding: 2px 0px 0px 10px; }
+.mycafe_title label .bar { float: left; color: #d0d0d0; }
+.mycafe_ttl { background-image: url("../../images/home/encafe/title_cafelist.gif"); background-position: 0px -50px; background-repeat: no-repeat; text-indent: -100em; width: 73px; float: left; }
+.txt_favor { 
+	background-image: url("../../images/home/encafe/icon_favor"); background-position: 0px -25px; background-repeat: no-repeat;
+	background-size: auto; padding: 2px 0px 0px 18px;
+	margin-top: 2px;
+	height: 13px;
+	float: right; 
+			 
+}
+
+ul.categoryUl { float: left; width: 100%; list-style-type:none; padding-top: 10px; }
+.category { font-size: 12px; text-decoration: none; cursor: pointer; width: 100%; height: 26px; line-height: 26px; text-indent: 30px; padding: 2px 0; }
+.category:HOVER { text-decoration: underline; color: blue; }
+.level1 { font-weight: bold; height: 26px; line-height: 26px; text-indent: 20px; border-top: 1px solid #ddd; }
+.level1.first { border-top: 1px solid #fff; }
+.level2 { height: 20px; line-height: 20px; text-indent: 30px; }
+.level3 { font-size: 11px; height: 20px; line-height: 20px; text-indent: 40px; }
+
+
+/* category view */
+.cateMenuArea { border-style: solid solid solid solid; border-color: rgb(198, 198, 198); border-width: 1px; height:508px; overflow-x:hidden; overflow-y:auto; }
+
+
+
+.cateCafe { float: left; width: 721px; height: 118px; border: 1px solid #ddd; margin-bottom: 10px; }
+.cateCafe.last { margin-bottom: 0px; }
+.cateCafe:HOVER { background-color: #edfade; }
+.cateCafeImg { float: left; padding: 5px; width: 170px; height: 107px; text-align: center; }
+.cateCafeImg a { float: left; width: 168px; border: 1px solid transparent; }
+.cateCafeImgLinkImg { max-width: 100%; height: 100%; }
+.cateCafeInfo { float: left; width: 505px; padding: 5px; height: 107px; }
+.cateCafeName { float: left; font-size: 18px; font-weight: bold; color: black; width: 99%; height: 28px; line-height: 28px; }
+.cateCafeName a { color: black; letter-spacing: 0px; }
+.cateCafeName.empty { font-size: 12px; text-indent: 10px; }
+.cateCafeIntro { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px; }
+.cateCafeLevel { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px;}
+.cateCafeMmbrTot { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px;}
+.cateCafeMakerNm { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px; }
+
+.ellipsis {
+	float: left;
+	overflow: hidden;
+	white-space: nowrap;
+	word-break: break-all;
+	text-overflow: ellipsis;
+	word-wrap: normal;
+}
+
+.tab_list .rcmdCafe { border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; }
+.tab_list .rcmdCafe .rcmdCafeCateNm { float: left; font-size: 13px; height: 20px; line-height: 20px; letter-spacing: 0px; }
+.tab_list .rcmdCafe .rcmdCafeLevel { float: left; font-size: 13px; height: 20px; line-height: 20px; letter-spacing: 0px; width: auto;}
+.rcmdCafe { float: left; width: 100%; height: 118px; border: 1px solid #ddd; padding: 7px 0; }
+.rcmdCafe.other { width: 50%; }
+.rcmdCafe.last { margin-bottom: 0px; padding-bottom: 0px; border-bottom-color: white; }
+.rcmdCafe:HOVER { background-color: #edfade; border-color: #edfade; }
+.rcmdCafeImg { float: left; padding: 5px; width: 170px; height: 107px; text-align: center; }
+.rcmdCafeImg a { float: left; width: 168px; border: 1px solid transparent; }
+.rcmdCafeImgLinkImg { max-width: 100%; height: 100%; }
+.rcmdCafeInfo { float: left; width: 505px; padding: 5px; height: 107px; }
+.rcmdCafeInfo.other { width: 170px; }
+.rcmdCafeName { float: left; font-size: 18px; font-weight: bold; color: black; width: 99%; height: 28px; line-height: 28px; }
+.rcmdCafeName a { color: black; letter-spacing: 0px; }
+.rcmdCafeName.empty { font-size: 12px; text-indent: 10px; }
+.rcmdCafeIntro { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px; }
+.rcmdCafeLevel { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px;}
+.rcmdCafeMmbrTot { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px;}
+.rcmdCafeMakerNm { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px; }
+
+.tab_list .favorCafe { border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; }
+.tab_list .favorCafe .favorCafeCateNm { float: left; font-size: 13px; height: 20px; line-height: 20px; letter-spacing: 0px; }
+.tab_list .favorCafe .favorCafeLevel { float: left; font-size: 13px; height: 20px; line-height: 20px; letter-spacing: 0px; width: auto;}
+.favorCafe { float: left; width: 100%; height: 118px; border: 1px solid #ddd; padding: 7px 0; }
+.favorCafe.first { border-top-width: 1px; height: 117px; }
+.favorCafe.other { width: 50%; }
+.favorCafe.last { margin-bottom: 0px; padding-bottom: 0px; border-bottom-color: white; }
+.favorCafe:HOVER { background-color: #edfade; border-color: #edfade; }
+.favorCafeImg { float: left; padding: 5px; width: 170px; height: 107px; text-align: center; }
+.favorCafeImg a { float: left; width: 168px; border: 1px solid transparent; }
+.favorCafeImgLinkImg { max-width: 100%; height: 100%; }
+.favorCafeInfo { float: left; width: 505px; padding: 5px; height: 107px; }
+.favorCafeInfo.other { width: 170px; }
+.favorCafeName { float: left; font-size: 18px; font-weight: bold; color: black; width: 99%; height: 28px; line-height: 28px; }
+.favorCafeName a { color: black; letter-spacing: 0px; }
+.favorCafeName.empty { font-size: 12px; text-indent: 10px; }
+.favorCafeIntro { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px; }
+.favorCafeLevel { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px;}
+.favorCafeMmbrTot { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px;}
+.favorCafeMakerNm { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px; }
+
+
+.rcntCafe { float: left; width: 100%; height: 118px; border: 1px solid #ddd; margin-bottom: 10px; border-left-width: 0px; border-right-width: 0px; }
+.rcntCafe.last { margin-bottom: 0px; }
+.rcntCafe:HOVER { background-color: #edfade; }
+.rcntCafeImg { float: left; padding: 5px; width: 170px; height: 107px; text-align: center; }
+.rcntCafeImg a { float: left; width: 168px; border: 1px solid transparent; }
+.rcntCafeImgLinkImg { max-width: 100%; height: 100%; }
+.rcntCafeInfo { float: left; width: 505px; padding: 5px; height: 107px; }
+.rcntCafeName { float: left; font-size: 18px; font-weight: bold; color: black; width: 99%; height: 28px; line-height: 28px; }
+.rcntCafeName a { color: black; letter-spacing: 0px; }
+.rcntCafeName.empty { font-size: 12px; text-indent: 10px; }
+.rcntCafeIntro { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px; }
+.rcntCafeLevel { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px;}
+.rcntCafeMmbrTot { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px;}
+.rcntCafeMakerNm { float: left; font-size: 13px; width: 99%; height: 20px; line-height: 20px; letter-spacing: 0px; }
+
+
+.favorEdit { padding: 0 10px; }
+.favorEditTable { width: 100%; }
+.tab_wrap ul.favor_edit_ul { list-style-type: none; width: 100%; height: 300px; overflow-x: hidden; overflow-y: auto; }
+.tab_wrap ul.favor_edit_ul li { width: 100%; height: 20px; line-height: 20px; padding: 10px 0 5px 0; cursor: pointer; color: #444; text-indent: 10px; }
+.tab_wrap ul.favor_edit_ul li:HOVER { background-color: #eef; }
+.tab_wrap ul.favor_edit_ul li.selected { background-color: #eef; }

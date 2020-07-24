@@ -1,0 +1,185 @@
+<%@ page language="java" contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--BEGIN::스킨/스킨--%>
+		  <div id="remoteFooterView" class="remoteZindexL">
+			<div class="skinView_footer">
+			  <div class="fl">
+				<img id="d2w_controlUseTitle" class="img_checkbox" width="12" height="13" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif" tabindex="0">
+				<input id="controlUseTitle" class="checkradio_styled" type="checkbox" onclick="javascript:(new cube.controller.home.SkinController()).onChangeUseTitle();return false;">
+				<label class="hand" for="controlUseTitle">기존 타이틀 유지</label>
+			  </div>
+			  <div id="skinTitleTip" class="tip_icon"></div>
+			</div>
+		  </div>
+		  <a class="rollback home_stxt" onclick="javascript:restoreMemento(); return false;" href="#">원래대로</a>
+<%--END::스킨/스킨--%>
+<%--BEGIN::스킨/배경--%>
+		  <div id="remoteFooterView" class="remoteZindexL"></div>
+		  <a class="rollback home_stxt" onclick="javascript:restoreMemento(); return false;" href="#">원래대로</a>
+<%--END::스킨/배경--%>
+<%--BEGIN::레이아웃/단구성--%>
+		  <div id="remoteFooterView" class="remoteZindexL">
+			<div class="columnView_footer">
+			  <div id="radioWidthTypeDisplay" class="fl">
+				<img id="d2w_radioWidthType" class="img_checkbox cb_checked" width="12" height="13" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif" tabindex="0">
+				<input id="radioWidthType" class="checkradio_styled" type="checkbox" checked="" onclick="(new cube.controller.home.ColumnController()).onChangeWidthType();">
+				<label class="hand" for="radioWidthType">가로폭 고정</label>
+			  </div>
+			  <div id="radioWidthTypeTip" class="tip_icon"></div>
+			  <div id="radioMenuFoldingView" class="fl" style="display: none">
+			    <div class="column_bar">|</div>
+			    <div id="radioMenuFoldingDisplay" class="fl">
+				  <img id="d2w_radioMenuFolding" class="img_checkbox" width="12" height="13" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif" tabindex="0">
+				  <input id="radioMenuFolding" class="checkradio_styled" type="checkbox" onclick="(new cube.controller.home.ColumnController()).onChangeMenuFolding();">
+				  <label class="hand" for="radioMenuFolding">메뉴 접기</label>
+			    </div>
+			    <div id="radioMenuFoldingTip" class="tip_icon"></div>
+			  </div>
+			</div>
+		  </div>
+		  <a class="rollback home_stxt" onclick="javascript:restoreMemento(); return false;" href="#">원래대로</a>
+<%--END::레이아웃/단구성--%>
+<%--BEGIN::레이아웃/홈게시판--%>
+		  <div id="remoteFooterView" class="remoteZindexL"></div>
+		  <a class="rollback home_stxt" onclick="javascript:restoreMemento(); return false;" href="#">원래대로</a>
+<%--END::레이아웃/홈게시판--%>
+<%--BEGIN::레이아웃/컨텐츠--%>
+		  <div id="remoteFooterView" class="remoteZindexL"></div>
+		  <a class="rollback home_stxt" onclick="javascript:restoreMemento(); return false;" href="#">원래대로</a>
+<%--END::레이아웃/컨텐츠--%>
+<%--BEGIN::레이아웃/위젯--%>
+		  <div id="remoteFooterView" class="remoteZindexL">
+			<div class="widgetView_footer">
+			  <a class="linkWidgetBank home_stxt555" target="_blank" href="http://widgetbank.daum.net"> 위젯 더보기 </a>
+			</div>
+		  </div>
+		  <a class="rollback home_stxt" onclick="javascript:restoreMemento(); return false;" href="#">원래대로</a>
+<%--END::레이아웃/위젯--%>
+<%--BEGIN::영역별꾸미기/카페정보--%>
+		  <div id="remoteFooterView" class="remoteZindexL">
+			<ul id="FooterColor">
+			  <li>
+				<span class="color_label">기본색</span>
+				<div id="CAFEINFOBOX_fontColor" class="colorSelectBox_styled" style="background-color: rgb(68, 68, 68);">
+				  <div id="d2w_CAFEINFOBOX_fontColor" class="textColorViewer"></div>
+				  <div class="colorSelectEnabled"></div>
+				</div>
+			  </li>
+			  <li>
+				<span class="color_label">강조색</span>
+				<div id="CAFEINFOBOX_strongColor" class="colorSelectBox_styled" style="background-color: rgb(219, 77, 15);">
+				  <div id="d2w_CAFEINFOBOX_strongColor" class="textColorViewer"></div>
+				  <div class="colorSelectEnabled"></div>
+				</div>
+			  </li>
+			  <li id="isTabOption1" style="display: none;">
+				<span class="color_label">탭이름</span>
+				<div id="CAFEINFOBOX_titleFontColor1" class="colorSelectBox_styled" style="background-color: rgb(0, 0, 0);">
+				  <div id="d2w_CAFEINFOBOX_titleFontColor1" class="textColorViewer"></div>
+				  <div class="colorSelectEnabled"></div>
+				</div>
+				<span class="colorChipGab"></span>
+				<div id="CAFEINFOBOX_titleFontColor2" class="colorSelectBox_styled" style="background-color: rgb(0, 0, 0);">
+				  <div id="d2w_CAFEINFOBOX_titleFontColor2" class="textColorViewer"></div>
+				  <div class="colorSelectEnabled"></div>
+				</div>
+			  </li>
+			</ul>
+		  </div>
+		  <a class="rollback home_stxt" onclick="javascript:restoreMemento(); return false;" href="#">원래대로</a>
+<%--END::영역별꾸미기/카페정보--%>
+<%--BEGIN::영역별꾸미기/카페메뉴--%>
+		  <div id="remoteFooterView" class="remoteZindexL">
+			<ul id="FooterColor">
+			  <li>
+				<span class="color_label">기본색</span>
+				<div id="CAFEMENU_fontcolor" class="colorSelectBox_styled" style="background-color: rgb(68, 68, 68);">
+				  <div id="d2w_CAFEMENU_fontcolor" class="textColorViewer"></div>
+				  <div class="colorSelectEnabled"></div>
+				</div>
+			  </li>
+			  <li>
+				<span class="color_label">강조색</span>
+				<div id="CAFEMENU_menugroupcolor" class="colorSelectBox_styled" style="background-color: rgb(68, 68, 68);">
+				  <div id="d2w_CAFEMENU_menugroupcolor" class="textColorViewer"></div>
+				  <div class="colorSelectEnabled"></div>
+				</div>
+			  </li>
+			  <li>
+				<span class="color_label">아이콘</span>
+				<div id="CAFEMENU_iconsetid" class="cafeMenuIcon" style="background-position: -1px -22px;">
+				  <div class="icon" style="background-image: url("../../images/editor/ggum/icon21_board.gif");"></div>
+				  <div id="CAFEMENU_iconsetid_layer" class="cafeMenuIconSelector" style="display: none;">
+					<ul>
+					  <li style="background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/thumb/menu_icon/icon00.gif");"></li>
+					  <li style="background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/thumb/menu_icon/icon28.gif");">28</li>
+					  <li style="background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/thumb/menu_icon/icon11.gif");">11</li>
+					  <li style="background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/thumb/menu_icon/icon12.gif");">12</li>
+					  <li style="background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/thumb/menu_icon/icon13.gif");">13</li>
+					</ul>
+					<div class="pager">
+					  <a class="selected" href="#icon_page_1">1</a>
+					  <a href="#icon_page_2">2</a>
+					  <a href="#icon_page_3">3</a>
+					  <a href="#icon_page_4">4</a>
+					</div>
+				  </div>
+				</div>
+			  </li>
+			</ul>
+		  </div>
+		  <a class="rollback home_stxt" onclick="javascript:restoreMemento(); return false;" href="#">원래대로</a>
+<%--END::영역별꾸미기/카페메뉴--%>
+<%--BEGIN::영역별꾸미기/검색창--%>
+		  <div id="remoteFooterView" class="remoteZindexL"></div>
+		  <a class="rollback home_stxt" onclick="javascript:restoreMemento(); return false;" href="#">원래대로</a>
+<%--END::영역별꾸미기/검색창--%>
+<%--BEGIN::영역별꾸미기/게시판--%>
+		  <div id="remoteFooterView" class="remoteZindexL">
+			<ul id="FooterColor">
+			  <li>
+				<span class="color_label">게시판 이름</span>
+				<div id="CAFEBOARD_titlefontcolor" class="colorSelectBox_styled" style="background-color: rgb(68, 68, 68);">
+				  <div id="d2w_CAFEBOARD_titlefontcolor" class="textColorViewer"></div>
+				  <div class="colorSelectEnabled"></div>
+				</div>
+			  </li>
+			  <li>
+				<span class="color_label">글제목색</span>
+				<div id="CAFEBOARD_fontcolor" class="colorSelectBox_styled" style="background-color: rgb(68, 68, 68);">
+				  <div id="d2w_CAFEBOARD_fontcolor" class="textColorViewer"></div>
+				  <div class="colorSelectEnabled"></div>
+				</div>
+			  </li>
+			  <li>
+				<span class="color_label">댓글색</span>
+				<div id="CAFEBOARD_bordfontcolor" class="colorSelectBox_styled" style="background-color: rgb(248, 87, 30);">
+				  <div id="d2w_CAFEBOARD_bordfontcolor" class="textColorViewer"></div>
+				  <div class="colorSelectEnabled"></div>
+				</div>
+			  </li>
+			</ul>
+		  </div>
+		  <a class="rollback home_stxt" onclick="javascript:restoreMemento(); return false;" href="#">원래대로</a>
+<%--END::영역별꾸미기/게시판--%>
+<%--BEGIN::영역별꾸미기/부가컨텐츠--%>
+		  <div id="remoteFooterView" class="remoteZindexL">
+			<ul id="FooterColor">
+			  <li>
+				<span class="color_label">기본색</span>
+				<div id="ACCESSARY_fontColor" class="colorSelectBox_styled" style="background-color: rgb(68, 68, 68);">
+				  <div id="d2w_ACCESSARY_fontColor" class="textColorViewer"></div>
+				  <div class="colorSelectEnabled"></div>
+				</div>
+			  </li>
+			  <li>
+				<span class="color_label">강조색</span>
+				<div id="ACCESSARY_strongColor" class="colorSelectBox_styled" style="background-color: rgb(214, 80, 17);">
+				  <div id="d2w_ACCESSARY_strongColor" class="textColorViewer"></div>
+				  <div class="colorSelectEnabled"></div>
+				</div>
+			  </li>
+			</ul>
+		  </div>
+		  <a class="rollback home_stxt" onclick="javascript:restoreMemento(); return false;" href="#">원래대로</a>
+<%--END::영역별꾸미기/부가컨텐츠--%>

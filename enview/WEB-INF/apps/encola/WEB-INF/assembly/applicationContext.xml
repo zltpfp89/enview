@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:flow="http://www.springframework.org/schema/webflow-config"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/webflow-config
+		                   http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd
+                           http://www.springframework.org/schema/tx 
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop 
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- 'id' 값은 enView와 약속이 되어 있는 값이므로, 수정되어서는 안된다. -->
+	<bean id="com.saltware.encola.common.cache.CacheMngr" class="com.saltware.encola.common.cache.CacheMngr"/>
+
+	<bean id="cola.scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref local="triggerSummaryCmntMileage" />
+			</list>
+		</property>
+	</bean>	
+	<bean id="triggerSummaryCmntMileage" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail"      ref="jobDetailSummaryCmntMileage" />
+		<!--property name="startDelay"     value="${board.mailSend.repeatInterval.millisecond}" /-->
+		<!--property name="repeatInterval" value="${board.mailSend.repeatInterval.millisecond}" /-->
+		<property name="startDelay"     value="300000" />
+		<property name="repeatInterval" value="300000" />
+	</bean>
+	<bean id="jobDetailSummaryCmntMileage" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="cola.schedulerSavior" />
+		<property name="targetMethod" value="summaryCmntMileage" />
+	</bean>
+	<bean id="cola.schedulerSavior" class="com.saltware.encola.common.integrate.SchedulerSavior"/>
+
+	<bean id="cola.cafe.SecurityInterceptor" class="com.saltware.encola.cafe.security.SecurityInterceptor">
+		<property name="cacheMngr" ref="com.saltware.encola.common.cache.CacheMngr"/>
+	</bean>
+
+</beans>

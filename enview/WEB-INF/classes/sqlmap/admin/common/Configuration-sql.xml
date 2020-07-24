@@ -1,0 +1,96 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ CONFIGURATION : 시스템 환경값관리 ] Table -->
+	<resultMap id="admin_ConfigurationVO_PK" class="com.saltware.enview.admin.configuration.service.ConfigurationPK">
+	
+		<result property="configCd" column="CONFIG_CD" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_ConfigurationVO" class="com.saltware.enview.admin.configuration.service.ConfigurationVO">
+	 
+		<result property="configCd" column="CONFIG_CD" columnIndex="1"/>	 
+		<result property="systemCode" column="SYSTEM_CODE" columnIndex="2"/>	 
+		<result property="configType" column="CONFIG_TYPE" columnIndex="3"/>	 
+		<result property="configValue" column="CONFIG_VALUE" columnIndex="4"/>	 
+		<result property="remark" column="REMARK" columnIndex="5"/>	 
+		<result property="updUserId" column="UPD_USER_ID" columnIndex="6"/>	 
+		<result property="updDatim" column="UPD_DATIM" columnIndex="7"/>	
+	</resultMap>
+	
+	<select id="configuration.totalCount" resultClass="int">
+	/* configuration.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM CONFIGURATION
+		WHERE 1=1	
+			<isNotNull  prepend=" AND " property="configTypeCond">CONFIG_TYPE = #configTypeCond#</isNotNull>
+			<isNotNull  prepend=" AND " property="configCdCond">CONFIG_CD LIKE '%'||#configCdCond#||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="configValueCond">CONFIG_VALUE LIKE '%'||#configValueCond#||'%'</isNotNull>
+	</select>
+	
+	<select id="configuration.findByPage" resultMap="admin_ConfigurationVO_PK">
+	/* configuration.findByPage */
+		SELECT tb1.* FROM (
+			SELECT CONFIG_CD, ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY CONFIG_CD ASC</isNull>
+			) as rnum
+			FROM CONFIGURATION
+			WHERE 1=1 
+			<isNotNull  prepend=" AND " property="configTypeCond">CONFIG_TYPE = #configTypeCond#</isNotNull>
+			<isNotNull  prepend=" AND " property="configCdCond">CONFIG_CD LIKE '%'||#configCdCond#||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="configValueCond">CONFIG_VALUE LIKE '%'||#configValueCond#||'%'</isNotNull>
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="configuration.findAll" resultMap="admin_ConfigurationVO">
+		SELECT CONFIG_CD,SYSTEM_CODE,CONFIG_TYPE,CONFIG_VALUE,REMARK,UPD_USER_ID,UPD_DATIM
+		FROM CONFIGURATION
+	</select>
+	
+
+	<select id="configuration.detail" resultMap="admin_ConfigurationVO">
+		<![CDATA[
+			SELECT CONFIG_CD,SYSTEM_CODE,CONFIG_TYPE,CONFIG_VALUE,REMARK,UPD_USER_ID,UPD_DATIM
+			FROM CONFIGURATION
+			WHERE 1=1 
+				AND CONFIG_CD=#configCd#
+		]]>
+	</select>
+	
+	<select id="configuration.exist" resultClass="int">
+		SELECT COUNT(*) cnt
+		FROM CONFIGURATION
+		WHERE 1=1 
+			AND CONFIG_CD=#configCd#
+	</select>
+	
+	<insert id="configuration.insert">
+		INSERT INTO CONFIGURATION
+			( CONFIG_CD,CONFIG_VALUE,UPD_USER_ID,UPD_DATIM,SYSTEM_CODE,CONFIG_TYPE,REMARK )
+		VALUES ( #configCd#,#configValue#,#updUserId#,#updDatim#,#systemCode:VARCHAR#,#configType:VARCHAR#,#remark:VARCHAR# )
+	</insert>
+	
+	<update id="configuration.update">
+		UPDATE CONFIGURATION
+		SET CONFIG_VALUE=#configValue#,UPD_USER_ID=#updUserId#,UPD_DATIM=#updDatim#,REMARK=#remark:VARCHAR#
+		<isNotNull property="systemCode">,SYSTEM_CODE=#systemCode#</isNotNull>
+		<isNotNull property="configType">,CONFIG_TYPE=#configType#</isNotNull>
+		WHERE 1=1 
+			AND CONFIG_CD=#configCd#
+	</update>
+	
+	<delete id="configuration.delete">
+		<![CDATA[
+			DELETE FROM CONFIGURATION
+			WHERE 1=1 
+				AND CONFIG_CD=#configCd#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

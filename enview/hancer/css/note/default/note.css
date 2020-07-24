@@ -1,0 +1,1557 @@
+/****************************************************************
+ *****	Note Management's Cascading Style Sheet
+ *****	Time: 2012-03-20
+ *****	Author: Seongwook Kim, Research & Development, Saltware
+ *****	Contact: 82 - 10 - 8957 - 9389
+ ****************************************************************/
+
+img { border:0;}
+
+/* Common Attributes */
+.inputField:FOCUS {
+	border: 1px solid highlight;
+}
+
+.noteButton {
+	font-size: 11px;
+	font-family: sans-serif;
+	color: #323232;
+	border: 1px solid #AAA;
+	cursor: pointer;
+	
+	float: left;
+	width: 50px;
+	height:17px;
+	line-height: 18px;
+	text-align: center;
+	padding-top: 2px;
+	margin-top: 4px;
+	margin-left: 5px;
+}
+
+.noteButton:HOVER {
+	border: 1px solid #888;
+	cursor: pointer;
+	background-color: #EFEFFF;
+}
+
+.noteButton:ACTIVE {
+	color: #323232;
+	background-color: #D0D0F0;
+	border: 1px solid #555;
+	cursor: pointer;
+	line-height: 20px;
+	text-indent: 7px;
+}
+
+.noteButton2 {
+	font-size: 11px;
+	font-family: sans-serif;
+	color: #323232;
+	border: 1px solid #AAA;
+	cursor: pointer;
+	
+	width: 25px;
+	height:17px;
+	line-height: 17px;
+	text-indent: 9px;
+	padding-top: 2px;
+	margin-top: 4px;
+	margin-left: 5px;
+}
+
+.noteButton2:HOVER {
+	border: 1px solid #888;
+	cursor: pointer;
+	background-color: #EFEFFF;
+}
+
+.noteButton2:ACTIVE {
+	color: #323232;
+	background-color: #D0D0F0;
+	border: 1px solid #555;
+	cursor: pointer;
+	line-height: 19px;
+	text-indent: 10px;
+}
+
+.welcomeMessage {
+	font-size: 12px;
+	font-family: sans-serif;
+	float: right;
+	
+	height: 21px;
+	line-height: 23px;
+	
+	padding-right: 5px;
+}
+
+.langKnd {
+	font-size: 11px;
+	font-family: sans-serif;
+	height: 20px;
+	float: left;
+	
+	border: 1px solid #AAA;
+}
+
+.wrap{
+	margin: 50px auto 0 auto;
+	width: 905px;
+	height: 626px;
+}
+
+.wrap_pop{
+	margin: 50px auto 0 auto;
+	width: 678px;
+	height: 432px;
+	border: 1px solid transparent;
+}
+
+.userLayer {
+	width: 905px;
+	height: 21px;
+	
+	padding-bottom: 5px;
+}
+
+.logoutButton {
+	width: 57px;
+	float: right;
+	margin: 0px 5px 0px 0px;	
+}
+
+.homeButton {
+	float: right;
+	margin: 0px;
+}
+
+.changeLangKndLabel {
+	font-size: 12px;
+	font-family: sans-serif;
+	height: 21px;
+	line-height: 23px;
+	
+	padding-right: 5px;
+	
+	float: left;
+	margin: 0px;
+}
+
+.changeLangSelect {
+	width: 300px;
+	float: left;
+	margin: 0px;
+}
+
+.menulayer {
+	float: left;
+	width: 150px;
+	height: 500px;
+	border: 1px solid #AAA;
+	padding-right: 2px;
+	border-right: none;
+}
+
+ul {
+	list-style: none;
+}
+.menuLayer1{
+	width: 150px;
+	height: 130px;
+	padding-top: 20px;
+	
+	border-bottom: 1px solid #AAA
+}
+
+.workmenu {
+	font-size: 13px;
+	font-family: sans-serif;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	text-align: center;
+	margin-top: 5px;
+}
+
+.workmenu a{
+	text-decoration: none;
+	color: #333;
+}
+
+.menuLayer2{
+	width: 150px;
+	padding-top: 20px;
+}
+
+.boxmenu {
+	font-size: 13px;
+	font-family: sans-serif;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	text-align: center;
+	margin-top: 5px;
+}
+
+.boxmenu a{
+	text-decoration: none;
+	color: #333;
+}
+
+.receiveboxmenu {
+	margin-left: 35px;
+}
+.newNote {
+	font-size: 12px;
+	float: right;
+	color: #E5D;
+	margin-right: 25px;
+}
+
+.userBox {
+	height: 20px;
+	line-height: 20px;
+	margin-left: 45px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	color: #AAA;
+	font-size: 11px;
+	font-weight: normal;
+}
+
+.userBox a {
+	color: #AAA;
+	text-decoration: none;
+}
+
+.selected {
+	text-decoration:underline;
+	font-weight: bold;
+}
+
+.contentsLayer{
+	float: right;
+	border: 1px solid #AAA;
+	width: 750px;
+	height: 500px;
+}
+
+.contentsLayer_pop{
+	border: 1px solid #AAA;
+	width: 100%;
+	height: 100%;
+}
+
+.row {
+	padding-top:3px;
+	padding-bottom:3px;
+	height: 23px;
+	line-height: 12px;
+	font-size: 12px;
+	font-family: sans-serif;
+	color: #777;
+}
+
+.row2 {
+	padding-top:3px;
+	padding-bottom:3px;
+	height: 23px;
+	line-height: 12px;
+	font-size: 12px;
+	font-family: sans-serif;
+	color: #000;
+}
+
+.column {
+	padding-top:4px;
+	padding-bottom:3px;
+	height: 13px;
+	line-height: 15px;
+	font-size: 12px;
+	font-family: sans-serif;
+	color: #777;
+}
+
+.column2 {
+	padding-top:4px;
+	padding-bottom:3px;
+	height: 13px;
+	line-height: 15px;
+	font-size: 12px;
+	font-family: sans-serif;
+	color: #000;
+}
+
+.workForm {
+	width: 740px;
+	height: 30px;
+	line-height: 30px;
+	margin-left: 5px;
+	
+	border-bottom: 1px solid #AAA;
+	
+	margin-bottom: 5px;
+}
+
+.workForm_pop {
+	width: 640px;
+	height: 30px;
+	line-height: 30px;
+	margin-left: 5px;
+	
+	border-bottom: 1px solid #AAA;
+	
+	margin-bottom: 5px;
+}
+
+
+.searchForm {
+	width: 740px;
+	height: 30px;
+	line-height: 30px;
+	margin-left: 5px;
+	
+	border-bottom: 1px solid #AAA;
+	
+	margin-bottom: 5px;
+}
+
+.searchType {
+	font-size: 11px;
+	font-family: sans-serif;
+	height: 20px;
+	margin-top: 5px;
+	float: right;
+	
+	border: 1px solid #AAA;
+}
+
+.firstOptn{
+	
+}
+
+.searchValue {
+	font-size: 11px;
+	font-family: sans-serif;
+	width: 150px;
+	height: 16px;
+	line-height: 18px;
+	margin-top: 5px;
+	margin-left: 5px;
+	float: right;
+	
+	border: 1px solid #AAA;
+}
+
+.searchButton{
+	font-size: 11px;
+	font-family: sans-serif;
+	color: #323232;
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: 50px;
+	height:16px;
+	line-height: 17px;
+	float: right;
+	border: 1px solid #AAA;
+	cursor: pointer;
+	
+	text-align: center;
+	
+	padding-top: 2px;
+}
+
+.searchButton:HOVER {
+	border: 1px solid #888;
+	cursor: pointer;
+	background-color: #EFEFFF;
+}
+
+
+.searchButton:ACTIVE {
+	color: #323232;
+	border: 1px solid #555;
+	cursor: pointer;
+	background-color: #D0D0F0;
+	
+	text-indent: 7px;
+	
+	line-height: 18px;
+	
+}
+
+.message{
+	width: 740px;
+	height: 20px;
+	line-height: 20px;
+	
+	margin-left: 5px;
+	margin-bottom: 5px;
+	border-bottom: 1px solid #aaa;
+}
+
+.noteAmountMessage {
+	margin-top: 5px;
+	margin-left: 5px;
+	font-size: 11px;
+	font-family: sans-serif;
+	width: 26px;
+	height: 16px;
+	text-align: left;
+	float: left;
+}
+
+.unreadAmount{
+	float: left;
+	width: 10px;
+	height: 16px;
+}
+
+.totalAmount{
+	float: right;
+	width: 10px;
+	height: 16px;
+}
+
+.searchMessage {
+	margin-left: 5px;
+	font-size: 11px;
+	font-family: sans-serif;
+	width: 440px;
+	height: 20px;
+	text-align: left;
+	float: left;
+}
+.unreadNoteMessage {
+	font-size: 11px;
+	font-family: sans-serif;
+	width: 290px;
+	height: 20px;
+	text-align: right;
+	float: right;
+}
+
+
+.columnLayer{
+	width: 740px;
+	font-size: 11px;
+	font-family: sans-serif;
+	color: #828282;
+	height: 18px;
+	border-bottom: 1px solid #aaa;
+	padding-top: 2px;
+	line-height: 22px;
+	margin-left: 5px;
+}
+
+.noNoteList{
+	font-size: 11px;
+	font-family: sans-serif;
+	color: #AAA;
+	text-align: center;;
+	line-height: 22px;
+	height:18px;
+}
+.noteList{
+	width: 750px;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+.noteRow{
+	float: left;
+	width: 740px;
+	height: 23px;
+	line-height: 20px;
+	margin-left: 5px;
+	border-bottom: 1px solid #CCC;
+}
+
+.noteRow:HOVER{
+	background-color: #EEE;
+}
+
+.check{
+	float: left;
+	width: 30px;
+	text-align: center;
+	height: 18px;
+	padding-top: 3px;
+}
+
+.checkbox{
+	padding: 0px;
+}
+
+
+.senderName{
+	float: left;
+	width: 125px;
+	text-align: left;
+	text-indent: 5px;
+	height: 18px;
+	
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	
+}
+
+.senderName:HOVER {
+	cursor: pointer;
+}
+
+.senderLink {
+	text-decoration: none;	
+}
+
+.senderLink:HOVER {
+	text-decoration: underline;	
+}
+
+.senderLink:ACTIVE {
+	outline: none;
+}
+
+.senderLink:VISITED {
+	outline: none;
+}
+
+.blocked {
+	text-decoration: line-through;	
+}
+
+.popupMenu {
+	display: none;
+	
+	position: relative;
+	width: 60px;
+	height: 20px;
+	
+	text-indent: 0px;
+	
+	border: 2px solid #828282;
+	background-color: #EEE;
+}
+
+.popupMenu .block {
+	display: none;
+	font-size: 12px;
+	font-family: sans-serif;
+	color: black;
+	
+	width: 60px;
+	height: 20px;
+	line-height: 22px;
+	text-align: center;
+	text-indent: 0px;
+	cursor: pointer;
+}
+
+.popupMenu .block:HOVER {
+	background-color: #FFE;
+	color: highlight;
+	cursor: pointer;
+}
+
+.receiverName{
+	float: left;
+	width: 125px;
+	text-align: left;
+	text-indent: 5px;
+	height: 18px;
+	
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+
+.note_title{
+	float: left;
+	width: 435px;
+	text-align: left;
+	text-indent: 10px;
+	height: 18px;
+	
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+a.noteLink {
+	color: #AAA;
+	text-decoration: none;
+}
+
+a.noteLink:HOVER {
+	text-decoration: underline;
+}
+
+a.unread {
+	color: #333;
+	font-weight: bold;	
+}
+
+.sendTime{
+	float: left;
+	width: 150px;
+	text-align: left;
+	height: 18px;
+}
+
+.store_senderName{
+	float: left;
+	width: 125px;
+	text-align: left;
+	text-indent: 5px;
+	height: 18px;
+	
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.store_receiverName{
+	float: left;
+	width: 150px;
+	text-align: left;
+	text-indent: 5px;
+	height: 18px;
+	
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.store_title{
+	float: left;
+	width: 325px;
+	text-align: left;
+	text-indent: 5px;
+	height: 18px;
+	
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.store_sendTime {
+	float: left;
+	width: 110px;
+	text-align: left;
+	height: 18px;
+}
+
+
+.readCheck_receiverName{
+	float: left;
+	width: 155px;
+	text-align: left;
+	text-indent: 5px;
+	height: 18px;
+	
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.readCheck_title{
+	float: left;
+	width: 335px;
+	text-align: left;
+	text-indent: 5px;
+	height: 20px;
+	
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.readCheck_title a {
+	color: #AAA;
+	text-decoration: none;
+}
+
+.readCheck_title a:HOVER {
+	text-decoration: underline;
+}
+
+.readCheck_sendTime{
+	float: left;
+	width: 110px;
+	text-align: left;
+	height: 18px;
+}
+
+.readCheck_readTime{
+	float: left;
+	width: 110px;
+	text-align: left;
+	height: 18px;
+}
+
+.controlPanel {
+	width: 740px;
+	height: 28px;
+	line-height: 25px;
+	background-color: #EEE;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.work {
+	float: left;
+	font-size: 13px;
+	font-family: sans-serif;
+	font-weight: bold;
+	color: #323232;
+	height: 20px;
+	line-height: 22px;
+	text-indent: 10px;
+	margin-top: 3px;
+	
+}
+
+.replyButton{
+}
+
+.replyButton:ACTIVE{
+}
+
+.deleteButton{
+	margin-left: 10px;
+}
+
+.deleteButton:ACTIVE {
+}
+
+.storeButton {
+	
+}
+
+.storeButton:ACTIVE {
+}
+
+.list{
+	margin-right: 10px;
+	float: right;
+}
+
+.list:ACTIVE{
+}
+
+.reload{
+	float: right;
+}
+
+.reload:ACTIVE{
+}
+
+.prev{
+	float: right;
+}
+
+.prev:ACTIVE{
+}
+
+
+.next{
+	float: right;
+	margin-right: 10px;
+}
+
+.next:ACTIVE {
+}
+
+.pagingLayer {
+	margin-top:5px;
+	padding-top:5px;
+	width: 740px;
+	height: 30px;
+	text-align: center;
+	background-color: #FFF;
+}
+.pagingButtons {
+	width: 100px;
+	margin: 3px auto 0 auto;
+	height: 20px;
+	line-height: 20px;
+}
+
+.num{
+	float: left;
+	width: 20px;
+	color: #000;
+	font-size: 12px;
+	font-family: sans-serif;
+	height:20px;
+	text-align: center;
+	line-height: 20px;
+	border: 1px;
+	margin-left: 1px;
+	margin-right: 1px;
+}
+
+.num:HOVER{
+	cursor: pointer;
+	width: 18px;
+	height:18px;
+	border: 1px solid #AAA;
+	line-height: 18px;
+}
+
+.currentPage{
+	height:18px;
+	width: 18px;
+	color: orange;
+	font-weight: bold;
+	line-height: 18px;
+	text-decoration: none;
+	border: 1px solid #AAA;
+}
+
+.pageButton {
+	height: 20px;
+	float: left;
+	cursor: pointer;
+	
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.pageButton img {
+	margin-top: 3px;
+}
+
+.firstPage{
+}
+.prevPage{
+}
+
+.nextPage{
+}
+.lastPage{
+}
+
+
+/**
+* 履쎌� �쎄린 css
+*/
+.view_attr {
+	font-size: 12px;
+	font-family: sans-serif;
+	color: #AAA;
+	text-indent: 10px;
+}
+
+.view_attr2 {
+	font-size: 12px;
+	font-family: sans-serif;
+	color: #AAA;
+}
+
+.view_sender {
+	width: 750px;
+	height: 30px;
+	text-indent: 10px;
+}
+
+.view_senderName {
+	float: left;
+	height: 30px;
+	line-height: 30px;
+	text-indent: 10px;
+}
+
+.view_sendTime {
+	float: left;
+	font-size: 11px;
+	font-family: sans-serif;
+	color: #AAA;
+	line-height: 30px;
+	width: 150px;
+	height: 30px;
+	text-indent: 30px;
+}
+.view_receiver {
+	width: 750px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.deleRcvr{
+	float: left;
+}
+
+.viewButton{
+	font-size: 11px;
+	font-family: sans-serif;
+	color: #323232;
+	margin-top: 5px;
+	margin-left: 5px;
+	width: 70px;
+	height:16px;
+	line-height: 17px;
+	float: left;
+	border: 1px solid #AAA;
+	cursor: pointer;
+	
+	text-align: center;
+	text-indent: 0px;
+	padding-top: 2px;
+}
+
+
+.viewButton:HOVER {
+	border: 1px solid #888;
+	cursor: pointer;
+	background-color: #EFEFFF;
+}
+
+.viewButton:ACTIVE {
+	color: #323232;
+	border: 1px solid #555;
+	cursor: pointer;
+	background-color: #D0D0F0;
+	
+	text-indent: 2px;
+	
+	line-height: 18px;
+	
+}
+
+
+.receivers {
+	float: left;
+	
+	display: none;
+}
+
+.hideButton{
+	font-size: 11px;
+	font-family: sans-serif;
+	color: #323232;
+	margin-top: 3px;
+	margin-left: 5px;
+	width: 46px;
+	height:16px;
+	line-height: 17px;
+	float: left;
+	border: 1px solid #AAA;
+	cursor: pointer;
+	
+	text-align: center;
+	text-indent: 0px;
+	display: none;
+	
+	padding-top: 2px;
+}
+
+.hideButton:HOVER {
+	border: 1px solid #888;
+	cursor: pointer;
+	background-color: #EFEFFF;
+}
+
+
+.hideButton:ACTIVE {
+	color: #323232;
+	border: 1px solid #555;
+	cursor: pointer;
+	background-color: #D0D0F0;
+	
+	text-indent: 2px;
+	
+	line-height: 18px;
+	
+}
+
+.view_title {
+	width: 750px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.view_contents {
+	width: 750px;
+	height: auto;
+	line-height: 15px;
+}
+
+.view_file {
+	width: 750px;
+	height: 85px;
+}
+
+.view_readcheck {
+	width: 750px;
+	height: 30px;
+}
+
+.view_column {
+	float: left;
+	width: 80px;
+	height: 30px;
+	line-height: 30px;
+	text-align: right;
+}
+
+.view_value {
+	float: left;
+	width: 660px;
+	line-height: 30px;
+}
+
+.view_value2 {
+	float: left;
+	width: 498px;
+	line-height: 20px;
+	margin-left: 10px;
+	word-break: break-all;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	color: #555;
+	
+	min-height: 165px;
+	max-height: 250px;
+	overflow: auto;
+}
+
+.view_fileManager{
+	border: 0px;
+}
+
+/**
+* 履쎌� �곌린 css
+*/
+.write_attr {
+	font-size: 12px;
+	font-family: sans-serif;
+	color: #AAA;
+	text-indent: 10px;
+}
+
+.write_receivers {
+	width: 750px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.input_receivers{
+	font-size: 12px;
+	font-family: sans-serif;
+	
+	float: left;
+	width: 500px;
+	margin-top: 4px;
+	height: 16px;
+	line-height: 18px;
+	margin-left: 10px;
+	
+	border: 1px solid #AAA;
+}
+
+.write_rcvr_button{
+	float: left;
+	margin-left: 10px;
+	width: 57px;
+	height: 16px;
+	text-indent: 0px;
+}
+
+.write_title {
+	width: 750px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.write_title_pop {
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+}
+
+.input_title {
+	width: 500px;
+	margin-top: 4px;
+	height: 16px;
+	line-height: 18px;
+	
+	border: 1px solid #AAA;
+}
+
+.write_contents {
+	width: 750px;
+	height: 155px;
+}
+
+.write_contents_pop {
+	width: 100%px;
+	height: 155px;
+}
+
+.textArea_contents {
+	font-size: 12px;
+	font-family: sans-serif;
+	
+	margin-top: 4px;
+	width: 500px;
+	height: 140px;
+	overflow: auto;
+	
+	border: 1px solid #AAA;
+}
+
+.limits{
+	position: relative;
+	top: 130px;
+	float: right;
+	width: 80px;
+	height: 20px;
+	line-height: 20px;
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	text-indent: 0px;
+	padding-left: 3px;
+}
+.write_file {
+	width: 750px;
+	height: 120px;
+}
+
+.write_file_pop {
+	width: 650px;
+	height: 120px;
+}
+
+.write_fileManager {
+	border: 0px;
+	margin-left: -8px;
+}
+
+.write_readcheck {
+	width: 750px;
+	height: 30px;
+}
+
+.write_readcheck_pop {
+	width: 650px;
+	height: 30px;
+}
+
+.input_radio{
+	line-height: 20px;
+	cursor: pointer;
+}
+
+.label_checkYN {
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+.write_button {
+	width: 750px;
+	height: 30px;
+	text-indent: 0px;
+	margin: 2px auto;
+	
+}
+
+.write_button_pop {
+	width: 650px;
+	height: 30px;
+	text-indent: 0px;
+	margin: 2px auto;
+	
+}
+
+.input_write {
+	position: relative;
+	line-height: 28px;
+	width: 100px;
+	height: 30px;
+	border: 1px solid #323232;
+	cursor: pointer;
+	left: 330px;
+}
+
+.input_write_pop {
+	position: relative;
+	line-height: 28px;
+	width: 100px;
+	height: 30px;
+	border: 1px solid #323232;
+	cursor: pointer;
+	left: 278px;
+}
+
+
+.write_column {
+	float: left;
+	width: 80px;
+	height: 30px;
+	line-height: 30px;
+	text-align: right;
+}
+
+.write_value {
+	float: left;
+	width: 600px;
+	line-height: 30px;
+	
+}
+
+.write_value_pop {
+	float: left;
+	width: auto;
+	line-height: 30px;
+	
+}
+
+.optionAmount {
+	text-align: center;
+	float: right;
+	width: 30px;
+}
+
+.optionRows {
+	width: 175px;
+	height: 20px;
+	line-height: 24px;
+}
+
+.emptyBoxLayer {
+	width: 730px;
+	height: 160px;
+
+	margin: 8px auto;
+	
+	border: 1px solid #323232;
+	background-color: #EEE;
+	
+}
+
+.emptyButton {
+	float: right;
+	width: 46px;
+	height: 16px;	
+	
+	margin-top: 0px;
+	
+	text-indent: 0px;
+}
+
+.emptyLabel {
+	font-size: 13px;
+	color: highlight;
+	font-weight: bold;
+	font-family: sans-serif;
+	
+	margin-top: 5px;
+	margin-bottom: 5px;
+	text-indent: 5px;
+	
+}
+		
+.emptyDescription{
+	font-size: 12px;
+	color: black;
+	font-weight: normal;
+	font-family: sans-serif;
+	text-indent: 5px;
+	
+}
+
+.emptyReceiveBox {
+	font-size: 12px;
+	color: black;
+	font-weight: normal;
+	font-family: sans-serif;
+	text-indent: 5px;
+	
+	margin-top: 5px;
+	margin-left: 10px;
+	
+}
+
+.emptyReceiveBoxLabel {
+	float: left;
+	
+}
+
+.allReceiveNoteAmount {
+	text-align: center;
+	float: right;
+}
+
+.emptySendBox {
+	font-size: 12px;
+	color: black;
+	font-weight: normal;
+	font-family: sans-serif;
+	text-indent: 5px;
+	
+	margin-top: 5px;
+	margin-left: 10px;
+	
+}
+
+.emptySendBoxLabel {
+	float: left;
+}
+
+.allSendNoteAmount { 
+	text-align: center;
+	float: right;
+}
+
+.emptyReadCheckBox {
+	font-size: 12px;
+	color: black;
+	font-weight: normal;
+	font-family: sans-serif;
+	text-indent: 5px;
+	
+	margin-top: 5px;
+	margin-left: 10px;
+	
+}
+
+.emptyReadCheckBoxLabel {
+	float: left;
+}
+
+.allReadCheckNoteAmount {
+	text-align: center;
+	float: right;
+}
+
+.emptyRecyclebinBox {
+	font-size: 12px;
+	color: black;
+	font-weight: normal;
+	font-family: sans-serif;
+	text-indent: 5px;
+	
+	margin-top: 5px;
+	margin-left: 10px;
+	
+}
+
+.emptyRecyclebinBoxLabel {
+	float: left;
+}
+
+.allRecyclebinNoteAmount {
+	text-align: center;
+	float: right;
+}
+
+.backupNotesLayer {
+	width: 730px;
+	height: 135px;
+
+	margin: 8px auto;
+	
+	border: 1px solid #323232;
+	background-color: #EEE;
+}
+
+.backupButton {
+	float: right;
+	width: 55px;
+	height: 16px;	
+	
+	margin-top: 0px;
+	
+	text-indent: 0px;
+}
+
+.backupLabel {
+	font-size: 13px;
+	color: highlight;
+	font-weight: bold;
+	font-family: sans-serif;
+	
+	margin-top: 5px;;
+	margin-bottom: 5px;
+	text-indent: 5px;
+}
+
+.backupDescription {
+	font-size: 12px;
+	color: black;
+	font-weight: normal;
+	font-family: sans-serif;
+	text-indent: 5px;
+}
+
+.backupReceiveNotes {
+	font-size: 12px;
+	color: black;
+	font-weight: normal;
+	font-family: sans-serif;
+	text-indent: 5px;
+	
+	margin-top: 5px;
+	margin-left: 10px;
+	
+}
+
+.backupReceiveNotesLabel {
+	float: left;
+}
+
+.backupSendNotes {
+	font-size: 12px;
+	color: black;
+	font-weight: normal;
+	font-family: sans-serif;
+	text-indent: 5px;
+	
+	margin-top: 5px;
+	margin-left: 10px;
+	
+}
+
+.backupSendNotesLabel {
+	float: left;
+}
+
+.backupStoreNotes {
+	font-size: 12px;
+	color: black;
+	font-weight: normal;
+	font-family: sans-serif;
+	text-indent: 5px;
+	
+	margin-top: 5px;
+	margin-left: 10px;
+	
+}
+
+.backupStoreNotesLabel {
+	float: left;
+}
+
+.allStoreNoteAmount { 
+	text-align: center;
+	float: right;
+}
+
+.unreadToReadNotesLayer{
+	width: 730px;
+	height: 85px;
+
+	margin: 8px auto;
+	
+	border: 1px solid #323232;
+	background-color: #EEE;
+}
+
+.unreadToReadButton {
+	float: right;
+	width: 55px;
+	height: 16px;	
+	
+	margin-top: 0px;
+	
+	text-indent: 0px;
+}
+		
+.unreadToReadLabel {
+	font-size: 13px;
+	color: highlight;
+	font-weight: bold;
+	font-family: sans-serif;
+	
+	margin-top: 5px;
+	margin-bottom: 5px;
+	text-indent: 5px;
+}
+
+.unreadToReadDescription {
+	font-size: 12px;
+	color: black;
+	font-weight: normal;
+	font-family: sans-serif;
+	text-indent: 5px;
+}
+
+.unreadToReadNotes {
+	font-size: 12px;
+	color: black;
+	font-weight: normal;
+	font-family: sans-serif;
+	text-indent: 5px;
+	
+	margin-top: 5px;
+	margin-left: 10px;
+	
+}
+
+.unreadToReadNotesLabel {
+	float: left;
+}
+.allunreadNoteAmount {
+	text-align: center;
+	float: right;
+}
+
+.isReceiveNoteLayer {
+	width: 730px;
+
+	margin: 8px auto;
+	
+	border: 1px solid #323232;
+	background-color: #EEE;
+	
+	padding-bottom: 10px;
+}
+
+.radioButtons {
+	float: left;
+	height: 20px;
+	
+}
+.isReceiveNoteButton {
+	float: left;
+	width: 55px;
+	height: 16px;	
+	
+	margin-top: 0px;
+}
+
+.isReceiveNoteLabel {
+	font-size: 13px;
+	color: highlight;
+	font-weight: bold;
+	font-family: sans-serif;
+	
+	margin-top: 5px;
+	margin-bottom: 5px;
+	text-indent: 5px;
+}
+
+.isReceiveNoteDescription {
+	font-size: 12px;
+	color: black;
+	font-weight: normal;
+	font-family: sans-serif;
+	text-indent: 5px;
+}
+
+.isReceiveNotes {
+	font-size: 12px;
+	color: black;
+	font-weight: normal;
+	font-family: sans-serif;
+	text-align: center;
+	
+	margin-top: 5px;
+	margin-left: 10px;
+	
+	width: 500px;
+	height: 20px;
+	line-height: 24px;
+}

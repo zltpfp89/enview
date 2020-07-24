@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app id="enview-admin"
+  xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+  version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+	<portlet id="enview-adminrealtimeMonitorpPortlet">
+        <portlet-name>realtimeMonitorPortlet</portlet-name>
+        <display-name xml:lang="ko">Memory 모니터링 </display-name>
+        <display-name xml:lang="en">Memory Monitoring </display-name>
+        <portlet-class>com.saltware.enview.portlet.common.DynamicContentPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>start-here.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+		<portlet-info>
+			<title>realtime Monitor Portlet</title>
+            <short-title>realtime Monitor</short-title>
+			<keywords>admin,monitor</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>SYSTEM_CODE</name>
+                <value>PT</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/realtimeMonitor/list.admin</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>100%</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+	<portlet id="enview-admincpuPortlet">
+        <portlet-name>cpuPortlet</portlet-name>
+        <display-name xml:lang="ko">CPU 모니터링 </display-name>
+        <display-name xml:lang="en">CPU Monitoring </display-name>
+        <portlet-class>com.saltware.enview.portlet.common.DynamicContentPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>start-here.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>cpuPortlet</title>
+            <short-title>cpuPortlet</short-title>
+			<keywords>admin,monitor</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>SYSTEM_CODE</name>
+                <value>PT</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/cpuMonitor/list.admin</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>100%</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+   
+	<portlet id="enview-adminsessionPortlet">
+        <portlet-name>sessionPortlet</portlet-name>
+        <display-name xml:lang="ko">Session 모니터링 </display-name>
+        <display-name xml:lang="en">Session Monitoring </display-name>
+        <portlet-class>com.saltware.enview.portlet.common.DynamicContentPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>start-here.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>sessionPortlet</title>
+            <short-title>sessionPortlet</short-title>
+			<keywords>admin,monitor</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>SYSTEM_CODE</name>
+                <value>PT</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/sessionMonitor/list.admin</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>100%</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+</portlet-app>

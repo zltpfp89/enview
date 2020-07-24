@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <!-- Database PageManager -->
+
+  <bean id="com.saltware.enview.page.PageManager" class="com.saltware.enview.page.impl.DatabasePageManager" >
+	<meta key="j2:cat" value="default" />
+    <meta key="j2:alias" value="com.saltware.enview.page.PageManager" />
+  </bean>
+
+  
+
+  <!-- PortalSite -->
+  <bean id="com.saltware.enview.portalsite.PortalSiteContentTypeMapper" name="portalSiteContentTypeMapper"
+    class="com.saltware.enview.portalsite.impl.PortalSiteContentTypeMapperImpl">         
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index="0">
+      <list>
+        <bean class="com.saltware.enview.portalsite.impl.ContentTypeMapping">
+          <constructor-arg index="0">
+            <value>^/content/.*\w[.](\w+)&#36;</value> <!-- use &#36; for '$' -->
+          </constructor-arg>
+          <constructor-arg index="1">
+            <value>&#36;1</value> <!-- use &#36; for '$' -->
+          </constructor-arg>
+        </bean>
+        <bean class="com.saltware.enview.portalsite.impl.ContentTypeMapping">
+          <constructor-arg index="0">
+            <value>^/content/</value>
+          </constructor-arg>
+          <constructor-arg index="1">
+            <value>html</value>
+          </constructor-arg>
+        </bean>
+      </list>
+    </constructor-arg>
+  </bean>
+  <bean id="com.saltware.enview.portalsite.PortalSite" name="portalSite"
+    class="com.saltware.enview.portalsite.impl.PortalSiteImpl">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index="0">
+      <ref bean="com.saltware.enview.page.PageManager" />
+    </constructor-arg>
+    <constructor-arg index="1">
+      <ref bean="com.saltware.enview.portalsite.PortalSiteContentTypeMapper"/>
+    </constructor-arg>
+  </bean>
+  
+  <bean id="com.saltware.enview.portalsite.EnviewPortalSite" 
+       name="enviewPortalSite"
+       class="com.saltware.enview.portalsite.impl.EnviewPortalSiteImpl">    
+		<meta key="j2:cat" value="default" />
+       <constructor-arg index="0"><ref bean="com.saltware.enview.page.PageManager"/></constructor-arg>
+	   <constructor-arg index="1"><ref bean="com.saltware.enview.notice.impl.NoticeManager"/></constructor-arg>
+  </bean>
+  
+  <bean id="com.saltware.enview.portalsite.PortalSiteRequestContext" 
+       name="enviewPortalSiteRequestContext"
+       class="com.saltware.enview.portalsite.impl.EnviewPortalSiteRequestContextImpl">    
+		<meta key="j2:cat" value="default" />
+  </bean>
+  
+  <!--bean id="com.saltware.enview.portalsite.PortalSiteManager" 
+       name="portalSiteManager"
+       class="com.saltware.enview.portalsite.impl.EnviewPortalSiteManagerImpl">    
+		<meta key="j2:cat" value="default" />	   
+       <constructor-arg index="0"><ref bean="com.saltware.enview.page.PageManager"/></constructor-arg>
+  </bean-->
+
+  <!-- PageSerializer, source: xmlPageManager, dest: dbPageMmanager -->
+  <bean id="com.saltware.enview.page.PageSerializer" class="com.saltware.enview.page.PageSerializerImpl">
+    <meta key="j2:cat" value="pageSerializer" />
+    <constructor-arg index="0">
+      <ref bean="xmlPageManager" />
+    </constructor-arg>
+    <constructor-arg index="1">
+      <ref bean="dbPageManager" />
+    </constructor-arg>
+  </bean>
+
+  <!-- PageLayoutComponent -->
+  <!--bean id="com.saltware.enview.layout.PageLayoutComponent"
+    class="com.saltware.enview.layout.impl.PageLayoutComponentImpl">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index="0">
+      <ref bean="com.saltware.enview.page.PageManager" />
+    </constructor-arg>
+    <constructor-arg index="1">
+      <value>enview-layouts::VelocityOneColumn</value>
+    </constructor-arg>
+  </bean-->
+
+</beans>

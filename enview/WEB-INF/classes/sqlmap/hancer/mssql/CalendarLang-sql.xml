@@ -1,0 +1,48 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="cal">
+
+	<resultMap id="calendar.lang" class="com.saltware.enhancer.calendar.service.CalendarLangVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>	 
+		<result property="langKnd" column="LANG_KND" columnIndex="2"/>	 
+		<result property="name" column="NAME" columnIndex="3"/>	 
+		<result property="comments" column="COMMENTS" columnIndex="4"/>
+		<result property="insDatim" column="INS_DATIM" columnIndex="5"/>
+		<result property="updDatim" column="UPD_DATIM" columnIndex="6"/>	 
+	</resultMap>
+	
+	<select id="calendar.lang.list" resultMap="calendar.lang">/* calendar.lang.list */
+		SELECT CALENDAR_ID, LANG_KND, NAME, COMMENTS, INS_DATIM, UPD_DATIM
+		FROM CALENDAR_LANG
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+	</select>
+	
+	<select id="calendar.lang.detail" resultMap="calendar.lang">/* calendar.lang.detail */
+		SELECT CALENDAR_ID, LANG_KND, NAME, COMMENTS, INS_DATIM, UPD_DATIM
+		FROM CALENDAR_LANG
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER) AND LANG_KND=#langKnd#
+	</select>
+	
+	<insert id="calendar.lang.insert">/* calendar.lang.insert */
+		INSERT INTO CALENDAR_LANG (CALENDAR_ID, LANG_KND, NAME, COMMENTS, INS_DATIM, UPD_DATIM)
+		VALUES (CAST(#calendarId# AS INTEGER), #langKnd#, #name#, #comments#, GETDATE(), GETDATE())
+	</insert>
+	
+	<update id="calendar.lang.update">/* calendar.lang.update */
+		UPDATE CALENDAR_LANG SET NAME=#name#, COMMENTS=#comments#, UPD_DATIM=GETDATE()
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+		<isNotNull property="langKnd" prepend=" AND ">LANG_KND=#langKnd#</isNotNull>
+	</update>
+	
+	<delete id="calendar.lang.delete">/* calendar.lang.delete */
+		DELETE FROM CALENDAR_LANG
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+		<isNotNull property="langKnd" prepend=" AND ">LANG_KND=#langKnd#</isNotNull>
+	</delete>
+	
+	<delete id="calendar.lang.delete.all">/* calendar.lang.delete.all */
+		DELETE FROM CALENDAR_LANG
+		WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER)
+	</delete>
+</sqlMap>
+

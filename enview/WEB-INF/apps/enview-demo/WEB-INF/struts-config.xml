@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?> 
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+                               "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config> 
+	<data-sources/>
+    <!-- Æû ºóÀÇ Á¤ÀÇ --> 
+    <form-beans> 
+        <form-bean name="logonForm" type="app.LogonForm"/> 
+    </form-beans> 
+	
+	<global-exceptions/>
+	
+    <!-- ±Û·Î¹ú Æ÷¿öµå Á¤º¸ Á¤ÀÇ --> 
+    <global-forwards> 
+        <forward name="welcome"  path="/Welcome.do"/> 
+    </global-forwards> 
+    <!-- ½ºÆ®·µÃ÷ ¾×¼Ç ¸ÅÇÎ --> 
+    <action-mappings> 
+		<action path="/DeptSiteAction"
+                type="kr.ac.dit.portal.action.DeptSiteAjaxAction"
+                parameter="method">
+			<forward name="success" path="/WEB-INF/view/deptsite-view.vm"/> 
+        </action>
+		
+        <action path="/Welcome" 
+            type="org.apache.struts.actions.ForwardAction" 
+            parameter="/WEB-INF/view/welcome.vm"/> 
+
+    </action-mappings> 
+	
+	<message-resources key="message" parameter="MessageResources"/>
+	
+</struts-config>

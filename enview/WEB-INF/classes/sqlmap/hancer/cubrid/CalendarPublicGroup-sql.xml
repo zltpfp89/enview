@@ -1,0 +1,15 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="cal.cubrid">
+
+	<insert id="calendar.public.group.insert.cubrid">/* calendar.public.group.insert.cubrid */
+		INSERT INTO CALENDAR_PUBLIC_GROUP (CALENDAR_ID, GROUP_ID, PERMISSIONS, INS_DATIM, UPD_DATIM)
+		VALUES (#calendarId#, #groupId#, #permissions#, SYSDATETIME, SYSDATETIME)
+	</insert>
+	
+	<update id="calendar.public.group.update.cubrid">/* calendar.public.group.update.cubrid */
+		UPDATE CALENDAR_PUBLIC_GROUP SET PERMISSIONS=#permissions#, UPD_DATIM=SYSDATETIME
+		WHERE CALENDAR_ID=#calendarId# AND GROUP_ID=#groupId#
+	</update>
+</sqlMap>
+

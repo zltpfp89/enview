@@ -1,0 +1,56 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="cal.cubrid">
+	
+	<insert id="calendar.public.insert.cubrid">/* calendar.public.insert.cubrid */
+		INSERT INTO CALENDAR_PUBLIC (CALENDAR_ID, DOMAIN_ID, FG_COLOR, BG_COLOR, IS_USE, IS_BILINGUAL, OWNER_ID, PUBLIC_TYPE, INS_DATIM, UPD_DATIM)
+		VALUES (#calendarId#, #domainId#, #fgColor#, #bgColor#, #isUse#, #isBilingual#, #ownerId#, #publicType#, SYSDATETIME, SYSDATETIME)
+	</insert>
+	
+	<update id="calendar.user.public.insert.cubrid">/* calendar.user.public.insert.cubrid */
+		UPDATE CALENDAR SET IS_PUBLIC='Y', UPD_DATIM=SYSDATETIME
+		WHERE CALENDAR_ID=#calendarId#
+	</update>
+	
+	<update id="calendar.public.update.cubrid">/* calendar.public.update.cubrid */
+		UPDATE CALENDAR_PUBLIC SET
+		<isNotNull property="domainId">DOMAIN_ID=#domainId#, </isNotNull> 
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		<isNotNull property="isUse">IS_USE=#isUse#, </isNotNull>
+		<isNotNull property="isBilingual">IS_BILINGUAL=#isBilingual#, </isNotNull>
+		<isNotNull property="publicType">PUBLIC_TYPE=#publicType#, </isNotNull>
+		UPD_DATIM=SYSDATETIME
+		WHERE CALENDAR_ID=#calendarId#
+	</update>
+	
+	<update id="calendar.user.public.update.cubrid">/* calendar.user.public.update.cubrid */
+		UPDATE CALENDAR SET
+		<isNotNull property="fgColor">FG_COLOR=#fgColor#, </isNotNull>
+		<isNotNull property="bgColor">BG_COLOR=#bgColor#, </isNotNull>
+		UPD_DATIM=SYSDATETIME
+		WHERE CALENDAR_ID=#calendarId#
+	</update>
+	
+	<update id="calendar.user.public.delete.cubrid">/* calendar.user.public.delete.cubrid */
+		UPDATE CALENDAR SET IS_PUBLIC='N', UPD_DATIM=SYSDATETIME
+		WHERE 1=1
+		<isNotNull property="calendarId" prepend=" AND ">CALENDAR_ID=#calendarId#</isNotNull>
+		<isNotNull property="calendarIds" prepend=" AND ">CALENDAR_ID IN <iterate property="calendarIds" open="(" close=")" conjunction=",">(#calendarIds[]#)</iterate></isNotNull>
+	</update>
+	
+	<insert id="calendar.public.insert.lang.cubrid">/* calendar.public.insert.lang.cubrid */
+		INSERT INTO CALENDAR_LANG (CALENDAR_ID, LANG_KND, NAME, COMMENTS, INS_DATIM, UPD_DATIM)
+		VALUES (#calendarId#, #langKnd#, #name#, #comments#, SYSDATETIME, SYSDATETIME)
+	</insert>
+	
+	<update id="calendar.public.update.lang.cubrid">/* calendar.public.update.lang.cubrid */
+		UPDATE CALENDAR_LANG SET
+		<isNotNull property="name">NAME=#name#, </isNotNull>
+		<isNotNull property="comments">COMMENTS=#comments#, </isNotNull>
+		UPD_DATIM=SYSDATETIME
+		WHERE CALENDAR_ID=#calendarId#
+		<isNotNull property="langKnd" prepend=" AND ">LANG_KND=#langKnd#</isNotNull>
+	</update>
+
+</sqlMap>

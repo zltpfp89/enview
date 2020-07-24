@@ -1,0 +1,2 @@
+
+({"displayName":"?ㅳ꺍???ャ깞??,"symbol":"INR"})

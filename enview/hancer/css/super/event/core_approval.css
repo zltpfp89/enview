@@ -1,0 +1,108 @@
+@charset "utf-8";
+
+/*  ////////////////////////////////////////////////////////////////////////////
+	Base		기본적인 세팅
+	Layout		최상위 레이아웃
+	Menu		메뉴관련
+	Btn			버튼관련
+	Table		테이블관련
+	Bullet		블릿관련
+	Popup		팝업관련
+	Etc			기타
+//////////////////////////////////////////////////////////////////////////// */
+
+@import url("core_base.css");
+@import url("core_layout.css");
+@import url("core_table.css");
+
+
+/*  ////////////////////////////////////////////////////////////////////////////
+추가되는 css는 본 페이지에 작업해주세요
+core_의 파일들은 수정하지 말것
+
+Event     이벤트
+Search   검색
+bbs        배너게시판관련
+
+//////////////////////////////////////////////////////////////////////////// */
+
+@import url("core_event.css");
+@import url("core_search.css");
+@import url("core_banner_bbs.css");
+
+
+
+
+
+/*         bullet          */
+/* backup --
+h1{
+	clear:both;
+	display:block;
+	width:100%;
+	font-size:15px;
+	line-height:101%;
+	letter-spacing:-1px;
+	font-weight:bold;
+	padding:0px 0px 0px 15px;
+	margin:0px 0px 0px 0px;
+	background:url(./img/h1.gif) no-repeat 0px 3px;
+	border:0px solid red;
+}
+
+p.h1dis{
+	clear:both;
+	display:block;
+	width:100%;
+	font-size:12px;
+	padding:10px 0px 10px 1px;
+	margin:0px 0px 10px 0px;
+	border-bottom:1px solid #e5e5e5;
+}
+*/
+
+
+h1{
+	clear:both;
+	display:block;
+	width:100%;
+	font:bold 15px dotum,돋움,arial;
+	line-height:101%;
+	letter-spacing:-1px;
+	padding:0 0 0 15px;
+	margin:0 0 10px 0;
+	background:url(./img/h1.gif) no-repeat 0px 3px;
+	border:0px solid red;
+}
+
+
+
+/* input 속성 */
+input {vertical-align:middle;}
+img {vertical-align:middle;}
+ /* span.버튼 기본 */ 
+ 
+	
+	
+span.btn_s,
+span.btn_s a,
+span.btn_s btn,
+span.btn_s input { position:relative; margin:0; display:inline-block; text-decoration:none !important; border:0; font:11px; white-space:nowrap; background:url(./img/btn_s_w.gif) no-repeat; vertical-align:middle; overflow:visible;}
+span.btn_s { height:18px; padding:0;  background-position:left top; overflow:visible;}
+span.btn_s a,
+span.btn_s btn,
+span.btn_s input{ left:2px;}
+
+
+
+/* A */
+span.btn_s a { padding:4px 10px 6px 8px; *padding:4px 10px 7px 8px; color:#494949; font:11px/11px 돋움; background-position:right top;}
+span.btn_s a:hover{ text-decoration:none;color:#000;cursor:hand;}
+/* Icon */
+span.btn_s .icon { position:relative; left:8px;margin-bottom:1px; vertical-align:middle; border:0; z-index:2;}
+
+/* 위치 */
+.btn_s_0{margin:0; padding:0; border:0px;}
+.btn_s_right{ margin:10px 5px; border:0px; text-align:right;}
+.btn_C{text-align:center;}
+

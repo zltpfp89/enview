@@ -1,0 +1,50 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	<select id="batchResult.findByCondition.postgresql" resultMap="admin_BatchResultVO_PK">
+	/* batchResult.findByCondition.postgresql */
+		SELECT RESULT_ID
+		FROM BATCH_RESULT
+		WHERE SCHEDULE_ID=CAST(#batchScheduleId# AS INTEGER) 
+		AND ACTION_ID=CAST(#batchActionId# AS INTEGER)
+		<isNotNull prepend=" AND " property="parameter">PARAMETER=#parameter#</isNotNull>
+		AND EXECUT_START> (LOCALTIMESTAMP - INTERVAL '1 hour')
+	</select>
+
+	<insert id="batchResult.insert.postgresql">
+	/* batchResult.insert.postgresql */
+		INSERT INTO BATCH_RESULT
+			( RESULT_ID,SCHEDULE_ID,ACTION_ID
+			<isNotNull property="parameter">,PARAMETER</isNotNull>
+			<isNotNull property="status">,STATUS</isNotNull>
+			<isNotNull property="errorInfo">,ERROR_INFO</isNotNull>
+			<isNotNull property="executEnd">,EXECUT_END</isNotNull>
+			,EXECUT_START
+			,UPD_USER_ID,UPD_DATIM )
+		VALUES ( #resultId#,#scheduleId#,#actionId#
+		<isNotNull property="parameter">,#parameter#</isNotNull>
+		<isNotNull property="status">,#status#</isNotNull>
+		<isNotNull property="errorInfo">,#errorInfo#</isNotNull>
+		<isNotNull property="executEnd">,#executEnd#</isNotNull>
+		, LOCALTIMESTAMP
+		,#updUserId#,#updDatim# )
+	</insert>
+	
+	<update id="batchResult.update.postgresql">
+	/* batchResult.update.postgresql */
+		UPDATE BATCH_RESULT
+		<isNotNull property="parameter">
+		SET RESULT_ID=#resultId#,SCHEDULE_ID=#scheduleId#,ACTION_ID=#actionId#,PARAMETER=#parameter#,STATUS=#status#,ERROR_INFO=#errorInfo#
+		</isNotNull>
+		<isNull property="parameter">
+		SET RESULT_ID=#resultId#,SCHEDULE_ID=#scheduleId#,ACTION_ID=#actionId#,STATUS=#status#,ERROR_INFO=#errorInfo#
+		</isNull>
+		,EXECUT_END=LOCALTIMESTAMP
+		,UPD_DATIM=LOCALTIMESTAMP
+		WHERE 1=1 
+			AND RESULT_ID=#resultId#
+	</update>
+
+</sqlMap>
+

@@ -1,0 +1,129 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ BATCH_RESULT : 배치결과관리 ] Table -->
+	<resultMap id="admin_BatchResultVO_PK" class="com.saltware.enview.admin.batchSchedule.service.BatchResultPK">
+	
+		<result property="resultId" column="RESULT_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_BatchResultVO" class="com.saltware.enview.admin.batchSchedule.service.BatchResultVO">
+	 
+		<result property="resultId" column="RESULT_ID" columnIndex="1"/>	 
+		<result property="scheduleId" column="SCHEDULE_ID" columnIndex="2"/>	 
+		<result property="actionId" column="ACTION_ID" columnIndex="3"/>	 
+		<result property="actionName0" column="ACTION_NAME0" columnIndex="4"/>	 
+		<result property="parameter" column="PARAMETER" columnIndex="5"/>	 
+		<result property="status" column="STATUS" columnIndex="6"/>	 
+		<result property="errorInfo" column="ERROR_INFO" columnIndex="7"/>	 
+		<result property="executStart" column="EXECUT_START" columnIndex="8"/>	 
+		<result property="executEnd" column="EXECUT_END" columnIndex="9"/>	 
+		<result property="updUserId" column="UPD_USER_ID" columnIndex="10"/>	 
+		<result property="updDatim" column="UPD_DATIM" columnIndex="11"/>	
+	</resultMap>
+	
+	<select id="batchResult.totalCount" resultClass="int">
+	/* batchResult.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM BATCH_RESULT a 
+		INNER JOIN BATCH_ACTION b ON a.ACTION_ID=b.ACTION_ID
+		WHERE 1=1	
+		<isNotNull  prepend=" AND " property="statusCond">a.STATUS LIKE #statusCond#||'%'</isNotNull>
+		<isNotNull  prepend=" AND " property="name0Cond">b.NAME LIKE #name0Cond#||'%'</isNotNull>
+		<isNotNull  prepend=" AND " property="executStartCond">a.EXECUT_END BETWEEN #executStartCond# AND #executEndCond#</isNotNull>
+	</select>
+	
+	<select id="batchResult.findByPage" resultMap="admin_BatchResultVO_PK">
+	/* batchResult.findByPage */
+		SELECT tb1.* FROM (
+			SELECT a.RESULT_ID, ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY a.UPD_DATIM DESC</isNull>
+			) as rnum
+			FROM BATCH_RESULT a 
+			INNER JOIN BATCH_ACTION b ON a.ACTION_ID=b.ACTION_ID
+			WHERE 1=1 
+			<isNotNull  prepend=" AND " property="statusCond">a.STATUS LIKE #statusCond#||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="name0Cond">b.NAME LIKE #name0Cond#||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="executStartCond">a.EXECUT_END BETWEEN #executStartCond# AND #executEndCond#</isNotNull>
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+	
+	<select id="batchResult.findByCondition" resultMap="admin_BatchResultVO_PK">
+	/* batchResult.findByCondition */
+		SELECT RESULT_ID
+		FROM BATCH_RESULT
+		WHERE SCHEDULE_ID=#batchScheduleId# AND ACTION_ID=#batchActionId#
+		<isNotNull prepend=" AND " property="parameter">PARAMETER=#parameter#</isNotNull>
+		AND EXECUT_START> ADDDATE( SYSDATETIME, INTERVAL -1 MINUTE)
+	</select>
+
+	<select id="batchResult.findAll" resultMap="admin_BatchResultVO_PK">
+	/* batchResult.findAll */
+		SELECT RESULT_ID
+		FROM BATCH_RESULT
+	</select>
+	
+
+	<select id="batchResult.detail" resultMap="admin_BatchResultVO">
+	/* batchResult.detail */
+		<![CDATA[
+			SELECT a.RESULT_ID, a.SCHEDULE_ID, a.ACTION_ID, b.NAME ACTION_NAME0, a.PARAMETER, a.STATUS, a.ERROR_INFO, a.EXECUT_START, a.EXECUT_END, a.UPD_USER_ID, a.UPD_DATIM
+			FROM BATCH_RESULT a INNER JOIN BATCH_ACTION b ON a.ACTION_ID=b.ACTION_ID
+			WHERE 1=1 
+				AND a.RESULT_ID=#resultId#
+		]]>
+	</select>
+	
+	<select id="batchResult.exist" resultClass="int">
+	/* batchResult.exist */
+		SELECT COUNT(*) cnt
+		FROM BATCH_RESULT
+		WHERE 1=1 
+			AND RESULT_ID=#resultId#
+	</select>
+	
+	<insert id="batchResult.insert">
+	/* batchResult.insert */
+		INSERT INTO BATCH_RESULT
+			( RESULT_ID,SCHEDULE_ID,ACTION_ID
+			<isNotNull property="parameter">,PARAMETER</isNotNull>
+			<isNotNull property="status">,STATUS</isNotNull>
+			<isNotNull property="errorInfo">,ERROR_INFO</isNotNull>
+			<isNotNull property="executStart">,EXECUT_START</isNotNull>
+			<isNotNull property="executEnd">,EXECUT_END</isNotNull>
+			,UPD_USER_ID,UPD_DATIM )
+		VALUES ( #resultId#,#scheduleId#,#actionId#
+		<isNotNull property="parameter">,#parameter#</isNotNull>
+		<isNotNull property="status">,#status#</isNotNull>
+		<isNotNull property="errorInfo">,#errorInfo#</isNotNull>
+		<isNotNull property="executStart">,#executStart#</isNotNull>
+		<isNotNull property="executEnd">,#executEnd#</isNotNull>
+		,#updUserId#,#updDatim# )
+	</insert>
+	
+	<update id="batchResult.update">
+	/* batchResult.update */
+		UPDATE BATCH_RESULT
+		<isNotNull property="parameter">
+		SET RESULT_ID=#resultId#,SCHEDULE_ID=#scheduleId#,ACTION_ID=#actionId#,PARAMETER=#parameter#,STATUS=#status#,ERROR_INFO=#errorInfo#,EXECUT_END=#executEnd#,UPD_DATIM=#updDatim#
+		</isNotNull>
+		<isNull property="parameter">
+		SET RESULT_ID=#resultId#,SCHEDULE_ID=#scheduleId#,ACTION_ID=#actionId#,STATUS=#status#,ERROR_INFO=#errorInfo#,EXECUT_END=#executEnd#,UPD_DATIM=#updDatim#
+		</isNull>
+		WHERE 1=1 
+			AND RESULT_ID=#resultId#
+	</update>
+	
+	<delete id="batchResult.delete">
+	/* batchResult.delete */
+		<![CDATA[
+			DELETE FROM BATCH_RESULT
+			WHERE 1=1 
+				AND RESULT_ID=#resultId#
+		]]>
+	</delete>
+</sqlMap>

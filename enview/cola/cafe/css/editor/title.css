@@ -1,0 +1,315 @@
+html { height: 100%; }
+body { margin: 0px; padding: 0px; }
+.cafe_title_wrap	{ width: 933px; height: 338px; border: 1px solid #828282; margin: 10px auto 0px auto; z-index: 1000; }
+
+
+/********************************************************************************** 
+*****	encafe template edit mode CSS 
+**********************************************************************************/
+#edit_menu_bar{ background:url(../../images/sysop/encafe/header_bg.gif) repeat-x; position:relative; width:100%; height:53px; margin:0 auto; border:0px solid lime;}
+.adminMenu{float:left; width:200px; height:527px;background:url(../../images/sysop/encafe/sidemenu_bg.gif) repeat-y;}
+.contents{float:right; min-width: 761px; min-height: 389px; max-width: 780px; max-height: 512px; }
+h3{background:url(../../images/sysop/encafe/h3.gif) no-repeat 0 0; padding:0 0 0 15px; font-weight:bold; font-size:14px;}
+
+.encafelogo { width: 929px; margin: 0px auto; position:relative; padding-top: 16px; padding-bottom: 17px; }
+.encafelogo img { cursor: pointer; }
+.encafelogo .name{position:absolute; left:110px; top:23px; font-weight:bold; cursor: pointer; font-size: 12px; font-family: gulim; color: #444444; }
+/*********************************************************************************
+ **********************  encafe template Title Portlet CSS  ********************** 
+ *********************************************************************************/
+.cafetitle				{ width: 931px; margin: 1px auto; }
+ 
+.maskLayer  { position: absolute; top: -1px; left: -1px; border: 1px dashed black; display: none; cursor: pointer; }
+.buttonLayer{ position: relative; top: -22px; left: -1px; height: 18px; }
+.editBtn 	{ float: left; width: 18px; height: 18px; margin-right: 3px; background-image: url(../../images/editor/title/edit.gif); cursor: pointer; z-index: 9999; }
+.deleteBtn	{ float: left; width: 18px; height: 18px; background-image: url(../../images/editor/title/delete.gif); cursor: pointer;  z-index: 9999;  }
+
+.titleArea					{ position: relative; left: 0px; width: 929px; min-height: 50px; max-height: 335px;  margin: 1px; background-color: transparent; }
+.title_background 			{ z-index: 200; max-height: 335px;  min-height: 40px;}
+.title_cafeName 			{ z-index: 201; cursor: move; }
+.title_cafeName:HOVER		{ z-index: 201; border: 1px dashed red; margin-top: -1px; margin-left: -1px; }
+.title_cafeUrl				{ z-index: 202; cursor: move; }
+.title_cafeUrl:HOVER		{ z-index: 202; border: 1px dashed red; margin-top: -1px; margin-left: -1px; }
+.title_cafeTitleMenus		{ z-index: 203;	width: 100%; height: 36px; text-align: center; cursor: move; top: 50px; border: 1px solid; }
+.title_cafeTitleMenus:HOVER	{ z-index: 203; border: 1px dashed red; margin-top: 0px; margin-left: 0px; }
+.title_cafeTitleMenu		{ z-index: 204; font-size: 13px; font-weight: bold; float: left; height: 34px; line-height: 36px; vertical-align: middle; padding-left: 10px; padding-right: 10px; }
+.title_cafeTitleMenuPipe	{ z-index: 204; font-size: 12px; float: left; width: 10px; height: 34px; line-height: 36px; vertical-align: middle; text-align: left; text-indent: 0px; text-align: center; opacity: 0.5; }
+.title_cafeSearch			{ z-index: 205;	font-size: 12px; }
+.title_cafeSearchField		{ z-index: 206; height: 15px; position: relative; float: left; }
+.title_cafeSearchButton		{ z-index: 207; font-size: 11px; border: 1px solid black; height: 19px; position: relative; float: left; vertical-align: middle; line-height: 17px; width: 40px; text-align: center; left: -1px; }
+.title_counter				{ z-index: 208;	}
+
+.title_ctrlBtn				{ z-index: 63;	position:absolute;	display: none; cursor: default; }
+.title_ctrlBtn img			{ cursor: pointer; }
+.title_favorCafeDiv			{ display: none;	z-index: 9999;	position: absolute;	width: 200px;	height: 120px;	border-width: 1px;	border-style: solid;	border-color: #BDBDBD;
+							  overflow: auto;	word-wrap: break-word;	padding: 5px 5px 10px 5px;	cursor: default;	font-size: 12px;	font-family: sans-serif;	color: #323232;
+							  background-color: #f2f7fa; }
+.title_favorCafeDiv li		{ text-align: left;	line-height: 18px; }
+.title_favorCafeDiv li:HOVER{ background-color: #ADE;	cursor: pointer; }
+.title_favorCafeList		{ line-height: 20px; }
+
+/* a 태그에 클래스나 아이디 달도록*/
+.title_favorCafeList li a	{ background-color: hsla(0,0%,0%,0); }
+
+.cafetitle_mask			{ display: none;	z-index: 999;	position: absolute;	background-color: white;	cursor: pointer; }
+.cafetitle_mask_opacity	{ background: hsla(0,0%,0%,0); }
+.cafetitle_mask_layer	{ border: 1px dashed black; }
+
+.emptyArea {
+	position: relative;
+	left: -2px;
+	top: 2px;
+	width: 933px;
+	background-image: url('../../images/editor/title/curtainPattern.gif'); 
+	background-repeat: repeat;
+	z-index: 310;
+}
+
+.dragArea {
+	position: absolute;
+	left: -3px;
+	top: 50px;
+	width: 935px;
+	height: 285px;
+	background-color: transparent;
+	z-index: 100;
+}
+
+
+.heightResizeBar {
+	position: absolute;
+	left: -3px;
+	width: 935px;
+	height: 18px;
+	
+	overflow: hidden;
+	cursor: row-resize;
+	z-index: 400;
+}
+
+.resizeBar {
+	margin: 0px;
+	padding-top: 1px;
+	width: 932px;
+	height: 7px;
+	background-color: #999;
+	z-index: 0;
+}
+
+.resizeButton {
+	position: relative;
+	top: -7px;
+	left: 431px;
+	z-index: 0;
+}
+
+.menuArea {
+	margin: 0px auto;
+	width: 933px;
+	height: 47px;
+	border: 1px solid #828282;
+	border-top: none;
+	z-index: 2000;
+	background-image: url(../../images/editor/title/title_menubg.gif);
+}
+
+.leftMenu { float: left; height: 47px; font-size: 13px; font-family: dotum, gulim, sans-serif; color: #555555; font-weight: bold; letter-spacing: -1px; }
+.rightMenu { float: right; height: 47px; font-size: 12px; font-family: dotum, gulim, sans-serif;  color: #666666; }
+
+.menuEditor {
+	float: left;
+	height: auto;
+	margin-top: 18px;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+.menuEditorLabel {
+	height: 17px;
+	margin: 0px auto 0px auto;
+	text-align: center;
+}
+
+
+.menuController {
+	float: left;
+	margin: 12px auto 0px auto;
+	height: auto;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+.bgHeightController { width: 140px; }
+
+.menuControlLabel {
+	float: left;
+	height: 17px;
+	text-align: center;
+}
+
+.menu  { cursor: pointer; }
+.menuLabel {
+	margin: 15px auto 0px auto;
+	font-family: sans-serif;
+	font-size: 12px;
+	text-align: left;
+}
+
+.bgHeightLabel { margin-top: 0px; margin-right: 1px; width: 30px; height: 23px; line-height: 25px; }
+
+.heightSetting { float: left; background-image: url(../../images/editor/title/title_height_field.gif); }
+.heightFeild { float: left; text-align: right; margin-top: 4px; margin-right: 2px; width: 28px; height: 14px; text-indent: 2px; font-size: 13px; font-family: gulim; border: none; background-color: transparent; }
+.heightInput { float: left; background-image: url(../../images/editor/title/title_height_btn.gif); width: 28px; height: 23px; backgroound-position: 0 0; background-repeat: no-repeate; cursor: pointer; }
+.gridArea {
+	position: absolute;
+	top: 0px;
+	width: 929px;
+	background-image: url('../../images/editor/title/grid.gif');
+	z-index: 100;
+	display: none;
+}
+
+.gridController { margin-top: 15px; line-height: 20px; }
+.gridCheckbox { float: left; margin-top : 2px; border-width: 1px; padding: 0 5px 0 0; }
+
+.resetController { margin-top: 18px; background-image: url(../../images/editor/title/title_reset.png); background-repeat: no-repeat; }
+.resetController .resetBtn { width: 60px; text-align: right; }
+
+.bottomButtons { margin: 20px auto 0px auto; width: 933px; height: 35px; }
+
+.previewBtn { float: left; cursor: pointer; height: 28px; width: 45%; background-image: url(../../images/editor/title/title_preview_btn.png); background-repeat: no-repeat; border: none; }
+.rightBottomButton { float: right; width: 55%; }
+.rightBottomButton .okBtn { float: left; cursor: pointer; height: 28px; width: 47px; background-image: url(../../images/editor/title/title_apply_btn.png);  background-repeat: no-repeate; border: none; margin-right: 5px; }
+.rightBottomButton .cancelBtn { float: left; cursor: pointer; height: 28px; width: 47px; background-image: url(../../images/editor/title/title_cancel_btn.png);  background-repeat: no-repeate; border: none; }
+
+#editorArea { overflow: auto; }
+.editorArea { background-color: silver; }
+div.ui-dialog { overflow: inherit; }
+/*******
+* 에디터 공통 
+ *******/
+div.editorLabel { float: left; width: 47px; font-size: 13px; font-family: sans-serif; }
+div.editorLabelCenter { float: left; width: 47px; font-size: 13px; font-family: sans-serif; text-align: right; margin-right: 5px; }
+div.editorLabelCenter2 { float: left; width: 57px; font-size: 13px; font-family: sans-serif; text-align: right; margin-right: 5px; }
+input.editorRadio { float: left; }
+label.editorLabel { font-size: 11px; font-family: dotum, gulim; margin-top: 0px; padding-bottom: 0px; float: left; height: 14px; padding-top: 4px; padding-right: 5px; color: #444; }
+.editorRow { width: 140px; height: 30px; line-height: 25px; vertical-align: middle; }
+.editorWideRow { width: 350px; height: 22px; line-height: 23px; vertical-align: middle; }
+
+.selectedBox { display: none; position: absolute; border: 2px solid highlight; }
+
+/*******
+* 템플릿 다이얼로그
+ *******/
+.templateDescriptionPanel { width: 502px;  height: 22px; font-size: 12px; margin: 0px auto; }
+.templateImageListPanel { width: 502px; height: 420px; margin: 0px auto; }
+.templateImageBorder { border: 1px solid silver; width: 500px; height: 90px; }
+.templateImage { width: 500px; height: 90px; cursor: pointer; }
+.templateSelectedBox { width: 498px; height: 90px; }
+.templatePagePanel { width: 500px; height: 13px; margin: 0px auto; text-align: center; font-family: gulim; font-size: 12px; margin-top: 10px; padding-top: 5px; padding-bottom: 5px; }
+
+
+/*******
+* 배경 다이얼로그
+ *******/
+.bgDescriptionPanel { width: 292px; height: 25px; margin: 0px auto; padding-top: 5px; }
+.bgImageListPanel { width: 292px; height: 190px; margin: 0px auto; }
+.bgImageBorder { float: left; margin: -1px 0px 0px -1px; border: 1px solid silver; width: 96px; height: 88px; }
+.bgImage { width: 96px; height: 88px; cursor: pointer; }
+.bgSelectedBox { width: 94px; height: 88px; }
+.bgPagePanel { width: 300px; height: 13px; margin: 0px auto; text-align: center; font-size: 12px; font-family: gulim; }
+
+.bgColorPangel { border: 1px solid black; width: 292px; height: 150px; margin: 0px auto; }
+.bgPreviewPanel { float: left; margin: 15px 10px 0px 15px; background-image: url(../../images/editor/empty.png); background-repeat: repeat; width: 120px; height: 120px; }
+.colorPanel { float: left; width: 120px; height: 120px; background-color: rgb(234, 234, 234); border: 1px solid rgb(234, 234, 234); }
+.bgColorControlPanel { float: left; margin: 15px 0px 0px 0px; width: 122px; height: 150px; }
+
+.trpcValueControler { float: left; width: auto; margin-top: 5px; }
+.bgTrcpslider { height: 21px; background-image: url(../../images/editor/title/slide.gif); }
+
+.bgTrcpslideMinus { cursor:pointer;  float: left;  background-image: url(../../images/editor/title/slide.gif); background-position: 0px 0px; height: 13px; margin-right: 3px; overflow: hidden; width: 11px; }
+.bgTrcpslideBar { cursor:pointer;  float: left;  background-image: url(../../images/editor/title/slide.gif); background-position: -29px 0px; height: 13px; margin-right: 3px; overflow: hidden; width: 60px; }
+.bgTrcpslideSelector { cursor:pointer; float: left; background-image: url(../../images/editor/title/slide.gif); background-position: -22px 0px; height: 13px; margin-left: 3px; overflow: hidden; width: 7px; }
+.bgTrcpslidePlus { cursor:pointer; float: left;  background-image: url(../../images/editor/title/slide.gif); background-position: -11px 0px; height: 13px; margin-right: 3px; overflow: hidden; width: 11px; }
+
+.bgImagePreviewPanel { float: left; width: 140px; height: 90px; border: 1px solid silver; background-color: white; background-repeat: no-repeat; margin: 10px auto 0px auto; margin-left: 10px; padding-top: 10px; position: relative; }
+.bgImageControlPanel { float: left; margin: 15px 0px 0px 10px; width: 122px; height: 150px; }
+
+.bgImageRow { height: 54px; width: 126px; padding-bottom: 5px; }
+.bgImageRow2 { height: 40px; width: 126px; }
+label.titleBgFileLabel { height: 20px; line-height: 14px; float: left; font-family: dotum, sans-serif; font-size: 11px; padding-top: 4px; padding-right: 3px; margin-top: 0px; }
+label.titleBgFileLabel { height: 20px; line-height: 14px; float: left; font-family: dotum, sans-serif; font-size: 11px; padding-top: 4px; padding-right: 3px; margin-top: 0px; }
+.titleBgFileForm { width: 88px; height: 20px; float: right; }
+.titleBgFile { width: 88px; height: 20px; line-height: 20px; font-size: 12px; font-family: dotum, sans-serif; }
+.titleBgHelp { width: 120px; height: 15px; float: left; color: #999999; font-size: 11px; font-family: dotum, sans-serif; letter-spacing: -1px; }
+
+.bgColorPickerPanel { float: left; width: 22px; height: 21px; border: 0px solid #e7e6e2; color: #4444; display: block;  }
+
+.positionPickerPanel { float: left; width: 20px; height: 19px; border: 1px solid #e7e6e2; color: #4444; display: block;  }
+.positionPicker { width: 14px; height: 13px; margin-top: 2px; background-image: url('../../images/editor/ggum/align_button.gif'); background-color: rgb(234, 234, 234); cursor: pointer; background-position-x: center; background-position-y: bottom; margin: 3px; }
+
+
+/*********
+* 카페이름, 카페주소
+**********/
+.previewPanel { width: 350px; height: 110px; border: 1px solid silver; background-image: url('../../images/editor/empty.png'); background-repeat: repeat; margin: 10px auto 0px auto; }
+.previewCafeNm { margin: 15px; background-color: transparent; }
+.previewCafeUrl { margin: 15px; background-color: transparent; }
+.cafeNameEditPanel { width: 350px; height: 22px; margin: 0px auto; }
+select.fontNameSelect { float: left; width: 90px; height: 22px; font-size: 13px; }
+select.fontSizeSelect { float: left; width: 55px; height: 22px; font-size: 13px; }
+
+.fontName { float: left; height: 22px; }
+.fontSize { float: left; height: 22px; }
+.fontColor { float: left; height: 22px; }
+
+
+/***********
+* 타이틀 메뉴
+************/
+.tmTemplateDescriptionPanel { width: 477px;  height: 20px; margin: 0px auto; font-size: 12px; font-family: gulim; }
+.tmTemplateImageListPanel { width: 477px; height: 175px; margin: 0px auto; }
+.tmTemplateImageBorder { float:left; margin-left: -1px; border: 1px solid silver; width: 236px; height: 53px; }
+.tmTemplateImage { width: 236px; height: 53px; cursor: pointer; }
+.tmTemplateSelectedBox { width: 234px; height: 51px; }
+.tmTemplatePagePanel { width: 500px; height: 13px; margin: 0px auto; text-align: center; font-size: 12px; font-family: gulim; }
+
+
+/***********
+* 검색창
+************/
+.srchTemplateDescriptionPanel { width: 240px;  height: 20px; }
+.srchTemplateImageListPanel { width: 240px; height: 285px; }
+.srchTemplateImageBorder { border: 1px solid silver; width: 236px; height: 53px; }
+.srchTemplateImage { width: 236px; height: 53px; cursor: pointer; }
+.srchTemplateSelectedBox { display: none; position: absolute; width: 234px; height: 51px; border: 2px solid highlight; }
+.srchTemplatePagePanel { width: 240px; height: 13px; margin: 0px auto; text-align: center; }
+
+
+.pageButton { float: left; width: 10px; height: 10px; border: 1px solid silver; cursor: pointer; }
+.prev { margin-right:5px; }
+.pipe { float: left; width: 5px; text-align: center; }
+.page { float: left; width: 20px; text-align: center; cursor: pointer; color: silver; height: 12px; margin-top: 1px; }
+.page:HOVER { font-weight: bold; color: black; }
+.currentPage { font-weight: bold; color: black; }
+.next { margin-left:5px; }
+
+
+#previewUserImage { display: none; }
+.imgLink {
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    text-indent: -9999em;
+}
+#delPhoto {
+    background: url("../../images/editor/ggum/bt_del_photo.gif") no-repeat scroll 0 0 transparent;
+    display: none;
+    height: 12px;
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    width: 13px;
+    z-index: 1;
+}
