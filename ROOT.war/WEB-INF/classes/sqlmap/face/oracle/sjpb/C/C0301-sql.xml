@@ -1,0 +1,97 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="face">
+	
+	<!-- 사건추가 팝업 리스트 맵 -->	
+	<resultMap id="C0301.C0301VO.list" class="com.saltware.enface.sjpb.C.service.C0301VO">
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="beDt" column="BE_DT"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="rltActCriNm" column="RLT_ACT_CRI_NM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="criTmNm" column="CRI_TM_NM"/>	
+		<result property="incCriCmdItemNum" column="INC_CRI_CMD_ITEM_NUM"/>		
+		<result property="criCmdTranDt" column="CRI_CMD_TRAN_DT"/>  <!-- 수사지휘인계일 -->
+		<result property="criCmdReqDt" column="CRI_CMD_REQ_DT"/>  <!-- 수사지휘접수일 -->
+		<result property="reCmdYn" column="RE_CMD_YN"/>   <!-- 재지휘여부 -->		
+	</resultMap>
+		
+	<!-- 사건추가 팝업 리스트 --> 
+	<select id="C0301.SJPB_INC_MAST.list" resultMap="C0301.C0301VO.list">  /* C0301.SJPB_INC_CRI_CMD_ITEM.ADD.list */
+	
+        SELECT DISTINCT
+         A.RCPT_NUM
+        ,A.RCPT_INC_NUM
+        ,TO_CHAR(A.BE_DT,'YYYY-MM-DD') AS  BE_DT
+        ,E.NM_KOR
+        ,C.INC_CRI_NM AS RLT_ACT_CRI_NM
+        ,B.SP_NM        
+        ,F.CRI_TM_NM /*담당수사팀*/
+        ,G.INC_CRI_CMD_ITEM_NUM   /*사건수사지휘건번호*/
+        ,TO_CHAR(G.CRI_CMD_TRAN_DT,'YYYY-MM-DD') AS CRI_CMD_TRAN_DT /*수사지휘인계일*/
+        ,TO_CHAR(G.CRI_CMD_REQ_DT,'YYYY-MM-DD') AS CRI_CMD_REQ_DT  /*수사지휘접수일*/
+        ,G.RE_CMD_YN   /*재지휘여부*/             
+        FROM SJPB_INC_MAST A        
+        JOIN (SELECT 
+         A4.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A4.SP_NM, ',') WITHIN GROUP (ORDER BY A4.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS SP_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  ) A4   
+         GROUP BY A4.GRUP_NUM) B  ON A.RCPT_NUM = B.RCPT_NUM 
+        JOIN (SELECT 
+         A6.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A6.CODE_NAME, ',') WITHIN GROUP (ORDER BY A6.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS INC_CRI_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        ,A5.CODE_NAME 
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  
+        JOIN 
+        SJPB_ACT_VIO A4 ON A3.INC_SP_NUM = A4.INC_SP_NUM   
+        LEFT OUTER JOIN CODEBASE A5 ON A4.RLT_ACT_CRI_NM_CD = A5.CODE AND A5.CODE_ID = 'SJPB_00012'
+        ) A6
+        GROUP BY A6.GRUP_NUM) C ON A.RCPT_NUM = C.RCPT_NUM              
+        JOIN SJPB_INC_CRI_MB D ON A.RCPT_NUM = D.RCPT_NUM AND D.CRI_LV_CD = '01'
+        JOIN USERPASS E ON D.CRI_MB_ID = E.USER_ID   
+        JOIN SJPB_CRI_TM F ON A.CRI_TM_ID = F.CRI_TM_ID   
+        JOIN  SJPB_INC_CRI_CMD_ITEM G ON A.RCPT_NUM = G.RCPT_NUM AND G.INC_CRI_CMD_ITEM_STAT_CD = '01'      
+        WHERE 1=1    			
+        	AND A.CRI_STAT_CD != '60'
+            AND A.CRI_STAT_CD != '61'
+            AND A.CRI_STAT_CD != '62'
+		<isNotEqual prepend=" AND " property="criTmIdSC" compareValue="">A.CRI_TM_ID=#criTmIdSC#</isNotEqual>
+		<isNotEqual prepend=" AND " property="beDtFromSC" compareValue="">A.BE_DT &gt;= TO_DATE(#beDtFromSC#,'yyyy-MM-dd hh24:mi:ss')</isNotEqual>
+		<isNotEqual prepend=" AND " property="beDtToSC" compareValue="">A.BE_DT &lt;= TO_DATE(#beDtToSC#,'yyyy-MM-dd hh24:mi:ss')</isNotEqual>
+		ORDER BY RCPT_NUM DESC
+	</select>				
+			
+	
+</sqlMap>
+

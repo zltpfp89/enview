@@ -1,0 +1,68 @@
+/* �굹�닎�룿�듃 */
+@font-face {
+  font-family: 'Gothic';
+  font-style: normal;
+  font-weight: 400;
+
+}
+
+
+
+/*湲곕낯�깭洹� �젙�쓽*/
+/* html, body {padding:0;margin:0;height:100%;} */
+body, td, select, textarea, input {font-size:12px; font-family:'고딕','Gothic'; color:#222; letter-spacing:-0.25px;}
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td, input{
+	margin: 0;
+	outline: 0;
+	border: 0;
+	padding: 0;
+	vertical-align: top;
+	background: transparent;
+}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section { display: block; }
+
+/* 由ъ뒪�듃�쓽 �뒪���씪 �젣嫄� */
+ol, ul {list-style:none;}
+
+/* �뀒�씠釉� �뒪���씪 珥덇린�솕 */
+table {border-collapse:collapse; border-spacing:0;table-layout:fixed;}
+
+/* �씠誘몄� 諛� �븘�뱶�뀑�뿉�꽌 蹂대뜑 �몴�떆 珥덇린�솕 */
+fieldset, img,iframe {border:0;}
+img{vertical-align:top;}
+
+/* 罹≪뀡 �뀓�뒪�듃 �젙�젹 珥덇린�솕 */
+caption {text-align:left;}
+
+/* �뤌�깭洹몄쓽 珥덇린�솕 */
+select {vertical-align:middle;}
+input {vertical-align:middle;}
+
+textarea {outline:none;}
+input.radio {vertical-align:middle;}
+
+input[type=text], input[type=password]{border:1px solid #ddd; background:#fff; height:29px; line-height:27px; padding:0 5px; box-sizing:border-box; ime-mode:active;}
+input[type=file]{border:1px solid #ddd; background:#fff; height:29px; line-height:28px; padding:0 5px;  box-sizing:border-box;}
+select{padding:6px 4px 5px 4px; border:1px solid #ddd; }
+input[type=text]:focus, input[type=password]:focus{border:1px solid #a7a7a7; background:#fafafa; box-shadow:2px 2px 6px #d3d3d3 inset; }
+textarea:focus{border:1px solid #a7a7a7; background:#fafafa; box-shadow:2px 2px 6px #d3d3d3 inset; }
+
+
+a:link    {text-decoration:none; color:#222;}
+a:active    {text-decoration:none; color:#222;}
+a:visited    {text-decoration:none; color:#222;}
+a:hover    {text-decoration:none; color:#222;}
+
+/* hidden 泥섎━ */
+caption{width:0;height:0;font-size:0;line-height:0;overflow:hidden;visibility:hidden;}
+legend{width:0;height:0;font-size:0;line-height:0;overflow:hidden;visibility:hidden;}
+.hide,hr{position:absolute;top:0;width:0;height:0;font-size:0;line-height:0;overflow:hidden;visibility:hidden;}

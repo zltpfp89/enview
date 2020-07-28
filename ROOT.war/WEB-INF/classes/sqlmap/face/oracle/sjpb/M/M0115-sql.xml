@@ -1,0 +1,145 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0115VO" id="M0115VO.list">
+		<result property="prodObtnBkNum" column="PROD_OBTN_BK_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="obtnPersAddr" column="OBTN_PERS_ADDR"/>
+		<result property="obtnPersNm" column="OBTN_PERS_NM"/>
+		<result property="cstdPersRelt" column="CSTD_PERS_RELT"/>
+		<result property="prodObtnDiv" column="PROD_OBTN_DIV"/>
+		<result property="prodObtnDt" column="PROD_OBTN_DT"/>
+		<result property="prodObtnNm" column="PROD_OBTN_NM"/>
+		<result property="prodObtnQnty" column="PROD_OBTN_QNTY"/>
+		<result property="prodObtnComn" column="PROD_OBTN_COMN"/>
+		<result property="handOffi" column="HAND_OFFI"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+	
+ 	<select id="M0115.SJPB_PROD_OBTN_BK_DOC.selectList" resultMap="M0115VO.list">  /* M0115.SJPB_PROD_OBTN_BK_DOC.selectList */
+ 		SELECT A.PROD_OBTN_BK_NUM  /* 물품차입부번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,D.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,A.OBTN_PERS_ADDR  /* 차입자주거 */
+		       ,A.OBTN_PERS_NM  /* 차입자성명 */
+		       ,A.CSTD_PERS_RELT  /* 유치인과의관계 */
+		       ,A.PROD_OBTN_DIV  /* 구별 */
+		       ,A.PROD_OBTN_DT  /* 연월일 */
+		       ,A.PROD_OBTN_NM  /* 물품 */
+		       ,A.PROD_OBTN_QNTY  /* 수량 */
+		       ,A.PROD_OBTN_COMN  /* 비고 */
+		       ,A.HAND_OFFI  /* 취급자 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,C.NM_KOR  /* 작성자이름 */
+		FROM SJPB_PROD_OBTN_BK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST D ON D.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS C ON C.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				D.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				B.SP_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				D.RCPT_NUM = #rcptNumSc# OR D.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0115.SJPB_PROD_OBTN_BK_DOC.insertProd" parameterClass="com.saltware.enface.sjpb.M.service.M0115VO">  /* M0115.SJPB_PROD_OBTN_BK_DOC.insertProd */
+ 		INSERT INTO SJPB_PROD_OBTN_BK_DOC (
+		    PROD_OBTN_BK_NUM,
+		    RCPT_NUM,
+		    INC_SP_NUM,
+		    OBTN_PERS_ADDR,
+		    OBTN_PERS_NM,
+		    CSTD_PERS_RELT,
+		    PROD_OBTN_DIV,
+		    PROD_OBTN_DT,
+		    PROD_OBTN_NM,
+		    PROD_OBTN_QNTY,
+		    PROD_OBTN_COMN,
+		    HAND_OFFI,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_PROD_OBTN_BK_DOC.PROD_OBTN_BK_NUM')
+		    ,#rcptNum#
+		    ,#incSpNum#
+		    ,#obtnPersAddr#
+		    ,#obtnPersNm#
+		    ,#cstdPersRelt#
+		    ,#prodObtnDiv#
+		    ,#prodObtnDt#
+		    ,#prodObtnNm#
+		    ,#prodObtnQnty#
+		    ,#prodObtnComn#
+		    ,#handOffi#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		)
+ 	</update>
+ 	<update id="M0115.SJPB_PROD_OBTN_BK_DOC.updateProd" parameterClass="com.saltware.enface.sjpb.M.service.M0115VO">  /* M0115.SJPB_PROD_OBTN_BK_DOC.updateProd */
+ 		UPDATE SJPB_PROD_OBTN_BK_DOC 
+		SET INC_SP_NUM = #incSpNum#,
+		    OBTN_PERS_ADDR = #obtnPersAddr#,
+		    OBTN_PERS_NM = #obtnPersNm#,
+		    CSTD_PERS_RELT = #cstdPersRelt#,
+		    PROD_OBTN_DIV = #prodObtnDiv#,
+		    PROD_OBTN_DT = #prodObtnDt#,
+		    PROD_OBTN_NM = #prodObtnNm#,
+		    PROD_OBTN_QNTY = #prodObtnQnty#,
+		    PROD_OBTN_COMN = #prodObtnComn#,
+		    HAND_OFFI = #handOffi#,
+		    UPD_USER_ID = #regUserId#,
+		    UPD_DATE = SYSDATE
+		WHERE PROD_OBTN_BK_NUM = #prodObtnBkNum#
+ 	</update>
+ 	
+ 	<select id="M0115.SJPB_PROD_OBTN_BK_DOC.prnCheckReport" resultMap="M0115VO.list">  /* M0115.SJPB_PROD_OBTN_BK_DOC.prnCheckReport */
+ 		SELECT A.PROD_OBTN_BK_NUM  /* 물품차입부번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,A.OBTN_PERS_ADDR  /* 차입자주거 */
+		       ,A.OBTN_PERS_NM  /* 차입자성명 */
+		       ,A.CSTD_PERS_RELT  /* 유치인과의관계 */
+		       ,A.PROD_OBTN_DIV  /* 구별 */
+               ,DECODE(A.PROD_OBTN_DT,NULL,'',SUBSTR(A.PROD_OBTN_DT,1,4)||'.'|| SUBSTR(A.PROD_OBTN_DT,5,2) ||'.'||SUBSTR(A.PROD_OBTN_DT,7,2)) AS PROD_OBTN_DT  /* 연월일 */ 
+		       ,A.PROD_OBTN_NM  /* 물품 */
+		       ,A.PROD_OBTN_QNTY  /* 수량 */
+		       ,A.PROD_OBTN_COMN  /* 비고 */
+		       ,A.HAND_OFFI  /* 취급자 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,E.NM_KOR
+		       ,D.RCPT_INC_NUM  /* 사건번호 */
+		FROM SJPB_PROD_OBTN_BK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST D ON D.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="prodObtnBkNumList" prepend="AND">
+				<iterate property="prodObtnBkNumList" open="A.PROD_OBTN_BK_NUM IN(" close=")" conjunction=",">
+					 #prodObtnBkNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+</sqlMap>

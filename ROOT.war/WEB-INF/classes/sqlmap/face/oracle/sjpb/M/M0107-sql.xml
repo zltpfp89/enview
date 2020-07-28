@@ -1,0 +1,321 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0107VO" id="M0107VO.list">
+		<result property="flgtOfdrCathBookNum" column="FLGT_OFDR_CATH_BOOK_NUM"/>
+		<result property="execNum" column="EXEC_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="flgtOfdrCathDocFillDt" column="FLGT_OFDR_CATH_DOC_FILL_DT"/>
+		<result property="cathDt" column="CATH_DT"/>
+		<result property="cathPla" column="CATH_PLA"/>
+		<result property="cathPersNm" column="CATH_PERS_NM"/>
+		<result property="cathPersSsn" column="CATH_PERS_SSN"/>
+		<result property="cathPersAddr" column="CATH_PERS_ADDR"/>
+		<result property="cathPersTitl" column="CATH_PERS_TITL"/>
+		<result property="acqsDt" column="ACQS_DT"/>
+		<result property="acqsPla" column="ACQS_PLA"/>
+		<result property="acqsPersTitl" column="ACQS_PERS_TITL"/>
+		<result property="acqsPersNm" column="ACQS_PERS_NM"/>
+		<result property="cstdDt" column="CSTD_DT"/>
+		<result property="cstdPla" column="CSTD_PLA"/>
+		<result property="detnDt" column="DETN_DT"/>
+		<result property="detnPla" column="DETN_PLA"/>
+		<result property="relsDt" column="RELS_DT"/>
+		<result property="relsRsn" column="RELS_RSN"/>
+		<result property="arstWrntReqBkNum" column="ARST_WRNT_REQ_BK_NUM"/>
+		<result property="arstWrntReqIsueDt" column="ARST_WRNT_REQ_ISUE_DT"/>
+		<result property="flgtOfdrCathBookComn" column="FLGT_OFDR_CATH_BOOK_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="docType" column="DOC_TYPE"/>
+		<result property="attoNm" column="ATTO_NM"/>
+		<result property="crimAndArrsResn" column="CRIM_AND_ARRS_RESN"/>
+	</resultMap>
+ 	<select id="M0107.SJPB_FLGT_OFDR_CATH_BOOK_DOC.selectList" resultMap="M0107VO.list">  /* M0107.SJPB_FLGT_OFDR_CATH_BOOK_DOC.selectList */
+ 		SELECT A.FLGT_OFDR_CATH_BOOK_NUM  /* 현행범인체포원부번호 */
+		       ,A.EXEC_NUM  /* 진행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM  /* 사건번호 */ 
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM AS SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB AS SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR AS SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */ 
+		       ,A.FLGT_OFDR_CATH_DOC_FILL_DT  /* 현행범인체포서작성일 */
+		       ,A.CATH_DT  /* 체포일시 */
+		       ,A.CATH_PLA  /* 체포장소 */
+		       ,A.CATH_PERS_NM  /* 체포자성명 */
+		       ,A.CATH_PERS_SSN  /*  체포자주민등록번호*/
+		       ,A.CATH_PERS_ADDR  /* 체포자주거 */
+		       ,A.CATH_PERS_TITL  /* 체포자관직 */
+		       ,A.ACQS_DT  /* 인수일시 */
+		       ,A.ACQS_PLA  /* 인수장소 */
+		       ,A.ACQS_PERS_TITL  /* 인수자관직 */
+		       ,A.ACQS_PERS_NM  /* 인수자성명 */
+		       ,A.CSTD_DT  /* 인치일시 */
+		       ,A.CSTD_PLA  /* 인치장소 */
+		       ,A.DETN_DT  /* 구금일시 */
+		       ,A.DETN_PLA  /* 구금장소 */
+		       ,A.RELS_DT  /* 석방일시 */
+		       ,A.RELS_RSN  /* 석방사유 */
+		       ,A.ARST_WRNT_REQ_BK_NUM  /* 구속영장신청부번호 */
+		       ,A.ARST_WRNT_REQ_ISUE_DT  /* 구속영장신청발부일시 */
+		       ,A.FLGT_OFDR_CATH_BOOK_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,D.NM_KOR  /* 작성자이름 */
+		       ,A.DOC_TYPE  /* 문서유형 */
+			   ,A.ATTO_NM 	/* 변호인 */
+			   ,A.CRIM_AND_ARRS_RESN		/* 범죄사실 및 체포의 사유 */
+		FROM SJPB_FLGT_OFDR_CATH_BOOK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="spNmSc" prepend="AND">
+				B.SP_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				C.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				C.RCPT_NUM = #rcptNumSc# OR C.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0107.SJPB_FLGT_OFDR_CATH_BOOK_DOC.insertFlgtOfdrCath" parameterClass="com.saltware.enface.sjpb.M.service.M0107VO">  /* M0107.SJPB_FLGT_OFDR_CATH_BOOK_DOC.insertFlgtOfdrCath */
+ 		INSERT INTO SJPB_FLGT_OFDR_CATH_BOOK_DOC (
+		    FLGT_OFDR_CATH_BOOK_NUM,
+		    EXEC_NUM,
+		    RCPT_NUM,
+		    INC_SP_NUM,
+		    FLGT_OFDR_CATH_DOC_FILL_DT,
+		    CATH_DT,
+		    CATH_PLA,
+		    CATH_PERS_NM,
+		    CATH_PERS_SSN,
+		    CATH_PERS_ADDR,
+		    CATH_PERS_TITL,
+		    ACQS_DT,
+		    ACQS_PLA,
+		    ACQS_PERS_TITL,
+		    ACQS_PERS_NM,
+		    CSTD_DT,
+		    CSTD_PLA,
+		    DETN_DT,
+		    DETN_PLA,
+		    RELS_DT,
+		    RELS_RSN,
+		    ARST_WRNT_REQ_BK_NUM,
+		    ARST_WRNT_REQ_ISUE_DT,
+		    FLGT_OFDR_CATH_BOOK_COMN,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE,
+		    DOC_TYPE,
+			ATTO_NM,
+			CRIM_AND_ARRS_RESN
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_FLGT_OFDR_BOOK_DOC.FLGT_OFDR_CATH_BOOK_NUM')
+		    ,#execNum#
+		    ,#rcptNum#
+		    ,#incSpNum#
+		    ,#flgtOfdrCathDocFillDt#
+		    ,#cathDt#
+		    ,#cathPla#
+		    ,#cathPersNm#
+		    ,#cathPersSsn#
+		    ,#cathPersAddr#
+		    ,#cathPersTitl#
+		    ,#acqsDt#
+		    ,#acqsPla#
+		    ,#acqsPersTitl#
+		    ,#acqsPersNm#
+		    ,#cstdDt#
+		    ,#cstdPla#
+		    ,#detnDt#
+		    ,#detnPla#
+		    ,#relsDt#
+		    ,#relsRsn#
+		    ,#arstWrntReqBkNum#
+		    ,#arstWrntReqIsueDt#
+		    ,#flgtOfdrCathBookComn#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#docType#
+		    ,#attoNm#
+		    ,#crimAndArrsResn#
+		)
+ 	</update>
+ 	<update id="M0107.SJPB_FLGT_OFDR_CATH_BOOK_DOC.updateFlgtOfdrCath" parameterClass="com.saltware.enface.sjpb.M.service.M0107VO">  /* M0107.SJPB_FLGT_OFDR_CATH_BOOK_DOC.updateFlgtOfdrCath */
+ 		UPDATE SJPB_FLGT_OFDR_CATH_BOOK_DOC
+ 		SET EXEC_NUM = #execNum#
+ 			,FLGT_OFDR_CATH_DOC_FILL_DT = #flgtOfdrCathDocFillDt#
+ 			,CATH_DT = #cathDt#
+ 			,CATH_PLA = #cathPla#
+ 			,CATH_PERS_NM = #cathPersNm#
+ 			,CATH_PERS_SSN = #cathPersSsn#
+ 			,CATH_PERS_ADDR = #cathPersAddr#
+ 			,CATH_PERS_TITL = #cathPersTitl#
+ 			,ACQS_DT = #acqsDt#
+ 			,ACQS_PLA = #acqsPla#
+ 			,ACQS_PERS_TITL = #acqsPersTitl#
+ 			,ACQS_PERS_NM = #acqsPersNm#
+ 			,CSTD_DT = #cstdDt#
+ 			,CSTD_PLA = #cstdPla#
+ 			,DETN_DT = #detnDt#
+ 			,DETN_PLA = #detnPla#
+ 			,RELS_DT = #relsDt#
+ 			,RELS_RSN = #relsRsn#
+ 			,ARST_WRNT_REQ_BK_NUM = #arstWrntReqBkNum#
+ 			,ARST_WRNT_REQ_ISUE_DT = #arstWrntReqIsueDt#
+ 			,FLGT_OFDR_CATH_BOOK_COMN = #flgtOfdrCathBookComn#
+ 			,UPD_USER_ID = #regUserId#
+ 			,UPD_DATE = SYSDATE
+ 			,DOC_TYPE = #docType#
+		    ,ATTO_NM = #attoNm#
+		    ,CRIM_AND_ARRS_RESN = #crimAndArrsResn#
+ 		WHERE FLGT_OFDR_CATH_BOOK_NUM = #flgtOfdrCathBookNum# 
+ 	</update>
+ 	<resultMap class="com.saltware.enface.sjpb.M.service.M0107VO" id="M0107VO.prn">
+		<result property="flgtOfdrCathBookNum" column="FLGT_OFDR_CATH_BOOK_NUM"/>
+		<result property="execNum" column="EXEC_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="flgtOfdrCathDocFillDt" column="FLGT_OFDR_CATH_DOC_FILL_DT"/>
+		<result property="cathDt" column="CATH_DT"/>
+		<result property="cathPla" column="CATH_PLA"/>
+		<result property="cathPersNm" column="CATH_PERS_NM"/>
+		<result property="cathPersSsn" column="CATH_PERS_SSN"/>
+		<result property="cathPersAddr" column="CATH_PERS_ADDR"/>
+		<result property="cathPersTitl" column="CATH_PERS_TITL"/>
+		<result property="acqsDt" column="ACQS_DT"/>
+		<result property="acqsPla" column="ACQS_PLA"/>
+		<result property="acqsPersTitl" column="ACQS_PERS_TITL"/>
+		<result property="acqsPersNm" column="ACQS_PERS_NM"/>
+		<result property="cstdDt" column="CSTD_DT"/>
+		<result property="cstdPla" column="CSTD_PLA"/>
+		<result property="detnDt" column="DETN_DT"/>
+		<result property="detnPla" column="DETN_PLA"/>
+		<result property="relsDt" column="RELS_DT"/>
+		<result property="relsRsn" column="RELS_RSN"/>
+		<result property="arstWrntReqBkNum" column="ARST_WRNT_REQ_BK_NUM"/>
+		<result property="arstWrntReqIsueDt" column="ARST_WRNT_REQ_ISUE_DT"/>
+		<result property="flgtOfdrCathBookComn" column="FLGT_OFDR_CATH_BOOK_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+	</resultMap>
+ 	<select id="M0107.SJPB_FLGT_OFDR_CATH_BOOK_DOC.prnReport" resultMap="M0107VO.prn">  /* M0107.SJPB_FLGT_OFDR_CATH_BOOK_DOC.prnReport */
+ 		SELECT A.FLGT_OFDR_CATH_BOOK_NUM  /* 현행범인체포원부번호 */
+		       ,A.EXEC_NUM  /* 진행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM AS SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR AS SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */ 
+		       ,DECODE(A.FLGT_OFDR_CATH_DOC_FILL_DT,NULL,'',SUBSTR(A.FLGT_OFDR_CATH_DOC_FILL_DT,1,4)||'.'||SUBSTR(A.FLGT_OFDR_CATH_DOC_FILL_DT,5,2)||'.'||SUBSTR(A.FLGT_OFDR_CATH_DOC_FILL_DT,7,2)) AS FLGT_OFDR_CATH_DOC_FILL_DT  /* 현행범인체포서작성일 */
+		       ,DECODE(A.CATH_DT,NULL,'',SUBSTR(A.CATH_DT,1,4)||'.'||SUBSTR(A.CATH_DT,5,2) ||'.'||SUBSTR(A.CATH_DT,7,2)||'  '||SUBSTR(A.CATH_DT,9,2)||'시 '||SUBSTR(A.CATH_DT,11,2)||'분') AS CATH_DT  /* 체포일시 */
+		       ,A.CATH_PLA  /* 체포장소 */
+		       ,A.CATH_PERS_NM  /* 체포자성명 */
+		       ,A.CATH_PERS_SSN  /*  체포자주민등록번호*/
+		       ,A.CATH_PERS_ADDR  /* 체포자주거 */
+		       ,A.CATH_PERS_TITL  /* 체포자관직 */
+               ,DECODE(A.ACQS_DT,NULL,'',SUBSTR(A.ACQS_DT,1,4)||'.'||SUBSTR(A.ACQS_DT,5,2) ||'.'||SUBSTR(A.ACQS_DT,7,2)||'  '||SUBSTR(A.ACQS_DT,9,2)||'시 '||SUBSTR(A.ACQS_DT,11,2)||'분') AS ACQS_DT  /* 인수일시 */
+		       ,A.ACQS_PLA  /* 인수장소 */
+		       ,A.ACQS_PERS_TITL  /* 인수자관직 */
+		       ,A.ACQS_PERS_NM  /* 인수자성명 */
+               ,DECODE(A.CSTD_DT,NULL,'',SUBSTR(A.CSTD_DT,1,4)||'.'||SUBSTR(A.CSTD_DT,5,2) ||'.'||SUBSTR(A.CSTD_DT,7,2)||'  '||SUBSTR(A.CSTD_DT,9,2)||'시 '||SUBSTR(A.CSTD_DT,11,2)||'분') AS CSTD_DT  /* 인치일시 */
+		       ,A.CSTD_PLA  /* 인치장소 */
+               ,DECODE(A.DETN_DT,NULL,'',SUBSTR(A.DETN_DT,1,4)||'.'||SUBSTR(A.DETN_DT,5,2) ||'.'||SUBSTR(A.DETN_DT,7,2)||'  '||SUBSTR(A.DETN_DT,9,2)||'시 '||SUBSTR(A.DETN_DT,11,2)||'분') AS DETN_DT  /* 구금일시 */
+		       ,A.DETN_PLA  /* 구금장소 */
+               ,DECODE(A.RELS_DT,NULL,'',SUBSTR(A.RELS_DT,1,4)||'.'||SUBSTR(A.RELS_DT,5,2) ||'.'||SUBSTR(A.RELS_DT,7,2)||'  '||SUBSTR(A.RELS_DT,9,2)||'시 '||SUBSTR(A.RELS_DT,11,2)||'분') AS RELS_DT  /* 석방일시 */
+		       ,A.RELS_RSN  /* 석방사유 */
+		       ,A.ARST_WRNT_REQ_BK_NUM  /* 구속영장신청부번호 */
+		       ,A.ARST_WRNT_REQ_ISUE_DT  /* 구속영장신청발부일시 */
+               ,DECODE(A.ARST_WRNT_REQ_ISUE_DT,NULL,'',SUBSTR(A.ARST_WRNT_REQ_ISUE_DT,1,4)||'.'||SUBSTR(A.ARST_WRNT_REQ_ISUE_DT,5,2) ||'.'||SUBSTR(A.ARST_WRNT_REQ_ISUE_DT,7,2)) AS ARST_WRNT_REQ_ISUE_DT  /* 구속영장신청발부일시 */
+		       ,A.FLGT_OFDR_CATH_BOOK_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		FROM SJPB_FLGT_OFDR_CATH_BOOK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		WHERE A.FLGT_OFDR_CATH_BOOK_NUM = #flgtOfdrCathBookNum#
+ 	</select>
+
+ 	<select id="M0107.SJPB_FLGT_OFDR_CATH_BOOK_DOC.prnCheckReport" resultMap="M0107VO.prn">  /* M0107.SJPB_FLGT_OFDR_CATH_BOOK_DOC.prnCheckReport */
+ 		SELECT A.FLGT_OFDR_CATH_BOOK_NUM  /* 현행범인체포원부번호 */
+		       ,A.EXEC_NUM  /* 진행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM AS SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR AS SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */ 
+		       ,DECODE(A.FLGT_OFDR_CATH_DOC_FILL_DT,NULL,'',SUBSTR(A.FLGT_OFDR_CATH_DOC_FILL_DT,1,4)||'.'||SUBSTR(A.FLGT_OFDR_CATH_DOC_FILL_DT,5,2)||'.'||SUBSTR(A.FLGT_OFDR_CATH_DOC_FILL_DT,7,2)) AS FLGT_OFDR_CATH_DOC_FILL_DT  /* 현행범인체포서작성일 */
+		       ,DECODE(A.CATH_DT,NULL,'',SUBSTR(A.CATH_DT,1,4)||'.'||SUBSTR(A.CATH_DT,5,2) ||'.'||SUBSTR(A.CATH_DT,7,2)||'  '||SUBSTR(A.CATH_DT,9,2)||'시 '||SUBSTR(A.CATH_DT,11,2)||'분') AS CATH_DT  /* 체포일시 */
+		       ,A.CATH_PLA  /* 체포장소 */
+		       ,A.CATH_PERS_NM  /* 체포자성명 */
+		       ,A.CATH_PERS_SSN  /*  체포자주민등록번호*/
+		       ,A.CATH_PERS_ADDR  /* 체포자주거 */
+		       ,A.CATH_PERS_TITL  /* 체포자관직 */
+               ,DECODE(A.ACQS_DT,NULL,'',SUBSTR(A.ACQS_DT,1,4)||'.'||SUBSTR(A.ACQS_DT,5,2) ||'.'||SUBSTR(A.ACQS_DT,7,2)||'  '||SUBSTR(A.ACQS_DT,9,2)||'시 '||SUBSTR(A.ACQS_DT,11,2)||'분') AS ACQS_DT  /* 인수일시 */
+		       ,A.ACQS_PLA  /* 인수장소 */
+		       ,A.ACQS_PERS_TITL  /* 인수자관직 */
+		       ,A.ACQS_PERS_NM  /* 인수자성명 */
+               ,DECODE(A.CSTD_DT,NULL,'',SUBSTR(A.CSTD_DT,1,4)||'.'||SUBSTR(A.CSTD_DT,5,2) ||'.'||SUBSTR(A.CSTD_DT,7,2)||'  '||SUBSTR(A.CSTD_DT,9,2)||'시 '||SUBSTR(A.CSTD_DT,11,2)||'분') AS CSTD_DT  /* 인치일시 */
+		       ,A.CSTD_PLA  /* 인치장소 */
+               ,DECODE(A.DETN_DT,NULL,'',SUBSTR(A.DETN_DT,1,4)||'.'||SUBSTR(A.DETN_DT,5,2) ||'.'||SUBSTR(A.DETN_DT,7,2)||'  '||SUBSTR(A.DETN_DT,9,2)||'시 '||SUBSTR(A.DETN_DT,11,2)||'분') AS DETN_DT  /* 구금일시 */
+		       ,A.DETN_PLA  /* 구금장소 */
+               ,DECODE(A.RELS_DT,NULL,'',SUBSTR(A.RELS_DT,1,4)||'.'||SUBSTR(A.RELS_DT,5,2) ||'.'||SUBSTR(A.RELS_DT,7,2)||'  '||SUBSTR(A.RELS_DT,9,2)||'시 '||SUBSTR(A.RELS_DT,11,2)||'분') AS RELS_DT  /* 석방일시 */
+		       ,A.RELS_RSN  /* 석방사유 */
+		       ,A.ARST_WRNT_REQ_BK_NUM  /* 구속영장신청부번호 */
+		       ,A.ARST_WRNT_REQ_ISUE_DT  /* 구속영장신청발부일시 */
+               ,DECODE(A.ARST_WRNT_REQ_ISUE_DT,NULL,'',SUBSTR(A.ARST_WRNT_REQ_ISUE_DT,1,4)||'.'||SUBSTR(A.ARST_WRNT_REQ_ISUE_DT,5,2) ||'.'||SUBSTR(A.ARST_WRNT_REQ_ISUE_DT,7,2)) AS ARST_WRNT_REQ_ISUE_DT  /* 구속영장신청발부일시 */
+		       ,A.FLGT_OFDR_CATH_BOOK_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		FROM SJPB_FLGT_OFDR_CATH_BOOK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="flgtOfdrCathBookNumList" prepend="AND">
+				<iterate property="flgtOfdrCathBookNumList" open="A.FLGT_OFDR_CATH_BOOK_NUM IN(" close=")" conjunction=",">
+					 #flgtOfdrCathBookNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+</sqlMap>

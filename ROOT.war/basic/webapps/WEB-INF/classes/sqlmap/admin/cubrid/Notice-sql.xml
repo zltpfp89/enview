@@ -1,0 +1,172 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+	
+	<!-- Query for [ NOTICE : 공지사항관리 ] Table -->
+	<resultMap id="admin_NoticeVO_PK" class="com.saltware.enview.admin.notice.service.NoticePK">
+		<result property="noticeId" column="NOTICE_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_NoticeVO" class="com.saltware.enview.admin.notice.service.NoticeVO">
+		<result property="noticeId" column="NOTICE_ID" columnIndex="1"/>	 
+		<result property="isEmergency" column="IS_EMERGENCY" columnIndex="2"/>	 
+		<result property="title" column="TITLE" columnIndex="3"/>	 
+		<result property="startDate" column="START_DATE" columnIndex="4"/>	 
+		<result property="endDate" column="END_DATE" columnIndex="5"/>	 
+		<result property="template" column="TEMPLATE" columnIndex="6"/>	 
+		<result property="layoutX" column="LAYOUT_X" columnIndex="7"/>	 
+		<result property="layoutY" column="LAYOUT_Y" columnIndex="8"/>	 
+		<result property="layoutWidth" column="LAYOUT_WIDTH" columnIndex="9"/>	 
+		<result property="layoutHeight" column="LAYOUT_HEIGHT" columnIndex="10"/>	 
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="11"/>	 
+		<result property="groups" column="GROUPS" columnIndex="12"/>	 
+		<result property="pages" column="PAGE_PATH" columnIndex="13"/>	
+		<result property="domainId" column="DOMAIN_ID" columnIndex="14"/>
+		<result property="domainNm" column="DOMAIN_Nm" columnIndex="15"/>
+		<result property="systemCode" column="SYSTEM_CODE" columnIndex="16"/>
+		<result property="curNoticeYn" column="CUR_NOTICE_YN" columnIndex="17"/>
+	</resultMap>
+	
+	<resultMap id="admin_NoticeMeta" class="com.saltware.enview.notice.impl.NoticeImpl">
+		<result property="noticeId" column="NOTICE_ID" columnIndex="1"/>	 
+		<result property="emergency" column="IS_EMERGENCY" columnIndex="2"/>	 
+		<result property="title" column="TITLE" columnIndex="3"/>	 
+		<result property="startDate" column="START_DATE" columnIndex="4"/>	 
+		<result property="endDate" column="END_DATE" columnIndex="5"/>	 
+		<result property="template" column="TEMPLATE" columnIndex="6"/>	 
+		<result property="layoutX" column="LAYOUT_X" columnIndex="7"/>	 
+		<result property="layoutY" column="LAYOUT_Y" columnIndex="8"/>	 
+		<result property="layoutWidth" column="LAYOUT_WIDTH" columnIndex="9"/>	 
+		<result property="layoutHeight" column="LAYOUT_HEIGHT" columnIndex="10"/>	 
+		<result property="pages" column="PAGE_PATH" columnIndex="11"/>
+		<result property="domainId" column="DOMAIN_ID" columnIndex="12"/>
+		<result property="content" column="CONTENT" columnIndex="12"/>
+	</resultMap>
+	
+	
+	<select id="notice.totalCount" resultClass="int">
+	/* notice.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM NOTICE
+		WHERE 1=1	
+				<isNotNull  prepend=" AND " property="titleCond">TITLE LIKE #titleCond#||'%'</isNotNull>
+				<isGreaterThan prepend=" AND " property="domainId" compareValue="0">DOMAIN_ID=#domainId#</isGreaterThan> 
+	</select>
+	
+	<select id="notice.findByPage" resultMap="admin_NoticeVO_PK">
+	/* notice.findByPage */
+		SELECT * FROM (
+			SELECT NOTICE_ID,ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY END_DATE DESC</isNull>
+			) as rnum 
+			FROM NOTICE
+			WHERE 1=1 
+			<isGreaterThan prepend=" AND " property="domainId" compareValue="0">DOMAIN_ID=#domainId#</isGreaterThan>
+			<isNotNull  prepend=" AND " property="titleCond">TITLE LIKE #titleCond#||'%'</isNotNull>
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="notice.findAll" resultMap="admin_NoticeVO_PK">
+		SELECT NOTICE_ID
+		FROM NOTICE
+	</select>
+	
+	<select id="notice.findByActive" resultMap="admin_NoticeVO">
+	   <![CDATA[
+			/* notice.findByActive */
+	   		SELECT a.NOTICE_ID,a.IS_EMERGENCY,a.TITLE,a.START_DATE,a.END_DATE,a.TEMPLATE,a.LAYOUT_X,a.LAYOUT_Y,a.LAYOUT_WIDTH,a.LAYOUT_HEIGHT,a.PRINCIPAL_ID,a.GROUPS,a.PAGE_PATH,a.DOMAIN_ID,b.DOMAIN_NM,a.SYSTEM_CODE,
+    		'Y' AS CUR_NOTICE_YN
+			FROM NOTICE a
+	           LEFT OUTER JOIN DOMAIN_LANG b ON a.DOMAIN_ID=b.DOMAIN_ID
+			WHERE a.START_DATE <= ADDDATE(CURRENT_DATETIME, INTERVAL 1 HOUR) 
+			   AND CURRENT_DATETIME <= a.END_DATE
+	   	    ORDER BY a.START_DATE ASC
+		]]>       	    
+	</select>
+
+	<select id="notice.detail" resultMap="admin_NoticeVO">
+		<![CDATA[
+		    SELECT a.NOTICE_ID,a.IS_EMERGENCY,a.TITLE,a.START_DATE,a.END_DATE,a.TEMPLATE,a.LAYOUT_X,a.LAYOUT_Y,a.LAYOUT_WIDTH,a.LAYOUT_HEIGHT,a.PRINCIPAL_ID,a.GROUPS,a.PAGE_PATH,a.DOMAIN_ID,b.DOMAIN_NM, a.SYSTEM_CODE,
+    		CASE WHEN (to_char(START_DATE, 'YYYYMMDDHH24MI') <= to_char(SYSTIMESTAMP, 'YYYYMMDDHH24MI')) AND (to_char(SYSTIMESTAMP, 'YYYYMMDDHH24MI') <= to_char(a.END_DATE, 'YYYYMMDDHH24MI')) THEN 'Y' ELSE 'N' END AS CUR_NOTICE_YN
+			FROM NOTICE a
+			LEFT OUTER JOIN DOMAIN_LANG b ON a.DOMAIN_ID=b.DOMAIN_ID
+			WHERE 1=1 
+			 	AND a.NOTICE_ID=#noticeId#
+		]]>
+	</select>
+	
+	<select id="notice.formDB" resultMap="admin_NoticeMeta">
+		    SELECT a.NOTICE_ID,a.IS_EMERGENCY,a.TITLE,a.START_DATE,a.END_DATE,a.TEMPLATE,a.LAYOUT_X,a.LAYOUT_Y,a.LAYOUT_WIDTH,a.LAYOUT_HEIGHT,a.PAGE_PATH,a.DOMAIN_ID,b.CONTENT
+			FROM NOTICE a
+			LEFT OUTER JOIN NOTICE_METADATA b ON a.NOTICE_ID=b.NOTICE_ID
+			WHERE 1=1  AND a.NOTICE_ID=#noticeId#
+	</select>
+	
+	<insert id="notice.insert">
+		<![CDATA[
+			INSERT INTO NOTICE
+				( NOTICE_ID,DOMAIN_ID,IS_EMERGENCY,TITLE,START_DATE,END_DATE,TEMPLATE,LAYOUT_X,LAYOUT_Y,LAYOUT_WIDTH,LAYOUT_HEIGHT,PRINCIPAL_ID,GROUPS,PAGE_PATH, SYSTEM_CODE )
+			VALUES ( #noticeId#,#domainId#,#isEmergency#,#title#,#startDate#,#endDate#,#template#,#layoutX#,#layoutY#,#layoutWidth#,#layoutHeight#,#principalId#,#groups#,#pages#, #systemCode# )
+		]]>
+	</insert>
+	
+	<update id="notice.update">
+		<![CDATA[
+			UPDATE NOTICE
+			SET NOTICE_ID=#noticeId#,DOMAIN_ID=#domainId#,IS_EMERGENCY=#isEmergency#,TITLE=#title#,START_DATE=#startDate#,END_DATE=#endDate#,TEMPLATE=#template#,LAYOUT_X=#layoutX#,LAYOUT_Y=#layoutY#,LAYOUT_WIDTH=#layoutWidth#,LAYOUT_HEIGHT=#layoutHeight#,PRINCIPAL_ID=#principalId#,GROUPS=#groups#,PAGE_PATH=#pages#, SYSTEM_CODE=#systemCode#
+			WHERE 1=1 
+				AND NOTICE_ID=#noticeId#
+		]]>
+	</update>
+	
+	<delete id="notice.delete">
+		<![CDATA[
+			DELETE FROM NOTICE
+			WHERE 1=1 
+				AND NOTICE_ID=#noticeId#
+		]]>
+	</delete>
+	
+	<insert id="notice.copy">
+		<![CDATA[
+			insert into notice
+			(
+			   notice_id
+			 , domain_id
+			 , title
+			 , layout_X
+			 , layout_y
+			 , layout_width
+			 , layout_height
+			 , is_emergency
+			 , template
+			 , principal_id
+			 , groups
+			 , system_code
+			 , page_path
+			 , start_date
+			 , end_date
+			)
+			select #newNoticeId# as notice_id
+			     , domain_id
+			     , title
+			     , layout_x
+			     , layout_y
+			     , layout_width
+			     , layout_height
+			     , is_emergency
+			     , template
+			     , principal_id
+			     , groups
+			     , system_code
+			     , page_path
+			     , TO_TIMESTAMP(TO_cHAR(SYSDATE,'YYYYMMDD'),'YYYY-MM-DD HH24:MI:SS') AS start_date
+			     , TO_TIMESTAMP(TO_cHAR(SYSDATE,'YYYYMMDD'),'YYYY-MM-DD HH24:MI:SS') AS end_date
+			  from notice
+			  where notice_id = #noticeId#
+		
+		]]>
+	</insert>
+</sqlMap>
+

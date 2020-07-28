@@ -1,0 +1,88 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+ 
+<!-- Query for [ SJPB_CRI_DTA_INQ_MNG_BK : 범죄수사자료조회관리대장 ] Table -->
+ 
+<!-- 	<resultMap class="com.saltware.enface.sjpb.F.service.F0102VO" id="F0102VO.list"> -->
+<!-- 		<result property="mngBkSiNum" column="MNG_BK_SI_NUM"/> -->
+<!-- 		<result property="regDate" column="REG_DATE"/> -->
+<!-- 		<result property="criTmNm" column="CRI_TM_NM"/> -->
+<!-- 		<result property="nmKor" column="NM_KOR"/> -->
+<!-- 		<result property="sp" column="SP"/> -->
+<!-- 		<result property="mngBkComn" column="MNG_BK_COMN"/> -->
+<!-- 	</resultMap> -->
+	 
+<!-- 	<!-- 범죄수사자료조회관리대장 리스트 --> 
+<!-- 	<select id="F0102.selectList" resultMap="F0102VO.list"> /* F0102.selectList */ -->
+<!-- 		SELECT A.MNG_BK_SI_NUM /*관리대장일련번호*/ -->
+<!-- 		   	   ,TO_CHAR(A.REG_DATE,'YYYY-MM-DD') AS REG_DATE /*등록일자*/ -->
+<!-- 		       ,C.CRI_TM_NM /*수사팀명*/ -->
+<!-- 		       ,B.NM_KOR /*담당수사관*/ -->
+<!-- 		       ,A.SP /*피의자*/ -->
+<!-- 		       ,A.MNG_BK_COMN /*관리대장비고*/ -->
+<!-- 		FROM SJPB_CRI_DTA_INQ_MNG_BK A  -->
+<!-- 			LEFT JOIN USERPASS B ON B.USER_ID = A.RESP_IO -->
+<!-- 			LEFT JOIN SJPB_CRI_TM C ON C.CRI_TM_ID = B.ORG_CD -->
+<!-- 		<dynamic prepend="WHERE"> -->
+<!-- 			<isNotEmpty property="sp" prepend="AND"> -->
+<!-- 			A.SP LiKE '%' ||#sp#||'%' -->
+<!-- 			</isNotEmpty> -->
+<!-- 			<isNotEmpty property="nmKor" prepend="AND">  -->
+<!-- 			B.NM_KOR LiKE '%' ||#nmKor#||'%' -->
+<!-- 			</isNotEmpty> -->
+<!-- 			<isNotEmpty property="startDay" prepend="AND">  -->
+<!-- 			TO_CHAR(A.REG_DATE,'YYYY-MM-DD') -->
+<!-- 			BETWEEN TO_DATE(#startDay#,'YYYY-MM-DD') AND TO_DATE(#endDay#,'YYYY-MM-DD')  -->
+<!-- 			</isNotEmpty> -->
+<!-- 		</dynamic>  -->
+<!-- 		ORDER BY A.MNG_BK_SI_NUM DESC -->
+<!-- 	</select> -->
+	 
+<!-- 	<!-- 범죄수사자료조회관리대장 등록 --> 
+<!-- 	<insert id="F0102.insertCriData" parameterClass="com.saltware.enface.sjpb.F.service.F0101VO">  /* F0102.insertCriData */ -->
+<!-- 	<![CDATA[ -->
+<!-- 		  INSERT INTO SJPB_CRI_DTA_INQ_MNG_BK(  -->
+<!-- 			  MNG_BK_PUBL_YR  /*관리대장발행년도*/ -->
+<!-- 			  ,MNG_BK_SI_NUM /*관리대장일련번호*/ -->
+<!-- 			  ,RESP_IO /*담당수사관*/ -->
+<!-- 			  ,SP /*피의자*/ -->
+<!-- 			  ,MNG_BK_COMN /*관리대장비고*/ -->
+<!-- 			  ,REG_USER_ID /*등록일자*/ -->
+<!-- 			  ,REG_DATE /*등록일자*/ -->
+<!-- 			  ,UPD_USER_ID /*수정일자*/ -->
+<!-- 			  ,UPD_DATE /*수정일자*/ -->
+<!-- 			)  -->
+<!-- 	  	VALUES(  -->
+<!-- 			  TO_CHAR(SYSDATE,'YYYY')  -->
+<!-- 			  ,(SELECT SEQ+1 FROM KEYGEN WHERE entity_name = 'SJPB_CRI_DTA_INQ_MNG_BK.MNG_BK_SI_NUM')  -->
+<!-- 			  ,#respIo#  -->
+<!-- 			  ,#sp#  -->
+<!-- 			  ,#mngBkComn#  -->
+<!-- 			  ,#regUserId#  -->
+<!-- 			  ,SYSDATE  -->
+<!-- 			  ,#regUserId#  -->
+<!-- 			  ,SYSDATE  -->
+<!-- 			  )  -->
+<!-- 	  ]]>  -->
+<!-- 	</insert> -->
+	 
+<!-- 	<resultMap class="com.saltware.enface.sjpb.F.service.F0102VO" id="F0102VO.criData"> -->
+<!-- 		<result property="nmKor" column="NM_KOR"/> -->
+<!-- 		<result property="sp" column="SP"/> -->
+<!-- 		<result property="mngBkComn" column="MNG_BK_COMN"/> -->
+<!-- 	</resultMap> -->
+<!-- 	<!-- 범죄수사자료조회관리대장 상세보기 --> 
+<!-- 	<select id="F0102.selectCriData" resultMap="F0102VO.criData">  /* F0102.selectCriData */ -->
+<!-- 	<![CDATA[ -->
+<!-- 		SELECT B.NM_KOR /*담당수사관*/ -->
+<!-- 		       ,A.SP /*피의자*/ -->
+<!-- 		       ,A.MNG_BK_COMN /*관리대장비고*/ -->
+<!-- 		FROM SJPB_CRI_DTA_INQ_MNG_BK A -->
+<!-- 			 LEFT JOIN USERPASS B ON B.USER_ID = A.RESP_IO -->
+<!-- 		WHERE MNG_BK_SI_NUM = #mngBkSiNum#  -->
+<!-- 	]]>  -->
+<!-- 	</select> -->
+ 
+</sqlMap>
+ 

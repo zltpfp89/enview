@@ -1,0 +1,753 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="face">
+	<typeAlias alias="sjpbCommonVO" type="com.saltware.enface.sjpb.Z.service.SjpbCommonVO"/>
+	<typeAlias alias="sjpbUserVo" type="com.saltware.enface.sjpb.Z.service.SjpbUserVO"/>
+	<typeAlias alias="sjpbFileVo" type="com.saltware.enface.sjpb.Z.service.SjpbFileVO"/>
+
+	<resultMap class="sjpbFileVo" id="CommResultMap.fileInfo">
+		<result property="fileId" column="FILE_ID"/>
+		<result property="fileNm" column="FILE_NM"/>
+		<result property="fileMask" column="FILE_MASK"/>
+		<result property="fileSize" column="FILE_SIZE"/>
+		<result property="fileType" column="FILE_TYPE"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="fileRgsrtId" column="REG_USER_ID"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	
+	<resultMap class="sjpbFileVo" id="CommResultMap.fileInfoList">
+		<result property="fileId" column="FILE_ID"/>
+		<result property="fileNm" column="FILE_NM"/>
+		<result property="fileMask" column="FILE_MASK"/>
+		<result property="fileSize" column="FILE_SIZE"/>
+		<result property="fileType" column="FILE_TYPE"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="fileRgsrtId" column="REG_USER_ID"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regUserNm" column="REG_USER_NM"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updUserNm" column="UPD_USER_NM"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+
+                           
+	<resultMap class="sjpbUserVo" id="CommResultMap.userInfo">
+		<result property="rnum"				column="rnum"/>
+		<result property="userId"			column="USER_ID"/>
+		<result property="orgCd"			column="ORG_CD"/>
+		<result property="orgName"			column="ORG_NAME"/>
+		<result property="kindCd"			column="KIND_CD"/>
+		<result property="criMbPosiNm"		column="CRI_MB_POSI_NM"/>
+		<result property="nmKor"			column="NM_KOR"/>
+		<result property="mobileTel"		column="MOBILE_TEL"/>
+		<result property="emailAddr"		column="EMAIL_ADDR"/>
+	</resultMap>
+	
+	<resultMap class="sjpbUserVo" id="CommResultMap.deptInfo">
+		<result property="criTmId" column="CRI_TM_ID"/>
+		<result property="criTmNm" column="CRI_TM_NM"/>
+	</resultMap>
+
+	
+	
+	
+	<select id="Z0102.selectDocTree" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap"> 
+		/* Z0102.selectDocTree */
+		<isEmpty property="text">
+		SELECT 
+			ID
+			,TEXT
+			,(CASE WHEN PARENT = 0 THEN '##'
+			ELSE TO_CHAR(PARENT) END) AS PARENT
+			,TITLE
+			,URL
+		FROM 
+		(
+			SELECT 
+			A.PAGE_ID AS ID
+			,A.SHORT_TITLE AS TEXT
+			,A.PARENT_ID AS PARENT
+			,A.TITLE
+			,A.URL
+			FROM
+			PAGE A
+			WHERE
+			A.DOMAIN_ID = 4
+			START WITH A.PARENT_ID = (SELECT PAGE_ID FROM PAGE WHERE NAME='doc')
+			CONNECT BY PRIOR A.PAGE_ID = A.PARENT_ID
+			UNION
+			SELECT (SELECT PAGE_ID FROM PAGE WHERE NAME='doc') AS ID, '수사기록' AS TEXT, 0 AS PARENT
+			,'수사기록' AS TITLE, '' AS URL
+			FROM DUAL
+		)
+		ORDER BY ID, PARENT
+		</isEmpty>
+	</select>
+	<select id="Z0102.selectDocManagerTree" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap"> 
+		/* Z0102.selectDocManagerTree */
+		<isEmpty property="text">
+		SELECT 
+			ID
+			,TEXT
+			,(CASE WHEN PARENT = 0 THEN '##'
+			ELSE TO_CHAR(PARENT) END) AS PARENT
+			,TITLE
+			,URL
+		FROM 
+		(
+			SELECT 
+			A.PAGE_ID AS ID
+			,A.SHORT_TITLE AS TEXT
+			,A.PARENT_ID AS PARENT
+			,A.TITLE
+			,A.URL
+			FROM
+			PAGE A
+			WHERE
+			A.DOMAIN_ID = 4
+			START WITH A.PARENT_ID = (SELECT PAGE_ID FROM PAGE WHERE NAME='docManager')
+			CONNECT BY PRIOR A.PAGE_ID = A.PARENT_ID
+			UNION
+			SELECT (SELECT PAGE_ID FROM PAGE WHERE NAME='docManager') AS ID, '수사대장' AS TEXT, 0 AS PARENT
+			,'수사대장' AS TITLE, '' AS URL
+			FROM DUAL
+		)
+		ORDER BY ID, PARENT
+		</isEmpty>
+	</select>
+	<resultMap id="M0101VO.treeMap" class="com.saltware.enface.sjpb.M.service.M0101VO">
+		<result property="id" column="ID"/>
+		<result property="text" column="TEXT"/>
+		<result property="parent" column="PARENT"/>
+		<result property="title" column="TITLE"/>
+		<result property="url" column="URL"/>
+		<result property="docCount" column="DOC_COUNT"/>
+	</resultMap>
+	<select id="Z0102.selectDocManagerTreeCount" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap"> 
+		/* Z0102.selectDocManagerTreeCount */
+		<isEmpty property="text">
+		SELECT 
+			ID
+			,TEXT
+			,(CASE WHEN PARENT = 0 THEN '##'
+			ELSE TO_CHAR(PARENT) END) AS PARENT
+			,TITLE
+			,URL
+		FROM 
+		(
+			SELECT 
+			A.PAGE_ID AS ID
+			,A.SHORT_TITLE AS TEXT
+			,A.PARENT_ID AS PARENT
+			,A.TITLE
+			,A.URL
+			FROM
+			PAGE A
+			WHERE
+			A.DOMAIN_ID = 4
+			START WITH A.PARENT_ID = (SELECT PAGE_ID FROM PAGE WHERE NAME='docManager')
+			CONNECT BY PRIOR A.PAGE_ID = A.PARENT_ID
+			UNION
+			SELECT (SELECT PAGE_ID FROM PAGE WHERE NAME='docManager') AS ID, '수사대장' AS TEXT, 0 AS PARENT
+			,'수사대장' AS TITLE, '' AS URL
+			FROM DUAL
+		)
+		ORDER BY ID, PARENT
+		</isEmpty>
+	</select>
+	
+	
+	
+	<select id="Z0102.selectDeptTree" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap"> 
+		/* Z0102.selectDeptTree */
+		<isNotEmpty property="id"> 
+			<isEqual property="id" compareValue="#"> 		
+				<isEmpty property="text">
+			SELECT
+			    CRI_TM_ID   AS ID,
+			    CRI_TM_NM   AS TEXT,
+			    CASE
+			        WHEN CRI_TM_ID = 1   THEN '##'
+			        ELSE (
+			            SELECT
+			                TO_CHAR(CRI_TM_ID)
+			            FROM
+			                SJPB_CRI_TM
+			            WHERE
+			                CRI_TM_ID = A.PARE_TM_ID
+			        )
+			    END PARENT
+			FROM
+			    SJPB_CRI_TM A
+			WHERE
+			    1 = 1
+			    AND CRI_TM_STAT = 1
+			ORDER BY
+			    SORT_ORD,
+			    CRI_TM_ID ASC
+			    </isEmpty>
+			</isEqual>
+		</isNotEmpty>
+		<isNotEmpty property="id"> 
+			<isNotEqual property="id" compareValue="#"> 
+			SELECT
+			    CRI_TM_ID   AS ID,
+			    CRI_TM_NM   AS TEXT,
+			    '##' AS PARENT
+			FROM
+			    SJPB_CRI_TM A
+			WHERE
+			    1 = 1
+			    AND	A.CRI_TM_ID = #id# 
+			    AND CRI_TM_STAT = 1
+			ORDER BY
+			    SORT_ORD,
+			    CRI_TM_ID ASC	
+			</isNotEqual>	
+		</isNotEmpty>
+		<isNotEmpty property="text"> 
+			SELECT
+			    CRI_TM_ID   AS ID,
+			    CRI_TM_NM   AS TEXT,
+			    '##' AS PARENT
+			FROM
+			    SJPB_CRI_TM A
+			WHERE
+			    1 = 1
+			    AND	A.CRI_TM_NM LIKE '%' || #text# || '%'
+			    AND CRI_TM_STAT = 1
+			ORDER BY
+			    SORT_ORD,
+			    CRI_TM_ID ASC
+		</isNotEmpty>
+	</select>
+
+	<!-- 사용자정보(JSTREE) -->
+	<select id="Z0102.selectUserTree" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap"> 
+		/* Z0102.selectUserTree */
+		SELECT T1.EMP_ID AS ID
+		     , T1.EMP_NM || '(' || T1.EMP_ID || ')' AS TEXT
+		     , T1.POS_NM AS TYPE
+		     , 0 AS CHILDREN
+		  FROM IF_EMP T1
+		  JOIN IF_ORG T2
+		  	ON T1.ORG_CD = T2.ORG_CD
+		 WHERE 1=1
+		   AND T1.IN_OFFI_YN = 'Y'
+		<isNotEmpty property="id" >
+		   AND T2.ORG_ID = #id#
+		</isNotEmpty>
+		<isNotEmpty property="text" >
+		   AND T2.ORG_NM LIKE '%' || #text# || '%'		
+		</isNotEmpty>
+	</select>
+	
+	<select id="Z0102.selectUserInfoCount" parameterClass="sjpbUserVo" resultClass="java.lang.Integer">
+		/* Z0102.selectUserInfoCount */
+		SELECT COUNT(*) AS TOTCNT 
+		FROM	( 
+			SELECT
+			        A.USER_ID AS USER_ID, 
+					A.ORG_CD AS ORG_CD,
+			        (     SELECT
+			            F.CRI_TM_NM AS CRI_TM_NM     
+			        FROM
+			            SJPB_CRI_TM F     
+			        WHERE
+			             F.CRI_TM_ID = A.ORG_CD                ) AS ORG_NAME,        
+			        A.KIND_CD,
+			        (SELECT CODE_NAME FROM CODEBASE WHERE CODE_ID ='SJPB_00020' AND CODE= I.CRI_MB_POSI AND LANG_KND='ko') AS CRI_MB_POSI_NM,
+			        A.NM_KOR,
+			        A.MOBILE_TEL,
+			        A.EMAIL_ADDR,
+			        I.CRI_MB_POSI       
+			    FROM
+			        USERPASS A       
+			    INNER JOIN
+			        SECURITY_PRINCIPAL B 
+			            ON A.USER_ID=B.SHORT_PATH     
+			    INNER JOIN
+			        SECURITY_CREDENTIAL C 
+			            ON B.PRINCIPAL_ID=C.PRINCIPAL_ID     
+			     JOIN
+			        SJPB_CRI_MB I 
+			            ON I.CRI_MB_ID = A.USER_ID              
+			    WHERE
+			        B.PRINCIPAL_TYPE='U'     
+			        AND CRI_MB_STAT='1'
+		) T1
+		WHERE 1=1
+		<isEqual property="searchType" compareValue="userId" >
+			AND T1.USER_ID = #searchValue#
+		</isEqual>
+		<isEqual property="searchType" compareValue="nmKor" >
+			AND T1.NM_KOR LIKE '%' || #searchValue# || '%'
+		</isEqual>
+		<isEqual property="searchType" compareValue="orgName" >
+			AND (
+					T1.ORG_NAME LIKE '%' || #searchValue# || '%' 
+				)
+		</isEqual>
+		<isEqual property="searchType" compareValue="criMbPosiNm" >
+			AND (
+					T1.CRI_MB_POSI_NM LIKE '%' || #searchValue# || '%' 
+				)
+		</isEqual>						
+		<isEqual property="searchType" compareValue="mobileTel" >
+			AND ( T1.MOBILE_TEL ) LIKE '%' || #searchValue# || '%'
+		</isEqual>
+		<isNotEmpty property="orgCd" >
+			<isNotEqual property="orgCd" compareValue="0">
+				AND T1.ORG_CD = #orgCd#
+			</isNotEqual>
+		</isNotEmpty>						
+		<isNotEmpty property="userId" >
+		   AND T1.USER_ID = #userId#
+		</isNotEmpty>
+		<isNotEmpty property="nmKor" >
+		   AND T1.NM_KOR LIKE '%' || #nmKor# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="criMbPosiNm" >
+		   AND T1.CRI_MB_POSI_NM LIKE '%' || #criMbPosiNm# || '%'
+		</isNotEmpty>						
+		<isNotEmpty property="orgName" >
+		   AND (
+		   			T1.ORG_NAME LIKE '%' || #orgName# || '%' 
+		   		)
+		</isNotEmpty>
+		<isNotEmpty property="mobileTel" >
+		   AND ( T1.MOBILE_TEL ) LIKE '%' || #mobileTel# || '%'
+		</isNotEmpty>		
+	</select>
+	
+	
+	<select id="Z0102.selectUserInfo" parameterClass="sjpbUserVo" resultMap="CommResultMap.userInfo">
+		/* Z0102.selectUserInfo */
+		SELECT *
+		FROM (
+				SELECT	  ROW_NUMBER () OVER (ORDER BY CRI_MB_POSI DESC) RNUM
+						, TT.*
+				FROM (
+						SELECT	*
+						FROM	( 
+								SELECT
+								        A.USER_ID AS USER_ID, 
+								        A.ORG_CD AS ORG_CD,
+								        (     SELECT
+								            F.CRI_TM_NM AS CRI_TM_NM     
+								        FROM
+								            SJPB_CRI_TM F     
+								        WHERE
+								             F.CRI_TM_ID = A.ORG_CD                ) AS ORG_NAME,        
+								        A.KIND_CD,
+								        (SELECT CODE_NAME FROM CODEBASE WHERE CODE_ID ='SJPB_00020' AND CODE= I.CRI_MB_POSI AND LANG_KND='ko') AS CRI_MB_POSI_NM,
+								        A.NM_KOR,
+								        A.MOBILE_TEL,
+								        A.EMAIL_ADDR,
+								        I.CRI_MB_POSI       
+								    FROM
+								        USERPASS A       
+								    INNER JOIN
+								        SECURITY_PRINCIPAL B 
+								            ON A.USER_ID=B.SHORT_PATH     
+								    INNER JOIN
+								        SECURITY_CREDENTIAL C 
+								            ON B.PRINCIPAL_ID=C.PRINCIPAL_ID     
+								     JOIN
+								        SJPB_CRI_MB I 
+								            ON I.CRI_MB_ID = A.USER_ID              
+								    WHERE
+								        B.PRINCIPAL_TYPE='U'     
+								        AND CRI_MB_STAT='1'
+						) T1
+						WHERE 1=1
+						<isEqual property="searchType" compareValue="userId" >
+							AND T1.USER_ID = #searchValue#
+						</isEqual>
+						<isEqual property="searchType" compareValue="nmKor" >
+							AND T1.NM_KOR LIKE '%' || #searchValue# || '%'
+						</isEqual>
+						<isEqual property="searchType" compareValue="orgName" >
+							AND (
+									T1.ORG_NAME LIKE '%' || #searchValue# || '%' 
+								)
+						</isEqual>
+						<isEqual property="searchType" compareValue="criMbPosiNm" >
+							AND (
+									T1.CRI_MB_POSI_NM LIKE '%' || #searchValue# || '%' 
+								)
+						</isEqual>						
+						<isEqual property="searchType" compareValue="mobileTel" >
+							AND ( T1.MOBILE_TEL ) LIKE '%' || #searchValue# || '%'
+						</isEqual>
+						<isNotEmpty property="orgCd" >
+							<isNotEqual property="orgCd" compareValue="0">
+								AND T1.ORG_CD = #orgCd#
+							</isNotEqual>
+						</isNotEmpty>						
+						<isNotEmpty property="userId" >
+						   AND T1.USER_ID = #userId#
+						</isNotEmpty>
+						<isNotEmpty property="nmKor" >
+						   AND T1.NM_KOR LIKE '%' || #nmKor# || '%'
+						</isNotEmpty>
+						<isNotEmpty property="criMbPosiNm" >
+						   AND T1.CRI_MB_POSI_NM LIKE '%' || #criMbPosiNm# || '%'
+						</isNotEmpty>						
+						<isNotEmpty property="orgName" >
+						   AND (
+						   			T1.ORG_NAME LIKE '%' || #orgName# || '%' 
+						   		)
+						</isNotEmpty>
+						<isNotEmpty property="mobileTel" >
+						   AND ( T1.MOBILE_TEL ) LIKE '%' || #mobileTel# || '%'
+						</isNotEmpty>						
+            ) TT
+		  )	  
+		<isNotEqual property="startRow" compareValue="0">
+		 WHERE RNUM BETWEEN #startRow# AND #endRow#
+		</isNotEqual>
+	</select>
+	
+	<select id="Z0102.selectUserInfoDetail" parameterClass="sjpbUserVo" resultMap="CommResultMap.userInfo">
+		/* Z0102.selectUserInfoDetail */
+		SELECT    1 AS RNUM
+				, M1.company_cd
+				, M1.emp_id
+				, M1.emp_no
+				, M1.emp_nm
+				, M1.in_offi_yn
+				, M1.emp_for_nm1
+				, M1.emp_for_nm2
+				, M1.ctz_no
+				, M1.gender_cd
+				, M1.gender_nm
+				, M1.solar_type
+				, M1.solar_type_nm
+				, TO_CHAR(M1.birth_ymd, 'yyyy.MM.dd') AS birth_ymd
+				, M1.org_cd
+				, M1.org_nm
+				, M1.pos_grd_cd
+				, M1.pos_grd_nm
+				, NVL(M1.pos_grd_seq, 0) AS pos_grd_seq
+				, M1.pos_cd
+				, M1.pos_nm
+				, M1.pos_seq
+				, M1.emp_kind_cd
+				, M1.emp_kind_nm
+				, M1.emp_kind_sub_cd
+				, M1.emp_kind_sub_nm
+				, M1.hire_cd
+				, M1.hire_nm
+				, TO_CHAR(M1.group_ymd, 'yyyy.MM.dd') AS group_ymd
+				, TO_CHAR(M1.hire_ymd, 'yyyy.MM.dd') AS hire_ymd
+				, M1.career_num
+				, TO_CHAR(M1.org_ymd, 'yyyy.MM.dd') AS org_ymd
+				, TO_CHAR(M1.pos_ymd, 'yyyy.MM.dd') AS pos_ymd
+				, TO_CHAR(M1.pos_grd_ymd, 'yyyy.MM.dd') AS pos_grd_ymd
+				, TO_CHAR(M1.retire_ymd, 'yyyy.MM.dd') AS retire_ymd
+				, M1.ofc_short_no
+				, M1.email
+				, M1.hand_phone_no
+				, M1.org_seq
+				, M1.emp_seq
+				, M1.stat_cd
+				, M1.stat_nm
+				, M1.job_cd
+				, M1.job_nm
+				, M1.ofc_telno1
+				, M1.ofc_telno2
+				, M1.ofc_telno3
+				, M1.mob_telno1
+				, M1.mob_telno2
+				, M1.mob_telno3
+				, M1.ofc_fax_no
+				, M1.ofc_wfax_no
+				, M1.ofc_zip_no
+				, M1.ofc_addr
+				, M1.ofc_detail_addr
+				, TO_CHAR(M1.cam_ymd, 'yyyy.MM.dd') AS cam_ymd
+				, M1.send_yn
+				, M1.dis_yn
+				, M1.curr_addr
+				, M1.pay_kind_cd
+				, M1.pay_kind_nm
+				, M1.emp_type_cd
+				, M1.emp_type_nm
+				, M2.org_id
+				, M2.org_line
+				, M2.org_sort
+				, TO_CHAR(M2.sta_ymd, 'yyyy.MM.dd') AS sta_ymd
+				, TO_CHAR(M2.end_ymd, 'yyyy.MM.dd') AS end_ymd
+				, M2.org_full_nm
+				, M2.org_for_nm
+				, M2.org_short_nm
+				, CASE
+					WHEN M2.org_id = 1000000 THEN 0
+					ELSE M2.super_org_id
+				  END AS super_org_id
+				, M2.super_org_nm
+				, M2.org_type_cd
+				, M2.org_type_nm
+				, M2.cost_org_cd
+				, M2.reg_org_yn
+				, M2.cust_col1
+				, M2.tel_no
+				, M2.fax_no
+				, M2.wfax_no
+				, M2.zip_no
+				, M2.addr
+				, M2.detail_addr
+				, M2.biz_no
+				, M2.biz_nm
+				, M2.uptae
+				, M2.upjong
+				, M2.bossnm
+				, M2.taxcd
+		FROM    (SELECT * FROM if_emp WHERE emp_no = #searchValue#) M1
+		JOIN	if_org M2
+			ON	M1.org_cd = M2.org_cd
+		WHERE	1 = 1
+			AND M1.in_offi_yn = 'Y'
+	</select>
+	
+	<select id="Z0102.selectDeptInfo" parameterClass="sjpbUserVo" resultMap="CommResultMap.deptInfo">
+		/* Z0102.selectDeptInfo */
+		SELECT
+		    CRI_TM_ID   AS CRI_TM_ID,
+		    CRI_TM_NM   AS CRI_TM_NM
+		FROM
+		    SJPB_CRI_TM A	
+		    WHERE 1=1
+		     AND CRI_TM_STAT = 1
+		     AND CRI_TM_ID = #orgCd#	
+	</select>
+	
+		
+	<select id="Z0102.selectFileInfo" parameterClass="sjpbFileVo" resultMap="CommResultMap.fileInfo" >
+		/* Z0102.selectFileInfo */
+		SELECT FILE_ID
+			 , FILE_NM
+			 , FILE_MASK
+			 , FILE_SIZE
+			 , FILE_TYPE
+			 , FILE_PATH
+			 , REG_USER_ID
+			 , REG_DATE
+			 , UPD_USER_ID
+			 , UPD_DATE
+			 , FILE_ID || '_' || FILE_TYPE AS FILE_MASK
+		  FROM SJPB_COMM_FILE
+		<isNotEmpty property="fileIdList">
+		 WHERE FILE_ID IN 
+		 	<iterate property="fileIdList" open="(" conjunction="," close=")">#fileIdList[]#</iterate> 
+		</isNotEmpty>
+		<isEmpty property="fileIdList">
+		 WHERE FILE_ID = #fileId#
+		</isEmpty>
+	</select>
+	
+	
+	<select id="Z0102.selectFileInfoList" parameterClass="sjpbFileVo" resultClass="java.util.HashMap" >
+		/* Z0102.selectFileInfoList */
+		SELECT TO_CHAR(FILE_ID) AS FILE_ID
+			 , FILE_NM
+			 , FILE_MASK
+			 , TO_CHAR(FILE_SIZE) AS FILE_SIZE 
+			 , FILE_TYPE
+			 , FILE_PATH
+			 , REG_USER_ID
+			 , (SELECT NM_KOR FROM USERPASS WHERE USER_ID = REG_USER_ID) REG_USER_NM
+			 , TO_CHAR(REG_DATE,'YYYY.MM.DD') AS REG_DATE
+			 , UPD_USER_ID
+			 , (SELECT NM_KOR FROM USERPASS WHERE USER_ID = UPD_USER_ID) UPD_USER_NM
+			 , TO_CHAR(UPD_DATE,'YYYY.MM.DD') AS UPD_DATE
+		  FROM SJPB_COMM_FILE
+		<isNotEmpty property="fileIdList">
+		 WHERE FILE_ID IN 
+		 	<iterate property="fileIdList" open="(" conjunction="," close=")">#fileIdList[]#</iterate> 
+		</isNotEmpty>
+		<isEmpty property="fileIdList">
+		 WHERE FILE_ID = #fileId#
+		</isEmpty>
+	</select>
+	
+	<insert id="Z0102.insertCriIncDtaFile" parameterClass="sjpbFileVo" >
+		/* Z0102.insertCriIncDtaFile */
+		INSERT INTO SJPB_CRI_INC_DTA_FILE (
+			CRI_DTA_NUM
+			, ATCH_FILE_ID
+			, ATCH_FILE_ORD
+			, REG_USER_ID
+			, REG_DATE
+			, UPD_USER_ID
+			, UPD_DATE
+		) VALUES (
+			 #criDtaNum#
+			, #fileId#
+			, #atchFileOrd#
+			, #fileRgsrtId#
+			, SYSDATE
+			, #fileRgsrtId#
+			, SYSDATE
+		)
+	</insert>
+	
+	
+	<insert id="Z0102.insertFileInfo" parameterClass="sjpbFileVo" >
+		/* Z0102.insertFileInfo */
+		INSERT INTO SJPB_COMM_FILE (
+			FILE_ID
+			, FILE_NM
+			, FILE_MASK
+			, FILE_SIZE
+			, FILE_TYPE
+			, FILE_PATH
+			, REG_USER_ID
+			, REG_DATE
+			, UPD_USER_ID
+			, UPD_DATE
+		) VALUES (
+			#fileId#
+			, #fileNm#
+			, #fileMask#
+			, #fileSize#
+			, #fileType#
+			, #filePath#
+			, #fileRgsrtId#
+			, SYSDATE
+			, #fileRgsrtId#
+			, SYSDATE
+		)
+	</insert>
+	
+	<delete id="Z0102.deleteFileInfo" parameterClass="sjpbFileVo" >
+		/* Z0102.deleteFileInfo */
+		DELETE FROM SJPB_COMM_FILE WHERE FILE_ID = #fileId#
+	</delete>
+	
+	<delete id="Z0102.deleteFileInfoList" parameterClass="sjpbFileVo" >
+		/* Z0102.deleteFileInfo */
+		DELETE FROM SJPB_COMM_FILE WHERE 1=1
+		<isNotEmpty property="fileIdList">
+		 WHERE FILE_ID NOT IN 
+		 	<iterate property="fileIdList" open="(" conjunction="," close=")">#fileIdList[]#</iterate> 
+		</isNotEmpty>
+	</delete>
+	
+	<select id="Z0102.selectBoardFileInfo" resultClass="com.saltware.enview.util.EnviewMap" >
+		/* Z0102.selectBoardFileInfo */
+		SELECT bltn_no, file_seq, file_nm, file_mask 
+		FROM BLTN_FILE
+		WHERE board_id = #boardId# 
+		<isNotEmpty property="fileMask"> 
+		 AND file_mask=#fileMask#
+		 </isNotEmpty>
+		<isNotEmpty property="bltnNo">
+		 AND bltn_no=#bltnNo#
+		 AND file_seq=#fileSeq#
+		 </isNotEmpty>
+	</select>
+	
+	<select id="Z0102.selectKeygen" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		/* comm.selectKeygen */
+		SELECT SEQ
+		FROM KEYGEN
+		WHERE ENTITY_NAME = #key#
+	</select>
+	
+	<update id="Z0102.updateKeygen" parameterClass="java.lang.String" >
+		/* Z0102.updateKeygen */
+		UPDATE KEYGEN
+		   SET SEQ = SEQ + 1
+		 WHERE ENTITY_NAME = #key#
+	</update>
+	
+	<resultMap class="sjpbUserVo" id="CommResultMap.getManagerIds">
+		<result property="empId"				column="emp_id" />
+		<result property="empNo"				column="emp_no" />
+		<result property="empNm"				column="emp_nm" />
+		<result property="posGrdNm"			column="pos_grd_nm" />
+		<result property="posNm"				column="pos_nm" />
+		<result property="empKindSubNm"		column="emp_kind_sub_nm" />
+		<result property="orgCd"				column="org_cd" />
+		<result property="orgNm"				column="org_nm" />
+		<result property="superOrgId"			column="super_org_id" />
+	</resultMap>
+	
+	<select id="Z0102.getManagerIds" parameterClass="sjpbCommonVO" resultMap="CommResultMap.getManagerIds">
+		/* Z0102.getManagerIds */
+		SELECT    S1.emp_id
+				, S1.emp_no
+				, S1.emp_nm
+				, S1.pos_grd_nm
+				, S1.pos_nm
+				, S1.emp_kind_sub_nm
+				, S2.org_cd
+				, S2.org_nm
+				, CASE
+					WHEN S2.org_id = 1000000 THEN 0
+					ELSE S2.super_org_id
+				  END AS super_org_id
+		FROM  (
+		    SELECT  short_path
+		    FROM    security_principal
+		    WHERE 1=1
+		      AND principal_id IN (
+		                SELECT  user_id
+		                FROM    security_user_role
+		                WHERE   1=1
+		                  AND   role_id IN (
+		                          SELECT  principal_id
+		                          FROM    security_principal
+		                          WHERE   1=1
+		                            AND principal_type = 'R'
+		                            AND short_path = #userRoleId#
+		                )
+		      )
+		) M
+		JOIN  if_emp S1
+		  ON  M.short_path = S1.emp_id
+		  AND S1.in_offi_yn = 'Y'
+		JOIN  if_org S2
+		  ON  S1.org_cd = S2.org_cd
+		<isNotEmpty property="orgId">
+		  AND S2.org_Id = #orgId#
+		</isNotEmpty>
+	</select>
+	
+	<select id="Z0102.selectCodeName" resultClass="java.lang.String" >
+		/* Z0102.selectCodeName */
+		SELECT CODE FROM (
+			SELECT   CODE
+				FROM     CODEBASE
+				WHERE 1=1   
+				AND CODE_ID  =#codeId#
+				AND      CODE    != '0000000000'
+				AND      LANG_KND ='ko'
+				<isNotEmpty  property="likeYn">
+				<isEqual property="likeYn" compareValue="N">
+					AND  CODE_NAME=#codeName#
+				</isEqual>
+				<isEqual property="likeYn" compareValue="Y">
+					AND      CODE_NAME LIKE '%'||#codeName#||'%'
+				</isEqual>			
+				</isNotEmpty>
+				<isEmpty  property="likeYn">
+					AND      CODE_NAME=#codeName#
+				</isEmpty>
+				ORDER BY CODE ASC
+		)T
+		WHERE  ROWNUM =1
+	</select>
+	
+	
+</sqlMap>
+
+

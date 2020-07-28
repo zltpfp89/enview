@@ -1,0 +1,61 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+ 
+<!-- Query for [ SJPB_HAWR_CRI_DTA_TAB : 수기수사자료표 ] Table -->
+ 
+	<resultMap class="com.saltware.enface.sjpb.E.service.E0101VO" id="E0101VO.list">
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="incCriNm" column="INC_CRI_NM"/>
+		<result property="dvYn" column="DV_YN"/>
+		<result property="respCriOffi" column="RESP_CRI_OFFI"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="dtaTabComn" column="DTA_TAB_COMN"/>
+		<result property="bkSiNum" column="BK_SI_NUM"/>
+		<result property="bkPublYr" column="BK_PUBL_YR"/>
+		<result property="rltActCrinmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="dvformDesc" column="DV_FORM_DESC"/>
+	</resultMap>
+	<!-- 수기수사자료표 리스트 -->
+	<select id="E0101.SJPB_HAWR_CRI_DTA_TAB.selectList" resultMap="E0101VO.list"> /* E0101.selectList */
+		SELECT CRYPTO.DEC('normal',B.SP_NM) AS SP_NM /*피의자명*/
+			   ,CRYPTO.DEC('normal',B.SP_ID_NUM) AS SP_ID_NUM /*주민등록번호*/
+			   ,TO_CHAR(A.REG_DATE, 'YYYY-MM-DD') AS REG_DATE /*등록일자*/
+			   ,A.INC_CRI_NM /*사건죄명 코드*/
+			   ,A.DV_YN /*발견여부*/
+			   ,A.RESP_CRI_OFFI /* 담당수사관아이디 */
+			   ,C.NM_KOR /*담당수사관명*/
+			   ,A.DTA_TAB_COMN /*비고*/
+			   ,A.BK_SI_NUM /*장부일련번호*/
+			   ,A.BK_PUBL_YR /*장부발행년도*/
+			   ,E.CODE_NAME AS RLT_ACT_CRI_NM_CD_DESC /*사건죄명*/
+			   ,F.CODE_NAME AS DV_FORM_DESC /*발각여부*/
+		FROM SJPB_HAWR_CRI_DTA_TAB A   /*수기수사자료표*/
+		LEFT JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM AND B.SP_STAT_CD = '1'
+		LEFT JOIN USERPASS C ON C.USER_ID= A.RESP_CRI_OFFI 
+		LEFT JOIN CODEBASE E ON E.CODE_ID = 'SJPB_00012' AND E.CODE = A.INC_CRI_NM AND E.SYSTEM_CODE ='PT' AND E.LANG_KND='ko'
+		LEFT JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00004' AND F.CODE = A.DV_YN AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="spNm" prepend="AND">
+				CRYPTO.DEC('normal',B.SP_NM) LiKE '%' ||#spNm#||'%'
+			</isNotEmpty>
+			<isNotEmpty property="nmKor" prepend="AND">
+				C.NM_KOR LiKE '%' ||#nmKor#||'%'
+			</isNotEmpty>
+			<isNotEmpty property="dvYn" prepend="AND">
+				A.DV_YN = #dvYn#
+			</isNotEmpty>
+			<isNotEmpty property="startDay" prepend="AND">
+				TO_CHAR(A.REG_DATE,'YYYY-MM-DD')
+				BETWEEN TO_DATE(#startDay#,'YYYY-MM-DD') AND TO_DATE(#endDay#,'YYYY-MM-DD') 
+			</isNotEmpty>
+		</dynamic>
+		ORDER BY A.BK_SI_NUM ASC
+	</select>
+	<delete id="E0101.SJPB_HAWR_CRI_DTA_TAB.deleteHawr">
+		DELETE FROM SJPB_HAWR_CRI_DTA_TAB
+		WHERE BK_SI_NUM = #bkSiNum# AND BK_PUBL_YR = #bkPublYr#
+	</delete>
+</sqlMap>

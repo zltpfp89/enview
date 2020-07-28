@@ -1,0 +1,237 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ USER_STATISTICS : 사용자로그 ] Table -->
+	<resultMap id="admin_UserStatisticsVO_PK" class="com.saltware.enview.admin.statistics.service.UserStatisticsPK">
+	
+	</resultMap>
+	
+	<resultMap id="admin_UserStatisticsVO" class="com.saltware.enview.admin.statistics.service.UserStatisticsVO">
+		<result property="accessBrowser" column="ACCESS_BROWSER" columnIndex="1"/>	 
+		<result property="userIp" column="IPADDRESS" columnIndex="2"/>	 
+		<result property="orgName" column="ORG_NAME" columnIndex="3"/>	 
+		<result property="userId" column="USER_ID" columnIndex="4"/>	 
+		<result property="userName" column="USER_NAME" columnIndex="5"/>	 
+		<result property="status" column="STATUS" columnIndex="6"/>	 
+		<result property="statusStr" column="STATUS_STR" columnIndex="7"/>	 
+		<result property="timeStamp" column="TIME_STAMP" columnIndex="8"/>	 
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="9"/>	 
+		<result property="orgCd" column="ORG_CD" columnIndex="10"/>	 
+		<result property="roleId" column="ROLE_ID" columnIndex="11"/>
+		<result property="roleName" column="ROLE_Name" columnIndex="12"/>
+		<result property="elapsedTime" column="ELAPSED_TIME" columnIndex="13"/>	 
+		<result property="extraInfo01" column="EXTRA_INFO01" columnIndex="14"/>	 
+		<result property="extraInfo02" column="EXTRA_INFO02" columnIndex="15"/>	 
+		<result property="extraInfo03" column="EXTRA_INFO03" columnIndex="16"/>	 
+		<result property="extraInfo04" column="EXTRA_INFO04" columnIndex="17"/>	 
+		<result property="extraInfo05" column="EXTRA_INFO05" columnIndex="18"/>
+     	<result property="domainNm" column="DOMAIN_NM" columnIndex="19"/>
+	</resultMap>
+	
+	<resultMap id="admin_UserAccessVO" class="com.saltware.enview.admin.statistics.service.UserAccessVO">
+	 
+		<result property="name" column="NAME" columnIndex="1"/>	 
+		<result property="value" column="VALUE" columnIndex="2"/>	 
+	</resultMap>
+	
+	<select id="userStatistics.totalCount" resultClass="int">
+	/* userStatistics.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM USER_STATISTICS
+		WHERE 1=1	
+			<isNotNull prepend=" AND " property="userId">USER_ID=#userId#</isNotNull>
+			<isNotNull  prepend=" AND " property="groupIdCond">ORG_CD LIKE #groupIdCond#||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="roleIdCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID IN $roleIds$)</isNotNull>			
+			<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE #userIdCond#||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE #userNameCond#||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="userIpCond">IPADDRESS LIKE #userIpCond#||'%'</isNotNull>
+			<isGreaterThan prepend=" AND " property="statusCond" compareValue="0">STATUS LIKE #statusCond#||'%'</isGreaterThan>
+			<isGreaterThan prepend=" AND " property="domainId" compareValue="0">DOMAIN_ID = #domainId#</isGreaterThan>
+			AND TIME_STAMP BETWEEN #startTimeStampCond# AND #endTimeStampCond#
+	</select>
+	
+	<select id="userStatistics.todayAccessCount" resultClass="int">
+	/* userStatistics.todayAccessCount */
+		SELECT count(*) 
+		FROM USER_STATISTICS 
+		WHERE status &lt;&gt; 2 AND TO_CHAR(time_stamp, 'yyyyMMdd')=TO_CHAR(sysdate, 'yyyyMMdd')
+		<isNotNull prepend=" AND " property="userId">USER_ID=#userId#</isNotNull>
+		<isNotNull  prepend=" AND " property="groupIdCond">ORG_CD LIKE #groupIdCond#||'%'</isNotNull>
+		<isNotNull  prepend=" AND " property="roleIdCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID IN $roleIds$)</isNotNull>
+		<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE #userIdCond#||'%'</isNotNull>
+		<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE #userNameCond#||'%'</isNotNull>
+		<isGreaterThan prepend=" AND " property="domainId" compareValue="0">DOMAIN_ID = #domainId#</isGreaterThan>
+	</select>
+	
+	<select id="userStatistics.averageAccessCount" resultClass="int">
+	/* userStatistics.averageAccessCount */
+		SELECT DECODE(r.ymd, 0, 1, r.seq/r.ymd) 
+		FROM (
+			SELECT count(*) seq, count(distinct TO_CHAR(time_stamp, 'yyyyMMdd')) ymd 
+			FROM USER_STATISTICS 
+			WHERE status &lt;&gt; 2
+			<isNotNull prepend=" AND " property="userId">USER_ID=#userId#</isNotNull>
+			<isNotNull  prepend=" AND " property="groupIdCond">ORG_CD LIKE #groupIdCond#||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="roleIdCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID IN $roleIds$)</isNotNull>
+			<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE #userIdCond#||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE #userNameCond#||'%'</isNotNull>
+			<isGreaterThan prepend=" AND " property="domainId" compareValue="0">DOMAIN_ID = #domainId#</isGreaterThan>
+		) r
+	</select>
+	
+	<select id="userStatistics.accumulateAccessCount" resultClass="int">
+	/* userStatistics.accumulateAccessCount */
+		SELECT count(*) 
+		FROM USER_STATISTICS 
+		WHERE status &lt;&gt; 2
+		<isNotNull prepend=" AND " property="userId">USER_ID=#userId#</isNotNull>
+		<isNotNull  prepend=" AND " property="groupIdCond">ORG_CD LIKE #groupIdCond#||'%'</isNotNull>
+		<isNotNull  prepend=" AND " property="roleIdCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID IN $roleIds$)</isNotNull>
+		<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE #userIdCond#||'%'</isNotNull>
+		<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE #userNameCond#||'%'</isNotNull>
+		<isGreaterThan prepend=" AND " property="domainId" compareValue="0">DOMAIN_ID = #domainId#</isGreaterThan>
+	</select>
+	
+	<select id="userStatistics.findByPage" resultMap="admin_UserStatisticsVO">
+	/* userStatistics.findByPage */
+		SELECT * FROM (
+			SELECT ACCESS_BROWSER,IPADDRESS,ORG_NAME,A.USER_ID,USER_NAME,STATUS, CODE_NAME as STATUS_STR,TIME_STAMP,A.PRINCIPAL_ID,ORG_CD,D.ROLE_ID,D.PRINCIPAL_NAME as ROLE_NAME, ELAPSED_TIME,EXTRA_INFO01,EXTRA_INFO02,EXTRA_INFO03,EXTRA_INFO04,EXTRA_INFO05,c.DOMAIN_NM,ROW_NUMBER() OVER(			
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY TIME_STAMP DESC</isNull>
+			) as rnum 
+			FROM USER_STATISTICS a 
+			INNER JOIN CODEBASE b ON STATUS=CODE
+			LEFT OUTER JOIN DOMAIN_LANG c ON a.DOMAIN_ID = c.DOMAIN_ID
+        	LEFT OUTER JOIN (
+        	<isNull property="roleIdCond">
+								SELECT USER_ID, ROLE_ID, PRINCIPAL_NAME
+								FROM (
+									SELECT ROW_NUMBER() OVER (PARTITION BY R.USER_ID ORDER BY R.ROLE_ID) RN,
+										   R.USER_ID, R.ROLE_ID, PRINCIPAL_NAME
+									  FROM SECURITY_USER_ROLE R
+									  	   LEFT OUTER JOIN SECURITY_PRINCIPAL P
+									  	   ON P.PRINCIPAL_TYPE = 'R' AND R.ROLE_ID = P.PRINCIPAL_ID
+								)
+								WHERE RN = 1        	    
+        	</isNull>
+        	<isNotNull property="roleIdCond">
+			 			 		SELECT R.USER_ID, R.ROLE_ID, PRINCIPAL_NAME 
+						  		  FROM SECURITY_USER_ROLE R
+								  LEFT OUTER JOIN SECURITY_PRINCIPAL P
+									   ON P.PRINCIPAL_TYPE = 'R' AND R.ROLE_ID = P.PRINCIPAL_ID        	    
+        	</isNotNull>
+				) d ON A.PRINCIPAL_ID = D.USER_ID				
+			WHERE 1=1 
+			<isNotNull prepend=" AND " property="userId">a.USER_ID=#userId#</isNotNull>
+			<isNotNull  prepend=" AND " property="groupIdCond">ORG_CD LIKE #groupIdCond#||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="roleIdCond">d.ROLE_ID IN $roleIds$</isNotNull>			
+			<isNotNull  prepend=" AND " property="userIdCond">a.USER_ID LIKE #userIdCond#||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE #userNameCond#||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="userIpCond">IPADDRESS LIKE #userIpCond#||'%'</isNotNull>
+			<isGreaterThan prepend=" AND " property="statusCond" compareValue="0">STATUS LIKE #statusCond#||'%'</isGreaterThan>
+			<isGreaterThan prepend=" AND " property="domainId" compareValue="0">a.DOMAIN_ID = #domainId#</isGreaterThan>
+			AND TIME_STAMP BETWEEN #startTimeStampCond# AND #endTimeStampCond#
+			AND b.SYSTEM_CODE='PT' AND b.CODE_ID='108' AND b.LANG_KND=#langKnd#
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="userStatistics.findAll" resultMap="admin_UserStatisticsVO_PK">
+			SELECT 
+			FROM USER_STATISTICS
+	</select>
+	
+	<select id="userStatistics.findByTime" resultMap="admin_UserAccessVO">
+	/* userStatistics.findByTime */
+			SELECT TO_CHAR(time_stamp, 'hh24') "NAME", count(*) "VALUE"
+    	    FROM USER_STATISTICS
+    	    WHERE 1=1 
+				<isNotNull prepend=" AND " property="userId">USER_ID=#userId#</isNotNull>
+				<isNotNull  prepend=" AND " property="groupIdCond">ORG_CD LIKE nvl(#groupIdCond#,'%')||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="roleIdCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID IN $roleIds$)</isNotNull>
+				<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE nvl(#userIdCond#,'%')||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE nvl(#userNameCond#,'%')||'%'</isNotNull>
+				<isGreaterEqual prepend=" AND " property="domainId" compareValue="1">DOMAIN_ID = #domainId#</isGreaterEqual>
+			     AND TIME_STAMP BETWEEN #startTimeStampCond# AND #endTimeStampCond#
+    	    GROUP BY TO_CHAR(time_stamp, 'hh24')
+    	    ORDER BY TO_CHAR(time_stamp, 'hh24')
+	</select>
+	
+	<select id="userStatistics.findByDay" resultMap="admin_UserAccessVO">
+			SELECT TO_CHAR(time_stamp, 'dd') "NAME", count(*) "VALUE"
+    	    FROM USER_STATISTICS
+    	    WHERE 1=1 
+				<isNotNull prepend=" AND " property="userId">USER_ID=#userId#</isNotNull>
+				<isNotNull  prepend=" AND " property="groupIdCond">ORG_CD LIKE nvl(#groupIdCond#,'%')||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="roleIdCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID IN $roleIds$)</isNotNull>
+				<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE nvl(#userIdCond#,'%')||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE nvl(#userNameCond#,'%')||'%'</isNotNull>
+				<isGreaterEqual prepend=" AND " property="domainId" compareValue="1">DOMAIN_ID = #domainId#</isGreaterEqual>
+				AND TIME_STAMP BETWEEN #startTimeStampCond# AND #endTimeStampCond#
+    	    GROUP BY TO_CHAR(time_stamp, 'dd')
+    	    ORDER BY TO_CHAR(time_stamp, 'dd')
+	</select>
+	
+	<select id="userStatistics.findByMonth" resultMap="admin_UserAccessVO">
+			SELECT TO_CHAR(time_stamp, 'MM') "NAME", count(*) "VALUE"
+    	    FROM USER_STATISTICS
+    	    WHERE 1=1 
+				<isNotNull prepend=" AND " property="userId">USER_ID=#userId#</isNotNull>
+				<isNotNull  prepend=" AND " property="groupIdCond">ORG_CD LIKE nvl(#groupIdCond#,'%')||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="roleIdCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID IN $roleIds$)</isNotNull>
+				<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE nvl(#userIdCond#,'%')||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE nvl(#userNameCond#,'%')||'%'</isNotNull>
+				<isGreaterEqual prepend=" AND " property="domainId" compareValue="1">DOMAIN_ID = #domainId#</isGreaterEqual>
+				AND TIME_STAMP BETWEEN #startTimeStampCond# AND #endTimeStampCond#
+    	    GROUP BY TO_CHAR(time_stamp, 'MM')
+    	    ORDER BY TO_CHAR(time_stamp, 'MM')
+	</select>
+	
+	<select id="userStatistics.findByYear" resultMap="admin_UserAccessVO">
+			SELECT TO_CHAR(time_stamp, 'YYYY') "NAME", count(*) "VALUE"
+    	    FROM USER_STATISTICS
+    	    WHERE 1=1 
+				<isNotNull prepend=" AND " property="userId">USER_ID=#userId#</isNotNull>
+				<isNotNull  prepend=" AND " property="groupIdCond">ORG_CD LIKE nvl(#groupIdCond#,'%')||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="roleIdCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID IN $roleIds$)</isNotNull>
+				<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE nvl(#userIdCond#,'%')||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE nvl(#userNameCond#,'%')||'%'</isNotNull>
+				<isGreaterEqual prepend=" AND " property="domainId" compareValue="1">DOMAIN_ID = #domainId#</isGreaterEqual>
+				AND TIME_STAMP BETWEEN #startTimeStampCond# AND #endTimeStampCond#
+    	    GROUP BY TO_CHAR(time_stamp, 'YYYY')
+    	    ORDER BY TO_CHAR(time_stamp, 'YYYY')
+	</select>
+	
+	<select id="userStatistics.findByWeek" resultMap="admin_UserAccessVO">
+			SELECT TO_CHAR(time_stamp, 'd') "NAME", count(*) "VALUE"
+    	    FROM USER_STATISTICS
+    	    WHERE 1=1 
+				<isNotNull prepend=" AND " property="userId">USER_ID=#userId#</isNotNull>
+				<isNotNull  prepend=" AND " property="groupIdCond">ORG_CD LIKE nvl(#groupIdCond#,'%')||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="roleIdCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID IN $roleIds$)</isNotNull>
+				<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE nvl(#userIdCond#,'%')||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE nvl(#userNameCond#,'%')||'%'</isNotNull>
+				<isGreaterEqual prepend=" AND " property="domainId" compareValue="1">DOMAIN_ID = #domainId#</isGreaterEqual>
+				AND TIME_STAMP BETWEEN #startTimeStampCond# AND #endTimeStampCond#
+    	    GROUP BY TO_CHAR(time_stamp, 'd')
+    	    ORDER BY TO_CHAR(time_stamp, 'd')
+	</select>
+	
+	<insert id="userStatistics.insert">
+		<![CDATA[
+			INSERT INTO USER_STATISTICS
+				( ACCESS_BROWSER,IPADDRESS,ORG_NAME,USER_ID,USER_NAME,STATUS,TIME_STAMP,PRINCIPAL_ID,ORG_CD,ELAPSED_TIME,EXTRA_INFO01,EXTRA_INFO02,EXTRA_INFO03,EXTRA_INFO04,EXTRA_INFO05 )
+			VALUES ( #accessBrowser#,#userIp#,#orgName#,#userId#,#userName#,#status#,#timeStamp#,#principalId#,#orgCd#,#elapsedTime#,#extraInfo01#,#extraInfo02#,#extraInfo03#,#extraInfo04#,#extraInfo05# )
+		]]>
+	</insert>
+	
+	<insert id="userStatistics.storeRecord">
+			INSERT INTO USER_STATISTICS
+				( ACCESS_BROWSER,IPADDRESS,ORG_NAME,USER_ID,USER_NAME,STATUS,TIME_STAMP,PRINCIPAL_ID,ORG_CD,ELAPSED_TIME,DEAL_TAG,STAT_DESC,DEAL_DESC,CMNT_ID,DEAL_USER_ID,DEAL_DATIM,EXTRA_INFO01,EXTRA_INFO02,EXTRA_INFO03,EXTRA_INFO04,EXTRA_INFO05 )
+			VALUES ( #accessBrowser#,#ipAddress#,#orgName#,#userId#,#userName#,#status#,#timeStamp#,#principalId#,#orgCd#,#msElapsedTime#,#dealTag#,#statDesc#,#dealDesc#,#cmntId#,#dealUserId#,#dealDatim#,#extraInfo01#,#extraInfo02#,#extraInfo03#,#extraInfo04#,#extraInfo05# )
+	</insert>
+	
+</sqlMap>
+

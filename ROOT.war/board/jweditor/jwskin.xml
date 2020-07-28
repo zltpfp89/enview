@@ -1,0 +1,96 @@
+<ToolBar>
+	<Group>
+		<button name='new' icon='0'></button>
+		<button name='open' icon='1'></button>
+		<button name='save' icon='2'></button>
+		<button name='saveas' icon='3'></button>
+		<button name='-'></button>
+		<button name='print' icon='4'></button>
+		<button name='ie_preview' icon='67'></button>
+		<button name='-'></button>
+		<button name='undo' icon='5'></button>
+		<button name='redo' icon='6'></button>
+		<button name='-'></button>
+		<button name='cut' icon='7'></button>
+		<button name='copy' icon='8'></button>		
+		<button name='paste' icon='9'></button>
+		<button name='-'></button>
+		<button name='findtext' icon='10'></button>
+		<button name='-'></button>
+		<button name='image' icon='11'></button>
+		<button name='backimgae' icon='12'></button>
+		<button name='-'></button>
+		<button name='backcolor' icon='13'></button>
+		<button name='-'></button>
+		<button name='media' icon='52'></button>	
+		<button name='flash' icon='53'></button>	
+		<button name='-'></button>
+		<button name='inserthtml' icon='14'></button>
+		<button name='source' icon='15'></button>
+		<button name='-'></button>
+		<button name='sitebackimage' icon='16'></button>
+		<button name='help' icon='66'></button>
+	</Group>
+	<Group>
+		<button name='inserttable' icon='19'></button>
+		<button name='drawtable' icon='20'></button>
+		<button name='-'></button>
+		<button name='deletecell' icon='21'></button>
+		<button name='-'></button>
+		<button name='mergecell' icon='22'></button>
+		<button name='-'></button>		
+		<button name='cellaligntop' icon='23'></button>
+		<button name='cellaligncenter' icon='24'></button>
+		<button name='cellalignbottom' icon='25'></button>
+		<button name='-'></button>		
+		<button name='celldre' icon='26'></button>
+		<button name='celldce' icon='27'></button>	
+		<button name='-'></button>		
+		<button name='cellcolor' icon='28'></button>
+		<button name='-'></button>		
+		<button name='hr' icon='29'></button>			
+		<button name='hyperlink' icon='30'></button>
+		<button name='bookmark' icon='70'></button>				
+		<button name='marquee' icon='31'></button>	
+		<button name='-'></button>		
+		<button name='absolute_positioning' icon='32'></button>	
+		<button name='bring_text_forward' icon='33'></button>	
+		<button name='bring_text_backward' icon='34'></button>			
+		<button name='bring_forward' icon='35'></button>	
+		<button name='bring_backward' icon='36'></button>	
+		<button name='-'></button>			
+		<button name='lock' icon='37'></button>	
+		<button name='-'></button>	
+		<button name='design_border' icon='38'></button>
+	</Group>
+	<Group>
+		<button name='fontname'></button>		
+		<button name='fontsize'></button>	
+		<button name='-'></button>	
+		<button name='bold' icon='39'></button>
+		<button name='underline' icon='40'></button>
+		<button name='italic' icon='41'></button>	
+		<button name='-'></button>	
+		<button name='left' icon='42'></button>
+		<button name='center' icon='43'></button>
+		<button name='right' icon='44'></button>
+		<button name='-'></button>
+		<button name='numbering' icon='45'></button>
+		<button name='bullets' icon='46'></button>
+		<button name='decrease_indent' icon='47'></button>
+		<button name='increase_indent' icon='48'></button>
+		<button name='-'></button>
+		<button name='fontcolor' icon='49'></button>
+		<button name='forecolor' icon='50'></button>
+		<button name='-'></button>
+		<button name='emoticon' icon='17'></button>		
+		<button name='-'></button>
+		<button name='showdetail' icon='18'></button>
+		<button name='-'></button>
+		<button name='custombut1' icon='71' tooltip="custom1"></button>
+		<button name='custombut2' icon='72' tooltip="custom2"></button>
+		<button name='custombut3' icon='73' tooltip="custom3"></button>
+		<button name='custombut4' icon='74' tooltip="custom4"></button>
+		<button name='custombut5' icon='75'></button>						
+	</Group>
+</ToolBar>

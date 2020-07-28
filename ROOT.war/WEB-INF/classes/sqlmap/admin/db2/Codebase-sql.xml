@@ -1,0 +1,20 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+	<select id="codebase.findByPage.db2" resultMap="admin_CodebaseVO_PK">
+	/* codebase.findByPage.db2 */
+		SELECT * FROM (
+			SELECT SYSTEM_CODE,CODE_ID,CODE,LANG_KND, DOMAIN_ID,ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY CODE_ID ASC</isNull>	
+			) as rnum
+			FROM CODEBASE
+			WHERE 1=1 AND CODE='0000000000' AND LANG_KND=#langKnd#
+			<isNotNull  prepend=" AND " property="codeIdCond">CODE_ID LIKE '%'|| #codeIdCond# ||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="codeNameCond">CODE_NAME LIKE '%'|| #codeNameCond# ||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="domainIdCond">DOMAIN_ID = #domainIdCond# </isNotNull>
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+			
+	</select>
+</sqlMap>
+

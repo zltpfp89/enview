@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+	
+<sqlMapConfig>
+	<sqlMap resource="sqlmap/admin/cubrid/User-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/Userpass-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/Credential-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/UserGroup-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/UserRole-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/Group-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/GroupRole-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/GpsManager-sql.xml"/>
+	<sqlMap resource="sqlmap/admin/cubrid/Role-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/SecurityPermission-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/SecurityPolicy-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/Page-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/PageMetadata-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/PageComponent-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/PushManager-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/Fragment-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/FragmentPreference-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/ThemeMapping-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/Codebase-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/Notice-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/NoticeMetadata-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/Lang-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/SessionData-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/PageStatistics-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/PortletService-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/UserStatistics-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/Capability-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/Client-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/Mimetype-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/MediaType-sql.xml"/>
+	<sqlMap resource="sqlmap/admin/cubrid/BatchSchedule-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/BatchAction-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/BatchResult-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/Configuration-sql.xml"/>
+	<sqlMap resource="sqlmap/admin/cubrid/Domain-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/DomainLang-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/DomainPrincipal-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/DomainPortlet-sql.xml"/>
+	<sqlMap resource="sqlmap/admin/cubrid/UserPreference-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/cubrid/AttachFile-sql.xml"/> 
+</sqlMapConfig>

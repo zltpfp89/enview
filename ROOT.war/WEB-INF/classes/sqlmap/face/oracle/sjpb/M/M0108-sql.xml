@@ -1,0 +1,192 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0108VO" id="M0108VO.list">
+		<result property="spWhabDvHandBkNum" column="SP_WHAB_DV_HAND_BK_NUM"/>
+		<result property="handBkSiNum" column="HAND_BK_SI_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="whabDvDt" column="WHAB_DV_DT"/>
+		<result property="whabDvRsn" column="WHAB_DV_RSN"/>
+		<result property="whabDvReptDt" column="WHAB_DV_REPT_DT"/>
+		<result property="criNm" column="CRI_NM"/>
+		<result property="wantRelsDt" column="WANT_RELS_DT"/>
+		<result property="cmbkPreIncNum" column="CMBK_PRE_INC_NUM"/>
+		<result property="trfDt" column="TRF_DT"/>
+		<result property="trfOp" column="TRF_OP"/>
+		<result property="respMb" column="RESP_MB"/>
+		<result property="spWhabDvHandBkComn" column="SP_WHAB_DV_HAND_BK_COMN"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+ 	<select id="M0108.SJPB_SP_WHAB_DV_HAND_DOC.selectList" resultMap="M0108VO.list">  /* M0108.SJPB_SP_WHAB_DV_HAND_DOC.selectList */
+ 		SELECT A.SP_WHAB_DV_HAND_BK_NUM  /* 피의자소재발견처리부번호 */
+		       ,A.HAND_BK_SI_NUM  /* 순번 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 이름 */
+		       ,A.WHAB_DV_DT  /* 소재발견일자 */
+		       ,A.WHAB_DV_RSN  /* 소재발견사유 */
+		       ,A.WHAB_DV_REPT_DT  /* 소재발견보고일 */
+		       ,A.CRI_NM  /* 죄명 */
+		       ,A.WANT_RELS_DT  /* 수배해제일자 */
+		       ,A.CMBK_PRE_INC_NUM  /* 재기전사건번호 */
+		       ,A.TRF_DT  /* 송치일 */
+		       ,A.TRF_OP  /* 송치의견 */
+		       ,A.RESP_MB  /* 담당자 */
+		       ,A.SP_WHAB_DV_HAND_BK_COMN  /* 비고 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,D.NM_KOR  /* 작성자이름 */
+		FROM SJPB_SP_WHAB_DV_HAND_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="spNmSc" prepend="AND">
+				B.SP_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				C.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				C.RCPT_NUM = #rcptNumSc# OR C.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0108.SJPB_SP_WHAB_DV_HAND_DOC.insertSpWhab" parameterClass="com.saltware.enface.sjpb.M.service.M0108VO">  /* M0108.SJPB_SP_WHAB_DV_HAND_DOC.insertSpWhab */
+ 		INSERT INTO SJPB_SP_WHAB_DV_HAND_DOC (
+		    SP_WHAB_DV_HAND_BK_NUM,
+		    HAND_BK_SI_NUM,
+		    INC_SP_NUM,
+		    WHAB_DV_DT,
+		    WHAB_DV_RSN,
+		    WHAB_DV_REPT_DT,
+		    CRI_NM,
+		    WANT_RELS_DT,
+		    CMBK_PRE_INC_NUM,
+		    TRF_DT,
+		    TRF_OP,
+		    RESP_MB,
+		    SP_WHAB_DV_HAND_BK_COMN,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE,
+		    RCPT_NUM
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_SP_WHAB_DV_HAND_DOC.SP_WHAB_DV_HAND_BK_NUM')
+		    ,#handBkSiNum#
+		    ,#incSpNum#
+		    ,#whabDvDt#
+		    ,#whabDvRsn#
+		    ,#whabDvReptDt#
+		    ,#criNm#
+		    ,#wantRelsDt#
+		    ,#cmbkPreIncNum#
+		    ,#trfDt#
+		    ,#trfOp#
+		    ,#respMb#
+		    ,#spWhabDvHandBkComn#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#rcptNum#
+		)
+ 	</update>
+ 	<update id="M0108.SJPB_SP_WHAB_DV_HAND_DOC.updateSpWhab" parameterClass="com.saltware.enface.sjpb.M.service.M0108VO">  /* M0108.SJPB_SP_WHAB_DV_HAND_DOC.updateSpWhab */
+ 		UPDATE SJPB_SP_WHAB_DV_HAND_DOC
+		SET INC_SP_NUM = #incSpNum#
+			,HAND_BK_SI_NUM = #handBkSiNum#
+			,WHAB_DV_DT = #whabDvDt#
+		    ,WHAB_DV_RSN = #whabDvRsn#
+		    ,WHAB_DV_REPT_DT = #whabDvReptDt#
+		    ,CRI_NM = #criNm#
+		    ,WANT_RELS_DT = #wantRelsDt#
+		    ,CMBK_PRE_INC_NUM = #cmbkPreIncNum#
+		    ,TRF_DT = #trfDt#
+		    ,TRF_OP = #trfOp#
+		    ,RESP_MB = #respMb#
+		    ,SP_WHAB_DV_HAND_BK_COMN = #spWhabDvHandBkComn#
+		    ,UPD_USER_ID = #regUserId#
+		    ,UPD_DATE = SYSDATE
+		    ,RCPT_NUM = #rcptNum#
+		WHERE SP_WHAB_DV_HAND_BK_NUM =#spWhabDvHandBkNum#
+ 	</update>
+ 	<resultMap class="com.saltware.enface.sjpb.M.service.M0108VO" id="M0108VO.prn">
+		<result property="spWhabDvHandBkNum" column="SP_WHAB_DV_HAND_BK_NUM"/>
+		<result property="handBkSiNum" column="HAND_BK_SI_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="whabDvDt" column="WHAB_DV_DT"/>
+		<result property="whabDvRsn" column="WHAB_DV_RSN"/>
+		<result property="whabDvReptDt" column="WHAB_DV_REPT_DT"/>
+		<result property="criNm" column="CRI_NM"/>
+		<result property="wantRelsDt" column="WANT_RELS_DT"/>
+		<result property="cmbkPreIncNum" column="CMBK_PRE_INC_NUM"/>
+		<result property="trfDt" column="TRF_DT"/>
+		<result property="trfOp" column="TRF_OP"/>
+		<result property="respMb" column="RESP_MB"/>
+		<result property="spWhabDvHandBkComn" column="SP_WHAB_DV_HAND_BK_COMN"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+	</resultMap>
+ 	<select id="M0108.SJPB_SP_WHAB_DV_HAND_DOC.prnReport" resultMap="M0108VO.prn">  /* M0108.SJPB_SP_WHAB_DV_HAND_DOC.prnReport */
+ 		SELECT A.SP_WHAB_DV_HAND_BK_NUM  /* 피의자소재발견처리부번호 */
+		       ,REGEXP_SUBSTR(A.HAND_BK_SI_NUM,'[^-]+',1,2) AS HAND_BK_SI_NUM  /* 순번 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 이름 */
+		       ,DECODE(A.WHAB_DV_DT,NULL,'',SUBSTR(A.WHAB_DV_DT,1,4)||'.'||SUBSTR(A.WHAB_DV_DT,5,2) ||'.'||SUBSTR(A.WHAB_DV_DT,7,2)) AS WHAB_DV_DT  /* 소재발견일자 */
+		       ,A.WHAB_DV_RSN  /* 소재발견사유 */
+               ,DECODE(A.WHAB_DV_REPT_DT,NULL,'',SUBSTR(A.WHAB_DV_REPT_DT,1,4)||'.'||SUBSTR(A.WHAB_DV_REPT_DT,5,2) ||'.'||SUBSTR(A.WHAB_DV_REPT_DT,7,2)) AS WHAB_DV_REPT_DT  /* 소재발견보고일 */
+		       ,A.CRI_NM  /* 죄명 */
+               ,DECODE(A.WANT_RELS_DT,NULL,'',SUBSTR(A.WANT_RELS_DT,1,4)||'.'||SUBSTR(A.WANT_RELS_DT,5,2) ||'.'||SUBSTR(A.WANT_RELS_DT,7,2)) AS WANT_RELS_DT  /* 수배해제일자 */
+		       ,A.CMBK_PRE_INC_NUM  /* 재기전사건번호 */
+               ,DECODE(A.TRF_DT,NULL,'',SUBSTR(A.TRF_DT,1,4)||'.'||SUBSTR(A.TRF_DT,5,2) ||'.'||SUBSTR(A.TRF_DT,7,2)) AS TRF_DT  /* 송치일 */
+		       ,A.TRF_OP  /* 송치의견 */
+		       ,A.RESP_MB  /* 담당자 */
+		       ,A.SP_WHAB_DV_HAND_BK_COMN  /* 비고 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		FROM SJPB_SP_WHAB_DV_HAND_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		WHERE A.SP_WHAB_DV_HAND_BK_NUM = #spWhabDvHandBkNum#
+	</select>
+	
+ 	<select id="M0108.SJPB_SP_WHAB_DV_HAND_DOC.prnCheckReport" resultMap="M0108VO.prn">  /* M0108.SJPB_SP_WHAB_DV_HAND_DOC.prnCheckReport */
+ 		SELECT A.SP_WHAB_DV_HAND_BK_NUM  /* 피의자소재발견처리부번호 */
+		       ,REGEXP_SUBSTR(A.HAND_BK_SI_NUM,'[^-]+',1,2) AS HAND_BK_SI_NUM  /* 순번 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 이름 */
+		       ,DECODE(A.WHAB_DV_DT,NULL,'',SUBSTR(A.WHAB_DV_DT,1,4)||'.'||SUBSTR(A.WHAB_DV_DT,5,2) ||'.'||SUBSTR(A.WHAB_DV_DT,7,2)) AS WHAB_DV_DT  /* 소재발견일자 */
+		       ,A.WHAB_DV_RSN  /* 소재발견사유 */
+               ,DECODE(A.WHAB_DV_REPT_DT,NULL,'',SUBSTR(A.WHAB_DV_REPT_DT,1,4)||'.'||SUBSTR(A.WHAB_DV_REPT_DT,5,2) ||'.'||SUBSTR(A.WHAB_DV_REPT_DT,7,2)) AS WHAB_DV_REPT_DT  /* 소재발견보고일 */
+		       ,A.CRI_NM  /* 죄명 */
+               ,DECODE(A.WANT_RELS_DT,NULL,'',SUBSTR(A.WANT_RELS_DT,1,4)||'.'||SUBSTR(A.WANT_RELS_DT,5,2) ||'.'||SUBSTR(A.WANT_RELS_DT,7,2)) AS WANT_RELS_DT  /* 수배해제일자 */
+		       ,A.CMBK_PRE_INC_NUM  /* 재기전사건번호 */
+               ,DECODE(A.TRF_DT,NULL,'',SUBSTR(A.TRF_DT,1,4)||'.'||SUBSTR(A.TRF_DT,5,2) ||'.'||SUBSTR(A.TRF_DT,7,2)) AS TRF_DT  /* 송치일 */
+		       ,A.TRF_OP  /* 송치의견 */
+		       ,A.RESP_MB  /* 담당자 */
+		       ,A.SP_WHAB_DV_HAND_BK_COMN  /* 비고 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		FROM SJPB_SP_WHAB_DV_HAND_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="spWhabDvHandBkNumList" prepend="AND">
+				<iterate property="spWhabDvHandBkNumList" open="A.SP_WHAB_DV_HAND_BK_NUM IN(" close=")" conjunction=",">
+					 #spWhabDvHandBkNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

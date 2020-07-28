@@ -1,0 +1,27 @@
+.borderPickerPanel { display: none; z-index: 20000; border: 1px solid silver; }
+.brdrStyle { cursor: pointer; background-position: 0px 0px; }
+.brdrStyle8322 { width: 83px; height: 22px; }
+.brdrStyle8326 { width: 83px; height: 26px; }
+.titleBgbrdrStylePicker { float: left;  width: 56px; height: 21px; margin-top: 2px; margin-right: 5px;
+						background-image: url('../../images/editor/titleBgBrdrStyleSmall.gif'); background-color: black; cursor: pointer; }
+.menuBrdrStylePicker { float: left;  width: 56px; height: 21px; margin-right: 5px;
+						background-image: url('../../images/editor/menuBrdrStyleSmall.gif'); background-color: black; cursor: pointer; }						
+.menuBrdrDesignPicker { float: left;  width: 56px; height: 21px; margin-right: 5px;
+						background-image: url('../../images/editor/menuBrdrDesignSmall.gif'); background-color: black; cursor: pointer; }
+.sepBrdrStylePicker { float: left;  width: 56px; height: 21px; margin-right: 5px;
+						background-image: url('../../images/editor/sepBrdrStyleSmall.gif'); background-color: black; cursor: pointer; }
+.boardBrdrKindPicker { float: left;  width: 56px; height: 21px; margin-right: 5px;
+						background-image: url('../../images/editor/boardBrdrStyleSmall.gif'); background-color: black; cursor: pointer; }
+.boardBrdrDesignPicker { float: left;  width: 56px; height: 21px; margin-right: 5px;
+						background-image: url('../../images/editor/boardBrdrDesignSmall.gif'); background-color: black; cursor: pointer; }
+.boardBrdrDesignPicker_01 { float: left;  width: 56px; height: 21px; margin-right: 5px;
+						background-image: url('../../images/editor/boardBrdrDesignSmall.gif'); background-color: black; cursor: pointer; }
+.boardBrdrDesignPicker_02 { float: left;  width: 56px; height: 21px; margin-right: 5px;
+						background-image: url('../../images/editor/boardBrdrDesignSmall.gif'); background-color: black; cursor: pointer; }
+.boardBrdrDesignPicker_03 { float: left;  width: 56px; height: 21px; margin-right: 5px;
+						background-image: url('../../images/editor/boardBrdrDesignSmall.gif'); background-color: black; cursor: pointer; }
+.titleBgBrdrStyle { border-width: 0px; border-top-style: solid; }
+.menuBrdrStyle  { border-width: 0px; border-top-style: solid; }
+.menuBrdrDesign { border-width: 0px; border-top-style: solid; }
+.sepBrdrStyle  { border-width: 0px; border-top-style: solid; }
+.boardBrdrDesign { border-width: 0px; border-top-style: solid; }

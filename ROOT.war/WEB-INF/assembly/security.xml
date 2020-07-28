@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="enviewSecurityFilterChain" class="com.saltware.enview.engine.servlet.FilterChainProxy">
+		<constructor-arg index="0">
+		  <list>
+			<ref bean="com.saltware.enview.security.filter.PortalSessionValidationFilter" />
+			<ref bean="com.saltware.enview.security.filter.AgentCheckFilter" />
+			<ref bean="com.saltware.enview.security.filter.AuthenticationFilter" />
+		  </list>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<set>
+				<value>face</value>
+				<value>hanc</value>
+				<value>brd</value>
+				<value>cafe</value>
+				<value>admin</value>
+				<value>page</value>
+				<value>talk</value>
+				<!--value>jsp</value-->
+				<value>ajaxapi</value>
+			</set>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<map>
+				<entry key="/portal"><value>page</value></entry>
+				<entry key="/cafe"><value>page</value></entry>
+				<entry key="/blog"><value>page</value></entry>
+				<entry key="/board/fileMngr"><value>page</value></entry>
+			</map>
+		</constructor-arg>
+    </bean>
+	
+	<bean id="com.saltware.enview.security.RememberMeServices" class="com.saltware.enview.security.authentication.rememberme.TokenBasedRememberMeServices"/>
+	<!--bean id="com.saltware.enview.security.RememberMeServices" class="com.saltware.enview.security.authentication.rememberme.PersistentTokenBasedRememberMeServices"/-->
+	
+	<bean id="com.saltware.enview.security.filter.PortalSessionValidationFilter" class="com.saltware.enview.security.filter.PortalSessionValidationFilter"/>
+	<bean id="com.saltware.enview.security.filter.AgentCheckFilter" class="com.saltware.enview.security.filter.AgentCheckFilter"/>
+	<bean id="com.saltware.enview.openid.filter.OpenIDPortalFilter" class="com.saltware.enview.openid.filter.OpenIDPortalFilter"/>
+	
+	<bean id="com.saltware.enview.security.filter.AdminCheckFilter" class="com.saltware.enview.security.filter.AdminCheckFilter"/>
+	<bean id="com.saltware.enview.security.filter.AuthenticationFilter" class="com.saltware.enview.security.filter.AuthenticationFilter"/>
+	
+	
+	<bean id="com.saltware.enview.security.impl.SecurityPolicyManager" 
+  	   class="com.saltware.enview.security.impl.SecurityPolicyManagerImpl">  	   
+		<constructor-arg index="0">
+			<value>${enview.db.type}</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="com.saltware.enview.security.impl.SitePolicyManager" 
+  	   class="com.saltware.enview.security.impl.SitePolicyManagerImpl" >  	   
+		<constructor-arg index="0">
+			<value>${enview.db.type}</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="com.saltware.enview.security.SecurityPermissionManager" 
+		class="com.saltware.enview.security.impl.SecurityPermissionManagerImpl">
+	</bean>
+	
+	<bean id="com.saltware.enview.security.SecurityPermissionFactory" 
+		class="com.saltware.enview.security.impl.SecurityPermissionFactoryImpl" scope="session">
+		<constructor-arg>
+			<map>
+				<entry key="PT">
+					<value>com.saltware.enview.security.DefaultSecurityPermission</value>
+				</entry>
+				<entry key="MY">
+					<value>com.saltware.enview.security.MypageSecurityPermission</value>
+				</entry>
+				<!--
+				<entry key="CF">
+					<value>com.saltware.encola.cafe.security.EnCafeSecurityPermission</value>
+				</entry>
+				<entry key="BL">
+					<value>com.saltware.encola.blog.security.EnBlogSecurityPermission</value>
+				</entry>
+				<entry key="SN">
+					<value>com.saltware.encola.sns.security.EnSnsSecurityPermission</value>
+				</entry>
+				<entry key="EB">
+					<value>com.saltware.enboard.security.EnboardSecurityPermission</value>
+				</entry>	
+				<entry key="MT">
+					<value>com.saltware.mentoring.security.MentoringSecurityPermission</value>
+				</entry>
+				-->
+			</map>
+		</constructor-arg>
+	</bean>
+	
+</beans>

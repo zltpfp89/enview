@@ -1,0 +1,64 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="face">
+
+	<!-- 마이페이지에서 등록한 신분증사본, 직인, 서명 등 경로 저장 및 삭제 -->
+	<update id="mypage.insertMypageDta"> /* mypage.insertMypageDta */
+		UPDATE 
+			USERPASS
+		SET
+			<isEqual property="idType" compareValue="seal">
+				USER_INFO01 = #filePath#,
+				USER_INFO04 = #fileId#
+			</isEqual>
+			<isEqual property="idType" compareValue="id">
+				USER_INFO02 = #filePath#,
+				USER_INFO05 = #fileId#
+			</isEqual>
+			<isEqual property="idType" compareValue="sign">
+				USER_INFO03 = #filePath#,
+				USER_INFO06 = #fileId#
+			</isEqual>
+		WHERE USER_ID = #sessUserId#
+	</update>	
+	
+	<resultMap class="com.saltware.enface.user.service.UserVO" id="UserVO.selectMypageInfo">
+	    <result property="offcTel" column="OFFC_TEL"/>
+	    <result property="faxNo" column="FAX_NO"/>
+	    <result property="emailAddr" column="EMAIL_ADDR"/>
+	    <result property="userInfo01" column="USER_INFO01"/>		
+	    <result property="userInfo02" column="USER_INFO02"/>		
+	    <result property="userInfo03" column="USER_INFO03"/>		
+	    <result property="userInfo04" column="USER_INFO04"/>		
+	    <result property="userInfo05" column="USER_INFO05"/>		
+	    <result property="userInfo06" column="USER_INFO06"/>		
+	</resultMap>
+	<!-- 마이페이지에서 보여줄 개인정보 가져오기 -->
+	<select id="mypage.selectMypageInfo" parameterClass="java.lang.String" resultMap="UserVO.selectMypageInfo"> /* mypage.selectMypageInfo */
+		SELECT
+			OFFC_TEL,
+			FAX_NO,
+			EMAIL_ADDR,
+			USER_INFO01,
+			USER_INFO02,
+			USER_INFO03,
+			USER_INFO04,
+			USER_INFO05,
+			USER_INFO06
+		FROM USERPASS
+		WHERE USER_ID=#userId#
+	</select>
+	
+	<update id="mypage.insertBasicInfo"> /* mypage.insertBasicInfo */
+		UPDATE
+			USERPASS
+		SET
+			FAX_NO = #faxNo#,
+			OFFC_TEL=#offcTel#,
+			EMAIL_ADDR=#emailAddr#
+		WHERE 
+			USER_ID=#sessUserId#
+	</update>
+
+</sqlMap>
+

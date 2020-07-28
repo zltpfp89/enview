@@ -1,0 +1,114 @@
+@charset "utf-8";
+
+/*  ////////////////////////////////////////////////////////////////////////////
+	Base		기본적인 세팅
+	Layout		최상위 레이아웃
+	Menu		메뉴관련
+	Btn			버튼관련
+	Table		테이블관련
+	Bullet		블릿관련
+	Popup		팝업관련
+	Etc			기타
+//////////////////////////////////////////////////////////////////////////// */
+
+@import url("core_base.css");
+@import url("core_btn.css");
+@import url("core_table.css");
+@import url("core_bullet.css");
+
+
+/*  ////////////////////////////////////////////////////////////////////////////
+
+추가되는 css는 본 페이지에 작업해주세요
+core_의 파일들은 수정하지 말것
+
+//////////////////////////////////////////////////////////////////////////// */
+
+.popup_wrap .header {
+	background:url(./img/popup/title_bg.gif) repeat-x;
+	height:36px;
+	position:relative;
+}
+
+.popup_wrap .header h1 {
+	font:bold 12px dotum,돋움,arial;
+	color:#fff;
+	padding-left:30px;
+	line-height:36px;
+	border:0px solid lime;
+	width:90%;
+	background:url(./img/popup/h1_bullet.gif) no-repeat 12px 12px;
+}
+
+.popup_wrap .btn_close {
+	position:absolute;
+	right:10px; top:9px;
+}
+
+.popup_wrap .content {
+	padding:15px;
+}
+
+.popup_wrap .content h2{
+	border:0px solid gold;
+	width:90%;
+}
+
+.popup_wrap .content h3{
+	border:0px solid blue;
+}
+
+.popup_wrap .content fieldset{
+	border:0px solid red;
+}
+
+.popup_wrap legend {
+	display:block;
+}
+
+/* 약관동의 등 */
+fieldset .rule {
+	overflow:auto;
+	height:140px;
+	border:1px solid #dedede;
+	padding:5px;
+}
+
+fieldset .rule h4 {
+	list-style:none;
+}
+
+fieldset .rule ul{
+	padding:0 0 0 10px;
+	margin:10px 0;
+}
+
+fieldset .chk {
+	margin:10px 0;
+	border:0px solid red;
+	line-height:18px;
+}
+
+fieldset .chk input {
+	vertical-align:middle;
+}
+
+.btn_choice {
+	text-align:center;
+	display:block;
+	padding:10px 0 5px 0;
+	border-top:1px solid #dedede;
+	border-bottom:1px solid #dedede;
+}
+
+/* 본문 내용 */
+.view_cont{padding:15px;background:#f7f9fb; margin-top:10px;clear:left;}
+.view_contw{background:#f7f9fb; margin-top:10px;clear:left;}
+
+
+/* foot_close */
+.foot{background-color:#e2e2e2;height:35px;font:normal 11px/35px dotum,돋움,arial;
+	color:#484848;vertical-align:middle;padding:0 10px;margin:0;position:relative;}
+
+.foot input{vertical-align:middle; padding-right:0; margin:0;}
+.close_btn{position:absolute;	 right:10px; top:10px;}

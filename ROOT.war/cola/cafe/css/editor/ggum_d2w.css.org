@@ -1,0 +1,1463 @@
+.checkradio_styled {
+    display: none;
+}
+.selectbox_styled {
+    display: none;
+}
+#darkLayer {
+    background-color: #000000;
+    height: 100%;
+    left: 0;
+    opacity: 0.1;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 600;
+}
+.__disable_layer {
+    cursor: default;
+}
+.d2w_scroll {
+}
+.img_checkbox {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/che_box_2.gif") no-repeat scroll 0 -30px transparent;
+    cursor: pointer;
+    margin-right: 4px;
+    vertical-align: -2px;
+}
+.cb_over {
+    background-position: -14px -30px;
+}
+.cb_checked {
+    background-position: 0 0;
+}
+.cb_checked_over {
+    background-position: -14px 0;
+}
+.cb_disabled {
+    background-position: 0 -44px;
+    cursor: default;
+}
+.cb_disabled_checked {
+    background-position: 0 -14px;
+    cursor: default;
+}
+.img_radiobtn {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/che_radio_2.png") no-repeat scroll 0 -30px transparent;
+    cursor: pointer;
+    margin-right: 4px;
+    vertical-align: -2px;
+}
+* html .img_radiobtn {
+    background: none repeat scroll 0 0 transparent;
+}
+.rb_over {
+    background-position: -15px -15px;
+}
+* html .rb_over {
+    background: none repeat scroll 0 0 transparent;
+}
+.rb_checked {
+    background-position: 0 0;
+}
+* html .rb_checked {
+    background: none repeat scroll 0 0 transparent;
+}
+.rb_checked_over {
+    background-position: -15px 0;
+}
+* html .rb_checked_over {
+    background: none repeat scroll 0 0 transparent;
+}
+.rb_disabled {
+    background-position: -15px -30px;
+}
+* html .rb_disabled {
+    background: none repeat scroll 0 0 transparent;
+}
+.rb_disabled_checked {
+    background-position: 0 -15px;
+}
+* html .rb_disabled_checked {
+    background: none repeat scroll 0 0 transparent;
+}
+.textbox_default {
+    background-color: #FFFFFF;
+    border-color: #C2C2C2 #DCDCDC #DCDCDC #C2C2C2;
+    border-style: solid;
+    border-width: 1px;
+    color: #666666;
+    font-family: 굴림,gulim;
+    font-size: 12px;
+    height: 15px;
+    padding: 3px 2px 1px;
+}
+:first-child + html .textbox_default {
+    padding: 4px 2px 0;
+}
+.tb_disabled {
+    background-color: #F9F9F9;
+    color: #999999;
+}
+.tb_focus {
+    background-color: #FFFFE5;
+    border: 1px solid #A5B0F1;
+    color: #666666;
+}
+.tb_error {
+    background-color: #FFFFE5;
+    border: 1px solid #FCB5A7;
+    color: #666666;
+}
+.textbox_outline_focus {
+    background: none repeat scroll 0 0 transparent;
+    border: 1px solid #BAC4F5;
+}
+.textbox_outline_error {
+    background: none repeat scroll 0 0 transparent;
+    border: 1px solid #FCB5A7;
+}
+.check_length {
+    color: #999999;
+    font-family: 굴림,gulim,tahoma;
+    font-size: 11px;
+    padding-left: 4px;
+}
+.img_selectbox {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/inp_down.gif") no-repeat scroll right 0 #FFFFFF;
+    border: 1px solid #C9C9C9;
+    color: #666666;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-family: gulim !important;
+    font-size: 12px !important;
+    font-weight: normal;
+    height: 18px;
+    margin-right: 4px;
+    overflow: hidden;
+    padding: 1px 23px 0 10px;
+}
+* html .img_selectbox {
+    line-height: 1.5;
+}
+.img_selectbox:hover {
+    color: #666666;
+    font-weight: normal;
+    text-decoration: none;
+}
+.img_selectbox_press {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/inp_up.gif") no-repeat scroll right 0 #EFEFEF;
+    border: 1px solid #A9A9A9;
+    color: #999999;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-weight: normal;
+    height: 18px;
+    margin-right: 4px;
+    overflow: hidden;
+    padding: 1px 23px 0 10px;
+}
+.img_selectbox_press:hover {
+    color: #999999;
+    text-decoration: none;
+}
+.img_selectbox_disabled {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/inp_down.gif") no-repeat scroll right 0 #EFEFEF;
+    border: 1px solid #A9A9A9;
+    color: #999999;
+    cursor: default;
+    float: left;
+    height: 18px;
+    margin-right: 4px;
+    overflow: hidden;
+    padding: 1px 23px 0 10px;
+}
+.img_selectbox_disabled:hover {
+    color: #999999;
+    text-decoration: none;
+}
+.selectbox_div {
+    font-family: gulim !important;
+    font-size: 12px !important;
+    position: absolute;
+}
+.selectbox_ul {
+    background-color: #FFFFFF;
+    border: 1px solid #A9A9A9;
+    clear: none !important;
+    float: none !important;
+    left: 0;
+    list-style: none outside none;
+    margin: 0 !important;
+    padding: 2px !important;
+    top: 0;
+    z-index: 20;
+}
+.selectbox_ul li {
+    color: #666666;
+    float: none !important;
+    font-weight: normal;
+    list-style: none outside none;
+    margin: 0 !important;
+    padding: 3px 8px 0 !important;
+    text-align: left;
+}
+.selectbox_ul li.over {
+    background-color: #E3E8F9;
+    cursor: pointer;
+}
+.selectBox_styled {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/inp_down.gif") no-repeat scroll right 0 #FFFFFF;
+    border: 1px solid #C9C9C9;
+    color: #666666;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-weight: normal;
+    height: 18px;
+    margin-right: 4px;
+    padding: 1px 0 0 10px;
+    position: relative;
+    text-align: left;
+}
+* html .selectBox_styled {
+    line-height: 1.5;
+}
+.selectBox_styled_press {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/inp_up.gif") no-repeat scroll right 0 #EFEFEF;
+    border: 1px solid #A9A9A9;
+    padding: 1px 23px 0 10px;
+}
+.selectBox_styled_disabled {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/inp_up.gif") no-repeat scroll right 0 #EFEFEF;
+    border: 1px solid #A9A9A9;
+    padding: 1px 23px 0 10px;
+}
+.selectBox_styled .selectBox_div {
+    background-color: #FFFFFF;
+    border: 1px solid #A9A9A9;
+    left: -1px;
+    margin: 0;
+    padding: 2px;
+    position: absolute;
+    top: 22px;
+}
+.selectBox_styled .selectBox_ul {
+    background-color: #FFFFFF;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+.selectBox_styled .selectBox_ul li {
+    color: #666666;
+    font-weight: normal;
+    list-style: none outside none;
+    margin: 0;
+    padding: 3px 8px 0;
+    text-align: left;
+}
+.selectBox_styled .selectBox_ul li.over {
+    background-color: #E3E8F9;
+    cursor: pointer;
+}
+.img_selectboxRF, .img_selectboxRF_press {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/home/remocon/part_combo_01.gif") no-repeat scroll 0 0 transparent;
+    color: #555555;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font: 11px/11px 돋움,dotum,sans-serif;
+    height: 16px;
+    margin: 0;
+    outline: medium none;
+    overflow: hidden;
+    padding: 6px 0 0 8px;
+    text-decoration: none;
+    width: 67px;
+}
+.img_selectboxRF:link, .img_selectboxRF_press:link {
+    color: #666666;
+    font: 11px/11px 돋움,dotum,sans-serif;
+    text-decoration: none;
+}
+.img_selectboxRF:visited, .img_selectboxRF_press:visited {
+    color: #666666;
+    font: 11px/11px 돋움,dotum,sans-serif;
+    text-decoration: none;
+}
+.img_selectboxRF:hover, .img_selectboxRF:active, .img_selectboxRF_press:hover, .img_selectboxRF_press:active {
+    color: #666666;
+    font: 11px/11px 돋움,dotum,sans-serif;
+    text-decoration: none;
+}
+.selectboxRF_div {
+    position: absolute;
+    top: -15px;
+}
+.selectboxRF_divTop {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/home/remocon/part_combo_02.gif") no-repeat scroll 0 0 #FFFFFF;
+    font-size: 0;
+    height: 5px;
+    line-height: 0;
+    position: absolute;
+    width: 75px;
+    z-index: 21;
+}
+.selectboxRF_ul {
+    background-color: #FFFFFF;
+    border: 1px solid #D7D7D7;
+    clear: none !important;
+    float: none !important;
+    left: 0;
+    list-style: none outside none;
+    margin: 0 !important;
+    padding: 1px !important;
+    top: 5px;
+    z-index: 20;
+}
+.selectboxRF_ul li {
+    color: #555555;
+    float: none !important;
+    font: 11px/11px 돋움,dotum,sans-serif;
+    list-style: none outside none;
+    margin: 0 !important;
+    padding: 6px 7px 4px 5px !important;
+    text-align: left;
+}
+.selectboxRF_ul li.over {
+    background-color: #E3E8F9;
+    cursor: pointer;
+}
+.colorSelectBox_styled {
+    cursor: pointer;
+    display: block;
+    float: left;
+    height: 21px;
+    position: relative;
+    width: 22px;
+}
+.colorSelectBox_styled .colorViewer {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/color_button.png") no-repeat scroll 0 0 transparent;
+    height: 21px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 22px;
+}
+* html .colorSelectBox_styled .colorViewer {
+    background-color: transparent;
+    background-image: none;
+}
+.colorSelectBox_styled .colorCorverIE6 {
+    background-color: #FFFFFF;
+    height: 21px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 22px;
+}
+.colorSelectBox_styled .textColorViewer {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/bt_font_color.gif") no-repeat scroll 0 0 transparent;
+    height: 21px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 22px;
+    z-index: 10;
+}
+.colorSelectBox_styled .colorSelectEnabled {
+    display: none;
+}
+.colorSelectBox_styled .colorSelectDisabled {
+    background-color: #FFFFFF;
+    cursor: default;
+    height: 21px;
+    left: 0;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    width: 22px;
+}
+.colorSelectBox_styled.transparent {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/color_button_none.gif") no-repeat scroll 0 0 transparent;
+}
+.positionSelectBox_styled {
+    border: 1px solid #E7E6E2;
+    cursor: pointer;
+    display: block;
+    float: left;
+    position: relative;
+}
+.positionSelectBox_viewer {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/align_button.gif") no-repeat scroll center top transparent;
+    font-size: 0;
+    height: 13px;
+    margin: 3px;
+    width: 14px;
+}
+.positionSelectBox_layer, .positionSelectBox_styled .layer {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/align_sample.gif") no-repeat scroll center center transparent;
+    cursor: pointer;
+    height: 40px;
+    left: -1px;
+    position: absolute;
+    top: 21px;
+    width: 67px;
+}
+.dropdown_txt {
+    cursor: pointer;
+}
+.dropdown_ul {
+    background-color: #FFFFFF;
+    border: 1px solid #A9A9A9;
+    list-style: none outside none;
+    margin: 0;
+    padding: 2px;
+    position: absolute;
+}
+.dropdown_ul li {
+    color: #666666;
+    list-style: none outside none;
+    margin: 0;
+    padding: 3px 20px 0 10px;
+    text-align: left;
+}
+.dropdown_ul li.over {
+    background-color: #E3E8F9;
+    cursor: pointer;
+}
+.baseTip {
+    color: #999999;
+    font: 11px/1.6 돋움,dotum,sans-serif;
+}
+.tip {
+    clear: both;
+    color: #999999;
+    font: 12px/1.6 돋움,dotum,sans-serif;
+    letter-spacing: -1px;
+    padding-top: 5px;
+}
+.tip2 {
+    clear: both;
+    color: #999999;
+    font: 12px 돋움,dotum,sans-serif;
+    letter-spacing: -1px;
+    margin-top: 8px;
+    padding-left: 16px;
+}
+.tip3 {
+    clear: both;
+    color: #999999;
+    font: 12px 돋움,dotum,sans-serif;
+    padding: 5px 0 0 5px;
+}
+.tip_icon {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/ico_tip.gif") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    float: left;
+    height: 14px;
+    margin-right: 4px;
+    text-indent: -100em;
+    width: 14px;
+}
+.tip_arrow_t {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/help_arrow_b.gif") no-repeat scroll 0 0 transparent;
+    height: 5px;
+    width: 7px;
+}
+.tip_arrow_l {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/help_arrow_r.gif") no-repeat scroll 0 0 transparent;
+    height: 7px;
+    width: 5px;
+}
+.tip_arrow_b {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/help_arrow_t.gif") no-repeat scroll 0 0 transparent;
+    height: 5px;
+    width: 7px;
+}
+.tip_arrow_r {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/help_arrow_l.gif") no-repeat scroll 0 0 transparent;
+    height: 7px;
+    width: 5px;
+}
+.tip_layer {
+    position: absolute;
+    z-index: 999;
+}
+.tip_layer .tip_inner {
+    position: absolute;
+    z-index: 20;
+}
+.tip_layer .tbt, .tip_layer .tbm, .tip_layer .tbb {
+    overflow: hidden;
+}
+.tip_layer .tbtc, .tip_layer .tbbc {
+    background-color: #FFFFE7;
+    float: left;
+    height: 5px;
+    overflow: hidden;
+}
+.tip_layer .tbtl, .tip_layer .tbtr, .tip_layer .tbbl, .tip_layer .tbbr {
+    float: left;
+    height: 5px;
+    overflow: hidden;
+    width: 5px;
+}
+.tip_layer .tbml, .tip_layer .tbmr {
+    background-color: #FFFFE7;
+    float: left;
+    height: 100%;
+    overflow: hidden;
+    width: 5px;
+}
+.tbtl {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/help_box.gif") no-repeat scroll 0 0 transparent;
+}
+.tbtc {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/help_box.gif") repeat-x scroll 0 -5px transparent;
+}
+.tbtr {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/help_box.gif") no-repeat scroll 0 -10px transparent;
+}
+.tbml {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/help_line_l.gif") repeat-y scroll 0 0 transparent;
+}
+.tbmc {
+    background-color: #FFFFE7;
+    color: #555555;
+    float: left;
+    font-family: dotum;
+    font-size: 11px;
+    letter-spacing: -1px;
+    padding: 4px 4px 0;
+    text-align: left;
+}
+.tbmr {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/help_line_r.gif") repeat-y scroll 3px 0 transparent;
+}
+.tbbl {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/help_box.gif") no-repeat scroll 0 -25px transparent;
+}
+.tbbc {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/help_box.gif") repeat-x scroll 0 -30px transparent;
+}
+.tbbr {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/help_box.gif") no-repeat scroll 0 -35px transparent;
+}
+.shadow_layer_ie {
+    background-color: #222222;
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+}
+.shadow_layer {
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+}
+.shadow_layer .dst, .shadow_layer .dsm, .shadow_layer .dsb {
+    overflow: hidden;
+}
+.shadow_layer .dstc, .shadow_layer .dsbc {
+    float: left;
+    height: 2px;
+    overflow: hidden;
+}
+.shadow_layer .dstc {
+    background-color: #777777;
+    opacity: 0.4;
+}
+.shadow_layer .dstl, .shadow_layer .dstr, .shadow_layer .dsbl, .shadow_layer .dsbr {
+    float: left;
+    height: 2px;
+    overflow: hidden;
+    width: 2px;
+}
+.shadow_layer .dsmc {
+    background-color: #777777;
+    float: left;
+    height: 100%;
+    opacity: 0.4;
+}
+.shadow_layer .dsml, .shadow_layer .dsmr {
+    float: left;
+    height: 100%;
+    width: 2px;
+}
+.dstl {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/img_shadow.png") no-repeat scroll 0 0 transparent;
+}
+.dstr {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/img_shadow.png") no-repeat scroll 0 -18px transparent;
+}
+.dsml {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/img_shadow_l.png") repeat-y scroll 0 0 transparent;
+}
+.dsmr {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/img_shadow_r.png") repeat-y scroll 0 0 transparent;
+}
+.dsbl {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/img_shadow.png") no-repeat scroll 0 -6px transparent;
+}
+.dsbc {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/img_shadow.png") repeat-x scroll 0 -9px transparent;
+}
+.dsbr {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/bbs/img_shadow.png") no-repeat scroll 0 -12px transparent;
+}
+.msg_box {
+    color: #666666;
+    font-family: gulim,굴림;
+    font-size: 12px;
+    position: absolute;
+    top: -1000px;
+}
+.msg_box .mxt, .msg_box .mxm, .msg_box .mxmb, .msg_box .mxb {
+    overflow: hidden;
+}
+.msg_box .mxtc {
+    background-color: #FFFFFF;
+    border-top: 1px solid #9F9F9F;
+    float: left;
+    height: 1px;
+    overflow: hidden;
+}
+.msg_box .mxbc {
+    background-color: #F6F6F6;
+    border-bottom: 1px solid #9F9F9F;
+    float: left;
+    height: 1px;
+    overflow: hidden;
+}
+.msg_box .mxtl, .msg_box .mxtr, .msg_box .mxbl, .msg_box .mxbr {
+    float: left;
+    height: 2px;
+    overflow: hidden;
+    width: 2px;
+}
+.msg_box .mxml {
+    background-color: #FFFFFF;
+    border-left: 1px solid #9F9F9F;
+    float: left;
+    height: 100%;
+    overflow: hidden;
+}
+.msg_box .mxmr {
+    background-color: #FFFFFF;
+    border-right: 1px solid #9F9F9F;
+    float: left;
+    height: 100%;
+    overflow: hidden;
+}
+.msg_box .mxmc {
+    background-color: #FFFFFF;
+    float: left;
+    height: 100%;
+}
+.msg_box .mxmbl {
+    background-color: #F6F6F6;
+    border-left: 1px solid #9F9F9F;
+    float: left;
+    height: 100%;
+    overflow: hidden;
+    width: 1px;
+}
+.msg_box .mxmbr {
+    background-color: #F6F6F6;
+    border-right: 1px solid #9F9F9F;
+    border-top: 1px solid #F1F1F1;
+    float: left;
+    height: 100%;
+    overflow: hidden;
+    width: 1px;
+}
+.msg_box .mxmbc {
+    background-color: #F6F6F6;
+    border-top: 1px solid #F1F1F1;
+    float: left;
+    height: 100%;
+    text-align: center;
+}
+.msg_box .mxtl {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/admin/box_line.gif") no-repeat scroll 0 0 transparent;
+}
+.msg_box .mxtr {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/admin/box_line.gif") no-repeat scroll 0 -9px transparent;
+}
+.msg_box .mxbl {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/admin/box_line.gif") no-repeat scroll 0 -3px transparent;
+}
+.msg_box .mxbr {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/admin/box_line.gif") no-repeat scroll 0 -6px transparent;
+}
+.msg_box #msgTitleArea {
+    clear: both;
+    color: #6173E8;
+    font-weight: bold;
+    margin-top: 3px;
+    padding: 0 10px;
+}
+.msg_box #msgContent {
+    margin: 7px 0 17px;
+    padding: 0 10px;
+}
+.msg_box #btnMsgClose {
+    cursor: pointer;
+    float: right;
+    margin: 4px 6px 0 0;
+}
+.msg_box #btnMsgOk {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/admin/btn_ns_ok.gif") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    cursor: pointer;
+    height: 24px;
+    margin-top: 7px;
+    width: 46px;
+}
+.msg_box #btnMsgCancel {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img3/admin/btn_ns_cancle.gif") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    cursor: pointer;
+    height: 24px;
+    margin-top: 7px;
+    width: 46px;
+}
+#loadingLayer {
+    background: none repeat scroll 0 0 #FFFFFF;
+    opacity: 0.7;
+    position: absolute;
+    z-index: 89998;
+}
+#loadingBox {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/loading_remo.png") no-repeat scroll 0 0 transparent;
+    height: 44px;
+    position: absolute;
+    width: 184px;
+    z-index: 89999;
+}
+* html #loadingBox {
+    background: none repeat scroll 0 0 transparent;
+}
+#loadingPlayer {
+    left: 22px;
+    position: absolute;
+    top: 14px;
+}
+#colorPicker {
+    background: none repeat scroll 0 0 #FBFBFB;
+    border: 1px solid #BABABA;
+    cursor: default;
+    position: absolute;
+    width: 195px;
+    z-index: 99999;
+}
+#colorPicker .colorInner {
+    padding: 7px 6px;
+}
+#colorPicker #colorThumb {
+    border: 1px solid #D9D9D9;
+    height: 14px;
+    margin-left: 1px;
+    overflow: hidden;
+    width: 75px;
+}
+#colorPicker #colorInput {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #A7A7A7 #EAEAEA #EAEAEA #A7A7A7;
+    border-style: solid;
+    border-width: 1px;
+    color: #333333;
+    font-family: '돋움',dotum;
+    font-size: 11px;
+    height: 14px;
+    padding: 0 0 0 3px;
+    width: 55px;
+}
+#colorPicker #colorInputBtn {
+    cursor: pointer;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+#colorPicker #colorInputBtn img {
+    border: medium none;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+#colorPicker #colorSwatches {
+    border-collapse: separate;
+    display: block;
+    margin-top: 4px;
+    overflow: hidden;
+}
+#colorPicker #colorSwatches td div {
+    cursor: pointer;
+    height: 12px;
+    overflow: hidden;
+    width: 12px;
+}
+#colorPicker #colorSwatches #transN {
+    cursor: default;
+}
+#colorPicker .more_area {
+    height: 18px;
+    position: relative;
+}
+#colorPicker #colorGradeBtn {
+    cursor: pointer;
+    display: block;
+    height: 10px;
+    overflow: hidden;
+    position: absolute;
+    right: 2px;
+    text-indent: -1000em;
+    top: 6px;
+    width: 36px;
+}
+#colorPicker .gradeoff {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/bt_more_d.gif");
+}
+#colorPicker .gradeon {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/bt_more_u.gif");
+}
+#colorPicker #colorResetBtn {
+    cursor: pointer;
+    display: block;
+    left: 1px;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: absolute;
+    top: 6px;
+}
+#colorPicker #colorResetBtn img {
+    border: medium none;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+#colorGradeArea {
+    background-color: #F9F9F9;
+    border: 1px solid #D9D9D9;
+    clear: both;
+    height: 120px;
+    margin-top: 10px;
+    padding: 4px;
+    width: 172px;
+}
+#colorGradeArea #chromaGradeBg {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/img_color.png") no-repeat scroll 0 0 #FF0000;
+    cursor: crosshair;
+    float: left;
+    height: 120px;
+    position: relative;
+    width: 150px;
+}
+* html #colorGradeArea #chromaGradeBg {
+    background-image: none;
+}
+#colorGradeArea #hueGradeBg {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/colorbar_r.gif");
+    float: left;
+    height: 120px;
+    margin: 0 0 0 4px;
+    overflow: hidden;
+    position: relative;
+    width: 18px;
+}
+#FontSetPicker {
+    background: none repeat scroll 0 0 #F9F9F9;
+    border: 1px solid #DCDCDC;
+    cursor: default;
+    position: absolute;
+    width: 154px;
+    z-index: 99999;
+}
+#FontSetPicker .colorInner {
+    padding: 5px;
+}
+#FontSetPicker table {
+    display: none;
+}
+#FontSetPicker #FontSetThumb {
+    border: 1px solid #E7E6E2;
+    height: 16px;
+    overflow: hidden;
+    width: 20px;
+}
+#FontSetPicker #FontSetSwatches {
+    display: block;
+    margin-top: 4px;
+    overflow: hidden;
+    width: 143px;
+}
+#FontSetPicker #FontSetSwatches li {
+    display: inline;
+    float: left;
+    height: 12px;
+    margin: 1px 0 0 1px;
+    width: 12px;
+}
+#FontSetPicker #FontSetSwatches li.firstRow {
+    margin-bottom: 4px;
+}
+#FontSetPicker #FontSetSwatches li div {
+    cursor: pointer;
+    display: block;
+    height: 12px;
+    overflow: hidden;
+    text-indent: -9999em;
+    width: 12px;
+}
+#FontSetPicker .more_area {
+    height: 14px;
+    position: relative;
+}
+#FontSetPicker .gradeoff {
+    background-position: 0 0;
+}
+#FontSetPicker .gradeon {
+    background-position: 0 -9px;
+}
+#FontSetPicker #FontSetResetBtn {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/picker_undo.gif");
+    cursor: pointer;
+    display: block;
+    height: 12px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    text-indent: -1000em;
+    top: 4px;
+    width: 13px;
+}
+#ColorSetPicker {
+    background: none repeat scroll 0 0 #FBFBFB;
+    border: 1px solid #BABABA;
+    cursor: default;
+    position: absolute;
+    width: 192px;
+    z-index: 99999;
+}
+#ColorSetPicker .colorInner {
+    padding: 5px;
+}
+#ColorSetPicker table {
+    display: none;
+}
+#ColorSetPicker #ColorSetThumb {
+    border: 1px solid #E7E6E2;
+    height: 16px;
+    overflow: hidden;
+    width: 20px;
+}
+#ColorSetPicker .ColorSetSwatches {
+    display: block;
+    margin-top: 4px;
+    overflow: hidden;
+    width: 182px;
+}
+#ColorSetPicker .ColorSetSwatches li {
+    display: inline;
+    float: left;
+    height: 12px;
+    margin: 1px 0 0 1px;
+    width: 12px;
+}
+#ColorSetPicker .ColorSetSwatches li.firstRow {
+    margin-bottom: 4px;
+}
+#ColorSetPicker .ColorSetSwatches li div {
+    cursor: pointer;
+    display: block;
+    height: 12px;
+    overflow: hidden;
+    text-indent: -9999em;
+    width: 12px;
+}
+#ColorSetPicker .ColorSetSwatches li div.hasBorder {
+    border: 1px solid #EFEFEF;
+    height: 10px;
+    width: 10px;
+}
+#ColorSetPicker .ColorSetSwatches li div.emptyColorSetChip {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/ico_c_blank_s.gif") no-repeat scroll 0 0 transparent;
+    cursor: default;
+}
+#ColorSetPicker #ColorSetSwatchesSub.ColorSetSwatches {
+    margin-bottom: 4px;
+}
+#ColorSetPicker .more_area {
+    height: 20px;
+    position: relative;
+}
+#ColorSetPicker #colorMoreBtn {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/picker_more.gif");
+    cursor: pointer;
+    display: block;
+    height: 9px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    text-indent: -1000em;
+    top: 8px;
+    width: 35px;
+}
+#ColorSetPicker .moreoff {
+    background-position: 0 0;
+}
+#ColorSetPicker .moreon {
+    background-position: 0 -9px;
+}
+#ColorSetPicker #ColorSetResetBtn {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/bt_color_reset.gif");
+    cursor: pointer;
+    display: block;
+    height: 16px;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    text-indent: -1000em;
+    top: 4px;
+    width: 17px;
+}
+.cafeMenuIcon {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/menu_icon_button.gif");
+    background-position: -1px -1px;
+    background-repeat: no-repeat;
+    border: 1px solid #E6E5E0;
+    cursor: pointer;
+    float: left;
+    height: 11px;
+    padding: 4px;
+    position: relative;
+    width: 11px;
+}
+.cafeMenuIcon .icon {
+    background-color: transparent;
+    font-size: 0;
+    height: 11px;
+    width: 11px;
+}
+.cafeMenuIconSelector {
+    background-color: #FFFFFF;
+    border: 1px solid #C9C9C9;
+    cursor: auto;
+    left: -1px;
+    margin: 0;
+    overflow: hidden;
+    padding: 8px 10px 4px;
+    position: absolute;
+    top: 21px;
+    width: 105px;
+}
+.cafeMenuIconSelector ul {
+    height: 125px;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+}
+.cafeMenuIconSelector li {
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    font-size: 8pt;
+    height: 21px;
+    list-style-type: none;
+    margin: 0 0 4px;
+    overflow: hidden;
+    padding: 0;
+    text-indent: -9999em;
+    width: 105px;
+}
+.cafeMenuIconSelector li.hover {
+    background-position: -2px -2px;
+    border: 2px solid #5767D6;
+    height: 17px;
+    width: 101px;
+}
+.cafeMenuIconSelector .pager {
+    font-size: 9pt;
+    margin: 5px 0;
+    text-align: center;
+}
+.cafeMenuIconSelector .pager a:link, .cafeMenuIconSelector .pager a:visited, .cafeMenuIconSelector .pager a:active, .cafeMenuIconSelector .pager a:hover {
+    color: #333333;
+    cursor: pointer;
+    font-family: arial;
+    font-weight: bold;
+    padding: 0 3px 0 4px;
+    text-decoration: none;
+}
+.cafeMenuIconSelector .pager a.selected:link, .cafeMenuIconSelector .pager a.selected:visited, .cafeMenuIconSelector .pager a.selected:active, .cafeMenuIconSelector .pager a.selected:hover {
+    color: #5767D6;
+    text-decoration: underline;
+}
+.boardStylerDimmed {
+    opacity: 0.5;
+}
+.border_styler {
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    float: left;
+    height: 21px;
+    position: relative;
+    width: 56px;
+}
+.border_styler ul {
+    background-color: #FFFFFF;
+    border: 1px solid #C9C9C9;
+    left: 0;
+    margin: 0;
+    padding: 1px;
+    position: absolute;
+    top: 22px;
+    width: 83px;
+}
+.border_styler li {
+    background-repeat: no-repeat;
+    font-size: 8pt;
+    height: 22px;
+    list-style-type: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    text-indent: -1000px;
+    width: 83px;
+}
+.border_styler_LINE_1 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_button_01a.gif");
+}
+.border_styler_LINE_1 ul {
+    height: 176px;
+}
+.border_styler_LINE_1.border_styler_MODEL_CAFEMENU ul {
+    height: 154px;
+}
+.border_styler_LINE_1 li {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_sample_01_n.gif");
+}
+.border_styler_LINE_2 {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_button_02a.gif");
+}
+.border_styler_LINE_2 ul {
+    height: 198px;
+}
+.border_styler_LINE_2 li {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_sample_02.gif");
+}
+.border_styler_MODEL {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_button_03a.gif");
+}
+.border_styler_MODEL ul {
+    height: 104px;
+}
+.border_styler_MODEL.border_styler_MODEL_CAFEMENU ul {
+    height: 78px;
+}
+.border_styler_MODEL li {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_sample_03.gif");
+    height: 26px;
+}
+.border_styler_LINE_NONE {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_button_04a.gif");
+}
+.border_styler_LINE_BOX ul {
+    height: 0;
+}
+.border_styler_LINE_BOX li {
+    height: 0;
+}
+.border_styler_LINE_BOX {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_button_04a.gif");
+}
+.border_styler_LINE_BOX ul {
+    height: 78px;
+}
+.border_styler_LINE_BOX li {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_sample_04_01.gif");
+    height: 26px;
+}
+.border_styler_LINE_TOP_BOTTOM {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_button_04a.gif");
+}
+.border_styler_LINE_TOP_BOTTOM ul {
+    height: 156px;
+}
+.border_styler_LINE_TOP_BOTTOM li {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_sample_04_02.gif");
+    height: 26px;
+}
+.border_styler_LINE_BOTTOM {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_button_04a.gif");
+}
+.border_styler_LINE_BOTTOM ul {
+    height: 156px;
+}
+.border_styler_LINE_BOTTOM li {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_sample_04_03.gif");
+    height: 26px;
+}
+.border_styler_LINE_TITLE {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_button_02a.gif");
+    margin-right: 4px;
+}
+.border_styler_LINE_TITLE ul {
+    height: 132px;
+}
+.border_styler_LINE_TITLE li {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_sample_02.gif");
+    height: 22px;
+}
+.border_styler_COUNTER {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_button_1.gif");
+    margin-right: 4px;
+    width: 22px;
+}
+.border_styler_COUNTER ul {
+    height: 126px;
+    width: 54px;
+}
+.border_styler_COUNTER li {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/common/line_button_2.gif");
+    height: 21px;
+    width: 54px;
+}
+.border_styler_RECOMMENDSET {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/propose/m_sorting_m_03_n2.gif");
+    height: 23px;
+    margin-right: 4px;
+    width: 94px;
+}
+.border_styler_RECOMMENDSET ul {
+    height: 115px;
+    width: 90px;
+}
+.border_styler_RECOMMENDSET li {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/propose/m_sorting_03_n2.gif");
+    height: 23px;
+    width: 90px;
+}
+.titleMenuIcon {
+    background-image: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/title_l_arrow.gif");
+    background-position: right 4px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    float: left;
+    height: 18px;
+    padding-right: 11px;
+    position: relative;
+}
+.titleMenuIconSelector {
+    background-color: #FFFFFF;
+    border: 1px solid #C0C0C0;
+    height: 200px;
+    left: -1px;
+    position: absolute;
+    top: 21px;
+    width: 185px;
+}
+.titleMenuIconSelector ul {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/title_l_iconbg.gif") no-repeat scroll 3px 3px transparent;
+    border-bottom: 1px solid #DDDDDD;
+    clear: both;
+    height: 36px;
+}
+.titleMenuIconSelector li {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/A01_select.gif") repeat scroll 0 0 transparent;
+    float: left;
+    height: 36px;
+    margin-right: 1px;
+    text-indent: -1000em;
+    width: 36px;
+}
+.titleMenuIconSelector .selectedIcon {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/title_l_iconact1.gif") no-repeat scroll 0 0 transparent;
+    height: 38px;
+    position: absolute;
+    width: 39px;
+}
+.titleMenuIconSelector div.icons {
+    height: 121px;
+    margin: 5px;
+    width: 176px;
+}
+.titleMenuIconSelector .A01 {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/A01_select.gif") no-repeat scroll 0 0 transparent;
+}
+.titleMenuIconSelector .A02 {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/A02_select.gif") no-repeat scroll 0 0 transparent;
+}
+.titleMenuIconSelector .A03 {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/A03_select.gif") no-repeat scroll 0 0 transparent;
+}
+.titleMenuIconSelector .A04 {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/A04_select.gif") no-repeat scroll 0 0 transparent;
+}
+.titleMenuIconSelector .A05 {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/A05_select.gif") no-repeat scroll 0 0 transparent;
+}
+.titleMenuIconSelector .A06 {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/A06_select.gif") no-repeat scroll 0 0 transparent;
+}
+.titleMenuIconSelector .B01 {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/B01_select.gif") no-repeat scroll 0 0 transparent;
+}
+.titleMenuIconSelector .B02 {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/B02_select.gif") no-repeat scroll 0 0 transparent;
+}
+.titleMenuIconSelector .B03 {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/B03_select.gif") no-repeat scroll 0 0 transparent;
+}
+.titleMenuIconSelector .B04 {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/B04_select.gif") no-repeat scroll 0 0 transparent;
+}
+.titleMenuIconSelector .B05 {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/B05_select.gif") no-repeat scroll 0 0 transparent;
+}
+.titleMenuIconSelector .B06 {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/B06_select.gif") no-repeat scroll 0 0 transparent;
+}
+.titleMenuIconSelector .btns {
+    border-top: 1px solid #F1F1F1;
+    clear: both;
+    height: 20px;
+    padding: 6px 0 6px 60px;
+}
+.titleMenuIconSelector .btnconfirm {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/title_l_iconbtn.gif") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    float: left;
+    height: 20px;
+    margin-right: 3px;
+    text-indent: -1000em;
+    width: 32px;
+}
+.titleMenuIconSelector .btncancel {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/title/title_l_iconbtn.gif") no-repeat scroll 0 -20px transparent;
+    cursor: pointer;
+    float: left;
+    height: 20px;
+    text-indent: -1000em;
+    width: 32px;
+}
+.d2w_radio_align {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/gate/bt_text_align.gif") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    display: inline;
+    float: left;
+    height: 22px;
+    overflow: hidden;
+    text-indent: -1000em;
+    width: 22px;
+}
+.d2w_radio_align_left {
+    background-position: 0 0;
+}
+.d2w_radio_align_left_checked {
+    background-position: 0 -22px;
+}
+.d2w_radio_align_center {
+    background-position: -22px 0;
+}
+.d2w_radio_align_center_checked {
+    background-position: -22px -22px;
+}
+.d2w_radio_align_right {
+    background-position: -44px 0;
+    width: 23px;
+}
+.d2w_radio_align_right_checked {
+    background-position: -44px -22px;
+    width: 23px;
+}
+.d2w_radio_valign {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/gate/bt_text_position_n.gif") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    display: inline;
+    float: left;
+    height: 22px;
+    overflow: hidden;
+    position: relative;
+    text-indent: -1000em;
+    width: 22px;
+}
+.d2w_radio_valign_bottom {
+    background-position: -22px 0;
+    width: 23px;
+}
+.d2w_radio_valign_bottom_checked {
+    background-position: -22px -22px;
+    width: 23px;
+}
+.d2w_radio_valign_top {
+    background-position: 0 0;
+}
+.d2w_radio_valign_top_checked {
+    background-position: 0 -22px;
+}
+.dhtmlxSlider {
+    display: block;
+    float: left;
+    height: 14px;
+    margin: 2px 3px 0 0;
+    position: relative;
+}
+.dhtmlxSlider .selector {
+    cursor: pointer;
+    height: 13px;
+    left: 5px;
+    overflow: hidden;
+    position: absolute;
+    top: -2px;
+    width: 7px;
+}
+.dhtmlxSlider .leftSide {
+    height: 10px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 2px;
+}
+.dhtmlxSlider .leftZone {
+    height: 10px;
+    left: 3px;
+    position: absolute;
+    top: 0;
+}
+.dhtmlxSlider .rightSide {
+    height: 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 2px;
+}
+.dhtmlxSlider .rightZone {
+    height: 10px;
+    left: 2px;
+    position: absolute;
+    top: 0;
+}
+.slider_l_btn {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/gate/set_slide.gif") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 13px;
+    margin-right: 3px;
+    overflow: hidden;
+    text-indent: -1000em;
+    width: 11px;
+}
+.slider_r_btn {
+    background: url("http://i1.daumcdn.net/cafeimg/cf_img4/design/gate/set_slide.gif") no-repeat scroll -11px 0 transparent;
+    float: left;
+    height: 13px;
+    overflow: hidden;
+    text-indent: -1000em;
+    width: 11px;
+}

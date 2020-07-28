@@ -1,0 +1,113 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ USERPASS : 사용자 상세정보 ] Table -->
+	<resultMap id="admin_UserpassVO_PK" class="com.saltware.enview.admin.user.service.UserpassPK">
+	
+		<result property="userId" column="USER_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_UserpassVO" class="com.saltware.enview.admin.user.service.UserpassVO">
+	 
+		<result property="userId" column="USER_ID" columnIndex="1"/>	 
+		<result property="nmKor" column="NM_KOR" columnIndex="2"/>	 
+		<result property="nmNic" column="NM_NIC" columnIndex="3"/>	 
+		<result property="regNo" column="REG_NO" columnIndex="4"/>	 
+		<result property="birthYmd" column="BIRTH_YMD" columnIndex="5"/>	 
+		<result property="emailAddr" column="EMAIL_ADDR" columnIndex="6"/>	 
+		<result property="offcTel" column="OFFC_TEL" columnIndex="7"/>	 
+		<result property="mileTot" column="MILE_TOT" columnIndex="8"/>	 
+		<result property="homeTel" column="HOME_TEL" columnIndex="9"/>	 
+		<result property="mobileTel" column="MOBILE_TEL" columnIndex="10"/>	 
+		<result property="homeZip" column="HOME_ZIP" columnIndex="11"/>	 
+		<result property="homeAddr1" column="HOME_ADDR1" columnIndex="12"/>	 
+		<result property="homeAddr2" column="HOME_ADDR2" columnIndex="13"/>	 
+		<result property="langKnd" column="LANG_KND" columnIndex="14"/>	 
+		<result property="userInfo05" column="USER_INFO05" columnIndex="15"/>	 
+		<result property="userInfo06" column="USER_INFO06" columnIndex="16"/>	 
+		<result property="regDatim" column="REG_DATIM" columnIndex="17"/>	 
+		<result property="updDatim" column="UPD_DATIM" columnIndex="18"/>	
+	</resultMap>
+	
+	<select id="userpass.totalCount" resultClass="int">
+	/* userpass.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM USERPASS
+		WHERE 1=1	
+			<isNotNull  prepend=" AND " property="userId">USER_ID=#userId#</isNotNull>
+	</select>
+	
+	<select id="userpass.findByPage" resultMap="admin_UserpassVO_PK">
+	/* userpass.findByPage */
+		SELECT tb1.* FROM (
+			SELECT USER_ID, ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY START_TIME_STAMP DESC</isNull>
+			) as rnum
+			FROM USERPASS
+			WHERE 1=1 
+			<isNotNull  prepend=" AND " property="userId">USER_ID=#userId#</isNotNull>
+			) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="userpass.findAll" resultMap="admin_UserpassVO_PK">
+			SELECT USER_ID
+			FROM USERPASS
+	</select>
+	
+	<select id="userpass.findByMaster" resultMap="admin_UserpassVO_PK">
+			SELECT USER_ID
+			FROM USERPASS
+			WHERE 1=1 
+				<isNotNull  prepend=" AND " property="userId">=#userId#</isNotNull>
+	</select>
+	
+
+	<select id="userpass.detail" resultMap="admin_UserpassVO">
+		<![CDATA[
+			SELECT USER_ID,NM_KOR,NM_NIC,REG_NO,BIRTH_YMD,EMAIL_ADDR,OFFC_TEL,MILE_TOT,HOME_TEL,MOBILE_TEL,HOME_ZIP,HOME_ADDR1,HOME_ADDR2,LANG_KND,USER_INFO05,USER_INFO06,REG_DATIM,UPD_DATIM
+			FROM USERPASS
+			WHERE 1=1 
+				AND USER_ID=#userId#
+		]]>
+	</select>
+	
+	<insert id="userpass.insert">
+		<![CDATA[
+			INSERT INTO USERPASS
+				( USER_ID,NM_KOR,NM_NIC,REG_NO,BIRTH_YMD,EMAIL_ADDR,OFFC_TEL,MILE_TOT,HOME_TEL,MOBILE_TEL,HOME_ZIP,HOME_ADDR1,HOME_ADDR2,LANG_KND,USER_INFO05,USER_INFO06,REG_DATIM,UPD_DATIM )
+			VALUES ( #userId#,#nmKor#,#nmNic#,#regNo#,#birthYmd:TIMESTAMP#,#emailAddr#,#offcTel#,#mileTot#,#homeTel#,#mobileTel#,#homeZip#,#homeAddr1#,#homeAddr2#,#langKnd#,#userInfo05#,#userInfo06#,#regDatim:TIMESTAMP#,#updDatim:TIMESTAMP# )
+		]]>
+	</insert>
+	
+	<update id="userpass.update">
+		<![CDATA[
+			UPDATE USERPASS
+			SET USER_ID=#userId#,NM_KOR=#nmKor#,NM_NIC=#nmNic#,REG_NO=#regNo#,BIRTH_YMD=#birthYmd#,EMAIL_ADDR=#emailAddr#,OFFC_TEL=#offcTel#,MILE_TOT=#mileTot#,HOME_TEL=#homeTel#,MOBILE_TEL=#mobileTel#,HOME_ZIP=#homeZip#,HOME_ADDR1=#homeAddr1#,HOME_ADDR2=#homeAddr2#,LANG_KND=#langKnd#,USER_INFO05=#userInfo05#,USER_INFO06=#userInfo06#,UPD_DATIM=#updDatim#
+			WHERE 1=1 
+				AND USER_ID=#userId#
+		]]>
+	</update>
+	
+	<delete id="userpass.delete">
+		<![CDATA[
+			DELETE FROM USERPASS
+			WHERE 1=1 
+				AND USER_ID=#userId#
+		]]>
+	</delete>
+	
+	<delete id="userpass.deleteChildren">
+		<![CDATA[
+			DELETE FROM USERPASS
+			WHERE 1=1 
+				AND USER_ID=#userId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

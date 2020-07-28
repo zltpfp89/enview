@@ -1,0 +1,139 @@
+package com.saltware.enface.sjpb.F.web;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
+
+import com.saltware.enface.security.IgnorePermission;
+import com.saltware.enface.sjpb.F.service.F0101Service;
+import com.saltware.enface.sjpb.F.service.F0101VO;
+import com.saltware.enface.userMenu.service.UserMenuService;
+
+/**
+ * 범죄수사자료조회관리대장
+ * 
+ * @author shju
+ */
+@Controller
+public class F0101Controller extends MultiActionController{
+	
+	protected final Log log = LogFactory.getLog(getClass());
+	
+	@Resource(name="com.saltware.enface.sjpb.F.service.F0101Service")
+	private F0101Service f0101Service;
+	
+	/**
+	 * 범죄수사자료조회관리대장 서비스를 설정한다.
+	 * @param f0101Service 범죄수사자료조회관리대장서비스
+	 */
+	public void setF0101Service(UserMenuService userMenuService) {
+		this.f0101Service = f0101Service;
+	}
+	
+	/**
+	 * 범죄수사자료조회관리대장 화면으로 이동한다.
+	 * 
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
+	 * @return ModelAndView
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "unused", "rawtypes" })
+	@RequestMapping("/sjpb/F/F0101.face")
+	@IgnorePermission
+	public String f0101(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+		return "sjpb/F/F0101";
+	}
+	
+	/**
+	 * 범죄수사자료조회관리대장 화면(리스트)을 가져온다. (ajax)
+	 * 
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
+	 * @return Map
+	 * @throws Exception
+	 */
+	@RequestMapping("/sjpb/F/selectList.face")
+	@ResponseBody
+	public Map selectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		F0101VO vo = new F0101VO();
+		System.out.println("여기눈");
+		vo.setSp(request.getParameter("sp"));
+		vo.setCriMbNm(request.getParameter("criMbNm"));
+		vo.setStartDay(request.getParameter("startDay"));
+		vo.setEndDay(request.getParameter("endDay"));
+		HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		request.setAttribute("vo", vo);
+		System.out.println("###################1");
+		List results = (List) this.f0101Service.selectList(vo);
+		System.out.println("###################2");
+		hashMap.put("qCell", results);		
+		return hashMap;
+	}
+
+	/**
+	 * 범죄수사자료조회관리대장 신규 등록한다. (ajax)
+	 * 
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
+	 * @throws Exception
+	 */
+	@RequestMapping("/sjpb/F/insertCriData.face")
+	public void insertCriData(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		F0101VO vo = new F0101VO();
+		vo.setRespIo("01");
+		vo.setRegUserId("user_id");//등록자
+		vo.setSp(request.getParameter("sp"));//피의자
+		vo.setCriMbNm(request.getParameter("criMbNm"));//수사관 아이디
+		vo.setMngBkComn(request.getParameter("mngBkComn"));//관리대장비고
+		System.out.println("##############sp"+vo.getSp());
+		int resultcount = f0101Service.insertCriData(vo);
+		String result="";
+		if(resultcount == 1){
+			try {
+				try {
+					result += "{\"result\":";
+					result += "\"success\"";
+					result += " }";
+	
+				} catch (Exception e) {
+					result = "{\"msg\" : \"" + e.getMessage() + "\"}";
+				}
+
+				response.setContentType("text/json;charset=UTF-8");
+				PrintWriter pw = response.getWriter();
+				pw.println(result);
+				pw.flush();
+			}catch (IOException e) {
+				log.error(e.getMessage(), e);
+			}
+		}else{
+			
+		}
+		
+	}
+	
+	@RequestMapping("/sjpb/F/selectCriData.face")
+	@ResponseBody
+	public F0101VO selectCriData(@RequestParam(value = "mngBkSiNum", required = false) String mngBkSiNum,HttpServletRequest request,HttpServletResponse response) throws Exception{
+		F0101VO vo=f0101Service.selectCriData(mngBkSiNum);
+		return vo;
+	}
+}

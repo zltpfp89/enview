@@ -1,0 +1,11 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+	<select id="securityPolicy.findAll.postgresql" resultMap="admin_SecurityPolicyVO">
+		/* securityPolicy.findAll.postgresql */
+		SELECT POLICY_ID,IPADDRESS,RES_URL,AUTH_METHOD,IS_ALLOW,IS_ENABLED,START_DATE,END_DATE
+		FROM SECURITY_POLICY
+		WHERE IS_ENABLED=1 AND END_DATE>SYSDATE
+	</select>
+</sqlMap>
+

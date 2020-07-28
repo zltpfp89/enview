@@ -1,0 +1,116 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ PAGE_STATISTICS : 페이지 사용통계 ] Table -->
+	<resultMap id="admin_PageStatisticsVO_PK" class="com.saltware.enview.admin.statistics.service.PageStatisticsPK">	
+	</resultMap>
+	
+	<resultMap id="admin_PageStatisticsVO" class="com.saltware.enview.admin.statistics.service.PageStatisticsVO">
+	 
+	    <result property="domainId" column="DOMAIN_ID" columnIndex="1"/>
+		<result property="title" column="TITLE" columnIndex="2"/>	 
+		<result property="path" column="PATH" columnIndex="3"/>	 
+		<result property="hits" column="HITS" columnIndex="4"/>	 
+		<result property="maxTime" column="MAX_TIME" columnIndex="5"/>	 
+		<result property="minTime" column="MIN_TIME" columnIndex="6"/>	 
+		<result property="averageTime" column="AVERAGE_TIME" columnIndex="7"/>	
+	</resultMap>
+	
+	<select id="pageStatistics.totalCount" resultClass="int">
+	/* pageStatistics.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM (
+			SELECT DOMAIN_ID, PATH, TITLE
+			FROM PAGE_STATISTICS
+			WHERE 1=1
+					<isNotNull  property="domainId">
+					    <isGreaterThan prepend=" AND " property="domainId" compareValue="0">DOMAIN_ID=CAST(#domainId# AS INTEGER)</isGreaterThan>
+					</isNotNull>
+					<isNotNull  prepend=" AND " property="groupIdCond">ORG_CD LIKE #groupIdCond#||'%'</isNotNull>
+					<isNotNull  prepend=" AND " property="roleIdCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID IN $roleIds$)</isNotNull>					
+					<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE #userIdCond#||'%'</isNotNull>
+					<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE #userNameCond#||'%'</isNotNull>
+					<isNotNull  prepend=" AND " property="titleCond">TITLE LIKE #titleCond#||'%'</isNotNull>
+					<isNotNull  prepend=" AND " property="pathCond">PATH LIKE #pathCond#||'%'</isNotNull>
+					AND TIME_STAMP BETWEEN #startTimeStampCond# AND #endTimeStampCond#
+			GROUP BY DOMAIN_ID, PATH, TITLE
+		) tbl1
+	</select>
+	
+	<select id="pageStatistics.accumulation" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+			SELECT 
+				<isNotNull  property="domainId">
+				    <isGreaterEqual property="domainId" compareValue="1">DOMAIN_ID,</isGreaterEqual>
+				</isNotNull>
+			count(*) AS totalHits , MIN(ELAPSED_TIME) AS totalMinTime ,AVG(ELAPSED_TIME) AS totalAverageTime ,MAX(ELAPSED_TIME) AS totalMaxTime
+			FROM PAGE_STATISTICS 
+			WHERE 1=1
+				<isNotNull  property="domainId">
+				     <isGreaterThan prepend=" AND " property="domainId" compareValue="0">DOMAIN_ID=CAST(#domainId# AS INTEGER)</isGreaterThan>
+				</isNotNull>
+				<isNotNull  prepend=" AND " property="groupIdCond">ORG_CD LIKE #groupIdCond#||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="roleIdCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID IN $roleIds$)</isNotNull>				
+				<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE #userIdCond#||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE #userNameCond#||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="titleCond">TITLE LIKE #titleCond#||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="pathCond">PATH LIKE #pathCond#||'%'</isNotNull>
+				AND TIME_STAMP BETWEEN #startTimeStampCond# AND #endTimeStampCond#
+			<isNotNull  property="domainId">
+				    <isGreaterEqual property="domainId" compareValue="1">GROUP BY DOMAIN_ID</isGreaterEqual>
+				</isNotNull>
+	</select>
+	
+	<select id="pageStatistics.findByPage" resultMap="admin_PageStatisticsVO">
+	/* pageStatistics.findByPage */
+		SELECT * FROM (
+			SELECT tb1.*, ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY HITS DESC</isNull>
+			) as rnum
+			FROM (
+				SELECT DOMAIN_ID, TITLE,PATH,count(*) AS HITS,MAX(ELAPSED_TIME) AS MAX_TIME,MIN(ELAPSED_TIME) AS MIN_TIME,AVG(ELAPSED_TIME) AS AVERAGE_TIME 
+				FROM PAGE_STATISTICS
+				WHERE 1=1 
+				<isNotNull  property="domainId">
+				    <isGreaterThan prepend=" AND " property="domainId" compareValue="0">DOMAIN_ID=CAST(#domainId# AS INTEGER)</isGreaterThan>
+				</isNotNull>
+				<isNotNull  prepend=" AND " property="groupIdCond">ORG_CD LIKE #groupIdCond#||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="roleIdCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID IN $roleIds$)</isNotNull>				
+				<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE #userIdCond#||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE #userNameCond#||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="titleCond">TITLE LIKE #titleCond#||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="pathCond">PATH LIKE #pathCond#||'%'</isNotNull>
+				AND TIME_STAMP BETWEEN #startTimeStampCond# AND #endTimeStampCond#
+				GROUP BY DOMAIN_ID, PATH, TITLE			
+			) tb1 
+		)tb2 WHERE tb2.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="pageStatistics.findAll" resultMap="admin_PageStatisticsVO_PK">
+			SELECT *
+			FROM PAGE_STATISTICS
+	</select>
+	
+
+	<select id="pageStatistics.detail" resultMap="admin_PageStatisticsVO">
+		<![CDATA[
+			/* pageStatistics.detail */
+			SELECT TOTAL_SESSION,TOTAL_HITS,TOTAL_MAX_TIME,TOTAL_MIN_TIME,TOTAL_AVERAGE_TIME,TITLE,PATH,HITS,MAX_TIME,MIN_TIME,AVERAGE_TIME
+			FROM PAGE_STATISTICS
+			WHERE 1=1 
+		]]>
+	</select>
+	
+	<insert id="pageStatistics.storeRecord">
+	/* pageStatistics.storeRecord */
+			INSERT INTO PAGE_STATISTICS
+				( DOMAIN_ID, IPADDRESS,PRINCIPAL_ID,USER_ID,USER_NAME,ORG_CD,ORG_NAME,TIME_STAMP,PATH,TITLE,STATUS,ELAPSED_TIME,EXTRA_INFO01,EXTRA_INFO02,EXTRA_INFO03,EXTRA_INFO04,EXTRA_INFO05 )
+			VALUES ( CAST(#domainId# AS INTEGER),#ipAddress#,CAST(#principalId# AS INTEGER),#userId#,#userName#,#orgCd#,#orgName#,#timeStamp#,#pagePath#,#pageTitle#,#status#,#msElapsedTime#,#extraInfo01#,#extraInfo02#,#extraInfo03#,#extraInfo04#,#extraInfo05# )
+	</insert>
+	
+
+</sqlMap>
+

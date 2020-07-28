@@ -1,0 +1,96 @@
+@charset "utf-8";
+@font-face {
+  font-family: 'Nanum Gothic';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../font/NanumGothic-Regular.eot);
+  src: url(../font/NanumGothic-Regular.eot?#iefix) format('embedded-opentype'),
+       url(../font/NanumGothic-Regular.woff2) format('woff2'),
+       url(../font/NanumGothic-Regular.woff) format('woff'),
+       url(../font/NanumGothic-Regular.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Nanum GothicBold';
+  font-style: normal;
+  font-weight: 700;
+  src: url(../font/NanumGothic-Bold.eot);
+  src: url(../font/NanumGothic-Bold.eot?#iefix) format('embedded-opentype'),
+       url(../font/NanumGothic-Bold.woff2) format('woff2'),
+       url(../font/NanumGothic-Bold.woff) format('woff'),
+       url(../font/NanumGothic-Bold.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Nanum GothicExtraBold';
+  font-style: normal;
+  font-weight: 900;
+  src: url(../font/NanumGothic-ExtraBold.eot);
+  src: url(../font/NanumGothic-ExtraBold.eot?#iefix) format('embedded-opentype'),
+       url(../font/NanumGothic-ExtraBold.woff2) format('woff2'),
+       url(../font/NanumGothic-ExtraBold.woff) format('woff'),
+       url(../font/NanumGothic-ExtraBold.ttf) format('truetype');
+}
+
+
+/*기본태그 정의*/
+/* html, body {padding:0;margin:0;height:100%; } */
+body, td, select, textarea, input {font-size: 0.8em; font-family:'Nanum Gothic', 'Dotumche', 'verdana'; color:#222; letter-spacing:-0.25px;}
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td, input{
+	margin: 0;
+	outline: 0;
+	border: 0;
+	padding: 0;
+	vertical-align: top;
+	background: transparent;
+}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section { display: block; }
+
+body{background:#f1f1f1; overflow-x:hidden;}
+/* 리스트의 스타일 제거 */
+ol, ul {list-style:none;}
+
+/* 테이블 스타일 초기화 */
+table {border-collapse:collapse; border-spacing:0;table-layout:fixed;}
+
+/* 이미지 및 필드셋에서 보더 표시 초기화 */
+fieldset, img,iframe {border:0;}
+img{vertical-align:top;}
+
+/* 캡션 텍스트 정렬 초기화 */
+caption {text-align:left;}
+
+/* 폼태그의 초기화 */
+select {vertical-align:middle;}
+input {vertical-align:middle;}
+textarea {outline:none;}
+input.radio {vertical-align:middle;}
+
+input[type=text], input[type=password]{border:1px solid #ddd; background:#fff; height:29px; line-height:27px; padding:0 5px; box-sizing:border-box;}
+input[type=date]{-webkit-appearance:none; background:#fff url(../images/icon_calendar.png) no-repeat 95% center; background-size:15px 15px; border:1px solid #ddd; height:29px; line-height:27px; padding:0 5px; box-sizing:border-box;}
+input[type=time]{background:#fff url(../images/icon_time.png) no-repeat 95% center; background-size:15px 15px; border:1px solid #ddd; height:29px; line-height:27px; padding:0 5px; box-sizing:border-box;}
+input[type=date], input[type=time]{ -webkit-appearance: none;}
+input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-calendar-picker-indicator, input[type=date]::-webkit-clear, input[type=time]::-webkit-inner-spin-button
+{ display: none; }
+input[type=file]{border:1px solid #ddd; background:#fff; height:29px; line-height:28px; padding:0 5px;  box-sizing:border-box;}
+select{padding:6px 4px 5px 4px; border:1px solid #ddd; }
+input[type=text]:focus, input[type=password]:focus{border:1px solid #a7a7a7; background:#fafafa; box-shadow:2px 2px 6px #d3d3d3 inset; }
+textarea:focus{border:1px solid #a7a7a7; background:#fafafa; box-shadow:2px 2px 6px #d3d3d3 inset; }
+
+
+a:link    {text-decoration:none; color:#222;}
+a:active    {text-decoration:none; color:#222;}
+a:visited    {text-decoration:none; color:#222;}
+a:hover    {text-decoration:none; color:#222;}
+
+/* hidden 처리 */
+caption{width:0;height:0;font-size:0;line-height:0;overflow:hidden;visibility:hidden;}
+legend{width:0;height:0;font-size:0;line-height:0;overflow:hidden;visibility:hidden;}
+.hide,hr{position:absolute;top:0;width:0;height:0;font-size:0;line-height:0;overflow:hidden;visibility:hidden;}

@@ -1,0 +1,124 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ DOMAIN_PRINCIPAL : 도메인 사용자 ] Table -->
+	<resultMap id="admin_DomainPrincipalVO_PK" class="com.saltware.enview.admin.domain.service.DomainPrincipalPK">
+	
+		<result property="domainId" column="DOMAIN_ID" columnIndex="1"/>	
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="2"/>	
+	</resultMap>
+	
+	<resultMap id="admin_DomainPrincipalVO" class="com.saltware.enview.admin.domain.service.DomainPrincipalVO">
+	 
+		<result property="domainId" column="DOMAIN_ID" columnIndex="1"/>	 
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="2"/>	 
+		<result property="theme" column="THEME" columnIndex="3"/>	 
+		<result property="defaultPage" column="DEFAULT_PAGE" columnIndex="4"/>	
+	</resultMap>
+	
+	<select id="domainPrincipal.totalCount" resultClass="int">
+	/* domainPrincipal.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM DOMAIN_PRINCIPAL a
+		JOIN SECURITY_PRINCIPAL b ON a.principal_id = b.principal_id
+		WHERE 1=1	
+		<isNotEqual prepend=" AND " property="domainId" compareValue="0"> a.DOMAIN_ID=#domainId#</isNotEqual>
+		<isNotNull prepend=" AND " property="titleCond">( b.short_path like '%' || #titleCond# || '%' OR PRINCIPAL_NAME LIKE '%' || #titleCond# ||'%' )</isNotNull>
+	</select>
+	
+	<select id="domainPrincipal.findByPage" resultMap="admin_DomainPrincipalVO_PK">
+			<!--
+			SELECT tb.* FROM ( 
+				
+				SELECT <isNotNull property="sortColumn">ROW_NUMBER() OVER(ORDER BY $sortColumn$ $sortMethod$) as rnum, </isNotNull><isNull property="sortColumn">rownum rnum, </isNull>DOMAIN_ID,PRINCIPAL_ID 
+				FROM DOMAIN_PRINCIPAL 
+				WHERE rownum &lt;= #endRow# 
+					<isNotEqual prepend=" AND " property="domainId" compareValue="0">DOMAIN_ID=#domainId#</isNotEqual>
+			) tb WHERE tb.rnum BETWEEN #startRow# AND #endRow#
+			-->
+			SELECT tb2.* FROM (
+				SELECT tb1.*, rownum rnum FROM (
+					SELECT DOMAIN_ID,PRINCIPAL_ID
+					FROM DOMAIN_PRINCIPAL
+					WHERE 1=1 
+					<isNotEqual prepend=" AND " property="domainId" compareValue="0">DOMAIN_ID=#domainId#</isNotEqual>
+					<isNotNull prepend=" AND " property="titleCond">( b.short_path like '%' || #titleCond# || '%' OR PRINCIPAL_NAME LIKE '%' || #titleCond# ||'%' )</isNotNull>
+					<isNotNull property="sortColumn"> ORDER BY $sortColumn$ $sortMethod$ </isNotNull>
+				) tb1
+			) tb2 WHERE tb2.rnum BETWEEN #startRow# AND #endRow#
+			
+	</select>
+
+	<select id="domainPrincipal.findAll" resultMap="admin_DomainPrincipalVO_PK">
+			SELECT DOMAIN_ID,PRINCIPAL_ID
+			FROM DOMAIN_PRINCIPAL
+	</select>
+	
+	<select id="domainPrincipal.findByMaster" resultMap="admin_DomainPrincipalVO_PK">
+			SELECT DOMAIN_ID,PRINCIPAL_ID
+			FROM DOMAIN_PRINCIPAL
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+		
+	</select>
+	
+
+	<select id="domainPrincipal.detail" resultMap="admin_DomainPrincipalVO">
+		<![CDATA[
+			SELECT DOMAIN_ID,PRINCIPAL_ID,THEME,DEFAULT_PAGE
+			FROM DOMAIN_PRINCIPAL
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+				AND PRINCIPAL_ID=#principalId#
+		]]>
+	</select>
+	
+	<select id="domainPrincipal.exist" resultClass="int">
+			SELECT COUNT(*) cnt
+			FROM DOMAIN_PRINCIPAL
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+				AND PRINCIPAL_ID=#principalId#
+	</select>
+	
+	<insert id="domainPrincipal.insert">
+		<![CDATA[
+			INSERT INTO DOMAIN_PRINCIPAL
+				( DOMAIN_ID,PRINCIPAL_ID,THEME,DEFAULT_PAGE )
+			VALUES ( #domainId#,#principalId#,#theme#,#defaultPage# )
+		]]>
+	</insert>
+	
+	<update id="domainPrincipal.update">
+		<![CDATA[
+			UPDATE DOMAIN_PRINCIPAL
+			SET DOMAIN_ID=#domainId#,PRINCIPAL_ID=#principalId#,THEME=#theme#,DEFAULT_PAGE=#defaultPage#
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+				AND PRINCIPAL_ID=#principalId#
+		]]>
+	</update>
+	
+	<delete id="domainPrincipal.delete">
+		<![CDATA[
+			DELETE FROM DOMAIN_PRINCIPAL
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+				AND PRINCIPAL_ID=#principalId#
+		]]>
+	</delete>
+	
+	<delete id="domainPrincipal.deleteChildren">
+		<![CDATA[
+			DELETE FROM DOMAIN_PRINCIPAL
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

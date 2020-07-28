@@ -1,0 +1,52 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ SESSION_DATA : 세션관리 ] Table -->
+	<select id="sessionData.totalCount" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM SESSION_DATA
+			WHERE 1=1	
+	</select>
+	
+	<select id="sessionData.validate" resultClass="boolean">
+
+			SELECT count(USER_ID)
+			FROM SESSION_DATA
+			WHERE 1=1 AND SID=#sid#
+	</select>
+	
+	<select id="sessionData.findSidByUserId" resultClass="String">
+			SELECT SID
+			FROM SESSION_DATA
+			WHERE 1=1 AND SID=#userId#
+	</select>
+	
+	<select id="sessionData.findBySid" resultClass="String">
+			SELECT USER_DATA
+			FROM SESSION_DATA
+			WHERE 1=1 AND SID=#sid#
+	</select>
+	
+	<insert id="sessionData.insert">
+			INSERT INTO SESSION_DATA ( SID,USER_ID,USER_DATA,CREATION_DATE,MODIFIED_DATE )
+			VALUES ( #sid#,#userId#,#userData#,#creationDate#,#modifiedDate# )
+	</insert>
+	
+	<update id="sessionData.update">
+			UPDATE SESSION_DATA
+			SET SID=#sid#,USER_ID=#userId#,USER_DATA=#userData#,MODIFIED_DATE=#modifiedDate#
+			WHERE 1=1 AND SID=#sid#
+	</update>
+	
+	<delete id="sessionData.delete">
+			DELETE FROM SESSION_DATA
+			WHERE 1=1 AND SID=#sid#
+	</delete>
+	
+
+</sqlMap>
+

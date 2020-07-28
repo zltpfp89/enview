@@ -1,0 +1,386 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0103VO" id="M0103VO.list">
+		<result property="prgsNum" column="PRGS_NUM"/>
+		<result property="arstWrntReqBkNum" column="ARST_WRNT_REQ_BK_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="chifPstr" column="CHIF_PSTR"/>
+		<result property="reqOfic" column="REQ_OFIC"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="cathDt" column="CATH_DT"/>
+		<result property="cathTpCd" column="CATH_TP_CD"/>
+		<result property="cathTpCdDesc" column="CATH_TP_CD_DESC"/>
+		<result property="cathPrgsNum" column="CATH_PRGS_NUM"/>
+		<result property="wrntPstrRjctDt" column="WRNT_PSTR_RJCT_DT"/>
+		<result property="wrntJudgRjctDt" column="WRNT_JUDG_RJCT_DT"/>
+		<result property="wrntIsueDt" column="WRNT_ISUE_DT"/>
+		<result property="wrntReReqDt" column="WRNT_RE_REQ_DT"/>
+		<result property="wrntReReqPstrRjctDt" column="WRNT_RE_REQ_PSTR_RJCT_DT"/>
+		<result property="wrntReReqJudgRjctDt" column="WRNT_RE_REQ_JUDG_RJCT_DT"/>
+		<result property="wrntReReqIsueDt" column="WRNT_RE_REQ_ISUE_DT"/>
+		<result property="spItrgAplt" column="SP_ITRG_APLT"/>
+		<result property="spItrgSiNum" column="SP_ITRG_SI_NUM"/>
+		<result property="spItrgPstrNm" column="SP_ITRG_PSTR_NM"/>
+		<result property="spItrgRcptDt" column="SP_ITRG_RCPT_DT"/>
+		<result property="spItrgApltTitl" column="SP_ITRG_APLT_TITL"/>
+		<result property="spItrgArstDt" column="SP_ITRG_ARST_DT"/>
+		<result property="spItrgApltNm" column="SP_ITRG_APLT_NM"/>
+		<result property="valdPi" column="VALD_PI"/>
+		<result property="relsDt" column="RELS_DT"/>
+		<result property="relsRsn" column="RELS_RSN"/>
+		<result property="arstWrntRetn" column="ARST_WRNT_RETN"/>
+		<result property="arstWrntComn" column="ARST_WRNT_COMN"/>	
+		<result property="regUserId" column="REG_USER_ID"/>	
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="docNum" column="DOC_NUM"/>
+		<result property="attoNm" column="ATTO_NM"/>
+		<result property="nessSel" column="NESS_SEL"/>
+		<result property="arstPla" column="ARST_PLA"/>
+		<result property="overWeekResn" column="OVER_WEEK_RESN"/>
+		<result property="overTwoPersRes" column="OVER_TWO_PERS_RES"/>	
+	</resultMap>
+ 	<select id="M0103.SJPB_ARST_WRNT_REQ_BK_DOC.selectList" resultMap="M0103VO.list">  /* M0103.SJPB_ARST_WRNT_REQ_BK_DOC.selectList */
+ 		SELECT A.ARST_WRNT_REQ_BK_NUM  /* 구속영장신청부번호 */
+ 			   ,A.PRGS_NUM /*진행번호*/
+		       ,D.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.CHIF_PSTR  /* 주임검사 */
+		       ,A.REQ_OFIC  /* 신청관서 */
+		       ,A.INC_SP_NUM  /* 피의자 번호 */
+		       ,B.SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) 
+		        AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */  
+		       ,A.CATH_DT  /* 체포일시 */
+		       ,A.CATH_TP_CD  /* 체포유형코드 */
+		       ,C.CODE_NAME AS CATH_TP_CD_DESC  /* 체포유형 */
+		       ,A.CATH_PRGS_NUM  /* 체포진행번호 */
+		       ,A.WRNT_PSTR_RJCT_DT  /* 영장검사기각일시 */
+		       ,A.WRNT_JUDG_RJCT_DT  /* 영장판사기각일시 */
+		       ,A.WRNT_ISUE_DT  /* 영장발부일시 */
+		       ,A.WRNT_RE_REQ_DT  /* 영장재신청일시 */
+               ,A.WRNT_RE_REQ_PSTR_RJCT_DT  /* 영장재신청검사기각일시 */
+               ,A.WRNT_RE_REQ_JUDG_RJCT_DT  /* 영장재신청판사기각일시 */
+               ,A.WRNT_RE_REQ_ISUE_DT  /* 영장재신청발부일시 */
+               ,A.SP_ITRG_APLT  /* 피의자심문신청인 */
+		       ,A.SP_ITRG_SI_NUM  /* 피의자심문일련번호 */
+		       ,A.SP_ITRG_PSTR_NM  /* 피의자심문검사명 */
+               ,A.SP_ITRG_RCPT_DT  /* 피의자심문접수일시 */
+               ,A.SP_ITRG_APLT_TITL  /* 피의자심문접수자관직 */
+       		   ,A.SP_ITRG_APLT_NM  /* 피의자심문접수자성명 */
+		       ,A.SP_ITRG_ARST_DT  /* 피의자심문구인일시*/
+		       ,A.VALD_PI  /* 유효기간 */
+		       ,A.RELS_DT  /* 석방연월일 */
+		       ,A.RELS_RSN  /* 석방사유 */
+		       ,A.ARST_WRNT_RETN  /* 반환 */
+		       ,A.ARST_WRNT_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,E.NM_KOR  /* 작성자이름 */
+		       ,A.DOC_NUM
+			   ,A.ATTO_NM
+			   ,A.NESS_SEL
+			   ,A.ARST_PLA
+			   ,A.OVER_WEEK_RESN
+			   ,A.OVER_TWO_PERS_RES
+		FROM SJPB_ARST_WRNT_REQ_BK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		LEFT JOIN CODEBASE C ON C.CODE_ID = 'SJPB_00028' AND C.CODE = A.CATH_TP_CD AND C.SYSTEM_CODE ='PT' AND C.LANG_KND='ko'
+		JOIN SJPB_INC_MAST D ON D.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				D.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				B.SP_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				D.RCPT_NUM = #rcptNumSc# OR D.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0103.SJPB_ARST_WRNT_REQ_BK_DOC.insertArstWrnt" parameterClass="com.saltware.enface.sjpb.M.service.M0103VO">  /* M0103.SJPB_ARST_WRNT_REQ_BK_DOC.insertArstWrnt */
+ 		INSERT INTO SJPB_ARST_WRNT_REQ_BK_DOC (
+		    ARST_WRNT_REQ_BK_NUM,
+		    PRGS_NUM,
+		    RCPT_NUM,
+		    CHIF_PSTR,
+		    REQ_OFIC,
+		    INC_SP_NUM,
+		    CATH_DT,
+		    CATH_TP_CD,
+		    CATH_PRGS_NUM,
+		    WRNT_PSTR_RJCT_DT,
+		    WRNT_JUDG_RJCT_DT,
+		    WRNT_ISUE_DT,
+		    WRNT_RE_REQ_DT,
+		    WRNT_RE_REQ_PSTR_RJCT_DT,
+		    WRNT_RE_REQ_JUDG_RJCT_DT,
+		    WRNT_RE_REQ_ISUE_DT,
+		    SP_ITRG_APLT,
+		    SP_ITRG_SI_NUM,
+		    SP_ITRG_PSTR_NM,
+		    SP_ITRG_RCPT_DT,
+		    SP_ITRG_APLT_TITL,
+		    SP_ITRG_ARST_DT,
+		    VALD_PI,
+		    RELS_DT,
+		    RELS_RSN,
+		    ARST_WRNT_RETN,
+		    ARST_WRNT_COMN,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE,
+		    SP_ITRG_APLT_NM,
+		    DOC_NUM,
+		    ATTO_NM,
+		    NESS_SEL,
+		    ARST_PLA,
+		    OVER_WEEK_RESN,
+		    OVER_TWO_PERS_RES
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_ARST_WRNT_REQ_BK_DOC.ARST_WRNT_REQ_BK_NUM')
+		    ,#prgsNum#
+		    ,#rcptNum#
+		    ,#chifPstr#
+		    ,#reqOfic#
+		    ,#incSpNum#
+		    ,#cathDt#
+		    ,#cathTpCd#
+		    ,#cathPrgsNum#
+		    ,#wrntPstrRjctDt#
+		    ,#wrntJudgRjctDt#
+		    ,#wrntIsueDt#
+		    ,#wrntReReqDt#
+		    ,#wrntReReqPstrRjctDt#
+		    ,#wrntReReqJudgRjctDt#
+		    ,#wrntReReqIsueDt#
+		    ,#spItrgAplt#
+		    ,#spItrgSiNum#
+		    ,#spItrgPstrNm#
+		    ,#spItrgRcptDt#
+		    ,#spItrgApltTitl#
+		    ,#spItrgArstDt#
+		    ,#valdPi#
+		    ,#relsDt#
+		    ,#relsRsn#
+		    ,#arstWrntRetn#
+		    ,#arstWrntComn#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#spItrgApltNm#
+		    ,#docNum#
+			,#attoNm#
+			,#nessSel#
+			,#arstPla#
+			,#overWeekResn#
+			,#overTwoPersRes#
+		)
+ 	</update>
+ 	<update id="M0103.SJPB_ARST_WRNT_REQ_BK_DOC.updateArstWrnt" parameterClass="com.saltware.enface.sjpb.M.service.M0103VO">  /* M0103.SJPB_ARST_WRNT_REQ_BK_DOC.updateArstWrnt */
+ 		UPDATE SJPB_ARST_WRNT_REQ_BK_DOC 
+ 		SET INC_SP_NUM = #incSpNum#
+ 			,PRGS_NUM = #prgsNum#
+ 			,CHIF_PSTR = #chifPstr#
+ 			,REQ_OFIC = #reqOfic#
+ 			,CATH_DT = #cathDt#
+ 			,CATH_TP_CD = #cathTpCd#
+ 			,CATH_PRGS_NUM = #cathPrgsNum#
+ 			,WRNT_PSTR_RJCT_DT = #wrntPstrRjctDt#
+ 			,WRNT_JUDG_RJCT_DT = #wrntJudgRjctDt#
+ 			,WRNT_ISUE_DT = #wrntIsueDt#
+ 			,WRNT_RE_REQ_DT = #wrntReReqDt#
+ 			,WRNT_RE_REQ_PSTR_RJCT_DT = #wrntReReqPstrRjctDt#
+ 			,WRNT_RE_REQ_JUDG_RJCT_DT = #wrntReReqJudgRjctDt#
+ 			,WRNT_RE_REQ_ISUE_DT = #wrntReReqIsueDt#
+ 			,SP_ITRG_APLT = #spItrgAplt#
+ 			,SP_ITRG_SI_NUM = #spItrgSiNum#
+ 			,SP_ITRG_PSTR_NM = #spItrgPstrNm#
+ 			,SP_ITRG_RCPT_DT = #spItrgRcptDt#
+ 			,SP_ITRG_APLT_TITL = #spItrgApltTitl#
+ 			,SP_ITRG_ARST_DT = #spItrgArstDt#
+ 			,VALD_PI = #valdPi#
+ 			,RELS_DT = #relsDt#
+ 			,RELS_RSN = #relsRsn#
+ 			,ARST_WRNT_RETN = #arstWrntRetn#
+ 			,ARST_WRNT_COMN = #arstWrntComn#
+ 			,UPD_USER_ID = #regUserId#
+ 			,UPD_DATE = SYSDATE
+ 			,SP_ITRG_APLT_NM = #spItrgApltNm#
+ 			,DOC_NUM = #docNum#
+			,ATTO_NM = #attoNm#
+			,NESS_SEL = #nessSel#
+			,ARST_PLA = #arstPla#
+			,OVER_WEEK_RESN = #overWeekResn#
+			,OVER_TWO_PERS_RES = #overTwoPersRes#
+ 		WHERE ARST_WRNT_REQ_BK_NUM = #arstWrntReqBkNum# 
+ 	</update>
+ 	<resultMap class="com.saltware.enface.sjpb.M.service.M0103VO" id="M0103VO.report">
+		<result property="prgsNum" column="PRGS_NUM"/>
+		<result property="arstWrntReqBkNum" column="ARST_WRNT_REQ_BK_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="mergeRcptIncNum" column="MERGE_RCPT_INC_NUM"/>
+		<result property="chifPstr" column="CHIF_PSTR"/>
+		<result property="reqOfic" column="REQ_OFIC"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="cathDt" column="CATH_DT"/>
+		<result property="cathTpCd" column="CATH_TP_CD"/>
+		<result property="cathTpCdDesc" column="CATH_TP_CD_DESC"/>
+		<result property="wrntPstrRjctDt" column="WRNT_PSTR_RJCT_DT"/>
+		<result property="wrntJudgRjctDt" column="WRNT_JUDG_RJCT_DT"/>
+		<result property="wrntIsueDt" column="WRNT_ISUE_DT"/>
+		<result property="wrntReReqDt" column="WRNT_RE_REQ_DT"/>
+		<result property="wrntReReqPstrRjctDt" column="WRNT_RE_REQ_PSTR_RJCT_DT"/>
+		<result property="wrntReReqJudgRjctDt" column="WRNT_RE_REQ_JUDG_RJCT_DT"/>
+		<result property="wrntReReqIsueDt" column="WRNT_RE_REQ_ISUE_DT"/>
+		<result property="spItrgAplt" column="SP_ITRG_APLT"/>
+		<result property="spItrgSiNum" column="SP_ITRG_SI_NUM"/>
+		<result property="spItrgPstrNm" column="SP_ITRG_PSTR_NM"/>
+		<result property="spItrgRcptDt" column="SP_ITRG_RCPT_DT"/>
+		<result property="spItrgApltTitl" column="SP_ITRG_APLT_TITL"/>
+		<result property="spItrgArstDt" column="SP_ITRG_ARST_DT"/>
+		<result property="spItrgApltNm" column="SP_ITRG_APLT_NM"/>
+		<result property="valdPi" column="VALD_PI"/>
+		<result property="relsDt" column="RELS_DT"/>
+		<result property="relsRsn" column="RELS_RSN"/>
+		<result property="arstWrntRetn" column="ARST_WRNT_RETN"/>
+		<result property="arstWrntComn" column="ARST_WRNT_COMN"/>	
+		<result property="regUserId" column="REG_USER_ID"/>	
+	</resultMap>
+ 	<select id="M0103.SJPB_ARST_WRNT_REQ_BK_DOC.prnReport" resultMap="M0103VO.report">  /* M0103.SJPB_ARST_WRNT_REQ_BK_DOC.prnReport */
+ 		SELECT A.ARST_WRNT_REQ_BK_NUM  /* 구속영장신청부번호 */
+ 			   ,A.PRGS_NUM /*진행번호*/
+		       ,REGEXP_SUBSTR(D.RCPT_INC_NUM,'[^-]+',1,1) ||'년 형제'||REGEXP_SUBSTR(REGEXP_SUBSTR(D.RCPT_INC_NUM,'[^-]+',1,2),'[^,]+',1,1)||'호' AS RCPT_INC_NUM /* 사건번호 */
+		       ,CASE WHEN REGEXP_SUBSTR(D.RCPT_INC_NUM,'[^,]+',1,2) is NOT NULL THEN REGEXP_SUBSTR(REGEXP_SUBSTR(D.RCPT_INC_NUM,'[^,]+',1,2),'[^-]+',1,1) ||'년 형제'||REGEXP_SUBSTR(REGEXP_SUBSTR(D.RCPT_INC_NUM,'[^,]+',1,2),'[^-]+',1,2)||'호' END AS MERGE_RCPT_INC_NUM
+               ,A.CHIF_PSTR  /* 주임검사 */
+		       ,A.REQ_OFIC  /* 신청관서 */
+		       ,B.SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) 
+		        AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */  
+		       ,DECODE(A.CATH_DT,NULL,'',SUBSTR(A.CATH_DT,1,4)||'.'|| SUBSTR(A.CATH_DT,5,2) ||'.'||SUBSTR(A.CATH_DT,7,2))||'  '||SUBSTR(A.CATH_DT,9,2)||'시'||SUBSTR(A.CATH_DT,11,2)||'분' AS CATH_DT/* 체포일시 */
+		       ,A.CATH_TP_CD  /* 체포유형코드 */
+		       ,C.CODE_NAME||'(진행번호 '||LPAD(NVL(A.CATH_PRGS_NUM,' '),4) ||')' AS CATH_TP_CD_DESC  /* 체포유형 */
+		       ,DECODE(A.WRNT_PSTR_RJCT_DT,NULL,'',SUBSTR(A.WRNT_PSTR_RJCT_DT,1,4)||'.'|| SUBSTR(A.WRNT_PSTR_RJCT_DT,5,2) ||'.'||SUBSTR(A.WRNT_PSTR_RJCT_DT,7,2)||'  '||SUBSTR(A.WRNT_PSTR_RJCT_DT,9,2)||'시'||SUBSTR(A.WRNT_PSTR_RJCT_DT,11,2)||'분') AS WRNT_PSTR_RJCT_DT  /* 영장검사기각일시 */
+               ,DECODE(A.WRNT_JUDG_RJCT_DT,NULL,'',SUBSTR(A.WRNT_JUDG_RJCT_DT,1,4)||'.'|| SUBSTR(A.WRNT_JUDG_RJCT_DT,5,2) ||'.'||SUBSTR(A.WRNT_JUDG_RJCT_DT,7,2)||'  '||SUBSTR(A.WRNT_JUDG_RJCT_DT,9,2)||'시'||SUBSTR(A.WRNT_JUDG_RJCT_DT,11,2)||'분') AS WRNT_JUDG_RJCT_DT  /* 영장판사기각일시 */
+               ,DECODE(A.WRNT_ISUE_DT,NULL,'',SUBSTR(A.WRNT_ISUE_DT,1,4)||'.'|| SUBSTR(A.WRNT_ISUE_DT,5,2) ||'.'||SUBSTR(A.WRNT_ISUE_DT,7,2)||'  '||SUBSTR(A.WRNT_ISUE_DT,9,2)||'시'||SUBSTR(A.WRNT_ISUE_DT,11,2)||'분') AS WRNT_ISUE_DT  /* 영장발부일시 */
+               ,DECODE(A.WRNT_RE_REQ_DT,NULL,'',SUBSTR(A.WRNT_RE_REQ_DT,1,4)||'.'|| SUBSTR(A.WRNT_RE_REQ_DT,5,2) ||'.'||SUBSTR(A.WRNT_RE_REQ_DT,7,2)||'  '||SUBSTR(A.WRNT_RE_REQ_DT,9,2)||'시'||SUBSTR(A.WRNT_RE_REQ_DT,11,2)||'분') AS WRNT_RE_REQ_DT  /* 영장재신청일시 */
+               ,DECODE(A.WRNT_RE_REQ_PSTR_RJCT_DT,NULL,'',SUBSTR(A.WRNT_RE_REQ_PSTR_RJCT_DT,1,4)||'.'|| SUBSTR(A.WRNT_RE_REQ_PSTR_RJCT_DT,5,2) ||'.'||SUBSTR(A.WRNT_RE_REQ_PSTR_RJCT_DT,7,2)||'  '||SUBSTR(A.WRNT_RE_REQ_PSTR_RJCT_DT,9,2)||'시'||SUBSTR(A.WRNT_RE_REQ_PSTR_RJCT_DT,11,2)||'분') AS WRNT_RE_REQ_PSTR_RJCT_DT  /* 영장재신청검사기각일시 */
+               ,DECODE(A.WRNT_RE_REQ_JUDG_RJCT_DT,NULL,'',SUBSTR(A.WRNT_RE_REQ_JUDG_RJCT_DT,1,4)||'.'|| SUBSTR(A.WRNT_RE_REQ_JUDG_RJCT_DT,5,2) ||'.'||SUBSTR(A.WRNT_RE_REQ_JUDG_RJCT_DT,7,2)||'  '||SUBSTR(A.WRNT_RE_REQ_JUDG_RJCT_DT,9,2)||'시'||SUBSTR(A.WRNT_RE_REQ_JUDG_RJCT_DT,11,2)||'분') AS WRNT_RE_REQ_JUDG_RJCT_DT  /* 영장재신청판사기각일시 */
+               ,DECODE(A.WRNT_RE_REQ_ISUE_DT,NULL,'',SUBSTR(A.WRNT_RE_REQ_ISUE_DT,1,4)||'.'|| SUBSTR(A.WRNT_RE_REQ_ISUE_DT,5,2) ||'.'||SUBSTR(A.WRNT_RE_REQ_ISUE_DT,7,2)||'  '||SUBSTR(A.WRNT_RE_REQ_ISUE_DT,9,2)||'시'||SUBSTR(A.WRNT_RE_REQ_ISUE_DT,11,2)||'분') AS WRNT_RE_REQ_ISUE_DT  /* 영장재신청발부일시 */
+               ,A.SP_ITRG_APLT  /* 피의자심문신청인 */
+		       ,A.SP_ITRG_SI_NUM  /* 피의자심문일련번호 */
+		       ,A.SP_ITRG_PSTR_NM  /* 피의자심문검사명 */
+               ,DECODE(A.SP_ITRG_RCPT_DT,NULL,'',SUBSTR(A.SP_ITRG_RCPT_DT,1,4)||'.'|| SUBSTR(A.SP_ITRG_RCPT_DT,5,2) ||'.'||SUBSTR(A.SP_ITRG_RCPT_DT,7,2)||'  '||SUBSTR(A.SP_ITRG_RCPT_DT,9,2)||'시'||SUBSTR(A.SP_ITRG_RCPT_DT,11,2)||'분') AS SP_ITRG_RCPT_DT  /* 피의자심문접수일시 */
+               ,A.SP_ITRG_APLT_TITL  /* 피의자심문접수자관직 */
+       		   ,A.SP_ITRG_APLT_NM  /* 피의자심문접수자성명 */
+               ,DECODE(A.SP_ITRG_ARST_DT,NULL,'',SUBSTR(A.SP_ITRG_ARST_DT,1,4)||'.'|| SUBSTR(A.SP_ITRG_ARST_DT,5,2) ||'.'||SUBSTR(A.SP_ITRG_ARST_DT,7,2)||'  '||SUBSTR(A.SP_ITRG_ARST_DT,9,2)||'시'||SUBSTR(A.SP_ITRG_ARST_DT,11,2)||'분') AS SP_ITRG_ARST_DT  /* 피의자심문구인일시*/
+		       ,DECODE(A.VALD_PI,NULL,'',SUBSTR(A.VALD_PI,1,4)||'.'|| SUBSTR(A.VALD_PI,5,2) ||'.'||SUBSTR(A.VALD_PI,7,2)) AS VALD_PI  /* 유효기간 */
+               ,DECODE(A.RELS_DT,NULL,'',SUBSTR(A.RELS_DT,1,4)||'.'|| SUBSTR(A.RELS_DT,5,2) ||'.'||SUBSTR(A.RELS_DT,7,2)) AS RELS_DT  /* 석방연월일 */ 
+		       ,A.RELS_RSN  /* 석방사유 */
+               ,DECODE(A.ARST_WRNT_RETN,NULL,'',SUBSTR(A.ARST_WRNT_RETN,1,4)||'.'|| SUBSTR(A.ARST_WRNT_RETN,5,2) ||'.'||SUBSTR(A.ARST_WRNT_RETN,7,2)) AS ARST_WRNT_RETN  /* 반환 */
+		       ,A.ARST_WRNT_COMN  /* 비고 */
+		       ,A.REG_USER_ID AS REG_USER_ID /* 등록자 */
+		FROM SJPB_ARST_WRNT_REQ_BK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		LEFT JOIN CODEBASE C ON C.CODE_ID = 'SJPB_00028' AND C.CODE = A.CATH_TP_CD AND C.SYSTEM_CODE ='PT' AND C.LANG_KND='ko'
+		JOIN SJPB_INC_MAST D ON D.RCPT_NUM = A.RCPT_NUM
+		WHERE A.ARST_WRNT_REQ_BK_NUM = #arstWrntReqBkNum#
+ 	</select>
+ 	
+ 	<select id="M0103.SJPB_ARST_WRNT_REQ_BK_DOC.prnCheckReport" resultMap="M0103VO.report">  /* M0103.SJPB_ARST_WRNT_REQ_BK_DOC.prnCheckReport */
+ 		SELECT A.ARST_WRNT_REQ_BK_NUM  /* 구속영장신청부번호 */
+ 			   ,A.PRGS_NUM /*진행번호*/
+		       ,D.RCPT_INC_NUM /* 사건번호 */
+		       ,CASE WHEN REGEXP_SUBSTR(D.RCPT_INC_NUM,'[^,]+',1,2) is NOT NULL THEN REGEXP_SUBSTR(REGEXP_SUBSTR(D.RCPT_INC_NUM,'[^,]+',1,2),'[^-]+',1,1) ||'년 형제'||REGEXP_SUBSTR(REGEXP_SUBSTR(D.RCPT_INC_NUM,'[^,]+',1,2),'[^-]+',1,2)||'호' END AS MERGE_RCPT_INC_NUM
+               ,A.CHIF_PSTR  /* 주임검사 */
+		       ,A.REQ_OFIC  /* 신청관서 */
+		       ,B.SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) 
+		        AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */  
+		       ,DECODE(A.CATH_DT,NULL,'',SUBSTR(A.CATH_DT,1,4)||'.'|| SUBSTR(A.CATH_DT,5,2) ||'.'||SUBSTR(A.CATH_DT,7,2))||'  '||SUBSTR(A.CATH_DT,9,2)||'시'||SUBSTR(A.CATH_DT,11,2)||'분' AS CATH_DT/* 체포일시 */
+		       ,A.CATH_TP_CD  /* 체포유형코드 */
+		       ,C.CODE_NAME||'(진행번호 '||LPAD(NVL(A.CATH_PRGS_NUM,' '),4) ||')' AS CATH_TP_CD_DESC  /* 체포유형 */
+		       ,DECODE(A.WRNT_PSTR_RJCT_DT,NULL,'',SUBSTR(A.WRNT_PSTR_RJCT_DT,1,4)||'.'|| SUBSTR(A.WRNT_PSTR_RJCT_DT,5,2) ||'.'||SUBSTR(A.WRNT_PSTR_RJCT_DT,7,2)||'  '||SUBSTR(A.WRNT_PSTR_RJCT_DT,9,2)||'시'||SUBSTR(A.WRNT_PSTR_RJCT_DT,11,2)||'분') AS WRNT_PSTR_RJCT_DT  /* 영장검사기각일시 */
+               ,DECODE(A.WRNT_JUDG_RJCT_DT,NULL,'',SUBSTR(A.WRNT_JUDG_RJCT_DT,1,4)||'.'|| SUBSTR(A.WRNT_JUDG_RJCT_DT,5,2) ||'.'||SUBSTR(A.WRNT_JUDG_RJCT_DT,7,2)||'  '||SUBSTR(A.WRNT_JUDG_RJCT_DT,9,2)||'시'||SUBSTR(A.WRNT_JUDG_RJCT_DT,11,2)||'분') AS WRNT_JUDG_RJCT_DT  /* 영장판사기각일시 */
+               ,DECODE(A.WRNT_ISUE_DT,NULL,'',SUBSTR(A.WRNT_ISUE_DT,1,4)||'.'|| SUBSTR(A.WRNT_ISUE_DT,5,2) ||'.'||SUBSTR(A.WRNT_ISUE_DT,7,2)||'  '||SUBSTR(A.WRNT_ISUE_DT,9,2)||'시'||SUBSTR(A.WRNT_ISUE_DT,11,2)||'분') AS WRNT_ISUE_DT  /* 영장발부일시 */
+               ,DECODE(A.WRNT_RE_REQ_DT,NULL,'',SUBSTR(A.WRNT_RE_REQ_DT,1,4)||'.'|| SUBSTR(A.WRNT_RE_REQ_DT,5,2) ||'.'||SUBSTR(A.WRNT_RE_REQ_DT,7,2)||'  '||SUBSTR(A.WRNT_RE_REQ_DT,9,2)||'시'||SUBSTR(A.WRNT_RE_REQ_DT,11,2)||'분') AS WRNT_RE_REQ_DT  /* 영장재신청일시 */
+               ,DECODE(A.WRNT_RE_REQ_PSTR_RJCT_DT,NULL,'',SUBSTR(A.WRNT_RE_REQ_PSTR_RJCT_DT,1,4)||'.'|| SUBSTR(A.WRNT_RE_REQ_PSTR_RJCT_DT,5,2) ||'.'||SUBSTR(A.WRNT_RE_REQ_PSTR_RJCT_DT,7,2)||'  '||SUBSTR(A.WRNT_RE_REQ_PSTR_RJCT_DT,9,2)||'시'||SUBSTR(A.WRNT_RE_REQ_PSTR_RJCT_DT,11,2)||'분') AS WRNT_RE_REQ_PSTR_RJCT_DT  /* 영장재신청검사기각일시 */
+               ,DECODE(A.WRNT_RE_REQ_JUDG_RJCT_DT,NULL,'',SUBSTR(A.WRNT_RE_REQ_JUDG_RJCT_DT,1,4)||'.'|| SUBSTR(A.WRNT_RE_REQ_JUDG_RJCT_DT,5,2) ||'.'||SUBSTR(A.WRNT_RE_REQ_JUDG_RJCT_DT,7,2)||'  '||SUBSTR(A.WRNT_RE_REQ_JUDG_RJCT_DT,9,2)||'시'||SUBSTR(A.WRNT_RE_REQ_JUDG_RJCT_DT,11,2)||'분') AS WRNT_RE_REQ_JUDG_RJCT_DT  /* 영장재신청판사기각일시 */
+               ,DECODE(A.WRNT_RE_REQ_ISUE_DT,NULL,'',SUBSTR(A.WRNT_RE_REQ_ISUE_DT,1,4)||'.'|| SUBSTR(A.WRNT_RE_REQ_ISUE_DT,5,2) ||'.'||SUBSTR(A.WRNT_RE_REQ_ISUE_DT,7,2)||'  '||SUBSTR(A.WRNT_RE_REQ_ISUE_DT,9,2)||'시'||SUBSTR(A.WRNT_RE_REQ_ISUE_DT,11,2)||'분') AS WRNT_RE_REQ_ISUE_DT  /* 영장재신청발부일시 */
+               ,A.SP_ITRG_APLT  /* 피의자심문신청인 */
+		       ,A.SP_ITRG_SI_NUM  /* 피의자심문일련번호 */
+		       ,A.SP_ITRG_PSTR_NM  /* 피의자심문검사명 */
+               ,DECODE(A.SP_ITRG_RCPT_DT,NULL,'',SUBSTR(A.SP_ITRG_RCPT_DT,1,4)||'.'|| SUBSTR(A.SP_ITRG_RCPT_DT,5,2) ||'.'||SUBSTR(A.SP_ITRG_RCPT_DT,7,2)||'  '||SUBSTR(A.SP_ITRG_RCPT_DT,9,2)||'시'||SUBSTR(A.SP_ITRG_RCPT_DT,11,2)||'분') AS SP_ITRG_RCPT_DT  /* 피의자심문접수일시 */
+               ,A.SP_ITRG_APLT_TITL  /* 피의자심문접수자관직 */
+       		   ,A.SP_ITRG_APLT_NM  /* 피의자심문접수자성명 */
+               ,DECODE(A.SP_ITRG_ARST_DT,NULL,'',SUBSTR(A.SP_ITRG_ARST_DT,1,4)||'.'|| SUBSTR(A.SP_ITRG_ARST_DT,5,2) ||'.'||SUBSTR(A.SP_ITRG_ARST_DT,7,2)||'  '||SUBSTR(A.SP_ITRG_ARST_DT,9,2)||'시'||SUBSTR(A.SP_ITRG_ARST_DT,11,2)||'분') AS SP_ITRG_ARST_DT  /* 피의자심문구인일시*/
+		       ,DECODE(A.VALD_PI,NULL,'',SUBSTR(A.VALD_PI,1,4)||'.'|| SUBSTR(A.VALD_PI,5,2) ||'.'||SUBSTR(A.VALD_PI,7,2)) AS VALD_PI  /* 유효기간 */
+               ,DECODE(A.RELS_DT,NULL,'',SUBSTR(A.RELS_DT,1,4)||'.'|| SUBSTR(A.RELS_DT,5,2) ||'.'||SUBSTR(A.RELS_DT,7,2)) AS RELS_DT  /* 석방연월일 */ 
+		       ,A.RELS_RSN  /* 석방사유 */
+               ,DECODE(A.ARST_WRNT_RETN,NULL,'',SUBSTR(A.ARST_WRNT_RETN,1,4)||'.'|| SUBSTR(A.ARST_WRNT_RETN,5,2) ||'.'||SUBSTR(A.ARST_WRNT_RETN,7,2)) AS ARST_WRNT_RETN  /* 반환 */
+		       ,A.ARST_WRNT_COMN  /* 비고 */
+		       ,A.REG_USER_ID AS REG_USER_ID /* 등록자 */
+		FROM SJPB_ARST_WRNT_REQ_BK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		LEFT JOIN CODEBASE C ON C.CODE_ID = 'SJPB_00028' AND C.CODE = A.CATH_TP_CD AND C.SYSTEM_CODE ='PT' AND C.LANG_KND='ko'
+		JOIN SJPB_INC_MAST D ON D.RCPT_NUM = A.RCPT_NUM
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="arstWrntReqBkNumList" prepend="AND">
+				<iterate property="arstWrntReqBkNumList" open="A.ARST_WRNT_REQ_BK_NUM IN(" close=")" conjunction=",">
+					 #arstWrntReqBkNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	<resultMap class="com.saltware.enface.sjpb.M.service.M0101SC" id="M0103.minHour">
+ 		<result property="code" column="CODE"/>
+ 	</resultMap>
+ 	<select id="M0103.selectHour" resultMap="M0103.minHour">
+		SELECT CODE
+		FROM CODEBASE
+		WHERE CODE_ID = 'SJPB_HOUR' AND CODE NOT IN ('0000000000')
+		ORDER BY TO_NUMBER(CODE)
+	</select>
+	
+	<select id="M0103.selectMin" resultMap="M0103.minHour">
+		SELECT CODE
+		FROM CODEBASE
+		WHERE CODE_ID = 'SJPB_MIN' AND CODE NOT IN ('0000000000')
+		ORDER BY TO_NUMBER(CODE)
+	</select>
+</sqlMap>

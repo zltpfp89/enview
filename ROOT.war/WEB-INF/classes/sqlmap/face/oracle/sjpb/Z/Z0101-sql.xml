@@ -1,0 +1,2241 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="face">
+
+	<!-- 피의자 -->
+	<resultMap id="Z0101.IncSpVO" class="com.saltware.enface.sjpb.Z.service.IncSpVO">
+		<result property="incSpNum" column="INC_SP_NUM" />
+		<result property="rcptNum" column="RCPT_NUM" />
+		<result property="spTpCd" column="SP_TP_CD" />
+		<result property="spIdNum" column="SP_ID_NUM" />
+		<result property="indvCorpDiv" column="INDV_CORP_DIV" />
+		<result property="homcForcPernDiv" column="HOMC_FORC_PERN_DIV" />
+		<result property="gendDiv" column="GEND_DIV" />
+		<result property="spNm" column="SP_NM" />
+		<result property="spAddr" column="SP_ADDR" />
+		<result property="spCnttNum" column="SP_CNTT_NUM" />
+		<result property="incSpComn" column="INC_SP_COMN" />
+		<result property="inqOrd" column="INQ_ORD" />
+		
+		<result property="spInqCd" column="SP_INQ_CD"/>
+		<result property="cathWrnt" column="CATH_WRNT"/>   
+		<result property="emgyCath" column="EMGY_CATH"/>
+		<result property="flgtOfdrCath" column="FLGT_OFDR_CATH"/>
+		<result property="arstWrnt" column="ARST_WRNT"/>
+		<result property="inchDetn" column="INCH_DETN"/>
+		
+		<result property="spJob" column="SP_JOB" />
+		<result property="spBsnsNm" column="SP_BSNS_NM" />
+		
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+
+		<result property="spTpCdDesc" column="SP_TP_CD_DESC" />
+		<result property="indvCorpDivDesc" column="INDV_CORP_DIV_DESC" />
+		<result property="homcForcPernDivDesc" column="HOMC_FORC_PERN_DIV_DESC" />
+		<result property="gendDivDesc" column="GEND_DIV_DESC" />
+
+		<result property="incNum" column="INC_NUM" />
+		
+		<result property="crlwNum" column="CRLW_NUM"/>
+		<result property="poDipDt" column="PO_DIP_DT"/>
+		<result property="jdtFiDt" column="JDT_FI_DT"/>
+		
+		<result property="incText" column="INC_TEXT"/>
+		<result property="proRst" column="PRO_RST"/>
+		<result property="incComn" column="INC_COMN"/>
+		<result property="unprofit" column="UNPROFIT"/>
+	</resultMap>
+	<!-- 피의자정보 가져오기(List) -->
+	<select id="Z0101.SJPB_INC_SP.list" resultMap="Z0101.IncSpVO">
+		/* Z0101.SJPB_INC_SP.list */
+		<![CDATA[			
+			SELECT DISTINCT
+			 	A.INC_SP_NUM              /*사건피의자번호*/
+                ,A.RCPT_NUM               /*접수번호*/
+                ,A.SP_TP_CD               /*피의자유형코드*/
+                ,A.SP_ID_NUM AS SP_ID_NUM	/*피의자식별번호*/
+                ,A.INDV_CORP_DIV          /*법인개인구분*/
+                ,A.HOMC_FORC_PERN_DIV     /*내외국인구분*/
+                ,A.GEND_DIV               /*성별구분*/
+                ,A.SP_NM AS SP_NM				/*피의자명*/
+                ,A.SP_ADDR AS SP_ADDR			/*주소*/
+                ,A.SP_CNTT_NUM AS SP_CNTT_NUM	/*연락처*/
+                ,A.INC_SP_COMN            /*사건피의자참고사항*/
+                ,A.INQ_ORD                /*조회순서*/
+                ,A.SP_JOB AS SP_JOB				/*직업*/
+                ,A.SP_BSNS_NM AS SP_BSNS_NM		/*업소명*/
+                ,A.SP_INQ_CD	/*피의자조회코드*/
+                ,A.CATH_WRNT	/*체포영장*/
+                ,A.EMGY_CATH	/*긴급체포*/
+                ,A.FLGT_OFDR_CATH	/*현행범인체포*/
+                ,A.ARST_WRNT	/*구속영장*/
+                ,A.INCH_DETN	/*인치구금*/
+                ,A.CRLW_NUM		/*형제번호*/
+                ,A.PO_DIP_DT	/*검사처분일시*/
+                ,A.JDT_FI_DT	/*판결확정일시*/
+                ,A.REG_USER_ID            /*등록자*/
+                ,A.REG_DATE               /*등록일자*/
+                ,A.UPD_USER_ID            /*수정자*/
+                ,A.UPD_DATE               /*수정일자*/
+                ,B.CODE_NAME AS SP_TP_CD_DESC   /*피의자유형코드설명*/
+                ,C.CODE_NAME AS INDV_CORP_DIV_DESC   /*피의자유형코드설명*/
+                ,D.CODE_NAME AS HOMC_FORC_PERN_DIV_DESC   /*내외국인설명*/
+                ,E.CODE_NAME AS GEND_DIV_DESC   /*성별설명*/
+                ,G.INC_NUM					/*사건번호*/
+                ,A.INC_TEXT					/* 내사할사항 */
+                ,A.PRO_RST					/* 처리결과 */
+                ,A.INC_COMN					/* 비고 */
+                ,A.UNPROFIT					/* 부당이득 */
+			FROM SJPB_INC_SP A		
+			LEFT OUTER JOIN CODEBASE B ON A.SP_TP_CD = B.CODE AND B.CODE_ID = 'SJPB_00006'	
+			LEFT OUTER JOIN CODEBASE C ON A.INDV_CORP_DIV = C.CODE AND C.CODE_ID = 'SJPB_00007'	
+			LEFT OUTER JOIN CODEBASE D ON A.HOMC_FORC_PERN_DIV = D.CODE AND D.CODE_ID = 'SJPB_00008'	
+			LEFT OUTER JOIN CODEBASE E ON A.GEND_DIV = E.CODE AND E.CODE_ID = 'SJPB_00009'
+			LEFT OUTER JOIN SJPB_INC_MAST F ON A.RCPT_NUM = F.RCPT_NUM
+			JOIN SJPB_INC_DTS G ON A.RCPT_NUM = G.RCPT_NUM
+			WHERE 
+				A.SP_TP_CD = #spTpCd#
+				AND A.SP_STAT_CD = '1'
+			START WITH F.RCPT_NUM = #rcptNum#
+            CONNECT BY PRIOR F.RCPT_NUM = F.PARE_RCPT_NUM  
+			ORDER BY A.RCPT_NUM , A.INQ_ORD ASC
+		]]>
+	</select>
+	
+	<!-- 사건수정 피의자정보 가져오기 화면노출 (List) -->
+	<select id="Z0101.SJPB_INC_SP_MF_VIEW.list" resultMap="Z0101.IncSpVO">
+		/* Z0101.SJPB_INC_SP_MF_VIEW.list */
+		<![CDATA[			
+			SELECT 
+			 	A.INC_SP_NUM              /*사건피의자번호*/
+                ,A.RCPT_NUM               /*접수번호*/
+                ,A.SP_TP_CD               /*피의자유형코드*/
+                , A.SP_ID_NUM) AS SP_ID_NUM	/*피의자식별번호*/
+                ,A.INDV_CORP_DIV          /*법인개인구분*/
+                ,A.HOMC_FORC_PERN_DIV     /*내외국인구분*/
+                ,A.GEND_DIV               /*성별구분*/
+                ,A.SP_NM AS SP_NM				/*피의자명*/
+                ,A.SP_ADDR AS SP_ADDR			/*주소*/
+                ,A.SP_CNTT_NUM AS SP_CNTT_NUM	/*연락처*/
+                ,A.INC_SP_COMN            /*사건피의자참고사항*/
+                ,A.INQ_ORD                /*조회순서*/
+                ,A.SP_JOB AS SP_JOB				/*직업*/
+                ,A.SP_BSNS_NM AS SP_BSNS_NM		/*업소명*/
+                ,A.SP_INQ_CD	/*피의자조회코드*/
+                ,A.CATH_WRNT	/*체포영장*/
+                ,A.EMGY_CATH	/*긴급체포*/
+                ,A.FLGT_OFDR_CATH	/*현행범인체포*/
+                ,A.ARST_WRNT	/*구속영장*/
+                ,A.INCH_DETN	/*인치구금*/
+                ,A.CRLW_NUM		/*형제번호*/
+                ,A.PO_DIP_DT	/*검사처분일시*/
+                ,A.JDT_FI_DT	/*판결확정일시*/
+                ,A.REG_USER_ID            /*등록자*/
+                ,A.REG_DATE               /*등록일자*/
+                ,A.UPD_USER_ID            /*수정자*/
+                ,A.UPD_DATE               /*수정일자*/
+                ,B.CODE_NAME AS SP_TP_CD_DESC   /*피의자유형코드설명*/
+                ,C.CODE_NAME AS INDV_CORP_DIV_DESC   /*피의자유형코드설명*/
+                ,D.CODE_NAME AS HOMC_FORC_PERN_DIV_DESC   /*내외국인설명*/
+                ,E.CODE_NAME AS GEND_DIV_DESC   /*성별설명*/
+                ,G.INC_NUM					/*사건번호*/
+                ,A.INC_TEXT					/* 내사할사항 */
+                ,A.PRO_RST					/* 처리결과 */
+                ,A.INC_COMN					/* 비고 */
+                ,A.UNPROFIT					/* 부당이득*/
+			FROM SJPB_INC_SP_MF A		
+			LEFT OUTER JOIN CODEBASE B ON A.SP_TP_CD = B.CODE AND B.CODE_ID = 'SJPB_00006'	
+			LEFT OUTER JOIN CODEBASE C ON A.INDV_CORP_DIV = C.CODE AND C.CODE_ID = 'SJPB_00007'	
+			LEFT OUTER JOIN CODEBASE D ON A.HOMC_FORC_PERN_DIV = D.CODE AND D.CODE_ID = 'SJPB_00008'	
+			LEFT OUTER JOIN CODEBASE E ON A.GEND_DIV = E.CODE AND E.CODE_ID = 'SJPB_00009'
+			LEFT OUTER JOIN SJPB_INC_MAST F ON A.RCPT_NUM = F.RCPT_NUM
+			JOIN SJPB_INC_DTS G ON A.RCPT_NUM = G.RCPT_NUM
+			WHERE A.INC_MF_NUM = #incMfNum#
+			ORDER BY A.RCPT_NUM , A.INQ_ORD ASC
+		]]>
+	</select>
+	
+	<!-- 내사 사건수정 피의자정보 가져오기 화면노출 (List) -->
+	<select id="Z0101.SJPB_INC_SP_MF_INTI_VIEW.list" resultMap="Z0101.IncSpVO">
+		/* Z0101.SJPB_INC_SP_MF_INTI_VIEW.list */
+		<![CDATA[			
+			SELECT 
+			 	A.INC_SP_NUM              /*사건피의자번호*/
+                ,A.RCPT_NUM               /*접수번호*/
+                ,A.SP_TP_CD               /*피의자유형코드*/
+                , A.SP_ID_NUM AS SP_ID_NUM	/*피의자식별번호*/
+                ,A.INDV_CORP_DIV          /*법인개인구분*/
+                ,A.HOMC_FORC_PERN_DIV     /*내외국인구분*/
+                ,A.GEND_DIV               /*성별구분*/
+                ,A.SP_NM AS SP_NM				/*피의자명*/
+                ,A.SP_ADDR AS SP_ADDR			/*주소*/
+                ,A.SP_CNTT_NUM AS SP_CNTT_NUM	/*연락처*/
+                ,A.INC_SP_COMN            /*사건피의자참고사항*/
+                ,A.INQ_ORD                /*조회순서*/
+                ,A.SP_JOB AS SP_JOB				/*직업*/
+                ,A.SP_BSNS_NM AS SP_BSNS_NM		/*업소명*/
+                ,A.SP_INQ_CD	/*피의자조회코드*/
+                ,A.CATH_WRNT	/*체포영장*/
+                ,A.EMGY_CATH	/*긴급체포*/
+                ,A.FLGT_OFDR_CATH	/*현행범인체포*/
+                ,A.ARST_WRNT	/*구속영장*/
+                ,A.INCH_DETN	/*인치구금*/
+                ,A.CRLW_NUM		/*형제번호*/
+                ,A.PO_DIP_DT	/*검사처분일시*/
+                ,A.JDT_FI_DT	/*판결확정일시*/
+                ,A.REG_USER_ID            /*등록자*/
+                ,A.REG_DATE               /*등록일자*/
+                ,A.UPD_USER_ID            /*수정자*/
+                ,A.UPD_DATE               /*수정일자*/
+                ,B.CODE_NAME AS SP_TP_CD_DESC   /*피의자유형코드설명*/
+                ,C.CODE_NAME AS INDV_CORP_DIV_DESC   /*피의자유형코드설명*/
+                ,D.CODE_NAME AS HOMC_FORC_PERN_DIV_DESC   /*내외국인설명*/
+                ,E.CODE_NAME AS GEND_DIV_DESC   /*성별설명*/
+                ,G.INTI_NUM AS INC_NUM    /*내사사건번호*/
+                ,A.INC_TEXT					/* 내사할사항 */
+                ,A.PRO_RST					/* 처리결과 */
+                ,A.INC_COMN					/* 비고 */
+                ,A.UNPROFIT					/* 부당이득 */
+			FROM SJPB_INC_SP_MF A		
+			LEFT OUTER JOIN CODEBASE B ON A.SP_TP_CD = B.CODE AND B.CODE_ID = 'SJPB_00006'	
+			LEFT OUTER JOIN CODEBASE C ON A.INDV_CORP_DIV = C.CODE AND C.CODE_ID = 'SJPB_00007'	
+			LEFT OUTER JOIN CODEBASE D ON A.HOMC_FORC_PERN_DIV = D.CODE AND D.CODE_ID = 'SJPB_00008'	
+			LEFT OUTER JOIN CODEBASE E ON A.GEND_DIV = E.CODE AND E.CODE_ID = 'SJPB_00009'
+			LEFT OUTER JOIN SJPB_INC_MAST F ON A.RCPT_NUM = F.RCPT_NUM
+			JOIN SJPB_INTI_INC_DTS G ON A.RCPT_NUM = G.RCPT_NUM
+			WHERE A.INC_MF_NUM = #incMfNum#
+			ORDER BY A.RCPT_NUM , A.INQ_ORD ASC
+		]]>
+	</select>
+	
+	
+	<!-- 피의자 -->
+	<resultMap id="Z0101.IncSpMfVO" class="com.saltware.enface.sjpb.Z.service.IncSpVO">
+		<result property="incMfNum" column="INC_MF_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="spTpCd" column="SP_TP_CD"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="indvCorpDiv" column="INDV_CORP_DIV"/>
+		<result property="homcForcPernDiv" column="HOMC_FORC_PERN_DIV"/>
+		<result property="gendDiv" column="GEND_DIV"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="spCnttNum" column="SP_CNTT_NUM"/>
+		<result property="incSpComn" column="INC_SP_COMN"/>
+		<result property="inqOrd" column="INQ_ORD"/>
+		<result property="spStsGrapNum" column="SP_STS_GRAP_NUM"/>
+		<result property="spStatCd" column="SP_STAT_CD"/>
+		<result property="spInqCd" column="SP_INQ_CD"/>
+		<result property="cathWrnt" column="CATH_WRNT"/>
+		<result property="emgyCath" column="EMGY_CATH"/>
+		<result property="flgtOfdrCath" column="FLGT_OFDR_CATH"/>
+		<result property="arstWrnt" column="ARST_WRNT"/>
+		<result property="inchDetn" column="INCH_DETN"/>
+		<result property="relsDt" column="RELS_DT"/>
+		<result property="relsRsn" column="RELS_RSN"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="spBsnsNm" column="SP_BSNS_NM"/>
+		<result property="crlwNum" column="CRLW_NUM"/>
+		<result property="poDipDt" column="PO_DIP_DT"/>
+		<result property="jdtFiDt" column="JDT_FI_DT"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="updateCd" column="UPDATE_CD"/>
+	</resultMap>
+	<!-- 사건수정 피의자정보 가져오기 (List) -->
+	<select id="Z0101.SJPB_INC_SP_MF.list" resultMap="Z0101.IncSpMfVO">
+		/* Z0101.SJPB_INC_SP_MF.list */
+		<![CDATA[			
+			SELECT 
+			 	A.INC_MF_NUM
+				,A.INC_SP_NUM
+				,A.RCPT_NUM
+				,A.SP_TP_CD
+				,A.SP_ID_NUM AS SP_ID_NUM	/*피의자식별번호*/
+				,A.INDV_CORP_DIV
+				,A.HOMC_FORC_PERN_DIV
+				,A.GEND_DIV
+				,A.SP_NM AS SP_NM				/*피의자명*/
+				,A.SP_ADDR AS SP_ADDR			/*주소*/
+				,A.SP_CNTT_NUM AS SP_CNTT_NUM	/*연락처*/
+				,A.INC_SP_COMN
+				,A.INQ_ORD
+				,A.SP_STS_GRAP_NUM
+				,A.SP_STAT_CD
+				,A.SP_INQ_CD
+				,A.CATH_WRNT
+				,A.EMGY_CATH
+				,A.FLGT_OFDR_CATH
+				,A.ARST_WRNT
+				,A.INCH_DETN
+				,A.RELS_DT
+				,A.RELS_RSN
+				,A.SP_JOB AS SP_JOB				/*직업*/
+				,A.SP_BSNS_NM AS SP_BSNS_NM		/*업소명*/
+				,A.CRLW_NUM
+				,A.PO_DIP_DT
+				,A.JDT_FI_DT
+				,A.REG_USER_ID
+				,A.REG_DATE
+				,A.UPD_USER_ID
+				,A.UPD_DATE
+				,A.UPD_CD AS UPDATE_CD
+			FROM SJPB_INC_SP_MF A		
+			WHERE A.INC_MF_NUM = #incMfNum#
+		]]>
+	</select>
+	
+
+
+	<!-- 피의자 -->
+	<resultMap id="Z0101VO.SJPB_INC_SP.select" class="com.saltware.enface.sjpb.Z.service.IncSpVO">
+		<result property="incSpNum" column="INC_SP_NUM" />
+		<result property="rcptNum" column="RCPT_NUM" />
+		<result property="spTpCd" column="SP_TP_CD" />
+		<result property="spIdNum" column="SP_ID_NUM" />
+		<result property="indvCorpDiv" column="INDV_CORP_DIV" />
+		<result property="homcForcPernDiv" column="HOMC_FORC_PERN_DIV" />
+		<result property="gendDiv" column="GEND_DIV" />
+		<result property="spNm" column="SP_NM" />
+		<result property="spAddr" column="SP_ADDR" />
+		<result property="spCnttNum" column="SP_CNTT_NUM" />
+		<result property="incSpComn" column="INC_SP_COMN" />
+		<result property="inqOrd" column="INQ_ORD" />
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+	</resultMap>
+	<!-- 피의자정보 가져오기 -->
+	<select id="Z0101.SJPB_INC_SP.select" resultMap="Z0101VO.SJPB_INC_SP.select">
+		/* Z0101.SJPB_INC_SP.select */
+		<![CDATA[			
+			SELECT
+			 	A.INC_SP_NUM              /*사건피의자번호*/
+                ,A.RCPT_NUM               /*접수번호*/
+                ,A.SP_TP_CD               /*피의자유형코드*/
+                ,A.SP_ID_NUM AS SP_ID_NUM	/*피의자식별번호*/
+                ,A.INDV_CORP_DIV          /*법인개인구분*/
+                ,A.HOMC_FORC_PERN_DIV     /*내외국인구분*/
+                ,A.GEND_DIV               /*성별구분*/
+                ,A.SP_NM AS SP_NM				/*피의자명*/
+                ,A.SP_ADDR AS SP_ADDR			/*주소*/
+                ,A.SP_CNTT_NUM AS SP_CNTT_NUM	/*연락처*/
+                ,A.INC_SP_COMN            /*사건피의자참고사항*/
+                ,A.INQ_ORD                /*조회순서*/
+                ,A.REG_USER_ID            /*등록자*/
+                ,A.REG_DATE               /*등록일자*/
+                ,A.UPD_USER_ID            /*수정자*/
+                ,A.UPD_DATE               /*수정일자*/
+			FROM SJPB_INC_SP A		
+			WHERE 
+				A.INC_SP_NUM = #incSpNum#
+		]]>
+	</select>
+
+	<!-- 법률위반 -->
+	<resultMap id="Z0101.ActVioVO" class="com.saltware.enface.sjpb.Z.service.ActVioVO">
+		<result property="incSpNum" column="INC_SP_NUM" />
+		<result property="rcptNum" column="RCPT_NUM" />
+		<result property="actVioNum" column="ACT_VIO_NUM" />
+		<result property="rltActCriNmCd" column="RLT_ACT_CRI_NM_CD" />
+		<result property="vioCont" column="VIO_CONT" />
+		<result property="actVioClaNm" column="ACT_VIO_CLA_NM" />
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC" />
+	</resultMap>
+	<!-- 법률위반정보 가져오기 -->
+	<select id="Z0101.SJPB_ACT_VIO.list" resultMap="Z0101.ActVioVO">
+		/* Z0101.SJPB_ACT_VIO.list */
+		<![CDATA[		
+			SELECT 
+			    A.INC_SP_NUM							/*사건피의자번호*/
+			    ,C.RCPT_NUM								/*접수번호*/
+			    ,A.ACT_VIO_NUM							/*법률위반번호*/
+			    ,A.RLT_ACT_CRI_NM_CD					/*관련법률및죄명코드*/
+			    ,A.VIO_CONT								/*위반내용*/
+			    ,A.INQ_ORD								/*조회순서*/
+			    ,A.ACT_VIO_CLA_NM
+			    ,A.REG_USER_ID							/*등록자*/
+			    ,A.REG_DATE								/*등록일자*/
+			    ,A.UPD_USER_ID							/*수정자*/
+			    ,A.UPD_DATE								/*수정일자*/
+			    ,B.CODE_NAME AS RLT_ACT_CRI_NM_CD_DESC	/*관련법률및죄명코드설명*/
+			FROM SJPB_ACT_VIO A
+			LEFT OUTER JOIN CODEBASE B ON A.RLT_ACT_CRI_NM_CD = B.CODE AND B.CODE_ID = 'SJPB_00012'
+			JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM AND C.SP_STAT_CD = '1'
+			WHERE A.INC_SP_NUM = #incSpNum#
+				AND A.ACT_VIO_STAT_CD = '1'
+			ORDER BY A.INQ_ORD ASC
+		]]>
+	</select>
+	
+	<!-- 사건수정 법률위반정보 가져오기 (화면 노출을 위함) -->
+	<select id="Z0101.SJPB_ACT_VIO_MF_VIEW.list" resultMap="Z0101.ActVioVO">
+		/* Z0101.SJPB_ACT_VIO_MF_VIEW.list */
+		<![CDATA[		
+			SELECT 
+			    A.INC_SP_NUM							/*사건피의자번호*/
+			    ,C.RCPT_NUM								/*접수번호*/
+			    ,A.ACT_VIO_NUM							/*법률위반번호*/
+			    ,A.RLT_ACT_CRI_NM_CD					/*관련법률및죄명코드*/
+			    ,A.VIO_CONT								/*위반내용*/
+			    ,A.INQ_ORD								/*조회순서*/
+			    ,A.REG_USER_ID							/*등록자*/
+			    ,A.REG_DATE								/*등록일자*/
+			    ,A.UPD_USER_ID							/*수정자*/
+			    ,A.UPD_DATE								/*수정일자*/
+			    ,B.CODE_NAME AS RLT_ACT_CRI_NM_CD_DESC	/*관련법률및죄명코드설명*/
+			FROM SJPB_ACT_VIO_MF A
+			LEFT OUTER JOIN CODEBASE B ON A.RLT_ACT_CRI_NM_CD = B.CODE AND B.CODE_ID = 'SJPB_00012'
+			JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM AND C.SP_STAT_CD = '1'
+			WHERE A.INC_MF_NUM = #incMfNum#
+				AND A.INC_SP_NUM = #incSpNum#
+			ORDER BY A.INQ_ORD ASC
+		]]>
+	</select>
+	
+	
+	<!-- 사건수정 법률위반 -->
+	<resultMap id="Z0101.ActVioMfVO" class="com.saltware.enface.sjpb.Z.service.ActVioVO">
+		<result property="actVioNum" column="ACT_VIO_NUM" />
+		<result property="incSpNum" column="INC_SP_NUM" />
+		<result property="rltActCriNmCd" column="RLT_ACT_CRI_NM_CD" />
+		<result property="vioCont" column="VIO_CONT" />
+		<result property="actVioStatCd" column="ACT_VIO_STAT_CD" />
+		<result property="inqOrd" column="INQ_ORD" />
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+		<result property="updateCd" column="UPDATE_CD" />
+		
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC" />
+	</resultMap>
+	<!-- 사건수정 법률위반정보 가져오기 -->
+	<select id="Z0101.SJPB_ACT_VIO_MF.list" resultMap="Z0101.ActVioMfVO">
+		/* Z0101.SJPB_ACT_VIO_MF.list */
+		<![CDATA[		
+			SELECT 
+			    A.INC_SP_NUM							/*사건피의자번호*/
+			    ,A.ACT_VIO_NUM							/*법률위반번호*/
+			    ,A.RLT_ACT_CRI_NM_CD					/*관련법률및죄명코드*/
+			    ,A.VIO_CONT								/*위반내용*/
+			    ,A.ACT_VIO_STAT_CD						/*법률위반상태코드*/
+			    ,A.INQ_ORD								/*조회순서*/
+			    ,A.REG_USER_ID							/*등록자*/
+			    ,A.REG_DATE								/*등록일자*/
+			    ,A.UPD_USER_ID							/*수정자*/
+			    ,A.UPD_DATE								/*수정일자*/
+			    ,A.UPD_CD AS UPDATE_CD					/*수정구분코드*/
+			    ,B.CODE_NAME AS RLT_ACT_CRI_NM_CD_DESC	/*관련법률및죄명코드설명*/
+			FROM SJPB_ACT_VIO_MF A
+			LEFT OUTER JOIN CODEBASE B ON A.RLT_ACT_CRI_NM_CD = B.CODE AND B.CODE_ID = 'SJPB_00012'
+			JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM AND C.SP_STAT_CD = '1'
+			WHERE A.INC_MF_NUM = #incMfNum#
+		]]>
+	</select>
+
+	<!-- 법률위반조항 -->
+	<resultMap id="Z0101.ActVioClaVO"
+		class="com.saltware.enface.sjpb.Z.service.ActVioTypeVO">
+		<result property="incSpNum" column="INC_SP_NUM" />
+		<result property="rcptNum" column="RCPT_NUM" />
+		<result property="actVioNum" column="ACT_VIO_NUM" />
+		<result property="inqOrd" column="INQ_ORD" />
+		<result property="actVioTypeCode" column="ACT_VIO_TYPE_CODE" />
+		<result property="actVioTypeNm" column="ACT_VIO_TYPE_NM" />
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+	</resultMap>
+	<!-- 법률위반조항정보 가져오기 -->
+	<select id="Z0101.SJPB_ACT_VIO_TYPE.list" resultMap="Z0101.ActVioClaVO">
+		/* Z0101.SJPB_ACT_VIO_TYPE.list */
+		<![CDATA[			
+			SELECT 
+			 	C.INC_SP_NUM
+		        ,C.RCPT_NUM
+		        ,A.ACT_VIO_NUM
+		        ,A.INQ_ORD
+		        ,A.ACT_VIO_TYPE_CODE
+		        ,D.CODE_NAME AS ACT_VIO_TYPE_NM
+		        ,A.REG_USER_ID
+		        ,A.REG_DATE
+		        ,A.UPD_USER_ID
+		        ,A.UPD_DATE
+			FROM SJPB_ACT_VIO_TYPE A 
+			JOIN SJPB_ACT_VIO B ON B.ACT_VIO_NUM = A.ACT_VIO_NUM AND B.ACT_VIO_STAT_CD = '1'
+    		JOIN SJPB_INC_SP C ON C.INC_SP_NUM = B.INC_SP_NUM AND C.SP_STAT_CD ='1' 
+    		LEFT OUTER JOIN CODEBASE D ON A.ACT_VIO_TYPE_CODE = D.CODE AND D.CODE_ID = 'SJPB_00085'
+			WHERE A.ACT_VIO_NUM = #actVioNum#
+			ORDER BY A.INQ_ORD ASC
+		]]>
+	</select>
+	<!-- 사건수정 법률위반조항정보 가져오기 -->
+	<select id="Z0101.SJPB_ACT_VIO_CLA_MF_VIEW.list" resultMap="Z0101.ActVioClaVO">
+		/* Z0101.SJPB_ACT_VIO_CLA_MF_VIEW.list */
+		<![CDATA[			
+			SELECT 
+			 	C.INC_SP_NUM
+		        ,C.RCPT_NUM
+		        ,A.ACT_VIO_NUM
+		        ,A.INQ_ORD
+		        ,A.ACT_VIO_TYPE_CODE
+		        ,D.CODE_NAME AS ACT_VIO_TYPE_NM
+		        ,A.REG_USER_ID
+		        ,A.REG_DATE
+		        ,A.UPD_USER_ID
+		        ,A.UPD_DATE
+			FROM SJPB_ACT_VIO_CLA_MF A 
+			JOIN SJPB_ACT_VIO B ON B.ACT_VIO_NUM = A.ACT_VIO_NUM AND B.ACT_VIO_STAT_CD = '1'
+    		JOIN SJPB_INC_SP C ON C.INC_SP_NUM = B.INC_SP_NUM AND C.SP_STAT_CD ='1' 
+			LEFT OUTER JOIN CODEBASE D ON A.ACT_VIO_TYPE_CODE = D.CODE AND D.CODE_ID = 'SJPB_00085'
+			WHERE A.INC_MF_NUM = #incMfNum#
+				AND A.ACT_VIO_NUM = #actVioNum#
+			ORDER BY A.INQ_ORD ASC
+		]]>
+	</select>
+	
+	
+	<!-- 법률위반조항 -->
+	<resultMap id="Z0101.ActVioClaMfVO" class="com.saltware.enface.sjpb.Z.service.ActVioTypeVO">
+		<result property="actVioNum" column="ACT_VIO_NUM" />
+		<result property="inqOrd" column="INQ_ORD" />
+		<result property="actVioClaNm" column="ACT_VIO_CLA_NM" />
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+	</resultMap>
+	<!-- 사건수정 법률위반조항정보 가져오기 -->
+	<select id="Z0101.SJPB_ACT_VIO_CLA_MF.list" resultMap="Z0101.ActVioClaMfVO">
+		/* Z0101.SJPB_ACT_VIO_CLA_MF.list */
+		<![CDATA[			
+			SELECT 
+			 	A.ACT_VIO_NUM           
+		        ,A.INQ_ORD           
+		        ,A.ACT_VIO_CLA_NM           
+		        ,A.REG_USER_ID           
+		        ,A.REG_DATE           
+		        ,A.UPD_USER_ID           
+		        ,A.UPD_DATE
+			FROM SJPB_ACT_VIO_CLA_MF A 
+			WHERE A.INC_MF_NUM = #incMfNum#
+				AND A.ACT_VIO_NUM = #actVioNum#
+		]]>
+	</select>
+
+	<!-- 수사사건자료 조회 -->
+	<resultMap id="Z0101.CriIncDtaVO"
+		class="com.saltware.enface.sjpb.Z.service.CriIncDtaVO">
+		<result property="criDtaNum" column="CRI_DTA_NUM" />
+		<result property="rcptNum" column="RCPT_NUM" />
+		<result property="criDtaCatgCd" column="CRI_DTA_CATG_CD" />
+		<result property="criReptCont" column="CRI_REPT_CONT" />
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+		<result property="recdType" column="RECD_TYPE" />
+	</resultMap>
+
+	<!-- 수사사건자료 추가 -->
+	<insert id="Z0101.SJPB_CRI_INC_DTA.insert">
+		/* Z0101.SJPB_CRI_INC_DTA.insert */
+		<![CDATA[
+			INSERT INTO SJPB_CRI_INC_DTA (CRI_DTA_NUM,RCPT_NUM,CRI_DTA_CATG_CD,CRI_REPT_CONT,REG_USER_ID,REG_DATE,UPD_USER_ID,UPD_DATE) VALUES 
+			(#criDtaNum#,#rcptNum#,#criDtaCatgCd#,#criReptCont#,#regUserId#,SYSDATE,#updUserId#,SYSDATE)
+		]]>
+	</insert>
+
+	<!-- 수사사건자료 갱신 -->
+	<update id="Z0101.SJPB_CRI_INC_DTA.update">
+		/* Z0101.SJPB_CRI_INC_DTA.update */
+		<![CDATA[	
+			UPDATE SJPB_CRI_INC_DTA			
+			SET CRI_DTA_CATG_CD=#criDtaCatgCd#,CRI_REPT_CONT=#criReptCont#,UPD_USER_ID=#updUserId#,UPD_DATE=SYSDATE
+			WHERE CRI_DTA_NUM=#criDtaNum#
+				AND RCPT_NUM=#rcptNum#
+		]]>
+	</update>
+
+	<!-- 수사사건자료파일 추가 -->
+	<insert id="Z0101.SJPB_CRI_INC_DTA_FILE.insert">
+		/* Z0101.SJPB_CRI_INC_DTA_FILE.insert */
+		<![CDATA[
+			INSERT INTO SJPB_CRI_INC_DTA_FILE (CRI_DTA_NUM,ATCH_FILE_ID,ATCH_FILE_ORD,REG_USER_ID,REG_DATE,UPD_USER_ID,UPD_DATE) VALUES
+			(#criDtaNum#,#fileId#,#atchFileOrd#,#regUserId#,SYSDATE,#updUserId#,SYSDATE)
+		]]>
+	</insert>
+
+	<!-- 수사사건자료 가져오기 -->
+	<select id="Z0101.SJPB_CRI_INC_DTA.list" resultMap="Z0101.CriIncDtaVO">  /* Z0101.SJPB_CRI_INC_DTA.list */
+	
+			SELECT 
+			 	A.*
+			 	,'U' AS RECD_TYPE /*레코드유형*/
+			FROM SJPB_CRI_INC_DTA A		
+			WHERE 
+				A.RCPT_NUM = #rcptNum#				
+				<isNotEqual prepend=" AND " property="criDtaCatg" compareValue="">A.CRI_DTA_CATG_CD=#criDtaCatg#</isNotEqual>								
+			ORDER BY CRI_DTA_NUM
+					
+	</select>
+
+	<!-- 수사사건자료파일 조회맵 -->
+	<resultMap id="Z0101.CriIncDtaFileVO"
+		class="com.saltware.enface.sjpb.Z.service.CriIncDtaFileVO">
+		<result property="criDtaNum" column="CRI_DTA_NUM" />
+		<result property="rcptNum" column="RCPT_NUM" />
+		<result property="criDtaCatgCd" column="CRI_DTA_CATG_CD" />
+		<result property="atchFileId" column="ATCH_FILE_ID" />
+		<result property="atchFileNm" column="ATCH_FILE_NM" />
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+		<result property="criDtaCatgDesc" column="CRI_DTA_CATG_DESC" />
+		<result property="updUserNm" column="UPD_USER_NM" />
+	</resultMap>
+
+	<!-- 수사사건자료파일 가져오기 -->
+	<select id="Z0101.SJPB_CRI_INC_DTA_FILE.list" resultMap="Z0101.CriIncDtaFileVO">
+		/* Z0101.SJPB_CRI_INC_DTA_FILE.list */
+
+		SELECT DISTINCT
+		A.CRI_DTA_NUM
+		,A.RCPT_NUM
+		,A.CRI_DTA_CATG_CD
+		,B.ATCH_FILE_ID
+		,C.FILE_NM AS ATCH_FILE_NM
+		,C.REG_USER_ID
+		,C.UPD_USER_ID
+		,TO_CHAR(C.UPD_DATE,'YYYY-MM-DD') AS UPD_DATE
+		,D.SHORT_TITLE AS CRI_DTA_CATG_DESC
+		,E.NM_KOR AS UPD_USER_NM
+		FROM SJPB_CRI_INC_DTA A
+		JOIN SJPB_CRI_INC_DTA_FILE B ON A.CRI_DTA_NUM = B.CRI_DTA_NUM
+		JOIN SJPB_COMM_FILE C ON B.ATCH_FILE_ID = C.FILE_ID
+		JOIN PAGE D ON A.CRI_DTA_CATG_CD = D.PAGE_ID AND D.DOMAIN_ID = 4
+		JOIN USERPASS E ON C.UPD_USER_ID = E.USER_ID
+		JOIN SJPB_INC_MAST F ON A.RCPT_NUM = F.RCPT_NUM
+		WHERE 1=1
+		<isNotEqual prepend=" AND " property="criDtaCatg"
+			compareValue="">A.CRI_DTA_CATG_CD=#criDtaCatg#</isNotEqual>
+		<isNotEqual prepend=" AND " property="criDtaFileNm"
+			compareValue="">C.FILE_NM LIKE '%'||#criDtaFileNm#||'%'</isNotEqual>
+		<isNotEqual prepend=" AND " property="criDtaUsrNm"
+			compareValue="">E.NM_KOR LIKE '%'||#criDtaUsrNm#||'%'</isNotEqual>
+		START WITH F.RCPT_NUM = #rcptNum#
+		CONNECT BY PRIOR F.RCPT_NUM = F.PARE_RCPT_NUM
+		ORDER BY A.CRI_DTA_CATG_CD, B.ATCH_FILE_ID
+
+	</select>
+
+	<!-- 워크플로우 생성 -->
+	<insert id="Z0101.SJPB_INC_WF.insert">
+		/* Z0101.SJPB_INC_WF.insert */
+		<![CDATA[		
+			INSERT INTO SJPB_INC_WF (RCPT_NUM, WF_NUM, ACTV_TASK_NUM, REG_USER_ID,REG_DATE,UPD_USER_ID,UPD_DATE)
+			SELECT  #rcptNum#,WF_NUM,TASK_NUM,#regUserId#,SYSDATE,#regUserId#,SYSDATE FROM SJPB_TASK WHERE WF_NUM = #wfNum# AND BE_TASK_YN = 'Y' 
+		]]>
+	</insert>
+
+	<!-- 워크플로우 업데이트 -->
+	<update id="Z0101.SJPB_INC_WF.update">
+		/* Z0101.SJPB_INC_WF.update */
+		<![CDATA[		
+			UPDATE SJPB_INC_WF 
+			SET ACTV_TASK_NUM = #trstStatNum#	
+			    ,UPD_USER_ID = #updUserId#
+			    ,UPD_DATE = SYSDATE					
+			WHERE RCPT_NUM = #rcptNum#
+				AND WF_NUM = #wfNum#
+		]]>
+	</update>
+
+	<!-- 타스크이행 -->
+	<resultMap id="Z0101.TaskTrstVO" class="com.saltware.enface.sjpb.Z.service.TaskTrstVO">
+		<result property="wfNum" column="WF_NUM" />
+		<result property="taskNum" column="TASK_NUM" />
+		<result property="taskRoleCd" column="TASK_ROLE_CD" />
+		<result property="trstStatNum" column="TRST_STAT_NUM" />
+		<result property="trstStatNm" column="TRST_STAT_NM" />
+		<result property="criStatCd" column="CRI_STAT_CD" />
+		<result property="trstOrd" column="TRST_ORD" />
+		<result property="viewYn" column="VIEW_YN" />
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+	</resultMap>
+
+	<!-- 타스트 이행 리스트 가져오기 -->
+	<select id="Z0101.SJPB_TASK_TRST.list" resultMap="Z0101.TaskTrstVO">
+		/* Z0101.SJPB_TASK_TRST.list */
+		<![CDATA[		
+			SELECT 
+			C.*
+			,B.TASK_ROLE_CD
+			FROM SJPB_INC_MAST A
+  		    JOIN  (SELECT F1.RCPT_NUM, F1.WF_NUM, F2.TASK_NUM, F2.TASK_NM, F2.TASK_ROLE_CD 
+			    FROM SJPB_INC_WF F1 JOIN SJPB_TASK F2  
+			    ON F1.WF_NUM = F2.WF_NUM AND F1.ACTV_TASK_NUM = F2.TASK_NUM AND F1.WF_NUM = #wfNum#) B
+			    ON A.RCPT_NUM = B.RCPT_NUM
+			JOIN SJPB_TASK_TRST C ON B.WF_NUM = C.WF_NUM AND B.TASK_NUM =  C.TASK_NUM
+			JOIN SJPB_TASK D ON B.WF_NUM = D.WF_NUM AND B.TASK_NUM =  D.TASK_NUM
+			WHERE A.RCPT_NUM = #rcptNum#
+			ORDER BY TRST_ORD 
+		]]>
+	</select>
+
+	<!-- 액티브타스크 타스크 -->
+	<resultMap id="Z0101.TaskTrstVO.Active" class="com.saltware.enface.sjpb.Z.service.TaskTrstVO">
+		<result property="rcptNum" column="RCPT_NUM" />
+		<result property="wfNum" column="WF_NUM" />
+		<result property="taskNum" column="TASK_NUM" />
+		<result property="trstStatNum" column="TRST_STAT_NUM" />
+		<result property="trstStatNm" column="TRST_STAT_NM" />
+		<result property="criStatCd" column="CRI_STAT_CD" />
+		<result property="trstStatCd" column="TRST_STAT_CD" />
+	</resultMap>
+
+	<!-- 액티브 타스크 가져오기(TRST_ORD 기준으로 맨 앞 데이터) -->
+	<select id="Z0101.SJPB_INC_ACTIVE_TASK.get" resultMap="Z0101.TaskTrstVO.Active">
+		/* Z0101.SJPB_INC_ACTIVE_TASK.get */
+		SELECT *
+		FROM (
+		SELECT
+		    A.RCPT_NUM
+		    ,B.WF_NUM
+		    ,B.TASK_NUM
+		    ,C.TRST_STAT_NUM
+		    ,C.TRST_STAT_NM
+		    ,C.CRI_STAT_CD
+		    ,C.TRST_STAT_CD
+		FROM
+		    SJPB_INC_MAST A
+		    JOIN (SELECT F1.RCPT_NUM, F1.WF_NUM, F2.TASK_NUM, F2.TASK_NM,
+		        F2.TASK_ROLE_CD
+		        FROM SJPB_INC_WF F1 JOIN SJPB_TASK F2
+		        ON F1.WF_NUM = F2.WF_NUM AND F1.ACTV_TASK_NUM = F2.TASK_NUM) B ON A.RCPT_NUM = B.RCPT_NUM
+		    JOIN SJPB_TASK_TRST C ON B.WF_NUM = C.WF_NUM AND B.TASK_NUM = C.TASK_NUM
+		    WHERE A.RCPT_NUM = #rcptNum#
+		    <isNotEqual prepend=" AND " property="trstStatCd" compareValue="">C.TRST_STAT_CD=#trstStatCd#</isNotEqual>
+		    ORDER BY TRST_ORD ASC
+		)
+		WHERE ROWNUM = 1
+		
+	</select>
+	<!-- 액티브타스크 타스크 -->
+	<resultMap id="Z0101.B0101TK.Active" class="com.saltware.enface.sjpb.B.service.B0101TK">
+		<result property="rcptNum" column="RCPT_NUM" />
+		<result property="wfNum" column="WF_NUM" />
+		<result property="taskNum" column="TASK_NUM" />
+		<result property="trstStatNum" column="TRST_STAT_NUM" />
+		<result property="trstStatNm" column="TRST_STAT_NM" />
+		<result property="criStatCd" column="CRI_STAT_CD" />
+		<result property="trstStatCd" column="TRST_STAT_CD" />
+	</resultMap>
+
+	<!-- 액티브 타스크 가져오기(TRST_ORD 기준으로 맨 앞 데이터) -->
+	<select id="Z0101.SJPB_INC_ACTIVE_TASK.get2" resultMap="Z0101.B0101TK.Active">
+		/* Z0101.SJPB_INC_ACTIVE_TASK.get */
+		SELECT *
+		FROM (
+		SELECT
+		    A.RCPT_NUM
+		    ,B.WF_NUM
+		    ,B.TASK_NUM
+		    ,C.TRST_STAT_NUM
+		    ,C.TRST_STAT_NM
+		    ,C.CRI_STAT_CD
+		    ,C.TRST_STAT_CD
+		FROM
+		    SJPB_INC_MAST A
+		    JOIN (SELECT F1.RCPT_NUM, F1.WF_NUM, F2.TASK_NUM, F2.TASK_NM,
+		        F2.TASK_ROLE_CD
+		        FROM SJPB_INC_WF F1 JOIN SJPB_TASK F2
+		        ON F1.WF_NUM = F2.WF_NUM AND F1.ACTV_TASK_NUM = F2.TASK_NUM) B ON A.RCPT_NUM = B.RCPT_NUM
+		    JOIN SJPB_TASK_TRST C ON B.WF_NUM = C.WF_NUM AND B.TASK_NUM = C.TASK_NUM
+		    WHERE A.RCPT_NUM = #rcptNum#
+		    <isNotEqual prepend=" AND " property="trstStatCd" compareValue="">C.TRST_STAT_CD=#trstStatCd#</isNotEqual>
+		    ORDER BY TRST_ORD ASC
+		)
+		WHERE ROWNUM = 1
+		
+	</select>
+
+
+
+	<!-- 타스크이력 -->
+	<resultMap id="Z0101.IncTaskHistVO"
+		class="com.saltware.enface.sjpb.Z.service.IncTaskHistVO">
+		<result property="taskHistNum" column="TASK_HIST_NUM" />
+		<result property="rcptNum" column="RCPT_NUM" />
+		<result property="wfNum" column="WF_NUM" />
+		<result property="taskNum" column="TASK_NUM" />
+		<result property="taskRespMb" column="TASK_RESP_MB" />
+		<result property="trstStatNum" column="TRST_STAT_NUM" />
+		<result property="trstStatNm" column="TRST_STAT_NM" />
+		<result property="taskComn" column="TASK_COMN" />
+		<result property="taskNm" column="TASK_NM" />
+		<result property="nmKor" column="NM_KOR" />
+		<result property="criTmNm" column="CRI_TM_NM" />
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+	</resultMap>
+
+	<!-- 타스크 이력 가져오기 -->
+	<select id="Z0101.SJPB_INC_TASK_HIST.list" resultMap="Z0101.IncTaskHistVO">
+		/* Z0101.Z0101.SJPB_INC_TASK_HIST.list */
+		<![CDATA[			
+            SELECT 
+			 	A.*,
+                B.*,
+                C.NM_KOR,
+                D.CRI_TM_NM
+			FROM SJPB_INC_TASK_HIST A 
+			INNER JOIN SJPB_TASK B  ON A.WF_NUM = B.WF_NUM AND A.TASK_NUM = B.TASK_NUM     		
+            INNER JOIN USERPASS C ON A.TASK_RESP_MB = C.USER_ID
+            INNER JOIN SJPB_CRI_TM D ON D.CRI_TM_ID = C.ORG_CD     		
+			WHERE 
+				RCPT_NUM = #rcptNum#
+				AND B.TASK_NUM != 1
+       	 		AND B.TASK_NUM != 12
+			ORDER BY TASK_HIST_NUM
+		]]>
+	</select>
+
+	<!-- 타스크 이력 생성 -->
+	<insert id="Z0101.SJPB_INC_TASK_HIST.insert">
+		/* Z0101.SJPB_INC_TASK_HIST.insert */
+		<![CDATA[		
+			INSERT INTO SJPB_INC_TASK_HIST (TASK_HIST_NUM,RCPT_NUM,WF_NUM,TASK_NUM,TASK_RESP_MB,TRST_STAT_NUM,TRST_STAT_NM,TASK_COMN,REG_USER_ID,REG_DATE,UPD_USER_ID,UPD_DATE) VALUES 
+			(#taskHistNum#,#rcptNum#,#wfNum#,#taskNum#,#taskRespMb#,#trstStatNum#,#trstStatNm#,#taskComn#,#regUserId#,SYSDATE,#updUserId#,SYSDATE)
+		]]>
+	</insert>
+
+	<!-- 사건마스터 수사상태코드 업데이트 -->
+	<update id="Z0101.SJPB_INC_MAST.CRI_STAT_CD.update">
+		/* Z0101.SJPB_INC_MAST.CRI_STAT_CD.update */
+		UPDATE SJPB_INC_MAST
+		SET CRI_STAT_CD = #criStatCd#
+			,MF_CD = #mfCd#
+			,MF_CONT = #trstStatNm#
+		<isNotEqual prepend="," property="edDt" compareValue="">ED_DT=#edDt#</isNotEqual>
+		<isNotEqual prepend="," property="incMfNum" compareValue="">INC_MF_NUM=#incMfNum#</isNotEqual>
+		,UPD_USER_ID = #updUserId#
+		,UPD_DATE = SYSDATE
+		WHERE RCPT_NUM = #rcptNum#
+	</update>
+
+	<!-- 수사단원 상세정보 VO -->
+	<resultMap id="Z0101.CriMbVO" class="com.saltware.enface.sjpb.Z.service.CriMbVO">
+		<result property="criMbId" column="CRI_MB_ID" />
+		<result property="criMbClas" column="CRI_MB_CLAS" />
+		<result property="criMbSroc" column="CRI_MB_SROC" />
+		<result property="dispGuof" column="DISP_GUOF" />
+		<result property="initApptDt" column="INIT_APPT_DT" />
+		<result property="currPosiDt" column="CURR_POSI_DT" />
+		<result property="criOffiApptDt" column="CRI_OFFI_APPT_DT" />
+		<result property="criOffiEdDt" column="CRI_OFFI_ED_DT" />
+		<result property="criProfOffiYn" column="CRI_PROF_OFFI_YN" />
+		<result property="criProfOffiBeDt" column="CRI_PROF_OFFI_BE_DT" />
+		<result property="criProfOffiEdDt" column="CRI_PROF_OFFI_ED_DT" />
+		<result property="criMbStat" column="CRI_MB_STAT" />
+		<result property="criTmNm" column="CRI_TM_NM" /> <!-- 소속팀명 -->
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+	</resultMap>
+
+	<!-- 수사단원 상세정보 가져오기 -->
+	<select id="Z0101.SJPB_CRI_MB.get" resultMap="Z0101.CriMbVO">
+		/* Z0101.SJPB_CRI_MB.get */
+		<![CDATA[			
+			 SELECT 
+			 	A.*
+                ,C.CRI_TM_NM
+			FROM SJPB_CRI_MB A 
+            JOIN USERPASS B ON A.CRI_MB_ID = B.USER_ID    		
+            LEFT OUTER JOIN SJPB_CRI_TM C ON B.ORG_CD = C.CRI_TM_ID AND C.CRI_TM_DIV = 'T'
+			WHERE 
+				CRI_MB_ID = #criMbId#
+		]]>
+	</select>
+
+	<!-- 수사팀 VO -->
+	<resultMap id="Z0101.CriTmVO" class="com.saltware.enface.sjpb.Z.service.CriTmVO">
+		<result property="criTmId" column="CRI_TM_ID" />
+		<result property="criTmNm" column="CRI_TM_NM" />
+		<result property="criTmStat" column="CRI_TM_STAT" />
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+	</resultMap>
+
+	<!-- 수사팀 리스트 가져오기 -->
+	<select id="Z0101.SJPB_CRI_TM.list" resultMap="Z0101.CriTmVO">
+		/* Z0101.SJPB_CRI_TM.list */
+		<![CDATA[			
+			SELECT 
+			 	*
+			FROM SJPB_CRI_TM     		
+			WHERE 
+				CRI_TM_STAT = 1
+				AND CRI_TM_DIV = 'T'
+			ORDER BY CRI_TM_ID	
+		]]>
+	</select>
+
+	<!-- 수사팀 전체 리스트 가져오기 -->
+	<select id="Z0101.SJPB_CRI_TM.ALL.list" resultMap="Z0101.CriTmVO">
+		/* Z0101.SJPB_CRI_TM.ALL.list */
+		<![CDATA[			
+			SELECT 
+			 	*
+			FROM SJPB_CRI_TM     		
+			WHERE 
+				CRI_TM_STAT = 1				
+			ORDER BY CRI_TM_ID	
+		]]>
+	</select>
+	
+	<!-- 수사팀 전체 (과거포함) 리스트 가져오기 -->
+	<select id="Z0101.SJPB_CRI_TM.TOTAL.list" resultMap="Z0101.CriTmVO">
+		/* Z0101.SJPB_CRI_TM.TOTAL.list */
+		<![CDATA[			
+			SELECT 
+			 	*
+			FROM SJPB_CRI_TM
+			ORDER BY CRI_TM_ID	
+		]]>
+	</select>		
+
+	<!-- 키업데이트 -->
+	<update id="Z0101.updateKeyGen">
+		<![CDATA[		
+			UPDATE KEYGEN
+			SET SEQ = (SELECT (SEQ+1) FROM KEYGEN WHERE ENTITY_NAME = #entityName#)
+			WHERE ENTITY_NAME=#entityName#
+		]]>
+	</update>
+	
+	<!-- 키업데이트 -->
+	<update id="Z0101.updateKeyGenCustom">
+		<![CDATA[		
+			UPDATE KEYGEN
+			SET SEQ = #seq#
+			WHERE ENTITY_NAME=#entityName#
+		]]>
+	</update>
+
+	<!-- 사건수사지휘부 아이템 추가 -->
+	<insert id="Z0101.SJPB_INC_CRI_CMD_ITEM.insert">
+		/* Z0101.SJPB_INC_CRI_CMD_ITEM.insert */
+		<![CDATA[		
+			INSERT INTO SJPB_INC_CRI_CMD_ITEM (
+				INC_CRI_CMD_ITEM_NUM
+				,RCPT_NUM
+				,INC_CRI_CMD_BK_NUM
+				,INC_CRI_CMD_ITEM_STAT_CD
+				,CRI_CMD_TRAN_DT
+				,CRI_CMD_REQ_DT
+				,CRI_CMD_RCPT_DT
+				,RE_CMD_YN
+				,CRI_CMD_RST
+				,CRI_CMD_COMN
+				,INC_ARRT_CLSF
+				,EVID_ARTC_YN
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE) 
+			VALUES 	(
+		 		#incCriCmdItemNum#
+				, #rcptNum#
+				, #incCriCmdBkNum#
+				, #incCriCmdItemStatCd#
+				, #criCmdTranDt#
+				, SYSDATE
+				, #criCmdRcptDt#
+				, #reCmdYn#
+				, #criCmdRst#
+				, #criCmdComn#
+				, #incArrtClsf#
+				, #evidArtcYn#
+			    , #regUserId#
+			    , SYSDATE
+			    ,#updUserId#
+			    , SYSDATE)			
+		]]>
+	</insert>
+
+	<!-- 사건송치건 아이템 추가 -->
+	<insert id="Z0101.SJPB_INC_TRF_ITEM.insert">
+		/* Z0101.SJPB_INC_TRF_ITEM.insert */
+		<![CDATA[		
+			INSERT INTO SJPB_INC_TRF_ITEM (
+				INC_TRF_ITEM_NUM
+				,RCPT_NUM
+				,INC_TRF_BK_NUM
+				,INC_TRF_ITEM_STAT_CD
+				,TRF_TRAN_DT
+				,TRF_REQ_DT
+				,TRF_RCPT_DT
+				,RE_TRF_YN
+				,TRF_RST
+				,TRF_COMN
+				,INC_ARRT_CLSF
+				,EVID_ARTC_YN
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE) 
+			VALUES 	(
+				#incTrfItemNum#
+				, #rcptNum#
+				, #incTrfBkNum#
+				, #incTrfItemStatCd#
+				, #trfTranDt#
+				, SYSDATE
+				, #trfRcptDt#
+				, #reTrfYn#
+				, #trfRst#
+				, #trfComn#
+				, #incArrtClsf#
+				, #evidArtcYn#
+				, #regUserId#
+				, SYSDATE
+				, #updUserId#
+				, SYSDATE)		
+		]]>
+	</insert>
+
+
+
+	<resultMap id="Z0101VO.SJPB_INC_CRI_CMD_ITEM.select"
+		class="com.saltware.enface.sjpb.Z.service.IncCriCmdItemVO">
+		<result property="incCriCmdItemNum" column="INC_CRI_CMD_ITEM_NUM" />
+		<result property="rcptNum" column="RCPT_NUM" />
+		<result property="incCriCmdBkNum" column="INC_CRI_CMD_BK_NUM" />
+		<result property="incCriCmdItemStatCd" column="INC_CRI_CMD_ITEM_STAT_CD" />
+		<result property="criCmdTranDt" column="CRI_CMD_TRAN_DT" />
+		<result property="criCmdReqDt" column="CRI_CMD_REQ_DT" />
+		<result property="criCmdRcptDt" column="CRI_CMD_RCPT_DT" />
+		<result property="reCmdYn" column="RE_CMD_YN" />
+		<result property="criCmdRst" column="CRI_CMD_RST" />
+		<result property="criCmdComn" column="CRI_CMD_COMN" />
+		<result property="incArrtClsf" column="INC_ARRT_CLSF" />
+		<result property="evidArtcYn" column="EVID_ARTC_YN" />
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+	</resultMap>
+	<!-- 사건수사지휘부 아이템 가져오기 -->
+	<select id="Z0101.SJPB_INC_CRI_CMD_ITEM.select" resultMap="Z0101VO.SJPB_INC_CRI_CMD_ITEM.select"> /*
+		Z0101.SJPB_INC_CRI_CMD_ITEM.select */
+		SELECT
+		INC_CRI_CMD_ITEM_NUM
+		,RCPT_NUM
+		,INC_CRI_CMD_BK_NUM
+		,INC_CRI_CMD_ITEM_STAT_CD
+		,TO_CHAR(CRI_CMD_TRAN_DT, 'YYYY-MM-DD') AS CRI_CMD_TRAN_DT
+		,TO_CHAR(CRI_CMD_REQ_DT, 'YYYY-MM-DD') AS CRI_CMD_REQ_DT
+		,TO_CHAR(CRI_CMD_RCPT_DT, 'YYYY-MM-DD') AS CRI_CMD_RCPT_DT
+		,RE_CMD_YN
+		,CRI_CMD_RST
+		,CRI_CMD_COMN
+		,INC_ARRT_CLSF
+		,EVID_ARTC_YN
+		,REG_USER_ID
+		,REG_DATE
+		,UPD_USER_ID
+		,UPD_DATE
+		FROM
+		SJPB_INC_CRI_CMD_ITEM
+		WHERE
+		RCPT_NUM = #rcptNum#
+		AND ROWNUM &lt;= 1
+		ORDER BY INC_CRI_CMD_ITEM_NUM DESC
+	</select>
+
+	<resultMap id="Z0101VO.SJPB_INC_TRF_ITEM.select"
+		class="com.saltware.enface.sjpb.Z.service.IncTrfItemVO">
+		<result property="incTrfItemNum" column="INC_TRF_ITEM_NUM" />
+		<result property="rcptNum" column="RCPT_NUM" />
+		<result property="incTrfBkNum" column="INC_TRF_BK_NUM" />
+		<result property="incTrfItemStatCd" column="INC_TRF_ITEM_STAT_CD" />
+		<result property="trfTranDt" column="TRF_TRAN_DT" />
+		<result property="trfReqDt" column="TRF_REQ_DT" />
+		<result property="trfRcptDt" column="TRF_RCPT_DT" />
+		<result property="reTrfYn" column="RE_TRF_YN" />
+		<result property="trfRst" column="TRF_RST" />
+		<result property="trfComn" column="TRF_COMN" />
+		<result property="incArrtClsf" column="INC_ARRT_CLSF" />
+		<result property="evidArtcYn" column="EVID_ARTC_YN" />
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+	</resultMap>
+	<!-- 사건송치건 아이템 가져오기 -->
+	<select id="Z0101.SJPB_INC_TRF_ITEM.select" resultMap="Z0101VO.SJPB_INC_TRF_ITEM.select"> /*
+		Z0101.SJPB_INC_TRF_ITEM.select */
+		SELECT
+		INC_TRF_ITEM_NUM
+		,RCPT_NUM
+		,INC_TRF_BK_NUM
+		,INC_TRF_ITEM_STAT_CD
+		,TO_CHAR(TRF_TRAN_DT, 'YYYY-MM-DD') AS TRF_TRAN_DT
+		,TO_CHAR(TRF_REQ_DT, 'YYYY-MM-DD') AS TRF_REQ_DT
+		,TO_CHAR(TRF_RCPT_DT, 'YYYY-MM-DD') AS TRF_RCPT_DT
+		,RE_TRF_YN
+		,TRF_RST
+		,TRF_COMN
+		,INC_ARRT_CLSF
+		,EVID_ARTC_YN
+		,REG_USER_ID
+		,REG_DATE
+		,UPD_USER_ID
+		,UPD_DATE
+		FROM
+		SJPB_INC_TRF_ITEM
+		WHERE
+		RCPT_NUM = #rcptNum#
+		AND ROWNUM &lt;= 1
+		ORDER BY INC_TRF_ITEM_NUM DESC
+	</select>
+
+	<!-- 사건수사단원 VO -->
+	<resultMap id="Z0101.IncCriMb" class="com.saltware.enface.sjpb.Z.service.IncCriMbVO">
+		<result property="criMbId" column="CRI_MB_ID" />
+		<result property="rcptNum" column="RCPT_NUM" />
+		<result property="criLvCd" column="CRI_LV_CD" />
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+	</resultMap>
+
+	<!-- 사건수사단원 추가 -->
+	<insert id="Z0101.SJPB_INC_CRI_MB.insert">
+		/* Z0101.SJPB_INC_CRI_MB.insert */
+		<![CDATA[
+			INSERT INTO SJPB_INC_CRI_MB (CRI_MB_ID,RCPT_NUM,CRI_LV_CD,REG_USER_ID,REG_DATE,UPD_USER_ID,UPD_DATE) VALUES 
+			(#criMbId#,#rcptNum#,#criLvCd#,#regUserId#,SYSDATE,#updUserId#,SYSDATE)
+		]]>
+	</insert>
+
+	<!-- 서식 리스트 가져오기 -->
+	<resultMap class="com.saltware.enface.sjpb.Z.service.CodeBaseVO"
+		id="Z0101VO.CodeBaseVO.CRI_DTA_CATG.list">
+		<result property="code" column="CODE" />
+		<result property="codeName" column="CODE_NAME" />
+	</resultMap>
+
+	<select id="Z0101.PAGE.CRI_DTA_CATG.list" resultMap="Z0101VO.CodeBaseVO.CRI_DTA_CATG.list">
+		/* Z0101.PAGE.CRI_DTA_CATG.list */
+		<![CDATA[		
+            SELECT 
+              A.ID AS CODE
+             ,A.TEXT AS CODE_NAME
+            FROM (
+            SELECT 
+                 A1.PAGE_ID AS ID
+                ,A1.SHORT_TITLE AS TEXT
+                ,A1.PARENT_ID AS PARENT
+                ,A1.TITLE
+                ,A1.URL
+			FROM
+			PAGE A1
+			WHERE
+			A1.DOMAIN_ID = 4            
+			START WITH A1.PARENT_ID = 8797
+			CONNECT BY PRIOR A1.PAGE_ID = A1.PARENT_ID
+            ) A
+            WHERE A.URL IS NOT NULL
+		]]>
+	</select>
+
+	<!-- 키값체크및갱신(월간) -->
+	<select id="Z0101.SETUP_KEYGEN_MSEQ" resultClass="int"> /*
+		Z0101.SETUP_KEYGEN_MSEQ */
+		SELECT
+		f_get_keygen_mseq(#entityName#)
+		FROM DUAL
+	</select>
+
+	<!-- 키값체크및갱신(년간) -->
+	<select id="Z0101.SETUP_KEYGEN_YSEQ" resultClass="int"> /*
+		Z0101.SETUP_KEYGEN_YSEQ */
+		SELECT
+		f_get_keygen_yseq(#entityName#)
+		FROM DUAL
+	</select>
+	
+	<resultMap class="com.saltware.enface.sjpb.Z.service.IncSpVO" id="Z0101.IncSpVO.listSp">
+		<result property="incSpNum" column="INC_SP_NUM" />
+		<result property="rcptNum" column="RCPT_NUM" />
+		<result property="spTpCd" column="SP_TP_CD" />
+		<result property="spIdNum" column="SP_ID_NUM" />
+		<result property="indvCorpDiv" column="INDV_CORP_DIV" />
+		<result property="homcForcPernDiv" column="HOMC_FORC_PERN_DIV" />
+		<result property="gendDiv" column="GEND_DIV" />
+		<result property="spNm" column="SP_NM" />
+		<result property="spAddr" column="SP_ADDR" />
+		<result property="spCnttNum" column="SP_CNTT_NUM" />
+		<result property="incSpComn" column="INC_SP_COMN" />
+		<result property="inqOrd" column="INQ_ORD" />
+		
+		<result property="spStsGrapNum" column="SP_STS_GRAP_NUM"/>
+		<result property="spStatCd" column="SP_STAT_CD"/>
+		<result property="spInqCd" column="SP_INQ_CD"/>
+		<result property="cathWrnt" column="CATH_WRNT"/>
+		<result property="emgyCath" column="EMGY_CATH"/>
+		<result property="flgtOfdrCath" column="FLGT_OFDR_CATH"/>
+		<result property="arstWrnt" column="ARST_WRNT"/>
+		<result property="inchDetn" column="INCH_DETN"/>
+		<result property="relsDt" column="RELS_DT"/>
+		<result property="relsRsn" column="RELS_RSN"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="spBsnsNm" column="SP_BSNS_NM"/>
+				
+		<result property="regUserId" column="REG_USER_ID" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="updUserId" column="UPD_USER_ID" />
+		<result property="updDate" column="UPD_DATE" />
+
+		<result property="incNum" column="RCPT_INC_NUM" />
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+	</resultMap>
+	<!-- 서식관리 피의자조회 리스트 -->
+	<select id="Z0101.SJPB_INC_SP.listSp" resultMap="Z0101.IncSpVO.listSp"> /* Z0101.SJPB_INC_SP.listSp */
+		SELECT 
+			A.INC_SP_NUM              /*사건피의자번호*/
+            ,A.RCPT_NUM               /*접수번호*/
+            ,A.SP_TP_CD               /*피의자유형코드*/
+            ,A.SP_ID_NUM AS SP_ID_NUM	/*피의자식별번호*/
+            ,A.INDV_CORP_DIV          /*법인개인구분*/
+            ,A.HOMC_FORC_PERN_DIV     /*내외국인구분*/
+            ,A.GEND_DIV               /*성별구분*/
+            ,A.SP_NM AS SP_NM				/*피의자명*/
+            ,A.SP_ADDR AS SP_ADDR			/*주소*/
+            ,A.SP_CNTT_NUM AS SP_CNTT_NUM	/*연락처*/
+            ,A.INC_SP_COMN            /*사건피의자참고사항*/
+            ,A.INQ_ORD                /*조회순서*/
+            ,A.SP_STS_GRAP_NUM		/*피의자통계원표번호*/
+			,A.SP_STAT_CD			/*피의자상태코드*/
+			,A.SP_INQ_CD			/*피의자조회쾨드*/
+			,A.CATH_WRNT			/*체포영장*/
+			,A.EMGY_CATH			/*긴급체포*/
+			,A.FLGT_OFDR_CATH		/*현행범인체포*/
+			,A.ARST_WRNT			/*구속영장*/
+			,A.INCH_DETN			/*인치구금*/
+			,A.RELS_DT				/*석방일시*/
+			,A.RELS_RSN				/*석방사유*/
+			,A.SP_JOB AS SP_JOB				/*피의자직업*/
+			,A.SP_BSNS_NM AS SP_BSNS_NM		/*업소명*/
+            ,A.REG_USER_ID            /*등록자*/
+            ,A.REG_DATE               /*등록일자*/
+            ,A.UPD_USER_ID            /*수정자*/
+            ,A.UPD_DATE               /*수정일자*/
+			,B.RCPT_INC_NUM 				/* 사건번호 */
+		    ,C.CODE_NAME AS RLT_ACT_CRI_NM_CD_DESC   /*관련법률및죄명*/
+		FROM SJPB_INC_SP A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+		LEFT OUTER JOIN 
+		(
+			SELECT       
+             A1.INC_SP_NUM
+			 ,REGEXP_REPLACE(LISTAGG(A3.CODE_NAME,  ', ') WITHIN GROUP(ORDER BY A1.INC_SP_NUM), '([^,]+)(,\1)+', '\1') AS CODE_NAME  
+			FROM SJPB_INC_SP A1
+            JOIN SJPB_ACT_VIO A2 ON A1.INC_SP_NUM = A2.INC_SP_NUM AND A2.ACT_VIO_STAT_CD = '1'
+            LEFT OUTER JOIN CODEBASE A3 ON A2.RLT_ACT_CRI_NM_CD = A3.CODE AND A3.CODE_ID = 'SJPB_00012'
+            AND A1.SP_STAT_CD = '1'
+			GROUP BY A1.INC_SP_NUM
+		)  C ON A.INC_SP_NUM = C.INC_SP_NUM 
+		WHERE 
+			B.RCPT_INC_NUM IS NOT NULL AND A.SP_STAT_CD = '1'
+			<isNotEmpty property="incNum" prepend="AND">
+				B.RCPT_INC_NUM = #incNum# 
+			</isNotEmpty>
+			<isNotEmpty property="spNm" prepend="AND">
+				A.SP_NM LiKE '%' || #spNm# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="spIdNum" prepend="AND">
+				A.SP_ID_NUM LiKE '%' || #spIdNum# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="rcptNum" prepend="AND">
+				(B.RCPT_NUM = #rcptNum# OR B.PARE_RCPT_NUM = #rcptNum#)
+			</isNotEmpty>
+		ORDER BY TO_NUMBER(REGEXP_SUBSTR(REGEXP_SUBSTR(B.RCPT_INC_NUM,'[^-]+',1,2),'[^,]+',1,1)) ASC
+	</select>
+	
+	<resultMap class="com.saltware.enface.sjpb.Z.service.IncMastVO" id="Z0101.IncMastVO.listIncMast">
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="rcptTpCd" column="RCPT_TP_CD"/>
+		<result property="criStatCd" column="CRI_STAT_CD"/>
+		<result property="fdCd" column="FD_CD"/>
+		<result property="criTmId" column="CRI_TM_ID"/>
+		<result property="dvForm" column="DV_FORM"/>
+		<result property="beDt" column="BE_DT"/>
+		<result property="edDt" column="ED_DT"/>
+		<result property="pareRcptNum" column="PARE_RCPT_NUM"/>
+		<result property="combIncYn" column="COMB_INC_YN"/>
+		<result property="infwDiv" column="INFW_DIV"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		
+		<result property="criStatDesc" column="CRI_STAT_DESC"/>
+		<result property="rcptTpDesc" column="RCPT_TP_DESC"/>
+		<result property="fdDesc" column="FD_DESC"/>
+		<result property="dvFormDesc" column="DV_FORM_DESC"/>
+		<result property="trfNum" column="TRF_NUM"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="vioCont" column="VIO_CONT"/>
+		<result property="criTmNm" column="CRI_TM_NM"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="criMbMainUserId" column="CRI_MB_MAIN_USER_ID"/>
+		
+	</resultMap>
+	<!-- 서식관리 사건조회 리스트 -->
+	<select id="Z0101.SJPB_INC_Mast.listIncMast" resultMap="Z0101.IncMastVO.listIncMast"> /* Z0101.SJPB_INC_Mast.listIncMast */
+	SELECT *
+	FROM (
+		SELECT 
+		    A.RCPT_NUM AS RCPT_NUM /*접수번호*/	 
+		     ,A.RCPT_INC_NUM	 /*접수사건번호*/	
+		     ,A.RCPT_TP_CD	 /*접수유형코드*/	
+		     ,A.CRI_STAT_CD	 /*수사상태코드*/	
+		     ,A.FD_CD	 /*사건분야코드*/	 
+		     ,A.CRI_TM_ID	 /*수사팀계정*/	 
+		     ,A.DV_FORM	 /*발각형태*/	 
+		     ,A.BE_DT	 /*착수일자*/	 
+		     ,A.ED_DT	 /*종결일자*/	 
+		     ,A.PARE_RCPT_NUM	 /*부모접수번호*/
+		     ,A.COMB_INC_YN		/*병합여부*/
+		     ,A.INFW_DIV		/*유입구분*/
+		     ,A.REG_USER_ID	 /*등록자*/	 
+		     ,A.REG_DATE	 /*등록일자*/	 
+		     ,A.UPD_USER_ID	 /*수정자*/	 
+		     ,A.UPD_DATE	 /*수정일자*/	 
+		     ,C.CODE_NAME AS CRI_STAT_DESC   /*수사상태설명*/
+		     ,D.CODE_NAME AS RCPT_TP_DESC   /*접수유형코드설명*/
+		     ,E.CODE_NAME AS FD_DESC   /*사건분야코드설명*/
+		     ,F.CODE_NAME AS DV_FORM_DESC    /*발각형태설명*/
+		     ,B.TRF_NUM AS TRF_NUM  /*송치번호*/
+		     ,A0.CODE_NAME AS RLT_ACT_CRI_NM_CD_DESC   /*관련법률및죄명*/
+     		 ,A0.VIO_CONT AS VIO_CONT   /*위반내용*/
+             ,I.CRI_TM_NM
+             ,L.NM_KOR AS NM_KOR
+             ,L.USER_ID AS CRI_MB_MAIN_USER_ID
+		FROM SJPB_INC_MAST A
+		JOIN SJPB_INC_DTS B ON A.RCPT_NUM = B.RCPT_NUM AND B.INC_NUM IS NOT NULL
+		LEFT OUTER JOIN CODEBASE C ON A.CRI_STAT_CD = C.CODE AND C.CODE_ID = 'SJPB_00001'
+		LEFT OUTER JOIN CODEBASE D ON A.RCPT_TP_CD = D.CODE AND D.CODE_ID = 'SJPB_00003'
+		LEFT OUTER JOIN CODEBASE E ON A.FD_CD = E.CODE AND E.CODE_ID = 'SJPB_00002'
+		LEFT OUTER JOIN CODEBASE F ON A.DV_FORM = F.CODE AND F.CODE_ID = 'SJPB_00004'
+        JOIN SJPB_CRI_TM I ON A.CRI_TM_ID = I.CRI_TM_ID 
+        LEFT OUTER JOIN SJPB_INC_CRI_MB J ON A.RCPT_NUM = J.RCPT_NUM AND J.CRI_LV_CD = '01'
+        JOIN SJPB_CRI_MB K ON J.CRI_MB_ID = K.CRI_MB_ID AND K.CRI_MB_STAT = '1'
+        JOIN USERPASS L ON J.CRI_MB_ID = L.USER_ID
+        LEFT OUTER JOIN 
+		(
+			SELECT
+			 A6.GRUP_NUM           
+			 ,REGEXP_REPLACE(LISTAGG(A6.CODE_NAME,  ', ') WITHIN GROUP(ORDER BY A6.GRUP_NUM), '([^,]+)(,\1)+', '\1') AS CODE_NAME  
+			 ,REGEXP_REPLACE(LISTAGG(A6.VIO_CONT,  ', ') WITHIN GROUP(ORDER BY A6.GRUP_NUM), '([^,]+)(,\1)+', '\1') AS VIO_CONT 
+			FROM
+			( 
+				SELECT 
+					 A2.LV
+					,A2.GRUP_NUM
+					,A3.SP_NM AS SP_NM
+					,A5.CODE_NAME 
+					,A4.VIO_CONT
+				FROM 
+				(
+				SELECT 
+				   LEVEL AS LV
+				  ,A1.RCPT_NUM
+				  ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+					FROM SJPB_INC_MAST A1 
+					WHERE A1.RCPT_TP_CD = '2' 
+					START WITH A1.PARE_RCPT_NUM IS NULL        
+					CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+				JOIN SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'
+				JOIN SJPB_ACT_VIO A4 ON A3.INC_SP_NUM = A4.INC_SP_NUM AND A4.ACT_VIO_STAT_CD = '1'
+				LEFT OUTER JOIN CODEBASE A5 ON A4.RLT_ACT_CRI_NM_CD = A5.CODE AND A5.CODE_ID = 'SJPB_00012'
+			) A6
+			GROUP BY A6.GRUP_NUM
+		)  A0 ON A.RCPT_NUM = A0.GRUP_NUM 
+		WHERE
+		   	A.RCPT_TP_CD='2'
+		    AND A.PARE_RCPT_NUM IS NULL
+		    AND A.CRI_STAT_CD NOT IN ('31', '21')
+		    <isNotEmpty property="fdCdSc" prepend="AND">
+				A.FD_CD = #fdCdSc#
+			</isNotEmpty>	
+			<isNotEmpty property="criTmSc" prepend="AND">
+				A.CRI_TM_ID = #criTmSc#
+			</isNotEmpty>
+		    <isNotEmpty property="rcptIncNumSc" prepend="AND">
+				A.RCPT_INC_NUM = #rcptIncNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="dvFormSc" prepend="AND">
+				A.DV_FORM = #dvFormSc#
+			</isNotEmpty>
+			<isNotEmpty property="sDateSc" prepend="AND">
+				A.REG_DATE &gt;= #sDateSc#
+			</isNotEmpty>
+			<isNotEmpty property="eDateSc" prepend="AND">
+				A.REG_DATE &lt;= TO_DATE(#eDateSc#, 'YYYY-MM-DD')+1
+			</isNotEmpty>
+			<isNotEmpty property="nmKorSc" prepend="AND">
+				L.NM_KOR LiKE '%' || #nmKorSc# ||'%'
+			</isNotEmpty>
+		) 
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend=" AND " property="rltActCriNmSc">RLT_ACT_CRI_NM_CD_DESC LIKE '%'||#rltActCriNmSc#||'%'</isNotEmpty>
+		</dynamic>
+		ORDER BY TO_NUMBER(REGEXP_SUBSTR(REGEXP_SUBSTR(RCPT_INC_NUM,'[^-]+',1,2),'[^,]+',1,1)) DESC
+	</select>
+	
+	<!-- 사건분야 + 수사팀 조회 (전체) -->
+	<resultMap class="com.saltware.enface.sjpb.Z.service.IncMastVO" id="IncMastVO.listFdCd">
+		<result property="code" column="CODE"/>
+		<result property="codeName" column="CODE_NAME"/>
+		<result property="criTmId" column="CRI_TM_ID"/>
+		<result property="criTmNm" column="CRI_TM_NM"/>
+	</resultMap>
+	<select id="Z0101.listAllFdCd" resultMap="IncMastVO.listFdCd">	/* Z0101.listAllFdCd */
+		SELECT 
+		    B.CODE 
+		    ,B.CODE_NAME
+		    ,A.CRI_TM_ID
+		    ,A.CRI_TM_NM
+		FROM SJPB_CRI_TM A
+		LEFT OUTER JOIN CODEBASE B ON B.CODE_TAG1 = TO_CHAR(A.CRI_TM_ID) AND B.CODE_ID = 'SJPB_00002'
+		WHERE A.CRI_TM_STAT = '1'
+		AND A.CRI_TM_DIV = 'T'
+		AND B.CODE_NAME IS NOT NULL
+	</select>
+		
+	<resultMap class="com.saltware.enface.sjpb.Z.service.CmctFincDtaFileVO" id="Z0101.CmctFincDtaFileVO">
+		<result property="cmctFincDtaNum" column="CMCT_FINC_DTA_NUM" />
+		<result property="fileId" column="FILE_ID" />
+		<result property="cmctFincDiv" column="CMCT_FINC_DIV" />
+		<result property="fileNm" column="FILE_NM"/>
+		<result property="fileMask" column="FILE_MASK"/>
+	</resultMap>
+	
+	<select id="Z0101.SJPB_CMCT_FINC_DTA_FILE.list" resultMap="Z0101.CmctFincDtaFileVO">
+		/* Z0101.SJPB_CMCT_FINC_DTA_FILE.list */
+		SELECT  CMCT_FINC_DTA_NUM,
+	  	A.FILE_ID,
+	    CMCT_FINC_DIV,
+	    FILE_NM,
+	    FILE_MASK
+			FROM SJPB_CMCT_FINC_DTA_FILE A
+			JOIN SJPB_COMM_FILE B ON A.FILE_ID = B.FILE_ID
+			WHERE 1=1
+	     AND CMCT_FINC_DIV =#cmctFincDiv#
+	     AND CMCT_FINC_DTA_NUM =#cmctFincDtaNum#
+	    ORDER BY A.REG_DATE DESC
+	</select>	
+	
+	<!-- 수사사건자료파일 조회맵 -->
+	<resultMap id="Z0101VO.SjpbFileVO" class="com.saltware.enface.sjpb.Z.service.SjpbFileVO">
+		<result property="fileId" column="FILE_ID"/>
+		<result property="fileNm" column="FILE_NM"/>
+		<result property="fileMask" column="FILE_MASK"/>
+		<result property="fileSize" column="FILE_SIZE"/>
+		<result property="fileType" column="FILE_TYPE"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="fileCtype" column="FILE_CTYPE"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	<select id="Z0101.SJPB_COMM_FILE.select" resultMap="Z0101VO.SjpbFileVO">
+		/* Z0101.SJPB_COMM_FILE.select */
+		SELECT  
+			A.FILE_ID
+			,A.FILE_NM
+			,A.FILE_MASK
+			,A.FILE_SIZE
+			,A.FILE_TYPE
+			,A.FILE_PATH
+			,A.FILE_CTYPE
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+			FROM SJPB_COMM_FILE A
+			WHERE A.FILE_ID = #fileId#
+	</select>	
+	
+	<!-- 수사사건자료파일 조회맵 -->
+	<resultMap id="Z0101VO.SjpbCriIncDtaFileVO" class="com.saltware.enface.sjpb.Z.service.SjpbCriIncDtaFileVO">
+		<result property="criDtaNum" column="CRI_DTA_NUM"/>
+		<result property="atchFileId" column="ATCH_FILE_ID"/>
+		<result property="atchFileOrd" column="ATCH_FILE_ORD"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	<select id="Z0101.SJPB_CRI_INC_DTA_FILE.select" resultMap="Z0101VO.SjpbCriIncDtaFileVO">
+		/* Z0101.SJPB_CRI_INC_DTA_FILE.select */
+		SELECT  
+			A.CRI_DTA_NUM
+			,A.ATCH_FILE_ID
+			,A.ATCH_FILE_ORD
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+			FROM SJPB_CRI_INC_DTA_FILE A
+			WHERE A.ATCH_FILE_ID = #fileId#
+	</select>	
+	
+	<select id="Z0101.SJPB_CRI_INC_DTA_FILE.CRI_DTA_NUM.list" resultMap="Z0101VO.SjpbCriIncDtaFileVO">
+		/* Z0101.SJPB_CRI_INC_DTA_FILE.CRI_DTA_NUM.list */
+		SELECT  
+			A.CRI_DTA_NUM
+			,A.ATCH_FILE_ID
+			,A.ATCH_FILE_ORD
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+			FROM SJPB_CRI_INC_DTA_FILE A
+			WHERE A.CRI_DTA_NUM = #criDtaNum#
+	</select>	
+	
+	<delete id="Z0101.SJPB_CRI_INC_DTA_FILE.delete" >
+		/* Z0101.SJPB_CRI_INC_DTA_FILE.delete */
+		DELETE FROM SJPB_CRI_INC_DTA_FILE WHERE ATCH_FILE_ID = #atchFileId#
+	</delete>
+	
+	<delete id="Z0101.SJPB_CRI_INC_DTA.delete" >
+		/* Z0101.SJPB_CRI_INC_DTA.delete */
+		DELETE FROM SJPB_CRI_INC_DTA WHERE CRI_DTA_NUM = #criDtaNum#
+	</delete>
+	
+	<delete id="Z0101.SJPB_COMM_FILE.delete" >
+		/* Z0101.SJPB_COMM_FILE.delete */
+		DELETE FROM SJPB_COMM_FILE WHERE FILE_ID = #atchFileId#
+	</delete>
+	
+	<update id="Z0101.updateUserPassword">
+		/* Z0101.updateUserPassword */
+		UPDATE SECURITY_CREDENTIAL
+		SET    COLUMN_VALUE  = #pwd#,
+		       AUTH_FAILURES =0,
+		       UPDATE_REQUIRED =0,
+		       MODIFIED_DATE = SYSDATE
+		WHERE  PRINCIPAL_ID  =
+		       (SELECT PRINCIPAL_ID
+		       FROM    SECURITY_PRINCIPAL
+		       WHERE   PRINCIPAL_TYPE ='U'
+		       AND     SHORT_PATH     =#id#
+		       )
+	</update>
+	
+	<update id="Z0101.updateUserPasswordforDrm">
+		/* Z0101.updateUserPassword */
+		UPDATE USERPASS
+		SET    USER_INFO10  = #drmPwd#,
+		       UPD_DATIM = SYSDATE
+		WHERE  USER_ID   =#id#
+	</update>
+	
+	<update id="Z0101.updateUserPolicyFlag">
+		/* Z0101.updateUserPassword */
+		UPDATE USERPASS
+		SET    USER_INFO19  ='Y',
+		       UPD_DATIM = SYSDATE
+		WHERE  USER_ID = #useId#
+	</update>
+	
+	<!-- 자식사건 TaskTrstVO 조회 -->
+	<resultMap class="com.saltware.enface.sjpb.Z.service.TaskTrstVO" id="Z0101VO.getChildTK">
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="wfNum" column="WF_NUM"/>
+	</resultMap>	
+	<select id="Z0101.getChildTK.list" resultMap="Z0101VO.getChildTK">	/* Z0101.getChildTK.list */
+		<![CDATA[		
+		SELECT 
+		    A.RCPT_NUM
+		    ,B.WF_NUM 
+		FROM 
+		    SJPB_INC_MAST A 
+		LEFT OUTER JOIN SJPB_INC_WF B ON A.RCPT_NUM = B.RCPT_NUM 
+		WHERE A.PARE_RCPT_NUM IS NOT NULL
+		START WITH A.RCPT_NUM = #rcptNum#
+		CONNECT BY PRIOR A.RCPT_NUM = A.PARE_RCPT_NUM
+		]]>
+	</select>
+	
+	<resultMap class="com.saltware.enface.sjpb.Z.service.IncMf" id="Z0101.IncMfVO">
+		<result property="incMfNum" column="INC_MF_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="mfStat" column="MF_STAT"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	<!-- 사건수정 -->
+	<select id="Z0101.INC_MF.get" resultMap="Z0101.IncMfVO"> /* Z0101.INC_MF.get */
+	SELECT
+		*
+	FROM (
+	    SELECT 
+	        INC_MF_NUM,
+	        RCPT_NUM,
+	        MF_STAT,
+	        REG_USER_ID,
+	        REG_DATE,
+	        UPD_USER_ID,
+	        UPD_DATE
+	    FROM SJPB_INC_MF
+	    WHERE RCPT_NUM = #rcptNum#
+	    <isNotEqual prepend=" AND " property="mfStat" compareValue="">MF_STAT=#mfStat#</isNotEqual>
+	    ORDER BY INC_MF_NUM DESC
+	) 
+	WHERE ROWNUM = 1
+	</select>
+	
+	<!-- 사건수정 -->
+	<select id="Z0101.INC_MF.getList" resultMap="Z0101.IncMfVO"> /* Z0101.INC_MF.getList */
+		SELECT 
+	        A.INC_MF_NUM,
+	        A.RCPT_NUM,
+	        A.MF_STAT,
+	        A.REG_USER_ID,
+	        A.REG_DATE,
+	        A.UPD_USER_ID,
+	        A.UPD_DATE
+	    FROM SJPB_INC_MF A
+	    LEFT JOIN SJPB_INC_MAST B ON A.RCPT_NUM = B.RCPT_NUM
+	    WHERE (A.RCPT_NUM = #rcptNum# OR B.PARE_RCPT_NUM = #rcptNum#) 
+	    <isNotEqual prepend=" AND " property="mfStat" compareValue="">A.MF_STAT=#mfStat#</isNotEqual>
+	    ORDER BY A.INC_MF_NUM DESC
+
+	</select>
+	
+	<!-- 사건수정 incMfNum 으로 조회  -->
+	<select id="Z0101.INC_MF.select" resultMap="Z0101.IncMfVO"> /* Z0101.INC_MF.select */
+	SELECT 
+        INC_MF_NUM,
+        RCPT_NUM,
+        MF_STAT,
+        REG_USER_ID,
+        REG_DATE,
+        UPD_USER_ID,
+        UPD_DATE
+    FROM SJPB_INC_MF
+    WHERE INC_MF_NUM = #incMfNum#
+	</select>
+	
+	<resultMap class="com.saltware.enface.sjpb.Z.service.IncMf" id="Z0101VO.selectInfMFHistList">
+		<result property="prevIncMfNum" column="PREV_INC_MF_NUM"/>
+		<result property="prevMfStat" column="PREV_MF_STAT"/>
+		<result property="incMfNum" column="INC_MF_NUM"/>
+		<result property="mfStat" column="MF_STAT"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+	</resultMap>
+	<!-- 사건수정 이력 리스트 조회  -->
+	<select id="Z0101.selectInfMFHistList" resultMap="Z0101VO.selectInfMFHistList"> /* Z0101.selectInfMFHistList */
+	SELECT
+	    A.PREV_INC_MF_NUM
+	    ,A.PREV_MF_STAT
+	    ,A.INC_MF_NUM
+	    ,A.MF_STAT
+	    ,A.RCPT_NUM
+	FROM 
+	(
+	    SELECT 
+	        LAG(A0.INC_MF_NUM) OVER (ORDER BY A0.INC_MF_NUM) AS PREV_INC_MF_NUM
+            ,LAG(A0.MF_STAT) OVER (ORDER BY A0.INC_MF_NUM) AS PREV_MF_STAT
+	        ,A0.INC_MF_NUM
+	        ,A0.MF_STAT
+	        ,A0.RCPT_NUM
+	    FROM 
+	    (
+	        SELECT 
+	            INC_MF_NUM
+	            ,MF_STAT
+	            ,RCPT_NUM
+	        FROM SJPB_INC_MF
+	        WHERE RCPT_NUM = #rcptNum#
+	    ) A0
+        WHERE MF_STAT = 'I'
+            OR MF_STAT = 'R'
+        	OR MF_STAT = 'T'
+            OR MF_STAT = 'G'
+            OR MF_STAT = 'S'
+        ORDER BY A0.INC_MF_NUM ASC
+	) A
+	WHERE A.INC_MF_NUM = #incMfNum#
+	</select>
+	
+	<!-- 사건수정 이력 리스트 조회(반려데이터)  -->
+	<select id="Z0101.selectInfMFRjectHistList" resultMap="Z0101VO.selectInfMFHistList"> /* Z0101.selectInfMFRjectHistList */
+	SELECT
+	    A.PREV_INC_MF_NUM
+	    ,A.PREV_MF_STAT
+	    ,A.INC_MF_NUM
+	    ,A.MF_STAT
+	    ,A.RCPT_NUM
+	FROM 
+	(
+	    SELECT 
+	        LAG(A0.INC_MF_NUM) OVER (ORDER BY A0.INC_MF_NUM) AS PREV_INC_MF_NUM
+            ,LAG(A0.MF_STAT) OVER (ORDER BY A0.INC_MF_NUM) AS PREV_MF_STAT
+	        ,A0.INC_MF_NUM
+	        ,A0.MF_STAT
+	        ,A0.RCPT_NUM
+	    FROM 
+	    (
+	        SELECT 
+	            INC_MF_NUM
+	            ,MF_STAT
+	            ,RCPT_NUM
+	        FROM SJPB_INC_MF
+	        WHERE RCPT_NUM = #rcptNum#
+	    ) A0
+        WHERE MF_STAT = 'I'
+            OR MF_STAT = 'R'
+            OR MF_STAT = 'T'
+            OR MF_STAT = 'G'
+            OR MF_STAT = 'S'
+            OR MF_STAT = 'E'
+        ORDER BY A0.INC_MF_NUM ASC
+	) A
+	WHERE A.INC_MF_NUM = #incMfNum#
+	</select>
+	
+	
+	<!-- 사건수정 추가 -->
+	<insert id="Z0101.SJPB_INC_MF.insert"> /* Z0101.SJPB_INC_MF.insert */
+		INSERT INTO SJPB_INC_MF
+			(
+				INC_MF_NUM	/*사건수정번호*/
+				,RCPT_NUM   /*접수번호*/
+				,MF_STAT	/*수정상태*/
+               	,REG_USER_ID    /*등록자*/
+               	,REG_DATE       /*등록일자*/
+               	,UPD_USER_ID    /*수정자*/
+               	,UPD_DATE       /*수정일자*/
+			)
+		VALUES (
+			#incMfNum#
+			,#rcptNum#
+			,#mfStat#
+			,#regUserId#
+			,sysdate
+			,#updUserId#
+			,sysdate
+			)
+	</insert>
+	
+	<!--  피의자수정 추가 -->
+	<insert id="Z0101.SJPB_INC_SP_MF.insert"> /* Z0101.SJPB_INC_SP_MF.insert */
+		<![CDATA[	
+			INSERT INTO SJPB_INC_SP_MF (INC_MF_NUM,INC_SP_NUM,RCPT_NUM,SP_TP_CD,SP_ID_NUM,INDV_CORP_DIV,HOMC_FORC_PERN_DIV,GEND_DIV,SP_NM,SP_ADDR,SP_CNTT_NUM,INC_SP_COMN,INQ_ORD,SP_STAT_CD,SP_INQ_CD,CATH_WRNT,EMGY_CATH,FLGT_OFDR_CATH,ARST_WRNT,INCH_DETN,SP_JOB,SP_BSNS_NM,CRLW_NUM,PO_DIP_DT,JDT_FI_DT,REG_USER_ID,REG_DATE,UPD_USER_ID,UPD_DATE,UPD_CD) VALUES 
+			(
+				#incMfNum#
+				,#incSpNum#
+				,#rcptNum#
+				,#spTpCd#
+				,#spIdNum#
+				,#indvCorpDiv#
+				,#homcForcPernDiv#
+				,#gendDiv#
+				,#spNm#
+				,#spAddr#
+				,#spCnttNum#
+				,#incSpComn#
+				,#inqOrd#
+				,#spStatCd#
+				,#spInqCd#
+				,#cathWrnt#
+				,#emgyCath#
+				,#flgtOfdrCath#
+				,#arstWrnt#
+				,#inchDetn#
+				,#spJob#
+				,#spBsnsNm#
+				,#crlwNum#
+				,#poDipDt#
+				,#jdtFiDt#
+				,#regUserId#
+				, SYSDATE
+				,#updUserId#
+				, SYSDATE
+				,#updateCd#
+			)
+		
+		]]>
+	</insert>
+	
+	<!--  피의자수정 추가 COPY -->
+	<insert id="Z0101.SJPB_INC_SP_MF.copy.insert"> /* Z0101.SJPB_INC_SP_MF.copy.insert */
+		<![CDATA[	
+			INSERT INTO SJPB_INC_SP_MF 
+			(
+				INC_MF_NUM
+				,INC_SP_NUM
+			    ,RCPT_NUM
+			    ,SP_TP_CD
+			    ,SP_ID_NUM
+			    ,INDV_CORP_DIV
+			    ,HOMC_FORC_PERN_DIV
+			    ,GEND_DIV
+			    ,SP_NM
+			    ,SP_ADDR
+			    ,SP_CNTT_NUM
+			    ,INC_SP_COMN
+			    ,INQ_ORD
+			    ,SP_STS_GRAP_NUM
+			    ,SP_STAT_CD
+			    ,SP_INQ_CD
+			    ,CATH_WRNT
+			    ,EMGY_CATH
+			    ,FLGT_OFDR_CATH
+			    ,ARST_WRNT
+			    ,INCH_DETN
+			    ,RELS_DT
+			    ,RELS_RSN
+			    ,SP_JOB
+			    ,SP_BSNS_NM
+			    ,CRLW_NUM
+			    ,PO_DIP_DT
+			    ,JDT_FI_DT
+			    ,REG_USER_ID
+			    ,REG_DATE
+			    ,UPD_USER_ID
+			    ,UPD_DATE
+			    ,UPD_CD
+			)
+			SELECT 
+			        #incMfNum#				/*사건수정번호*/
+			        ,INC_SP_NUM              /*사건피의자번호*/
+			        ,RCPT_NUM               /*접수번호*/
+			        ,SP_TP_CD               /*피의자유형코드*/
+			        ,SP_ID_NUM	/*피의자식별번호*/
+			        ,INDV_CORP_DIV          /*법인개인구분*/
+			        ,HOMC_FORC_PERN_DIV     /*내외국인구분*/
+			        ,GEND_DIV               /*성별구분*/
+			        ,SP_NM				/*피의자명*/
+			        ,SP_ADDR			/*주소*/
+			        ,SP_CNTT_NUM	/*연락처*/
+			        ,INC_SP_COMN            /*사건피의자참고사항*/
+			        ,INQ_ORD                /*조회순서*/
+			        ,SP_STS_GRAP_NUM        /*피의자통계원표번호*/
+			        ,SP_STAT_CD         /*피의자상태코드*/
+			        ,SP_INQ_CD	/*피의자조회코드*/
+			        ,CATH_WRNT	/*체포영장*/
+			        ,EMGY_CATH	/*긴급체포*/
+			        ,FLGT_OFDR_CATH	/*현행범인체포*/
+			        ,ARST_WRNT	/*구속영장*/
+			        ,INCH_DETN	/*인치구금*/
+			        ,RELS_DT    /*석방일시*/
+			        ,RELS_RSN      /*석방사유*/
+			        ,SP_JOB				/*직업*/
+			        ,SP_BSNS_NM		/*업소명*/
+			        ,CRLW_NUM		/*형제번호*/
+			        ,PO_DIP_DT	/*검사처분일시*/
+			        ,JDT_FI_DT	/*판결확정일시*/
+			        ,REG_USER_ID            /*등록자*/
+			        ,REG_DATE               /*등록일자*/
+			        ,UPD_USER_ID            /*수정자*/
+			        ,UPD_DATE               /*수정일자*/
+			        ,#updateCd#				/*수정구분코드*/
+			    FROM SJPB_INC_SP
+			    WHERE INC_SP_NUM = #incSpNum#
+		
+		]]>
+	</insert>
+	
+	<!--  피의자 추가 (A내사쪽 중복) -->
+	<insert id="Z0101.SJPB_INC_SP.insert"> /* Z0101.SJPB_INC_SP.insert */
+		<![CDATA[	
+			INSERT INTO SJPB_INC_SP (INC_SP_NUM,RCPT_NUM,SP_TP_CD,SP_ID_NUM,INDV_CORP_DIV,HOMC_FORC_PERN_DIV,GEND_DIV,SP_NM,SP_ADDR,SP_CNTT_NUM,INC_SP_COMN,INQ_ORD,SP_STAT_CD,SP_INQ_CD,CATH_WRNT,EMGY_CATH,FLGT_OFDR_CATH,ARST_WRNT,INCH_DETN,SP_JOB,SP_BSNS_NM,CRLW_NUM,PO_DIP_DT,JDT_FI_DT,REG_USER_ID,REG_DATE,UPD_USER_ID,UPD_DATE,INC_TEXT,PRO_RST,INC_COMN,UNPROFIT) VALUES 
+			(
+				#incSpNum#
+				,#rcptNum#
+				,#spTpCd#
+				,#spIdNum#
+				,#indvCorpDiv#
+				,#homcForcPernDiv#
+				,#gendDiv#
+				,#spNm#
+				,#spAddr#
+				,#spCnttNum#
+				,#incSpComn#
+				,#inqOrd#
+				,#spStatCd#
+				,#spInqCd#
+				,#cathWrnt#
+				,#emgyCath#
+				,#flgtOfdrCath#
+				,#arstWrnt#
+				,#inchDetn#
+				,#spJob#
+				,#spBsnsNm#
+				,#crlwNum#
+				,#poDipDt#
+				,#jdtFiDt#
+				,#regUserId#
+				, SYSDATE
+				,#updUserId#
+				, SYSDATE
+				,#incText#
+    			,#proRst#
+    			,#incComn#
+    			,#unprofit#
+			)
+		]]>
+	</insert>
+	
+	<!--  피의자 추가(암호화데이터로 암호화하지 않을때) (A내사쪽 중복) -->
+	<insert id="Z0101.SJPB_INC_SP.mf.insert"> /* Z0101.SJPB_INC_SP.mf.insert */
+		<![CDATA[	
+			INSERT INTO SJPB_INC_SP (INC_SP_NUM,RCPT_NUM,SP_TP_CD,SP_ID_NUM,INDV_CORP_DIV,HOMC_FORC_PERN_DIV,GEND_DIV,SP_NM,SP_ADDR,SP_CNTT_NUM,INC_SP_COMN,INQ_ORD,SP_STAT_CD,SP_INQ_CD,CATH_WRNT,EMGY_CATH,FLGT_OFDR_CATH,ARST_WRNT,INCH_DETN,SP_JOB,SP_BSNS_NM,CRLW_NUM,PO_DIP_DT,JDT_FI_DT,REG_USER_ID,REG_DATE,UPD_USER_ID,UPD_DATE) VALUES 
+			(
+				#incSpNum#
+				,#rcptNum#
+				,#spTpCd#
+				,#spIdNum#
+				,#indvCorpDiv#
+				,#homcForcPernDiv#
+				,#gendDiv#
+				,#spNm#
+				,#spAddr#
+				,#spCnttNum#
+				,#incSpComn#
+				,#inqOrd#
+				,#spStatCd#
+				,#spInqCd#
+				,#cathWrnt#
+				,#emgyCath#
+				,#flgtOfdrCath#
+				,#arstWrnt#
+				,#inchDetn#
+				,#spJob#
+				,#spBsnsNm#
+				,#crlwNum#
+				,#poDipDt#
+				,#jdtFiDt#
+				,#regUserId#
+				, SYSDATE
+				,#updUserId#
+				, SYSDATE
+			)
+		]]>
+	</insert>
+	
+	<!--  피의자 상태 수정 -->
+	<update id="Z0101.SJPB_INC_SP.stat.update">  /* Z0101.SJPB_INC_SP.stat.update */
+		<![CDATA[	
+			UPDATE SJPB_INC_SP			
+			SET SP_STAT_CD=#spStatCd#,UPD_USER_ID=#updUserId#,UPD_DATE=SYSDATE
+			WHERE INC_SP_NUM=#incSpNum#
+				AND RCPT_NUM=#rcptNum#
+		]]>
+	</update>
+	
+	<!--  피의자 수정 (A내사쪽 중복) -->
+	<update id="Z0101.SJPB_INC_SP.update">	/* Z0101.SJPB_INC_SP.update */
+		<![CDATA[	
+			UPDATE SJPB_INC_SP			
+			SET SP_TP_CD=#spTpCd#,SP_ID_NUM=#spIdNum#,INDV_CORP_DIV=#indvCorpDiv#,HOMC_FORC_PERN_DIV=#homcForcPernDiv#,GEND_DIV=#gendDiv#,SP_NM=#spNm#,SP_ADDR=#spAddr#,SP_CNTT_NUM=#spCnttNum#,INC_SP_COMN=#incSpComn#,INQ_ORD=#inqOrd#
+			,SP_INQ_CD=#spInqCd#,CATH_WRNT=#cathWrnt#,EMGY_CATH=#emgyCath#,FLGT_OFDR_CATH=#flgtOfdrCath#,ARST_WRNT=#arstWrnt#,INCH_DETN=#inchDetn#
+			,SP_JOB=#spJob#,SP_BSNS_NM=#spBsnsNm#,UPD_USER_ID=#updUserId#,UPD_DATE=SYSDATE,INC_TEXT=#incText#,PRO_RST=#proRst#,INC_COMN=#incComn#,UNPROFIT=#unprofit#
+			
+			
+			WHERE INC_SP_NUM=#incSpNum#
+				AND RCPT_NUM=#rcptNum#
+		]]>
+	</update>
+
+	<!--  피의자 수정 (A내사쪽 중복) -->
+	<update id="Z0101.SJPB_INC_SP.updateMF">	/* Z0101.SJPB_INC_SP.updateMF */
+		<![CDATA[	
+			UPDATE SJPB_INC_SP			
+			SET SP_ID_NUM=,#spIdNum#,GEND_DIV=#gendDiv#,SP_NM=#spNm#,UPD_USER_ID=#updUserId#,UPD_DATE=SYSDATE
+			WHERE INC_SP_NUM=#incSpNum#
+				AND RCPT_NUM=#rcptNum#
+		]]>
+	</update>
+	
+	<!--  피의자 수정 (사건수정쪽에서 가져오므로 암호화가 이미 되어있음) (A내사쪽 중복) -->
+	<update id="Z0101.SJPB_INC_SP.mf.update">	/* Z0101.SJPB_INC_SP.mf.update */
+		<![CDATA[	
+			UPDATE SJPB_INC_SP			
+			SET SP_TP_CD=#spTpCd#,SP_ID_NUM=#spIdNum#,INDV_CORP_DIV=#indvCorpDiv#,HOMC_FORC_PERN_DIV=#homcForcPernDiv#,GEND_DIV=#gendDiv#,SP_NM=#spNm#,SP_ADDR=#spAddr#,SP_CNTT_NUM=#spCnttNum#,INC_SP_COMN=#incSpComn#,INQ_ORD=#inqOrd#
+			,SP_INQ_CD=#spInqCd#,CATH_WRNT=#cathWrnt#,EMGY_CATH=#emgyCath#,FLGT_OFDR_CATH=#flgtOfdrCath#,ARST_WRNT=#arstWrnt#,INCH_DETN=#inchDetn#
+			,SP_JOB=#spJob#,SP_BSNS_NM=#spBsnsNm#,UPD_USER_ID=#updUserId#,UPD_DATE=SYSDATE
+			WHERE INC_SP_NUM=#incSpNum#
+				AND RCPT_NUM=#rcptNum#
+		]]>
+	</update>
+	
+	<!-- 사건수정 수정 -->	 		
+	<update id="Z0101.SJPB_INC_MF.update"> /* Z0101.SJPB_INC_MF.update */			
+		UPDATE SJPB_INC_MF
+		SET MF_STAT=#mfStat#
+			,UPD_USER_ID=#updUserId#
+			,UPD_DATE=SYSDATE
+		WHERE INC_MF_NUM=#incMfNum#
+	</update>
+	
+	<resultMap class="com.saltware.enface.sjpb.Z.service.ForsSuppMediVO" id="Z0101VO.selectForsSuppMedi">
+		<result property="forsSuppMediSiNum" column="FORS_SUPP_MEDI_SI_NUM"/>
+		<result property="forsSuppSiNum" column="FORS_SUPP_SI_NUM"/>
+		<result property="mediSiNum" column="MEDI_SI_NUM"/>
+		<result property="revSeizPers" column="REV_SEIZ_PERS"/>
+		<result property="compNmAddr" column="COMP_NM_ADDR"/>
+		<result property="seizIo" column="SEIZ_IO"/>
+		<result property="mediDiv" column="MEDI_DIV"/>
+		<result property="mediType" column="MEDI_TYPE"/>
+		<result property="phonNum" column="PHON_NUM"/>
+		<result property="maftInfo" column="MAFT_INFO"/>
+		<result property="modlNm" column="MODL_NM"/>
+		<result property="siNum" column="SI_NUM"/>
+		<result property="mediCont" column="MEDI_CONT"/>
+		<result property="anasOffi" column="ANAS_OFFI"/>
+		<result property="anasDt" column="ANAS_DT"/>
+		<result property="obsrYn" column="OBSR_YN"/>
+		<result property="obsrDt" column="OBSR_DT"/>
+		<result property="obsrPern" column="OBSR_PERN"/>
+		<result property="obsrRmComn" column="OBSR_RM_COMN"/>
+		<result property="digtTrfDt" column="DIGT_TRF_DT"/>
+		<result property="digtTrfSiNum" column="DIGT_TRF_SI_NUM"/>
+		<result property="digtTrfMngNum" column="DIGT_TRF_MNG_NUM"/>
+		<result property="suppWorkComn" column="SUPP_WORK_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	<!-- 디지털포렌식지원업무현황 리스트 -->
+	<select id="Z0101.getForsSuppMediList" resultMap="Z0101VO.selectForsSuppMedi"> /* Z0101.getForsSuppMediList */
+		SELECT 
+			FORS_SUPP_MEDI_SI_NUM
+			,FORS_SUPP_SI_NUM
+			,MEDI_SI_NUM
+			,REV_SEIZ_PERS
+			,COMP_NM_ADDR
+			,SEIZ_IO
+			,MEDI_DIV
+			,MEDI_TYPE
+			,PHON_NUM
+			,MAFT_INFO
+			,MODL_NM
+			,SI_NUM
+			,MEDI_CONT
+			,ANAS_OFFI
+			,TO_CHAR(ANAS_DT,'YYYY-MM-DD') AS ANAS_DT	
+			,OBSR_YN
+			,TO_CHAR(OBSR_DT,'YYYY-MM-DD') AS OBSR_DT
+			,OBSR_PERN
+			,OBSR_RM_COMN
+			,TO_CHAR(DIGT_TRF_DT,'YYYY-MM-DD') AS DIGT_TRF_DT
+			,DIGT_TRF_SI_NUM
+			,DIGT_TRF_MNG_NUM
+			,SUPP_WORK_COMN
+			,REG_USER_ID
+			,REG_DATE
+			,UPD_USER_ID
+			,UPD_DATE
+		FROM SJPB_FORS_SUPP_MEDI
+		WHERE MEDI_STAT_CD = '1'
+			AND FORS_SUPP_SI_NUM = #forsSuppSiNum#
+		ORDER BY MEDI_SI_NUM ASC
+	</select>
+	<!-- 디지털포렌식지원업무현황 리스트 -->
+	<select id="Z0101.getIncForsSuppMediList" resultMap="Z0101VO.selectForsSuppMedi"> /* Z0101.getForsSuppMediList */
+		SELECT 
+			A.FORS_SUPP_MEDI_SI_NUM
+			,A.FORS_SUPP_SI_NUM
+			,A.MEDI_SI_NUM
+			,A.REV_SEIZ_PERS
+			,A.COMP_NM_ADDR
+			,A.SEIZ_IO
+			,A.MEDI_DIV
+			,A.MEDI_TYPE
+			,A.PHON_NUM
+			,A.MAFT_INFO
+			,A.MODL_NM
+			,A.SI_NUM
+			,A.MEDI_CONT
+			,A.ANAS_OFFI
+			,TO_CHAR(A.ANAS_DT,'YYYY-MM-DD') AS ANAS_DT	
+			,A.OBSR_YN
+			,TO_CHAR(A.OBSR_DT,'YYYY-MM-DD') AS OBSR_DT
+			,A.OBSR_PERN
+			,A.OBSR_RM_COMN
+			,TO_CHAR(A.DIGT_TRF_DT,'YYYY-MM-DD') AS DIGT_TRF_DT
+			,A.DIGT_TRF_SI_NUM
+			,A.DIGT_TRF_MNG_NUM
+			,A.SUPP_WORK_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+		FROM SJPB_FORS_SUPP_MEDI A
+        LEFT JOIN SJPB_FORS_SUPP_WORK_CUST B ON B.FORS_SUPP_SI_NUM = A.FORS_SUPP_SI_NUM
+		WHERE A.MEDI_STAT_CD = '1'
+			AND B.INC_NUM = #rcptIncNum#
+		ORDER BY A.MEDI_SI_NUM ASC
+	</select>
+	
+	<resultMap class="com.saltware.enface.sjpb.Z.service.SjpbCommonVO" id="Z0101VO.chaIttKndCode">
+		<result property="codeName" column="CODE_NAME"/>
+		<result property="code" column="CODE"/>
+	</resultMap>
+	
+	<select id="Z0101.chaIttKndCodeList" resultMap="Z0101VO.chaIttKndCode">
+		SELECT CODE_NAME,CODE
+		FROM CODEBASE
+		WHERE CODE_ID='SJPB_00010' AND CODE NOT IN('0000000000')
+		ORDER BY TO_NUMBER(CODE_TAG1) ASC,CODE_NAME
+	</select>
+
+	<!-- 	수현1220 -->
+	<resultMap class="com.saltware.enface.sjpb.Z.service.IncSpVO" id="Z0101.incSpNum">
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="actVioNum" column="ACT_VIO_NUM"/>
+	</resultMap>
+	
+	<select id="Z0101.getIncSpNum.list" resultMap="Z0101.incSpNum">		/* Z0101.getIncSpNum.list */
+		SELECT A.INC_SP_NUM
+			   ,B.ACT_VIO_NUM
+		FROM SJPB_INC_SP A
+		JOIN SJPB_ACT_VIO B ON B.INC_SP_NUM = A.INC_SP_NUM AND B.ACT_VIO_STAT_CD='1'
+		WHERE A.RCPT_NUM = #rcptNum# AND A.SP_STAT_CD ='1'
+	</select>
+
+	<!-- 자식 시스템번호 가져오기 -->	
+	<select id="Z0101.getChildRcptNum.list" resultClass="java.lang.String">		/* Z0101.getChildRcptNum.list */
+		SELECT RCPT_NUM
+		FROM SJPB_INC_MAST
+		WHERE PARE_RCPT_NUM = #rcptNum# AND RCPT_STAT_CD ='1'
+	</select>
+	
+	
+	<update id="Z0101.SJPB_INC_TRF_SP_ITEM.insert">		/* Z0101.SJPB_INC_TRF_SP_ITEM.insert */
+		INSERT INTO SJPB_INC_TRF_SP_ITEM (
+		    INC_TRF_ITEM_NUM,
+		    INC_SP_NUM,
+		    ACT_VIO_NUM,
+		    INC_ARRT_CLSF,
+		    EVID_ARTC_YN,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+		    #incTrfItemNum#
+		    , #incSpNum#
+		    , #actVioNum#
+		    , ''
+		    , ''
+		    , #regUserId#
+			, SYSDATE
+			, #updUserId#
+			, SYSDATE
+		)
+	</update>
+	
+	<!-- 	수현1227 -->
+	<resultMap id="Z0101.suspendTaskTrst" class="com.saltware.enface.sjpb.Z.service.TaskTrstVO">
+		<result property="wfNum" column="WF_NUM"/>
+		<result property="taskNum" column="TASK_NUM"/>
+		<result property="trstStatNum" column="TRST_STAT_NUM"/>
+		<result property="trstStatNm" column="TRST_STAT_NM"/>
+		<result property="criStatCd" column="CRI_STAT_CD"/>
+	</resultMap>
+	
+	<select id="Z0101.suspendTaskTrstList" resultMap="Z0101.suspendTaskTrst">	/* Z0101.suspendTaskTrstList */
+		SELECT WF_NUM
+			   ,TASK_NUM
+			   ,TRST_STAT_NUM
+			   ,TRST_STAT_NM 
+			   ,CRI_STAT_CD
+		FROM SJPB_TASK_TRST 
+		WHERE WF_NUM = #wfNum# AND TRST_STAT_CD = 'S'
+	</select>
+	
+	<!-- 판결문파일 추가 -->
+	<insert id="Z0101.insertJdtRstFile">
+		/* Z0101.insertJdtRstFile */
+		<![CDATA[
+			INSERT INTO INC_JDT_FILE_MGT (RCPT_NUM,FILE_ID,FILE_SEQ,FILE_PATH) 
+			VALUES(#rcptNum#,#fileId#,#atchFileOrd#,#filePath#)
+		]]>
+	</insert>
+
+	<resultMap class="com.saltware.enface.sjpb.Z.service.SjpbFileVO" id="Z0101.JdtRstFileVO">
+		<result property="fileId" column="FILE_ID"/>
+		<result property="fileNm" column="FILE_NM"/>
+		<result property="fileSize" column="FILE_SIZE"/>
+		<result property="fileMask" column="FILE_MASK"/>
+		<result property="fileType" column="FILE_TYPE"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="fileCtype" column="FILE_CTYPE"/>
+		<result property="sizeSF" column="FILE_SIZESF"/>
+	</resultMap>
+	
+	<!-- 판결문파일 가져오기 -->
+	<select id="Z0101.selectJdtRstFileList" resultMap="Z0101.JdtRstFileVO">  
+		/* Z0101.selectJdtRstFileList */
+		SELECT C.FILE_ID
+		     , C.FILE_NM                      
+		     , C.FILE_SIZE 
+		     , C.FILE_MASK                     
+		     , C.FILE_TYPE                      
+		     , C.FILE_PATH                      
+		     , C.FILE_CTYPE                   
+		     , '(' || CASE WHEN (C.FILE_SIZE/1024) <![CDATA[>=]]> 1024 THEN ROUND(C.FILE_SIZE/1024/1024, 1) ||' MB'                                                  
+		                   WHEN (C.FILE_SIZE/1024) <![CDATA[<]]>  1024 THEN ROUND(C.FILE_SIZE/1024, 1) || 'KB'                                             
+		                   ELSE ''  END || ')' FILE_SIZESF
+		  FROM 
+		  	INC_JDT_FILE_MGT B
+		  RIGHT OUTER JOIN
+		  	SJPB_COMM_FILE C
+		  ON B.FILE_ID=C.FILE_ID
+		  WHERE 1=1
+		  AND B.RCPT_NUM=#rcptNum#
+		  ORDER BY B.FILE_SEQ
+	</select>
+
+</sqlMap>
+

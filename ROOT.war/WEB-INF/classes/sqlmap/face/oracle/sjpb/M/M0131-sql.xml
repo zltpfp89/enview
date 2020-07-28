@@ -1,0 +1,184 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0131VO" id="M0131VO.list">
+		<result property="apptWantNotcNum" column="APPT_WANT_NOTC_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="incTrfReq" column="INC_TRF_REQ"/>
+		<result property="incTrfDt" column="INC_TRF_DT"/>
+		<result property="incTrfNum" column="INC_TRF_NUM"/>
+		<result property="wantDt" column="WANT_DT"/>
+		<result property="wantNum" column="WANT_NUM"/>
+		<result property="wantCoprDt" column="WANT_COPR_DT"/>
+		<result property="wantCoprNum" column="WANT_COPR_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="gendDivDesc" column="GEND_DIV_DESC"/>
+		<result property="criNm" column="CRI_NM"/>
+		<result property="idctPiDt" column="IDCT_PI_DT"/>
+		<result property="homtAddr" column="HOMT_ADDR"/>
+		<result property="homtBulnCont" column="HOMT_BULN_CONT"/>
+		<result property="wantRelsRsn" column="WANT_RELS_RSN"/>
+		<result property="wantRelsDt" column="WANT_RELS_DT"/>
+		<result property="wantRelsNum" column="WANT_RELS_NUM"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+	
+ 	<select id="M0131.SJPB_APPT_WANT_NOTC_BK_DOC.selectList" resultMap="M0131VO.list">  /* M0131.SJPB_APPT_WANT_NOTC_BK_DOC.selectList */
+ 		SELECT A.APPT_WANT_NOTC_NUM  /* 지명수배및통보번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,A.INC_TRF_REQ  /* 사건송치청자 */
+		       ,A.INC_TRF_DT  /* 사건송치일자 */
+		       ,A.INC_TRF_NUM  /* 사건송치번호 */
+		       ,A.WANT_DT  /* 수배일자 */
+		       ,A.WANT_NUM  /* 수배번호 */
+		       ,A.WANT_COPR_DT  /* 수배공조일자 */
+		       ,A.WANT_COPR_NUM  /* 수배공조번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자명 */
+		       ,B.SP_ID_NUM AS SP_ID_NUM /* 주민등록번호 */
+		       ,H.CODE_NAME AS GEND_DIV_DESC /* 성별 */
+		       ,A.CRI_NM  /* 죄명 */
+		       ,A.IDCT_PI_DT  /* 공소시효만료일자 */
+		       ,A.HOMT_ADDR  /* 연고지주소 */
+		       ,A.HOMT_BULN_CONT  /* 연고지회보내용 */
+		       ,A.WANT_RELS_RSN  /* 수배해제사유 */
+		       ,A.WANT_RELS_DT  /* 수배해제일자 */
+		       ,A.WANT_RELS_NUM  /* 수배해제번호 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,D.NM_KOR  /* 작성자 이름 */
+		FROM SJPB_APPT_WANT_NOTC_BK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		LEFT JOIN CODEBASE H ON H.CODE_ID = 'SJPB_00009' AND H.CODE = B.GEND_DIV AND H.SYSTEM_CODE ='PT' AND H.LANG_KND='ko'
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				C.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				C.RCPT_NUM = #rcptNumSc# OR C.PARE_RCPT_NUM = #rcptNumSc#
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				B.SP_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0131.SJPB_APPT_WANT_NOTC_BK_DOC.insert" parameterClass="com.saltware.enface.sjpb.M.service.M0131VO">  /* M0131.SJPB_APPT_WANT_NOTC_BK_DOC.insert */
+ 		INSERT INTO SJPB_APPT_WANT_NOTC_BK_DOC (
+			    APPT_WANT_NOTC_NUM,
+			    RCPT_NUM,
+			    INC_SP_NUM,
+			    INC_TRF_REQ,
+			    INC_TRF_DT,
+			    INC_TRF_NUM,
+			    WANT_DT,
+			    WANT_NUM,
+			    WANT_COPR_DT,
+			    WANT_COPR_NUM,
+			    CRI_NM,
+			    IDCT_PI_DT,
+			    HOMT_ADDR,
+			    HOMT_BULN_CONT,
+			    WANT_RELS_RSN,
+			    WANT_RELS_DT,
+			    WANT_RELS_NUM,
+			    REG_USER_ID,
+			    REG_DATE,
+			    UPD_USER_ID,
+			    UPD_DATE
+			) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_APPT_WANT_NOTC_BK_DOC.APPT_WANT_NOTC_NUM')
+		    ,#rcptNum#
+		    ,#incSpNum#
+		    ,#incTrfReq#
+		    ,#incTrfDt#
+		    ,#incTrfNum#
+		    ,#wantDt#
+		    ,#wantNum#
+		    ,#wantCoprDt#
+		    ,#wantCoprNum#
+		    ,#criNm#
+		    ,#idctPiDt#
+		    ,#homtAddr#
+		    ,#homtBulnCont#
+		    ,#wantRelsRsn#
+		    ,#wantRelsDt#
+		    ,#wantRelsNum#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		)
+ 	</update>
+ 	<update id="M0131.SJPB_APPT_WANT_NOTC_BK_DOC.update" parameterClass="com.saltware.enface.sjpb.M.service.M0131VO">  /* M0131.SJPB_APPT_WANT_NOTC_BK_DOC.update */
+ 		UPDATE SJPB_APPT_WANT_NOTC_BK_DOC 
+		SET INC_SP_NUM = #incSpNum#,
+		    INC_TRF_REQ = #incTrfReq#,
+		    INC_TRF_DT = #incTrfDt#,
+		    INC_TRF_NUM = #incTrfNum#,
+		    WANT_DT = #wantDt#,
+		    WANT_NUM = #wantNum#,
+		    WANT_COPR_DT = #wantCoprDt#,
+		    WANT_COPR_NUM = #wantCoprNum#,
+		    CRI_NM = #criNm#,
+		    IDCT_PI_DT = #idctPiDt#,
+		    HOMT_ADDR = #homtAddr#,
+		    HOMT_BULN_CONT = #homtBulnCont#,
+		    WANT_RELS_RSN = #wantRelsRsn#,
+		    WANT_RELS_DT = #wantRelsDt#,
+		    WANT_RELS_NUM = #wantRelsNum#,
+		    UPD_USER_ID = #regUserId#,
+		    UPD_DATE = SYSDATE
+		WHERE APPT_WANT_NOTC_NUM = #apptWantNotcNum#
+ 	</update>
+ 	
+ 	<select id="M0131.SJPB_APPT_WANT_NOTC_BK_DOC.prnCheckReport" resultMap="M0131VO.list">  /* M0131.SJPB_APPT_WANT_NOTC_BK_DOC.prnCheckReport */
+		SELECT A.APPT_WANT_NOTC_NUM  /* 지명수배및통보번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,A.INC_TRF_REQ  /* 사건송치청자 */
+		       ,DECODE(A.INC_TRF_DT,NULL,'',SUBSTR(A.INC_TRF_DT,1,4)||'.'|| SUBSTR(A.INC_TRF_DT,5,2) ||'.'||SUBSTR(A.INC_TRF_DT,7,2)) AS INC_TRF_DT  /* 사건송치일자 */
+		       ,A.INC_TRF_NUM  /* 사건송치번호 */
+		       ,DECODE(A.WANT_DT,NULL,'',SUBSTR(A.WANT_DT,1,4)||'.'|| SUBSTR(A.WANT_DT,5,2) ||'.'||SUBSTR(A.WANT_DT,7,2)) AS WANT_DT  /* 수배일자 */
+		       ,A.WANT_NUM  /* 수배번호 */
+		       ,DECODE(A.WANT_COPR_DT,NULL,'',SUBSTR(A.WANT_COPR_DT,1,4)||'.'|| SUBSTR(A.WANT_COPR_DT,5,2) ||'.'||SUBSTR(A.WANT_COPR_DT,7,2)) AS WANT_COPR_DT  /* 수배공조일자 */
+		       ,A.WANT_COPR_NUM  /* 수배공조번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자명 */
+		       ,B.SP_ID_NUM AS SP_ID_NUM /* 주민등록번호 */
+		       ,H.CODE_NAME AS GEND_DIV_DESC /* 성별 */
+		       ,A.CRI_NM  /* 죄명 */
+		       ,DECODE(A.IDCT_PI_DT,NULL,'',SUBSTR(A.IDCT_PI_DT,1,4)||'.'|| SUBSTR(A.IDCT_PI_DT,5,2) ||'.'||SUBSTR(A.IDCT_PI_DT,7,2)) AS IDCT_PI_DT  /* 공소시효만료일자 */
+		       ,A.HOMT_ADDR  /* 연고지주소 */
+		       ,A.HOMT_BULN_CONT  /* 연고지회보내용 */
+		       ,A.WANT_RELS_RSN  /* 수배해제사유 */
+		       ,DECODE(A.WANT_RELS_DT,NULL,'',SUBSTR(A.WANT_RELS_DT,1,4)||'.'|| SUBSTR(A.WANT_RELS_DT,5,2) ||'.'||SUBSTR(A.WANT_RELS_DT,7,2)) AS WANT_RELS_DT  /* 수배해제일자 */
+		       ,A.WANT_RELS_NUM  /* 수배해제번호 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,D.NM_KOR  /* 작성자 이름 */
+		FROM SJPB_APPT_WANT_NOTC_BK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		LEFT JOIN CODEBASE H ON H.CODE_ID = 'SJPB_00009' AND H.CODE = B.GEND_DIV AND H.SYSTEM_CODE ='PT' AND H.LANG_KND='ko'
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="apptWantNotcNumList" prepend="AND">
+				<iterate property="apptWantNotcNumList" open="A.APPT_WANT_NOTC_NUM IN(" close=")" conjunction=",">
+					 #apptWantNotcNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+</sqlMap>

@@ -1,0 +1,262 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0126VO" id="M0126VO.list">
+		<result property="cmctCnfmDelyNotcNum" column="CMCT_CNFM_DELY_NOTC_NUM"/>
+		<result property="notcSiNum" column="NOTC_SI_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="apprDocNum" column="APPR_DOC_NUM"/>
+		<result property="notcTrgtPers" column="NOTC_TRGT_PERS"/>
+		<result property="execOffiTitl" column="EXEC_OFFI_TITL"/>
+		<result property="execOffiNm" column="EXEC_OFFI_NM"/>
+		<result property="handDt" column="HAND_DT"/>
+		<result property="handRst" column="HAND_RST"/>
+		<result property="notcRecvDt" column="NOTC_RECV_DT"/>
+		<result property="notcDt" column="NOTC_DT"/>
+		<result property="cmctCnfmComn" column="CMCT_CNFM_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="nmKor" column="NM_KOR"/>
+
+
+		<result property="execOffiTitlNm" column="EXEC_OFFI_TITL_NM"/>
+		<result property="handDtRst" column="HAND_DT_RST"/>
+		<result property="docNum" column="DOC_NUM"/>
+		<result property="reqExecAgcy" column="REQ_EXEC_AGCY"/>
+		<result property="teleSubs" column="TELE_SUBS"/>
+		<result property="reqTargAndKind" column="REQ_TARG_AND_KIND"/>
+		<result property="reqScop" column="REQ_SCOP"/>
+	</resultMap>
+ 	<select id="M0126.selectList" resultMap="M0126VO.list">  /* M0126.selectList */
+ 		SELECT A.CMCT_CNFM_DELY_NOTC_NUM
+			,A.NOTC_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.APPR_DOC_NUM
+			,A.NOTC_TRGT_PERS
+			,A.EXEC_OFFI_TITL
+			,A.EXEC_OFFI_NM
+			,(A.EXEC_OFFI_TITL || ' ' || A.EXEC_OFFI_NM) AS EXEC_OFFI_TITL_NM
+			,TO_DATE(A.HAND_DT, 'YYYY.MM.DD') AS HAND_DT
+			,A.HAND_RST
+			,(TO_DATE(A.HAND_DT, 'YYYY.MM.DD') || ' ' || A.HAND_RST) AS HAND_DT_RST
+			,TO_DATE(A.NOTC_RECV_DT, 'YYYY.MM.DD') AS NOTC_RECV_DT
+			,TO_DATE(A.NOTC_DT, 'YYYY.MM.DD') AS NOTC_DT
+			,A.CMCT_CNFM_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE 
+ 			,B.RCPT_INC_NUM	
+            ,D.NM_KOR 
+            ,A.DOC_NUM
+			,A.REQ_EXEC_AGCY
+			,A.TELE_SUBS
+			,A.REQ_TARG_AND_KIND
+			,A.REQ_SCOP
+ 		FROM SJPB_CMCT_CNFM_DELY_NOTC_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				B.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="apprSiNumSc" prepend="AND">
+				A.APPR_SI_NUM LIKE = #apprSiNumSc#
+			</isNotEmpty>
+			<isNotEmpty property="sHandDtSc" prepend="AND">
+				A.HAND_DT &gt;= TO_DATE(#sHandDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="eHandDtSc" prepend="AND">
+				A.HAND_DT &lt;= TO_DATE(#eHandDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="regUserNmSc" prepend="AND">
+				D.NM_KOR LIKE '%' || #regUserNmSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				B.RCPT_NUM = #rcptNumSc# OR B.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+		</dynamic>
+        ORDER BY REG_DATE DESC
+ 	</select>
+ 	
+	<!-- 데이터 조회 (pk 일련번호)-->
+	<select id="M0126.selectData" resultMap="M0126VO.list"> /* M0126.selectData */
+		SELECT A.CMCT_CNFM_DELY_NOTC_NUM
+			,A.NOTC_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.APPR_DOC_NUM
+			,A.NOTC_TRGT_PERS
+			,A.EXEC_OFFI_TITL
+			,A.EXEC_OFFI_NM
+			,(A.EXEC_OFFI_TITL || ' ' || A.EXEC_OFFI_NM) AS EXEC_OFFI_TITL_NM
+			,TO_DATE(A.HAND_DT, 'YYYY.MM.DD') AS HAND_DT
+			,A.HAND_RST
+			,(TO_DATE(A.HAND_DT, 'YYYY.MM.DD') || ' ' || A.HAND_RST) AS HAND_DT_RST
+			,TO_DATE(A.NOTC_RECV_DT, 'YYYY.MM.DD') AS NOTC_RECV_DT
+			,TO_DATE(A.NOTC_DT, 'YYYY.MM.DD') AS NOTC_DT
+			,A.CMCT_CNFM_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE 
+ 			,B.RCPT_INC_NUM	
+            ,D.NM_KOR 
+            ,A.DOC_NUM
+			,A.REQ_EXEC_AGCY
+			,A.TELE_SUBS
+			,A.REQ_TARG_AND_KIND
+			,A.REQ_SCOP
+ 		FROM SJPB_CMCT_CNFM_DELY_NOTC_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		WHERE A.CMCT_CNFM_DELY_NOTC_NUM = #cmctCnfmDelyNotcNum#
+	</select>
+ 	
+ 	<!-- 데이터 추가 -->
+	<insert id="M0126.insertData"> /* M0126.insertData */
+		INSERT INTO SJPB_CMCT_CNFM_DELY_NOTC_DOC
+			(
+				CMCT_CNFM_DELY_NOTC_NUM
+				,NOTC_SI_NUM
+				,RCPT_NUM
+				,INC_SP_NUM
+				,APPR_DOC_NUM
+				,NOTC_TRGT_PERS
+				,EXEC_OFFI_TITL
+				,EXEC_OFFI_NM
+				,HAND_DT
+				,HAND_RST
+				,NOTC_RECV_DT
+				,NOTC_DT
+				,CMCT_CNFM_COMN
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE
+				,DOC_NUM
+				,REQ_EXEC_AGCY
+				,TELE_SUBS
+				,REQ_TARG_AND_KIND
+				,REQ_SCOP
+			)
+		VALUES (
+				#cmctCnfmDelyNotcNum#
+				,#notcSiNum#
+				,#rcptNum#
+				,#incSpNum#
+				,#apprDocNum#
+				,#notcTrgtPers#
+				,#execOffiTitl#
+				,#execOffiNm#
+				,#handDt#
+				,#handRst#
+				,#notcRecvDt#
+				,#notcDt#
+				,#cmctCnfmComn#
+				,#regUserId#
+				,SYSDATE
+				,#updUserId#
+				,SYSDATE
+				,#docNum#
+				,#reqExecAgcy#
+				,#teleSubs#
+				,#reqTargAndKind#
+				,#reqScop#
+			)
+	</insert>
+	
+	<!-- 데이터 수정 -->	 		
+	<update id="M0126.updateData"> /* M0126.updateData */	
+		UPDATE SJPB_CMCT_CNFM_DELY_NOTC_DOC
+			SET	NOTC_SI_NUM = #notcSiNum#
+				,RCPT_NUM = #rcptNum#
+				,INC_SP_NUM = #incSpNum#
+				,APPR_DOC_NUM = #apprDocNum#
+				,NOTC_TRGT_PERS = #notcTrgtPers#
+				,EXEC_OFFI_TITL = #execOffiTitl#
+				,EXEC_OFFI_NM = #execOffiNm#
+				,HAND_DT = #handDt#
+				,HAND_RST = #handRst#
+				,NOTC_RECV_DT = #notcRecvDt#
+				,NOTC_DT = #notcDt#
+				,CMCT_CNFM_COMN = #cmctCnfmComn#
+				,UPD_USER_ID = #updUserId#
+				,UPD_DATE = SYSDATE
+				,DOC_NUM = #docNum#
+				,REQ_EXEC_AGCY = #reqExecAgcy#
+				,TELE_SUBS = #teleSubs#
+				,REQ_TARG_AND_KIND = #reqTargAndKind#
+				,REQ_SCOP = #reqScop#
+			WHERE CMCT_CNFM_DELY_NOTC_NUM = #cmctCnfmDelyNotcNum#
+	</update>
+ 	<resultMap class="com.saltware.enface.sjpb.M.service.M0126VO" id="M0126VO.listPrn">
+		<result property="cmctCnfmDelyNotcNum" column="CMCT_CNFM_DELY_NOTC_NUM"/>
+		<result property="notcSiNum" column="NOTC_SI_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="apprDocNum" column="APPR_DOC_NUM"/>
+		<result property="notcTrgtPers" column="NOTC_TRGT_PERS"/>
+		<result property="execOffiTitl" column="EXEC_OFFI_TITL"/>
+		<result property="execOffiNm" column="EXEC_OFFI_NM"/>
+		<result property="handDt" column="HAND_DT"/>
+		<result property="handRst" column="HAND_RST"/>
+		<result property="notcRecvDt" column="NOTC_RECV_DT"/>
+		<result property="notcDt" column="NOTC_DT"/>
+		<result property="cmctCnfmComn" column="CMCT_CNFM_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="nmKor" column="NM_KOR"/>
+
+
+		<result property="execOffiTitlNm" column="EXEC_OFFI_TITL_NM"/>
+		<result property="handDtRst" column="HAND_DT_RST"/>
+	</resultMap>
+ 	<select id="M0126.SJPB_CMCT_CNFM_DELY_NOTC_DOC.prnCheckReport" resultMap="M0126VO.listPrn">  /* M0126.SJPB_CMCT_CNFM_DELY_NOTC_DOC.prnCheckReport */
+ 		SELECT A.CMCT_CNFM_DELY_NOTC_NUM
+			,A.NOTC_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.APPR_DOC_NUM
+			,A.NOTC_TRGT_PERS
+			,A.EXEC_OFFI_TITL
+			,A.EXEC_OFFI_NM
+			,(A.EXEC_OFFI_TITL || ' ' || A.EXEC_OFFI_NM) AS EXEC_OFFI_TITL_NM
+			,TO_DATE(A.HAND_DT, 'YYYY.MM.DD') AS HAND_DT
+			,A.HAND_RST
+			,(TO_DATE(A.HAND_DT, 'YYYY.MM.DD') || ' ' || A.HAND_RST) AS HAND_DT_RST
+			,TO_DATE(A.NOTC_RECV_DT, 'YYYY.MM.DD') AS NOTC_RECV_DT
+			,TO_DATE(A.NOTC_DT, 'YYYY.MM.DD') AS NOTC_DT
+			,A.CMCT_CNFM_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE 
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_CMCT_CNFM_DELY_NOTC_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        LEFT JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="cmctCnfmDelyNotcNumList" prepend="AND">
+				<iterate property="cmctCnfmDelyNotcNumList" open="A.CMCT_CNFM_DELY_NOTC_NUM IN(" close=")" conjunction=",">
+					 #cmctCnfmDelyNotcNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+		
+</sqlMap>

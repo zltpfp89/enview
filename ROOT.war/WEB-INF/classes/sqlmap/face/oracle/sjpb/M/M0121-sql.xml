@@ -1,0 +1,264 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0121VO" id="M0121VO.list">
+		<result property="cmctRstrDelyApprNum" column="CMCT_RSTR_DELY_APPR_NUM"/>
+		<result property="apprSiNum" column="APPR_SI_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="reqDt" column="REQ_DT"/>
+		<result property="reqPersTitl" column="REQ_PERS_TITL"/>
+		<result property="reqPersNm" column="REQ_PERS_NM"/>
+		<result property="reqPersTitlNm" column="REQ_PERS_TITL_NM"/>
+		<result property="apprDocNum" column="APPR_DOC_NUM"/>
+		<result property="notcTrgtMb" column="NOTC_TRGT_MB"/>
+		<result property="handDt" column="HAND_DT"/>
+		<result property="handRst" column="HAND_RST"/>
+		<result property="handDtRst" column="HAND_DT_RST"/>
+		<result property="notcRecvDt" column="NOTC_RECV_DT"/>
+		<result property="apprDt" column="APPR_DT"/>
+		<result property="clarAftrNotcDt" column="CLAR_AFTR_NOTC_DT"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+ 	<select id="M0121.selectList" resultMap="M0121VO.list">  /* M0121.selectList */
+ 		SELECT 
+ 			A.CMCT_RSTR_DELY_APPR_NUM
+			,A.APPR_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,TO_DATE(A.REQ_DT, 'YYYY.MM.DD') AS REQ_DT
+			,A.REQ_PERS_TITL
+			,A.REQ_PERS_NM
+			,TO_CHAR(A.REQ_PERS_TITL || ' ' || A.REQ_PERS_NM) AS REQ_PERS_TITL_NM
+			,A.APPR_DOC_NUM
+			,A.NOTC_TRGT_MB
+			,TO_DATE(A.HAND_DT, 'YYYY.MM.DD') AS HAND_DT
+			,A.HAND_RST
+			,(TO_DATE(A.HAND_DT, 'YYYY.MM.DD') || ' ' || A.HAND_RST) AS HAND_DT_RST
+			,TO_DATE(A.NOTC_RECV_DT, 'YYYY.MM.DD') AS NOTC_RECV_DT
+			,TO_DATE(A.APPR_DT, 'YYYY.MM.DD') AS APPR_DT
+			,TO_DATE(A.CLAR_AFTR_NOTC_DT, 'YYYY.MM.DD') AS CLAR_AFTR_NOTC_DT
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_CMCT_RSTR_DELY_APPR_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				B.RCPT_NUM = #rcptNumSc# OR B.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="apprSiNumSc" prepend="AND">
+				A.APPR_SI_NUM = #apprSiNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="sReqDtSc" prepend="AND">
+				A.REQ_DT &gt;= TO_DATE(#sReqDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="eReqDtSc" prepend="AND">
+				A.REQ_DT &lt;= TO_DATE(#eReqDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="reqPersNmSc" prepend="AND">
+				A.REQ_PERS_NM LIKE '%' || #reqPersNmSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="apprDocNumSc" prepend="AND">
+				A.APPR_DOC_NUM = #apprDocNumSc#
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				C.SP_NM LIKE '%' || #spNmSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				B.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="sApprDtSc" prepend="AND">
+				A.APPR_DT &gt;= TO_DATE(#sApprDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="eApprDtSc" prepend="AND">
+				A.APPR_DT &lt;= TO_DATE(#eApprDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="sClarAftrNotcDt" prepend="AND">
+				A.CLAR_AFTR_NOTC_DT &gt;= TO_DATE(#sClarAftrNotcDt#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="eClarAftrNotcDt" prepend="AND">
+				A.CLAR_AFTR_NOTC_DT &lt;= TO_DATE(#eClarAftrNotcDt#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="regUserNmSc" prepend="AND">
+				D.NM_KOR LIKE '%' || #regUserNmSc# || '%' 
+			</isNotEmpty>
+		</dynamic>
+        ORDER BY REG_DATE DESC
+ 	</select>
+ 	
+	<!-- 데이터 조회 (pk 일련번호)-->
+	<select id="M0121.selectData" resultMap="M0121VO.list"> /* M0121.selectData */
+		SELECT 
+ 			A.CMCT_RSTR_DELY_APPR_NUM
+			,A.APPR_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,TO_DATE(A.REQ_DT, 'YYYY.MM.DD') AS REQ_DT
+			,A.REQ_PERS_TITL
+			,A.REQ_PERS_NM
+			,TO_CHAR(A.REQ_PERS_TITL || ' ' || A.REQ_PERS_NM) AS REQ_PERS_TITL_NM
+			,A.APPR_DOC_NUM
+			,A.NOTC_TRGT_MB
+			,TO_DATE(A.HAND_DT, 'YYYY.MM.DD') AS HAND_DT
+			,A.HAND_RST
+			,(TO_DATE(A.HAND_DT, 'YYYY.MM.DD') || ' ' || A.HAND_RST) AS HAND_DT_RST
+			,TO_DATE(A.NOTC_RECV_DT, 'YYYY.MM.DD') AS NOTC_RECV_DT
+			,TO_DATE(A.APPR_DT, 'YYYY.MM.DD') AS APPR_DT
+			,TO_DATE(A.CLAR_AFTR_NOTC_DT, 'YYYY.MM.DD') AS CLAR_AFTR_NOTC_DT
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR   
+ 		FROM SJPB_CMCT_RSTR_DELY_APPR_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		WHERE A.CMCT_RSTR_DELY_APPR_NUM = #cmctRstrDelyApprNum#
+	</select>
+ 	
+ 	<!-- 데이터 추가 -->
+	<insert id="M0121.insertData"> /* M0121.insertData */
+		INSERT INTO SJPB_CMCT_RSTR_DELY_APPR_DOC
+			(
+				CMCT_RSTR_DELY_APPR_NUM
+				,APPR_SI_NUM
+				,RCPT_NUM
+				,INC_SP_NUM
+				,REQ_DT
+				,REQ_PERS_TITL
+				,REQ_PERS_NM
+				,APPR_DOC_NUM
+				,NOTC_TRGT_MB
+				,HAND_DT
+				,HAND_RST
+				,NOTC_RECV_DT
+				,APPR_DT
+				,CLAR_AFTR_NOTC_DT
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE
+			)
+		VALUES (
+				#cmctRstrDelyApprNum#
+				,#apprSiNum#
+				,#rcptNum#
+				,#incSpNum#
+				,#reqDt#
+				,#reqPersTitl#
+				,#reqPersNm#
+				,#apprDocNum#
+				,#notcTrgtMb#
+				,#handDt#
+				,#handRst#
+				,#notcRecvDt#
+				,#apprDt#
+				,#clarAftrNotcDt#
+				,#regUserId#
+				,SYSDATE
+				,#updUserId#
+				,SYSDATE
+			)
+	</insert>
+	
+	<!-- 데이터 수정 -->	 		
+	<update id="M0121.updateData"> /* M0121.updateData */	
+		UPDATE SJPB_CMCT_RSTR_DELY_APPR_DOC
+			SET	RCPT_NUM = #rcptNum#
+				,INC_SP_NUM = #incSpNum#
+				,APPR_SI_NUM = #apprSiNum#
+				,REQ_DT = #reqDt#
+				,REQ_PERS_TITL = #reqPersTitl#
+				,REQ_PERS_NM = #reqPersNm#
+				,APPR_DOC_NUM = #apprDocNum#
+				,NOTC_TRGT_MB = #notcTrgtMb#
+				,HAND_DT = #handDt#
+				,HAND_RST = #handRst#
+				,NOTC_RECV_DT = #notcRecvDt#
+				,APPR_DT = #apprDt#
+				,CLAR_AFTR_NOTC_DT = #clarAftrNotcDt#
+				,UPD_USER_ID = #updUserId#
+				,UPD_DATE = SYSDATE		
+			WHERE CMCT_RSTR_DELY_APPR_NUM = #cmctRstrDelyApprNum#
+	</update>
+ 	<resultMap class="com.saltware.enface.sjpb.M.service.M0121VO" id="M0121VO.listPrn">
+		<result property="cmctRstrDelyApprNum" column="CMCT_RSTR_DELY_APPR_NUM"/>
+		<result property="apprSiNum" column="APPR_SI_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="reqDt" column="REQ_DT"/>
+		<result property="reqPersTitl" column="REQ_PERS_TITL"/>
+		<result property="reqPersNm" column="REQ_PERS_NM"/>
+		<result property="reqPersTitlNm" column="REQ_PERS_TITL_NM"/>
+		<result property="apprDocNum" column="APPR_DOC_NUM"/>
+		<result property="notcTrgtMb" column="NOTC_TRGT_MB"/>
+		<result property="handDt" column="HAND_DT"/>
+		<result property="handRst" column="HAND_RST"/>
+		<result property="handDtRst" column="HAND_DT_RST"/>
+		<result property="notcRecvDt" column="NOTC_RECV_DT"/>
+		<result property="apprDt" column="APPR_DT"/>
+		<result property="clarAftrNotcDt" column="CLAR_AFTR_NOTC_DT"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+ 	<select id="M0121.SJPB_CMCT_RSTR_DELY_APPR_DOC.prnCheckReport" resultMap="M0121VO.listPrn">  /* M0121.SJPB_CMCT_RSTR_DELY_APPR_DOC.prnCheckReport */
+ 		SELECT 
+ 			A.CMCT_RSTR_DELY_APPR_NUM
+			,A.APPR_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,TO_DATE(A.REQ_DT, 'YYYY.MM.DD') AS REQ_DT
+			,A.REQ_PERS_TITL
+			,A.REQ_PERS_NM
+			,TO_CHAR(A.REQ_PERS_TITL || ' ' || A.REQ_PERS_NM) AS REQ_PERS_TITL_NM
+			,A.APPR_DOC_NUM
+			,A.NOTC_TRGT_MB
+			,TO_DATE(A.HAND_DT, 'YYYY.MM.DD') AS HAND_DT
+			,A.HAND_RST
+			,(TO_DATE(A.HAND_DT, 'YYYY.MM.DD') || ' ' || A.HAND_RST) AS HAND_DT_RST
+			,TO_DATE(A.NOTC_RECV_DT, 'YYYY.MM.DD') AS NOTC_RECV_DT
+			,TO_DATE(A.APPR_DT, 'YYYY.MM.DD') AS APPR_DT
+			,TO_DATE(A.CLAR_AFTR_NOTC_DT, 'YYYY.MM.DD') AS CLAR_AFTR_NOTC_DT
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_CMCT_RSTR_DELY_APPR_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="cmctRstrDelyApprNumList" prepend="AND">
+				<iterate property="cmctRstrDelyApprNumList" open="A.CMCT_RSTR_DELY_APPR_NUM IN(" close=")" conjunction=",">
+					 #cmctRstrDelyApprNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

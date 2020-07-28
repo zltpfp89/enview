@@ -1,0 +1,99 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ BATCH_SCHEDULE : 배치 스케줄관리 ] Table -->
+	<resultMap id="admin_BatchScheduleVO_PK" class="com.saltware.enview.admin.batchSchedule.service.BatchSchedulePK">
+	
+		<result property="scheduleId" column="SCHEDULE_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_BatchScheduleVO" class="com.saltware.enview.admin.batchSchedule.service.BatchScheduleVO">
+	 
+		<result property="scheduleId" column="SCHEDULE_ID" columnIndex="1"/>	 
+		<result property="actionId" column="ACTION_ID" columnIndex="2"/>	 
+		<result property="actionName0" column="ACTION_NAME0" columnIndex="3"/>	 
+		<result property="executeCycle" column="EXECUTE_CYCLE" columnIndex="4"/>	 
+		<result property="executeDay" column="EXECUTE_DAY" columnIndex="5"/>	 
+		<result property="executeHour" column="EXECUTE_HOUR" columnIndex="6"/>	 
+		<result property="executeMin" column="EXECUTE_MIN" columnIndex="7"/>	 
+		<result property="executeSec" column="EXECUTE_SEC" columnIndex="8"/>	 
+		<result property="executeWeeks" column="EXECUTE_WEEKS" columnIndex="9"/>	 
+		<result property="isLogging" column="IS_LOGGING" columnIndex="10"/>	 
+		<result property="updUserId" column="UPD_USER_ID" columnIndex="11"/>	 
+		<result property="updDatim" column="UPD_DATIM" columnIndex="12"/>	
+		<result property="actionType0" column="ACTION_TYPE0" columnIndex="13"/>
+		<result property="program0" column="PROGRAM0" columnIndex="14"/>
+		<result property="parameter0" column="PARAMETER0" columnIndex="15"/>
+	</resultMap>
+	
+	<select id="batchSchedule.totalCount" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM BATCH_SCHEDULE a INNER JOIN BATCH_ACTION b ON a.ACTION_ID=b.ACTION_ID
+			WHERE 1=1	
+					<isNotNull  prepend=" AND " property="name0Cond">b.NAME LIKE nvl(#name0Cond#,'%')+'%'</isNotNull>
+	</select>
+	
+	<select id="batchSchedule.findByPage" resultMap="admin_BatchScheduleVO_PK">
+			SELECT * FROM ( 
+				SELECT Row_Number() OVER (<isNull property="sortColumn">ORDER BY SCHEDULE_ID ASC</isNull><isNotNull property="sortColumn"> ORDER BY $sortColumn$ $sortMethod$ </isNotNull>) AS rownum, SCHEDULE_ID
+				FROM BATCH_SCHEDULE
+				WHERE 1=1 
+					<isNotNull  prepend=" AND " property="name0Cond">b.NAME LIKE nvl(#name0Cond#,'%')+'%'</isNotNull>
+			) T1
+			WHERE rownum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="batchSchedule.findAll" resultMap="admin_BatchScheduleVO">
+			SELECT a.SCHEDULE_ID, a.ACTION_ID, b.NAME AS ACTION_NAME0, a.EXECUTE_CYCLE, a.EXECUTE_DAY, a.EXECUTE_HOUR, a.EXECUTE_MIN, a.EXECUTE_SEC, a.EXECUTE_WEEKS, a.IS_LOGGING, a.UPD_USER_ID, a.UPD_DATIM, b.ACTION_TYPE AS ACTION_TYPE0,b.PROGRAM AS PROGRAM0,b.PARAMETER AS PARAMETER0
+			FROM BATCH_SCHEDULE a INNER JOIN BATCH_ACTION b ON a.ACTION_ID=b.ACTION_ID
+	</select>
+	
+
+	<select id="batchSchedule.detail" resultMap="admin_BatchScheduleVO">
+		<![CDATA[
+			SELECT a.SCHEDULE_ID, a.ACTION_ID, b.NAME AS ACTION_NAME0, a.EXECUTE_CYCLE, a.EXECUTE_DAY, a.EXECUTE_HOUR, a.EXECUTE_MIN, a.EXECUTE_SEC, a.EXECUTE_WEEKS, a.IS_LOGGING, a.UPD_USER_ID, a.UPD_DATIM, b.ACTION_TYPE AS ACTION_TYPE0,b.PROGRAM AS PROGRAM0,b.PARAMETER AS PARAMETER0
+			FROM BATCH_SCHEDULE a INNER JOIN BATCH_ACTION b ON a.ACTION_ID=b.ACTION_ID
+			WHERE 1=1 
+				AND a.SCHEDULE_ID=#scheduleId#
+		]]>
+	</select>
+	
+	<select id="batchSchedule.exist" resultClass="int">
+			SELECT COUNT(*) cnt
+			FROM BATCH_SCHEDULE
+			WHERE 1=1 
+				AND SCHEDULE_ID=#scheduleId#
+	</select>
+	
+	<insert id="batchSchedule.insert">
+		<![CDATA[
+			INSERT INTO BATCH_SCHEDULE
+				( SCHEDULE_ID,ACTION_ID,EXECUTE_CYCLE,EXECUTE_DAY,EXECUTE_HOUR,EXECUTE_MIN,EXECUTE_SEC,EXECUTE_WEEKS,IS_LOGGING,UPD_USER_ID,UPD_DATIM )
+			VALUES ( #scheduleId#,#actionId#,#executeCycle#,#executeDay#,#executeHour#,#executeMin#,#executeSec#,#executeWeeks#,#isLogging#,#updUserId#,#updDatim# )
+		]]>
+	</insert>
+	
+	<update id="batchSchedule.update">
+		<![CDATA[
+			UPDATE BATCH_SCHEDULE
+			SET SCHEDULE_ID=#scheduleId#,ACTION_ID=#actionId#,EXECUTE_CYCLE=#executeCycle#,EXECUTE_DAY=#executeDay#,EXECUTE_HOUR=#executeHour#,EXECUTE_MIN=#executeMin#,EXECUTE_SEC=#executeSec#,EXECUTE_WEEKS=#executeWeeks#,IS_LOGGING=#isLogging#,UPD_USER_ID=#updUserId#,UPD_DATIM=#updDatim#
+			WHERE 1=1 
+				AND SCHEDULE_ID=#scheduleId#
+		]]>
+	</update>
+	
+	<delete id="batchSchedule.delete">
+		<![CDATA[
+			DELETE FROM BATCH_SCHEDULE
+			WHERE 1=1 
+				AND SCHEDULE_ID=#scheduleId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

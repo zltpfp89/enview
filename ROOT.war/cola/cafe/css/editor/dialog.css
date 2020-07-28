@@ -1,0 +1,14 @@
+.dialog-panel { background-color: transparent; }
+
+.dialog-title { cursor: move; font-size: 13px; font-weight: bold; font-family: dottum; background-color: transparent; background-image: url(../../images/editor/title/title_bg.gif); background-repeate: repeat-x; }
+.titleCloseBtn { float: right; cursor: pointer; margin-top: 3px; margin-right: 6px; width: 22px; padding: 3px 3px 3px 3px; height: 20px; background-color: transparent; color: gray; border: none; }
+.dialog-contents { padding-top: 1px; background-color: #fcfcfc; }
+.dialog-contents label { font-size: 12px; font-family: dotum; }
+
+.dialog-buttons { margin: 0px auto; border-top: 1px solid #dedede; background-color: #fdfdfd; padding-top: 5px; }
+.dialog-buttons-wrap { margin: 0px auto; height: 26px; width: 92px; }
+
+.bottomBtn { float: left; cursor: pointer; height: 26px; width: 46px; background-image: url(../../images/editor/title/title_btn.gif); }
+
+.dialog-buttons .okBtn { background-position: 0 0%; }
+.dialog-buttons .cancelBtn { background-position: 0 100%; }

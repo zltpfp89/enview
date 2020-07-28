@@ -1,0 +1,51 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sche">
+
+	<resultMap id="schedule.lang" class="com.saltware.enhancer.calendar.service.ScheduleLangVO">
+		<result property="scheduleId" column="SCHEDULE_ID" columnIndex="1"/>	 
+		<result property="langKnd" column="LANG_KND" columnIndex="2"/>	 
+		<result property="name" column="NAME" columnIndex="3"/>
+		<result property="place" column="PLACE" columnIndex="4"/>	 
+		<result property="comments" column="COMMENTS" columnIndex="5"/>
+		<result property="insDatim" column="INS_DATIM" columnIndex="6"/>
+		<result property="updDatim" column="UPD_DATIM" columnIndex="7"/>	 
+	</resultMap>
+
+	<select id="schedule.lang.list" resultMap="schedule.lang">/* schedule.lang.list */
+		SELECT SCHEDULE_ID, LANG_KND, NAME, PLACE, COMMENTS, INS_DATIM, UPD_DATIM
+		FROM SCHEDULE_LANG
+		WHERE SCHEDULE_ID=CAST(#scheduleId# AS INTEGER)
+	</select>
+	
+	<select id="schedule.lang.detail" resultMap="schedule.lang">/* schedule.lang.detail */
+		SELECT SCHEDULE_ID, LANG_KND, NAME, PLACE, COMMENTS, INS_DATIM, UPD_DATIM
+		FROM SCHEDULE_LANG
+		WHERE SCHEDULE_ID=CAST(#scheduleId# AS INTEGER)
+		<isNotNull property="langKnd" prepend=" AND ">LANG_KND=#langKnd#</isNotNull>
+	</select>
+	
+	<insert id="schedule.lang.insert">/* schedule.lang.insert */
+		INSERT INTO SCHEDULE_LANG (SCHEDULE_ID, LANG_KND, NAME, PLACE, COMMENTS, INS_DATIM, UPD_DATIM)
+		VALUES (CAST(#scheduleId# AS INTEGER), #langKnd#, #name#, #place#, #comments#, SYSDATE, SYSDATE)
+	</insert>
+	
+	<update id="schedule.lang.update">/* schedule.lang.update */
+		UPDATE SCHEDULE_LANG SET NAME=#name#, PLACE=#place#, COMMENTS=#comments#, UPD_DATIM=SYSDATE
+		WHERE SCHEDULE_ID=CAST(#scheduleId# AS INTEGER)
+		<isNotNull property="langKnd" prepend=" AND ">LANG_KND=#langKnd#</isNotNull>
+	</update>
+	
+	<delete id="schedule.lang.delete">/* schedule.lang.delete */
+		DELETE FROM SCHEDULE_LANG
+		WHERE SCHEDULE_ID=CAST(#scheduleId# AS INTEGER)
+		<isNotNull property="langKnd" prepend=" AND ">LANG_KND=#langKnd#</isNotNull>
+	</delete>
+	
+	<delete id="schedule.lang.delete.calendar">/* schedule.lang.delete.calendar */
+		DELETE FROM SCHEDULE_LANG
+		WHERE SCHEDULE_ID IN (SELECT SCHEDULE_ID FROM SCHEDULE WHERE CALENDAR_ID=CAST(#calendarId# AS INTEGER))
+	</delete>
+	
+</sqlMap>
+

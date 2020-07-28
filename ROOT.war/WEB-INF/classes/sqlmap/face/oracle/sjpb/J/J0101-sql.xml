@@ -1,0 +1,148 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.J.service.J0101SC" id="J0101SC.fdCdList">
+		<result property="codeName" column="CODE_NAME"/>
+		<result property="code" column="CODE"/>
+	</resultMap>
+	
+	<select id="J0101.getRoleFdCdList" resultMap="J0101SC.fdCdList">
+		SELECT CODE_NAME
+			   ,CODE
+		FROM CODEBASE 
+		WHERE CODE_ID = 'SJPB_00002' AND CODE NOT IN('0000000000')
+		<isNotEmpty property="orgCd" prepend="AND">
+			CODE_TAG1 = #orgCd#
+		</isNotEmpty>
+		ORDER BY TO_NUMBER(CODE_TAG2) ASC
+	</select>
+	
+	
+	
+	<resultMap class="com.saltware.enface.sjpb.J.service.J0101VO" id="J0101VO.invigtorCondition">
+		<result property="sort" column="SORT"/>
+		<result property="total" column="TOTAL"/>
+		<result property="prsct" column="PRSCT"/>
+		<result property="cmd" column="CMD"/>
+		<result property="disp" column="DISP"/>
+		<result property="trs" column="TRS"/>
+		<result property="etc" column="ETC"/>
+	</resultMap> 
+	
+	<select id="J0101.J0103.FdCdCondition" resultMap="J0101VO.invigtorCondition"> /* J0101.J0103.FdCdCondition */
+		SELECT A.*
+			   ,DECODE(A.PRSCT,0,0,ROUND(((A.TRS/A.TOTAL)*100),1)) AS TRS_PER  /* 송치율 */ 
+			   
+		FROM (
+				SELECT DECODE(B.CODE_NAME,NULL,'전체',B.CODE_NAME) AS SORT
+					   ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL
+					   			<isNotEmpty property="regStart" prepend="AND">
+									<isNotEmpty property="regEnd">
+										TO_DATE(C.BE_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+									</isNotEmpty>
+								</isNotEmpty>
+								<isNotEmpty property="year" prepend="AND">
+									SUBSTR(C.RCPT_INC_NUM,1,4) = #year#
+								</isNotEmpty>
+								THEN '1' ELSE '0' END),0) AS TOTAL /* 계 */
+				       ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2'
+				       			<iterate property="prsct" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#prsct[].code#
+			            		</iterate>
+				       			<isNotEmpty property="regStart" prepend="AND">
+									<isNotEmpty property="regEnd">
+										TO_DATE(C.BE_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+									</isNotEmpty>
+								</isNotEmpty>
+								<isNotEmpty property="year" prepend="AND">
+									SUBSTR(C.RCPT_INC_NUM,1,4) = #year#
+								</isNotEmpty>
+								THEN '1' ELSE '0' END),0) AS PRSCT /* 입건 */
+			           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2'
+			           			<iterate property="cmd" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#cmd[].code#
+			            		</iterate>
+			            		<isNotEmpty property="regStart" prepend="AND">
+									<isNotEmpty property="regEnd">
+										TO_DATE(C.BE_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+									</isNotEmpty>
+								</isNotEmpty>
+								<isNotEmpty property="year" prepend="AND">
+									SUBSTR(C.RCPT_INC_NUM,1,4) = #year#
+								</isNotEmpty>
+			            		THEN '1' ELSE '0' END),0) AS CMD /* 지휘 */
+
+			           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2'
+			           			<iterate property="trnsr" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#trnsr[].code#
+			                    </iterate>
+			                    <isNotEmpty property="regStart" prepend="AND">
+									<isNotEmpty property="regEnd">
+										TO_DATE(C.BE_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+									</isNotEmpty>
+								</isNotEmpty>
+								<isNotEmpty property="year" prepend="AND">
+									SUBSTR(C.RCPT_INC_NUM,1,4) = #year#
+								</isNotEmpty>
+			                    THEN '1' ELSE '0' END),0) AS TRS /* 송치 */
+			           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2'
+			           			<iterate property="disp" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#disp[].code#
+			                    </iterate>
+			                    <isNotEmpty property="regStart" prepend="AND">
+									<isNotEmpty property="regEnd">
+										TO_DATE(C.BE_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+									</isNotEmpty>
+								</isNotEmpty>
+								<isNotEmpty property="year" prepend="AND">
+									SUBSTR(C.RCPT_INC_NUM,1,4) = #year#
+								</isNotEmpty>
+			                    THEN '1' ELSE '0' END),0) AS DISP /* 처분 */
+			           
+			           ,NVL(SUM(CASE WHEN C.CRI_STAT_CD IN('99')
+			                    <isNotEmpty property="regStart" prepend="AND">
+									<isNotEmpty property="regEnd">
+										TO_DATE(C.BE_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+									</isNotEmpty>
+								</isNotEmpty>
+								<isNotEmpty property="year" prepend="AND">
+									SUBSTR(C.RCPT_INC_NUM,1,4) = #year#
+								</isNotEmpty>
+			                    THEN '1' ELSE '0' END),0) AS ETC /* 종결 */
+				FROM CODEBASE B
+				LEFT JOIN SJPB_INC_MAST C ON B.CODE = C.FD_CD
+				WHERE B.CODE_ID = 'SJPB_00002' AND B.CODE NOT IN('0000000000') 
+				GROUP BY ROLLUP(B.CODE_NAME)
+			) A
+		LEFT JOIN CODEBASE W ON W.CODE_ID='SJPB_00002' AND W.CODE_NAME = A.SORT
+		WHERE A.SORT='전체'
+		ORDER BY DECODE(A.SORT,'전체','1'),TO_NUMBER(W.CODE_TAG2) ASC
+	</select>
+	
+	<resultMap class="com.saltware.enface.sjpb.J.service.J0101VO" id="J0101VO.actVioTypeList">
+		<result property="sort" column="SORT"/>
+		<result property="typeNum" column="TYPE_NUM"/>
+	</resultMap>
+	
+	<select id="J0101.actVioTypeList" resultMap="J0101VO.actVioTypeList">		/* J0101.actVioTypeList */
+		SELECT DECODE(B.CODE_NAME,NULL,'전체',B.CODE_NAME) AS SORT
+		       ,COUNT(A.ACT_VIO_NUM) AS TYPE_NUM  
+		FROM SJPB_ACT_VIO_TYPE A
+		JOIN CODEBASE B ON B.CODE_ID='SJPB_00085' and B.CODE = A.ACT_VIO_TYPE_CODE
+		LEFT JOIN SJPB_ACT_VIO C ON C.ACT_VIO_NUM = A.ACT_VIO_NUM
+		LEFT JOIN SJPB_INC_SP D ON D.INC_SP_NUM = C.INC_SP_NUM
+		LEFT JOIN SJPB_INC_MAST E ON E.RCPT_NUM = D.RCPT_NUM 
+				<isNotEmpty property="year" prepend="AND">
+					SUBSTR(E.RCPT_INC_NUM,1,4)=#year#
+				</isNotEmpty>
+				<isNotEmpty property="regStart" prepend="AND">
+					<isNotEmpty property="regEnd">
+						TO_DATE(E.BE_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+					</isNotEmpty>
+				</isNotEmpty>
+		GROUP BY ROLLUP(B.CODE_NAME)
+		ORDER BY DECODE(SORT,'전체',1)
+	</select>
+
+</sqlMap>
+ 

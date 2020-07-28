@@ -1,0 +1,274 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="face">
+	<!-- Query for [ SJPB_FINC_DTA_DTS : 금융자료 상세 ] Table -->
+	<resultMap class="com.saltware.enface.sjpb.N.service.N0102VO" id="N0102VO.selectList">
+		<result property="fincDtaDtsNum" column="FINC_DTA_DTS_NUM"/>
+		<result property="fincDtaBkNum" column="FINC_DTA_BK_NUM"/>
+		<result property="fincCd" column="FINC_CD"/>
+		<result property="fincNm" column="FINC_NM"/>
+		<result property="wrntTrgtAcctNum" column="WRNT_TRGT_ACCT_NUM"/>
+		<result property="inptOuptDiv" column="INPT_OUPT_DIV"/>
+		<result property="inptOuptDivNm" column="INPT_OUPT_DIV_NM"/>
+		<result property="trntDt" column="TRNT_DT"/>
+		<result property="trntAmt" column="TRNT_AMT"/>
+		<result property="opntAcctNum" column="OPNT_ACCT_NUM"/>
+		<result property="opntFincCd" column="OPNT_FINC_CD"/>
+		<result property="opntFincNm" column="OPNT_FINC_NM"/>
+		<result property="inptOuptNm" column="INPT_OUPT_NM"/>
+		<result property="acctAbst" column="ACCT_ABST"/>
+		<result property="fincDtaComn" column="FINC_DTA_COMN"/>
+	</resultMap>
+
+	
+	<!-- 금융대장 마스터  리스트 -->
+	<select id="N0102.selectList" resultMap="N0102VO.selectList"> /* N0102.selectList */
+		SELECT FINC_DTA_DTS_NUM ,
+		       FINC_DTA_BK_NUM ,
+		       FINC_CD ,
+		       (SELECT CODE_NAME
+		       FROM    CODEBASE
+		       WHERE   CODE_ID ='SJPB_00024'
+		       AND     CODE   !='0000000000'
+		       AND     LANG_KND='ko'
+		       AND     CODE    =FINC_CD
+		       )
+		              ||'('
+		              ||FINC_CD
+		              ||')' AS FINC_NM ,
+		       CRYPTO.DEC('normal',WRNT_TRGT_ACCT_NUM) AS WRNT_TRGT_ACCT_NUM,
+		       INPT_OUPT_DIV ,
+		       (SELECT CODE_NAME
+		       FROM    CODEBASE
+		       WHERE   CODE_ID ='SJPB_00030'
+		       AND     CODE   !='0000000000'
+		       AND     LANG_KND='ko'
+		       AND     CODE    =INPT_OUPT_DIV
+		       )
+		       INPT_OUPT_DIV_NM ,
+		       TO_CHAR(TRNT_DT,'YYYY-MM-DD') AS  TRNT_DT,
+		       TRNT_AMT,
+		       CRYPTO.DEC('normal',OPNT_ACCT_NUM) AS OPNT_ACCT_NUM,
+		       OPNT_FINC_CD,
+		       (SELECT CODE_NAME
+		       FROM    CODEBASE
+		       WHERE   CODE_ID ='SJPB_00024'
+		       AND     CODE   !='0000000000'
+		       AND     LANG_KND='ko'
+		       AND     CODE    =OPNT_FINC_CD
+		       )
+		              ||'('
+		              ||OPNT_FINC_CD
+		              ||')' AS OPNT_FINC_NM ,
+		       CRYPTO.DEC('normal',INPT_OUPT_NM) AS INPT_OUPT_NM,
+		       CRYPTO.DEC('normal',ACCT_ABST) AS ACCT_ABST,
+		       CRYPTO.DEC('normal',FINC_DTA_COMN) AS FINC_DTA_COMN
+		FROM   SJPB_FINC_DTA_DTS
+		WHERE  1               =1
+		AND    FINC_DTA_BK_NUM =#fincDtaBkNum#
+		AND    REG_USER_ID     =#regUserId#		
+		<isNotEmpty  prepend=" AND " property="inptOuptDiv">INPT_OUPT_DIV =#inptOuptDiv#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="opntFincCd">OPNT_FINC_CD =#opntFincCd#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="inptOuptNm">CRYPTO.DEC('normal',INPT_OUPT_NM) LIKE '%'||#inptOuptNm#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="acctAbst">CRYPTO.DEC('normal',ACCT_ABST) LIKE '%'||#acctAbst#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="wrntTrgtAcctNum">CRYPTO.DEC('normal',WRNT_TRGT_ACCT_NUM) LIKE '%'||#wrntTrgtAcctNum#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="opntAcctNum">CRYPTO.DEC('normal',OPNT_ACCT_NUM) LIKE '%'||#opntAcctNum#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sDate">TRNT_DT &gt;= #sDate#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="eDate">TRNT_DT &lt;= TO_DATE(#eDate#, 'YYYY-MM-DD')+1</isNotEmpty>	
+		<isNotEmpty  prepend=" AND " property="trntDt">TO_CHAR(TRNT_DT,'YYYY-MM-DD') = #trntDt#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sTrntAmt">TRNT_AMT &gt;= #sTrntAmt#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="eTrntAmt">TRNT_AMT &lt;= #eTrntAmt#</isNotEmpty>				 	
+	 	ORDER BY TRNT_DT ASC
+	</select>
+	
+<!-- 금융대장 마스터  리스트 -->
+	<select id="N0102.selectDtlList" resultMap="N0102VO.selectList"> /* N0102.selectDtlList */
+		SELECT FINC_DTA_DTS_NUM ,
+		       FINC_DTA_BK_NUM ,
+		       FINC_CD ,
+		       (SELECT CODE_NAME
+		       FROM    CODEBASE
+		       WHERE   CODE_ID ='SJPB_00024'
+		       AND     CODE   !='0000000000'
+		       AND     LANG_KND='ko'
+		       AND     CODE    =FINC_CD
+		       )
+		              ||'('
+		              ||FINC_CD
+		              ||')' AS FINC_NM ,
+		       CRYPTO.DEC('normal',WRNT_TRGT_ACCT_NUM) AS WRNT_TRGT_ACCT_NUM,
+		       INPT_OUPT_DIV ,
+		       (SELECT CODE_NAME
+		       FROM    CODEBASE
+		       WHERE   CODE_ID ='SJPB_00030'
+		       AND     CODE   !='0000000000'
+		       AND     LANG_KND='ko'
+		       AND     CODE    =INPT_OUPT_DIV
+		       )
+		       INPT_OUPT_DIV_NM ,
+		       TO_CHAR(TRNT_DT,'YYYY-MM-DD') AS  TRNT_DT,
+		       TRNT_AMT ,
+		       CRYPTO.DEC('normal',OPNT_ACCT_NUM) AS OPNT_ACCT_NUM,
+		       OPNT_FINC_CD,
+		       (SELECT CODE_NAME
+		       FROM    CODEBASE
+		       WHERE   CODE_ID ='SJPB_00024'
+		       AND     CODE   !='0000000000'
+		       AND     LANG_KND='ko'
+		       AND     CODE    =OPNT_FINC_CD
+		       )
+		              ||'('
+		              ||OPNT_FINC_CD
+		              ||')' AS OPNT_FINC_NM ,
+		       CRYPTO.DEC('normal',INPT_OUPT_NM) AS INPT_OUPT_NM,
+		       CRYPTO.DEC('normal',ACCT_ABST) AS ACCT_ABST,
+		       CRYPTO.DEC('normal',FINC_DTA_COMN) AS FINC_DTA_COMN
+		FROM   SJPB_FINC_DTA_DTS
+		WHERE  1               =1
+		AND    FINC_DTA_BK_NUM =#fincDtaBkNum#
+		AND    REG_USER_ID     =#regUserId#		
+		<isNotEmpty  prepend=" AND " property="inptOuptDiv">INPT_OUPT_DIV =#inptOuptDiv#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="opntFincCd">OPNT_FINC_CD =#opntFincCd#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="inptOuptNm">CRYPTO.DEC('normal',INPT_OUPT_NM) LIKE '%'||#inptOuptNm#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="acctAbst">CRYPTO.DEC('normal',ACCT_ABST) LIKE '%'||#acctAbst#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="wrntTrgtAcctNum">CRYPTO.DEC('normal',WRNT_TRGT_ACCT_NUM) LIKE '%'||#wrntTrgtAcctNum#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="opntAcctNum">
+		CRYPTO.DEC('normal',OPNT_ACCT_NUM) LIKE '%'||#opntAcctNum#||'%'
+		</isNotEmpty>
+		<isEmpty  prepend=" AND " property="opntAcctNum">
+		OPNT_ACCT_NUM IS NULL
+		</isEmpty>
+		<isNotEmpty  prepend=" AND " property="sDate">TRNT_DT &gt;= #sDate#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="eDate">TRNT_DT &lt;= TO_DATE(#eDate#, 'YYYY-MM-DD')+1</isNotEmpty>	
+		<isNotEmpty  prepend=" AND " property="trntDt">TO_CHAR(TRNT_DT,'YYYY-MM-DD') = #trntDt#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sTrntAmt">TRNT_AMT &gt;= #sTrntAmt#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="eTrntAmt">TRNT_AMT &lt;= #eTrntAmt#</isNotEmpty>				 	
+	 	ORDER BY TRNT_DT ASC
+	</select>	
+	
+	
+	
+	
+	<delete id="N0102.SJPB_FINC_DTA_DTS.delete">  /* N0102.SJPB_FINC_DTA_DTS.delete */
+		<![CDATA[	
+			DELETE FROM SJPB_FINC_DTA_DTS WHERE FINC_DTA_DTS_NUM=#fincDtaDtsNum#
+		]]>
+	</delete>
+	
+	
+	
+	<resultMap class="com.saltware.enface.sjpb.N.service.N0102VO" id="N0102.selectWrntTrgtAcctNumStatisticsList">
+		<result property="opntAcctNum" column="OPNT_ACCT_NUM"/>
+		<result property="opntFincNm" column="OPNT_FINC_NM"/>
+		<result property="inptDivCnt" column="INPT_DIV_CNT"/>
+		<result property="inptTrntAmtSum" column="INPT_TRNT_AMT_SUM"/>
+		<result property="ouptDivCnt" column="OUPT_DIV_CNT"/>
+		<result property="ouptTrntAmtSum" column="OUPT_TRNT_AMT_SUM"/> 
+	</resultMap>
+	
+	
+	<select id="N0102.selectWrntTrgtAcctNumStatisticsList" resultMap="N0102.selectWrntTrgtAcctNumStatisticsList"> /* N0102.selectWrntTrgtAcctNumStatisticsList */
+		  SELECT   CRYPTO.DEC('normal',OPNT_ACCT_NUM) AS OPNT_ACCT_NUM,
+		           (SELECT CODE_NAME
+		           FROM    CODEBASE
+		           WHERE   CODE_ID ='SJPB_00024'
+		           AND     CODE   !='0000000000'
+		           AND     LANG_KND='ko'
+		           AND     CODE    =OPNT_FINC_CD
+		           )
+		                    ||'('
+		                    ||OPNT_FINC_CD
+		                    ||')' AS OPNT_FINC_NM,
+		           COUNT(DECODE(INPT_OUPT_DIV,1,
+		                        '1',
+		                        3,
+		                        '1')) AS INPT_DIV_CNT,
+		           NVL(SUM(DECODE(INPT_OUPT_DIV,1,
+		                      TRNT_AMT,
+		                      3,
+		                      TRNT_AMT)),0) AS INPT_TRNT_AMT_SUM,
+		           COUNT(DECODE(INPT_OUPT_DIV,2,
+		                        '2',
+		                        4,
+		                        '2',
+		                        5,
+		                        '2')) AS OUPT_DIV_CNT,
+		           NVL(SUM(DECODE(INPT_OUPT_DIV,2,
+		                      TRNT_AMT,
+		                      4,
+		                      TRNT_AMT,
+		                      5,
+		                      TRNT_AMT)),0) AS OUPT_TRNT_AMT_SUM
+		  FROM     SJPB_FINC_DTA_DTS
+		  WHERE    1               =1	
+		  AND    FINC_DTA_BK_NUM =#fincDtaBkNum#
+		  AND    REG_USER_ID     =#regUserId#		
+		<isNotEmpty  prepend=" AND " property="inptOuptDiv">INPT_OUPT_DIV =#inptOuptDiv#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="opntFincCd">OPNT_FINC_CD =#opntFincCd#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="inptOuptNm">CRYPTO.DEC('normal',INPT_OUPT_NM) LIKE '%'||#inptOuptNm#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="acctAbst">CRYPTO.DEC('normal',ACCT_ABST) LIKE '%'||#acctAbst#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="wrntTrgtAcctNum">CRYPTO.DEC('normal',WRNT_TRGT_ACCT_NUM) LIKE '%'||#wrntTrgtAcctNum#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="opntAcctNum">CRYPTO.DEC('normal',OPNT_ACCT_NUM) LIKE '%'||#opntAcctNum#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sDate">TRNT_DT &gt;= #sDate#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="eDate">TRNT_DT &lt;= TO_DATE(#eDate#, 'YYYY-MM-DD')+1</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sTrntAmt">TRNT_AMT &gt;= #sTrntAmt#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="eTrntAmt">TRNT_AMT &lt;= #eTrntAmt#</isNotEmpty>				  
+		  GROUP BY OPNT_ACCT_NUM,
+		           OPNT_FINC_CD
+		  ORDER BY OPNT_ACCT_NUM		
+	</select>
+	
+	<resultMap class="com.saltware.enface.sjpb.N.service.N0102VO" id="N0102.selectDayStatisticsList">
+		<result property="trntDt" column="TRNT_DT"/>
+		<result property="inptDivCnt" column="INPT_DIV_CNT"/>
+		<result property="inptTrntAmtSum" column="INPT_TRNT_AMT_SUM"/>
+		<result property="ouptDivCnt" column="OUPT_DIV_CNT"/>
+		<result property="ouptTrntAmtSum" column="OUPT_TRNT_AMT_SUM"/>
+	</resultMap>	
+	
+	<select id="N0102.selectDayStatisticsList" resultMap="N0102.selectDayStatisticsList"> /* N0102.selectDayStatisticsList */
+		SELECT   TRNT_DT,
+		          INPT_DIV_CNT,
+		          INPT_TRNT_AMT_SUM,
+		          OUPT_DIV_CNT,
+		          OUPT_TRNT_AMT_SUM
+		 FROM     ( SELECT  TO_CHAR(TRNT_DT,'YYYY-MM-DD') AS TRNT_DT,
+		                   COUNT(DECODE(INPT_OUPT_DIV,1,
+		                                '1',
+		                                3,
+		                                '1')) AS INPT_DIV_CNT,
+		                  NVL(SUM(DECODE(INPT_OUPT_DIV,1,
+		                              TRNT_AMT,
+		                              3,
+		                              TRNT_AMT)),0) AS INPT_TRNT_AMT_SUM,
+		                   COUNT(DECODE(INPT_OUPT_DIV,2,
+		                                '2',
+		                                4,
+		                                '2',
+		                                5,
+		                                '2')) AS OUPT_DIV_CNT,
+		                   NVL(SUM(DECODE(INPT_OUPT_DIV,2,
+		                              TRNT_AMT,
+		                              4,
+		                              TRNT_AMT,
+		                              5,
+		                              TRNT_AMT)),0) AS OUPT_TRNT_AMT_SUM
+		          FROM     SJPB_FINC_DTA_DTS
+				  WHERE    1               =1	
+				  	AND    FINC_DTA_BK_NUM =#fincDtaBkNum#
+					AND    REG_USER_ID     =#regUserId#		
+					<isNotEmpty  prepend=" AND " property="inptOuptDiv">INPT_OUPT_DIV =#inptOuptDiv#</isNotEmpty>
+					<isNotEmpty  prepend=" AND " property="opntFincCd">OPNT_FINC_CD =#opntFincCd#</isNotEmpty>
+					<isNotEmpty  prepend=" AND " property="inptOuptNm">CRYPTO.DEC('normal',INPT_OUPT_NM) LIKE '%'||#inptOuptNm#||'%'</isNotEmpty>
+					<isNotEmpty  prepend=" AND " property="acctAbst">CRYPTO.DEC('normal',ACCT_ABST) LIKE '%'||#acctAbst#||'%'</isNotEmpty>
+					<isNotEmpty  prepend=" AND " property="wrntTrgtAcctNum">CRYPTO.DEC('normal',WRNT_TRGT_ACCT_NUM) LIKE '%'||#wrntTrgtAcctNum#||'%'</isNotEmpty>
+					<isNotEmpty  prepend=" AND " property="opntAcctNum">CRYPTO.DEC('normal',OPNT_ACCT_NUM) LIKE '%'||#opntAcctNum#||'%'</isNotEmpty>
+					<isNotEmpty  prepend=" AND " property="sDate">TRNT_DT &gt;= #sDate#</isNotEmpty>
+					<isNotEmpty  prepend=" AND " property="eDate">TRNT_DT &lt;= TO_DATE(#eDate#, 'YYYY-MM-DD')+1</isNotEmpty>
+					<isNotEmpty  prepend=" AND " property="sTrntAmt">TRNT_AMT &gt;= #sTrntAmt#</isNotEmpty>
+					<isNotEmpty  prepend=" AND " property="eTrntAmt">TRNT_AMT &lt;= #eTrntAmt#</isNotEmpty>		  
+					 GROUP BY TO_CHAR(TRNT_DT,'YYYY-MM-DD')
+					 ) T ORDER BY TRNT_DT		
+	</select>	
+</sqlMap>
+

@@ -1,0 +1,48 @@
+@charset "utf-8"; 
+/* CSS Document */
+@import url("common.css");
+
+/* login */
+body{ background:#fafafa;}
+
+/* wrap */
+#login .wrap{width:1080px; height:568px; margin:0 auto;}
+#login .wrap h1{margin:90px 0 70px 0; text-align:center;}
+
+/* leftArea */
+.leftArea{position:relative; width:540px; height:449px; float:left; box-shadow:1px 2px 1px #d8d8d8; z-index:-1;}
+.leftArea:after{clear:both; display:block; content:"";}
+
+/* slogan */
+p.slogan{position:absolute; top:46px; left:42px;font-size:34px; font-weight:600; color:#1a45b1; height:46px; line-height:46px; letter-spacing:-1px;}
+p.slogan span{font-size:34px; font-weight:400; color:#666; height:46px; line-height:46px; letter-spacing:-1px;}
+
+/* rightArea */
+.rightArea{width:540px; height:449px; background:#fff url(../images/right_bg.png) no-repeat right bottom; float:right; box-shadow:2px 2px 5px #d8d8d8;}
+.rightAre:after{clear::both; display:block; content:"";}
+.rightArea .loginArea{padding:0 40px; box-sizing:border-box;}
+.rightArea .loginArea h2{padding:40px 18px 0 0; box-sizing:border-box; float:left;}
+.rightArea .loginArea p.sub_txt{font-size:15px; font-weight:300; color:#666; padding-top:42px;}
+
+/* fieldset */
+.rightArea .loginArea fieldset{width:451px; margin-top:50px;}
+.rightArea .loginArea fieldset:after{clear:both; display:block; content:"";}
+.rightArea .loginArea fieldset p.uchk{margin-bottom:10px;}
+.rightArea .loginArea fieldset input[type="checkbox"]{border:1px solid #999; width:14px; height:14px; margin-right:4px;}
+.rightArea .loginArea fieldset label{height:14px; line-height:14px; color:#999; font-size:13px; font-family:돋움;}
+.rightArea .loginArea fieldset input[type="text"],
+.rightArea .loginArea fieldset input[type="password"]{display:block; width:316px; height:52px; line-height:52px; padding:0 16px; border:1px solid #c4c4c4; color:#000; font-size:15px; font-weight:600; box-sizing:border-box; margin-bottom:6px; font-family:돋움;}
+.rightArea .loginArea fieldset ul{float:left;}
+.rightArea .loginArea fieldset a.login_btn{display:block; float:right; width:129px; height:110px; line-height:110px; background-color:#24326f; text-align:center;}
+.rightArea .loginArea fieldset a.login_btn span{font-size:22px; font-weight:500; color:#fff;}
+
+/* notice */
+.notice{padding:0 40px; margin-top:46px;}
+.notice h4{font-size:18px; font-weight:500; color:#d40500; background:url(../images/icon_notice.png) no-repeat left 6px; padding-left:30px;}
+.notice ul{margin-top:12px;}
+.notice ul li{font-size:15px; font-weight:300; height:30px; line-height:30px; color:#666; letter-spacing:-1px;}
+.notice ul li span{font-size:15px; font-weight:400; color:#333;}
+
+/* footer */
+#footer{margin:40px 0;}
+

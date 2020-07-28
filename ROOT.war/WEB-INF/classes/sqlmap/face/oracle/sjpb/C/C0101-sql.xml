@@ -1,0 +1,661 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="face">	
+	
+	<!-- 수사사건지휘부리스트 결과맵 -->	
+	<resultMap id="C0101.C0101VO.list" class="com.saltware.enface.sjpb.C.service.C0101VO">
+		<result property="incCriCmdBkNum" column="INC_CRI_CMD_BK_NUM"/>	 
+		<result property="incCriCmdBkPublYr" column="INC_CRI_CMD_BK_PUBL_YR"/>		
+		<result property="criCmdProDt" column="CRI_CMD_PRO_DT"/>
+		<result property="respTrfOffi" column="RESP_TRF_OFFI"/>
+		<result property="respDppoCd" column="RESP_DPPO_CD"/>
+		<result property="incCriCmdBkStatCd" column="INC_CRI_CMD_BK_STAT_CD"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>		
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="respDppoDesc" column="RESP_DPPO_DESC"/>
+		<result property="incCriCmdBkStatDesc" column="INC_CRI_CMD_BK_STAT_DESC"/>
+		<result property="incNum" column="INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>	
+	</resultMap>
+
+	<!-- 수사사건지휘부리스트 --> 
+	<select id="C0101.SJPB_INC_CRI_CMD_BK.list" resultMap="C0101.C0101VO.list">  /* C0101.SJPB_INC_CRI_CMD_BK.list */
+		SELECT
+			* 
+		FROM (
+			SELECT DISTINCT
+				 A.INC_CRI_CMD_BK_NUM    /*사건수사지휘부번호*/ 
+		 	    ,A.INC_CRI_CMD_BK_PUBL_YR   /*사건수사지휘부발행년도*/				
+				,TO_CHAR(A.CRI_CMD_PRO_DT,'YYYY-MM-DD') AS  CRI_CMD_PRO_DT  /*사건지휘일자*/
+				,A.RESP_TRF_OFFI   /*담당송치관*/
+				,A.RESP_DPPO_CD    /*담당지검코드*/
+				,A.INC_CRI_CMD_BK_STAT_CD   /*사건수사지휘부상태코드*/
+				,A.REG_USER_ID
+				,A.REG_DATE
+				,A.UPD_USER_ID
+				,A.UPD_DATE				
+				,B.NM_KOR /*담당송치관*/
+				,C.CODE_NAME AS RESP_DPPO_DESC /*담당지검명*/
+				,D.CODE_NAME AS INC_CRI_CMD_BK_STAT_DESC /*사건수사지휘부상태설명*/
+				,AA0.INC_NUM /*사건번호*/
+                ,AA1.SP_NM  /*피의자이름*/
+			FROM SJPB_INC_CRI_CMD_BK A
+			JOIN USERPASS B ON A.RESP_TRF_OFFI = B.USER_ID
+			LEFT OUTER JOIN CODEBASE C ON A.RESP_DPPO_CD = C.CODE AND C.CODE_ID = 'SJPB_00005'  /*담당지검코드*/
+			LEFT OUTER JOIN CODEBASE D ON A.INC_CRI_CMD_BK_STAT_CD = D.CODE AND D.CODE_ID = 'SJPB_00017'  /*사건수사지휘부상태*/			
+			LEFT OUTER JOIN
+		        (SELECT E1.RCPT_NUM, E1.RCPT_INC_NUM, E2.INC_CRI_CMD_BK_NUM, E3.INC_NUM
+		           FROM SJPB_INC_MAST E1 
+		           	JOIN SJPB_INC_CRI_CMD_ITEM E2 ON E1.RCPT_NUM = E2.RCPT_NUM 
+		           	JOIN SJPB_INC_DTS E3 ON E1.RCPT_NUM = E3.RCPT_NUM 
+		           	)
+		        E ON A.INC_CRI_CMD_BK_NUM = E.INC_CRI_CMD_BK_NUM	
+		    LEFT OUTER JOIN 
+			(
+				SELECT
+                   AA.INC_CRI_CMD_BK_NUM
+                    ,REGEXP_REPLACE(LISTAGG(AA.INC_NUM,  ', ') WITHIN GROUP(ORDER BY AA.INC_CRI_CMD_BK_NUM), '([^,]+)(,\1)+', '\1') AS INC_NUM
+                FROM 
+                (
+                    SELECT DISTINCT
+                        A0.INC_CRI_CMD_BK_NUM
+                        ,A3.INC_NUM
+                    FROM SJPB_INC_CRI_CMD_BK A0
+                    LEFT OUTER JOIN SJPB_INC_CRI_CMD_ITEM A1 ON A1.INC_CRI_CMD_BK_NUM = A0.INC_CRI_CMD_BK_NUM
+                    LEFT OUTER JOIN SJPB_INC_MAST A2 ON A1.RCPT_NUM = A2.RCPT_NUM
+                    JOIN SJPB_INC_DTS A3 ON A3.RCPT_NUM = A2.RCPT_NUM
+                    LEFT OUTER JOIN SJPB_INC_SP A4 ON A4.RCPT_NUM = A2.RCPT_NUM
+                ) AA
+                GROUP BY AA.INC_CRI_CMD_BK_NUM
+			)  AA0 ON AA0.INC_CRI_CMD_BK_NUM = A.INC_CRI_CMD_BK_NUM	
+			LEFT OUTER JOIN 
+			(
+				SELECT
+                   AA.INC_CRI_CMD_BK_NUM
+                    ,REGEXP_REPLACE(LISTAGG(AA.SP_NM,  ', ') WITHIN GROUP(ORDER BY AA.INC_CRI_CMD_BK_NUM), '([^,]+)(,\1)+', '\1') AS SP_NM
+                FROM 
+                (
+                    SELECT 
+                        A0.INC_CRI_CMD_BK_NUM
+                        ,CRYPTO.DEC('normal', A4.SP_NM) AS SP_NM
+                    FROM SJPB_INC_CRI_CMD_BK A0
+                    LEFT OUTER JOIN SJPB_INC_CRI_CMD_ITEM A1 ON A1.INC_CRI_CMD_BK_NUM = A0.INC_CRI_CMD_BK_NUM
+                    LEFT OUTER JOIN SJPB_INC_MAST A2 ON A1.RCPT_NUM = A2.RCPT_NUM
+                    JOIN SJPB_INC_DTS A3 ON A3.RCPT_NUM = A2.RCPT_NUM
+                    LEFT OUTER JOIN SJPB_INC_SP A4 ON A4.RCPT_NUM = A2.RCPT_NUM
+                ) AA
+                GROUP BY AA.INC_CRI_CMD_BK_NUM
+			)  AA1 ON AA1.INC_CRI_CMD_BK_NUM = A.INC_CRI_CMD_BK_NUM	
+			WHERE 1=1
+			<isNotEqual prepend=" AND " property="respDppoCdSC" compareValue="">A.RESP_DPPO_CD=#respDppoCdSC#</isNotEqual>
+			<isNotEqual prepend=" AND " property="respTrfOffiSC" compareValue="">B.NM_KOR LIKE #respTrfOffiSC#||'%'</isNotEqual>
+			<isNotEqual prepend=" AND " property="criCmdProDtFromSC" compareValue="">A.CRI_CMD_PRO_DT &gt;= TO_DATE(#criCmdProDtFromSC#,'yyyy-MM-dd hh24:mi:ss')</isNotEqual>
+			<isNotEqual prepend=" AND " property="criCmdProDtToSC" compareValue="">A.CRI_CMD_PRO_DT &lt;= TO_DATE(#criCmdProDtToSC#,'yyyy-MM-dd hh24:mi:ss')</isNotEqual>
+			<isNotEqual prepend=" AND " property="rcptIncNumSC" compareValue="">E.INC_NUM=#rcptIncNumSC#</isNotEqual>
+		) CMD 
+		WHERE 1=1
+		<isNotEmpty  prepend=" AND " property="incNumSC">CMD.INC_NUM LIKE '%'||#incNumSC#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="spNmSC">CMD.SP_NM LIKE '%'||#spNmSC#||'%'</isNotEmpty>
+		ORDER BY CMD.UPD_DATE  DESC
+	
+	</select>	
+	
+	
+	<!-- 수사사건지휘부아이템 결과맵 -->	
+	<resultMap id="C0101.IncCriCmdItemVO.list" class="com.saltware.enface.sjpb.Z.service.IncCriCmdItemVO">
+		<result property="incCriCmdItemNum" column="INC_CRI_CMD_ITEM_NUM"/>
+		<result property="incCriCmdBkNum" column="INC_CRI_CMD_BK_NUM"/>		
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="incCriCmdItemStatCd" column="INC_CRI_CMD_ITEM_STAT_CD"/>
+		<result property="criCmdTranDt" column="CRI_CMD_TRAN_DT"/>
+		<result property="criCmdReqDt" column="CRI_CMD_REQ_DT"/>
+		<result property="criCmdRcptDt" column="CRI_CMD_RCPT_DT"/>
+		<result property="reCmdYn" column="RE_CMD_YN"/>
+		<result property="criCmdRst" column="CRI_CMD_RST"/>
+		<result property="criCmdComn" column="CRI_CMD_COMN"/>
+		<result property="incCriNm" column="INC_CRI_NM"/>
+		<result property="incSp" column="INC_SP"/>
+		<result property="incArrtClsf" column="INC_ARRT_CLSF"/>
+		<result property="evidArtcYn" column="EVID_ARTC_YN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>	
+		<result property="incCriCmdItemNumDesc" column="INC_CRI_CMD_ITEM_NUM_DESC"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>	
+		<result property="recdType" column="RECD_TYPE"/>
+		<result property="updStatYN" column="UPD_STAT_YN"/>
+	</resultMap>	
+		
+		
+	<!-- 수사사건지휘부 아이템리스트 --> 
+	<!-- 
+	<select id="C0101.SJPB_INC_CRI_CMD_ITEM.list" resultMap="C0101.IncCriCmdItemVO.list">  /* C0101.SJPB_INC_CRI_CMD_ITEM.list */
+		
+		SELECT 
+			A.INC_CRI_CMD_BK_PUBL_YR || '-' || B.INC_CRI_CMD_ITEM_NUM AS INC_CRI_CMD_ITEM_NUM_DESC
+			,B.INC_CRI_CMD_ITEM_NUM   /*사건수사지휘건번호*/
+			,B.INC_CRI_CMD_BK_NUM     /*사건수사지휘부번호*/
+			,B.RCPT_NUM               /*접수번호*/
+			,B.INC_CRI_CMD_ITEM_STAT_CD /*사건수사지휘건상태코드*/
+			,TO_CHAR(B.CRI_CMD_TRAN_DT,'YYYY-MM-DD') AS CRI_CMD_TRAN_DT        /*수사지휘인계일*/      
+			,TO_CHAR(B.CRI_CMD_REQ_DT,'YYYY-MM-DD') AS CRI_CMD_REQ_DT         /*수사지휘접수일*/
+			,TO_CHAR(B.CRI_CMD_RCPT_DT,'YYYY-MM-DD') AS CRI_CMD_RCPT_DT        /*수사지휘수령일*/
+			,B.RE_CMD_YN              /*재지휘여부*/
+			,B.CRI_CMD_RST            /*수사지휘결과*/
+			,B.CRI_CMD_COMN           /*수사지휘의견*/
+			,D.INC_CRI_NM AS INC_CRI_NM             /*사건죄명*/
+			,E.SP_NM AS INC_SP                 /*사건피의자*/
+			,B.INC_ARRT_CLSF          /*사건구속별*/
+			,B.EVID_ARTC_YN           /*증거품유무*/
+			,B.REG_USER_ID
+			,B.REG_DATE
+			,B.UPD_USER_ID
+			,B.UPD_DATE
+			,C.RCPT_INC_NUM           /*접수사건번호*/
+			,'U' AS RECD_TYPE /*레코드유형*/
+			,'N' AS UPD_STAT_YN /*상태코드변경유무*/
+		FROM SJPB_INC_CRI_CMD_BK A
+		JOIN SJPB_INC_CRI_CMD_ITEM B ON A.INC_CRI_CMD_BK_NUM = B.INC_CRI_CMD_BK_NUM
+		JOIN SJPB_INC_MAST C ON B.RCPT_NUM = C.RCPT_NUM
+	    JOIN (SELECT 
+         A6.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A6.CODE_NAME, ',') WITHIN GROUP (ORDER BY A6.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS INC_CRI_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        ,A5.CODE_NAME 
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1' 
+        JOIN 
+        SJPB_ACT_VIO A4 ON A3.INC_SP_NUM = A4.INC_SP_NUM   
+        LEFT OUTER JOIN CODEBASE A5 ON A4.RLT_ACT_CRI_NM_CD = A5.CODE AND A5.CODE_ID = 'SJPB_00012'
+        ) A6
+        GROUP BY A6.GRUP_NUM) D ON B.RCPT_NUM = D.RCPT_NUM           
+	    JOIN (SELECT 
+         A4.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A4.SP_NM, ',') WITHIN GROUP (ORDER BY A4.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS SP_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  ) A4   
+         GROUP BY A4.GRUP_NUM) E ON B.RCPT_NUM = E.RCPT_NUM		
+		WHERE A.INC_CRI_CMD_BK_NUM=#incCriCmdBkNum#
+		ORDER BY B.INC_CRI_CMD_ITEM_NUM			
+	
+	</select>
+	 -->	
+	 
+	<select id="C0101.SJPB_INC_CRI_CMD_ITEM.list" resultMap="C0101.IncCriCmdItemVO.list">  /* C0101.SJPB_INC_CRI_CMD_ITEM.list */
+		
+		SELECT 
+			A.INC_CRI_CMD_BK_PUBL_YR || '-' || B.INC_CRI_CMD_ITEM_NUM AS INC_CRI_CMD_ITEM_NUM_DESC
+			,B.INC_CRI_CMD_ITEM_NUM   /*사건수사지휘건번호*/
+			,B.INC_CRI_CMD_BK_NUM     /*사건수사지휘부번호*/
+			,B.RCPT_NUM               /*접수번호*/
+			,B.INC_CRI_CMD_ITEM_STAT_CD /*사건수사지휘건상태코드*/
+			,TO_CHAR(B.CRI_CMD_TRAN_DT,'YYYY-MM-DD') AS CRI_CMD_TRAN_DT        /*수사지휘인계일*/      
+			,TO_CHAR(B.CRI_CMD_REQ_DT,'YYYY-MM-DD') AS CRI_CMD_REQ_DT         /*수사지휘접수일*/
+			,TO_CHAR(B.CRI_CMD_RCPT_DT,'YYYY-MM-DD') AS CRI_CMD_RCPT_DT        /*수사지휘수령일*/
+			,B.RE_CMD_YN              /*재지휘여부*/
+			,B.CRI_CMD_RST            /*수사지휘결과*/
+			,B.CRI_CMD_COMN           /*수사지휘의견*/
+			,F_GET_SJPB_INC_SP_INFO (C.RCPT_NUM  ,'1' ) AS  INC_CRI_NM             /*사건죄명*/
+			,F_GET_SJPB_INC_SP_INFO (C.RCPT_NUM  ,'3' ) AS INC_SP                 /*사건피의자*/
+			,B.INC_ARRT_CLSF          /*사건구속별*/
+			,B.EVID_ARTC_YN           /*증거품유무*/
+			,B.REG_USER_ID
+			,B.REG_DATE
+			,B.UPD_USER_ID
+			,B.UPD_DATE
+			,C.RCPT_INC_NUM           /*접수사건번호*/
+			,'U' AS RECD_TYPE /*레코드유형*/
+			,'N' AS UPD_STAT_YN /*상태코드변경유무*/
+		FROM SJPB_INC_CRI_CMD_BK A
+		JOIN SJPB_INC_CRI_CMD_ITEM B ON A.INC_CRI_CMD_BK_NUM = B.INC_CRI_CMD_BK_NUM
+		JOIN SJPB_INC_MAST C ON B.RCPT_NUM = C.RCPT_NUM
+	    JOIN (SELECT 
+         A6.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A6.CODE_NAME, ',') WITHIN GROUP (ORDER BY A6.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS INC_CRI_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        ,A5.CODE_NAME 
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1' 
+        JOIN 
+        SJPB_ACT_VIO A4 ON A3.INC_SP_NUM = A4.INC_SP_NUM   
+        LEFT OUTER JOIN CODEBASE A5 ON A4.RLT_ACT_CRI_NM_CD = A5.CODE AND A5.CODE_ID = 'SJPB_00012'
+        ) A6
+        GROUP BY A6.GRUP_NUM) D ON B.RCPT_NUM = D.RCPT_NUM           
+		WHERE A.INC_CRI_CMD_BK_NUM=#incCriCmdBkNum#
+		ORDER BY B.INC_CRI_CMD_ITEM_NUM			
+	
+	</select>	 
+	<!-- 수사사건지휘부 리포트 결과맵 -->	
+	<resultMap id="C0101.C0101RT.report" class="com.saltware.enface.sjpb.C.service.C0101RT">	
+		<result property="recNum" column="REC_NUM"/>	
+		<result property="criCmdProDt" column="CRI_CMD_PRO_DT"/>	
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incCriNm" column="INC_CRI_NM"/>
+		<result property="incSp" column="INC_SP"/>
+		<result property="incArrtClsf" column="INC_ARRT_CLSF"/>
+		<result property="evidArtcYn" column="EVID_ARTC_YN"/>
+		<result property="respDppoDesc" column="RESP_DPPO_DESC"/>  
+	</resultMap>	
+				
+	<!-- 수사사건지휘부 리포트 리스트 --> 
+	<select id="C0101.SJPB_INC_CRI_CMD_ITEM.report" resultMap="C0101.C0101RT.report">  /* C0101.SJPB_INC_CRI_CMD_ITEM.report */
+				
+		 SELECT 
+			 TO_CHAR(SYSDATE,'YYYY-')||ROWNUM AS REC_NUM,
+			 P.*
+		 FROM 
+		 (		
+			SELECT			
+	   			TO_CHAR(A.CRI_CMD_PRO_DT, 'YYYY-MM-DD') AS CRI_CMD_PRO_DT         /*수사지휘건의일*/             
+	            ,C.RCPT_INC_NUM           /*접수사건번호*/            
+	            ,D.INC_CRI_NM AS INC_CRI_NM             /*사건죄명*/         
+	            ,E.SP_NM AS INC_SP                 /*사건피의자*/            
+	            ,(SELECT CODE_NAME FROM CODEBASE WHERE CODE_ID='SJPB_00022' AND LANG_KND = 'ko' AND CODE = B.INC_ARRT_CLSF ) INC_ARRT_CLSF  /*사건구속별*/    
+	            ,(CASE WHEN B.EVID_ARTC_YN = 'Y' THEN '있음' ELSE '없음' END) AS EVID_ARTC_YN           /*증거품유무*/     
+	            ,F.CODE_NAME || '지검' AS RESP_DPPO_DESC /*담당지검명*/	
+			FROM SJPB_INC_CRI_CMD_BK A
+			JOIN SJPB_INC_CRI_CMD_ITEM B ON A.INC_CRI_CMD_BK_NUM = B.INC_CRI_CMD_BK_NUM
+			JOIN SJPB_INC_MAST C ON B.RCPT_NUM = C.RCPT_NUM
+		    JOIN (SELECT 
+         A6.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A6.CODE_NAME, ',') WITHIN GROUP (ORDER BY A6.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS INC_CRI_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        ,A5.CODE_NAME 
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  
+        JOIN 
+        SJPB_ACT_VIO A4 ON A3.INC_SP_NUM = A4.INC_SP_NUM   
+        LEFT OUTER JOIN CODEBASE A5 ON A4.RLT_ACT_CRI_NM_CD = A5.CODE AND A5.CODE_ID = 'SJPB_00012'
+        ) A6
+        GROUP BY A6.GRUP_NUM) D ON B.RCPT_NUM = D.RCPT_NUM           
+		    JOIN (SELECT 
+         A4.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A4.SP_NM, ',') WITHIN GROUP (ORDER BY A4.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS SP_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  ) A4   
+         GROUP BY A4.GRUP_NUM) E ON B.RCPT_NUM = E.RCPT_NUM			    
+		    LEFT OUTER JOIN CODEBASE F ON A.RESP_DPPO_CD = F.CODE AND F.CODE_ID = 'SJPB_00005'  /*담당지검코드*/
+			WHERE A.INC_CRI_CMD_BK_NUM=#incCriCmdBkNum#
+			ORDER BY B.INC_CRI_CMD_ITEM_NUM		
+		) P	
+	
+	</select>
+		
+	<!-- 사건수사지휘부 갱신 -->
+	<update id="C0101.SJPB_INC_CRI_CMD_BK.update">  /* C0101.SJPB_INC_CRI_CMD_BK.update */
+		<![CDATA[		
+			UPDATE SJPB_INC_CRI_CMD_BK 
+			SET
+			 CRI_CMD_PRO_DT=#criCmdProDt#
+			,RESP_TRF_OFFI=#respTrfOffi#
+			,RESP_DPPO_CD=#respDppoCd#
+			,INC_CRI_CMD_BK_STAT_CD=#incCriCmdBkStatCd#			
+			,UPD_USER_ID=#updUserId#
+			,UPD_DATE=SYSDATE
+		 	WHERE INC_CRI_CMD_BK_NUM = #incCriCmdBkNum#			
+		]]>
+	</update>	
+	
+	<!-- 사건수사지휘부  아이템 갱신 -->
+	<update id="C0101.SJPB_INC_CRI_CMD_ITEM.update">  /* C0101.SJPB_INC_CRI_CMD_ITEM.update */
+		<![CDATA[		
+			UPDATE SJPB_INC_CRI_CMD_ITEM 
+			SET
+			     INC_CRI_CMD_BK_NUM=#incCriCmdBkNum#
+			    ,INC_CRI_CMD_ITEM_STAT_CD=#incCriCmdItemStatCd#
+				,CRI_CMD_TRAN_DT=#criCmdTranDt#
+				,CRI_CMD_REQ_DT=#criCmdReqDt#
+				,CRI_CMD_RCPT_DT=#criCmdRcptDt#
+				,RE_CMD_YN=#reCmdYn#			
+				,CRI_CMD_RST=#criCmdRst#
+				,CRI_CMD_COMN=#criCmdComn#
+				,INC_ARRT_CLSF=#incArrtClsf#
+				,EVID_ARTC_YN=#evidArtcYn#
+				,UPD_USER_ID=#updUserId#
+				,UPD_DATE=SYSDATE
+		 	WHERE INC_CRI_CMD_ITEM_NUM = #incCriCmdItemNum#			
+		]]>
+	</update>	
+	
+	<!-- 사건수사지휘부  마스터  추가 -->
+	<insert id="C0101.SJPB_INC_CRI_CMD_BK.insert">  /* C0101.SJPB_INC_CRI_CMD_BK.insert */
+		<![CDATA[		
+			INSERT INTO  SJPB_INC_CRI_CMD_BK (
+		    INC_CRI_CMD_BK_NUM,
+		    INC_CRI_CMD_BK_PUBL_YR,
+		    CRI_CMD_PRO_DT,
+		    RESP_TRF_OFFI,
+		    RESP_DPPO_CD,
+		    INC_CRI_CMD_BK_STAT_CD,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) values (
+			 #incCriCmdBkNum#
+			,TO_CHAR(SYSDATE,'YYYY')
+			,#criCmdProDt#
+			,#respTrfOffi#
+			,#respDppoCd#
+			,#incCriCmdBkStatCd#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#updUserId#
+		    ,SYSDATE	
+		)		
+		]]>
+	</insert>	
+	
+	<!-- 사건수사지휘부  아이템  추가 -->
+	<insert id="C0101.SJPB_INC_CRI_CMD_ITEM.insert">  /* C0101.SJPB_INC_CRI_CMD_ITEM.insert */
+		<![CDATA[		
+			INSERT INTO SJPB_INC_CRI_CMD_ITEM (
+				INC_CRI_CMD_ITEM_NUM
+				,INC_CRI_CMD_BK_NUM
+				,RCPT_NUM
+				,CRI_CMD_TRAN_DT
+				,CRI_CMD_REQ_DT
+				,CRI_CMD_RCPT_DT
+				,RE_CMD_YN
+				,CRI_CMD_RST
+				,CRI_CMD_COMN
+				,INC_ARRT_CLSF
+				,EVID_ARTC_YN
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE) 
+			VALUES 	(
+		 		#incCriCmdItemNum#
+				, #incCriCmdBkNum#
+				, #rcptNum#
+				, #criCmdTranDt#
+				, #criCmdReqDt#
+				, #criCmdRcptDt#
+				, #reCmdYn#
+				, #criCmdRst#
+				, #criCmdComn#
+				, #incArrtClsf#
+				, #evidArtcYn#
+			    , #regUserId#
+			    , SYSDATE
+			    ,#updUserId#
+			    , SYSDATE)			
+		]]>
+	</insert>
+	
+	<!-- 상세 사건 지휘내역 결과맵 -->	
+	<resultMap id="C0101.IncCriCmdItemVO.details" class="com.saltware.enface.sjpb.Z.service.IncCriCmdItemVO">
+		<result property="incCriCmdItemNum" column="INC_CRI_CMD_ITEM_NUM"/>
+		<result property="incCriCmdBkNum" column="INC_CRI_CMD_BK_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="incCriCmdItemStatCd" column="INC_CRI_CMD_ITEM_STAT_CD"/>
+		<result property="criCmdTranDt" column="CRI_CMD_TRAN_DT"/>
+		<result property="criCmdReqDt" column="CRI_CMD_REQ_DT"/>
+		<result property="criCmdRcptDt" column="CRI_CMD_RCPT_DT"/>
+		<result property="reCmdYn" column="RE_CMD_YN"/>
+		<result property="criCmdRst" column="CRI_CMD_RST"/>
+		<result property="criCmdComn" column="CRI_CMD_COMN"/>
+<!-- 		<result property="incCriNm" column="INC_CRI_NM"/>
+		<result property="incSp" column="INC_SP"/> -->
+		<result property="incArrtClsf" column="INC_ARRT_CLSF"/>
+		<result property="evidArtcYn" column="EVID_ARTC_YN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="criCmdProDt" column="CRI_CMD_PRO_DT"/>		
+		<result property="respDppoCd" column="RESP_DPPO_CD"/>
+		<result property="respDppoDesc" column="RESP_DPPO_DESC"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+	</resultMap>	
+		
+		
+	<!-- 상세 사건 지휘내역 --> 
+	
+	<select id="C0101.SJPB_INC_CRI_CMD_ITEM.details" resultMap="C0101.IncCriCmdItemVO.details">  /* C0101.SJPB_INC_CRI_CMD_ITEM.details */
+		
+		SELECT
+			 B.INC_CRI_CMD_ITEM_NUM   /*사건수사지휘건번호*/
+			,B.INC_CRI_CMD_BK_NUM     /*사건수사지휘부번호*/
+			,B.RCPT_NUM               /*접수번호*/
+			,TO_CHAR(B.CRI_CMD_TRAN_DT,'YYYY-MM-DD') AS  CRI_CMD_TRAN_DT        /*수사지휘인계일*/      
+			,TO_CHAR(B.CRI_CMD_REQ_DT,'YYYY-MM-DD') AS  CRI_CMD_REQ_DT         /*수사지휘접수일*/
+			,TO_CHAR(B.CRI_CMD_RCPT_DT,'YYYY-MM-DD') AS  CRI_CMD_RCPT_DT        /*수사지휘수령일*/
+			,B.RE_CMD_YN              /*재지휘여부*/
+			,B.CRI_CMD_RST            /*수사지휘결과*/
+			,B.CRI_CMD_COMN           /*수사지휘의견*/
+			,B.INC_ARRT_CLSF          /*사건구속별*/
+			,B.EVID_ARTC_YN           /*증거품유무*/
+			,B.INC_CRI_CMD_ITEM_STAT_CD  /*사건수사지휘건상태코드*/
+			,B.REG_USER_ID
+			,B.REG_DATE
+			,B.UPD_USER_ID
+			,B.UPD_DATE
+			,TO_CHAR(A.CRI_CMD_PRO_DT,'YYYY-MM-DD') AS  CRI_CMD_PRO_DT         /*수사지휘건의일*/
+			,A.RESP_DPPO_CD           /*담당지검코드*/
+			,C.RCPT_INC_NUM           /*접수사건번호*/						
+			,D.CODE_NAME AS RESP_DPPO_DESC /*담당지검명*/			
+		FROM SJPB_INC_CRI_CMD_BK A
+		JOIN SJPB_INC_CRI_CMD_ITEM B ON A.INC_CRI_CMD_BK_NUM = B.INC_CRI_CMD_BK_NUM
+		JOIN SJPB_INC_MAST C ON B.RCPT_NUM = C.RCPT_NUM
+		LEFT OUTER JOIN CODEBASE D ON A.RESP_DPPO_CD = D.CODE AND D.CODE_ID = 'SJPB_00005'  /*담당지검코드*/
+	    JOIN (SELECT 
+         A6.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A6.CODE_NAME, ',') WITHIN GROUP (ORDER BY A6.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS INC_CRI_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        ,A5.CODE_NAME 
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  
+        JOIN 
+        SJPB_ACT_VIO A4 ON A3.INC_SP_NUM = A4.INC_SP_NUM   
+        LEFT OUTER JOIN CODEBASE A5 ON A4.RLT_ACT_CRI_NM_CD = A5.CODE AND A5.CODE_ID = 'SJPB_00012'
+        ) A6
+        GROUP BY A6.GRUP_NUM) E ON B.RCPT_NUM = E.RCPT_NUM			
+		WHERE B.RCPT_NUM=#rcptNum#
+		ORDER BY B.INC_CRI_CMD_ITEM_NUM			
+	
+	</select>	
+	
+	
+	<!-- <select id="C0101.SJPB_INC_CRI_CMD_ITEM.details" resultMap="C0101.IncCriCmdItemVO.details">  /* C0101.SJPB_INC_CRI_CMD_ITEM.details */
+		
+		SELECT
+			 B.INC_CRI_CMD_ITEM_NUM   /*사건수사지휘건번호*/
+			,B.INC_CRI_CMD_BK_NUM     /*사건수사지휘부번호*/
+			,B.RCPT_NUM               /*접수번호*/
+			,TO_CHAR(B.CRI_CMD_TRAN_DT,'YYYY-MM-DD') AS  CRI_CMD_TRAN_DT        /*수사지휘인계일*/      
+			,TO_CHAR(B.CRI_CMD_REQ_DT,'YYYY-MM-DD') AS  CRI_CMD_REQ_DT         /*수사지휘접수일*/
+			,TO_CHAR(B.CRI_CMD_RCPT_DT,'YYYY-MM-DD') AS  CRI_CMD_RCPT_DT        /*수사지휘수령일*/
+			,B.RE_CMD_YN              /*재지휘여부*/
+			,B.CRI_CMD_RST            /*수사지휘결과*/
+			,B.CRI_CMD_COMN           /*수사지휘의견*/
+			,E.INC_CRI_NM AS INC_CRI_NM             /*사건죄명*/
+			,F.SP_NM AS INC_SP                 /*사건피의자*/
+			,B.INC_ARRT_CLSF          /*사건구속별*/
+			,B.EVID_ARTC_YN           /*증거품유무*/
+			,B.INC_CRI_CMD_ITEM_STAT_CD  /*사건수사지휘건상태코드*/
+			,B.REG_USER_ID
+			,B.REG_DATE
+			,B.UPD_USER_ID
+			,B.UPD_DATE
+			,TO_CHAR(A.CRI_CMD_PRO_DT,'YYYY-MM-DD') AS  CRI_CMD_PRO_DT         /*수사지휘건의일*/
+			,A.RESP_DPPO_CD           /*담당지검코드*/
+			,C.RCPT_INC_NUM           /*접수사건번호*/						
+			,D.CODE_NAME AS RESP_DPPO_DESC /*담당지검명*/			
+		FROM SJPB_INC_CRI_CMD_BK A
+		JOIN SJPB_INC_CRI_CMD_ITEM B ON A.INC_CRI_CMD_BK_NUM = B.INC_CRI_CMD_BK_NUM
+		JOIN SJPB_INC_MAST C ON B.RCPT_NUM = C.RCPT_NUM
+		LEFT OUTER JOIN CODEBASE D ON A.RESP_DPPO_CD = D.CODE AND D.CODE_ID = 'SJPB_00005'  /*담당지검코드*/
+	    JOIN (SELECT 
+         A6.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A6.CODE_NAME, ',') WITHIN GROUP (ORDER BY A6.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS INC_CRI_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        ,A5.CODE_NAME 
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  
+        JOIN 
+        SJPB_ACT_VIO A4 ON A3.INC_SP_NUM = A4.INC_SP_NUM   
+        LEFT OUTER JOIN CODEBASE A5 ON A4.RLT_ACT_CRI_NM_CD = A5.CODE AND A5.CODE_ID = 'SJPB_00012'
+        ) A6
+        GROUP BY A6.GRUP_NUM) E ON B.RCPT_NUM = E.RCPT_NUM           
+	    JOIN (SELECT 
+         A4.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A4.SP_NM, ',') WITHIN GROUP (ORDER BY A4.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS SP_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  ) A4   
+         GROUP BY A4.GRUP_NUM) F ON B.RCPT_NUM = F.RCPT_NUM				
+		WHERE B.RCPT_NUM=#rcptNum#
+		ORDER BY B.INC_CRI_CMD_ITEM_NUM			
+	
+	</select>	 -->
+	
+	<!-- 상세 사건 지휘내역 결과맵 -->	
+	<resultMap id="C0101VO.getIncCriCmdItemNum" class="com.saltware.enface.sjpb.Z.service.IncCriCmdItemVO">
+		<result property="incCriCmdItemNum" column="INC_CRI_CMD_ITEM_NUM"/>
+	</resultMap>	
+		
+	<!-- 상세 사건 지휘내역(최근 지휘건을 가져온다) --> 
+	<select id="C0101.getIncCriCmdItemNum" resultMap="C0101VO.getIncCriCmdItemNum">  /* C0101.getIncCriCmdItemNum */
+		SELECT 
+		    A.INC_CRI_CMD_ITEM_NUM
+		FROM 
+		    (
+		        SELECT 
+		            ROWNUM
+		            ,INC_CRI_CMD_ITEM_NUM 
+		        FROM SJPB_INC_CRI_CMD_ITEM
+		        WHERE RCPT_NUM = #rcptNum#
+		        ORDER BY INC_CRI_CMD_ITEM_NUM DESC
+		    ) A
+		WHERE ROWNUM =1
+	</select>	
+	
+	<!-- 수현0106 -->
+	<!-- 지휘부 아이템의 지휘부 대장 번호 null로 업데이트 -->
+	<update id="C0101.updateCriCmdItemNull.update" parameterClass="java.util.HashMap">	/* C0101.updateCriCmdItemNull.update */
+		UPDATE SJPB_INC_CRI_CMD_ITEM 
+		SET INC_CRI_CMD_BK_NUM = NULL  
+		    ,UPD_USER_ID = #userId#
+		    ,UPD_DATE = SYSDATE
+		WHERE INC_CRI_CMD_BK_NUM = #incCriCmdBkNum# 
+	</update>
+	
+	<!-- 지휘부 대장(준비중) 삭제 -->
+	<delete id="C0101.deleteReadyCmdBk.delete" parameterClass="java.util.HashMap">		/* C0101.deleteReadyCmdBk.delete */
+		DELETE FROM SJPB_INC_CRI_CMD_BK 
+		WHERE INC_CRI_CMD_BK_NUM = #incCriCmdBkNum# AND INC_CRI_CMD_BK_STAT_CD ='01'
+	</delete>
+</sqlMap>
+

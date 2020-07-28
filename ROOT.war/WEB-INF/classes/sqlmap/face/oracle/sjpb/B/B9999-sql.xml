@@ -1,0 +1,142 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="face">
+	<!--  법률 위반조항 히스토리 삭제 -->
+	<delete id="B9999.SJPB_ACT_VIO_CLA_HIST.delete">  /* B9999.SJPB_ACT_VIO_CLA_HIST.delete */
+		DELETE FROM SJPB_ACT_VIO_CLA_HIST
+		WHERE ACT_VIO_NUM IN (
+		    SELECT ACT_VIO_NUM FROM SJPB_ACT_VIO
+		    WHERE INC_SP_NUM IN (
+		        SELECT INC_SP_NUM FROM SJPB_INC_SP WHERE RCPT_NUM = #rcptNum#
+		    )
+		)
+	</delete>
+	
+	<!--  법률 위반조항 삭제 -->
+	<delete id="B9999.SJPB_ACT_VIO_CLA.delete">  /* B9999.SJPB_ACT_VIO_CLA.delete */
+		DELETE FROM SJPB_ACT_VIO_CLA
+		WHERE ACT_VIO_NUM IN (
+		    SELECT ACT_VIO_NUM FROM SJPB_ACT_VIO
+		    WHERE INC_SP_NUM IN (
+		        SELECT INC_SP_NUM FROM SJPB_INC_SP WHERE RCPT_NUM = #rcptNum#
+		    )
+		)
+	</delete>
+	
+	<!--  법률위반 히스토리 삭제 -->
+	<delete id="B9999.SJPB_ACT_VIO_HIST.delete">  /* B9999.SJPB_ACT_VIO_HIST.delete */
+		DELETE FROM SJPB_ACT_VIO_HIST
+		WHERE INC_SP_NUM IN (
+			SELECT INC_SP_NUM FROM SJPB_INC_SP WHERE RCPT_NUM = #rcptNum#
+		)
+	</delete>
+
+	<!--  법률위반 삭제 -->
+	<delete id="B9999.SJPB_ACT_VIO.delete">  /* B9999.SJPB_ACT_VIO.delete */
+		DELETE FROM SJPB_ACT_VIO
+		WHERE INC_SP_NUM IN (
+			SELECT INC_SP_NUM FROM SJPB_INC_SP WHERE RCPT_NUM = #rcptNum#
+		)
+	</delete>
+	
+	<!--  피의자 히스토리 삭제 -->
+	<delete id="B9999.SJPB_INC_SP_HIST.delete">  /* B9999.SJPB_INC_SP_HIST.delete */
+		DELETE FROM SJPB_INC_SP_HIST WHERE RCPT_NUM = #rcptNum#
+	</delete>
+
+	<!--  피의자 삭제 -->
+	<delete id="B9999.SJPB_INC_SP.delete">  /* B9999.SJPB_INC_SP.delete */
+		DELETE FROM SJPB_INC_SP WHERE RCPT_NUM = #rcptNum#
+	</delete>
+	
+	<!-- 워크플로우 삭제 -->
+	<delete id="B9999.SJPB_INC_TASK_HIST.delete">  /* B9999.SJPB_INC_TASK_HIST.delete */
+		DELETE FROM SJPB_INC_TASK_HIST WHERE RCPT_NUM = #rcptNum#
+	</delete>
+	
+	<!-- 워크플로우  삭제 -->
+	<delete id="B9999.SJPB_INC_WF_HIST.delete">  /* B9999.SJPB_INC_WF_HIST.delete */
+		DELETE FROM SJPB_INC_WF_HIST WHERE RCPT_NUM = #rcptNum#
+	</delete>
+
+	<!-- 워크플로우  삭제 -->
+	<delete id="B9999.SJPB_INC_WF.delete">  /* B9999.SJPB_INC_WF.delete */
+		DELETE FROM SJPB_INC_WF WHERE RCPT_NUM = #rcptNum#
+	</delete>
+	
+	<!-- 사건수사단원 히스토리 삭제  -->
+	<delete id="B9999.SJPB_INC_CRI_MB_HIST.delete">  /* B9999.SJPB_INC_CRI_MB_HIST.delete */
+		DELETE FROM SJPB_INC_CRI_MB_HIST WHERE RCPT_NUM = #rcptNum#
+	</delete>
+	
+	<!-- 사건수사단원 삭제  -->
+	<delete id="B9999.SJPB_INC_CRI_MB.delete">  /* B9999.SJPB_INC_CRI_MB.delete */
+		DELETE FROM SJPB_INC_CRI_MB WHERE RCPT_NUM = #rcptNum#
+	</delete>
+	
+	<!-- 내사사건상세 히스토리 삭제 -->
+	<delete id="B9999.SJPB_INTI_INC_DTS_HIST.delete">  /* B9999.SJPB_INTI_INC_DTS_HIST.delete */
+		DELETE FROM SJPB_INTI_INC_DTS_HIST WHERE RCPT_NUM = #rcptNum#
+	</delete>
+
+	<!-- 내사사건상세 삭제 -->
+	<delete id="B9999.SJPB_INTI_INC_DTS.delete">  /* B9999.SJPB_INTI_INC_DTS.delete */
+		DELETE FROM SJPB_INTI_INC_DTS WHERE RCPT_NUM = #rcptNum#
+	</delete>
+	
+	<!-- 사건상세 히스토리 삭제 -->
+	<delete id="B9999.SJPB_INC_DTS_HIST.delete">  /* B9999.SJPB_INC_DTS_HIST.delete */
+		DELETE FROM SJPB_INC_DTS_HIST WHERE RCPT_NUM = #rcptNum#
+	</delete>
+
+	<!-- 사건상세 삭제 -->
+	<delete id="B9999.SJPB_INC_DTS.delete">  /* B9999.SJPB_INC_DTS.delete */
+		DELETE FROM SJPB_INC_DTS WHERE RCPT_NUM = #rcptNum#
+	</delete>
+	
+	<!-- 사건 히스토리 삭제 -->
+	<delete id="B9999.SJPB_INC_MAST_HIST.delete">  /* B9999.SJPB_INC_MAST_HIST.delete */
+		DELETE FROM SJPB_INC_MAST_HIST WHERE RCPT_NUM = #rcptNum#
+	</delete>
+
+	<!-- 사건 삭제 -->
+	<update id="B9999.SJPB_INC_MAST.delete">  /* B9999.SJPB_INC_MAST.delete */
+		DELETE FROM SJPB_INC_MAST WHERE RCPT_NUM = #rcptNum#
+	</update>
+	
+	<!-- 사건수정 삭제 -->
+	<delete id="B9999.SJPB_ACT_VIO_CLA_MF.delete">  /* B9999.SJPB_ACT_VIO_CLA_MF.delete */
+		DELETE FROM SJPB_ACT_VIO_CLA_MF
+		WHERE ACT_VIO_NUM IN (
+		    SELECT ACT_VIO_NUM FROM SJPB_ACT_VIO_MF
+		    WHERE INC_SP_NUM IN (
+		        SELECT INC_SP_NUM FROM SJPB_INC_SP_MF WHERE RCPT_NUM = #rcptNum#
+		    )
+		)
+	</delete>
+	
+	<!-- 사건수정삭제 -->
+	<delete id="B9999.SJPB_ACT_VIO_MF.delete">  /* B9999.SJPB_ACT_VIO_MF.delete */
+		DELETE FROM SJPB_ACT_VIO_MF
+		WHERE INC_SP_NUM IN (
+			SELECT INC_SP_NUM FROM SJPB_INC_SP_MF WHERE RCPT_NUM = #rcptNum#
+		)
+	</delete>
+	
+	<!-- 사건수정삭제 -->
+	<delete id="B9999.SJPB_INC_SP_MF.delete">  /* B9999.SJPB_INC_SP_MF.delete */
+		DELETE FROM SJPB_INC_SP_MF WHERE RCPT_NUM = #rcptNum#
+	</delete>
+
+	<!-- 사건수정삭제 -->
+	<delete id="B9999.SJPB_INC_MF.delete">  /* B9999.SJPB_INC_MF.delete */
+		DELETE FROM SJPB_INC_MF WHERE RCPT_NUM = #rcptNum#
+	</delete>
+	
+	<!-- 사건조회 이력 테이블 삭제 -->
+	<delete id="B9999.SJPB_INC_INQ_HIST.delete">  /* B9999.SJPB_INC_INQ_HIST.delete */
+		DELETE FROM SJPB_INC_INQ_HIST WHERE RCPT_NUM = #rcptNum#
+	</delete>
+	
+</sqlMap>
+

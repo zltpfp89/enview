@@ -1,0 +1,110 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ DOMAIN_PORTLET : 도메인 포틀릿 ] Table -->
+	<resultMap id="admin_DomainPortletVO_PK" class="com.saltware.enview.admin.domain.service.DomainPortletPK">
+	
+		<result property="domainId" column="DOMAIN_ID" columnIndex="1"/>	
+		<result property="portletNm" column="PORTLET_NM" columnIndex="2"/>	
+	</resultMap>
+	
+	<resultMap id="admin_DomainPortletVO" class="com.saltware.enview.admin.domain.service.DomainPortletVO">
+	 
+		<result property="domainId" column="DOMAIN_ID" columnIndex="1"/>	 
+		<result property="portletNm" column="PORTLET_NM" columnIndex="2"/>	
+	</resultMap>
+	
+	<select id="domainPortlet.totalCount" resultClass="int">
+	/* domainPortlet.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM DOMAIN_PORTLET
+		WHERE 1=1	
+			<isNotEqual prepend=" AND " property="domainId" compareValue="0">DOMAIN_ID=#domainId#</isNotEqual>
+	</select>
+	
+	<select id="domainPortlet.findByPage" resultMap="admin_DomainPortletVO_PK">
+	/* domainPortlet.findByPage */
+		SELECT * FROM (
+			SELECT DOMAIN_ID,PORTLET_NM, ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY DOMAIN_ID ASC</isNull>
+			) as rnum
+			FROM DOMAIN_PORTLET
+			WHERE 1=1 
+			<isNotEqual prepend=" AND " property="domainId" compareValue="0">DOMAIN_ID=#domainId#</isNotEqual>
+		) t1 WHERE t1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="domainPortlet.findAll" resultMap="admin_DomainPortletVO_PK">
+			SELECT DOMAIN_ID,PORTLET_NM
+			FROM DOMAIN_PORTLET
+	</select>
+	
+	<select id="domainPortlet.findByMaster" resultMap="admin_DomainPortletVO_PK">
+			SELECT DOMAIN_ID,PORTLET_NM
+			FROM DOMAIN_PORTLET
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+		
+	</select>
+	
+
+	<select id="domainPortlet.detail" resultMap="admin_DomainPortletVO">
+		<![CDATA[
+			SELECT DOMAIN_ID,PORTLET_NM
+			FROM DOMAIN_PORTLET
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+				AND PORTLET_NM=#portletNm#
+		]]>
+	</select>
+	
+	<select id="domainPortlet.exist" resultClass="int">
+			SELECT COUNT(*) cnt
+			FROM DOMAIN_PORTLET
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+				AND PORTLET_NM=#portletNm#
+	</select>
+	
+	<insert id="domainPortlet.insert">
+		<![CDATA[
+			INSERT INTO DOMAIN_PORTLET
+				( DOMAIN_ID,PORTLET_NM )
+			VALUES ( #domainId#,#portletPath# )
+		]]>
+	</insert>
+	
+	<update id="domainPortlet.update">
+		<![CDATA[
+			UPDATE DOMAIN_PORTLET
+			SET DOMAIN_ID=#domainId#,PORTLET_NM=#portletNm#
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+				AND PORTLET_NM=#portletNm#
+		]]>
+	</update>
+	
+	<delete id="domainPortlet.delete">
+		<![CDATA[
+			DELETE FROM DOMAIN_PORTLET
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+				AND PORTLET_NM=#portletNm#
+		]]>
+	</delete>
+	
+	<delete id="domainPortlet.deleteChildren">
+		<![CDATA[
+			DELETE FROM DOMAIN_PORTLET
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

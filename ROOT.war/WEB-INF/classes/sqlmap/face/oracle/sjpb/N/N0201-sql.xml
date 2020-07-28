@@ -1,0 +1,245 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="face">
+	<!-- Query for [ SJPB_CMCT_DTA : 통신자료 ] Table -->
+	<resultMap class="com.saltware.enface.sjpb.N.service.N0201VO" id="N0201VO.selectList">
+		<result property="cmctDtaBkNum" column="CMCT_DTA_BK_NUM"/>
+		<result property="cmctDtaSbjt" column="CMCT_DTA_SBJT"/>
+		<result property="cmctCmpyCd" column="CMCT_CMPY_CD"/>
+		<result property="cmctCmpyNm" column="CMCT_CMPY_NM"/>
+		<result property="moblPhonNum" column="MOBL_PHON_NUM"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+		<result property="remainDay" column="REMAIN_DAY"/>
+		<result property="cmctDtaResetDay" column="CMCT_DTA_RESET_DAY"/>
+	</resultMap>
+	
+	<resultMap class="com.saltware.enface.sjpb.N.service.N0201VO" id="N0201VO.selectAll">
+		<result property="cmctDtaBkNum" column="CMCT_DTA_BK_NUM"/>
+		<result property="cmctDtaSbjt" column="CMCT_DTA_SBJT"/>
+		<result property="cmctCmpyCd" column="CMCT_CMPY_CD"/>
+		<result property="cmctCmpyNm" column="CMCT_CMPY_NM"/>
+		<result property="moblPhonNum" column="MOBL_PHON_NUM"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+	</resultMap>	
+	
+	<resultMap class="com.saltware.enface.sjpb.N.service.N0201VO" id="N0201VO.selectCmctDtaFileAll">
+		<result property="cmctFincDtaNum" column="CMCT_FINC_DTA_NUM"/>
+		<result property="fileId" column="FILE_ID"/>
+		<result property="cmctFincDiv" column="CMCT_FINC_DIV"/>
+		<result property="fileNm" column="FILE_NM"/>
+		<result property="fileMask" column="FILE_MASK"/>
+		<result property="fileType" column="FILE_TYPE"/>
+		<result property="filePath" column="FILE_PATH"/>	
+	</resultMap>
+	
+	
+	<!-- 통신대장 마스터  리스트 -->
+	<select id="N0201.selectList" resultMap="N0201VO.selectList"> /* N0201.selectList */
+		SELECT
+		    CMCT_DTA_BK_NUM,
+		    CMCT_DTA_SBJT,
+		    CMCT_CMPY_CD,
+		    (SELECT CODE_NAME FROM CODEBASE WHERE CODE_ID='SJPB_00033' AND CODE !='0000000000' AND LANG_KND='ko' AND CODE=CMCT_CMPY_CD )  AS CMCT_CMPY_NM ,
+		    CRYPTO.DEC('normal',MOBL_PHON_NUM) AS MOBL_PHON_NUM,
+		    REG_USER_ID,
+		    UPD_USER_ID,
+		    TO_CHAR(REG_DATE,'yyyy-MM-dd') AS REG_DATE,
+		    TO_CHAR(UPD_DATE,'yyyy-MM-dd') AS UPD_DATE,
+            TO_CHAR(REG_DATE+180,'yyyy-MM-dd') AS END_DATE,
+            'D-'||ROUND(REG_DATE+#cmctDtaResetDay# -SYSDATE) AS REMAIN_DAY,		    
+		    #cmctDtaResetDay# AS CMCT_DTA_RESET_DAY
+		FROM
+		    SJPB_CMCT_DTA
+		WHERE 1=1
+		 AND REG_USER_ID =#regUserId#
+		<isNotEmpty  prepend=" AND " property="cmctCmpyCd">CMCT_CMPY_CD =#cmctCmpyCd#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="moblPhonNum">CRYPTO.DEC('normal',MOBL_PHON_NUM) LIKE '%'||#moblPhonNum#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="cmctDtaSbjt">CMCT_DTA_SBJT LIKE '%'||#cmctDtaSbjt#||'%'</isNotEmpty>		 
+	 	ORDER BY CMCT_DTA_BK_NUM ASC
+	</select>
+	
+	<!-- 통신대장 마스터  리스트 -->
+	<select id="N0201.selectCmctDtaInfo" resultMap="N0201VO.selectAll"> /* N0201.selectCmctDtaInfo */
+		SELECT
+		    CMCT_DTA_BK_NUM,
+		    CMCT_DTA_SBJT,
+		    CMCT_CMPY_CD,
+		    (SELECT CODE_NAME FROM CODEBASE WHERE CODE_ID='SJPB_00033' AND CODE !='0000000000' AND LANG_KND='ko' AND CODE=CMCT_CMPY_CD )  AS CMCT_CMPY_NM ,
+		    CRYPTO.DEC('normal',MOBL_PHON_NUM) AS MOBL_PHON_NUM,
+		    REG_USER_ID,
+		    UPD_USER_ID,
+		    TO_CHAR(REG_DATE,'yyyy-MM-dd') AS REG_DATE,
+		    TO_CHAR(UPD_DATE,'yyyy-MM-dd') AS UPD_DATE,
+            TO_CHAR(REG_DATE+180,'yyyy-MM-dd') AS END_DATE
+		FROM
+		    SJPB_CMCT_DTA
+		WHERE 1=1
+		 AND CMCT_DTA_BK_NUM =#cmctDtaBkNum#	 
+	 	ORDER BY CMCT_DTA_BK_NUM ASC
+	</select>	
+
+	<!-- 통신대장  추가 -->
+	<insert id="N0201.SJPB_CMCT_DTA.insert"> /* N0201.SJPB_CMCT_DTA.insert*/		
+		INSERT INTO SJPB_CMCT_DTA (
+		    CMCT_DTA_BK_NUM,
+		    CMCT_DTA_SBJT,
+		    CMCT_CMPY_CD,
+		    MOBL_PHON_NUM,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+		    #cmctDtaBkNum#,
+		    #cmctDtaSbjt#,
+		    #cmctCmpyCd#,
+		    CRYPTO.ENC('normal',#moblPhonNum#),
+		    #regUserId#,
+		    SYSDATE,
+		    #updUserId#,
+		    SYSDATE
+		)
+	</insert>
+	
+<!-- 통신대장 업데이트 -->
+	<update id="N0201.SJPB_CMCT_DTA.update"> /* N0201.SJPB_CMCT_DTA.update*/		
+		UPDATE SJPB_CMCT_DTA
+		SET
+		     CMCT_DTA_SBJT = #cmctDtaSbjt#
+		     ,CMCT_CMPY_CD =#cmctCmpyCd#
+		     ,MOBL_PHON_NUM = CRYPTO.ENC('normal',#moblPhonNum#)
+		     ,UPD_USER_ID =#updUserId#
+		     ,UPD_DATE =SYSDATE
+		     
+		WHERE
+		    CMCT_DTA_BK_NUM =  #cmctDtaBkNum#
+	</update>	
+	
+	<delete id="N0201.SJPB_CMCT_DTA_DTS.delete">  /* N0201.SJPB_CMCT_DTA_DTS.delete */
+		<![CDATA[	
+			DELETE FROM SJPB_CMCT_DTA_DTS WHERE CMCT_DTA_BK_NUM=#cmctDtaBkNum#
+		]]>
+	</delete>
+	
+	<delete id="N0201.SJPB_CMCT_FINC_DTA_FILE.delete">  /* N0201.SJPB_CMCT_FINC_DTA_FILE.delete */
+		<![CDATA[	
+			DELETE FROM SJPB_CMCT_FINC_DTA_FILE WHERE CMCT_FINC_DTA_NUM =#cmctDtaBkNum# AND CMCT_FINC_DIV=#cmctFincDiv#
+		]]>
+	</delete>
+	
+	<delete id="N0201.SJPB_CMCT_DTA.delete">  /* N0201.SJPB_CMCT_DTA.delete */
+		<![CDATA[	
+			DELETE FROM SJPB_CMCT_DTA WHERE CMCT_DTA_BK_NUM=#cmctDtaBkNum#
+		]]>
+	</delete>	
+	
+	<select id="N0201.SJPB_CMCT_DTA.CMCT_CPNY_CD.select" resultClass="java.lang.String">  /* N0201.SJPB_CMCT_DTA.CMCT_CPNY_CD.select */
+			SELECT CMCT_CD
+			FROM   SJPB_CMCT_DTA
+			WHERE  CMCT_DTA_BK_NUM =#cmctDtaBkNum#
+	</select>			
+	
+	<insert id="N0201.SJPB_CMCT_FINC_DTA_FILE.insert"> /* N0201.SJPB_CMCT_FINC_DTA_FILE.insert*/		
+		INSERT INTO SJPB_CMCT_FINC_DTA_FILE (
+		    CMCT_FINC_DTA_NUM,
+		    FILE_ID,
+		    CMCT_FINC_DIV,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+		    #cmctDtaBkNum#,
+		    #fileId#,
+		    #cmctFincDiv#,
+		    #regUserId#,
+		    SYSDATE,
+		    #updUserId#,
+		    SYSDATE
+		)
+	</insert>	
+	
+	<!-- 통신대장 마스터  리스트 -->
+	<select id="N0201.selectCmctFileInfo" resultMap="N0201VO.selectAll"> /* N0201.selectCmctDtaInfo */
+		SELECT
+		    CMCT_DTA_BK_NUM,
+		    CMCT_DTA_SBJT,
+		    CMCT_CMPY_CD,
+		    (SELECT CODE_NAME FROM CODEBASE WHERE CODE_ID='SJPB_00033' AND CODE !='0000000000' AND LANG_KND='ko' AND CODE=CMCT_CMPY_CD ) AS CMCT_NM,
+		    CRYPTO.DEC('normal',MOBL_PHON_NUM) AS MOBL_PHON_NUM,
+		    REG_USER_ID,
+		    UPD_USER_ID,
+		    TO_CHAR(REG_DATE,'yyyy-MM-dd') AS REG_DATE,
+		    TO_CHAR(UPD_DATE,'yyyy-MM-dd') AS UPD_DATE,
+            TO_CHAR(REG_DATE+180,'yyyy-MM-dd') AS END_DATE
+		FROM
+		    SJPB_CMCT_DTA
+		WHERE 1=1
+		 AND CMCT_DTA_BK_NUM =#cmctDtaBkNum#	 
+	 	ORDER BY CMCT_DTA_BK_NUM ASC
+	</select>	
+	
+	<select id="N0201.selectCmctDtaFileInfo" resultMap="N0201VO.selectCmctDtaFileAll"> /* N0201.selectCmctDtaFileInfo */
+		SELECT CMCT_FINC_DTA_NUM,
+		       A.FILE_ID,
+		       CMCT_FINC_DIV,
+		       FILE_NM,
+		       FILE_MASK,
+		       FILE_TYPE,
+		       FILE_PATH
+		FROM   SJPB_CMCT_FINC_DTA_FILE A
+		       JOIN SJPB_COMM_FILE B
+		       ON     A.FILE_ID =B.FILE_ID
+		WHERE  1                =1
+		AND    A.CMCT_FINC_DIV  ='C'
+		AND    A.CMCT_FINC_DTA_NUM = #cmctFincDtaNum#
+	</select>	
+	
+	<!-- 통신자료 상세 정보  추가 -->
+	<insert id="N0201.SJPB_CMCT_DTA_DTS.insert"> /* N0201.SJPB_CMCT_DTA_DTS.insert*/		
+		INSERT INTO SJPB_CMCT_DTA_DTS (
+		    CMCT_DTA_DTS_NUM,
+		    CMCT_DTA_BK_NUM,
+		    CMCT_CMPY_CD,
+		    CMCT_CMPY_NM,
+		    USE_TP,
+		    SEND_RECV_DIV,
+		    SEND_NUM,
+		    RECV_NUM,
+		    CALL_BE_TIME,
+		    CALL_DURT_TIME,
+		    SEND_BASE_STTN_ADDR,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+			#cmctDtaDtsNum#,
+			#cmctDtaBkNum#,
+			#cmctCmpyCd#,
+			#cmctCmpyNm#,
+			#useTp#,
+			#sendRecvDiv#,
+			CRYPTO.ENC('normal',#sendNum#),
+			CRYPTO.ENC('normal',#recvNum#),
+			#callBeTime#,
+			#callDurtTime#,
+			#sendBaseSttnAddr#,
+			#regUserId#,
+		    SYSDATE,
+		    #updUserId#,
+		    SYSDATE			
+		)
+	</insert>	
+	
+
+</sqlMap>
+

@@ -1,0 +1,74 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	<select id="notice.findByActive.postgresql" resultMap="admin_NoticeVO">
+	   <![CDATA[
+			/* notice.findByActive.postgresql */
+	   		SELECT a.NOTICE_ID,a.IS_EMERGENCY,a.TITLE,a.START_DATE,a.END_DATE,a.TEMPLATE,a.LAYOUT_X,a.LAYOUT_Y,a.LAYOUT_WIDTH,a.LAYOUT_HEIGHT,a.PRINCIPAL_ID,a.GROUPS,a.PAGE_PATH,a.DOMAIN_ID,b.DOMAIN_NM,a.SYSTEM_CODE,
+	   		'Y' AS CUR_NOTICE_YN 
+			FROM NOTICE a
+	           LEFT OUTER JOIN DOMAIN_LANG b ON a.DOMAIN_ID=b.DOMAIN_ID
+			WHERE a.START_DATE <= ( LOCALTIMESTAMP + INTERVAL '1 HOUR')  
+			   AND LOCALTIMESTAMP <= a.END_DATE
+	   	    ORDER BY a.START_DATE ASC
+		]]>     	    
+	</select>
+	
+	<select id="notice.detail.postgresql" resultMap="admin_NoticeVO">
+		/* notice.detail.postgresql */
+		<![CDATA[
+		    SELECT a.NOTICE_ID,a.IS_EMERGENCY,a.TITLE,a.START_DATE,a.END_DATE,a.TEMPLATE,a.LAYOUT_X,a.LAYOUT_Y,a.LAYOUT_WIDTH,a.LAYOUT_HEIGHT,a.PRINCIPAL_ID,a.GROUPS,a.PAGE_PATH,a.DOMAIN_ID,b.DOMAIN_NM, a.SYSTEM_CODE,
+    		CASE WHEN (to_char(START_DATE, 'YYYYMMDDHH24MI') <= to_char(LOCALTIMESTAMP, 'YYYYMMDDHH24MI')) AND (to_char(LOCALTIMESTAMP, 'YYYYMMDDHH24MI') <= to_char(a.END_DATE, 'YYYYMMDDHH24MI')) THEN 'Y' ELSE 'N' END AS CUR_NOTICE_YN
+			FROM NOTICE a
+			LEFT OUTER JOIN DOMAIN_LANG b ON a.DOMAIN_ID=b.DOMAIN_ID
+			WHERE 1=1 
+			 	AND a.NOTICE_ID=#noticeId#
+		]]>
+	</select>
+	
+	<insert id="notice.copy.postgresql">
+		/* notice.copy.postgresql */
+		<![CDATA[
+			insert into notice
+			(
+			   notice_id
+			 , domain_id
+			 , title
+			 , layout_X
+			 , layout_y
+			 , layout_width
+			 , layout_height
+			 , is_emergency
+			 , template
+			 , principal_id
+			 , groups
+			 , system_code
+			 , page_path
+			 , start_date
+			 , end_date
+			)
+			select #newNoticeId# as notice_id
+			     , domain_id
+			     , title
+			     , layout_x
+			     , layout_y
+			     , layout_width
+			     , layout_height
+			     , is_emergency
+			     , template
+			     , principal_id
+			     , groups
+			     , system_code
+			     , page_path
+			     , TO_TIMESTAMP(TO_cHAR(LOCALTIMESTAMP,'YYYYMMDD'),'YYYY-MM-DD HH24:MI:SS') AS start_date
+			     , TO_TIMESTAMP(TO_cHAR(LOCALTIMESTAMP,'YYYYMMDD'),'YYYY-MM-DD HH24:MI:SS') AS end_date
+			  from notice
+			  where notice_id = #noticeId#
+		
+		]]>
+	</insert>
+	
+	
+</sqlMap>
+

@@ -1,0 +1,104 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="face">
+
+	<resultMap class="com.saltware.enface.rulemng.service.SubRuleVO" id="SubRuleVO.selectRuleInfo">
+		<result property="ruleCd" 			column="RULE_CD" 			columnIndex="1"/>
+		<result property="ruleTp" 			column="RULE_TP" 			columnIndex="2"/>
+		<result property="ruleNm" 			column="RULE_NM" 			columnIndex="3"/>
+		<result property="ruleSt" 			column="RULE_SUB_ST" 		columnIndex="4"/>
+		<result property="ruleSubCnt" 		column="RULE_SUB_CNT" 		columnIndex="5"/>
+		<result property="ruleIsUse" 		column="RULE_USE_FG" 		columnIndex="6"/>
+		<result property="ruleSubCd" 		column="RULE_SUB_CD" 		columnIndex="7"/>
+		<result property="ruleSubNm" 		column="RULE_SUB_NM" 		columnIndex="8"/>
+		<result property="ruleSubData1" 	column="RULE_SUB_EX1" 		columnIndex="9"/>
+		<result property="ruleSubData2" 	column="RULE_SUB_EX2" 		columnIndex="10"/>
+		<result property="ruleSubData3" 	column="RULE_SUB_EX3" 		columnIndex="11"/>
+		<result property="ruleSubData4" 	column="RULE_SUB_EX4" 		columnIndex="12"/>
+		<result property="ruleSubData5" 	column="RULE_SUB_EX5" 		columnIndex="13"/>
+		<result property="ruleSubData6" 	column="RULE_SUB_EX6" 		columnIndex="14"/>
+	</resultMap>
+	
+	<select id="rulemng.selectRuleInfo" resultMap="SubRuleVO.selectRuleInfo">
+		SELECT 
+		    RM.RULE_CD,
+		    RM.RULE_TP,
+		    RM.RULE_NM,
+		    SRM.RULE_SUB_ST,
+		    RM.RULE_SUB_CNT,
+		    RM.RULE_USE_FG,
+		    SRM.RULE_SUB_CD,
+		    SRM.RULE_SUB_NM,
+		    SRM.RULE_SUB_EX1,
+		    SRM.RULE_SUB_EX2,
+		    SRM.RULE_SUB_EX3,
+		    SRM.RULE_SUB_EX4,
+		    SRM.RULE_SUB_EX5,
+		    SRM.RULE_SUB_EX6
+		FROM USER_RULE_MNG RM
+		LEFT OUTER JOIN USER_SUB_RULE_MNG SRM
+		ON RM.RULE_CD = SRM.RULE_CD
+		WHERE RM.RULE_TP = #ruleTp#
+		<isNotNull property="useFg">
+			AND RM.RULE_USE_FG = #useFg#
+		</isNotNull>
+		ORDER BY RM.RULE_CD, SRM.RULE_SUB_OR ASC
+	</select>
+	
+	<update id="rulemng.updateRuleInfo">
+		UPDATE 
+		USER_SUB_RULE_MNG SET
+		RULE_SUB_EX1=#ruleSubData1#,
+		RULE_SUB_EX2=#ruleSubData2#,
+		RULE_SUB_EX3=#ruleSubData3#,
+		RULE_SUB_EX4=#ruleSubData4#,
+		RULE_SUB_EX5=#ruleSubData5#,
+		RULE_SUB_EX6=#ruleSubData6#
+		WHERE RULE_SUB_CD = #ruleSubCd#
+	</update>
+	
+	<update id="rulemng.updateRuleUseFlag">
+        UPDATE USER_RULE_MNG
+		SET RULE_USE_FG = 
+            CASE 
+                WHEN RULE_CD IN (
+                <iterate conjunction="," property="notUsedList">
+		        	#notUsedList[]#
+		        </iterate>
+                ) THEN 'N'
+                ELSE 'Y'
+            END
+	</update>
+	
+	<select id="rulemng.selectUserColumnValue" resultClass="java.lang.String">
+        SELECT
+		    USER_PWD
+		FROM EGMISKS.VW_EGMCM1000
+		WHERE USER_ID = #userId#
+	</select>
+	
+	<resultMap class="com.saltware.enface.rulemng.service.SubRuleVO" id="SubRuleVO.selectChangePwdRutin">
+		<result property="ruleIsUse" 		column="RULE_USE_FG" 		columnIndex="1"/>
+		<result property="ruleSubData1" 	column="RULE_SUB_EX1" 		columnIndex="2"/>
+	</resultMap>
+	
+	<select id="rulemng.selectChangePwdRutin" resultMap="SubRuleVO.selectChangePwdRutin">
+		SELECT 
+		    RM.RULE_USE_FG, 
+		    SRM.RULE_SUB_EX1 
+		FROM USER_RULE_MNG RM 
+		LEFT OUTER JOIN USER_SUB_RULE_MNG SRM 
+		ON RM.RULE_CD = SRM.RULE_CD 
+		WHERE SRM.RULE_SUB_CD = 'PWD_CHANGE_DAY'
+	</select>
+	
+	<select id="rulemng.selectLastChangeDate" resultClass="java.lang.String">
+		SELECT TO_CHAR(MAX(TIME_STAMP), 'YYYYMMDDHH24MISS') FROM USER_STATISTICS WHERE USER_ID=#userId# AND STATUS = #status#
+	</select>
+	
+	<select id="rulemng.selectFirstLoginDate" resultClass="java.lang.String">
+		SELECT TO_CHAR(MIN(TIME_STAMP), 'YYYYMMDDHH24MISS') FROM USER_STATISTICS WHERE USER_ID=#userId# AND STATUS = #status#
+	</select>
+
+</sqlMap>
+

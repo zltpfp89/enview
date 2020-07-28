@@ -1,0 +1,757 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="face">	
+	
+	<!-- 사건송치부리스트 결과맵 -->	
+	<resultMap id="C0201.C0201VO.list" class="com.saltware.enface.sjpb.C.service.C0201VO">
+		<result property="incTrfBkNum" column="INC_TRF_BK_NUM"/>	 
+		<result property="incTrfBkPublYr" column="INC_TRF_BK_PUBL_YR"/>		
+		<result property="trfProDt" column="TRF_PRO_DT"/>
+		<result property="respTrfOffi" column="RESP_TRF_OFFI"/>
+		<result property="respDppoCd" column="RESP_DPPO_CD"/>
+		<result property="incTrfBkStatCd" column="INC_TRF_BK_STAT_CD"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>		
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="respDppoDesc" column="RESP_DPPO_DESC"/>
+		<result property="incTrfBkStatDesc" column="INC_TRF_BK_STAT_DESC"/>		
+<!-- 		<result property="rcptNum" column="RCPT_NUM"/> -->
+		<result property="incNum" column="INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>	
+		<result property="trfNum" column="TRF_NUM"/>	
+	</resultMap>
+
+	<!-- 사건송치부리스트 --> 
+	<select id="C0201.SJPB_INC_TRF_BK.list" resultMap="C0201.C0201VO.list">  /* C0201.SJPB_INC_TRF_BK.list */
+		
+		SELECT
+			* 
+		FROM (
+			SELECT DISTINCT
+				 A.INC_TRF_BK_NUM    /*사건송치부번호*/ 
+		 	    ,A.INC_TRF_BK_PUBL_YR   /*사건송치부발행년도*/				
+				,TO_CHAR(A.TRF_PRO_DT,'YYYY-MM-DD') AS  TRF_PRO_DT  /*사건지휘일자*/
+				,A.RESP_TRF_OFFI   /*담당송치관*/
+				,A.RESP_DPPO_CD    /*담당지검코드*/
+				,A.INC_TRF_BK_STAT_CD   /*사건송치부상태코드*/
+				,A.REG_USER_ID
+				,A.REG_DATE
+				,A.UPD_USER_ID
+				,A.UPD_DATE				
+				,B.NM_KOR /*담당송치관*/
+				,C.CODE_NAME AS RESP_DPPO_DESC /*담당지검명*/
+				,D.CODE_NAME AS INC_TRF_BK_STAT_DESC /*사건송치부상태설명*/
+				<!-- ,E.RCPT_NUM	/*접수번호*/ -->
+				,AA0.INC_NUM /*사건번호*/
+                ,AA1.SP_NM  /*피의자이름*/
+                ,E.TRF_NUM /*송치번호*/
+			FROM SJPB_INC_TRF_BK A
+			JOIN USERPASS B ON A.RESP_TRF_OFFI = B.USER_ID
+			LEFT OUTER JOIN CODEBASE C ON A.RESP_DPPO_CD = C.CODE AND C.CODE_ID = 'SJPB_00005'  /*담당지검코드*/
+			LEFT OUTER JOIN CODEBASE D ON A.INC_TRF_BK_STAT_CD = D.CODE AND D.CODE_ID = 'SJPB_00017'  /*사건송치부상태*/			
+			LEFT OUTER JOIN(
+                    SELECT E1.RCPT_NUM, E1.RCPT_INC_NUM, E2.INC_TRF_BK_NUM, E3.INC_NUM, E3.TRF_NUM
+		            FROM SJPB_INC_MAST E1 
+		            JOIN SJPB_INC_TRF_ITEM E2 ON E1.RCPT_NUM = E2.RCPT_NUM
+		            JOIN SJPB_INC_DTS E3 ON E3.RCPT_NUM = E1.RCPT_NUM
+            		) U ON A.INC_TRF_BK_NUM = U.INC_TRF_BK_NUM	
+			LEFT OUTER JOIN
+		        ( SELECT
+                    INC_TRF_BK_NUM,
+                    REGEXP_REPLACE(LISTAGG(TT.TRF_NUM,
+                    ', ') WITHIN 
+                GROUP(ORDER BY
+                    TT.TRF_NUM),
+                    '([^,]+)(,\1)+',
+                    '\1') AS TRF_NUM                     
+                FROM
+                    (
+				   SELECT E1.RCPT_NUM, E1.RCPT_INC_NUM, E2.INC_TRF_BK_NUM, E3.INC_NUM, E3.TRF_NUM
+		           FROM SJPB_INC_MAST E1 
+		           JOIN SJPB_INC_TRF_ITEM E2 ON E1.RCPT_NUM = E2.RCPT_NUM
+		           JOIN SJPB_INC_DTS E3 ON E3.RCPT_NUM = E1.RCPT_NUM) TT 
+                GROUP BY
+                    TT.INC_TRF_BK_NUM         
+		         )
+		        E ON A.INC_TRF_BK_NUM = E.INC_TRF_BK_NUM			
+		    LEFT OUTER JOIN 
+			(
+				SELECT
+                   AA.INC_TRF_BK_NUM
+                    ,REGEXP_REPLACE(LISTAGG(AA.INC_NUM,  ', ') WITHIN GROUP(ORDER BY AA.INC_TRF_BK_NUM), '([^,]+)(,\1)+', '\1') AS INC_NUM
+                FROM 
+                (
+                    SELECT DISTINCT
+                        A0.INC_TRF_BK_NUM
+                        ,A3.INC_NUM
+                    FROM SJPB_INC_TRF_BK A0
+                    LEFT OUTER JOIN SJPB_INC_TRF_ITEM A1 ON A1.INC_TRF_BK_NUM = A0.INC_TRF_BK_NUM
+                    LEFT OUTER JOIN SJPB_INC_MAST A2 ON A1.RCPT_NUM = A2.RCPT_NUM
+                    JOIN SJPB_INC_DTS A3 ON A3.RCPT_NUM = A2.RCPT_NUM
+                    LEFT OUTER JOIN SJPB_INC_SP A4 ON A4.RCPT_NUM = A2.RCPT_NUM
+                ) AA
+                GROUP BY AA.INC_TRF_BK_NUM
+			)  AA0 ON AA0.INC_TRF_BK_NUM = A.INC_TRF_BK_NUM		
+			LEFT OUTER JOIN 
+			(
+				SELECT
+                   AA.INC_TRF_BK_NUM
+                    ,REGEXP_REPLACE(LISTAGG(AA.SP_NM,  ', ') WITHIN GROUP(ORDER BY AA.INC_TRF_BK_NUM), '([^,]+)(,\1)+', '\1') AS SP_NM
+                FROM 
+                (
+                    SELECT DISTINCT
+                        A0.INC_TRF_BK_NUM
+                        ,A4.RCPT_NUM
+                        ,CRYPTO.DEC('normal', A4.SP_NM) AS SP_NM
+                    FROM SJPB_INC_TRF_BK A0
+                    LEFT OUTER JOIN SJPB_INC_TRF_ITEM A1 ON A1.INC_TRF_BK_NUM = A0.INC_TRF_BK_NUM
+                    LEFT OUTER JOIN SJPB_INC_MAST A2 ON A1.RCPT_NUM = A2.RCPT_NUM
+                    JOIN SJPB_INC_DTS A3 ON A3.RCPT_NUM = A2.RCPT_NUM
+                    LEFT OUTER JOIN SJPB_INC_SP A4 ON A4.RCPT_NUM = A2.RCPT_NUM
+                ) AA
+                GROUP BY AA.INC_TRF_BK_NUM
+			)  AA1 ON AA1.INC_TRF_BK_NUM = A.INC_TRF_BK_NUM		
+			WHERE 1=1
+			<isNotEqual prepend=" AND " property="respDppoCdSC" compareValue="">A.RESP_DPPO_CD=#respDppoCdSC#</isNotEqual>
+			<isNotEqual prepend=" AND " property="respTrfOffiSC" compareValue="">B.NM_KOR LIKE #respTrfOffiSC#||'%'</isNotEqual>
+			<isNotEqual prepend=" AND " property="trfProDtFromSC" compareValue="">A.TRF_PRO_DT &gt;= TO_DATE(#trfProDtFromSC#,'yyyy-MM-dd hh24:mi:ss')</isNotEqual>
+			<isNotEqual prepend=" AND " property="trfProDtToSC" compareValue="">A.TRF_PRO_DT &lt;= TO_DATE(#trfProDtToSC#,'yyyy-MM-dd hh24:mi:ss')</isNotEqual>
+			<isNotEqual prepend=" AND " property="rcptIncNumSC" compareValue="">U.INC_NUM=#rcptIncNumSC#</isNotEqual>
+		) CMD 
+		WHERE 1=1
+		<isNotEmpty  prepend=" AND " property="incNumSC">CMD.INC_NUM LIKE '%'||#incNumSC#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="spNmSC">CMD.SP_NM LIKE '%'||#spNmSC#||'%'</isNotEmpty>
+		ORDER BY CMD.UPD_DATE  DESC
+	
+	</select>	
+	
+	
+	<!-- 사건송치부아이템 결과맵 -->	
+	<resultMap id="C0201.IncTrfItemVO.list" class="com.saltware.enface.sjpb.Z.service.IncTrfItemVO">
+		<result property="incTrfItemNum" column="INC_TRF_ITEM_NUM"/>
+		<result property="incTrfBkNum" column="INC_TRF_BK_NUM"/>		
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="incTrfItemStatCd" column="INC_TRF_ITEM_STAT_CD"/>
+		<result property="trfTranDt" column="TRF_TRAN_DT"/>
+		<result property="trfReqDt" column="TRF_REQ_DT"/>
+		<result property="trfRcptDt" column="TRF_RCPT_DT"/>
+		<result property="reTrfYn" column="RE_TRF_YN"/>
+		<result property="trfRst" column="TRF_RST"/>
+		<result property="trfComn" column="TRF_COMN"/>
+		<result property="incCriNm" column="INC_CRI_NM"/>
+		<result property="incSp" column="INC_SP"/>
+		<result property="incArrtClsf" column="INC_ARRT_CLSF"/>
+		<result property="evidArtcYn" column="EVID_ARTC_YN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>	
+		<result property="incTrfItemNumDesc" column="INC_TRF_ITEM_NUM_DESC"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="trfNum" column="TRF_NUM"/>	
+		<result property="recdType" column="RECD_TYPE"/>
+		<result property="updStatYN" column="UPD_STAT_YN"/>
+	</resultMap>	
+		
+		
+	<!-- 사건송치부 아이템리스트 --> 
+<select id="C0201.SJPB_INC_TRF_ITEM.list" resultMap="C0201.IncTrfItemVO.list">  /* C0201.SJPB_INC_TRF_ITEM.list */
+		
+		SELECT 
+			A.INC_TRF_BK_PUBL_YR || '-' || B.INC_TRF_ITEM_NUM AS INC_TRF_ITEM_NUM_DESC
+			,B.INC_TRF_ITEM_NUM   /*사건송치건번호*/
+			,B.INC_TRF_BK_NUM     /*사건송치부번호*/
+			,B.RCPT_NUM               /*접수번호*/
+			,B.INC_TRF_ITEM_STAT_CD /*사건송치건상태코드*/
+			,TO_CHAR(B.TRF_TRAN_DT,'YYYY-MM-DD') AS TRF_TRAN_DT        /*송치인계일*/      
+			,TO_CHAR(B.TRF_REQ_DT,'YYYY-MM-DD') AS TRF_REQ_DT         /*송치접수일*/
+			,TO_CHAR(B.TRF_RCPT_DT,'YYYY-MM-DD') AS TRF_RCPT_DT        /*송치수령일*/
+			,B.RE_TRF_YN              /*재지휘여부*/
+			,B.TRF_RST            /*송치결과*/
+			,B.TRF_COMN           /*송치의견*/
+			,F_GET_SJPB_INC_SP_INFO (C.RCPT_NUM  ,'1' ) AS  INC_CRI_NM             /*사건죄명*/
+			,F_GET_SJPB_INC_SP_INFO (C.RCPT_NUM  ,'3' ) AS INC_SP                 /*사건피의자*/			
+			,B.INC_ARRT_CLSF          /*사건구속별*/
+			,B.EVID_ARTC_YN           /*증거품유무*/
+			,B.REG_USER_ID
+			,B.REG_DATE
+			,B.UPD_USER_ID
+			,B.UPD_DATE
+			,C.RCPT_INC_NUM           /*접수사건번호*/
+			,F.TRF_NUM /*송치번호 */
+			,'U' AS RECD_TYPE /*레코드유형*/
+			,'N' AS UPD_STAT_YN /*상태코드변경유무*/
+		FROM SJPB_INC_TRF_BK A
+		JOIN SJPB_INC_TRF_ITEM B ON A.INC_TRF_BK_NUM = B.INC_TRF_BK_NUM
+		JOIN SJPB_INC_MAST C ON B.RCPT_NUM = C.RCPT_NUM
+	    JOIN (SELECT 
+         A6.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A6.CODE_NAME, ',') WITHIN GROUP (ORDER BY A6.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS INC_CRI_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        ,A5.CODE_NAME 
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  
+        JOIN 
+        SJPB_ACT_VIO A4 ON A3.INC_SP_NUM = A4.INC_SP_NUM   
+        LEFT OUTER JOIN CODEBASE A5 ON A4.RLT_ACT_CRI_NM_CD = A5.CODE AND A5.CODE_ID = 'SJPB_00012'
+        ) A6
+        GROUP BY A6.GRUP_NUM) D ON B.RCPT_NUM = D.RCPT_NUM      
+        JOIN SJPB_INC_DTS F ON C.RCPT_NUM = F.RCPT_NUM 	     
+		WHERE A.INC_TRF_BK_NUM=#incTrfBkNum#
+		ORDER BY B.INC_TRF_ITEM_NUM			
+	
+	</select>	
+	<!-- <select id="C0201.SJPB_INC_TRF_ITEM.list" resultMap="C0201.IncTrfItemVO.list">  /* C0201.SJPB_INC_TRF_ITEM.list */
+		
+		SELECT 
+			A.INC_TRF_BK_PUBL_YR || '-' || B.INC_TRF_ITEM_NUM AS INC_TRF_ITEM_NUM_DESC
+			,B.INC_TRF_ITEM_NUM   /*사건송치건번호*/
+			,B.INC_TRF_BK_NUM     /*사건송치부번호*/
+			,B.RCPT_NUM               /*접수번호*/
+			,B.INC_TRF_ITEM_STAT_CD /*사건송치건상태코드*/
+			,TO_CHAR(B.TRF_TRAN_DT,'YYYY-MM-DD') AS TRF_TRAN_DT        /*송치인계일*/      
+			,TO_CHAR(B.TRF_REQ_DT,'YYYY-MM-DD') AS TRF_REQ_DT         /*송치접수일*/
+			,TO_CHAR(B.TRF_RCPT_DT,'YYYY-MM-DD') AS TRF_RCPT_DT        /*송치수령일*/
+			,B.RE_TRF_YN              /*재지휘여부*/
+			,B.TRF_RST            /*송치결과*/
+			,B.TRF_COMN           /*송치의견*/
+			,D.INC_CRI_NM AS INC_CRI_NM             /*사건죄명*/
+			,E.SP_NM AS INC_SP                 /*사건피의자*/
+			,B.INC_ARRT_CLSF          /*사건구속별*/
+			,B.EVID_ARTC_YN           /*증거품유무*/
+			,B.REG_USER_ID
+			,B.REG_DATE
+			,B.UPD_USER_ID
+			,B.UPD_DATE
+			,C.RCPT_INC_NUM           /*접수사건번호*/
+			,F.TRF_NUM /*송치번호 */
+			,'U' AS RECD_TYPE /*레코드유형*/
+			,'N' AS UPD_STAT_YN /*상태코드변경유무*/
+		FROM SJPB_INC_TRF_BK A
+		JOIN SJPB_INC_TRF_ITEM B ON A.INC_TRF_BK_NUM = B.INC_TRF_BK_NUM
+		JOIN SJPB_INC_MAST C ON B.RCPT_NUM = C.RCPT_NUM
+	    JOIN (SELECT 
+         A6.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A6.CODE_NAME, ',') WITHIN GROUP (ORDER BY A6.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS INC_CRI_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        ,A5.CODE_NAME 
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  
+        JOIN 
+        SJPB_ACT_VIO A4 ON A3.INC_SP_NUM = A4.INC_SP_NUM   
+        LEFT OUTER JOIN CODEBASE A5 ON A4.RLT_ACT_CRI_NM_CD = A5.CODE AND A5.CODE_ID = 'SJPB_00012'
+        ) A6
+        GROUP BY A6.GRUP_NUM) D ON B.RCPT_NUM = D.RCPT_NUM           
+	    JOIN (SELECT 
+         A4.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A4.SP_NM, ',') WITHIN GROUP (ORDER BY A4.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS SP_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  ) A4   
+         GROUP BY A4.GRUP_NUM) E ON B.RCPT_NUM = E.RCPT_NUM
+	    JOIN SJPB_INC_DTS F ON C.RCPT_NUM = F.RCPT_NUM 		
+		WHERE A.INC_TRF_BK_NUM=#incTrfBkNum#
+		ORDER BY B.INC_TRF_ITEM_NUM			
+	
+	</select> -->
+	
+		
+	<!-- 사건송치부 리포트 결과맵 -->	
+	<resultMap id="C0201.C0201RT.report" class="com.saltware.enface.sjpb.C.service.C0201RT">	
+		<result property="recNum" column="REC_NUM"/>
+		<result property="trfNum" column="TRF_NUM"/>	
+		<result property="trfProDt" column="TRF_PRO_DT"/>	
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incCriNm" column="INC_CRI_NM"/>
+		<result property="incSp" column="INC_SP"/>
+		<result property="incArrtClsf" column="INC_ARRT_CLSF"/>
+		<result property="evidArtcYn" column="EVID_ARTC_YN"/>
+		<result property="respDppoDesc" column="RESP_DPPO_DESC"/>  
+	</resultMap>	
+				
+	<!-- 사건송치부 리포트 리스트 --> 
+	<select id="C0201.SJPB_INC_TRF_ITEM.report" resultMap="C0201.C0201RT.report">  /* C0201.SJPB_INC_CRI_CMD_ITEM.report */
+		 SELECT 
+			 TO_CHAR(SYSDATE,'YYYY-')||ROWNUM AS REC_NUM,
+			 P.*
+		 FROM 
+		 (
+			SELECT
+	             G.TRF_NUM /*송치번호*/
+				,TO_CHAR(A.TRF_PRO_DT,'YYYY-MM-DD') AS TRF_PRO_DT        /*송치일*/      
+	            ,C.RCPT_INC_NUM           /*사건번호*/
+	            ,D.INC_CRI_NM AS INC_CRI_NM             /*사건죄명*/
+	            ,E.SP_NM AS INC_SP                 /*사건피의자*/
+	            ,(SELECT CODE_NAME FROM CODEBASE WHERE CODE_ID='SJPB_00022' AND LANG_KND = 'ko' AND CODE = B.INC_ARRT_CLSF ) INC_ARRT_CLSF  /*사건구속별*/    
+	            ,(CASE WHEN B.EVID_ARTC_YN = 'Y' THEN '있음' ELSE '없음' END) AS EVID_ARTC_YN           /*증거품유무*/
+	            ,F.CODE_NAME || '지검' AS RESP_DPPO_DESC /*담당지검명*/
+			FROM SJPB_INC_TRF_BK A
+			JOIN SJPB_INC_TRF_ITEM B ON A.INC_TRF_BK_NUM = B.INC_TRF_BK_NUM
+			JOIN SJPB_INC_MAST C ON B.RCPT_NUM = C.RCPT_NUM
+		    JOIN (SELECT 
+	         A6.GRUP_NUM AS RCPT_NUM           
+	         ,REGEXP_REPLACE(LISTAGG(A6.CODE_NAME, ',') WITHIN GROUP (ORDER BY A6.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS INC_CRI_NM
+	        FROM
+	       ( SELECT 
+	         A2.LV
+	        ,A2.GRUP_NUM
+	        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+	        ,A5.CODE_NAME 
+	        FROM 
+	        (SELECT 
+	           LEVEL AS LV
+	          ,A1.RCPT_NUM
+	          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+	        FROM SJPB_INC_MAST A1 
+	        WHERE A1.RCPT_TP_CD = '2' 
+	        START WITH A1.PARE_RCPT_NUM IS NULL        
+	        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+	        JOIN 
+	        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  
+	        JOIN 
+	        SJPB_ACT_VIO A4 ON A3.INC_SP_NUM = A4.INC_SP_NUM   
+	        LEFT OUTER JOIN CODEBASE A5 ON A4.RLT_ACT_CRI_NM_CD = A5.CODE AND A5.CODE_ID = 'SJPB_00012'
+	        ) A6
+	        GROUP BY A6.GRUP_NUM) D ON B.RCPT_NUM = D.RCPT_NUM           
+		    JOIN (SELECT 
+	         A4.GRUP_NUM AS RCPT_NUM           
+	         ,REGEXP_REPLACE(LISTAGG(A4.SP_NM, ',') WITHIN GROUP (ORDER BY A4.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS SP_NM
+	        FROM
+	       ( SELECT 
+	         A2.LV
+	        ,A2.GRUP_NUM
+	        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+	        FROM 
+	        (SELECT 
+	           LEVEL AS LV
+	          ,A1.RCPT_NUM
+	          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+	        FROM SJPB_INC_MAST A1 
+	        WHERE A1.RCPT_TP_CD = '2' 
+	        START WITH A1.PARE_RCPT_NUM IS NULL        
+	        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+	        JOIN 
+	        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  ) A4   
+	         GROUP BY A4.GRUP_NUM) E ON B.RCPT_NUM = E.RCPT_NUM		
+	        LEFT OUTER JOIN CODEBASE F ON A.RESP_DPPO_CD = F.CODE AND F.CODE_ID = 'SJPB_00005'  /*담당지검코드*/
+	        JOIN SJPB_INC_DTS G ON C.RCPT_NUM = G.RCPT_NUM
+			WHERE A.INC_TRF_BK_NUM=#incTrfBkNum#
+			ORDER BY B.INC_TRF_ITEM_NUM	
+		) P
+	
+	</select>	
+	
+	
+	<!-- 사건송치부 갱신 -->
+	<update id="C0201.SJPB_INC_TRF_BK.update">  /* C0201.SJPB_INC_TRF_BK.update */
+		<![CDATA[		
+			UPDATE SJPB_INC_TRF_BK 
+			SET
+			 TRF_PRO_DT=#trfProDt#
+			,RESP_TRF_OFFI=#respTrfOffi#
+			,RESP_DPPO_CD=#respDppoCd#
+			,INC_TRF_BK_STAT_CD=#incTrfBkStatCd#			
+			,UPD_USER_ID=#updUserId#
+			,UPD_DATE=SYSDATE
+		 	WHERE INC_TRF_BK_NUM = #incTrfBkNum#			
+		]]>
+	</update>	
+	
+	<!-- 사건송치부  아이템 갱신 -->
+	<update id="C0201.SJPB_INC_TRF_ITEM.update">  /* C0201.SJPB_INC_TRF_ITEM.update */
+		<![CDATA[		
+			UPDATE SJPB_INC_TRF_ITEM 
+			SET
+			     INC_TRF_BK_NUM=#incTrfBkNum#
+			    ,INC_TRF_ITEM_STAT_CD=#incTrfItemStatCd#
+				,TRF_TRAN_DT=#trfTranDt#
+				,TRF_REQ_DT=#trfReqDt#
+				,TRF_RCPT_DT=#trfRcptDt#
+				,RE_TRF_YN=#reTrfYn#			
+				,TRF_RST=#trfRst#
+				,TRF_COMN=#trfComn#
+				,INC_ARRT_CLSF=#incArrtClsf#
+				,EVID_ARTC_YN=#evidArtcYn#
+				,UPD_USER_ID=#updUserId#
+				,UPD_DATE=SYSDATE
+		 	WHERE INC_TRF_ITEM_NUM = #incTrfItemNum#			
+		]]>
+	</update>	
+	
+	<!-- 송치번호 업데이트 -->
+	<update id="C0201.SJPB_INC_DTS.TRF_NUM.update">  /* C0201.SJPB_INC_DTS.TRF_NUM.update */
+		<![CDATA[		
+			UPDATE SJPB_INC_DTS 
+			SET
+			 TRF_NUM=(SELECT CONCAT(CONCAT(TO_CHAR(SYSDATE, 'YYYY'),'-'), (SEQ+1)) FROM KEYGEN WHERE ENTITY_NAME = 'SJPB_INC_DTS.TRF_NUM')			
+			,UPD_USER_ID=#updUserId#
+			,UPD_DATE=SYSDATE
+		 	WHERE RCPT_NUM = #rcptNum#			
+		]]>
+	</update>		
+	
+	<!-- 사건송치부  마스터  추가 -->
+	<insert id="C0201.SJPB_INC_TRF_BK.insert">  /* C0201.SJPB_INC_TRF_BK.insert */
+		<![CDATA[		
+			INSERT INTO  SJPB_INC_TRF_BK (
+		    INC_TRF_BK_NUM,
+		    INC_TRF_BK_PUBL_YR,
+		    TRF_PRO_DT,
+		    RESP_TRF_OFFI,
+		    RESP_DPPO_CD,
+		    INC_TRF_BK_STAT_CD,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) values (
+			 #incTrfBkNum#
+			,TO_CHAR(SYSDATE,'YYYY')
+			,#trfProDt#
+			,#respTrfOffi#
+			,#respDppoCd#
+			,#incTrfBkStatCd#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#updUserId#
+		    ,SYSDATE	
+		)		
+		]]>
+	</insert>	
+	
+	<!-- 사건송치부  아이템  추가 -->
+	<insert id="C0201.SJPB_INC_TRF_ITEM.insert">  /* C0201.SJPB_INC_TRF_ITEM.insert */
+		<![CDATA[		
+			INSERT INTO SJPB_INC_TRF_ITEM (
+				INC_TRF_ITEM_NUM
+				,INC_TRF_BK_NUM
+				,RCPT_NUM
+				,TRF_TRAN_DT
+				,TRF_REQ_DT
+				,TRF_RCPT_DT
+				,RE_TRF_YN
+				,TRF_RST
+				,TRF_COMN
+				,INC_ARRT_CLSF
+				,EVID_ARTC_YN
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE) 
+			VALUES 	(
+		 		#incTrfItemNum#
+				, #incTrfBkNum#
+				, #rcptNum#
+				, #trfTranDt#
+				, #trfReqDt#
+				, #trfRcptDt#
+				, #reTrfYn#
+				, #trfRst#
+				, #trfComn#
+				, #incArrtClsf#
+				, #evidArtcYn#
+			    , #regUserId#
+			    , SYSDATE
+			    ,#updUserId#
+			    , SYSDATE)			
+		]]>
+	</insert>
+	
+	<!-- 상세 사건 지휘내역 결과맵 -->	
+	<resultMap id="C0201.IncTrfItemVO.details" class="com.saltware.enface.sjpb.Z.service.IncTrfItemVO">
+		<result property="incTrfItemNum" column="INC_TRF_ITEM_NUM"/>
+		<result property="incTrfBkNum" column="INC_TRF_BK_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="incTrfItemStatCd" column="INC_TRF_ITEM_STAT_CD"/>
+		<result property="trfTranDt" column="TRF_TRAN_DT"/>
+		<result property="trfReqDt" column="TRF_REQ_DT"/>
+		<result property="trfRcptDt" column="TRF_RCPT_DT"/>
+		<result property="reTrfYn" column="RE_TRF_YN"/>
+		<result property="trfRst" column="TRF_RST"/>
+		<result property="trfComn" column="TRF_COMN"/>
+	<!-- 	<result property="incCriNm" column="INC_CRI_NM"/>
+		<result property="incSp" column="INC_SP"/> -->
+		<result property="incArrtClsf" column="INC_ARRT_CLSF"/>
+		<result property="evidArtcYn" column="EVID_ARTC_YN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="trfProDt" column="TRF_PRO_DT"/>		
+		<result property="respDppoCd" column="RESP_DPPO_CD"/>
+		<result property="respDppoDesc" column="RESP_DPPO_DESC"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+	</resultMap>	
+		
+		
+	<!-- 상세 사건 지휘내역 --> 
+<select id="C0201.SJPB_INC_TRF_ITEM.details" resultMap="C0201.IncTrfItemVO.details">  /* C0201.SJPB_INC_TRF_ITEM.details */
+		
+		SELECT
+			 B.INC_TRF_ITEM_NUM   /*사건송치건번호*/
+			,B.INC_TRF_BK_NUM     /*사건송치부번호*/
+			,B.RCPT_NUM               /*접수번호*/
+			,TO_CHAR(B.TRF_TRAN_DT,'YYYY-MM-DD') AS  TRF_TRAN_DT        /*송치인계일*/      
+			,TO_CHAR(B.TRF_REQ_DT,'YYYY-MM-DD') AS  TRF_REQ_DT         /*송치접수일*/
+			,TO_CHAR(B.TRF_RCPT_DT,'YYYY-MM-DD') AS  TRF_RCPT_DT        /*송치수령일*/
+			,B.RE_TRF_YN              /*재지휘여부*/
+			,B.TRF_RST            /*송치결과*/
+			,B.TRF_COMN           /*송치의견*/
+			,B.INC_ARRT_CLSF          /*사건구속별*/
+			,B.EVID_ARTC_YN           /*증거품유무*/
+			,B.INC_TRF_ITEM_STAT_CD  /*사건송치건상태코드*/
+			,B.REG_USER_ID
+			,B.REG_DATE
+			,B.UPD_USER_ID
+			,B.UPD_DATE
+			,TO_CHAR(A.TRF_PRO_DT,'YYYY-MM-DD') AS  TRF_PRO_DT         /*송치건의일*/
+			,A.RESP_DPPO_CD           /*담당지검코드*/
+			,C.RCPT_INC_NUM           /*접수사건번호*/						
+			,D.CODE_NAME AS RESP_DPPO_DESC /*담당지검명*/			
+		FROM SJPB_INC_TRF_BK A
+		JOIN SJPB_INC_TRF_ITEM B ON A.INC_TRF_BK_NUM = B.INC_TRF_BK_NUM
+		JOIN SJPB_INC_MAST C ON B.RCPT_NUM = C.RCPT_NUM
+		LEFT OUTER JOIN CODEBASE D ON A.RESP_DPPO_CD = D.CODE AND D.CODE_ID = 'SJPB_00005'  /*담당지검코드*/
+	    JOIN (SELECT 
+         A6.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A6.CODE_NAME, ',') WITHIN GROUP (ORDER BY A6.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS INC_CRI_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        ,A5.CODE_NAME 
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  
+        JOIN 
+        SJPB_ACT_VIO A4 ON A3.INC_SP_NUM = A4.INC_SP_NUM   
+        LEFT OUTER JOIN CODEBASE A5 ON A4.RLT_ACT_CRI_NM_CD = A5.CODE AND A5.CODE_ID = 'SJPB_00012'
+        ) A6
+        GROUP BY A6.GRUP_NUM) E ON B.RCPT_NUM = E.RCPT_NUM           		
+		WHERE B.RCPT_NUM=#rcptNum#
+		ORDER BY B.INC_TRF_ITEM_NUM			
+	
+	</select>		
+	<!-- <select id="C0201.SJPB_INC_TRF_ITEM.details" resultMap="C0201.IncTrfItemVO.details">  /* C0201.SJPB_INC_TRF_ITEM.details */
+		
+		SELECT
+			 B.INC_TRF_ITEM_NUM   /*사건송치건번호*/
+			,B.INC_TRF_BK_NUM     /*사건송치부번호*/
+			,B.RCPT_NUM               /*접수번호*/
+			,TO_CHAR(B.TRF_TRAN_DT,'YYYY-MM-DD') AS  TRF_TRAN_DT        /*송치인계일*/      
+			,TO_CHAR(B.TRF_REQ_DT,'YYYY-MM-DD') AS  TRF_REQ_DT         /*송치접수일*/
+			,TO_CHAR(B.TRF_RCPT_DT,'YYYY-MM-DD') AS  TRF_RCPT_DT        /*송치수령일*/
+			,B.RE_TRF_YN              /*재지휘여부*/
+			,B.TRF_RST            /*송치결과*/
+			,B.TRF_COMN           /*송치의견*/
+			,E.INC_CRI_NM AS INC_CRI_NM             /*사건죄명*/
+			,F.SP_NM AS INC_SP                 /*사건피의자*/
+			,B.INC_ARRT_CLSF          /*사건구속별*/
+			,B.EVID_ARTC_YN           /*증거품유무*/
+			,B.INC_TRF_ITEM_STAT_CD  /*사건송치건상태코드*/
+			,B.REG_USER_ID
+			,B.REG_DATE
+			,B.UPD_USER_ID
+			,B.UPD_DATE
+			,TO_CHAR(A.TRF_PRO_DT,'YYYY-MM-DD') AS  TRF_PRO_DT         /*송치건의일*/
+			,A.RESP_DPPO_CD           /*담당지검코드*/
+			,C.RCPT_INC_NUM           /*접수사건번호*/						
+			,D.CODE_NAME AS RESP_DPPO_DESC /*담당지검명*/			
+		FROM SJPB_INC_TRF_BK A
+		JOIN SJPB_INC_TRF_ITEM B ON A.INC_TRF_BK_NUM = B.INC_TRF_BK_NUM
+		JOIN SJPB_INC_MAST C ON B.RCPT_NUM = C.RCPT_NUM
+		LEFT OUTER JOIN CODEBASE D ON A.RESP_DPPO_CD = D.CODE AND D.CODE_ID = 'SJPB_00005'  /*담당지검코드*/
+	    JOIN (SELECT 
+         A6.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A6.CODE_NAME, ',') WITHIN GROUP (ORDER BY A6.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS INC_CRI_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        ,A5.CODE_NAME 
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  
+        JOIN 
+        SJPB_ACT_VIO A4 ON A3.INC_SP_NUM = A4.INC_SP_NUM   
+        LEFT OUTER JOIN CODEBASE A5 ON A4.RLT_ACT_CRI_NM_CD = A5.CODE AND A5.CODE_ID = 'SJPB_00012'
+        ) A6
+        GROUP BY A6.GRUP_NUM) E ON B.RCPT_NUM = E.RCPT_NUM           
+	    JOIN (SELECT 
+         A4.GRUP_NUM AS RCPT_NUM           
+         ,REGEXP_REPLACE(LISTAGG(A4.SP_NM, ',') WITHIN GROUP (ORDER BY A4.GRUP_NUM), '([^,]+)(,\1)+', '\1')  AS SP_NM
+        FROM
+       ( SELECT 
+         A2.LV
+        ,A2.GRUP_NUM
+        ,CRYPTO.DEC('normal', A3.SP_NM) AS SP_NM
+        FROM 
+        (SELECT 
+           LEVEL AS LV
+          ,A1.RCPT_NUM
+          ,(CASE WHEN LEVEL = 1 THEN A1.RCPT_NUM ELSE A1.PARE_RCPT_NUM END) AS GRUP_NUM
+        FROM SJPB_INC_MAST A1 
+        WHERE A1.RCPT_TP_CD = '2' 
+        START WITH A1.PARE_RCPT_NUM IS NULL        
+        CONNECT BY  PRIOR A1.RCPT_NUM =  A1.PARE_RCPT_NUM) A2 
+        JOIN 
+        SJPB_INC_SP A3 ON A2.RCPT_NUM = A3.RCPT_NUM AND A3.SP_STAT_CD = '1'  ) A4   
+         GROUP BY A4.GRUP_NUM) F ON B.RCPT_NUM = F.RCPT_NUM				
+		WHERE B.RCPT_NUM=#rcptNum#
+		ORDER BY B.INC_TRF_ITEM_NUM			
+	
+	</select>	 -->
+	
+	<!-- 상세 사건 송치내역 결과맵 -->	
+	<resultMap id="C0201VO.getIncTrfItemNum" class="com.saltware.enface.sjpb.Z.service.IncTrfItemVO">
+		<result property="incTrfItemNum" column="INC_TRF_ITEM_NUM"/>
+	</resultMap>	
+		
+	<!-- 상세 사건 송치내역(최근 지휘건을 가져온다) --> 
+	<select id="C0201.getIncTrfItemNum" resultMap="C0201VO.getIncTrfItemNum">  /* C0201.getIncTrfItemNum */
+		SELECT 
+		    A.INC_TRF_ITEM_NUM
+		FROM 
+		    (
+		        SELECT 
+		            ROWNUM
+		            ,INC_TRF_ITEM_NUM 
+		        FROM SJPB_INC_TRF_ITEM
+		        WHERE RCPT_NUM = #rcptNum#
+		        ORDER BY INC_TRF_ITEM_NUM DESC
+		    ) A
+		WHERE ROWNUM =1
+	</select>	
+	
+	<!--  수현1217  -->
+	<resultMap id="IncTrfSpItemVO.getIncTrfItemSpList" class="com.saltware.enface.sjpb.Z.service.IncTrfSpItemVO">
+		<result property="incTrfBkNum" column="INC_TRF_BK_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="incTrfItemNum" column="INC_TRF_ITEM_NUM"/>	
+		<result property="spNm" column="SP_NM"/>
+	</resultMap>
+	
+	<!-- 사건송치건의 아이템별로 피의자 리스트 -->
+	<select id="C0201.getIncTrfItemSp.list" resultMap="IncTrfSpItemVO.getIncTrfItemSpList">		/* C0201.getIncTrfItemSp.list */
+		SELECT B.INC_TRF_BK_NUM  		/* 사건송치부 번호 */          
+		       ,C.INC_SP_NUM          
+		       ,B.INC_TRF_ITEM_NUM 		/* 사건송치건(아이템) 번호 */          
+		       ,CRYPTO.DEC('normal',C.SP_NM) AS SP_NM 
+		FROM (
+			SELECT A.INC_TRF_ITEM_NUM
+			FROM SJPB_INC_TRF_ITEM A
+			JOIN SJPB_INC_MAST B ON A.RCPT_NUM = B.RCPT_NUM
+			WHERE A.INC_TRF_BK_NUM =  #incTrfBkNum# AND (B.RCPT_NUM = #rcptNum# OR B.PARE_RCPT_NUM = #rcptNum# )
+			) A
+		JOIN SJPB_INC_TRF_ITEM B ON B.INC_TRF_ITEM_NUM = A.INC_TRF_ITEM_NUM
+		JOIN SJPB_INC_SP C ON B.RCPT_NUM = C.RCPT_NUM AND C.SP_STAT_CD ='1'
+	</select>
+	
+	<resultMap id="IncTrfSpItemVO.getIncTrfItemSpActVioList" class="com.saltware.enface.sjpb.Z.service.IncTrfSpItemVO">
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="actVioNum" column="ACT_VIO_NUM"/>	
+		<result property="incTrfItemNum" column="INC_TRF_ITEM_NUM"/>	
+		<result property="criNm" column="CRI_NM"/>	
+		<result property="evidArtcYn" column="EVID_ARTC_YN"/>
+		<result property="incArrtClsf" column="INC_ARRT_CLSF"/>
+	</resultMap>
+	
+	<!-- 사건송치건 피의자별 (위반법률) 리스트 -->
+	<select id="C0201.getIncTrfItemSpActVio.list" resultMap="IncTrfSpItemVO.getIncTrfItemSpActVioList"> 		/* C0201.getIncTrfItemSpActVio.list */
+		SELECT B.INC_SP_NUM			
+		       ,B.ACT_VIO_NUM
+		       ,B.INC_TRF_ITEM_NUM
+		       ,E.CODE_NAME AS CRI_NM		/* 죄명 */
+		       ,B.EVID_ARTC_YN				/* 증거유무 */
+		       ,B.INC_ARRT_CLSF				/* 구속별 */
+		FROM SJPB_INC_TRF_SP_ITEM B 
+		JOIN SJPB_ACT_VIO D ON D.ACT_VIO_NUM = B.ACT_VIO_NUM AND D.ACT_VIO_STAT_CD='1'
+		LEFT OUTER JOIN CODEBASE E ON D.RLT_ACT_CRI_NM_CD = E.CODE AND E.CODE_ID = 'SJPB_00012'
+		WHERE B.INC_TRF_ITEM_NUM = #incTrfItemNum# AND B.INC_SP_NUM = #incSpNum#
+	</select>
+
+	<update id="C0201.updateIncTrfSpItem.update">		/* C0201.updateIncTrfSpItem.update */
+		UPDATE SJPB_INC_TRF_SP_ITEM
+		SET INC_ARRT_CLSF = #incArrtClsf#
+		    ,UPD_USER_ID = #updUserId#
+		    ,UPD_DATE = SYSDATE
+		WHERE INC_TRF_ITEM_NUM = #incTrfItemNum# AND INC_SP_NUM = #incSpNum# AND ACT_VIO_NUM = #actVioNum#
+	</update>
+	
+	<!-- 수현0106 -->
+	<!-- 송치부 아이템의 지휘부 대장 번호 null로 업데이트 -->
+	<update id="C0201.updateIncTrfItemNull.update" parameterClass="java.util.HashMap">	/* C0201.updateIncTrfItemNull.update */
+		UPDATE SJPB_INC_TRF_ITEM 
+		SET INC_TRF_BK_NUM = NULL  
+		    ,UPD_USER_ID = #userId#
+		    ,UPD_DATE = SYSDATE
+		WHERE INC_TRF_BK_NUM = #incTrfBkNum# 
+	</update>
+	
+	<!-- 송치부 대장(준비중) 삭제 -->
+	<delete id="C0201.deleteReadyTrfBk.delete" parameterClass="java.util.HashMap">		/* C0201.deleteReadyTrfBk.delete */
+		DELETE FROM SJPB_INC_TRF_BK 
+		WHERE INC_TRF_BK_NUM = #incTrfBkNum# AND INC_TRF_BK_STAT_CD ='01'
+	</delete>
+	
+</sqlMap>
+

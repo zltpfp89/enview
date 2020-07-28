@@ -1,0 +1,144 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0218VO" id="M0218VO.list">
+		<result property="cmdDocNum" column="CMD_DOC_NUM"/>
+		<result property="docNum" column="DOC_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="recvNm" column="RECV_NM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="rcptDate" column="RCPT_DATE"/>
+		<result property="cmdComnt" column="CMD_COMNT"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+
+		
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="criNm" column="CRI_NM"/>
+
+	</resultMap>
+ 	<select id="M0218.selectList" resultMap="M0218VO.list">  /* M0218.selectList */
+ 		SELECT 
+ 			A.CMD_DOC_NUM,
+		    A.DOC_NUM,
+		    A.RCPT_NUM,
+		    B.RCPT_INC_NUM,
+		    A.RECV_NM,
+		    A.INC_SP_NUM,
+		    C.SP_NM AS SP_NM,
+		    C.SP_ID_NUM AS SP_ID_NUM,
+		    C.SP_ADDR AS SP_ADDR,
+		    C.SP_JOB AS SP_JOB,
+		    (SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS CRI_NM  /* 죄명 */ ,
+		    A.RCPT_DATE,
+		    A.CMD_COMNT,
+		    A.REG_USER_ID,
+		    A.REG_DATE,
+		    A.UPD_USER_ID,
+		    A.UPD_DATE,
+		    D.NM_KOR
+ 		FROM SJPB_CMD_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+		JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				B.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="regUserNmSc" prepend="AND">
+				D.NM_KOR LIKE '%' || #regUserNmSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				B.RCPT_NUM = #rcptNumSc# OR B.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+		</dynamic>
+        ORDER BY REG_DATE DESC
+ 	</select>
+ 	
+	<!-- 데이터 조회 (pk 일련번호)-->
+	<select id="M0218.selectData" resultMap="M0218VO.list"> /* M0218.selectData */
+		SELECT 
+			A.CMD_DOC_NUM,
+		    A.DOC_NUM,
+		    A.RCPT_NUM,
+		    B.RCPT_INC_NUM,
+		    A.RECV_NM,
+		    A.INC_SP_NUM,
+		    C.SP_NM AS SP_NM,
+		    C.SP_ID_NUM AS SP_ID_NUM,
+		    C.SP_ADDR AS SP_ADDR,
+		    C.SP_JOB AS SP_JOB,
+		    (SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS CRI_NM  /* 죄명 */ ,
+		    A.RCPT_DATE,
+		    A.CMD_COMNT,
+		    A.REG_USER_ID,
+		    A.REG_DATE,
+		    A.UPD_USER_ID,
+		    A.UPD_DATE,
+		    D.NM_KOR
+ 		FROM SJPB_CMD_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+		JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		WHERE A.CMD_DOC_NUM = #cmdDocNum#
+	</select>
+ 	
+ 	<!-- 데이터 추가 -->
+	<insert id="M0218.insertData"> /* M0218.insertData */
+		INSERT INTO SJPB_CMD_DOC
+			(
+				CMD_DOC_NUM,
+			    DOC_NUM,
+			    RCPT_NUM,
+			    RECV_NM,
+			    INC_SP_NUM,
+			    RCPT_DATE,
+			    CMD_COMNT,
+			    REG_USER_ID,
+			    REG_DATE,
+			    UPD_USER_ID,
+			    UPD_DATE
+			)
+		VALUES (
+				#cmdDocNum#
+				,#docNum#
+				,#rcptNum#
+				,#recvNm#
+				,#incSpNum#
+				,#rcptDate#
+				,#cmdComnt#
+				,#regUserId#
+				,SYSDATE
+				,#updUserId#
+				,SYSDATE
+			)
+	</insert>
+	
+	<!-- 데이터 수정 -->	 		
+	<update id="M0218.updateData"> /* M0218.updateData */	
+		UPDATE SJPB_CMD_DOC
+		SET	DOC_NUM = #docNum#
+			,RECV_NM = #recvNm#
+			,INC_SP_NUM = #incSpNum#
+			,RCPT_DATE = #rcptDate#
+			,CMD_COMNT = #cmdComnt#
+			,UPD_USER_ID = #updUserId#
+			,UPD_DATE = SYSDATE
+		WHERE CMD_DOC_NUM = #cmdDocNum#
+	</update>
+
+		
+</sqlMap>

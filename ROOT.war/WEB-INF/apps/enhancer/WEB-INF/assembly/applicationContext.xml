@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+	
+	<!-- 사용하는 adaptor의 종류에 따른 값을 할당해주어, Interceptor가 올바른 View로 redirect할 수 있게 한다. -->
+	<bean id="enhancerSecurityInterceptor" class="com.saltware.enhancer.security.SecurityInterceptor"/>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="EnviewDS" />
+	</bean>
+	
+	<!-- 어플리케이션 관리기 -->
+	<bean id="com.saltware.enhancer.admin.AppManager" class="com.saltware.enhancer.admin.app.control.AppManagerImpl"/>
+	
+	<!-- Admin RSS 관리기 -->
+	<bean id="com.saltware.enhancer.admin.RssManager" class="com.saltware.enhancer.admin.rss.control.RssManagerImpl"/>
+	
+	<!-- Admin Calendar 관리기 -->
+	<bean id="com.saltware.enhancer.admin.CalendarManager" class="com.saltware.enhancer.admin.calendar.control.CalendarManagerImpl">
+		<property name="calendarManagerDAO" ref="com.saltware.enhancer.admin.calendar.CalendarManagerDAO"/>
+	</bean>
+	
+	<!-- File 관리 관리기>
+	<bean id="hancerFileManager" class="com.saltware.enhancer.tool.filemng.control.FileManagerImpl"/ -->
+	
+	<!-- 쪽지 관리 관리기 -->
+	<bean id="com.saltware.enhancer.note.NoteManager" class="com.saltware.enhancer.note.control.NoteManagerImpl">
+	    <property name="fileManager" ref="com.saltware.enhancer.FileManager"/>		
+	</bean>
+	
+	<!-- RSS 관리기 -->
+	<bean id="com.saltware.enhancer.rss.RssManager" class="com.saltware.enhancer.rss.control.RssManagerImpl"/>
+	
+	<!-- File 관리 관리기 -->
+	<bean id="com.saltware.enhancer.FileManager" class="com.saltware.enhancer.tool.filemng.control.FileManagerImpl"/>
+	
+	<!-- RSS FEED 동기화 트리거 -->
+	<bean id="feedSyncJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="feedSyncJob" />
+		</property>
+		<property name="cronExpression">
+			<!-- 초 분 시 일 월 년 주  -->
+			<value>0 0 3/1 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- RSS FEED Job 실행 클래스  -->
+	<bean name="feedSyncJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.saltware.enhancer.scheduler.FeedSyncJob" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="rssManager">
+					<ref bean="com.saltware.enhancer.admin.RssManager" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+		
+	<!-- CALENDAR 동기화 트리거 -->
+	<bean id="calendarSyncJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="calendarSyncJob" />
+		</property>
+		<property name="cronExpression">
+			<!-- 초 분 시 일 월 년 주  -->
+			<value>0 0/1 * * * ?</value>
+		</property>
+	</bean>
+	<!--  CALENDAR Job 실행 클래스  -->
+	<bean name="calendarSyncJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.saltware.enhancer.scheduler.CalendarJob" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="calendarService">
+					<ref bean="com.saltware.enhancer.calendar.service.CalendarService" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- 트리거 묶음(wrapper) -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref local="feedSyncJobTrigger" />
+				<!-- ref local="calendarSyncJobTrigger" /-->			
+			</list>
+		</property>
+	</bean>
+    
+    <!-- banner 관리자 -->
+	<bean id="bannerMngDAO" class="com.saltware.enhancer.admin.banner.dao.BannerMngDAO">
+		<property name="sqlMapClient" ref="com.saltware.enhancer.sqlMapClient"/>
+	</bean>
+	<!-- event 관리자 -->
+	<bean id="eventMngDAO" class="com.saltware.enhancer.admin.event.dao.EventMngDAO">
+		<property name="sqlMapClient" ref="com.saltware.enhancer.sqlMapClient"/>
+	</bean>
+	
+	<!-- banner 사용자 -->
+	<bean id="bannerUserDAO" class="com.saltware.enhancer.banner.service.impl.BannerUserImpl">
+		<property name="sqlMapClient" ref="com.saltware.enhancer.sqlMapClient"/>
+	 	<property name="transactionTemplate" ref="transactionTemplate"/>
+	</bean>
+	<!-- Event 사용자 -->
+	<bean id="eventUserDAO" class="com.saltware.enhancer.event.service.impl.EventUserDAO">
+		<property name="sqlMapClient" ref="com.saltware.enhancer.sqlMapClient"/>
+	</bean>
+	
+	<!-- event transactionTemplate -->
+	<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" ref="transactionManager"/>
+	</bean>
+	
+    <bean id="com.saltware.enhancer.sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="/WEB-INF/classes/sqlmap/hancer/sqlmap-config-${enview.db.type}.xml"/>
+        <property name="dataSource" ref="EnviewDS"/>
+    </bean>
+
+   	<bean id="com.saltware.enhancer.admin.calendar.CalendarManagerDAO" class="com.saltware.enhancer.admin.calendar.dao.CalendarManagerDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enhancer.sqlMapClient"/>
+	</bean>
+	    
+   	<bean id="com.saltware.enhancer.calendar.service.CalendarDAO" class="com.saltware.enhancer.calendar.service.impl.CalendarDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enhancer.sqlMapClient"/>
+	</bean>
+	
+   	<bean id="com.saltware.enhancer.calendar.service.ScheduleDAO" class="com.saltware.enhancer.calendar.service.impl.ScheduleDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enhancer.sqlMapClient"/>
+	</bean>
+	
+	<!-- 일정 관리 관리기 -->
+	<bean id="com.saltware.enhancer.calendar.service.CalendarService" class="com.saltware.enhancer.calendar.service.impl.CalendarServiceImpl">
+		<property name="calendarDAO" ref="com.saltware.enhancer.calendar.service.CalendarDAO"/>
+		<property name="scheduleDAO" ref="com.saltware.enhancer.calendar.service.ScheduleDAO"/>
+	</bean>
+	
+	<!-- 일정 관리 관리기 -->
+	<bean id="com.saltware.enhancer.calendar.service.ScheduleService" class="com.saltware.enhancer.calendar.service.impl.ScheduleServiceImpl">
+		<property name="scheduleDAO" ref="com.saltware.enhancer.calendar.service.ScheduleDAO"/>
+	</bean>
+</beans>

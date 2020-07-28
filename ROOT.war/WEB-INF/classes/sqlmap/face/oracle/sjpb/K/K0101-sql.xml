@@ -1,0 +1,123 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+ 
+	<resultMap class="com.saltware.enface.sjpb.K.service.K0101VO" id="K0101VO.selectList">
+		<result property="vhcMngNum" column="VHC_MNG_NUM"/>
+		<result property="itdcYear" column="ITDC_YEAR"/>
+		<result property="vhcDivCd" column="VHC_DIV_CD"/>
+		<result property="vhcDiv" column="VHC_DIV"/>
+		<result property="vhcKind" column="VHC_KIND"/>
+		<result property="vhcKindCd" column="VHC_KIND_CD"/>
+		<result property="vhcSz" column="VHC_SZ"/>
+		<result property="vhcSzCd" column="VHC_SZ_CD"/>
+		<result property="mnftNm" column="MNFT_NM"/>
+		<result property="mdlNm" column="MDL_NM"/>
+		<result property="vhcCarNo" column="VHC_CAR_NO"/>
+		<result property="mngTmId" column="MNG_TM_ID"/>
+		<result property="mngTmNm" column="MNG_TM_NM"/>
+		<result property="pblcYn" column="PBLC_YN"/>
+		<result property="comnCont" column="COMN_CONT"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+	</resultMap>
+	 
+	<!-- 부서 수사현황(인지/고발) -->
+	 <select id="K0101.selectList" resultMap="K0101VO.selectList">  /* K0101.selectList */
+	 	SELECT A.VHC_MNG_NUM  /* 차량관리번호 */
+		       ,A.ITDC_YEAR  /* 도입년도 */
+		       ,A.VHC_DIV AS VHC_DIV_CD  /* 차량구분코드 */
+		       ,B.CODE_NAME AS VHC_DIV  /* 차량구분 */
+		       ,A.VHC_KIND_CD  /* 차종코드 */
+		       ,C.CODE_NAME AS VHC_KIND  /* 차종 */
+		       ,A.VHC_SZ_CD  /* 차형코드 */
+		       ,D.CODE_NAME AS VHC_SZ  /* 차형 */
+		       ,A.MNFT_NM  /* 제조사명 */
+		       ,A.MDL_NM  /* 모델명 */
+		       ,A.VHC_CAR_NO  /* 차량번호 */
+		       ,A.MNG_TM_ID /* 관리팀아이디 */
+		       ,E.CRI_TM_NM AS MNG_TM_NM  /* 관리팀명 */
+		       ,DECODE(A.PBLC_YN,'Y','O','N','X') AS PBLC_YN  /* 공용여부 */
+		       ,A.COMN_CONT  /* 비고내용 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		FROM VHC_MNG A
+		JOIN CODEBASE B ON B.CODE_ID = 'SJPB_00056' AND B.LANG_KND='ko' AND B.CODE = A.VHC_DIV 
+		JOIN CODEBASE C ON C.CODE_ID = 'SJPB_00057' AND C.LANG_KND='ko' AND C.CODE = A.VHC_KIND_CD 
+		JOIN CODEBASE D ON D.CODE_ID = 'SJPB_00058' AND D.LANG_KND='ko' AND D.CODE = A.VHC_SZ_CD 
+		JOIN SJPB_CRI_TM E ON E.CRI_TM_ID = A.MNG_TM_ID
+		LEFT JOIN SJPB_CRI_TM E ON E.CRI_TM_ID = A.MNG_TM_ID
+		<isNotEmpty property="itdcYearSC">
+			WHERE A.ITDC_YEAR = #itdcYearSC#
+		</isNotEmpty>
+	 </select>
+	
+	<update id="K0101.insertMng" parameterClass="com.saltware.enface.sjpb.K.service.K0101VO"> /* K0101.insertMng */
+		INSERT INTO VHC_MNG (
+		    VHC_MNG_NUM,
+		    ITDC_YEAR,
+		    VHC_DIV,
+		    VHC_KIND_CD,
+		    VHC_SZ_CD,
+		    MNFT_NM,
+		    MDL_NM,
+		    VHC_CAR_NO,
+		    MNG_TM_ID,
+		    PBLC_YN,
+		    COMN_CONT,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+			(SELECT SEQ FROM KEYGEN WHERE entity_name = 'VHC_MNG.VHC_MNG_NUM')
+			,#itdcYear#
+			,#vhcDiv#
+			,#vhcKindCd#
+			,#vhcSzCd#
+			,#mnftNm#
+			,#mdlNm#
+			,#vhcCarNo#
+			,#mngTmId#
+			,#pblcYn#
+			,#comnCont#
+			,#regUserId#
+			,SYSDATE
+			,#regUserId#
+			,SYSDATE
+		)
+	</update>
+	
+	<update id="K0101.updateMng" parameterClass="com.saltware.enface.sjpb.K.service.K0101VO"> /* K0101.updateMng */
+		UPDATE VHC_MNG
+		SET ITDC_YEAR =#itdcYear#
+		    ,VHC_DIV = #vhcDiv#
+		    ,VHC_KIND_CD = #vhcKindCd#
+		    ,VHC_SZ_CD = #vhcSzCd#
+		    ,MNFT_NM = #mnftNm#
+		    ,MDL_NM = #mdlNm#
+		    ,VHC_CAR_NO = #vhcCarNo#
+		    ,MNG_TM_ID = #mngTmId#
+		    ,PBLC_YN = #pblcYn#
+		    ,COMN_CONT = #comnCont#
+		    ,UPD_USER_ID = #regUserId#
+		    ,UPD_DATE = SYSDATE
+		WHERE VHC_MNG_NUM = #vhcMngNum#
+	</update>
+	
+	<delete id="K0101.deleteMng" parameterClass="String">
+		DELETE FROM VHC_MNG
+		WHERE VHC_MNG_NUM = #vhcMngNum#
+	</delete>
+	
+	<resultMap class="com.saltware.enface.sjpb.Z.service.SjpbCommonVO" id="SjpbCommonVO.criTmId">
+		<result property="codeName" column="CODE_NAME"/>
+		<result property="code" column="CODE"/>
+	</resultMap>
+	<select id="K0101.statCriTmIdList" resultMap="SjpbCommonVO.criTmId">
+		SELECT CRI_TM_NM as CODE_NAME
+			   ,CRI_TM_ID as CODE
+		FROM SJPB_CRI_TM
+		WHERE CRI_TM_STAT='1' and CRI_TM_DIV='T'
+		ORDER BY SORT_ORD
+	</select>
+</sqlMap>
+ 

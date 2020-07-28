@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+	
+
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+		
+	<!-- SqlMap setup for iBATIS Database Layer -->
+    <bean id="com.saltware.enview.admin.sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="/WEB-INF/classes/sqlmap/admin/sqlmap-config-${enview.db.type}.xml"/>
+        <property name="dataSource" ref="EnviewDS"/>
+    </bean>
+	
+	<!-- admin Security Interceptor Define -->
+	<bean id="com.saltware.enview.admin.security.SecurityInterceptor" class="com.saltware.enview.admin.security.SecurityInterceptor"/>
+	
+	<!-- admin Service Define -->	 
+	<bean id="com.saltware.enview.admin.user.service.UserServiceImpl" class="com.saltware.enview.admin.user.service.impl.UserServiceImpl"> 	
+		<property name="userDAO" ref="com.saltware.enview.admin.user.service.UserDAO"/>
+		<property name="userpassService" ref="com.saltware.enview.admin.user.service.UserpassService"/>		 
+		<property name="credentialService" ref="com.saltware.enview.admin.user.service.CredentialService"/>		 
+		<property name="userGroupService" ref="com.saltware.enview.admin.user.service.UserGroupService"/>		 
+		<property name="userRoleService" ref="com.saltware.enview.admin.user.service.UserRoleService"/>	
+		<property name="securityPermissionService" ref="com.saltware.enview.admin.security.service.SecurityPermissionService"/>
+		<property name="totalPagePermissionService" ref="com.saltware.enview.admin.user.service.TotalPagePermissionService"/>		 
+		<property name="userStatisticsService" ref="com.saltware.enview.admin.statistics.service.UserStatisticsService"/>		
+
+	</bean>	 
+	<bean id="com.saltware.enview.admin.user.service.UserService" name="UserService" parent="baseTransactionProxy">
+        <property name="proxyInterfaces"><value>com.saltware.enview.admin.user.service.UserService</value></property>
+        <property name="target"><ref bean="com.saltware.enview.admin.user.service.UserServiceImpl" /></property>
+        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+    </bean>
+	<bean id="com.saltware.enview.admin.user.service.UserpassService" class="com.saltware.enview.admin.user.service.impl.UserpassServiceImpl"> 	
+		<property name="userpassDAO" ref="com.saltware.enview.admin.user.service.UserpassDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.user.service.CredentialService" class="com.saltware.enview.admin.user.service.impl.CredentialServiceImpl"> 	
+		<property name="credentialDAO" ref="com.saltware.enview.admin.user.service.CredentialDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.user.service.UserGroupService" class="com.saltware.enview.admin.user.service.impl.UserGroupServiceImpl"> 	
+		<property name="userGroupDAO" ref="com.saltware.enview.admin.user.service.UserGroupDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.user.service.UserRoleService" class="com.saltware.enview.admin.user.service.impl.UserRoleServiceImpl"> 	
+		<property name="userRoleDAO" ref="com.saltware.enview.admin.user.service.UserRoleDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.user.service.TotalPagePermissionService" class="com.saltware.enview.admin.user.service.impl.TotalPagePermissionServiceImpl"> 	
+	</bean>	 
+	<bean id="com.saltware.enview.admin.group.service.GroupServiceImpl" class="com.saltware.enview.admin.group.service.impl.GroupServiceImpl"> 	
+		<property name="groupDAO" ref="com.saltware.enview.admin.group.service.GroupDAO"/>
+		<property name="userGroupService" ref="com.saltware.enview.admin.user.service.UserGroupService"/>		 
+		<property name="groupRoleService" ref="com.saltware.enview.admin.group.service.GroupRoleService"/>		 
+		<property name="securityPermissionService" ref="com.saltware.enview.admin.security.service.SecurityPermissionService"/>		
+	</bean>	 
+	<bean id="com.saltware.enview.admin.group.service.GroupService" name="GroupService" parent="baseTransactionProxy">
+        <property name="proxyInterfaces"><value>com.saltware.enview.admin.group.service.GroupService</value></property>
+        <property name="target"><ref bean="com.saltware.enview.admin.group.service.GroupServiceImpl" /></property>
+        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+    </bean>
+	<bean id="com.saltware.enview.admin.group.service.GroupRoleService" class="com.saltware.enview.admin.group.service.impl.GroupRoleServiceImpl"> 	
+		<property name="groupRoleDAO" ref="com.saltware.enview.admin.group.service.GroupRoleDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.role.service.RoleServiceImpl" class="com.saltware.enview.admin.role.service.impl.RoleServiceImpl"> 	
+		<property name="roleDAO" ref="com.saltware.enview.admin.role.service.RoleDAO"/>
+		<property name="userRoleService" ref="com.saltware.enview.admin.user.service.UserRoleService"/>	
+		<property name="groupRoleService" ref="com.saltware.enview.admin.group.service.GroupRoleService"/>	 
+		<property name="securityPermissionService" ref="com.saltware.enview.admin.security.service.SecurityPermissionService"/>		 
+	</bean>	 
+	<bean id="com.saltware.enview.admin.role.service.RoleService" name="RoleService" parent="baseTransactionProxy">
+        <property name="proxyInterfaces"><value>com.saltware.enview.admin.role.service.RoleService</value></property>
+        <property name="target"><ref bean="com.saltware.enview.admin.role.service.RoleServiceImpl" /></property>
+        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+    </bean>
+	<bean id="com.saltware.enview.admin.security.service.SecurityPermissionServiceImpl" class="com.saltware.enview.admin.security.service.impl.SecurityPermissionServiceImpl"> 	
+		<property name="securityPermissionDAO" ref="com.saltware.enview.admin.security.service.SecurityPermissionDAO"/>
+		<property name="pageDAO" ref="com.saltware.enview.admin.page.service.PageDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.security.service.SecurityPermissionService" name="SecurityPermissionService" parent="baseTransactionProxy"> 	
+		<property name="proxyInterfaces"><value>com.saltware.enview.admin.security.service.SecurityPermissionService</value></property>
+        <property name="target"><ref bean="com.saltware.enview.admin.security.service.SecurityPermissionServiceImpl" /></property>
+        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.security.service.SecurityPolicyService" class="com.saltware.enview.admin.security.service.impl.SecurityPolicyServiceImpl"> 	
+		<property name="securityPolicyDAO" ref="com.saltware.enview.admin.security.service.SecurityPolicyDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.portlet.service.PortletApplicationServiceImpl" class="com.saltware.enview.admin.portlet.service.impl.PortletApplicationServiceImpl"> 	
+					
+	</bean>	 
+	<bean id="com.saltware.enview.admin.portlet.service.PortletApplicationService" name="PortletApplicationService" parent="baseTransactionProxy">
+        <property name="proxyInterfaces"><value>com.saltware.enview.admin.portlet.service.PortletApplicationService</value></property>
+        <property name="target"><ref bean="com.saltware.enview.admin.portlet.service.PortletApplicationServiceImpl" /></property>
+        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+    </bean>
+	<bean id="com.saltware.enview.admin.portlet.service.PortletDefinitionServiceImpl" class="com.saltware.enview.admin.portlet.service.impl.PortletDefinitionServiceImpl"> 	
+		
+	</bean>	 
+	<bean id="com.saltware.enview.admin.portlet.service.PortletDefinitionService" name="PortletDefinitionService" parent="baseTransactionProxy">
+        <property name="proxyInterfaces"><value>com.saltware.enview.admin.portlet.service.PortletDefinitionService</value></property>
+        <property name="target"><ref bean="com.saltware.enview.admin.portlet.service.PortletDefinitionServiceImpl" /></property>
+        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+    </bean>
+	<bean id="com.saltware.enview.admin.portlet.service.PortletTitleService" class="com.saltware.enview.admin.portlet.service.impl.PortletTitleServiceImpl"> 	
+	</bean>	 
+	<bean id="com.saltware.enview.admin.portlet.service.PortletParamService" class="com.saltware.enview.admin.portlet.service.impl.PortletParamServiceImpl"> 	
+	</bean>	 
+	<bean id="com.saltware.enview.admin.portlet.service.PortletMetadataService" class="com.saltware.enview.admin.portlet.service.impl.PortletMetadataServiceImpl"> 	
+	</bean>	 
+	<bean id="com.saltware.enview.admin.portlet.service.PortletTypeService" class="com.saltware.enview.admin.portlet.service.impl.PortletTypeServiceImpl"> 	
+	</bean>	 
+	<bean id="com.saltware.enview.admin.portlet.service.PortletOptionService" class="com.saltware.enview.admin.portlet.service.impl.PortletOptionServiceImpl"> 	
+	</bean>	 
+	<bean id="com.saltware.enview.admin.portlet.service.PortletLanguageService" class="com.saltware.enview.admin.portlet.service.impl.PortletLanguageServiceImpl"> 	
+	</bean>	 
+	<bean id="com.saltware.enview.admin.portlet.service.PortletDescriptionService" class="com.saltware.enview.admin.portlet.service.impl.PortletDescriptionServiceImpl"> 	
+	</bean>
+	
+	<bean id="com.saltware.enview.admin.portletService.service.PortletServiceServiceImpl" class="com.saltware.enview.admin.portletService.service.impl.PortletServiceServiceImpl"> 	
+		<property name="portletServiceDAO" ref="com.saltware.enview.admin.portletService.service.PortletServiceDAO"/>
+	</bean>	
+	<bean id="com.saltware.enview.admin.portletService.service.PortletServiceService" name="PortletServiceService" parent="baseTransactionProxy">
+        <property name="proxyInterfaces"><value>com.saltware.enview.admin.portletService.service.PortletServiceService</value></property>
+        <property name="target"><ref bean="com.saltware.enview.admin.portletService.service.PortletServiceServiceImpl" /></property>
+        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+    </bean>
+		
+	<bean id="com.saltware.enview.admin.page.service.PageDelegator" class="com.saltware.enview.admin.page.service.impl.PageDelegatorImpl"> 	
+		<property name="pageService" ref="com.saltware.enview.admin.page.service.PageService"/>
+	</bean>
+	<bean id="com.saltware.enview.admin.page.service.PageServiceImpl" class="com.saltware.enview.admin.page.service.impl.PageServiceImpl"> 	
+		<property name="pageDAO" ref="com.saltware.enview.admin.page.service.PageDAO"/>
+		<property name="pageMetadataService" ref="com.saltware.enview.admin.page.service.PageMetadataService"/>		 
+		<property name="pageComponentService" ref="com.saltware.enview.admin.page.service.PageComponentService"/>		
+		<property name="fragmentService" ref="com.saltware.enview.admin.page.service.FragmentService"/>		
+		<property name="userService" ref="com.saltware.enview.admin.user.service.UserService"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.page.service.PageService" name="PageService" parent="baseTransactionProxy">
+        <property name="proxyInterfaces"><value>com.saltware.enview.admin.page.service.PageService</value></property>
+        <property name="target"><ref bean="com.saltware.enview.admin.page.service.PageServiceImpl" /></property>
+        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+    </bean>
+	<bean id="com.saltware.enview.admin.page.service.PageMetadataService" class="com.saltware.enview.admin.page.service.impl.PageMetadataServiceImpl"> 	
+		<property name="pageMetadataDAO" ref="com.saltware.enview.admin.page.service.PageMetadataDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.page.service.PageComponentService" class="com.saltware.enview.admin.page.service.impl.PageComponentServiceImpl"> 	
+		<property name="pageComponentDAO" ref="com.saltware.enview.admin.page.service.PageComponentDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.page.service.FragmentServiceImpl" class="com.saltware.enview.admin.page.service.impl.FragmentServiceImpl"> 	
+		<property name="fragmentDAO" ref="com.saltware.enview.admin.page.service.FragmentDAO"/>
+		<property name="fragmentPreferenceService" ref="com.saltware.enview.admin.page.service.FragmentPreferenceService"/>		
+	</bean>	 
+	<bean id="com.saltware.enview.admin.page.service.FragmentService" name="FragmentService" parent="baseTransactionProxy">
+        <property name="proxyInterfaces"><value>com.saltware.enview.admin.page.service.FragmentService</value></property>
+        <property name="target"><ref bean="com.saltware.enview.admin.page.service.FragmentServiceImpl" /></property>
+        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+    </bean>
+	<bean id="com.saltware.enview.admin.page.service.FragmentPreferenceService" class="com.saltware.enview.admin.page.service.impl.FragmentPreferenceServiceImpl"> 	
+		<property name="fragmentPreferenceDAO" ref="com.saltware.enview.admin.page.service.FragmentPreferenceDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.themeMapping.service.ThemeMappingService" class="com.saltware.enview.admin.themeMapping.service.impl.ThemeMappingServiceImpl"> 	
+		<property name="themeMappingDAO" ref="com.saltware.enview.admin.themeMapping.service.ThemeMappingDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.codebase.service.CodebaseService" class="com.saltware.enview.admin.codebase.service.impl.CodebaseServiceImpl"> 	
+		<property name="codebaseDAO" ref="com.saltware.enview.admin.codebase.service.CodebaseDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.notice.service.NoticeServiceImpl" class="com.saltware.enview.admin.notice.service.impl.NoticeServiceImpl"> 	
+		<property name="noticeDAO" ref="com.saltware.enview.admin.notice.service.NoticeDAO"/>
+		<property name="noticeMetadataService" ref="com.saltware.enview.admin.notice.service.NoticeMetadataService"/>		
+		<property name="groupService" ref="com.saltware.enview.admin.group.service.GroupService"/>
+		<property name="pageService" ref="com.saltware.enview.admin.page.service.PageService"/>
+		<property name="attachFileService" ref="com.saltware.enview.admin.attachfile.service.AttachFileService"/>		
+	</bean>	 
+	<bean id="com.saltware.enview.admin.notice.service.NoticeService" name="NoticeService" parent="baseTransactionProxy">
+        <property name="proxyInterfaces"><value>com.saltware.enview.admin.notice.service.NoticeService</value></property>
+        <property name="target"><ref bean="com.saltware.enview.admin.notice.service.NoticeServiceImpl" /></property>
+        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+    </bean>
+	<bean id="com.saltware.enview.admin.notice.service.NoticeMetadataService" class="com.saltware.enview.admin.notice.service.impl.NoticeMetadataServiceImpl"> 	
+		<property name="noticeMetadataDAO" ref="com.saltware.enview.admin.notice.service.NoticeMetadataDAO"/>
+		<property name="attachFileService" ref="com.saltware.enview.admin.attachfile.service.AttachFileService"/>		
+	</bean>	 
+	<bean id="com.saltware.enview.admin.property.service.PropertyService" class="com.saltware.enview.admin.property.service.impl.PropertyServiceImpl"> 	
+	</bean>	 
+	<bean id="com.saltware.enview.admin.lang.service.LangService" class="com.saltware.enview.admin.lang.service.impl.LangServiceImpl"> 	
+		<property name="langDAO" ref="com.saltware.enview.admin.lang.service.LangDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.sync.service.SyncService" class="com.saltware.enview.admin.sync.service.impl.SyncServiceImpl"> 	
+	</bean>	 
+	<bean id="com.saltware.enview.admin.sessionData.service.SessionDataService" class="com.saltware.enview.admin.sessionData.service.impl.SessionDataServiceImpl"> 	
+		<property name="sessionDataDAO" ref="com.saltware.enview.admin.sessionData.service.SessionDataDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.monitor.service.CurrentSessionServiceImpl" class="com.saltware.enview.admin.monitor.service.impl.CurrentSessionServiceImpl"> 	
+		<property name="userpassService" ref="com.saltware.enview.admin.user.service.UserpassService"/>		 		
+		<property name="userStatisticsService" ref="com.saltware.enview.admin.statistics.service.UserStatisticsService"/>	
+	</bean>	 
+	
+	<bean id="com.saltware.enview.admin.monitor.service.CurrentSessionService" name="CurrentSessionService" parent="baseTransactionProxy">
+        <property name="proxyInterfaces"><value>com.saltware.enview.admin.monitor.service.CurrentSessionService</value></property>
+        <property name="target"><ref bean="com.saltware.enview.admin.monitor.service.CurrentSessionServiceImpl" /></property>
+        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+    </bean>
+    
+	<bean id="com.saltware.enview.admin.statistics.service.PageStatisticsService" class="com.saltware.enview.admin.statistics.service.impl.PageStatisticsServiceImpl"> 	
+		<property name="pageStatisticsDAO" ref="com.saltware.enview.admin.statistics.service.PageStatisticsDAO"/>
+	</bean>	 
+	
+	<bean id="com.saltware.enview.admin.statistics.service.UserStatisticsService" class="com.saltware.enview.admin.statistics.service.impl.UserStatisticsServiceImpl"> 	
+		<property name="userStatisticsDAO" ref="com.saltware.enview.admin.statistics.service.UserStatisticsDAO"/>
+		<property name="domainDAO" ref="com.saltware.enview.admin.domain.service.DomainDAO"/>
+	</bean>	
+	
+	<bean id="com.saltware.enview.admin.statistics.service.StatisticsServiceImpl" class="com.saltware.enview.admin.statistics.service.impl.StatisticsServiceImpl"> 	
+		<property name="pageStatisticsService" ref="com.saltware.enview.admin.statistics.service.PageStatisticsService"/>
+		<property name="userStatisticsService" ref="com.saltware.enview.admin.statistics.service.UserStatisticsService"/>
+	
+	</bean>	
+ 
+	<bean id="com.saltware.enview.admin.statistics.service.StatisticsService" name="StatisticsService" parent="baseTransactionProxy">
+        <property name="proxyInterfaces"><value>com.saltware.enview.statistics.StatisticsServiceDAC</value></property>
+        <property name="target"><ref bean="com.saltware.enview.admin.statistics.service.StatisticsServiceImpl" /></property>
+        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+    </bean>
+    <bean id="com.saltware.enview.admin.monitor.service.RealtimeMonitorService" class="com.saltware.enview.admin.monitor.service.impl.RealtimeMonitorServiceImpl"> 	
+	</bean>
+	
+    <!-- 2012.07.12 푸쉬서비스 등록 -->
+	<bean id="com.saltware.enview.admin.pushManager.service.PushManagerServiceImpl" class="com.saltware.enview.admin.pushManager.service.impl.PushManagerServiceImpl"> 	
+		<property name="pushManagerDAO" ref="com.saltware.enview.admin.pushManager.service.PushManagerDAO"/>
+	</bean>	
+	
+	<bean id="com.saltware.enview.admin.pushManager.service.PushManagerService" name="PushManagerService" parent="baseTransactionProxy">
+	        <property name="proxyInterfaces"><value>com.saltware.enview.admin.pushManager.service.PushManagerService</value></property>
+	        <property name="target"><ref bean="com.saltware.enview.admin.pushManager.service.PushManagerServiceImpl" /></property>
+	        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+	</bean>
+	
+	<!-- 2012.07.25 위치서비스 등록 -->
+	<bean id="com.saltware.enview.admin.user.service.GpsManagerServiceImpl" class="com.saltware.enview.admin.user.service.impl.GpsManagerServiceImpl"> 	
+		<property name="gpsManagerDAO" ref="com.saltware.enview.admin.user.service.GpsManagerDAO"/>
+	</bean>	
+
+	<bean id="com.saltware.enview.admin.user.service.GpsManagerService" name="GpsManagerService" parent="baseTransactionProxy">
+	        <property name="proxyInterfaces"><value>com.saltware.enview.admin.user.service.GpsManagerService</value></property>
+	        <property name="target"><ref bean="com.saltware.enview.admin.user.service.GpsManagerServiceImpl" /></property>
+	        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+	</bean>
+
+	<!-- 2012. 1. 18. CPU부분 추가 -->
+	<bean id="com.saltware.enview.admin.monitor.service.CpuMonitorService" class="com.saltware.enview.admin.monitor.service.impl.CpuMonitorServiceImpl"> 	
+	</bean>
+	
+	<!-- 2012. 2. 05. Session부분 추가 -->
+	<bean id="com.saltware.enview.admin.monitor.service.SessionMonitorService" class="com.saltware.enview.admin.monitor.service.impl.SessionMonitorServiceImpl"> 	
+	</bean>
+	
+	<bean id="com.saltware.enview.admin.capability.service.CapabilityService" class="com.saltware.enview.admin.capability.service.impl.CapabilityServiceImpl"> 	
+		<property name="capabilityDAO" ref="com.saltware.enview.admin.capability.service.CapabilityDAO"/>
+		<property name="clientService" ref="com.saltware.enview.admin.capability.service.ClientService"/>
+		<property name="mediaTypeService" ref="com.saltware.enview.admin.capability.service.MediaTypeService"/>		
+	</bean>	 
+	
+	<bean id="com.saltware.enview.admin.capability.service.ClientServiceImpl" class="com.saltware.enview.admin.capability.service.impl.ClientServiceImpl"> 	
+		<property name="clientDAO" ref="com.saltware.enview.admin.capability.service.ClientDAO"/>
+		<property name="mimetypeService" ref="com.saltware.enview.admin.capability.service.MimetypeService"/>
+		<property name="capabilityService" ref="com.saltware.enview.admin.capability.service.CapabilityService"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.capability.service.ClientService" name="ClientService" parent="baseTransactionProxy">
+        <property name="proxyInterfaces"><value>com.saltware.enview.admin.capability.service.ClientService</value></property>
+        <property name="target"><ref bean="com.saltware.enview.admin.capability.service.ClientServiceImpl" /></property>
+        <property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+    </bean>
+    
+	<bean id="com.saltware.enview.admin.capability.service.MimetypeService" class="com.saltware.enview.admin.capability.service.impl.MimetypeServiceImpl"> 	
+		<property name="mimetypeDAO" ref="com.saltware.enview.admin.capability.service.MimetypeDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.capability.service.MediaTypeService" class="com.saltware.enview.admin.capability.service.impl.MediaTypeServiceImpl"> 	
+		<property name="mediaTypeDAO" ref="com.saltware.enview.admin.capability.service.MediaTypeDAO"/>
+		<property name="mimetypeService" ref="com.saltware.enview.admin.capability.service.MimetypeService"/>
+		<property name="capabilityService" ref="com.saltware.enview.admin.capability.service.CapabilityService"/>
+	</bean>	
+	<bean id="com.saltware.enview.admin.file.service.FileService" class="com.saltware.enview.admin.file.service.impl.FileServiceImpl"> 	
+	</bean>	 
+	<bean id="com.saltware.enview.admin.batchSchedule.service.BatchScheduleService" class="com.saltware.enview.admin.batchSchedule.service.impl.BatchScheduleServiceImpl"> 	
+		<property name="batchScheduleDAO" ref="com.saltware.enview.admin.batchSchedule.service.BatchScheduleDAO"/>
+		<property name="batchResultService" ref="com.saltware.enview.admin.batchSchedule.service.BatchResultService"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.batchSchedule.service.BatchActionService" class="com.saltware.enview.admin.batchSchedule.service.impl.BatchActionServiceImpl"> 	
+		<property name="batchActionDAO" ref="com.saltware.enview.admin.batchSchedule.service.BatchActionDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.batchSchedule.service.BatchResultService" class="com.saltware.enview.admin.batchSchedule.service.impl.BatchResultServiceImpl"> 	
+		<property name="batchResultDAO" ref="com.saltware.enview.admin.batchSchedule.service.BatchResultDAO"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.configuration.service.ConfigurationService" class="com.saltware.enview.admin.configuration.service.impl.ConfigurationServiceImpl"> 	
+		<property name="configurationDAO" ref="com.saltware.enview.admin.configuration.service.ConfigurationDAO"/>
+	</bean>	
+	
+	<bean id="com.saltware.enview.admin.domain.service.DomainServiceImpl" class="com.saltware.enview.admin.domain.service.impl.DomainServiceImpl"> 	
+		<property name="domainDAO" ref="com.saltware.enview.admin.domain.service.DomainDAO"/>
+		<property name="roleDAO" ref="com.saltware.enview.admin.role.service.RoleDAO"/>
+		<property name="domainLangService" ref="com.saltware.enview.admin.domain.service.DomainLangService"/>		 
+		<property name="domainPrincipalService" ref="com.saltware.enview.admin.domain.service.DomainPrincipalService"/>		 
+		<property name="domainPortletService" ref="com.saltware.enview.admin.domain.service.DomainPortletService"/>
+		<property name="groupService" ref="com.saltware.enview.admin.group.service.GroupService"/>
+		<property name="roleService" ref="com.saltware.enview.admin.role.service.RoleService"/>
+		<property name="userService" ref="com.saltware.enview.admin.user.service.UserService"/>	
+		<property name="pageService" ref="com.saltware.enview.admin.page.service.PageService"/>
+		<property name="groupRoleService" ref="com.saltware.enview.admin.group.service.GroupRoleService"/>
+		<property name="userGroupService" ref="com.saltware.enview.admin.user.service.UserGroupService"/>
+		<property name="userRoleService" ref="com.saltware.enview.admin.user.service.UserRoleService"/>		
+	</bean>	 
+	<bean id="com.saltware.enview.admin.domain.service.DomainService" name="DomainService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces"><value>com.saltware.enview.admin.domain.service.DomainService</value></property>
+		<property name="target"><ref bean="com.saltware.enview.admin.domain.service.DomainServiceImpl" /></property>
+		<property name="transactionAttributes"><props><prop key="*">PROPAGATION_REQUIRED,-Exception</prop></props></property>
+	</bean>
+	<bean id="com.saltware.enview.admin.domain.service.DomainLangService" class="com.saltware.enview.admin.domain.service.impl.DomainLangServiceImpl"> 	
+		<property name="domainLangDAO" ref="com.saltware.enview.admin.domain.service.DomainLangDAO"/>
+		
+	</bean>	 
+	<bean id="com.saltware.enview.admin.domain.service.DomainPrincipalService" class="com.saltware.enview.admin.domain.service.impl.DomainPrincipalServiceImpl"> 	
+		<property name="domainPrincipalDAO" ref="com.saltware.enview.admin.domain.service.DomainPrincipalDAO"/>
+		
+	</bean>	 
+	<bean id="com.saltware.enview.admin.domain.service.DomainPortletService" class="com.saltware.enview.admin.domain.service.impl.DomainPortletServiceImpl"> 	
+		<property name="domainPortletDAO" ref="com.saltware.enview.admin.domain.service.DomainPortletDAO"/>
+		
+	</bean>
+	
+	<bean id="com.saltware.enview.admin.attachfile.service.AttachFileService" class="com.saltware.enview.admin.attachfile.service.impl.AttachFileServiceImpl"> 	
+		<property name="attachFileDAO" ref="com.saltware.enview.admin.attachfile.service.AttachFileDAO"/>
+	</bean>	
+	
+	<!-- admin Data Access Object Define -->	 
+	<bean id="com.saltware.enview.admin.user.service.UserDAO" class="com.saltware.enview.admin.user.service.impl.UserDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.user.service.UserpassDAO" class="com.saltware.enview.admin.user.service.impl.UserpassDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.user.service.CredentialDAO" class="com.saltware.enview.admin.user.service.impl.CredentialDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.user.service.UserGroupDAO" class="com.saltware.enview.admin.user.service.impl.UserGroupDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.user.service.UserRoleDAO" class="com.saltware.enview.admin.user.service.impl.UserRoleDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.group.service.GroupDAO" class="com.saltware.enview.admin.group.service.impl.GroupDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.group.service.GroupRoleDAO" class="com.saltware.enview.admin.group.service.impl.GroupRoleDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.role.service.RoleDAO" class="com.saltware.enview.admin.role.service.impl.RoleDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.security.service.SecurityPermissionDAO" class="com.saltware.enview.admin.security.service.impl.SecurityPermissionDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.security.service.SecurityPolicyDAO" class="com.saltware.enview.admin.security.service.impl.SecurityPolicyDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+
+	<bean id="com.saltware.enview.admin.page.service.PageDAO" class="com.saltware.enview.admin.page.service.impl.PageDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.page.service.PageMetadataDAO" class="com.saltware.enview.admin.page.service.impl.PageMetadataDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.page.service.PageComponentDAO" class="com.saltware.enview.admin.page.service.impl.PageComponentDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.page.service.FragmentDAO" class="com.saltware.enview.admin.page.service.impl.FragmentDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.page.service.FragmentPreferenceDAO" class="com.saltware.enview.admin.page.service.impl.FragmentPreferenceDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.themeMapping.service.ThemeMappingDAO" class="com.saltware.enview.admin.themeMapping.service.impl.ThemeMappingDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.codebase.service.CodebaseDAO" class="com.saltware.enview.admin.codebase.service.impl.CodebaseDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.notice.service.NoticeDAO" class="com.saltware.enview.admin.notice.service.impl.NoticeDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.notice.service.NoticeMetadataDAO" class="com.saltware.enview.admin.notice.service.impl.NoticeMetadataDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.lang.service.LangDAO" class="com.saltware.enview.admin.lang.service.impl.LangDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.sessionData.service.SessionDataDAO" class="com.saltware.enview.admin.sessionData.service.impl.SessionDataDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.statistics.service.PageStatisticsDAO" class="com.saltware.enview.admin.statistics.service.impl.PageStatisticsDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.portletService.service.PortletServiceDAO" class="com.saltware.enview.admin.portletService.service.impl.PortletServiceDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>
+	<bean id="com.saltware.enview.admin.statistics.service.UserStatisticsDAO" class="com.saltware.enview.admin.statistics.service.impl.UserStatisticsDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	
+	<!-- 푸쉬서비스 등록 -->
+ 	<bean id="com.saltware.enview.admin.pushManager.service.PushManagerDAO" class="com.saltware.enview.admin.pushManager.service.impl.PushManagerDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>
+	
+ 	<!-- 위치서비스 등록 -->
+ 	<bean id="com.saltware.enview.admin.user.service.GpsManagerDAO" class="com.saltware.enview.admin.user.service.impl.GpsManagerDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>
+	
+		
+	<bean id="com.saltware.enview.admin.capability.service.CapabilityDAO" class="com.saltware.enview.admin.capability.service.impl.CapabilityDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.capability.service.ClientDAO" class="com.saltware.enview.admin.capability.service.impl.ClientDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.capability.service.MimetypeDAO" class="com.saltware.enview.admin.capability.service.impl.MimetypeDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.capability.service.MediaTypeDAO" class="com.saltware.enview.admin.capability.service.impl.MediaTypeDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	
+	<bean id="com.saltware.enview.admin.batchSchedule.service.BatchScheduleDAO" class="com.saltware.enview.admin.batchSchedule.service.impl.BatchScheduleDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.batchSchedule.service.BatchActionDAO" class="com.saltware.enview.admin.batchSchedule.service.impl.BatchActionDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.batchSchedule.service.BatchResultDAO" class="com.saltware.enview.admin.batchSchedule.service.impl.BatchResultDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.configuration.service.ConfigurationDAO" class="com.saltware.enview.admin.configuration.service.impl.ConfigurationDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	
+	
+	<bean id="com.saltware.enview.admin.domain.service.DomainDAO" class="com.saltware.enview.admin.domain.service.impl.DomainDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.domain.service.DomainLangDAO" class="com.saltware.enview.admin.domain.service.impl.DomainLangDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.domain.service.DomainPrincipalDAO" class="com.saltware.enview.admin.domain.service.impl.DomainPrincipalDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	 
+	<bean id="com.saltware.enview.admin.domain.service.DomainPortletDAO" class="com.saltware.enview.admin.domain.service.impl.DomainPortletDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>
+	
+	<bean id="com.saltware.enview.admin.attachfile.service.AttachFileDAO" class="com.saltware.enview.admin.attachfile.service.impl.AttachFileDAO"> 	
+		<property name="sqlMapClient" ref="com.saltware.enview.admin.sqlMapClient"/>
+	</bean>	
+		
+	<bean id="com.saltware.enview.role.RoleManager" class="com.saltware.enview.role.impl.RoleManagerImpl">
+	</bean>
+		
+</beans>

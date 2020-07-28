@@ -1,0 +1,302 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0122VO" id="M0122VO.list">
+		<result property="cmctCnfmReqApprNum" column="CMCT_CNFM_REQ_APPR_NUM"/>
+		<result property="prgsNum" column="PRGS_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="cmctCnfmType" column="CMCT_CNFM_TYPE"/>
+		<result property="cmctCnfmTrgt" column="CMCT_CNFM_TRGT"/>
+		<result property="cmctCnfmRnge" column="CMCT_CNFM_RNGE"/>
+		<result property="emgyDtaSupyDt" column="EMGY_DTA_SUPY_DT"/>
+		<result property="reqDt" column="REQ_DT"/>
+		<result property="isueDt" column="ISUE_DT"/>
+		<result property="rjctDt" column="RJCT_DT"/>
+		<result property="reReqDt" column="RE_REQ_DT"/>
+		<result property="reReqIsueDt" column="RE_REQ_ISUE_DT"/>
+		<result property="reReqRjctDt" column="RE_REQ_RJCT_DT"/>
+		<result property="rcptDt" column="RCPT_DT"/>
+		<result property="rcptPersTitl" column="RCPT_PERS_TITL"/>
+		<result property="rcptPersNm" column="RCPT_PERS_NM"/>
+		<result property="poRetnDt" column="PO_RETN_DT"/>
+		<result property="cmctCnfmComn" column="CMCT_CNFM_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="docNum" column="DOC_NUM"/>
+		<result property="teleOprt" column="TELE_OPRT"/>
+		<result property="reqResn" column="REQ_RESN"/>
+		<result property="subsConn" column="SUBS_CONN"/>
+		<result property="requMatr" column="REQU_MATR"/>
+		<result property="reClamResn" column="RE_CLAM_RESN"/>
+	</resultMap>
+ 	<select id="M0122.SJPB_CMCT_CNFM_REQ_APPR_DOC.selectList" resultMap="M0122VO.list">  /* M0122.SJPB_CMCT_CNFM_REQ_APPR_DOC.selectList */
+ 		SELECT A.CMCT_CNFM_REQ_APPR_NUM  /* 통신사실확인자료제공요청허가신청부번호 */
+		       ,A.PRGS_NUM  /* 진행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM AS SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB AS SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR AS SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */
+		       ,A.CMCT_CNFM_TYPE  /* 종류 */
+		       ,A.CMCT_CNFM_TRGT  /* 대상 */
+		       ,A.CMCT_CNFM_RNGE  /* 범위 */
+		       ,A.EMGY_DTA_SUPY_DT  /* 긴급으로자료를제공받은일시 */
+		       ,A.REQ_DT  /* 신청일시 */
+		       ,A.ISUE_DT  /* 발부일시 */
+		       ,A.RJCT_DT  /* 기각일시 */
+		       ,A.RE_REQ_DT  /* 재신청일시 */
+		       ,A.RE_REQ_ISUE_DT  /* 재신청발부일시 */
+		       ,A.RE_REQ_RJCT_DT  /* 재신청기각일시 */
+		       ,A.RCPT_DT  /* 수령일시 */
+		       ,A.RCPT_PERS_TITL  /* 수령자의관직 */
+		       ,A.RCPT_PERS_NM  /* 수령자의성명 */
+		       ,A.PO_RETN_DT  /* 검찰반환연월 */
+		       ,A.CMCT_CNFM_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,D.NM_KOR  /* 작성자 이름 */
+		       ,A.DOC_NUM       /* 문서번호 */
+			   ,A.TELE_OPRT     /* 전기통신사업자 */
+			   ,A.REQ_RESN      /* 요청사유 */
+			   ,A.SUBS_CONN     /* 해당가입자와의 연관성 */
+			   ,A.REQU_MATR     /* 필요한 자료의 범위 */
+			   ,A.RE_CLAM_RESN  /* 재청구의 취지 및 이유 */
+		FROM SJPB_CMCT_CNFM_REQ_APPR_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				C.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				C.RCPT_NUM = #rcptNumSc# OR C.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				B.SP_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0122.SJPB_CMCT_CNFM_REQ_APPR_DOC.insert" parameterClass="com.saltware.enface.sjpb.M.service.M0122VO">  /* M0122.SJPB_CMCT_CNFM_REQ_APPR_DOC.insert */
+ 		INSERT INTO SJPB_CMCT_CNFM_REQ_APPR_DOC (
+		    CMCT_CNFM_REQ_APPR_NUM,
+		    PRGS_NUM,
+		    RCPT_NUM,
+		    INC_SP_NUM,
+		    CMCT_CNFM_TYPE,
+		    CMCT_CNFM_TRGT,
+		    CMCT_CNFM_RNGE,
+		    EMGY_DTA_SUPY_DT,
+		    REQ_DT,
+		    ISUE_DT,
+		    RJCT_DT,
+		    RE_REQ_DT,
+		    RE_REQ_ISUE_DT,
+		    RE_REQ_RJCT_DT,
+		    RCPT_DT,
+		    RCPT_PERS_TITL,
+		    RCPT_PERS_NM,
+		    PO_RETN_DT,
+		    CMCT_CNFM_COMN,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE,
+		    DOC_NUM,
+		    TELE_OPRT,
+		    REQ_RESN,
+		    SUBS_CONN,
+		    REQU_MATR,
+		    RE_CLAM_RESN
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_CMCT_CNFM_REQ_APPR_DOC.CMCT_CNFM_REQ_APPR_NUM')
+		    ,#prgsNum#
+		    ,#rcptNum#
+		    ,#incSpNum#
+		    ,#cmctCnfmType#
+		    ,#cmctCnfmTrgt#
+		    ,#cmctCnfmRnge#
+		    ,#emgyDtaSupyDt#
+		    ,#reqDt#
+		    ,#isueDt#
+		    ,#rjctDt#
+		    ,#reReqDt#
+		    ,#reReqIsueDt#
+		    ,#reReqRjctDt#
+		    ,#rcptDt#
+		    ,#rcptPersTitl#
+		    ,#rcptPersNm#
+		    ,#poRetnDt#
+		    ,#cmctCnfmComn#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#docNum#
+		    ,#teleOprt#
+		    ,#reqResn#
+		    ,#subsConn#
+		    ,#requMatr#
+		    ,#reClamResn#
+		)
+ 	</update>
+ 	<update id="M0122.SJPB_CMCT_CNFM_REQ_APPR_DOC.update" parameterClass="com.saltware.enface.sjpb.M.service.M0122VO">  /* M0122.SJPB_CMCT_CNFM_REQ_APPR_DOC.update */
+ 		UPDATE SJPB_CMCT_CNFM_REQ_APPR_DOC 
+ 		SET PRGS_NUM = #prgsNum#
+ 			,INC_SP_NUM = #incSpNum#
+ 			,CMCT_CNFM_TYPE = #cmctCnfmType#
+ 			,CMCT_CNFM_TRGT = #cmctCnfmTrgt#
+ 			,CMCT_CNFM_RNGE = #cmctCnfmRnge#
+ 			,EMGY_DTA_SUPY_DT = #emgyDtaSupyDt#
+ 			,REQ_DT = #reqDt#
+ 			,ISUE_DT = #isueDt#
+ 			,RJCT_DT = #rjctDt#
+ 			,RE_REQ_DT = #reReqDt#
+ 			,RE_REQ_ISUE_DT = #reReqIsueDt#
+ 			,RE_REQ_RJCT_DT = #reReqRjctDt#
+ 			,RCPT_DT = #rcptDt#
+ 			,RCPT_PERS_TITL = #rcptPersTitl#
+ 			,RCPT_PERS_NM = #rcptPersNm#
+ 			,PO_RETN_DT = #poRetnDt#
+ 			,CMCT_CNFM_COMN = #cmctCnfmComn#
+ 			,UPD_USER_ID = #regUserId#
+ 			,UPD_DATE = SYSDATE
+ 			,DOC_NUM = #docNum#
+		    ,TELE_OPRT = #teleOprt#
+		    ,REQ_RESN = #reqResn#
+		    ,SUBS_CONN = #subsConn#
+		    ,REQU_MATR = #requMatr#
+		    ,RE_CLAM_RESN = #reClamResn#
+ 		WHERE CMCT_CNFM_REQ_APPR_NUM = #cmctCnfmReqApprNum# 
+ 	</update>
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0122VO" id="M0122VO.listPrn">
+		<result property="cmctCnfmReqApprNum" column="CMCT_CNFM_REQ_APPR_NUM"/>
+		<result property="prgsNum" column="PRGS_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="cmctCnfmType" column="CMCT_CNFM_TYPE"/>
+		<result property="cmctCnfmTrgt" column="CMCT_CNFM_TRGT"/>
+		<result property="cmctCnfmRnge" column="CMCT_CNFM_RNGE"/>
+		<result property="emgyDtaSupyDt" column="EMGY_DTA_SUPY_DT"/>
+		<result property="reqDt" column="REQ_DT"/>
+		<result property="isueDt" column="ISUE_DT"/>
+		<result property="rjctDt" column="RJCT_DT"/>
+		<result property="reReqDt" column="RE_REQ_DT"/>
+		<result property="reReqIsueDt" column="RE_REQ_ISUE_DT"/>
+		<result property="reReqRjctDt" column="RE_REQ_RJCT_DT"/>
+		<result property="rcptDt" column="RCPT_DT"/>
+		<result property="rcptPersTitl" column="RCPT_PERS_TITL"/>
+		<result property="rcptPersNm" column="RCPT_PERS_NM"/>
+		<result property="poRetnDt" column="PO_RETN_DT"/>
+		<result property="cmctCnfmComn" column="CMCT_CNFM_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+ 	
+ 	<select id="M0122.SJPB_CMCT_CNFM_REQ_APPR_DOC.prnReport" resultMap="M0122VO.listPrn">  /* M0122.SJPB_CMCT_CNFM_REQ_APPR_DOC.prnReport */
+ 		SELECT A.CMCT_CNFM_REQ_APPR_NUM  /* 통신사실확인자료제공요청허가신청부번호 */
+		       ,A.PRGS_NUM  /* 진행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM AS SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB AS SP_JOB /* 피의자 직업 */
+		       ,B.SP_ADDR AS SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */
+		       ,A.CMCT_CNFM_TYPE  /* 종류 */
+		       ,A.CMCT_CNFM_TRGT  /* 대상 */
+		       ,A.CMCT_CNFM_RNGE  /* 범위 */
+		       ,A.EMGY_DTA_SUPY_DT  /* 긴급으로자료를제공받은일시 */
+               ,DECODE(A.REQ_DT,NULL,'',SUBSTR(A.REQ_DT,1,4)||'.'|| SUBSTR(A.REQ_DT,5,2) ||'.'||SUBSTR(A.REQ_DT,7,2)) AS REQ_DT  /* 신청일시 */
+               ,DECODE(A.ISUE_DT,NULL,'',SUBSTR(A.ISUE_DT,1,4)||'.'|| SUBSTR(A.ISUE_DT,5,2) ||'.'||SUBSTR(A.ISUE_DT,7,2)) AS ISUE_DT  /* 발부일시 */
+               ,DECODE(A.RJCT_DT,NULL,'',SUBSTR(A.RJCT_DT,1,4)||'.'|| SUBSTR(A.RJCT_DT,5,2) ||'.'||SUBSTR(A.RJCT_DT,7,2)) AS RJCT_DT  /* 기각일시 */
+               ,DECODE(A.RE_REQ_DT,NULL,'',SUBSTR(A.RE_REQ_DT,1,4)||'.'|| SUBSTR(A.RE_REQ_DT,5,2) ||'.'||SUBSTR(A.RE_REQ_DT,7,2)) AS RE_REQ_DT  /* 재신청일시 */
+               ,DECODE(A.RE_REQ_ISUE_DT,NULL,'',SUBSTR(A.RE_REQ_ISUE_DT,1,4)||'.'|| SUBSTR(A.RE_REQ_ISUE_DT,5,2) ||'.'||SUBSTR(A.RE_REQ_ISUE_DT,7,2)) AS RE_REQ_ISUE_DT  /* 재신청발부일시 */
+               ,DECODE(A.RE_REQ_RJCT_DT,NULL,'',SUBSTR(A.RE_REQ_RJCT_DT,1,4)||'.'|| SUBSTR(A.RE_REQ_RJCT_DT,5,2) ||'.'||SUBSTR(A.RE_REQ_RJCT_DT,7,2)) AS RE_REQ_RJCT_DT  /* 재신청기각일시 */
+               ,DECODE(A.RCPT_DT,NULL,'',SUBSTR(A.RCPT_DT,1,4)||'.'|| SUBSTR(A.RCPT_DT,5,2) ||'.'||SUBSTR(A.RCPT_DT,7,2)) AS RCPT_DT  /* 수령일시 */
+		       ,A.RCPT_PERS_TITL  /* 수령자의관직 */
+		       ,A.RCPT_PERS_NM  /* 수령자의성명 */
+               ,DECODE(A.PO_RETN_DT,NULL,'',SUBSTR(A.PO_RETN_DT,1,4)||'.'|| SUBSTR(A.PO_RETN_DT,5,2) ||'.'||SUBSTR(A.PO_RETN_DT,7,2)) AS PO_RETN_DT  /* 검찰반환연월 */
+		       ,A.CMCT_CNFM_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,E.NM_KOR
+		FROM SJPB_CMCT_CNFM_REQ_APPR_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		WHERE A.CMCT_CNFM_REQ_APPR_NUM = #cmctCnfmReqApprNum# 
+	</select>
+	<select id="M0122.SJPB_CMCT_CNFM_REQ_APPR_DOC.prnCheckReport" resultMap="M0122VO.listPrn">  /* M0122.SJPB_CMCT_CNFM_REQ_APPR_DOC.prnCheckReport */
+ 		SELECT A.CMCT_CNFM_REQ_APPR_NUM  /* 통신사실확인자료제공요청허가신청부번호 */
+		       ,A.PRGS_NUM  /* 진행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM AS SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB AS SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR AS SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */
+		       ,A.CMCT_CNFM_TYPE  /* 종류 */
+		       ,A.CMCT_CNFM_TRGT  /* 대상 */
+		       ,A.CMCT_CNFM_RNGE  /* 범위 */
+		       ,A.EMGY_DTA_SUPY_DT  /* 긴급으로자료를제공받은일시 */
+               ,DECODE(A.REQ_DT,NULL,'',SUBSTR(A.REQ_DT,1,4)||'.'|| SUBSTR(A.REQ_DT,5,2) ||'.'||SUBSTR(A.REQ_DT,7,2)) AS REQ_DT  /* 신청일시 */
+               ,DECODE(A.ISUE_DT,NULL,'',SUBSTR(A.ISUE_DT,1,4)||'.'|| SUBSTR(A.ISUE_DT,5,2) ||'.'||SUBSTR(A.ISUE_DT,7,2)) AS ISUE_DT  /* 발부일시 */
+               ,DECODE(A.RJCT_DT,NULL,'',SUBSTR(A.RJCT_DT,1,4)||'.'|| SUBSTR(A.RJCT_DT,5,2) ||'.'||SUBSTR(A.RJCT_DT,7,2)) AS RJCT_DT  /* 기각일시 */
+               ,DECODE(A.RE_REQ_DT,NULL,'',SUBSTR(A.RE_REQ_DT,1,4)||'.'|| SUBSTR(A.RE_REQ_DT,5,2) ||'.'||SUBSTR(A.RE_REQ_DT,7,2)) AS RE_REQ_DT  /* 재신청일시 */
+               ,DECODE(A.RE_REQ_ISUE_DT,NULL,'',SUBSTR(A.RE_REQ_ISUE_DT,1,4)||'.'|| SUBSTR(A.RE_REQ_ISUE_DT,5,2) ||'.'||SUBSTR(A.RE_REQ_ISUE_DT,7,2)) AS RE_REQ_ISUE_DT  /* 재신청발부일시 */
+               ,DECODE(A.RE_REQ_RJCT_DT,NULL,'',SUBSTR(A.RE_REQ_RJCT_DT,1,4)||'.'|| SUBSTR(A.RE_REQ_RJCT_DT,5,2) ||'.'||SUBSTR(A.RE_REQ_RJCT_DT,7,2)) AS RE_REQ_RJCT_DT  /* 재신청기각일시 */
+               ,DECODE(A.RCPT_DT,NULL,'',SUBSTR(A.RCPT_DT,1,4)||'.'|| SUBSTR(A.RCPT_DT,5,2) ||'.'||SUBSTR(A.RCPT_DT,7,2)) AS RCPT_DT  /* 수령일시 */
+		       ,A.RCPT_PERS_TITL  /* 수령자의관직 */
+		       ,A.RCPT_PERS_NM  /* 수령자의성명 */
+               ,DECODE(A.PO_RETN_DT,NULL,'',SUBSTR(A.PO_RETN_DT,1,4)||'.'|| SUBSTR(A.PO_RETN_DT,5,2) ||'.'||SUBSTR(A.PO_RETN_DT,7,2)) AS PO_RETN_DT  /* 검찰반환연월 */
+		       ,A.CMCT_CNFM_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,E.NM_KOR
+		FROM SJPB_CMCT_CNFM_REQ_APPR_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="cmctCnfmReqApprNumList" prepend="AND">
+				<iterate property="cmctCnfmReqApprNumList" open="A.CMCT_CNFM_REQ_APPR_NUM IN(" close=")" conjunction=",">
+					 #cmctCnfmReqApprNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

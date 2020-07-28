@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" 
+    version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"> 
+    
+	<portlet id="PTL01Portlet"> 
+        <portlet-name>PTL01Portlet</portlet-name>
+        <description xml:lang="ko">(수사관)수사업무 요청처리 포틀릿</description>
+        <description xml:lang="en">PTL01Portlet</description>
+        <display-name xml:lang="ko">(수사관)수사업무 요청처리</display-name>
+        <display-name xml:lang="en">PTL01Portlet</display-name>
+        <portlet-class>com.saltware.enface.portlet.sjpb.PTL01Portlet</portlet-class>
+        <init-param>
+            <name>portlet-icon</name>
+            <value>cafeteria.png</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 가로크기</description>
+            <name>SIZEY</name>
+            <value>4</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 세로크기</description>
+            <name>SIZEX</name>
+            <value>1</value>
+        </init-param>
+        <init-param>
+            <name>ViewPage</name>
+            <value>/WEB-INF/apps/enface/WEB-INF/view/portlet/sjpb/PTL01.jsp</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>PTL01Portlet</title>
+            <short-title>PTL01Portlet</short-title>
+            <keywords>sjpb</keywords>
+        </portlet-info>
+        <portlet-preferences>
+        </portlet-preferences>
+    </portlet>
+
+     
+	<portlet id="PTL0201Portlet">
+        <portlet-name>PTL0201Portlet</portlet-name>
+        <description xml:lang="ko">(수사관)사건현황 모니터링 포틀릿</description>
+        <description xml:lang="en">PTL0201Portlet</description>
+        <display-name xml:lang="ko">(수사관)사건현황 모니터링</display-name>
+        <display-name xml:lang="en">PTL0201Portlet</display-name>
+        <portlet-class>com.saltware.enface.portlet.sjpb.PTL0201Portlet</portlet-class>
+        <init-param>
+            <name>portlet-icon</name>
+            <value>cafeteria.png</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 가로크기</description>
+            <name>SIZEY</name>
+            <value>4</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 세로크기</description>
+            <name>SIZEX</name>
+            <value>1</value>
+        </init-param>
+        <init-param>
+            <name>ViewPage</name>
+            <value>/WEB-INF/apps/enface/WEB-INF/view/portlet/sjpb/PTL0201.jsp</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>PTL0201Portlet</title>
+            <short-title>PTL0201Portlet</short-title>
+            <keywords>sjpb</keywords>
+        </portlet-info>
+        <portlet-preferences>
+        </portlet-preferences>
+    </portlet>
+    
+	<portlet id="PTL02Portlet">
+        <portlet-name>PTL02Portlet</portlet-name>
+        <description xml:lang="ko">(직급별)사건현황 모니터링 포틀릿</description>
+        <description xml:lang="en">PTL02Portlet</description>
+        <display-name xml:lang="ko">(직급별)사건현황 모니터링</display-name>
+        <display-name xml:lang="en">PTL02Portlet</display-name>
+        <portlet-class>com.saltware.enface.portlet.sjpb.PTL02Portlet</portlet-class>
+        <init-param>
+            <name>portlet-icon</name>
+            <value>cafeteria.png</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 가로크기</description>
+            <name>SIZEY</name>
+            <value>4</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 세로크기</description>
+            <name>SIZEX</name>
+            <value>1</value>
+        </init-param>
+        <init-param>
+            <name>ViewPage</name>
+            <value>/WEB-INF/apps/enface/WEB-INF/view/portlet/sjpb/PTL02.jsp</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>PTL02Portlet</title>
+            <short-title>PTL02Portlet</short-title>
+            <keywords>sjpb</keywords>
+        </portlet-info>
+        <portlet-preferences>
+        </portlet-preferences>
+    </portlet>
+    
+	<portlet id="PTL03Portlet">
+        <portlet-name>PTL03Portlet</portlet-name>
+        <description xml:lang="ko">사건현황 포틀릿</description>
+        <description xml:lang="en">PTL03Portlet</description>
+        <display-name xml:lang="ko">사건현황</display-name>
+        <display-name xml:lang="en">PTL03Portlet</display-name>
+        <portlet-class>com.saltware.enface.portlet.sjpb.PTL03Portlet</portlet-class>
+        <init-param>
+            <name>portlet-icon</name>
+            <value>cafeteria.png</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 가로크기</description>
+            <name>SIZEY</name>
+            <value>4</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 세로크기</description>
+            <name>SIZEX</name>
+            <value>1</value>
+        </init-param>
+        <init-param>
+            <name>ViewPage</name>
+            <value>/WEB-INF/apps/enface/WEB-INF/view/portlet/sjpb/PTL03.jsp</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>PTL03Portlet</title>
+            <short-title>PTL03Portlet</short-title>
+            <keywords>sjpb</keywords>
+        </portlet-info>
+        <portlet-preferences>
+        </portlet-preferences>
+    </portlet> 
+    
+	<portlet id="PTL04Portlet">
+        <portlet-name>PTL04Portlet</portlet-name>
+        <description xml:lang="ko">(List) 사건현황 포틀릿</description>
+        <description xml:lang="en">PTL04Portlet</description>
+        <display-name xml:lang="ko">(List) 사건현황</display-name>
+        <display-name xml:lang="en">PTL04Portlet</display-name>
+        <portlet-class>com.saltware.enface.portlet.sjpb.PTL04Portlet</portlet-class>
+        <init-param>
+            <name>portlet-icon</name>
+            <value>cafeteria.png</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 가로크기</description>
+            <name>SIZEY</name>
+            <value>2</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 세로크기</description>
+            <name>SIZEX</name>
+            <value>1</value>
+        </init-param>
+        <init-param>
+            <name>ViewPage</name>
+            <value>/WEB-INF/apps/enface/WEB-INF/view/portlet/sjpb/PTL04.jsp</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>PTL04Portlet</title>
+            <short-title>PTL04Portlet</short-title>
+            <keywords>sjpb</keywords>
+        </portlet-info>
+        <portlet-preferences>
+        </portlet-preferences>
+    </portlet>
+    
+    <portlet id="PTL05Portlet">
+        <portlet-name>PTL05Portlet</portlet-name>
+        <description xml:lang="ko">사건처리 현황 포틀릿</description>
+        <description xml:lang="en">PTL05Portlet</description>
+        <display-name xml:lang="ko">사건처리 현황</display-name>
+        <display-name xml:lang="en">PTL05Portlet</display-name>
+        <portlet-class>com.saltware.enface.portlet.sjpb.PTL05Portlet</portlet-class>
+        <init-param>
+            <name>portlet-icon</name>
+            <value>cafeteria.png</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 가로크기</description>
+            <name>SIZEY</name>
+            <value>4</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 세로크기</description>
+            <name>SIZEX</name>
+            <value>1</value>
+        </init-param>
+        <init-param>
+            <name>ViewPage</name>
+            <value>/WEB-INF/apps/enface/WEB-INF/view/portlet/sjpb/PTL05.jsp</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>PTL05Portlet</title>
+            <short-title>PTL05Portlet</short-title>
+            <keywords>sjpb</keywords>
+        </portlet-info>
+        <portlet-preferences>
+        </portlet-preferences>
+    </portlet>
+    
+	<portlet id="PTL06Portlet">
+        <portlet-name>PTL06Portlet</portlet-name>
+        <description xml:lang="ko">월별 사건현황 포틀릿</description>
+        <description xml:lang="en">PTL06Portlet</description>
+        <display-name xml:lang="ko">월별 사건현황</display-name>
+        <display-name xml:lang="en">PTL06Portlet</display-name>
+        <portlet-class>com.saltware.enface.portlet.sjpb.PTL06Portlet</portlet-class>
+        <init-param>
+            <name>portlet-icon</name>
+            <value>cafeteria.png</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 가로크기</description>
+            <name>SIZEY</name>
+            <value>2</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 세로크기</description>
+            <name>SIZEX</name>
+            <value>1</value>
+        </init-param>
+        <init-param>
+            <name>ViewPage</name>
+            <value>/WEB-INF/apps/enface/WEB-INF/view/portlet/sjpb/PTL06.jsp</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>PTL06Portlet</title>
+            <short-title>PTL06Portlet</short-title>
+            <keywords>sjpb</keywords>
+        </portlet-info>
+        <portlet-preferences>
+        </portlet-preferences>
+    </portlet>
+    
+	<portlet id="PTL07Portlet">
+        <portlet-name>PTL07Portlet</portlet-name>
+        <description xml:lang="ko">업무공지사항 포틀릿</description>
+        <description xml:lang="en">PTL07Portlet</description>
+        <display-name xml:lang="ko">업무공지</display-name>
+        <display-name xml:lang="en">PTL07Portlet</display-name>
+        <portlet-class>com.saltware.enface.portlet.sjpb.PTL07Portlet</portlet-class>
+        <init-param>
+            <name>portlet-icon</name>
+            <value>cafeteria.png</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 가로크기</description>
+            <name>SIZEY</name>
+            <value>2</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 세로크기</description>
+            <name>SIZEX</name>
+            <value>1</value>
+        </init-param>
+        <init-param>
+            <name>ViewPage</name>
+            <value>/WEB-INF/apps/enface/WEB-INF/view/portlet/sjpb/PTL07.jsp</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>PTL07Portlet</title>
+            <short-title>PTL07Portlet</short-title>
+            <keywords>sjpb</keywords>
+        </portlet-info>
+        <portlet-preferences>
+        </portlet-preferences>
+    </portlet>
+
+	<portlet id="PTL08Portlet">
+        <portlet-name>PTL08Portlet</portlet-name>
+        <description xml:lang="ko">일정 포틀릿</description>
+        <description xml:lang="en">PTL08Portlet</description>
+        <display-name xml:lang="ko">일정</display-name>
+        <display-name xml:lang="en">PTL08Portlet</display-name>
+        <portlet-class>com.saltware.enface.portlet.sjpb.PTL08Portlet</portlet-class>
+        <init-param>
+            <name>portlet-icon</name>
+            <value>cafeteria.png</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 가로크기</description>
+            <name>SIZEY</name>
+            <value>2</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 세로크기</description>
+            <name>SIZEX</name>
+            <value>1</value>
+        </init-param>
+        <init-param>
+            <name>ViewPage</name>
+            <value>/WEB-INF/apps/enface/WEB-INF/view/portlet/sjpb/PTL08.jsp</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>PTL08Portlet</title>
+            <short-title>PTL08Portlet</short-title>
+            <keywords>sjpb</keywords>
+        </portlet-info>
+        <portlet-preferences>
+        </portlet-preferences>
+    </portlet>
+    
+    
+    <portlet id="PTL09Portlet">
+        <portlet-name>PTL09Portlet</portlet-name>
+        <description xml:lang="ko">조사실 예약현황 포틀릿</description>
+        <description xml:lang="en">PTL09Portlet</description>
+        <display-name xml:lang="ko">조사실 예약현황 포틀릿</display-name>
+        <display-name xml:lang="en">PTL09Portlet</display-name>
+        <portlet-class>com.saltware.enface.portlet.sjpb.PTL09Portlet</portlet-class>
+        <init-param>
+            <name>portlet-icon</name>
+            <value>cafeteria.png</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 가로크기</description>
+            <name>SIZEY</name>
+            <value>2</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 세로크기</description>
+            <name>SIZEX</name>
+            <value>1</value>
+        </init-param>
+        <init-param> 
+            <name>ViewPage</name>
+            <value>/WEB-INF/apps/enface/WEB-INF/view/portlet/sjpb/PTL09.jsp</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>PTL09Portlet</title>
+            <short-title>PTL09Portlet</short-title>
+            <keywords>sjpb</keywords>
+        </portlet-info>
+        <portlet-preferences>
+        </portlet-preferences>
+    </portlet>
+    
+    
+	<portlet id="PTL10Portlet">
+        <portlet-name>PTL10Portlet</portlet-name>
+        <description xml:lang="ko">디지털 포렌식 센터 업무일정 포틀릿</description>
+        <description xml:lang="en">PTL10Portlet</description>
+        <display-name xml:lang="ko">디지털 포렌식 센터 업무일정</display-name>
+        <display-name xml:lang="en">PTL10Portlet</display-name>
+        <portlet-class>com.saltware.enface.portlet.sjpb.PTL10Portlet</portlet-class>
+        <init-param>
+            <name>portlet-icon</name>
+            <value>cafeteria.png</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 가로크기</description>
+            <name>SIZEY</name>
+            <value>2</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 세로크기</description>
+            <name>SIZEX</name>
+            <value>1</value>
+        </init-param>
+        <init-param>
+            <name>ViewPage</name>
+            <value>/WEB-INF/apps/enface/WEB-INF/view/portlet/sjpb/PTL10.jsp</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>PTL10Portlet</title>
+            <short-title>PTL10Portlet</short-title>
+            <keywords>sjpb</keywords>
+        </portlet-info>
+        <portlet-preferences>
+        </portlet-preferences>
+    </portlet>
+    
+    
+	<portlet id="PTL11Portlet">
+        <portlet-name>PTL11Portlet</portlet-name>
+        <description xml:lang="ko">기소중지현황 포틀릿</description>
+        <description xml:lang="en">PTL11Portlet</description>
+        <display-name xml:lang="ko">기소중지현황</display-name>
+        <display-name xml:lang="en">PTL11Portlet</display-name>
+        <portlet-class>com.saltware.enface.portlet.sjpb.PTL11Portlet</portlet-class>
+        <init-param>
+            <name>portlet-icon</name>
+            <value>cafeteria.png</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 가로크기</description>
+            <name>SIZEY</name>
+            <value>4</value>
+        </init-param>
+        <init-param>
+            <description xml:lang="en">포틀릿 세로크기</description>
+            <name>SIZEX</name>
+            <value>1</value>
+        </init-param>
+        <init-param>
+            <name>ViewPage</name>
+            <value>/WEB-INF/apps/enface/WEB-INF/view/portlet/sjpb/PTL11.jsp</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>PTL11Portlet</title>
+            <short-title>PTL11Portlet</short-title>
+            <keywords>sjpb</keywords>
+        </portlet-info>
+        <portlet-preferences>
+        </portlet-preferences>
+    </portlet>
+</portlet-app>

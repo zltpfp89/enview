@@ -1,0 +1,221 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+ 	
+	 <resultMap class="com.saltware.enface.sjpb.D.service.D0101VO" id="D0101VO.list">
+	 	<result property="rcptNum" column="RCPT_NUM"/>
+	 	<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="fdCdDesc" column="FD_CD_DESC"/>
+		<result property="dvFormDesc" column="DV_FORM_DESC"/>
+		<result property="beDt" column="BE_DT"/>
+		<result property="trfNum" column="TRF_NUM"/>
+		<result property="criTmNm" column="CRI_TM_NM"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="criStatCdDesc" column="CRI_STAT_CD_DESC"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="indvCorpDivDesc" column="INDV_CORP_DIV_DESC"/>
+		<result property="homcForcPernDivDesc" column="HOMC_FORC_PERN_DIV_DESC"/>
+		<result property="gendDivDesc" column="GEND_DIV_DESC"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="spCnttNum" column="SP_CNTT_NUM"/>
+	 </resultMap>  
+ 
+	 <select id="D0101VO.selectList" resultMap="D0101VO.list"> /* D0101VO.selectList */
+	 	SELECT DISTINCT A.RCPT_NUM /*접수번호*/
+               ,A.RCPT_INC_NUM /* 사건번호 */
+		       ,J.CODE_NAME AS FD_CD_DESC /* 구분 */
+		       ,K.CODE_NAME AS DV_FORM_DESC /* 발각형태 */
+		       ,TO_CHAR(A.BE_DT,'YYYY-MM-DD') AS BE_DT /* 입건일자 */
+		       ,T.TRF_NUM /* 송치번호 */
+		       ,C.CRI_TM_NM /* 수사팀 */
+		       ,E.NM_KOR /* 수사담당자 */
+		       ,F.SP_NM /* 피의자명 */
+		       ,F.SP_ID_NUM /* 피의자 식별번호 */
+		       ,I.CODE_NAME AS CRI_STAT_CD_DESC /* 상태 */
+		       ,F.INC_SP_NUM /* 피의자번호 */
+               ,L.CODE_NAME AS INDV_CORP_DIV_DESC /* 개인법인구분 */
+			   ,G.CODE_NAME AS HOMC_FORC_PERN_DIV_DESC /* 내외국인구분 */
+               ,H.CODE_NAME AS GEND_DIV_DESC /* 성별 */
+			   ,F.SP_ADDR /* 주소 */
+			   ,F.SP_CNTT_NUM /* 연락처 */
+		FROM SJPB_INC_MAST A
+		LEFT JOIN SJPB_INC_DTS B ON B.RCPT_NUM = A.RCPT_NUM
+		LEFT JOIN SJPB_CRI_TM C ON C.CRI_TM_ID = A.CRI_TM_ID
+		LEFT JOIN SJPB_INC_CRI_MB D ON D.RCPT_NUM = A.RCPT_NUM AND D.CRI_LV_CD = '01'
+		LEFT JOIN USERPASS E ON E.USER_ID = D.CRI_MB_ID
+		JOIN SJPB_INC_SP F ON F.RCPT_NUM = A.RCPT_NUM
+        LEFT JOIN CODEBASE G ON G.CODE_ID = 'SJPB_00008' AND G.CODE = F.HOMC_FORC_PERN_DIV AND G.SYSTEM_CODE ='PT' AND G.LANG_KND='ko'
+		LEFT JOIN CODEBASE H ON H.CODE_ID = 'SJPB_00009' AND H.CODE = F.GEND_DIV AND H.SYSTEM_CODE ='PT' AND H.LANG_KND='ko'
+		LEFT JOIN CODEBASE I ON I.CODE_ID = 'SJPB_00001' AND I.CODE = A.CRI_STAT_CD AND I.SYSTEM_CODE ='PT' AND I.LANG_KND='ko'
+		LEFT JOIN CODEBASE J ON J.CODE_ID = 'SJPB_00002' AND J.CODE = A.FD_CD AND J.SYSTEM_CODE ='PT' AND J.LANG_KND='ko'
+		LEFT JOIN CODEBASE K ON K.CODE_ID = 'SJPB_00004' AND K.CODE = A.DV_FORM AND K.SYSTEM_CODE ='PT' AND K.LANG_KND='ko'
+        LEFT JOIN CODEBASE L ON L.CODE_ID = 'SJPB_00007' AND L.CODE = F.INDV_CORP_DIV AND L.SYSTEM_CODE ='PT' AND L.LANG_KND='ko'
+		LEFT JOIN SJPB_ACT_VIO M ON M.INC_SP_NUM = F.INC_SP_NUM
+    	LEFT JOIN CODEBASE N ON N.CODE_ID = 'SJPB_00012' AND N.CODE = M.RLT_ACT_CRI_NM_CD AND N.SYSTEM_CODE ='PT' AND N.LANG_KND='ko'
+		LEFT JOIN SJPB_INC_TRF_ITEM T ON T.RCPT_NUM = A.RCPT_NUM
+		WHERE A.RCPT_INC_NUM IS NOT NULL AND F.SP_STAT_CD = '1' AND A.RCPT_TP_CD='2' 
+
+		<isNotEmpty property="rcptIncNumSC" prepend="AND">
+			A.RCPT_INC_NUM = #rcptIncNumSC#
+	 	</isNotEmpty>
+		<isNotEmpty property="rltActCriNmCdSC" prepend="AND">
+	 		M.RLT_ACT_CRI_NM_CD = #rltActCriNmCdSC#
+	 	</isNotEmpty>
+	 	<isNotEmpty property="indvCorpDiv" prepend="AND">
+	 		F.INDV_CORP_DIV = #indvCorpDiv#
+	 	</isNotEmpty>
+	 	<isNotEmpty property="incSpNum" prepend="AND">
+	 		F.INC_SP_NUM = #incSpNum# 
+	 	</isNotEmpty>
+	 	<isNotEmpty property="rcptNum" prepend="AND">
+	 		A.RCPT_NUM = #rcptNum# 
+	 	</isNotEmpty>
+	 	<isNotEmpty property="spNm" prepend="AND">
+	 		F.SP_NM LiKE '%' || #spNm# || '%'
+	 	</isNotEmpty>
+	 	<isNotEmpty property="spIdNum" prepend="AND">
+	 		F.SP_ID_NUM = #spIdNum# 
+	 	</isNotEmpty>
+	 	<isNotEmpty property="yearSC" prepend="AND">
+	 		SUBSTR(A.RCPT_INC_NUM,1,4) = #yearSC# 
+	 	</isNotEmpty>
+	 	<isNotEmpty property="criTmIdSC" prepend="AND">
+	 		J.CODE_TAG1 = #criTmIdSC# 
+	 	</isNotEmpty>
+	 	<isNotEmpty property="criStatCdSC" prepend="AND">
+	 		A.CRI_STAT_CD = #criStatCdSC# 
+	 	</isNotEmpty>
+	 	<isNotEmpty property="dvFormSC" prepend="AND">
+	 		A.DV_FORM = #dvFormSC# 
+	 	</isNotEmpty>
+	 	<isNotEmpty property="trfNumSC" prepend="AND">
+	 		T.TRF_NUM = #trfNumSC# 
+	 	</isNotEmpty>
+	 	<isNotEmpty property="vioContSC" prepend="AND">
+	 		M.VIO_CONT LIKE '%' || #vioContSC# ||'%' 
+	 	</isNotEmpty>
+	 	<isNotEmpty  prepend=" AND " property="sDateSC">
+	 		A.BE_DT &gt;= TO_DATE(#sDateSC#, 'YYYY-MM-DD')
+	 	</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="eDateSC">
+			A.BE_DT &lt;= TO_DATE(#eDateSC#, 'YYYY-MM-DD')+1
+		</isNotEmpty>
+		<isNotEmpty property="nmKorSC" prepend="AND">
+	 		E.NM_KOR LIKE '%' || #nmKorSC# ||'%' 
+	 	</isNotEmpty>
+<!-- 	 	ORDER BY TO_NUMBER(REGEXP_SUBSTR(REGEXP_SUBSTR(A.RCPT_INC_NUM,'[^-]+',1,1),'[^,]+',1,1)) DESC,TO_NUMBER(REGEXP_SUBSTR(REGEXP_SUBSTR(A.RCPT_INC_NUM,'[^-]+',1,2),'[^,]+',1,1)) DESC -->
+	 </select>
+ 
+ 	<resultMap class="com.saltware.enface.sjpb.D.service.D0101SC" id="D0101VO.code">
+	 	<result property="code" column="CODE"/>
+	 	<result property="codeName" column="CODE_NAME"/>
+ 	</resultMap>
+ 	<select id="D0101.selectFdCd" resultMap="D0101VO.code">
+ 		SELECT A.CODE,A.CODE_NAME
+        FROM CODEBASE A
+        <isNotEmpty property="orgCd">
+        	WHERE A.CODE_ID = 'SJPB_00002' AND A.CODE_TAG1= #orgCd# AND A.CODE != '0000000000'
+		</isNotEmpty>
+        <isNotEmpty property="depCd">
+        	JOIN SJPB_CRI_TM P ON P.CRI_TM_ID = A.CODE_TAG1
+			WHERE A.CODE_ID = 'SJPB_00002' AND P.PARE_TM_ID= #depCd# AND A.CODE != '0000000000'
+		</isNotEmpty>
+ 	</select>
+ 	
+ 	<resultMap id="D0101.CriTmVO" class="com.saltware.enface.sjpb.Z.service.CriTmVO">
+	 	<result property="criTmId" column="CRI_TM_ID"/>
+	 	<result property="criTmNm" column="CRI_TM_NM"/>
+ 	</resultMap>
+ 	<select id="D0101.selectCriTmList" resultMap="D0101.CriTmVO"> /* D0101.selectCriTmList */
+ 		SELECT A.CRI_TM_ID,A.CRI_TM_NM
+        FROM SJPB_CRI_TM A
+        <isNotEmpty property="orgCd">
+        	WHERE A.CRI_TM_ID = #orgCd#
+		</isNotEmpty>
+        <isNotEmpty property="depCd">
+			WHERE A.PARE_TM_ID = #depCd# AND A.CRI_YN NOT IN('0')
+		</isNotEmpty>
+ 	</select>
+
+ 	<select id="D0101.selectRctVio" resultMap="D0101VO.code">
+ 		SELECT A.CODE,A.CODE_NAME
+        FROM CODEBASE A
+        WHERE A.CODE_ID = 'SJPB_00012'
+        <isNotEmpty property="fdCdList" prepend="AND">
+	        <iterate property="fdCdList" open="(" close=")" conjunction="OR">
+		  		A.CODE_TAG1 LIKE '%'||#fdCdList[].code#||'%'
+		  	</iterate>
+		</isNotEmpty>
+        AND A.CODE != '0000000000'
+ 	</select>
+ 
+	 <resultMap class="com.saltware.enface.sjpb.D.service.D0101Vio" id="D0101Vio.vioList">
+	 	<result property="actVioNum" column="ACT_VIO_NUM"/>
+	 	<result property="incSpNum" column="INC_SP_NUM"/>
+	 	<result property="rcptNum" column="RCPT_NUM"/>
+	 	<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="vioCont" column="VIO_CONT"/>
+		<result property="actVioClaNm" column="ACT_VIO_CLA_NM"/>
+		<result property="poContCdDesc" column="PO_CONT_CD_DESC"/>
+		<result property="dipCont" column="DIP_CONT"/>
+		<result property="fnAmt" column="FN_AMT"/>
+		<result property="jdtCont" column="JDT_CONT"/>
+	 </resultMap>
+	 
+	<select id="D0101Vio.list.selectvio" resultMap="D0101Vio.vioList"> /* D0101Vio.list.selectvio */
+		SELECT B.ACT_VIO_NUM /* 법률위반번호 */
+		      ,A.INC_SP_NUM /* 피의자번호 */
+		      ,A.RCPT_NUM /* 접수번호 */
+		      ,I.CODE_NAME AS RLT_ACT_CRI_NM_CD_DESC /* 관련법률 및 죄명 */ 
+		      ,B.VIO_CONT /* 위반내용 */
+		      ,B.ACT_VIO_CLA_NM /* 위반조항 */
+		      ,R.CODE_NAME AS PO_CONT_CD_DESC /* 검찰내용 */
+		      ,D.DIP_CONT/* 처분내용 */
+		      ,D.FN_AMT /* 벌금액 */
+		      ,E.JDT_CONT /* 판결내용 */
+		FROM SJPB_ACT_VIO B 
+		JOIN SJPB_INC_SP A ON B.INC_SP_NUM = A.INC_SP_NUM AND A.SP_STAT_CD ='1'
+		LEFT JOIN SJPB_INC_DIP_RST D ON D.ACT_VIO_NUM = B.ACT_VIO_NUM
+		LEFT JOIN SJPB_INC_JDT_RST E ON E.ACT_VIO_NUM = B.ACT_VIO_NUM
+		JOIN CODEBASE I ON I.CODE_ID = 'SJPB_00012' AND I.CODE = B.RLT_ACT_CRI_NM_CD AND I.SYSTEM_CODE ='PT' AND I.LANG_KND='ko'
+		LEFT JOIN CODEBASE R ON R.CODE_ID = 'SJPB_00022' AND R.CODE = D.PO_CONT_CD AND R.SYSTEM_CODE ='PT' AND R.LANG_KND='ko'
+		WHERE B.INC_SP_NUM = #incSpNum# AND A.RCPT_NUM = #rcptNum#
+	</select>
+	
+	<resultMap class="com.saltware.enface.sjpb.Z.service.ActVioTypeVO" id="ActVioClaVO.claList">
+		<result property="actVioNum" column="ACT_VIO_NUM"/>
+		<result property="actVioTypeCode" column="ACT_VIO_TYPE_CODE"/>
+		<result property="actVioTypeNm" column="ACT_VIO_TYPE_NM"/>
+	</resultMap>
+	
+	<select id="D0101.ActVioClaVo.selectVioTypeList" resultMap="ActVioClaVO.claList"> /* D0101.ActVioClaVo.selectVioTypeList */
+		SELECT A.ACT_VIO_NUM
+			   ,A.ACT_VIO_TYPE_CODE
+			   ,I.CODE_NAME AS ACT_VIO_TYPE_NM
+		FROM SJPB_ACT_VIO_TYPE A
+		LEFT JOIN CODEBASE I ON I.CODE_ID = 'SJPB_00085' AND I.CODE = A.ACT_VIO_TYPE_CODE 
+		WHERE A.ACT_VIO_NUM = #actVioNum#
+		ORDER BY A.INQ_ORD
+	</select>
+	
+	<update id="D0101.SJPB_INC_INQ_HIST.searchIncHist">
+		INSERT INTO SJPB_INC_INQ_HIST(
+			INQ_HIST_SI_NUM,
+			HIST_DIV,
+			RCPT_NUM,
+			INC_SP_NUM,
+			INQ_USER_ID,
+			INQ_DT
+		)
+		VALUES(
+			(SELECT SEQ+1 FROM KEYGEN WHERE entity_name = 'SJPB_INC_INQ_HIST.INQ_HIST_SI_NUM'),
+			'D',
+			#rcptNum#,
+			#incSpNum#,
+			#userId#,
+		    SYSDATE
+		)
+	</update>
+</sqlMap>

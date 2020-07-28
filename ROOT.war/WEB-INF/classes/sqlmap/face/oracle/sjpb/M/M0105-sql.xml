@@ -1,0 +1,194 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0105VO" id="M0105VO.list">
+		<result property="cathArstWrntExecNum" column="CATH_ARST_WRNT_EXEC_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="execNum" column="EXEC_NUM"/>
+		<result property="bookNum" column="BOOK_NUM"/>
+		<result property="divCd" column="DIV_CD"/>
+		<result property="divCdDesc" column="DIV_CD_DESC"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="execCmdPatmDt" column="EXEC_CMD_PATM_DT"/>
+		<result property="execCmdPatmOfic" column="EXEC_CMD_PATM_OFIC"/>
+		<result property="wrntValdPi" column="WRNT_VALD_PI"/>
+		<result property="handExecDt" column="HAND_EXEC_DT"/>
+		<result property="handExecIncp" column="HAND_EXEC_INCP"/>
+		<result property="handExecRetnDt" column="HAND_EXEC_RETN_DT"/>
+		<result property="cathArstWrntComn" column="CATH_ARST_WRNT_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+ 	<select id="M0105.SJPB_CATH_ARST_WRNT_EXEC_DOC.selectList" resultMap="M0105VO.list">  /* M0105.SJPB_CATH_ARST_WRNT_EXEC_DOC.selectList */
+ 		SELECT A.CATH_ARST_WRNT_EXEC_NUM  /* 체포구속영장집행원부번호 */
+ 			   ,A.EXEC_NUM  /* 집행번호 */
+		       ,A.BOOK_NUM  /* 영장번호 */
+		       ,A.DIV_CD  /* 구분코드 */
+		       ,B.CODE_NAME AS DIV_CD_DESC  /* 구분 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,D.RCPT_INC_NUM  /* 사건번호  */
+		       ,A.INC_SP_NUM  /* 피의자번호 */
+		       ,C.SP_NM  /* 피의자이름 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+				        FROM SJPB_ACT_VIO E
+				        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+				        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */ 
+		       ,A.EXEC_CMD_PATM_DT  /* 집행지휘또는촉탁일시 */
+		       ,A.EXEC_CMD_PATM_OFIC  /* 집행지휘또는촉탁관서 */
+		       ,A.WRNT_VALD_PI  /* 영장유효기간 */
+		       ,A.HAND_EXEC_DT  /* 처리집행일시 */
+		       ,A.HAND_EXEC_INCP  /* 처리집행불능 */
+		       ,A.HAND_EXEC_RETN_DT  /* 처리반환일자 */
+		       ,A.CATH_ARST_WRNT_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,E.NM_KOR  /* 작성자  */
+		FROM SJPB_CATH_ARST_WRNT_EXEC_DOC A
+		LEFT JOIN CODEBASE B ON B.CODE_ID = 'SJPB_00031' AND B.CODE = A.DIV_CD AND B.SYSTEM_CODE ='PT' AND B.LANG_KND='ko'
+		JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST D ON D.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				D.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				D.RCPT_NUM = #rcptNumSc# OR D.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				C.SP_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0105.SJPB_CATH_ARST_WRNT_EXEC_DOC.insertCathArst" parameterClass="com.saltware.enface.sjpb.M.service.M0105VO">  /* M0105.SJPB_CATH_ARST_WRNT_EXEC_DOC.insertCathArst */
+ 		INSERT INTO SJPB_CATH_ARST_WRNT_EXEC_DOC (
+		    CATH_ARST_WRNT_EXEC_NUM,
+		    RCPT_NUM,
+		    EXEC_NUM,
+		    BOOK_NUM,
+		    DIV_CD,
+		    INC_SP_NUM,
+		    EXEC_CMD_PATM_DT,
+		    EXEC_CMD_PATM_OFIC,
+		    WRNT_VALD_PI,
+		    HAND_EXEC_DT,
+		    HAND_EXEC_INCP,
+		    HAND_EXEC_RETN_DT,
+		    CATH_ARST_WRNT_COMN,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_CATH_ARST_WRNT_EXEC_DOC.CATH_ARST_EXEC_NUM')
+		    ,#rcptNum#
+		    ,#execNum#
+		    ,#bookNum#
+		    ,#divCd#
+		    ,#incSpNum#
+		    ,#execCmdPatmDt#
+		    ,#execCmdPatmOfic#
+		    ,#wrntValdPi#
+		    ,#handExecDt#
+		    ,#handExecIncp#
+		    ,#handExecRetnDt#
+		    ,#cathArstWrntComn#		    
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		)
+ 	</update>
+ 	<update id="M0105.SJPB_CATH_ARST_WRNT_EXEC_DOC.updateCathArst" parameterClass="com.saltware.enface.sjpb.M.service.M0105VO">  /* M0105.SJPB_CATH_ARST_WRNT_EXEC_DOC.updateCathArst */
+ 		UPDATE SJPB_CATH_ARST_WRNT_EXEC_DOC 
+ 		SET EXEC_NUM = #execNum#
+		    ,BOOK_NUM = #bookNum#
+ 			,DIV_CD = #divCd#
+ 			,EXEC_CMD_PATM_DT = #execCmdPatmDt#
+ 			,EXEC_CMD_PATM_OFIC = #execCmdPatmOfic#
+ 			,WRNT_VALD_PI = #wrntValdPi#
+ 			,HAND_EXEC_DT = #handExecDt#
+ 			,HAND_EXEC_INCP = #handExecIncp#
+ 			,HAND_EXEC_RETN_DT = #handExecRetnDt#
+ 			,CATH_ARST_WRNT_COMN = #cathArstWrntComn#
+ 			,UPD_USER_ID = #regUserId#
+ 			,UPD_DATE = SYSDATE
+ 		WHERE CATH_ARST_WRNT_EXEC_NUM = #cathArstWrntExecNum# 
+ 	</update>
+ 	
+ 	<select id="M0105.SJPB_CATH_ARST_WRNT_EXEC_DOC.prnCheckReport" resultMap="M0105VO.list">  /* M0105.SJPB_CATH_ARST_WRNT_EXEC_DOC.prnCheckReport */
+ 		SELECT A.CATH_ARST_WRNT_EXEC_NUM  /* 체포구속영장집행원부번호 */
+ 			   ,A.EXEC_NUM  /* 집행번호 */
+		       ,A.BOOK_NUM  /* 영장번호 */
+		       ,A.DIV_CD  /* 구분코드 */
+		       ,B.CODE_NAME AS DIV_CD_DESC  /* 구분 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,D.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 피의자번호 */
+		       ,C.SP_NM AS SP_NM  /* 피의자이름 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+				        FROM SJPB_ACT_VIO E
+				        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+				        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */ 
+		       ,DECODE(A.EXEC_CMD_PATM_DT,NULL,'',SUBSTR(A.EXEC_CMD_PATM_DT,1,4)||'.'||SUBSTR(A.EXEC_CMD_PATM_DT,5,2)||'.'||SUBSTR(A.EXEC_CMD_PATM_DT,7,2)) AS  EXEC_CMD_PATM_DT /* 집행지휘또는촉탁일시 */
+		       ,A.EXEC_CMD_PATM_OFIC  /* 집행지휘또는촉탁관서 */
+		       ,A.WRNT_VALD_PI  /* 영장유효기간 */
+		       ,DECODE(A.HAND_EXEC_DT,NULL,'',SUBSTR(A.HAND_EXEC_DT,1,4)||'.'|| SUBSTR(A.HAND_EXEC_DT,5,2) ||'.'||SUBSTR(A.HAND_EXEC_DT,7,2)||'  '||SUBSTR(A.HAND_EXEC_DT,9,2)||'시'||SUBSTR(A.HAND_EXEC_DT,11,2)||'분') AS HAND_EXEC_DT  /* 처리집행일시 */
+		       ,A.HAND_EXEC_INCP  /* 처리집행불능 */
+		       ,DECODE(A.HAND_EXEC_RETN_DT,NULL,'',SUBSTR(A.HAND_EXEC_RETN_DT,1,4)||'.'||SUBSTR(A.HAND_EXEC_RETN_DT,5,2)||'.'||SUBSTR(A.HAND_EXEC_RETN_DT,7,2)) AS HAND_EXEC_RETN_DT /* 처리반환일자 */
+		       ,A.CATH_ARST_WRNT_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,E.NM_KOR  /* 작성자  */
+		FROM SJPB_CATH_ARST_WRNT_EXEC_DOC A
+		JOIN CODEBASE B ON B.CODE_ID = 'SJPB_00031' AND B.CODE = A.DIV_CD AND B.SYSTEM_CODE ='PT' AND B.LANG_KND='ko'
+		JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST D ON D.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="cathArstWrntExecNumList" prepend="AND">
+				<iterate property="cathArstWrntExecNumList" open="A.CATH_ARST_WRNT_EXEC_NUM IN(" close=")" conjunction=",">
+					 #cathArstWrntExecNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+ 	<select id="M0105.SJPB_CATH_ARST_WRNT_EXEC_DOC.prnReport" resultMap="M0105VO.list">  /* M0105.SJPB_CATH_ARST_WRNT_EXEC_DOC.prnReport */
+ 		SELECT A.CATH_ARST_WRNT_EXEC_NUM  /* 체포구속영장집행원부번호 */
+ 			   ,A.EXEC_NUM  /* 집행번호 */
+		       ,A.BOOK_NUM  /* 영장번호 */
+		       ,A.DIV_CD  /* 구분코드 */
+		       ,B.CODE_NAME AS DIV_CD_DESC  /* 구분 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,D.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 피의자번호 */
+		       ,C.SP_NM AS SP_NM  /* 피의자이름 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+				        FROM SJPB_ACT_VIO E
+				        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+				        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */ 
+		       ,DECODE(A.EXEC_CMD_PATM_DT,NULL,'',SUBSTR(A.EXEC_CMD_PATM_DT,1,4)||'.'||SUBSTR(A.EXEC_CMD_PATM_DT,5,2)||'.'||SUBSTR(A.EXEC_CMD_PATM_DT,7,2)) AS  EXEC_CMD_PATM_DT /* 집행지휘또는촉탁일시 */
+		       ,A.EXEC_CMD_PATM_OFIC  /* 집행지휘또는촉탁관서 */
+		       ,A.WRNT_VALD_PI  /* 영장유효기간 */
+		       ,DECODE(A.HAND_EXEC_DT,NULL,'',SUBSTR(A.HAND_EXEC_DT,1,4)||'.'|| SUBSTR(A.HAND_EXEC_DT,5,2) ||'.'||SUBSTR(A.HAND_EXEC_DT,7,2)||'  '||SUBSTR(A.HAND_EXEC_DT,9,2)||'시'||SUBSTR(A.HAND_EXEC_DT,11,2)||'분') AS HAND_EXEC_DT  /* 처리집행일시 */
+		       ,A.HAND_EXEC_INCP  /* 처리집행불능 */
+		       ,DECODE(A.HAND_EXEC_RETN_DT,NULL,'',SUBSTR(A.HAND_EXEC_RETN_DT,1,4)||'.'||SUBSTR(A.HAND_EXEC_RETN_DT,5,2)||'.'||SUBSTR(A.HAND_EXEC_RETN_DT,7,2)) AS HAND_EXEC_RETN_DT /* 처리반환일자 */
+		       ,A.CATH_ARST_WRNT_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,E.NM_KOR  /* 작성자  */
+		FROM SJPB_CATH_ARST_WRNT_EXEC_DOC A
+		JOIN CODEBASE B ON B.CODE_ID = 'SJPB_00031' AND B.CODE = A.DIV_CD AND B.SYSTEM_CODE ='PT' AND B.LANG_KND='ko'
+		JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST D ON D.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		WHERE A.CATH_ARST_WRNT_EXEC_NUM = #cathArstWrntExecNum#
+	</select>
+</sqlMap>

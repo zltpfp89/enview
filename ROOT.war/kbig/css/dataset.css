@@ -1,0 +1,34 @@
+/* 데이타셋 관련 CSS */
+.data_0 button:after{background-image:url(../img/dataset_00.png);}
+.data_132 button:after{background-image:url(../img/dataset_01.png);}
+.data_139 button:after{background-image:url(../img/dataset_02.png);}
+.data_135 button:after{background-image:url(../img/dataset_03.png);}
+.data_129 button:after{background-image:url(../img/dataset_04.png);}
+.data_134 button:after{background-image:url(../img/dataset_05.png);}
+.data_140 button:after{background-image:url(../img/dataset_06.png);}
+.data_141 button:after{background-image:url(../img/dataset_07.png);}
+.data_144 button:after{background-image:url(../img/dataset_08.png);}
+.data_149 button:after{background-image:url(../img/dataset_09.png);}
+
+.data_0 button.on:after{background-image:url(../img/dataset_00_on.png);}
+.data_132 button.on:after{background-image:url(../img/dataset_01_on.png);}
+.data_139 button.on:after{background-image:url(../img/dataset_02_on.png);}
+.data_135 button.on:after{background-image:url(../img/dataset_03_on.png);}
+.data_129 button.on:after{background-image:url(../img/dataset_04_on.png);}
+.data_134 button.on:after{background-image:url(../img/dataset_05_on.png);}
+.data_140 button.on:after{background-image:url(../img/dataset_06_on.png);}
+.data_141 button.on:after{background-image:url(../img/dataset_07_on.png);}
+.data_144 button.on:after{background-image:url(../img/dataset_08_on.png);}
+.data_149 button.on:after{background-image:url(../img/dataset_09_on.png);}
+
+
+.i_dataset{float:  left;display:inline-block;width:65px;padding-top:30px;}
+.i_data_132{background: url(../img/dataset_01.png) center top no-repeat;}
+.i_data_139{background:url(../img/dataset_02.png) center top no-repeat;}
+.i_data_135{background:url(../img/dataset_03.png) center top no-repeat;}
+.i_data_129{background:url(../img/dataset_04.png) center top no-repeat;}
+.i_data_134{background:url(../img/dataset_05.png) center top no-repeat;}
+.i_data_140{background:url(../img/dataset_06.png) center top no-repeat;}
+.i_data_141{background:url(../img/dataset_07.png) center top no-repeat;}
+.i_data_144{background:url(../img/dataset_08.png) center top no-repeat;}
+.i_data_149{background:url(../img/dataset_09.png) center top no-repeat;}

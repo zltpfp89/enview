@@ -1,0 +1,225 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0128VO" id="M0128VO.list">
+		<result property="vislRcdgMngBkNum" column="VISL_RCDG_MNG_BK_NUM"/>
+		<result property="mngBkSiNum" column="MNG_BK_SI_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="rcptDt" column="RCPT_DT"/>
+		<result property="refcPers" column="REFC_PERS"/>
+		<result property="acqsPers" column="ACQS_PERS"/>
+		<result property="tranPers" column="TRAN_PERS"/>
+		<result property="trfDt" column="TRF_DT"/>
+		<result property="mngBkComn" column="MNG_BK_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="nmKor" column="NM_KOR"/>
+		
+	</resultMap>
+ 	<select id="M0128.SJPB_VISL_RCDG_MNG_BK_DOC.selectList" resultMap="M0128VO.list">  /* M0128.SJPB_VISL_RCDG_MNG_BK_DOC.selectList */
+ 		SELECT A.VISL_RCDG_MNG_BK_NUM		
+			,A.MNG_BK_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,TO_DATE(A.RCPT_DT, 'YYYY.MM.DD') AS RCPT_DT
+			,A.REFC_PERS
+			,A.ACQS_PERS
+			,A.TRAN_PERS
+			,REPlACE(A.TRF_DT,'-','.') AS TRF_DT
+			,A.MNG_BK_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.CODE_NAME AS RLT_ACT_CRI_NM_CD_DESC   /*관련법률및죄명*/
+            ,E.NM_KOR 
+ 		FROM SJPB_VISL_RCDG_MNG_BK_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+        LEFT OUTER JOIN 
+		(
+			SELECT       
+             A1.INC_SP_NUM
+			 ,REGEXP_REPLACE(LISTAGG(A3.CODE_NAME,  ', ') WITHIN GROUP(ORDER BY A1.INC_SP_NUM), '([^,]+)(,\1)+', '\1') AS CODE_NAME  
+			FROM SJPB_INC_SP A1
+            JOIN SJPB_ACT_VIO A2 ON A1.INC_SP_NUM = A2.INC_SP_NUM AND A2.ACT_VIO_STAT_CD = '1'
+            LEFT OUTER JOIN CODEBASE A3 ON A2.RLT_ACT_CRI_NM_CD = A3.CODE AND A3.CODE_ID = 'SJPB_00012'
+            AND A1.SP_STAT_CD = '1'
+			GROUP BY A1.INC_SP_NUM
+		)  D ON A.INC_SP_NUM = D.INC_SP_NUM 
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID  
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				B.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				C.SP_NM LiKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="refcPersSc" prepend="AND">
+				A.REFC_PERS LIKE '%' || #refcPersSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="acqsPersSc" prepend="AND">
+				A.ACQS_PERS LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="tranPersSc" prepend="AND">
+				A.TRAN_PERS LIKE '%' || #tranPersSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="sTrfDtSc" prepend="AND">
+				A.TRF_DT &gt;= TO_DATE(#sTrfDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="eTrfDtSc" prepend="AND">
+				A.TRF_DT &lt;= TO_DATE(#eTrfDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="regUserNmSc" prepend="AND">
+				E.NM_KOR LIKE '%' || #regUserNmSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				B.RCPT_NUM = #rcptNumSc# OR B.PARE_RCPT_NUM = #rcptNumSc#
+			</isNotEmpty>
+		</dynamic>
+        ORDER BY REG_DATE DESC
+ 	</select>
+ 	
+	<!-- 데이터 조회 (pk 일련번호)-->
+	<select id="M0128.selectData" resultMap="M0128VO.list"> /* M0128.selectData */
+		SELECT A.VISL_RCDG_MNG_BK_NUM		
+			,A.MNG_BK_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,TO_DATE(A.RCPT_DT, 'YYYY.MM.DD') AS RCPT_DT
+			,A.REFC_PERS
+			,A.ACQS_PERS
+			,A.TRAN_PERS
+			,A.TRF_DT
+			,A.MNG_BK_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.CODE_NAME AS RLT_ACT_CRI_NM_CD_DESC   /*관련법률및죄명*/
+            ,E.NM_KOR 
+ 		FROM SJPB_VISL_RCDG_MNG_BK_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+        LEFT OUTER JOIN 
+		(
+			SELECT       
+             A1.INC_SP_NUM
+			 ,REGEXP_REPLACE(LISTAGG(A3.CODE_NAME,  ', ') WITHIN GROUP(ORDER BY A1.INC_SP_NUM), '([^,]+)(,\1)+', '\1') AS CODE_NAME  
+			FROM SJPB_INC_SP A1
+            JOIN SJPB_ACT_VIO A2 ON A1.INC_SP_NUM = A2.INC_SP_NUM AND A2.ACT_VIO_STAT_CD = '1'
+            LEFT OUTER JOIN CODEBASE A3 ON A2.RLT_ACT_CRI_NM_CD = A3.CODE AND A3.CODE_ID = 'SJPB_00012'
+            AND A1.SP_STAT_CD = '1'
+			GROUP BY A1.INC_SP_NUM
+		)  D ON A.INC_SP_NUM = D.INC_SP_NUM 
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID 
+        WHERE A.VISL_RCDG_MNG_BK_NUM = #vislRcdgMngBkNum#
+	</select>
+ 	
+ 	<!-- 데이터 추가 -->
+	<insert id="M0128.insertData"> /* M0128.insertData */
+		
+		INSERT INTO SJPB_VISL_RCDG_MNG_BK_DOC
+			(
+				VISL_RCDG_MNG_BK_NUM
+				,MNG_BK_SI_NUM
+				,RCPT_NUM
+				,INC_SP_NUM
+				,RCPT_DT
+				,REFC_PERS
+				,ACQS_PERS
+				,TRAN_PERS
+				,TRF_DT
+				,MNG_BK_COMN
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE
+			)
+		VALUES (
+				#vislRcdgMngBkNum#
+				,#mngBkSiNum#
+				,#rcptNum#
+				,#incSpNum#
+				,TO_CHAR(SYSDATE,'YYYYMMDD')
+				,#refcPers#
+				,#acqsPers#
+				,#tranPers#
+				,#trfDt#
+				,#mngBkComn#
+				,#regUserId#
+				,SYSDATE
+				,#updUserId#
+				,SYSDATE
+			)
+	</insert>
+	
+	<!-- 디지털포렌식지원업무현황 수정 -->	 		
+	<update id="M0128.updateData"> /* M0128.updateData */			
+		UPDATE SJPB_VISL_RCDG_MNG_BK_DOC
+		SET RCPT_NUM = #rcptNum#
+			,INC_SP_NUM = #incSpNum#
+			,MNG_BK_SI_NUM = #mngBkSiNum#
+			,REFC_PERS = #refcPers#
+			,ACQS_PERS = #acqsPers#
+			,TRAN_PERS = #tranPers#
+			,TRF_DT = #trfDt#
+			,MNG_BK_COMN = #mngBkComn#
+			,UPD_USER_ID = #updUserId#
+			,UPD_DATE = SYSDATE
+		WHERE VISL_RCDG_MNG_BK_NUM = #vislRcdgMngBkNum#
+	</update>
+ 	
+ 	<select id="M0128.SJPB_VISL_RCDG_MNG_BK_DOC.prnCheckReport" resultMap="M0128VO.list">  /* M0128.SJPB_VISL_RCDG_MNG_BK_DOC.prnCheckReport */
+ 		SELECT A.VISL_RCDG_MNG_BK_NUM		
+			   ,A.MNG_BK_SI_NUM
+			   ,A.RCPT_NUM
+			   ,A.INC_SP_NUM
+			   ,TO_DATE(A.RCPT_DT, 'YYYY.MM.DD') AS RCPT_DT
+			   ,A.REFC_PERS
+			   ,A.ACQS_PERS
+			   ,A.TRAN_PERS
+			   ,REPlACE(A.TRF_DT,'-','.') AS TRF_DT
+			   ,A.MNG_BK_COMN
+			   ,A.REG_USER_ID
+			   ,A.REG_DATE
+			   ,A.UPD_USER_ID
+			   ,A.UPD_DATE
+			   ,B.RCPT_INC_NUM	
+               ,C.SP_NM AS SP_NM
+               ,D.CODE_NAME AS RLT_ACT_CRI_NM_CD_DESC   /*관련법률및죄명*/
+               ,E.NM_KOR 
+ 		FROM SJPB_VISL_RCDG_MNG_BK_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+        LEFT OUTER JOIN 
+		(
+			SELECT       
+             A1.INC_SP_NUM
+			 ,REGEXP_REPLACE(LISTAGG(A3.CODE_NAME,  ', ') WITHIN GROUP(ORDER BY A1.INC_SP_NUM), '([^,]+)(,\1)+', '\1') AS CODE_NAME  
+			FROM SJPB_INC_SP A1
+            JOIN SJPB_ACT_VIO A2 ON A1.INC_SP_NUM = A2.INC_SP_NUM AND A2.ACT_VIO_STAT_CD = '1'
+            LEFT OUTER JOIN CODEBASE A3 ON A2.RLT_ACT_CRI_NM_CD = A3.CODE AND A3.CODE_ID = 'SJPB_00012'
+            AND A1.SP_STAT_CD = '1'
+			GROUP BY A1.INC_SP_NUM
+		)  D ON A.INC_SP_NUM = D.INC_SP_NUM 
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="vislRcdgMngBkNumList" prepend="AND">
+				<iterate property="vislRcdgMngBkNumList" open="A.VISL_RCDG_MNG_BK_NUM IN(" close=")" conjunction=",">
+					 #vislRcdgMngBkNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

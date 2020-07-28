@@ -1,0 +1,348 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="java.util.Iterator" %>
+
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="util" uri="/WEB-INF/tld/utility.tld" %>
+
+<%
+	request.setAttribute("cPath", request.getContextPath());
+%>
+
+<html>
+	<head>
+		<title>사건관리</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Content-style-type" content="text/css" />
+		<link rel="stylesheet" type="text/css" href="${cPath}/sjpb/css/sjpb_custom.css" />
+		<link rel="stylesheet" type="text/css" href="${cPath}/javascript/jstree/themes/default/style.min.css" />
+		
+		<script type="text/javascript" src="${cPath}/sjpb/js/Z/jquery.base64.js"></script>		
+        <script type="text/javascript" src="${cPath}/sjpb/js/B/B0101.js?r=<%=Math.random()%>"></script>
+        <script type="text/javascript" src="${cPath}/sjpb/js/B/B0102.js?r=<%=Math.random()%>"></script>
+        <script type="text/javascript" src="${cPath}/sjpb/js/B/B0103.js?r=<%=Math.random()%>"></script>
+        <script type="text/javascript" src="${cPath}/sjpb/js/B/incRecord.js?r=<%=Math.random()%>"></script>
+        
+		<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/jstree/jstree.min.js" ></script>	
+        
+        <script type="text/javascript">
+        
+        const CRI_TRF_DTA_CATG_CD = "${criTrfDtaCatgCd}"; //송치자료
+        const CRI_CMD_DTA_CATG_CD = "${criCmdDtaCatgCd}"; //수사지휘자료
+        
+        const IS_ALL_UPDATE_YN = "${isTrnsrAllUpdateYn}";	//송치관 모든 데이터 수정가능 여부 (Y, N)
+		
+        	var initRcptNumTmp = "${rcptNum}";	//진입시 선택할 rcptNum 정보 
+        	var popupYN = "${param.popupYN}";	//진입시 선택할 rcptNum 정보 
+		    
+        	
+			var uploadInitFlag = false;  //vaultUploader 업로드 호출 여부 플래그
+			function initEditActionManager() {
+				
+				//수사자료(작성서식 업로드) 초기화
+				//$("#vault_upload").html("");
+				
+				
+				if(uploadInitFlag == false){
+					uploadInitFlag = sjpbFile.init(); //vaultUploader 업로드 호출이 안되어있을시에만 업로드 모듈 초기화
+				}
+				
+				//탭 눌렀을때 그리기 
+				//fn_drawTree();
+				//$("#text").off("keyup").on("keyup",function(){
+				//	var searchString = $(this).val();
+		        //    $('#deptTree').jstree('search', searchString);
+				//});
+			}
+			
+			$(document).ready(function(){
+
+	        	initEditActionManager();
+	        	
+	        	//달력이벤트
+	        	$(".datepicker").datepicker({
+	        		  dateFormat: "yy-mm-dd" ,
+	        		  changeMonth: true, // 월을 바꿀수 있는 셀렉트 박스를 표시한다.
+	        		  changeYear: true,
+	        		  showButtonPanel: true,
+	        		  currentText: '오늘 날짜'
+	        	});	
+	        });
+	
+			function isDefined(str)	{				
+			    var isResult = false;
+			    var str_temp = str + "";
+			    str_temp = str_temp.replace(" ", "");
+			    
+			    if(str_temp != "undefined" && str_temp != "" && str_temp != "null")
+			    {
+			        isResult = true;
+			    }
+			     
+			    return isResult;
+			}
+
+			function fn_drawTree(text) {
+				var param = !isDefined(text) ? {} : { text : text};
+				
+				$("#deptTree").jstree('destroy');
+				$('#deptTree').jstree({
+					'core' : {
+						'data' : {
+							"url" : "${cPath }/sjpb/Z/selectDocTree.face",
+							"dataType" : "json",
+							"type" : "post",
+							"data" : param
+						},
+						"multiple" : false,
+						"animation" : 0,
+						"check_callback" : true
+					},"search": {
+			            "case_insensitive": true,
+			            "show_only_matches" : true
+			        },
+				    "plugins": ["search"]
+				}).on("select_node.jstree", function (e, data) {	
+					
+					if ($('#deptTree').jstree().get_selected(true)[0].children == 0) {
+				   		
+				   		$("#tpltFileTp").html($('#deptTree').jstree().get_selected(true)[0].original.text);
+				   		$("#tpltFileNm").html($('#deptTree').jstree().get_selected(true)[0].original.title);
+				   		$("#tpltFileLk1,#tpltFileLk2").attr("href", $('#deptTree').jstree().get_selected(true)[0].original.url);
+				   		
+				   		$("#tpltTD").show();				   		
+					} else {
+						$("#tpltTD").hide();
+					}
+										
+				}).on('loaded.jstree', function (event, data) {
+					$("#deptTree").jstree('open_all');
+				});
+			}
+			
+			function fn_searchTree() {				
+				if ($("#text").val() == null || $("#text").val() == "") {
+					alert("서식명을 입력하십시오.");
+					return;
+				}
+				 $('#deptTree').jstree('search', $("#text").val());
+			}
+		   	$(document).ready(function () {
+		   		fn_drawTree();
+		   	  	$("#text").keyup(function() {
+		   	  		var searchString = $(this).val();
+		           $('#deptTree').jstree('search', searchString);
+		     	 });
+		  
+		   	});
+		   	
+		   	function setDocHeight(contentHeight) {	
+
+			   	var thisHeight =  document.body.scrollHeight;
+			   	var iframes = document.getElementsByTagName("iframe");
+				for( var i =0; i < iframes.length;i++ ) {
+					if( iframes[i].id.indexOf("docMngframe") > -1) {
+						B0101AutoResize( iframes[i], contentHeight,thisHeight );
+					}
+				}
+			   	
+		   	}
+		   	
+		   	function B0101AutoResize(arg,contentHeight,thisHeight ){
+		   		if (contentHeight <700){
+		   			contentHeight =700;
+		   		}
+				arg.style.height = contentHeight+ "px";
+				
+				//개발페이지를 위해서 try catch
+				//안하면 개발페이지 문서관리에서 사건쪽에서 접근 여부 판단 불가 (ex.모든 사건 데이터노출)
+				try{
+					parent.autoresize_iframe_portlet();
+				}catch(e){
+				}
+		   		
+		   	}
+		   	
+		   	/*
+		   	function docIframeResize(obj){
+		   		//개발페이지를 위해서 try catch
+				try{
+					parent.iframe_heightResize(obj);
+				}catch(e){
+				}
+		   	}
+		   	*/
+
+		   </script>	
+        
+	</head>
+	<body class="iframe">
+	
+		<!-- report -->
+		<form name="reportForm" method="post">
+			<input type="hidden" id="reptNm" name="reptNm" value="" />
+			<input type="hidden" id="xmlData" name="xmlData" value="" />
+		</form>
+	
+		<form name="contentsFormData" id="contentsFormData">
+			<input type="hidden" id="userId" name="userId" value="${userInfo.userId}" />   <!-- 사용자계정 -->
+			<input type="hidden" id="userName" name="userName" value="${userInfo.userName}" />  <!-- 사용자이름 -->
+			<input type="hidden" id="orgCd" name="orgCd" value="${userInfo.orgCd}" />   <!-- 수사팀코드 -->
+			<input type="hidden" id="kindCd" name="kindCd" value="${userInfo.kindCd}" />  <!-- 수사단원구분 01:수사관 02:팀장 03:과장 -->	
+			<input type="hidden" id="todayDateYmd" name="todayDateYmd" value="${todayDateYmd}" />  <!-- 오늘날짜 yyyymmdd -->
+		</form>
+		
+		<!-- 피의자 이력 비교 팝업 -->
+		<form id="spHistPopForm" name="spHistPopForm">
+			<input type="hidden" id="incMfNum" name="incMfNum" value="" />	<!-- 사건수정번호 -->	   
+			<input type="hidden" id="rcptNum" name="rcptNum" value="" />	<!-- 사건수정번호 -->	   
+		</form>
+	
+	
+	   <!-- searchArea -->
+	   <div class="searchArea" id="searchArea">
+		   <ul>
+		   	  <li><span class="title">연도</span>
+				   <div class="inputbox w65per">
+					   <p class="txt"></p>
+					   <select id="yearSc" name="yearSc">
+					   		<option value="">전체</option>
+					   		<c:forEach items="${yearScList}" var="year" varStatus="status">
+					   			<c:choose>
+					   				<c:when test="${year == yearSc && isSetCurYear}">
+					   					<option value="${year}" selected="selected">${year} 년</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${year}">${year} 년</option>
+									</c:otherwise> 
+					   			</c:choose>
+							</c:forEach>
+					   </select>
+				   </div>
+			   </li>
+<!-- 			   <li><span class="title">분야</span> -->
+<!-- 				   <div class="inputbox w65per"> -->
+<!-- 					   <p class="txt"></p> -->
+<!-- 					   <select id="fdCdSc" name="fdCdSc"> -->
+<!-- 							<option value="">전체</option> -->
+<%-- 							<c:forEach items="${fdKndList}" var="fd" varStatus="status"> --%>
+<%-- 								<option value="${fd.code}">${fd.codeName}</option> --%>
+<%-- 							</c:forEach> --%>
+<!-- 					   </select> -->
+<!-- 				   </div> -->
+<!-- 			   </li> -->
+			   <li><span class="title">수사팀</span>
+				   <div class="inputbox w65per">
+					   <p class="txt"></p>
+					   <select id="criTmSc" name="criTmSc">
+						   <option value="">전체</option>
+							<c:forEach items="${criTmList}" var="criTm" varStatus="status">
+								<%--<c:choose>
+									 참조수사관으로 속해있을 수도 있으므로, 검색시에는 모든 부서 노출함 --%>
+									<%-- 수사관일경우, 본인이 속한 부서만 보여준다. 
+									<c:when test="${userInfo.kindCd == '01'}">
+										<c:choose>
+											<c:when test="${userInfo.orgCd == criTm.criTmId}">
+												<option value="${criTm.criTmId}">${criTm.criTmNm}</option>
+											</c:when>
+											<c:otherwise>
+											</c:otherwise>
+										</c:choose>
+									</c:when>
+									--%>
+									<%-- 수사관이 아닐경우, 모든 부서를 보여준다. 
+									<c:otherwise>
+										<option value="${criTm.criTmId}">${criTm.criTmNm}</option>
+									</c:otherwise> 
+									
+									
+								</c:choose>--%>
+								<option value="${criTm.criTmId}">${criTm.criTmNm}</option>
+							</c:forEach>
+					   </select>
+				   </div>
+			   </li>
+			   <li><span class="title">담당수사관</span>
+				   <label for="criMbNmSc"></label><input type="text" class="w65per" id="criMbNmSc" name="criMbNmSc" />
+			   </li>
+			   <li><span class="title">사건번호</span>
+				   <label for="rcptIncNumSc"></label><input type="text" class="w65per" id="rcptIncNumSc" name="rcptIncNumSc" value="${incNumSc}" />
+			   </li>
+			   <li><span class="title">상태</span>
+				   <div class="inputbox w65per">
+					   <p class="txt"></p>
+					   <select id="criStatSc" name="criStatSc">
+						   <option value="">전체</option>
+							<c:forEach items="${criStatKndList}" var="criStat" varStatus="status">
+								<c:if test="${criStat.code >= '20'}">
+									<option value="${criStat.code}">${criStat.codeName}</option>
+								</c:if>
+							</c:forEach>
+					   </select>
+				   </div>
+			   </li>
+<!-- 			   <li><span class="title">발각형태</span> -->
+<!-- 				   <div class="inputbox w65per"> -->
+<!-- 					   <p class="txt"></p> -->
+<!-- 					   <select id="dvFormSc" name="dvFormSc"> -->
+<!-- 						   <option value="">전체</option> -->
+<%-- 							<c:forEach items="${dvFormKndList}" var="dvForm" varStatus="status"> --%>
+<%-- 								<option value="${dvForm.code}">${dvForm.codeName}</option> --%>
+<%-- 							</c:forEach> --%>
+<!-- 					   </select> -->
+<!-- 				   </div> -->
+<!-- 			   </li> -->
+			   
+			   <li><span class="title">송치번호</span>
+				   <label for="trfNumSc"></label><input type="text" class="w65per" id="trfNumSc" name="trfNumSc" />
+			   </li>
+			   
+			   <li><span class="title">피의자</span>
+				   <label for="spNmSc"></label><input type="text" class="w65per" id="spNmSc" name="spNmSc" />
+			   </li>
+			   
+			   <li><span class="title">위반법률</span>
+				   <div class="inputbox w65per">
+					   <p class="txt"></p>
+					   <select id="rltActCriNmSc" name="rltActCriNmSc">
+						   <option value="">전체</option>
+							<c:forEach items="${rltActCriNmKndList}" var="rltActCriNm" varStatus="status">
+								<option value="${rltActCriNm.code}">${rltActCriNm.codeName}</option>
+							</c:forEach>
+					   </select>
+				</div>
+			   </li>
+			   <li><span class="title">위반내용</span>
+				   <label for="vioContSc"></label><input type="text" class="w65per" id="vioContSc" name="vioContSc" />
+			   </li>   
+		   </ul>
+			<div class="searchbtn">
+				<a href="javascript:initSearchData();" class="btn_white"><span>초기화</span></a>
+				<a href="javascript:selectList();" class="btn_blue"><span>검색</span></a>
+				<a href="javascript:void(0);" id="exceldownIncPrnBtn" class="btn_white excel" style="display:none;"><span>엑셀다운로드</span></a>
+			</div>
+	   </div>
+	   <!-- searchArea //-->
+	   <!-- listArea -->
+	   <div id="sheet" class="listArea area-mousewheel" style="height: 300px; width: 100%">
+		   
+		   
+	   </div>
+	   <!-- listArea //-->
+	   <!-- btnArea -->
+	   <div class="btnArea">
+		   <div class="r_btn">
+		   		
+		   		<a href="javascript:selectIncidentPopupA();" class="btn_white"><span>사건정보</span></a>
+		   		<a href="javascript:selectIncidentPopupNew();" id="insertIncMastViewBtn" class="btn_white"><span>사건등록</span></a>
+<!-- 		   		<a href="javascript:unCombIncMastChkBox();" id="unCombIncMastBtn" class="btn_white"><span>사건분리</span></a> -->
+<!-- 		   		<a href="javascript:combIncMast();" id="combIncMastBtn" class="btn_blue"><span>사건병합</span></a> -->
+		   	</div>
+<!-- 		   <div class="l_btn"><a href="javascript:void(0);" id="toggleCriBtn" class="btn_blue"><span>리스트 접기</span></a></div> -->
+	   </div>
+	   <!-- btnArea //-->
+	</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0119VO" id="M0119VO.list">
+		<result property="emgyCmctNotcSendNum" column="EMGY_CMCT_NOTC_SEND_NUM"/>
+		<result property="emgyCmctSiNum" column="EMGY_CMCT_SI_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="rstrActnTrgtPers" column="RSTR_ACTN_TRGT_PERS"/>
+		<result property="rstrActnTrgtPi" column="RSTR_ACTN_TRGT_PI"/>
+		<result property="rstrActnTrgtPiBeDt" column="RSTR_ACTN_TRGT_PI_BE_DT"/>
+		<result property="rstrActnTrgtPiEdDt" column="RSTR_ACTN_TRGT_PI_ED_DT"/>
+		<result property="notcFillPersPosi" column="NOTC_FILL_PERS_POSI"/>
+		<result property="notcFillPersNm" column="NOTC_FILL_PERS_NM"/>
+		<result property="notcSendDt" column="NOTC_SEND_DT"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+				
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="nmKor" column="NM_KOR"/>
+
+	</resultMap>
+ 	<select id="M0119.selectList" resultMap="M0119VO.list">  /* M0119.selectList */
+ 		SELECT 
+ 			A.EMGY_CMCT_NOTC_SEND_NUM
+			,A.EMGY_CMCT_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.RSTR_ACTN_TRGT_PERS
+			,TO_DATE(A.RSTR_ACTN_TRGT_PI_BE_DT, 'YYYY.MM.DD') || ' ~ ' || TO_DATE(A.RSTR_ACTN_TRGT_PI_ED_DT, 'YYYY.MM.DD') AS RSTR_ACTN_TRGT_PI
+			,TO_DATE(A.RSTR_ACTN_TRGT_PI_BE_DT, 'YYYY.MM.DD') AS RSTR_ACTN_TRGT_PI_BE_DT
+			,TO_DATE(A.RSTR_ACTN_TRGT_PI_ED_DT, 'YYYY.MM.DD') AS RSTR_ACTN_TRGT_PI_ED_DT
+			,A.NOTC_FILL_PERS_POSI
+			,A.NOTC_FILL_PERS_NM
+			,TO_DATE(A.NOTC_SEND_DT, 'YYYY.MM.DD') AS NOTC_SEND_DT
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            , C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_EMGY_CMCT_NOTC_SEND_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="emgyCmctSiNumSc" prepend="AND">
+				A.EMGY_CMCT_SI_NUM = #notcBkSiNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				B.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				B.RCPT_NUM = #rcptNumSc# OR B.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				C.SP_NM LIKE '%' || #spNmSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="notcFillPersNmSc" prepend="AND">
+				A.NOTC_FILL_PERS_NM LIKE '%' || #notcFillPersNmSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="sNotcSendDtSc" prepend="AND">
+				A.NOTC_SEND_DT &gt;= TO_DATE(#sNotcSendDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="eNotcSendDtSc" prepend="AND">
+				A.NOTC_SEND_DT &lt;= TO_DATE(#eNotcSendDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="regUserNmSc" prepend="AND">
+				D.NM_KOR LIKE '%' || #regUserNmSc# || '%' 
+			</isNotEmpty>
+		</dynamic>
+        ORDER BY REG_DATE DESC
+ 	</select>
+ 	
+	<!-- 데이터 조회 (pk 일련번호)-->
+	<select id="M0119.selectData" resultMap="M0119VO.list"> /* M0119.selectData */
+		SELECT 
+			A.EMGY_CMCT_NOTC_SEND_NUM
+			,A.EMGY_CMCT_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.RSTR_ACTN_TRGT_PERS
+			,TO_DATE(A.RSTR_ACTN_TRGT_PI_BE_DT, 'YYYY.MM.DD') || ' - ' || TO_DATE(A.RSTR_ACTN_TRGT_PI_ED_DT, 'YYYY.MM.DD') AS RSTR_ACTN_TRGT_PI
+			,TO_DATE(A.RSTR_ACTN_TRGT_PI_BE_DT, 'YYYY.MM.DD') AS RSTR_ACTN_TRGT_PI_BE_DT
+			,TO_DATE(A.RSTR_ACTN_TRGT_PI_ED_DT, 'YYYY.MM.DD') AS RSTR_ACTN_TRGT_PI_ED_DT
+			,A.NOTC_FILL_PERS_POSI
+			,A.NOTC_FILL_PERS_NM
+			,TO_DATE(A.NOTC_SEND_DT, 'YYYY.MM.DD') AS NOTC_SEND_DT
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            , C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_EMGY_CMCT_NOTC_SEND_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		WHERE A.EMGY_CMCT_NOTC_SEND_NUM = #emgyCmctNotcSendNum#
+	</select>
+ 	
+ 	<!-- 데이터 추가 -->
+	<insert id="M0119.insertData"> /* M0119.insertData */
+		INSERT INTO SJPB_EMGY_CMCT_NOTC_SEND_DOC
+			(
+				EMGY_CMCT_NOTC_SEND_NUM
+				,EMGY_CMCT_SI_NUM
+				,RCPT_NUM
+				,INC_SP_NUM
+				,RSTR_ACTN_TRGT_PERS
+				,RSTR_ACTN_TRGT_PI_BE_DT
+				,RSTR_ACTN_TRGT_PI_ED_DT
+				,NOTC_FILL_PERS_POSI
+				,NOTC_FILL_PERS_NM
+				,NOTC_SEND_DT
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE
+			)
+		VALUES (
+				#emgyCmctNotcSendNum#
+				,#emgyCmctSiNum#
+				,#rcptNum#
+				,#incSpNum#
+				,#rstrActnTrgtPers#
+				,#rstrActnTrgtPiBeDt#
+				,#rstrActnTrgtPiEdDt#
+				,#notcFillPersPosi#
+				,#notcFillPersNm#
+				,#notcSendDt#
+				,#regUserId#
+				,SYSDATE
+				,#updUserId#
+				,SYSDATE
+			)
+	</insert>
+	
+	<!-- 데이터 수정 -->	 		
+	<update id="M0119.updateData"> /* M0119.updateData */	
+		UPDATE SJPB_EMGY_CMCT_NOTC_SEND_DOC
+			SET	RCPT_NUM = #rcptNum#
+				,INC_SP_NUM = #incSpNum#
+				,EMGY_CMCT_SI_NUM = #emgyCmctSiNum#
+				,RSTR_ACTN_TRGT_PERS = #rstrActnTrgtPers#
+				,RSTR_ACTN_TRGT_PI_BE_DT = #rstrActnTrgtPiBeDt#
+				,RSTR_ACTN_TRGT_PI_ED_DT = #rstrActnTrgtPiEdDt#
+				,NOTC_FILL_PERS_POSI = #notcFillPersPosi#
+				,NOTC_FILL_PERS_NM = #notcFillPersNm#
+				,NOTC_SEND_DT = #notcSendDt#
+				,UPD_USER_ID = #updUserId#
+				,UPD_DATE = SYSDATE
+			WHERE EMGY_CMCT_NOTC_SEND_NUM = #emgyCmctNotcSendNum#
+	</update>
+ 	
+ 	<select id="M0119.SJPB_EMGY_CMCT_NOTC_SEND_DOC.prnCheckReport" resultMap="M0119VO.list">  /* M0119.SJPB_EMGY_CMCT_NOTC_SEND_DOC.prnCheckReport */
+ 		SELECT 
+ 			A.EMGY_CMCT_NOTC_SEND_NUM
+			,A.EMGY_CMCT_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.RSTR_ACTN_TRGT_PERS
+			,TO_DATE(A.RSTR_ACTN_TRGT_PI_BE_DT, 'YYYY.MM.DD') || ' ~ ' || TO_DATE(A.RSTR_ACTN_TRGT_PI_ED_DT, 'YYYY.MM.DD') AS RSTR_ACTN_TRGT_PI
+			,TO_DATE(A.RSTR_ACTN_TRGT_PI_BE_DT, 'YYYY.MM.DD') AS RSTR_ACTN_TRGT_PI_BE_DT
+			,TO_DATE(A.RSTR_ACTN_TRGT_PI_ED_DT, 'YYYY.MM.DD') AS RSTR_ACTN_TRGT_PI_ED_DT
+			,A.NOTC_FILL_PERS_POSI
+			,A.NOTC_FILL_PERS_NM
+			,TO_DATE(A.NOTC_SEND_DT, 'YYYY.MM.DD') AS NOTC_SEND_DT
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_EMGY_CMCT_NOTC_SEND_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="emgyCmctNotcSendNumList" prepend="AND">
+				<iterate property="emgyCmctNotcSendNumList" open="A.EMGY_CMCT_NOTC_SEND_NUM IN(" close=")" conjunction=",">
+					 #emgyCmctNotcSendNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

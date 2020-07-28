@@ -1,0 +1,164 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ DOMAIN_PRINCIPAL : 도메인 사용자 ] Table -->
+	<resultMap id="admin_DomainPrincipalVO_PK" class="com.saltware.enview.admin.domain.service.DomainPrincipalPK">
+	
+		<result property="domainId" column="DOMAIN_ID" columnIndex="1"/>	
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="2"/>	
+	</resultMap>
+	
+	<resultMap id="admin_DomainPrincipalVO" class="com.saltware.enview.admin.domain.service.DomainPrincipalVO">
+		<result property="domainId" column="DOMAIN_ID" columnIndex="1"/>	 
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="2"/>	 
+		<result property="theme" column="THEME" columnIndex="3"/>	 
+		<result property="defaultPage" column="DEFAULT_PAGE" columnIndex="4"/>
+		<result property="subPage" column="SUB_PAGE" columnIndex="5"/>	
+		<result property="domain" column="DOMAIN" columnIndex="6"/>
+		<result property="principal" column="SHORT_PATH" columnIndex="7"/>
+		<result property="userName" column="PRINCIPAL_NAME" columnIndex="8"/>
+	</resultMap>
+	
+			
+	<select id="domainPrincipal.totalCount" resultClass="int">
+	/* domainPrincipal.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM DOMAIN_PRINCIPAL a
+		JOIN SECURITY_PRINCIPAL b ON a.principal_id = b.principal_id
+		WHERE 1=1	
+		<isNotEqual prepend=" AND " property="domainId" compareValue="0"> a.DOMAIN_ID=CAST(#domainId# AS INTEGER)</isNotEqual>
+		<isNotNull prepend=" AND " property="titleCond">( b.short_path like '%' || #titleCond# || '%' OR PRINCIPAL_NAME LIKE '%' || #titleCond# ||'%' )</isNotNull>
+	</select>
+	
+	<select id="domainPrincipal.findByPage" resultMap="admin_DomainPrincipalVO_PK">
+	/* domainPrincipal.findByPage */
+		SELECT * FROM (
+			SELECT a.DOMAIN_ID,a.PRINCIPAL_ID, ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY a.PRINCIPAL_ID ASC</isNull>
+			) as rnum
+			FROM DOMAIN_PRINCIPAL a, SECURITY_PRINCIPAL b
+			WHERE a.DOMAIN_ID=CAST(#domainId# AS INTEGER) AND a.PRINCIPAL_ID = b.PRINCIPAL_ID
+			<isNotNull prepend=" AND " property="titleCond">( b.short_path like '%' || #titleCond# || '%' OR PRINCIPAL_NAME LIKE '%' || #titleCond# ||'%' )</isNotNull>	
+		) t1 WHERE t1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="domainPrincipal.findAll" resultMap="admin_DomainPrincipalVO_PK">
+			SELECT DOMAIN_ID,PRINCIPAL_ID
+			FROM DOMAIN_PRINCIPAL
+	</select>
+	
+	<select id="domainPrincipal.findByMaster" resultMap="admin_DomainPrincipalVO_PK">
+			SELECT DOMAIN_ID,PRINCIPAL_ID
+			FROM DOMAIN_PRINCIPAL
+			WHERE 1=1 
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+		
+	</select>
+	
+
+	<select id="domainPrincipal.detail" resultMap="admin_DomainPrincipalVO">
+
+<!--   <![CDATA[
+			SELECT a.DOMAIN_ID, a.PRINCIPAL_ID, a.THEME, a.DEFAULT_PAGE, b.DOMAIN, c.SHORT_PATH
+			FROM DOMAIN_PRINCIPAL a, DOMAIN b, SECURITY_PRINCIPAL c
+			WHERE 1=1 
+			AND a.DOMAIN_ID=CAST(#domainId# AS INTEGER)  AND b.DOMAIN_ID=CAST(#domainId# AS INTEGER)
+			AND a.PRINCIPAL_ID=CAST(#principalId# AS INTEGER) AND c.PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+		]]> -->
+
+			SELECT a.DOMAIN_ID, a.PRINCIPAL_ID, a.THEME, a.DEFAULT_PAGE, a.SUB_PAGE, b.DOMAIN, c.SHORT_PATH, c.PRINCIPAL_NAME
+			FROM  DOMAIN_PRINCIPAL a
+			JOIN  DOMAIN b ON b.DOMAIN_ID=a.DOMAIN_ID
+            JOIN  SECURITY_PRINCIPAL c ON c.PRINCIPAL_ID=a.PRINCIPAL_ID
+            WHERE a.DOMAIN_ID=CAST(#domainId# AS INTEGER) AND a.PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+	</select>
+	
+	<select id="domainPrincipal.exist" resultClass="int">
+			SELECT COUNT(*) cnt
+			FROM DOMAIN_PRINCIPAL
+			WHERE 1=1 
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+				AND PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+	</select>
+	
+	
+	<insert id="domainPrincipal.insert">
+		<![CDATA[
+			INSERT INTO DOMAIN_PRINCIPAL
+				( DOMAIN_ID,PRINCIPAL_ID,THEME,DEFAULT_PAGE,SUB_PAGE,MODIFY_MENU )
+			VALUES ( CAST(#domainId# AS INTEGER),CAST(#principalId# AS INTEGER),#theme#,#defaultPage#,#subPage#,#modifyMenu# )
+		]]>
+	</insert>
+	
+	<update id="domainPrincipal.update">
+		<![CDATA[
+			UPDATE DOMAIN_PRINCIPAL
+			SET THEME=#theme#,DEFAULT_PAGE=#defaultPage#,SUB_PAGE=#subPage#
+			WHERE 1=1 
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+				AND PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+		]]>
+	</update>
+	
+	<update id="domainPrincipal.updateDefaultPage">
+		    UPDATE DOMAIN_PRINCIPAL
+		    SET DEFAULT_PAGE=#newDefaultPage#
+			WHERE 1=1 
+			AND DEFAULT_PAGE=#oldDefaultPage#
+	</update>
+	
+	<update id="domainPrincipal.updateSubPage"> /* domainPrincipal.updateSubPage */
+		    UPDATE DOMAIN_PRINCIPAL
+		    SET SUB_PAGE=#newSubPage#
+			WHERE 1=1 
+			AND SUB_PAGE=#oldSubPage#
+	</update>	
+	
+	<update id="domainPrincipal.updateModifyMenu">
+		/* domainPrincipal.updateModifyMenu */
+		UPDATE DOMAIN_PRINCIPAL
+		SET MODIFY_MENU=#modifyMenu#
+		WHERE 1=1
+		<isGreaterEqual prepend=" AND " compareValue="1" property="domainId" >
+			DOMAIN_ID=CAST(#domainId# AS INTEGER) 
+		</isGreaterEqual>
+		<isEqual  prepend=" AND " property="principalType" compareValue="U">
+			PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+		</isEqual>
+		<isEqual  prepend=" AND " property="principalType" compareValue="G">
+			PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_GROUP WHERE GROUP_ID =CAST(#principalId# AS INTEGER))
+		</isEqual>
+		<isEqual prepend=" AND " property="principalType" compareValue="R">
+		<isEmpty property="roles">
+			(
+				PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID=CAST(#principalId# AS INTEGER))
+				OR PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_GROUP WHERE GROUP_ID IN (SELECT GROUP_ID FROM SECURITY_GROUP_ROLE WHERE ROLE_ID=CAST(#principalId# AS INTEGER)) )
+			)
+		</isEmpty>
+		<isNotEmpty property="roles">
+			(
+				PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID IN ( $roles$ ))
+				OR PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_GROUP WHERE GROUP_ID IN (SELECT GROUP_ID FROM SECURITY_GROUP_ROLE WHERE ROLE_ID IN ( $roles$)))
+			)
+		</isNotEmpty>	
+		</isEqual>
+	</update>
+	
+	<delete id="domainPrincipal.delete">
+		DELETE FROM DOMAIN_PRINCIPAL
+		WHERE 1=1 
+			AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+			AND PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+	</delete>
+	
+	<delete id="domainPrincipal.deleteChildren">
+		DELETE FROM DOMAIN_PRINCIPAL
+		WHERE 1=1 
+			AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+	</delete>
+</sqlMap>
+

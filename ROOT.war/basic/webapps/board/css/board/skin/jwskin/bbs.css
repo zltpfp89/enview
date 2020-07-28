@@ -1,0 +1,190 @@
+body {
+	margin-left: 0px;margin-top: 0px;margin-right:0px;margin-bottom: 0px;background-image: url();font-family: "굴림";font-size: 9pt;color: #666666;
+scrollbar-3dlight-color: Gray;
+scrollbar-highlight-color: AliceBlue;
+scrollbar-face-color: AliceBlue;
+scrollbar-arrow-color: Gray;
+scrollbar-shadow-color: Gray;
+scrollbar-darkshadow-color: AliceBlue;
+scrollbar-track-color: White;
+color: Gray;
+}
+.body_c {
+	margin-left: 11px;margin-top: 0px;margin-right:0px;margin-bottom: 0px;background-image: url();font-family: "굴림";font-size: 9pt;color: #666666;
+scrollbar-3dlight-color: Gray;
+scrollbar-highlight-color: AliceBlue;
+scrollbar-face-color: AliceBlue;
+scrollbar-arrow-color: Gray;
+scrollbar-shadow-color: Gray;
+scrollbar-darkshadow-color: AliceBlue;
+scrollbar-track-color: #F0F0F0;
+color: Gray;
+}
+.login_border {
+	font-family: "굴림";font-size: 10pt;color: #3F5A82;text-decoration: none;border: 2px solid #8098b8;background-color: #CDD7E2;
+}
+.menu_left {
+	font-family: "굴림";font-size: 9pt;color: #666666;padding-left: 28px;
+}
+.location {
+	font-family: "굴림";font-size: 9pt;color: #999999;text-decoration: none;padding-right: 10px;padding-bottom: 10px;
+}
+.form_s_blue {
+	font-family: "굴림";
+	font-size: 9pt;
+	color: #336A8E;
+	background-color: #D2DFEE;
+	border: 2px solid #96B5D8;
+}
+
+.c_title {
+	font-family: "굴림";
+	font-size: 10pt;
+	font-weight: bold;
+	color: #17557e;
+	padding-bottom: 10px;
+}
+.c_s_title {
+	font-family: "굴림";
+	font-size: 9pt;
+	font-weight: bold;
+	color: #336a8e;
+	text-decoration: none;
+}
+
+.login_info {
+	font-family: "굴림";font-size: 9pt;color: #1B5670;padding-left: 60px;
+}
+.border_search {
+	font-family: "굴림";
+	font-size: 9pt;
+	color: #254B76;
+	border: 2px solid #96B5D8;
+}
+.table_title {
+	font-family: "굴림";
+	font-size: 9pt;
+	color: #50140C;
+	text-align: center;
+}
+.table_line_l {
+	font-family: "굴림";
+	font-size: 9pt;
+	color: #50140C;
+	text-align: center;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #dbdee7;
+}
+.table_line_r {
+	font-family: "굴림";
+	font-size: 9pt;
+	color: #50140C;
+	text-align: center;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #dbdee7;
+}
+.table_title_l {
+	font-family: "굴림";
+	font-size: 9pt;
+	color: #50140C;
+	text-align: left;
+	padding-left: 20px;
+}
+.table_title_r {
+	font-family: "굴림";
+	font-size: 9pt;
+	color: #50140C;
+	text-align: right;
+	padding-right: 5px;
+}
+
+.form_gray {
+	font-family: "굴림";
+	font-size: 9pt;
+	color: #666666;
+	text-decoration: none;
+	border: 1px solid #C3C3C3;
+	
+}
+
+.btext {
+	font-family: "굴림";
+	font-size: 9pt;
+	line-height: 20px;
+	color: #666666;
+}
+.table_list_c {
+	font-family: "굴림";
+	font-size: 9pt;
+	line-height: 21px;
+	color: #666666;
+	text-align: center;
+}
+.table_list_l {
+	font-family: "굴림";
+	font-size: 9pt;
+	line-height: 21px;
+	color: #666666;
+	text-align: left;
+	padding-left: 5px;
+}
+.table_list_r {
+	font-family: "굴림";
+	font-size: 9pt;
+	line-height: 21px;
+	color: #666666;
+	text-align: right;
+	padding-right: 5px;
+}
+a:link {
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: none;
+}
+a:active {
+	text-decoration: none;
+}
+.board_num {
+	font-family: "굴림";
+	font-size: 9pt;
+	color: #666666;
+	text-decoration: none;
+}
+.gab_5 {
+	padding: 5px;
+}
+.gab_3 {
+	padding: 3px;
+}
+.main_date {
+	font-family: "굴림";
+	font-size: 9pt;
+	color: #3366FF;
+}
+.table_list_st {
+	font-family: "굴림";
+	font-size: 9pt;
+	color: #333333;
+	padding-left: 20px;
+	line-height: 25px;
+	background-color: #F7F7F7;
+}
+.border_ga {
+	border: 1px solid #babfd2;
+}
+.content_text {
+	font-family: "굴림";
+	font-size: 9pt;
+	line-height: 20px;
+	color: #666666;
+	padding: 10px;
+}
+.content_text  P {MARGIN-TOP: 1px; MARGIN-BOTTOM: 1px}
+.content_text  TD {FONT-SIZE: 10pt}
+.content_text  BLOCKQUOTE {MARGIN-TOP: 1px; MARGIN-BOTTOM: 1px}

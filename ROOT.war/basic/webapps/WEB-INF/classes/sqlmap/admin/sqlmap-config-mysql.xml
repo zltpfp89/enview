@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+	
+<sqlMapConfig>
+	<sqlMap resource="sqlmap/admin/mysql/User-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/Userpass-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/Credential-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/UserGroup-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/UserRole-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/Group-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/GroupRole-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/GpsManager-sql.xml"/>
+	<sqlMap resource="sqlmap/admin/mysql/Role-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/SecurityPermission-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/SecurityPolicy-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/Page-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/PageMetadata-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/PageComponent-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/PushManager-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/Fragment-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/FragmentPreference-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/ThemeMapping-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/Codebase-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/Notice-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/NoticeMetadata-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/Lang-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/SessionData-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/PageStatistics-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/PortletService-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/UserStatistics-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/Capability-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/Client-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/Mimetype-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/MediaType-sql.xml"/>
+	<sqlMap resource="sqlmap/admin/mysql/BatchSchedule-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/BatchAction-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/BatchResult-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/Configuration-sql.xml"/>
+	<sqlMap resource="sqlmap/admin/mysql/Domain-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/DomainLang-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/DomainPrincipal-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/DomainPortlet-sql.xml"/>
+	<sqlMap resource="sqlmap/admin/mysql/UserPreference-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mysql/AttachFile-sql.xml"/> 
+</sqlMapConfig>

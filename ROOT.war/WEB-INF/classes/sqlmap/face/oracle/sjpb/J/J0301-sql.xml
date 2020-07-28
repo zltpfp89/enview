@@ -1,0 +1,657 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+ 
+	<resultMap class="com.saltware.enface.sjpb.J.service.J0101VO" id="J0101VO.J0301">
+		<result property="sort" column="SORT"/>
+		<result property="prsct" column="PRSCT"/>
+		<result property="prsAccus" column="PRS_ACCUS"/>
+		<result property="prsPapst" column="PRS_PAPST"/>
+		<result property="invst" column="INVST"/>
+		<result property="invstAccus" column="INVST_ACCUS"/>
+		<result property="invstPapst" column="INVST_PAPST"/>
+		<result property="cmnd" column="CMND"/>
+		<result property="cmndAccus" column="CMND_ACCUS"/>
+		<result property="cmndPapst" column="CMND_PAPST"/>
+		<result property="trsPer" column="TRS_PER"/>
+		<result property="trs" column="TRS"/>
+		<result property="trsAccus" column="TRS_ACCUS"/>
+		<result property="trsPapst" column="TRS_PAPST"/>
+		<result property="preTrsPer" column="PRE_TRS_PER"/>
+	</resultMap>
+	 
+	 <!-- 년도별 수사현황(인지/고발) -->
+	 <select id="J0301.J0301List" resultMap="J0101VO.J0301">  /* J0301.J0301List */
+	 	SELECT A.*
+			   ,DECODE(A.PRSCT,0,0,ROUND(((A.TRS/A.PRSCT)*100),1)) AS TRS_PER  /* 송치율 */ 
+			   ,DECODE(A.PRSCT,0,0,ROUND(((A.TRS+A.CMND)*100/A.PRSCT),1)) AS PRE_TRS_PER  /* 예상_송치율 */
+		FROM (
+				SELECT DECODE(SUBSTR(C.RCPT_INC_NUM,1,4),NULL,'전체',SUBSTR(C.RCPT_INC_NUM,1,4)) AS SORT
+				       ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2'
+				           			<isNotEmpty property="regStart">
+										<isNotEmpty property="regEnd">
+											AND TO_CHAR(C.BE_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+										</isNotEmpty>
+									</isNotEmpty> 
+				           			THEN '1' ELSE '0' END),0) AS PRSCT /* 입건 */
+			           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.DV_FORM = '02' AND C.RCPT_TP_CD ='2' 
+			           			THEN '1' ELSE '0' END),0) AS PRS_ACCUS /* 입건_고발 */ 
+			           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.DV_FORM = '01' AND C.RCPT_TP_CD ='2' THEN '1' ELSE '0' END),0) AS PRS_PAPST /* 입건_인지 */
+			           ,NVL(SUM(CASE WHEN C.RCPT_TP_CD ='2' AND C.RCPT_INC_NUM IS NOT NULL AND
+			           			<iterate property="invst" open="C.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#invst[].code#
+			            		</iterate>
+			            		THEN '1' ELSE '0' END),0) AS INVST /* 수사중 */
+			           ,NVL(SUM(CASE WHEN C.DV_FORM = '02' AND C.RCPT_TP_CD ='2' AND C.RCPT_INC_NUM IS NOT NULL
+			           			<iterate property="invst" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#invst[].code#
+			            		</iterate>
+			            		THEN '1' ELSE '0' END),0) AS INVST_ACCUS /* 수사중_고발 */
+			           ,NVL(SUM(CASE WHEN C.DV_FORM = '01' AND C.RCPT_TP_CD ='2' AND C.RCPT_INC_NUM IS NOT NULL
+			           			<iterate property="invst" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#invst[].code#
+			            		</iterate> 
+			            	 	THEN '1' ELSE '0' END),0) AS INVST_PAPST /* 수사중_인지 */
+			           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2'
+			           			<iterate property="cmnd" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#cmnd[].code#
+			                    </iterate>
+			                    THEN '1' ELSE '0' END),0) AS CMND /* 지휘중 */
+			           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.DV_FORM = '02' AND C.RCPT_TP_CD ='2'
+			           			<iterate property="cmnd" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#cmnd[].code#
+			                    </iterate>
+			                    <isNotEmpty property="regStart">
+									<isNotEmpty property="regEnd">
+										AND TO_CHAR(C.BE_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+									</isNotEmpty>
+								</isNotEmpty> 
+			                    THEN '1' ELSE '0' END),0) AS CMND_ACCUS /* 지휘중_고발 */
+			           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.DV_FORM = '01' AND C.RCPT_TP_CD ='2'
+			           			<iterate property="cmnd" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#cmnd[].code#
+			                    </iterate>
+			                    THEN '1' ELSE '0' END),0) AS CMND_PAPST /* 지휘중_인지 */
+			           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2'
+			           			<iterate property="trnsr" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#trnsr[].code#
+			                    </iterate>
+			                    THEN '1' ELSE '0' END),0) AS TRS /* 송치 */
+			           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.DV_FORM = '02' AND C.RCPT_TP_CD ='2'
+			           			<iterate property="trnsr" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#trnsr[].code#
+			                    </iterate> 
+			                    THEN '1' ELSE '0' END),0) AS TRS_ACCUS /* 송치_고발 */
+			           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.DV_FORM = '01' AND C.RCPT_TP_CD ='2'
+			           			<iterate property="trnsr" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#trnsr[].code#
+			                    </iterate>
+			                    THEN '1' ELSE '0' END),0) AS TRS_PAPST /* 송치_인지 */
+				FROM SJPB_INC_MAST C
+				JOIN CODEBASE B ON B.CODE_ID = 'SJPB_00002' AND B.CODE = C.FD_CD
+				WHERE C.RCPT_INC_NUM IS NOT NULL
+					  <isNotEmpty property="fdCdArray" prepend="AND">
+						  C.FD_CD IN($fdCdArray$)
+					  </isNotEmpty>  
+				GROUP BY ROLLUP(SUBSTR(C.RCPT_INC_NUM,1,4))
+			) A
+		ORDER BY DECODE(A.SORT,'전체','1'),A.SORT ASC
+	 </select>
+	<resultMap class="com.saltware.enface.sjpb.J.service.J0104VO" id="J0104VO.CountIncSp">
+		<result property="sort" column="SORT"/>
+		<result property="prsct" column="PRSCT"/>
+		<result property="prsctSp" column="PRSCT_SP"/>
+		<result property="invst" column="INVST"/>
+		<result property="invstSp" column="INVST_SP"/>
+		<result property="cmndPer" column="CMND_PER"/>
+		<result property="cmnd" column="CMND"/>
+		<result property="cmndSp" column="CMND_SP"/>
+		<result property="trsPer" column="TRS_PER"/>
+		<result property="trs" column="TRS"/>
+		<result property="trsSp" column="TRS_SP"/>
+		<result property="indictOld" column="INDICT_OLD"/>
+		<result property="indictOldSp" column="INDICT_OLD_SP"/>
+		<result property="indictTri" column="INDICT_TRI"/>
+		<result property="indictTriSp" column="INDICT_TRI_SP"/>
+		<result property="deindictSus" column="DEINDICT_SUS"/>
+		<result property="deindictSusSp" column="DEINDICT_SUS_SP"/>
+		<result property="deindictRgt" column="DEINDICT_RGT"/>
+		<result property="deindictRgtSp" column="DEINDICT_RGT_SP"/>
+		<result property="deindictDesus" column="DEINDICT_DESUS"/>
+		<result property="deindictDesusSp" column="DEINDICT_DESUS_SP"/>
+		<result property="trans" column="TRANS"/>
+		<result property="transSp" column="TRANS_SP"/>
+		<result property="etc" column="ETC"/>
+		<result property="etcSp" column="ETC_SP"/>
+		<result property="disping" column="DISPING"/>
+		<result property="dispingSp" column="DISPING_SP"/>
+	</resultMap>
+	
+	<!-- 년도별 송치 및 지휘(건/명) 현황 -->
+	<select id="J0301.J0302List" resultMap="J0104VO.CountIncSp">
+		SELECT A.*
+	       	   ,B.*
+	       	   ,NVL(C.ETC,0) AS ETC
+	       	   ,NVL(D.ETC_SP,0) AS ETC_SP
+	       	   ,DECODE(B.PRSCT,0,0,ROUND((((B.CMND+B.INVST)/B.PRSCT)*100),1)) AS CMND_PER  /* 지휘율 */ 
+	       	   ,DECODE(B.PRSCT,0,0,ROUND(((B.TRS/B.PRSCT)*100),1)) AS TRS_PER  /* 송치율 */    
+		FROM (
+			    SELECT DECODE(SUBSTR(A.RCPT_INC_NUM,1,4),NULL,'전체',SUBSTR(A.RCPT_INC_NUM,1,4)) AS SORT
+				       ,NVL(SUM(K.INDICT_OLD_SP),0) AS INDICT_OLD_SP
+				       ,NVL(SUM(K.INDICT_TRI_SP),0) AS INDICT_TRI_SP /* 구공판 명수 */
+				       ,NVL(SUM(K.DEINDICT_SUS_SP),0) AS DEINDICT_SUS_SP /* 기소유예 명수 */
+				       ,NVL(SUM(K.DEINDICT_RGT_SP),0) AS DEINDICT_RGT_SP /* 공소권없음 명수 */
+				       ,NVL(SUM(K.DEINDICT_DESUS_SP),0) AS DEINDICT_DESUS_SP /* 혐의없음 명수 */
+				       ,NVL(SUM(K.TRANS_SP),0) AS TRANS_SP /* 이송기중 명수 */
+				       ,NVL(SUM(K.DISPING_SP),0) AS DISPING_SP /* 처분중 명수 */
+				       ,NVL(SUM(K.INDICT_OLD),0) AS INDICT_OLD  /* 구약식_건수 */ 
+				       ,NVL(SUM(K.INDICT_TRI),0) AS INDICT_TRI  /* 구공판_건수 */ 
+				       ,NVL(SUM(K.DEINDICT_SUS),0) AS DEINDICT_SUS  /* 기소유예_건수 */ 
+				       ,NVL(SUM(K.DEINDICT_RGT),0) AS DEINDICT_RGT /* 공소권없음_건수 */ 
+				       ,NVL(SUM(K.DEINDICT_DESUS),0) AS DEINDICT_DESUS /* 혐의없음_건수 */ 
+				       ,NVL(SUM(K.TRANS),0) AS TRANS  /* 이송기중_건수 */
+				       ,NVL(SUM(K.DISPING),0) AS DISPING  /* 처분중_건수 */ 
+				FROM CODEBASE C
+				JOIN SJPB_INC_MAST A ON A.FD_CD = C.CODE
+				LEFT JOIN (
+				SELECT  A.RCPT_NUM
+				        ,SUM(S.INDICT_OLD) AS INDICT_OLD_SP /* 구약식 명수 */
+				        ,SUM(S.INDICT_TRI) AS INDICT_TRI_SP /* 구공판 명수 */
+				        ,SUM(S.DEINDICT_SUS) AS DEINDICT_SUS_SP /* 기소유예 명수 */
+				        ,SUM(S.DEINDICT_RGT) AS DEINDICT_RGT_SP /* 공소권없음 명수 */
+				        ,SUM(S.DEINDICT_DESUS) AS DEINDICT_DESUS_SP /* 혐의없음 명수 */
+				        ,SUM(S.TRANS) AS TRANS_SP /* 이송기중 명수 */
+				        ,SUM(S.DISPING) AS DISPING_SP /* 처분중 명수 */
+				        ,CASE WHEN SUM(S.INDICT_OLD) NOT IN('0') THEN 1 ELSE 0 END AS INDICT_OLD  /* 구약식_건수 */ 
+				        ,CASE WHEN SUM(S.INDICT_OLD) IN('0') AND SUM(S.INDICT_TRI) NOT IN('0') THEN 1 ELSE 0 END AS INDICT_TRI  /* 구공판_건수 */ 
+				        ,CASE WHEN SUM(S.INDICT_OLD) IN('0') AND SUM(S.INDICT_TRI) IN('0') AND SUM(S.DEINDICT_SUS) NOT IN('0') THEN 1 ELSE 0 END AS DEINDICT_SUS  /* 기소유예_건수 */ 
+				        ,CASE WHEN SUM(S.INDICT_OLD) IN('0') AND SUM(S.INDICT_TRI) IN('0') AND SUM(S.DEINDICT_SUS) IN('0') AND SUM(S.DEINDICT_RGT) NOT IN('0') THEN 1 ELSE 0 END AS DEINDICT_RGT /* 공소권없음_건수 */ 
+				        ,CASE WHEN SUM(S.INDICT_OLD) IN('0') AND SUM(S.INDICT_TRI) IN('0') AND SUM(S.DEINDICT_SUS) IN('0') AND SUM(S.DEINDICT_RGT) IN('0') AND SUM(S.DEINDICT_DESUS) NOT IN('0') THEN 1 ELSE 0 END AS DEINDICT_DESUS /* 혐의없음_건수 */ 
+				        ,CASE WHEN SUM(S.INDICT_OLD) IN('0') AND SUM(S.INDICT_TRI) IN('0') AND SUM(S.DEINDICT_SUS) IN('0') AND SUM(S.DEINDICT_RGT) IN('0') AND SUM(S.DEINDICT_DESUS) IN('0') AND SUM(S.TRANS) NOT IN('0') THEN 1 ELSE 0 END AS TRANS  /* 이송기중_건수 */
+				        ,CASE WHEN SUM(S.INDICT_OLD) IN('0') AND SUM(S.INDICT_TRI) IN('0') AND SUM(S.DEINDICT_SUS) IN('0') AND SUM(S.DEINDICT_RGT) IN('0') AND SUM(S.DEINDICT_DESUS) IN('0') AND SUM(S.TRANS) IN('0') AND SUM(S.DISPING) NOT IN('0') THEN 1 ELSE 0 END AS DISPING  /* 처분중_건수 */ 
+				  FROM (
+				   
+				   SELECT R.INC_SP_NUM
+        				  ,CASE WHEN R.INDICT_OLD_SP IS NOT NULL THEN 1 ELSE 0 END AS INDICT_OLD  /* 구약식_건수 */ 
+			              ,CASE WHEN R.INDICT_OLD_SP IS NULL AND R.INDICT_TRI_SP IS NOT NULL THEN 1 ELSE 0 END AS INDICT_TRI  /* 구공판_건수 */ 
+				          ,CASE WHEN R.INDICT_OLD_SP IS NULL AND R.INDICT_TRI_SP IS NULL AND R.DEINDICT_SUS_SP IS NOT NULL THEN 1 ELSE 0 END AS DEINDICT_SUS  /* 기소유예_건수 */ 
+				          ,CASE WHEN R.INDICT_OLD_SP IS NULL AND R.INDICT_TRI_SP IS NULL AND R.DEINDICT_SUS_SP IS NULL AND R.DEINDICT_RGT_SP IS NOT NULL THEN 1 ELSE 0 END AS DEINDICT_RGT /* 공소권없음_건수 */ 
+				          ,CASE WHEN R.INDICT_OLD_SP IS NULL AND R.INDICT_TRI_SP IS NULL AND R.DEINDICT_SUS_SP IS NULL AND R.DEINDICT_RGT_SP IS NULL AND R.DEINDICT_DESUS_SP IS NOT NULL THEN 1 ELSE 0 END AS DEINDICT_DESUS  /* 혐의없음_건수 */ 
+				          ,CASE WHEN R.INDICT_OLD_SP IS NULL AND R.INDICT_TRI_SP IS NULL AND R.DEINDICT_SUS_SP IS NULL AND R.DEINDICT_RGT_SP IS NULL AND R.DEINDICT_DESUS_SP IS NULL AND R.TRANS_SP IS NOT NULL THEN 1 ELSE 0 END AS TRANS  /* 이송기중_건수 */ 
+				          ,CASE WHEN R.INDICT_OLD_SP IS NULL AND R.INDICT_TRI_SP IS NULL AND R.DEINDICT_SUS_SP IS NULL AND R.DEINDICT_RGT_SP IS NULL AND R.DEINDICT_DESUS_SP IS NULL AND R.TRANS_SP IS NULL AND R.DISPING_SP IS NOT NULL THEN 1 ELSE 0 END AS DISPING  /* 처분중_건수 */ 
+   					FROM (
+    					SELECT Z.INC_SP_NUM   
+			                   ,SUM(CASE WHEN 
+				                   		<iterate property="indictOld" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+						                    #indictOld[].code#
+						            	</iterate>
+				            			THEN '1' ELSE NULL END) AS INDICT_OLD_SP  /*구약식_명수*/
+	                    	   ,SUM(CASE WHEN 
+				                   		<iterate property="indictTri" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+						                    #indictTri[].code#
+						            	</iterate>
+				            			THEN '1' ELSE NULL END) AS INDICT_TRI_SP  /*구공판_명수*/
+			                   ,SUM(CASE WHEN
+			                   		<iterate property="deindictSus" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+					                    #deindictSus[].code#
+					            	</iterate>
+					            	THEN '1' ELSE NULL END) AS DEINDICT_SUS_SP  /* 기소유예_명수 */
+			                   ,SUM(CASE WHEN
+			                   		<iterate property="deindictRgt" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+					                    #deindictRgt[].code#
+					            	</iterate>
+					            	THEN '1' ELSE NULL END) AS DEINDICT_RGT_SP  /* 공소권없음_명수 */
+			                   ,SUM(CASE WHEN
+			                   		<iterate property="deindictDesus" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+					                    #deindictDesus[].code#
+					            	</iterate>
+					            	THEN '1' ELSE NULL END) AS DEINDICT_DESUS_SP  /* 혐의없음_명수 */
+			                   ,SUM(CASE WHEN
+			                   		<iterate property="trans" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+					                    #trans[].code#
+					            	</iterate>
+					            	THEN '1' ELSE NULL END) AS TRANS_SP  /* 이송기중_명수 */
+
+			                   ,SUM(CASE WHEN C.PO_CONT_CD IS NULL THEN '1' ELSE NULL END) AS DISPING_SP  /* 처분중_명수 */
+						        FROM (
+						        		SELECT B.INC_SP_NUM,
+                                                CASE WHEN A.PARE_RCPT_NUM IS NULL THEN A.RCPT_NUM ELSE A.PARE_RCPT_NUM END AS RCPT_NUM
+                                        FROM SJPB_INC_SP B
+                                        
+                                        JOIN SJPB_INC_MAST A ON A.RCPT_NUM = B.RCPT_NUM
+                                        WHERE B.SP_STAT_CD ='1'
+						        	) Z
+			                    LEFT JOIN SJPB_ACT_VIO B ON B.INC_SP_NUM = Z.INC_SP_NUM AND B.INQ_ORD = '1'
+			                    LEFT JOIN SJPB_INC_DIP_RST C ON B.ACT_VIO_NUM=C.ACT_VIO_NUM
+			                    LEFT JOIN SJPB_INC_MAST A ON A.RCPT_NUM = Z.RCPT_NUM
+								JOIN SJPB_INC_CRI_MB W ON A.RCPT_NUM = W.RCPT_NUM AND W.CRI_LV_CD = '01'
+			                    JOIN USERPASS U ON U.USER_ID = W.CRI_MB_ID 
+			                    LEFT JOIN SJPB_INC_TRF_ITEM D ON D.RCPT_NUM = A.RCPT_NUM
+			                    WHERE D.INC_TRF_ITEM_NUM IS NOT NULL AND A.RCPT_TP_CD ='2' 
+								<isNotEmpty property="fdCdArray" prepend="AND">
+									A.FD_CD IN($fdCdArray$)
+								</isNotEmpty>
+								<iterate property="trnsr" open="AND A.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#trnsr[].code#
+			                    </iterate>
+			                     GROUP BY Z.INC_SP_NUM
+                       		 ) R
+                   	 ) S
+			    LEFT JOIN SJPB_INC_SP B ON B.INC_SP_NUM = S.INC_SP_NUM AND B.SP_STAT_CD ='1'
+                JOIN SJPB_INC_MAST A ON A.RCPT_NUM = B.RCPT_NUM 
+                GROUP BY A.RCPT_NUM
+				) K ON K.RCPT_NUM = A.RCPT_NUM
+           		 WHERE C.CODE_ID = 'SJPB_00002' AND C.CODE NOT IN('0000000000') AND A.RCPT_INC_NUM IS NOT NULL                
+                  <isNotEmpty property="fdCdArray" prepend="AND">
+					  C.CODE IN($fdCdArray$)
+				  </isNotEmpty> 
+				  GROUP BY ROLLUP(SUBSTR(A.RCPT_INC_NUM,1,4))
+					) A
+			LEFT JOIN(
+					SELECT A.*
+						   ,DECODE(A.SORT,'전체',NULL,'fdcd') AS CRI_TM_DIV
+						   ,DECODE(A.PRSCT,0,0,ROUND(((A.TRS/A.PRSCT)*100),1)) AS TRS_PER  /* 송치율 */ 
+						   ,DECODE(A.PRSCT,0,0,ROUND(((A.TRS+A.CMND)*100/A.PRSCT),1)) AS PRE_TRS_PER  /* 예상_송치율 */
+					FROM (
+							
+				            SELECT  DECODE(SUBSTR(C.RCPT_INC_NUM,1,4),NULL,'전체',SUBSTR(C.RCPT_INC_NUM,1,4)) AS SORT
+							       ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2' 					    
+					           			  THEN '1' ELSE '0' END),0) AS PRSCT /* 입건 */
+							       ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2' 
+					           				THEN V.SP_COUNT ELSE 0 END),0) AS PRSCT_SP /* 입건_명수 */
+						           ,NVL(SUM(CASE WHEN  C.RCPT_TP_CD ='2' AND C.RCPT_INC_NUM IS NOT NULL
+						           			<iterate property="invst" open=" AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+						                    	#invst[].code#
+						            		</iterate>
+						            		THEN '1' ELSE '0' END),0) AS INVST /* 수사중 */
+						           ,NVL(SUM(CASE WHEN C.RCPT_TP_CD ='2' AND C.RCPT_INC_NUM IS NOT NULL 
+						           			<iterate property="invst" open=" AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+						                    	#invst[].code#
+						            		</iterate>
+						            		THEN V.SP_COUNT ELSE 0 END),0) AS INVST_SP /* 수사중_명수 */
+						           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2' 
+						           			<iterate property="cmnd" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+						                    	#cmnd[].code#
+						                    </iterate>
+						                    THEN '1' ELSE '0' END),0) AS CMND /* 지휘중 */
+						           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2' 
+						           			<iterate property="cmnd" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+						                    	#cmnd[].code#
+						                    </iterate>
+						                    THEN V.SP_COUNT ELSE 0 END),0) AS CMND_SP /* 지휘중_명수 */
+						           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2'
+						           			<iterate property="trnsr" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+						                    	#trnsr[].code#
+						                    </iterate>
+						                    THEN '1' ELSE '0' END),0) AS TRS /* 송치 */
+						           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2' 
+						           			<iterate property="trnsr" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+						                    	#trnsr[].code#
+						                    </iterate>
+				                    		THEN V.SP_COUNT ELSE 0 END),0) AS TRS_SP /* 송치_명수 */
+						    FROM CODEBASE R 
+						    LEFT JOIN SJPB_INC_MAST C ON R.CODE = C.FD_CD 
+						    LEFT JOIN ( 
+						    			SELECT RCPT_NUM,COUNT(INC_SP_NUM) AS SP_COUNT                    
+                                    	FROM SJPB_INC_SP
+                                    	WHERE SP_STAT_CD ='1'
+                                    	GROUP BY RCPT_NUM
+						         	  ) V ON V.RCPT_NUM = C.RCPT_NUM
+							LEFT JOIN SJPB_INC_CRI_MB W ON V.RCPT_NUM = W.RCPT_NUM AND W.CRI_LV_CD = '01'
+		                    LEFT JOIN USERPASS U ON U.USER_ID = W.CRI_MB_ID
+						    WHERE R.CODE_ID='SJPB_00002' AND R.CODE NOT IN('0000000000') AND C.RCPT_INC_NUM IS NOT NULL      
+						    	  <isNotEmpty property="fdCdArray" prepend="AND">
+									  R.CODE IN($fdCdArray$)
+								  </isNotEmpty> 
+						    GROUP BY ROLLUP (SUBSTR(C.RCPT_INC_NUM,1,4))
+						    
+						)A
+				) B ON A.SORT = B.SORT
+			LEFT JOIN (
+				SELECT DECODE(SUBSTR(C.RCPT_INC_NUM,1,4),NULL,'전체',SUBSTR(C.RCPT_INC_NUM,1,4)) AS SORT 
+					   ,NVL(COUNT(A.RCPT_NUM),0) AS ETC
+				FROM CODEBASE D
+				LEFT JOIN SJPB_INC_MAST C ON D.CODE = C.FD_CD
+				LEFT JOIN (
+				    SELECT DISTINCT A.RCPT_NUM ,A.CRI_STAT_CD,C.PO_CONT_CD
+				    FROM SJPB_INC_MAST A 
+				    JOIN SJPB_INC_SP Z ON A.RCPT_NUM = Z.RCPT_NUM AND Z.SP_STAT_CD ='1'
+				    LEFT JOIN SJPB_ACT_VIO B ON Z.INC_SP_NUM = B.INC_SP_NUM AND B.INQ_ORD='1'
+				    LEFT JOIN SJPB_INC_DIP_RST C ON C.ACT_VIO_NUM = B.ACT_VIO_NUM
+				    WHERE <iterate property="etc" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+				                #etc[].code#
+				            </iterate> 
+				           OR A.CRI_STAT_CD ='99' 
+ 
+				) A ON A.RCPT_NUM = C.RCPT_NUM
+				LEFT JOIN SJPB_INC_CRI_MB W ON A.RCPT_NUM = W.RCPT_NUM AND W.CRI_LV_CD = '01'
+		        LEFT JOIN USERPASS U ON U.USER_ID = W.CRI_MB_ID
+				WHERE D.CODE_ID='SJPB_00002' AND C.RCPT_INC_NUM IS NOT NULL   
+					  <isNotEmpty property="fdCdArray" prepend="AND">
+							D.CODE IN($fdCdArray$)
+					  </isNotEmpty>
+				GROUP BY ROLLUP (SUBSTR(C.RCPT_INC_NUM,1,4))
+			) C ON C.SORT = A.SORT
+			LEFT JOIN (
+				SELECT DECODE(SUBSTR(C.RCPT_INC_NUM,1,4),NULL,'전체',SUBSTR(C.RCPT_INC_NUM,1,4)) AS SORT
+					   ,NVL(COUNT(A.INC_SP_NUM),0) AS ETC_SP
+				FROM CODEBASE D
+				LEFT JOIN SJPB_INC_MAST C ON D.CODE = C.FD_CD
+				LEFT JOIN (
+				            SELECT A.RCPT_NUM ,A.CRI_STAT_CD,C.PO_CONT_CD,Z.INC_SP_NUM
+				            FROM SJPB_INC_MAST A 
+				            JOIN SJPB_INC_SP Z ON A.RCPT_NUM = Z.RCPT_NUM
+				            LEFT JOIN SJPB_ACT_VIO B ON Z.INC_SP_NUM = B.INC_SP_NUM AND B.INQ_ORD='1'
+				            LEFT JOIN SJPB_INC_DIP_RST C ON C.ACT_VIO_NUM = B.ACT_VIO_NUM
+				            WHERE <iterate property="etc" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+			                		  #etc[].code#
+			            		  </iterate> 
+			            		  OR A.CRI_STAT_CD ='99' AND Z.SP_STAT_CD ='1'
+							) A ON A.RCPT_NUM = C.RCPT_NUM
+				LEFT JOIN SJPB_INC_CRI_MB W ON A.RCPT_NUM = W.RCPT_NUM AND W.CRI_LV_CD = '01'
+				LEFT JOIN USERPASS U ON U.USER_ID = W.CRI_MB_ID
+				WHERE D.CODE_ID='SJPB_00002' AND C.RCPT_INC_NUM IS NOT NULL    
+					  <isNotEmpty property="fdCdArray" prepend="AND">
+							D.CODE IN($fdCdArray$)
+					  </isNotEmpty> 
+				GROUP BY ROLLUP (SUBSTR(C.RCPT_INC_NUM,1,4))
+			) D ON D.SORT = A.SORT
+			ORDER BY DECODE(A.SORT,'전체','1') ,A.SORT ASC 
+	</select>
+	<!-- 년도별 수사관별 -->
+	<select id="J0301.J0303List" resultMap="J0104VO.CountIncSp">  /* J0301.J0303List */
+		SELECT A.*
+	       	   ,B.*
+	       	   ,NVL(C.ETC,0) AS ETC
+	       	   ,NVL(D.ETC_SP,0) AS ETC_SP
+	       	   ,DECODE(B.PRSCT,0,0,ROUND((((B.CMND+B.INVST)/B.PRSCT)*100),1)) AS CMND_PER  /* 지휘율 */ 
+	       	   ,DECODE(B.PRSCT,0,0,ROUND(((B.TRS/B.PRSCT)*100),1)) AS TRS_PER  /* 송치율 */    
+		FROM (
+			    SELECT DECODE(SUBSTR(A.RCPT_INC_NUM,1,4),NULL,'전체',SUBSTR(A.RCPT_INC_NUM,1,4)) AS SORT
+				       ,NVL(SUM(K.INDICT_OLD_SP),0) AS INDICT_OLD_SP
+				       ,NVL(SUM(K.INDICT_TRI_SP),0) AS INDICT_TRI_SP /* 구공판 명수 */
+				       ,NVL(SUM(K.DEINDICT_SUS_SP),0) AS DEINDICT_SUS_SP /* 기소유예 명수 */
+				       ,NVL(SUM(K.DEINDICT_RGT_SP),0) AS DEINDICT_RGT_SP /* 공소권없음 명수 */
+				       ,NVL(SUM(K.DEINDICT_DESUS_SP),0) AS DEINDICT_DESUS_SP /* 혐의없음 명수 */
+				       ,NVL(SUM(K.TRANS_SP),0) AS TRANS_SP /* 이송기중 명수 */
+				       ,NVL(SUM(K.DISPING_SP),0) AS DISPING_SP /* 처분중 명수 */
+				       ,NVL(SUM(K.INDICT_OLD),0) AS INDICT_OLD  /* 구약식_건수 */ 
+				       ,NVL(SUM(K.INDICT_TRI),0) AS INDICT_TRI  /* 구공판_건수 */ 
+				       ,NVL(SUM(K.DEINDICT_SUS),0) AS DEINDICT_SUS  /* 기소유예_건수 */ 
+				       ,NVL(SUM(K.DEINDICT_RGT),0) AS DEINDICT_RGT /* 공소권없음_건수 */ 
+				       ,NVL(SUM(K.DEINDICT_DESUS),0) AS DEINDICT_DESUS /* 혐의없음_건수 */ 
+				       ,NVL(SUM(K.TRANS),0) AS TRANS  /* 이송기중_건수 */
+				       ,NVL(SUM(K.DISPING),0) AS DISPING  /* 처분중_건수 */ 
+				FROM CODEBASE C
+				JOIN SJPB_INC_MAST A ON A.FD_CD = C.CODE
+				LEFT JOIN (
+				SELECT  A.RCPT_NUM
+				        ,SUM(S.INDICT_OLD) AS INDICT_OLD_SP /* 구약식 명수 */
+				        ,SUM(S.INDICT_TRI) AS INDICT_TRI_SP /* 구공판 명수 */
+				        ,SUM(S.DEINDICT_SUS) AS DEINDICT_SUS_SP /* 기소유예 명수 */
+				        ,SUM(S.DEINDICT_RGT) AS DEINDICT_RGT_SP /* 공소권없음 명수 */
+				        ,SUM(S.DEINDICT_DESUS) AS DEINDICT_DESUS_SP /* 혐의없음 명수 */
+				        ,SUM(S.TRANS) AS TRANS_SP /* 이송기중 명수 */
+				        ,SUM(S.DISPING) AS DISPING_SP /* 처분중 명수 */
+				        ,CASE WHEN SUM(S.INDICT_OLD) NOT IN('0') THEN 1 ELSE 0 END AS INDICT_OLD  /* 구약식_건수 */ 
+				        ,CASE WHEN SUM(S.INDICT_OLD) IN('0') AND SUM(S.INDICT_TRI) NOT IN('0') THEN 1 ELSE 0 END AS INDICT_TRI  /* 구공판_건수 */ 
+				        ,CASE WHEN SUM(S.INDICT_OLD) IN('0') AND SUM(S.INDICT_TRI) IN('0') AND SUM(S.DEINDICT_SUS) NOT IN('0') THEN 1 ELSE 0 END AS DEINDICT_SUS  /* 기소유예_건수 */ 
+				        ,CASE WHEN SUM(S.INDICT_OLD) IN('0') AND SUM(S.INDICT_TRI) IN('0') AND SUM(S.DEINDICT_SUS) IN('0') AND SUM(S.DEINDICT_RGT) NOT IN('0') THEN 1 ELSE 0 END AS DEINDICT_RGT /* 공소권없음_건수 */ 
+				        ,CASE WHEN SUM(S.INDICT_OLD) IN('0') AND SUM(S.INDICT_TRI) IN('0') AND SUM(S.DEINDICT_SUS) IN('0') AND SUM(S.DEINDICT_RGT) IN('0') AND SUM(S.DEINDICT_DESUS) NOT IN('0') THEN 1 ELSE 0 END AS DEINDICT_DESUS /* 혐의없음_건수 */ 
+				        ,CASE WHEN SUM(S.INDICT_OLD) IN('0') AND SUM(S.INDICT_TRI) IN('0') AND SUM(S.DEINDICT_SUS) IN('0') AND SUM(S.DEINDICT_RGT) IN('0') AND SUM(S.DEINDICT_DESUS) IN('0') AND SUM(S.TRANS) NOT IN('0') THEN 1 ELSE 0 END AS TRANS  /* 이송기중_건수 */
+				        ,CASE WHEN SUM(S.INDICT_OLD) IN('0') AND SUM(S.INDICT_TRI) IN('0') AND SUM(S.DEINDICT_SUS) IN('0') AND SUM(S.DEINDICT_RGT) IN('0') AND SUM(S.DEINDICT_DESUS) IN('0') AND SUM(S.TRANS) IN('0') AND SUM(S.DISPING) NOT IN('0') THEN 1 ELSE 0 END AS DISPING  /* 처분중_건수 */ 
+				  FROM (
+				   
+				   SELECT R.INC_SP_NUM
+        				  ,CASE WHEN R.INDICT_OLD_SP IS NOT NULL THEN 1 ELSE 0 END AS INDICT_OLD  /* 구약식_건수 */ 
+			              ,CASE WHEN R.INDICT_OLD_SP IS NULL AND R.INDICT_TRI_SP IS NOT NULL THEN 1 ELSE 0 END AS INDICT_TRI  /* 구공판_건수 */ 
+				          ,CASE WHEN R.INDICT_OLD_SP IS NULL AND R.INDICT_TRI_SP IS NULL AND R.DEINDICT_SUS_SP IS NOT NULL THEN 1 ELSE 0 END AS DEINDICT_SUS  /* 기소유예_건수 */ 
+				          ,CASE WHEN R.INDICT_OLD_SP IS NULL AND R.INDICT_TRI_SP IS NULL AND R.DEINDICT_SUS_SP IS NULL AND R.DEINDICT_RGT_SP IS NOT NULL THEN 1 ELSE 0 END AS DEINDICT_RGT /* 공소권없음_건수 */ 
+				          ,CASE WHEN R.INDICT_OLD_SP IS NULL AND R.INDICT_TRI_SP IS NULL AND R.DEINDICT_SUS_SP IS NULL AND R.DEINDICT_RGT_SP IS NULL AND R.DEINDICT_DESUS_SP IS NOT NULL THEN 1 ELSE 0 END AS DEINDICT_DESUS  /* 혐의없음_건수 */ 
+				          ,CASE WHEN R.INDICT_OLD_SP IS NULL AND R.INDICT_TRI_SP IS NULL AND R.DEINDICT_SUS_SP IS NULL AND R.DEINDICT_RGT_SP IS NULL AND R.DEINDICT_DESUS_SP IS NULL AND R.TRANS_SP IS NOT NULL THEN 1 ELSE 0 END AS TRANS  /* 이송기중_건수 */ 
+				          ,CASE WHEN R.INDICT_OLD_SP IS NULL AND R.INDICT_TRI_SP IS NULL AND R.DEINDICT_SUS_SP IS NULL AND R.DEINDICT_RGT_SP IS NULL AND R.DEINDICT_DESUS_SP IS NULL AND R.TRANS_SP IS NULL AND R.DISPING_SP IS NOT NULL THEN 1 ELSE 0 END AS DISPING  /* 처분중_건수 */ 
+   					FROM (
+    					SELECT Z.INC_SP_NUM   
+			                   ,SUM(CASE WHEN 
+				                   		<iterate property="indictOld" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+						                    #indictOld[].code#
+						            	</iterate>
+						            	<isNotEmpty property="nmKor" prepend="AND">
+											U.NM_KOR = #nmKor#
+										</isNotEmpty>
+				            			THEN '1' ELSE NULL END) AS INDICT_OLD_SP  /*구약식_명수*/
+	                    	   ,SUM(CASE WHEN 
+				                   		<iterate property="indictTri" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+						                    #indictTri[].code#
+						            	</iterate>
+						            	<isNotEmpty property="nmKor" prepend="AND">
+											U.NM_KOR = #nmKor#
+										</isNotEmpty>
+				            			THEN '1' ELSE NULL END) AS INDICT_TRI_SP  /*구공판_명수*/
+			                   ,SUM(CASE WHEN
+			                   		<iterate property="deindictSus" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+					                    #deindictSus[].code#
+					            	</iterate>
+					            	<isNotEmpty property="nmKor" prepend="AND">
+										U.NM_KOR = #nmKor#
+									</isNotEmpty>
+					            	THEN '1' ELSE NULL END) AS DEINDICT_SUS_SP  /* 기소유예_명수 */
+			                   ,SUM(CASE WHEN
+			                   		<iterate property="deindictRgt" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+					                    #deindictRgt[].code#
+					            	</iterate>
+					            	<isNotEmpty property="nmKor" prepend="AND">
+										U.NM_KOR = #nmKor#
+									</isNotEmpty>
+					            	THEN '1' ELSE NULL END) AS DEINDICT_RGT_SP  /* 공소권없음_명수 */
+			                   ,SUM(CASE WHEN
+			                   		<iterate property="deindictDesus" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+					                    #deindictDesus[].code#
+					            	</iterate>
+					            	<isNotEmpty property="nmKor" prepend="AND">
+										U.NM_KOR = #nmKor#
+									</isNotEmpty>
+					            	THEN '1' ELSE NULL END) AS DEINDICT_DESUS_SP  /* 혐의없음_명수 */
+			                   ,SUM(CASE WHEN
+			                   		<iterate property="trans" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+					                    #trans[].code#
+					            	</iterate>
+					            	<isNotEmpty property="nmKor" prepend="AND">
+										U.NM_KOR = #nmKor#
+									</isNotEmpty>
+					            	THEN '1' ELSE NULL END) AS TRANS_SP  /* 이송기중_명수 */
+
+			                   ,SUM(CASE WHEN C.PO_CONT_CD IS NULL
+			                   		<isNotEmpty property="nmKor" prepend="AND">
+										U.NM_KOR = #nmKor#
+									</isNotEmpty>
+			                    	THEN '1' ELSE NULL END) AS DISPING_SP  /* 처분중_명수 */
+						        FROM SJPB_INC_SP Z
+			                    LEFT JOIN SJPB_ACT_VIO B ON B.INC_SP_NUM = Z.INC_SP_NUM AND B.INQ_ORD = '1'
+			                    LEFT JOIN SJPB_INC_DIP_RST C ON B.ACT_VIO_NUM=C.ACT_VIO_NUM
+			                    LEFT JOIN SJPB_INC_MAST A ON A.RCPT_NUM = Z.RCPT_NUM
+								JOIN SJPB_INC_CRI_MB W ON A.RCPT_NUM = W.RCPT_NUM AND W.CRI_LV_CD = '01'
+			                    JOIN USERPASS U ON U.USER_ID = W.CRI_MB_ID 
+			                    LEFT JOIN SJPB_INC_TRF_ITEM D ON D.RCPT_NUM = A.RCPT_NUM 
+			                    WHERE D.INC_TRF_ITEM_NUM IS NOT NULL AND A.RCPT_TP_CD ='2' AND Z.SP_STAT_CD ='1'
+								<isNotEmpty property="fdCdArray" prepend="AND">
+									A.FD_CD IN($fdCdArray$)
+								</isNotEmpty>
+								<iterate property="trnsr" open="AND A.CRI_STAT_CD IN(" close=")" conjunction=",">
+			                    	#trnsr[].code#
+			                    </iterate>
+			                     GROUP BY Z.INC_SP_NUM
+                       		 ) R
+                   	 ) S
+			    LEFT JOIN SJPB_INC_SP B ON B.INC_SP_NUM = S.INC_SP_NUM
+                JOIN SJPB_INC_MAST A ON A.RCPT_NUM = B.RCPT_NUM 
+                JOIN SJPB_INC_CRI_MB W ON A.RCPT_NUM = W.RCPT_NUM AND W.CRI_LV_CD = '01'
+			    JOIN USERPASS U ON U.USER_ID = W.CRI_MB_ID 
+			    <dynamic prepend="WHERE">
+				    <isNotEmpty property="nmKor" prepend="AND">
+						  U.NM_KOR = #nmKor#
+					</isNotEmpty>
+				</dynamic>  
+                GROUP BY A.RCPT_NUM
+				) K ON K.RCPT_NUM = A.RCPT_NUM
+           		 WHERE C.CODE_ID = 'SJPB_00002' AND C.CODE NOT IN('0000000000') AND A.RCPT_INC_NUM IS NOT NULL               
+                  <isNotEmpty property="fdCdArray" prepend="AND">
+					  C.CODE IN($fdCdArray$)
+				  </isNotEmpty>
+				  GROUP BY CUBE(SUBSTR(A.RCPT_INC_NUM,1,4))
+					) A
+			LEFT JOIN(
+					SELECT A.*
+						   ,DECODE(A.SORT,'전체',NULL,'fdcd') AS CRI_TM_DIV
+						   ,DECODE(A.PRSCT,0,0,ROUND(((A.TRS/A.PRSCT)*100),1)) AS TRS_PER  /* 송치율 */ 
+						   ,DECODE(A.PRSCT,0,0,ROUND(((A.TRS+A.CMND)*100/A.PRSCT),1)) AS PRE_TRS_PER  /* 예상_송치율 */
+					FROM (
+							
+				            SELECT  DECODE(SUBSTR(C.RCPT_INC_NUM,1,4),NULL,'전체',SUBSTR(C.RCPT_INC_NUM,1,4)) AS SORT
+							       ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2'  
+								        	<isNotEmpty property="nmKor" prepend="AND">
+												U.NM_KOR = #nmKor#
+											</isNotEmpty>				    
+					           			  THEN '1' ELSE '0' END),0) AS PRSCT /* 입건 */
+							       ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2'
+							       			<isNotEmpty property="nmKor" prepend="AND">
+												U.NM_KOR = #nmKor#
+											</isNotEmpty> 
+					           				THEN V.SP_COUNT ELSE 0 END),0) AS PRSCT_SP /* 입건_명수 */
+						           ,NVL(SUM(CASE WHEN  C.RCPT_TP_CD ='2' AND C.RCPT_INC_NUM IS NOT NULL
+						           			<iterate property="invst" open=" AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+						                    	#invst[].code#
+						            		</iterate>
+						            		<isNotEmpty property="nmKor" prepend="AND">
+												U.NM_KOR = #nmKor#
+											</isNotEmpty>
+						            		THEN '1' ELSE '0' END),0) AS INVST /* 수사중 */
+						           ,NVL(SUM(CASE WHEN C.RCPT_TP_CD ='2'  AND C.RCPT_INC_NUM IS NOT NULL
+						           			<iterate property="invst" open=" AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+						                    	#invst[].code#
+						            		</iterate>
+						            		<isNotEmpty property="nmKor" prepend="AND">
+												U.NM_KOR = #nmKor#
+											</isNotEmpty>
+						            		THEN V.SP_COUNT ELSE 0 END),0) AS INVST_SP /* 수사중_명수 */
+						           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2'
+						           			<iterate property="cmnd" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+						                    	#cmnd[].code#
+						                    </iterate>
+						                    <isNotEmpty property="nmKor" prepend="AND">
+												U.NM_KOR = #nmKor#
+											</isNotEmpty>
+						                    THEN '1' ELSE '0' END),0) AS CMND /* 지휘중 */
+						           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2'
+						           			<iterate property="cmnd" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+						                    	#cmnd[].code#
+						                    </iterate>
+						                    <isNotEmpty property="nmKor" prepend="AND">
+												U.NM_KOR = #nmKor#
+											</isNotEmpty>
+						                    THEN V.SP_COUNT ELSE 0 END),0) AS CMND_SP /* 지휘중_명수 */
+						           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2' 
+						           			<iterate property="trnsr" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+						                    	#trnsr[].code#
+						                    </iterate>
+						                    <isNotEmpty property="nmKor" prepend="AND">
+												U.NM_KOR = #nmKor#
+											</isNotEmpty>
+						                    THEN '1' ELSE '0' END),0) AS TRS /* 송치 */
+						           ,NVL(SUM(CASE WHEN C.RCPT_INC_NUM IS NOT NULL AND C.RCPT_TP_CD ='2' 
+						           			<iterate property="trnsr" open="AND C.CRI_STAT_CD IN(" close=")" conjunction=",">
+						                    	#trnsr[].code#
+						                    </iterate>
+						                    <isNotEmpty property="nmKor" prepend="AND">
+												U.NM_KOR = #nmKor#
+											</isNotEmpty>
+				                    		THEN V.SP_COUNT ELSE 0 END),0) AS TRS_SP /* 송치_명수 */
+						    FROM CODEBASE R 
+						    LEFT JOIN SJPB_INC_MAST C ON R.CODE = C.FD_CD 
+						    LEFT JOIN ( 
+						    			SELECT RCPT_NUM,COUNT(INC_SP_NUM) AS SP_COUNT                    
+                                    	FROM SJPB_INC_SP
+                                    	WHERE SP_STAT_CD ='1'
+                                    	GROUP BY RCPT_NUM
+						         	  ) V ON V.RCPT_NUM = C.RCPT_NUM
+							LEFT JOIN SJPB_INC_CRI_MB W ON V.RCPT_NUM = W.RCPT_NUM AND W.CRI_LV_CD = '01'
+		                    LEFT JOIN USERPASS U ON U.USER_ID = W.CRI_MB_ID
+						    WHERE R.CODE_ID='SJPB_00002' AND R.CODE NOT IN('0000000000') AND C.RCPT_INC_NUM IS NOT NULL        
+						    	  <isNotEmpty property="fdCdArray" prepend="AND">
+									  R.CODE IN($fdCdArray$)
+								  </isNotEmpty> 
+						    GROUP BY ROLLUP (SUBSTR(C.RCPT_INC_NUM,1,4))
+						    
+						)A
+				) B ON A.SORT = B.SORT
+			LEFT JOIN (
+				SELECT DECODE(SUBSTR(C.RCPT_INC_NUM,1,4),NULL,'전체',SUBSTR(C.RCPT_INC_NUM,1,4)) AS SORT 
+					   ,NVL(COUNT(A.RCPT_NUM),0) AS ETC
+				FROM CODEBASE D
+				LEFT JOIN SJPB_INC_MAST C ON D.CODE = C.FD_CD
+				LEFT JOIN (
+				    SELECT DISTINCT A.RCPT_NUM ,A.CRI_STAT_CD,C.PO_CONT_CD
+				    FROM SJPB_INC_MAST A 
+				    JOIN SJPB_INC_SP Z ON A.RCPT_NUM = Z.RCPT_NUM AND Z.SP_STAT_CD ='1'
+				    LEFT JOIN SJPB_ACT_VIO B ON Z.INC_SP_NUM = B.INC_SP_NUM AND B.INQ_ORD='1'
+				    LEFT JOIN SJPB_INC_DIP_RST C ON C.ACT_VIO_NUM = B.ACT_VIO_NUM
+				    WHERE <iterate property="etc" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+				                #etc[].code#
+				            </iterate> 
+				           OR A.CRI_STAT_CD ='99'  
+ 
+				) A ON A.RCPT_NUM = C.RCPT_NUM
+				LEFT JOIN SJPB_INC_CRI_MB W ON A.RCPT_NUM = W.RCPT_NUM AND W.CRI_LV_CD = '01'
+		        LEFT JOIN USERPASS U ON U.USER_ID = W.CRI_MB_ID
+				WHERE D.CODE_ID='SJPB_00002' AND C.RCPT_INC_NUM IS NOT NULL  
+					  <isNotEmpty property="fdCdArray" prepend="AND">
+							D.CODE IN($fdCdArray$)
+					  </isNotEmpty>
+					  <isNotEmpty property="nmKor" prepend="AND">
+						U.NM_KOR = #nmKor#
+					</isNotEmpty>
+				GROUP BY ROLLUP (SUBSTR(C.RCPT_INC_NUM,1,4))
+			) C ON C.SORT = A.SORT
+			LEFT JOIN (
+				SELECT DECODE(SUBSTR(C.RCPT_INC_NUM,1,4),NULL,'전체',SUBSTR(C.RCPT_INC_NUM,1,4)) AS SORT
+					   ,NVL(COUNT(A.INC_SP_NUM),0) AS ETC_SP
+				FROM CODEBASE D
+				LEFT JOIN SJPB_INC_MAST C ON D.CODE = C.FD_CD
+				LEFT JOIN (
+				            SELECT A.RCPT_NUM ,A.CRI_STAT_CD,C.PO_CONT_CD,Z.INC_SP_NUM
+				            FROM SJPB_INC_MAST A 
+				            JOIN SJPB_INC_SP Z ON A.RCPT_NUM = Z.RCPT_NUM AND Z.SP_STAT_CD ='1'
+				            LEFT JOIN SJPB_ACT_VIO B ON Z.INC_SP_NUM = B.INC_SP_NUM AND B.INQ_ORD='1'
+				            LEFT JOIN SJPB_INC_DIP_RST C ON C.ACT_VIO_NUM = B.ACT_VIO_NUM
+				            WHERE <iterate property="etc" open="C.PO_CONT_CD IN(" close=")" conjunction=",">
+				                	  #etc[].code#
+				            	  </iterate> 
+				            	  OR A.CRI_STAT_CD ='99' 
+							) A ON A.RCPT_NUM = C.RCPT_NUM
+				LEFT JOIN SJPB_INC_CRI_MB W ON A.RCPT_NUM = W.RCPT_NUM AND W.CRI_LV_CD = '01'
+				LEFT JOIN USERPASS U ON U.USER_ID = W.CRI_MB_ID
+				WHERE D.CODE_ID='SJPB_00002' AND C.RCPT_INC_NUM IS NOT NULL     
+					  <isNotEmpty property="fdCdArray" prepend="AND">
+							D.CODE IN($fdCdArray$)
+					  </isNotEmpty> 
+					  <isNotEmpty property="nmKor" prepend="AND">
+							U.NM_KOR = #nmKor#
+						</isNotEmpty>
+				GROUP BY ROLLUP (SUBSTR(C.RCPT_INC_NUM,1,4))
+			) D ON D.SORT = A.SORT
+			ORDER BY DECODE(A.SORT,'전체','1') ,A.SORT ASC       
+	</select>
+	<resultMap class="com.saltware.enface.sjpb.J.service.J0101SC" id="J0101VO.FdCdCodeNameList">
+		<result property="selectFdCdCodeList" column="SELECT_FD_CD_CODE_LIST"/>
+	</resultMap>
+	
+	<select id="J0301.selectCodeNameList" resultClass="java.lang.String">
+		SELECT LiSTAGG(CODE_NAME,',') WITHIN GROUP(ORDER BY CODE_TAG2) AS SELECT_FD_CD_CODE_LIST
+		FROM CODEBASE
+		WHERE CODE_ID= 'SJPB_00002'
+			  <isNotEmpty property="fdCdArray" prepend="AND">
+				  CODE IN($fdCdArray$)
+			  </isNotEmpty>
+	</select>
+</sqlMap>
+ 

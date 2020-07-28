@@ -1,0 +1,152 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sche">
+
+	<resultMap id="schedule.list" class="com.saltware.enhancer.calendar.service.ScheduleVO">
+		<result property="scheduleId" column="SCHEDULE_ID" columnIndex="1"/>	 
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="2"/>	 
+		<result property="allday" column="ALLDAY" columnIndex="3"/>
+		<result property="ownerId" columnIndex="4"/>	 
+		<result property="start" column="START_DATIM" columnIndex="5"/>
+		<result property="end" column="END_DATIM" columnIndex="6"/>
+		<result property="langKnd" column="LANG_KND" columnIndex="7"/>	 
+		<result property="name" column="NAME" columnIndex="8"/>
+		<result property="calPermissions" columnIndex="9"/>
+		<result property="permissions" columnIndex="10"/>
+		<result property="fgColor" columnIndex="11"/>
+		<result property="bgColor" columnIndex="12"/>
+		<result property="isJoint" columnIndex="13"/>
+	</resultMap>
+	
+	<select id="schedule.list.onwer" resultMap="schedule.list">/* schedule.list.onwer */
+		SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, LANG_KND, NAME, 'CRUDA' AS CAL_PERMISSIONS, 'CRUDA' AS PERMISSIONS,
+		FG_COLOR, BG_COLOR, 'N' AS IS_JOINT
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG B ON B.SCHEDULE_ID = A.SCHEDULE_ID AND LANG_KND=#langKnd#
+		JOIN CALENDAR C ON C.CALENDAR_ID = A.CALENDAR_ID
+		WHERE C.OWNER_ID=#ownerId# AND a.CALENDAR_ID=#calendarId#
+		<isNotNull property="start" prepend=" AND "><![CDATA[START_DATIM <= TO_DATE(#end#, 'YYYY-MM-DD HH24:MI') AND TO_DATE(#start#, 'YYYY-MM-DD HH24:MI') <= END_DATIM]]></isNotNull>
+		ORDER BY START_DATIM
+	</select>
+	
+	<select id="schedule.list.joint.calendar" resultMap="schedule.list">/* schedule.list.joint.calendar */
+	 	SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, LANG_KND, NAME, d.PERMISSIONS AS CAL_PERMISSIONS, a.PERMISSIONS,
+		nvl(d.FG_COLOR, c.FG_COLOR) AS FG_COLOR, nvl(d.BG_COLOR, c.BG_COLOR) AS BG_COLOR, 'N' AS IS_JOINT
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG B ON B.SCHEDULE_ID = A.SCHEDULE_ID AND LANG_KND=#langKnd#
+		JOIN CALENDAR C ON C.CALENDAR_ID = A.CALENDAR_ID
+		JOIN CALENDAR_USER D ON D.CALENDAR_ID = C.CALENDAR_ID
+		WHERE D.USER_ID=#userId# AND a.CALENDAR_ID=#calendarId#
+		<isNotNull property="start" prepend=" AND "><![CDATA[START_DATIM <= TO_DATE(#end#, 'YYYY-MM-DD HH24:MI') AND TO_DATE(#start#, 'YYYY-MM-DD HH24:MI') <= END_DATIM]]></isNotNull>
+		ORDER BY START_DATIM
+	</select>
+
+	<select id="schedule.list.joint.schedule" resultMap="schedule.list">/* schedule.list.joint.schedule */
+		SELECT a.SCHEDULE_ID, #calendarId# AS CALENDAR_ID, ALLDAY, c.USER_ID, START_DATIM, END_DATIM, LANG_KND, NAME, a.PERMISSIONS AS CAL_PERMISSIONS, a.PERMISSIONS,
+		(SELECT FG_COLOR FROM CALENDAR WHERE IS_DEFAULT='Y' AND OWNER_ID=#userId#) AS FG_COLOR,  
+		(SELECT BG_COLOR FROM CALENDAR WHERE IS_DEFAULT='Y' AND OWNER_ID=#userId#) AS BG_COLOR,
+		'Y' AS IS_JOINT
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG b ON b.SCHEDULE_ID = a.SCHEDULE_ID
+		JOIN SCHEDULE_USER c ON c.SCHEDULE_ID = a.SCHEDULE_ID
+		JOIN CALENDAR d ON d.CALENDAR_ID = a.CALENDAR_ID
+		WHERE c.USER_ID=#userId# 
+		AND LANG_KND=#langKnd#
+		<isNotNull property="start" prepend=" AND "><![CDATA[START_DATIM <= TO_DATE(#end#, 'YYYY-MM-DD HH24:MI') AND TO_DATE(#start#, 'YYYY-MM-DD HH24:MI') <= END_DATIM]]></isNotNull>
+		ORDER BY START_DATIM
+	</select>
+	
+	<select id="schedule.list.public" resultMap="schedule.list">/* schedule.list.public */
+	 	SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, LANG_KND, NAME, nvl(d.PERMISSIONS, 'R') AS CAL_PERMISSIONS, nvl(a.PERMISSIONS, 'R'),
+		nvl(d.FG_COLOR, c.FG_COLOR) AS FG_COLOR, nvl(d.BG_COLOR, c.BG_COLOR) AS BG_COLOR, 'N' AS IS_JOINT
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG B ON B.SCHEDULE_ID = A.SCHEDULE_ID AND LANG_KND=#langKnd#
+		JOIN CALENDAR C ON C.CALENDAR_ID = A.CALENDAR_ID
+		LEFT OUTER JOIN CALENDAR_USER D ON D.CALENDAR_ID = C.CALENDAR_ID AND D.USER_ID=#userId#
+		WHERE a.CALENDAR_ID=#calendarId#
+		<isNotNull property="start" prepend=" AND "><![CDATA[START_DATIM <= TO_DATE(#end#, 'YYYY-MM-DD HH24:MI') AND TO_DATE(#start#, 'YYYY-MM-DD HH24:MI') <= END_DATIM]]></isNotNull>
+		ORDER BY START_DATIM
+	</select>
+	
+	<resultMap id="schedule.detail" class="com.saltware.enhancer.calendar.service.ScheduleVO">
+		<result property="scheduleId" column="SCHEDULE_ID" columnIndex="1"/>	 
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="2"/>	 
+		<result property="allday" column="ALLDAY" columnIndex="3"/>
+		<result property="ownerId" columnIndex="4"/>	 
+		<result property="start" column="START_DATIM" columnIndex="5"/>
+		<result property="end" column="END_DATIM" columnIndex="6"/>
+		<result property="calPermissions" columnIndex="7"/>
+		<result property="permissions" columnIndex="8"/>
+		<result property="fgColor" columnIndex="9"/>
+		<result property="bgColor" columnIndex="10"/>
+		<result property="insDatim" column="INS_DATIM" columnIndex="11"/>
+		<result property="updDatim" column="UPD_DATIM" columnIndex="12"/>
+	</resultMap>
+	
+	<select id="schedule.detail.owner" resultMap="schedule.detail"> /* schedule.detail.owner */
+		SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, 'CRUDA' AS CAL_PERMISSIONS, a.PERMISSIONS, a.INS_DATIM, a.UPD_DATIM 
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG b ON b.SCHEDULE_ID = a.SCHEDULE_ID
+		JOIN CALENDAR c ON c.calendar_id = a.calendar_id
+		WHERE c.OWNER_ID=#userId# AND LANG_KND=#langKnd# AND a.SCHEDULE_ID=#scheduleId#
+	</select>
+	
+	<select id="schedule.detail.joint.calendar" resultMap="schedule.detail"> /* schedule.detail.joint.calendar */
+		SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, c.PERMISSIONS AS CAL_PERMISSIONS, a.PERMISSIONS, a.INS_DATIM, a.UPD_DATIM 
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG b ON b.SCHEDULE_ID = a.SCHEDULE_ID
+		JOIN CALENDAR_USER c ON c.calendar_id = a.calendar_id
+		WHERE c.USER_ID=#userId# AND LANG_KND=#langKnd# AND a.SCHEDULE_ID=#scheduleId#
+	</select>
+	
+	<select id="schedule.detail.joint.schedule" resultMap="schedule.detail"> /* schedule.detail.joint.schedule */
+		SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, a.PERMISSIONS AS CAL_PERMISSIONS, a.PERMISSIONS, a.INS_DATIM, a.UPD_DATIM 
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG b ON b.SCHEDULE_ID = a.SCHEDULE_ID
+		JOIN SCHEDULE_USER c ON c.SCHEDULE_ID = a.SCHEDULE_ID 
+		WHERE c.USER_ID=#userId# AND LANG_KND=#langKnd# AND a.SCHEDULE_ID=#scheduleId#
+	</select>
+	
+	<select id="schedule.detail.public" resultMap="schedule.detail"> /* schedule.detail.public */
+		SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, nvl(c.PERMISSIONS, 'R') AS CAL_PERMISSIONS, nvl(a.PERMISSIONS, 'R'), a.INS_DATIM, a.UPD_DATIM  
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG b ON b.SCHEDULE_ID = a.SCHEDULE_ID AND LANG_KND=#langKnd#
+		LEFT OUTER JOIN CALENDAR_USER c ON c.calendar_id = a.calendar_id AND c.USER_ID=#userId#
+		WHERE a.SCHEDULE_ID=#scheduleId#
+	</select>
+	
+	<insert id="schedule.insert">/* schedule.insert */
+		INSERT INTO SCHEDULE (SCHEDULE_ID, CALENDAR_ID, ALLDAY, OWNER_ID, PERMISSIONS, START_DATIM, END_DATIM, INS_DATIM, UPD_DATIM)
+		VALUES (#scheduleId#, #calendarId#, $allday$, #ownerId#, #permissions#, TO_TIMESTAMP(#start#, 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP(#end#, 'YYYY-MM-DD HH24:MI'), SYSDATE, SYSDATE)
+	</insert>
+	
+	<update id="schedule.update">/* schedule.update */
+		UPDATE SCHEDULE SET START_DATIM=TO_TIMESTAMP(#start#, 'YYYY-MM-DD HH24:MI'), END_DATIM=TO_TIMESTAMP(#end#, 'YYYY-MM-DD HH24:MI'), UPD_DATIM=SYSDATE
+		<isNotNull property="permissions">, PERMISSIONS=#permissions#</isNotNull>
+		<isNotNull property="calendarId">, CALENDAR_ID=#calendarId#</isNotNull>
+		<isNotNull property="allday">, ALLDAY=$allday$</isNotNull> 
+		WHERE SCHEDULE_ID=#scheduleId#
+	</update>
+	
+	<delete id="schedule.delete">/* schedule.delete */
+		DELETE FROM SCHEDULE 
+		WHERE SCHEDULE_ID=#scheduleId#
+	</delete>
+	
+	<delete id="schedule.delete.owner">/* schedule.delete.owner */
+		DELETE FROM SCHEDULE 
+		WHERE SCHEDULE_ID=#scheduleId# AND OWNER_ID=#ownerId#
+	</delete>
+	
+	<delete id="schedule.delete.joint">/* schedule.delete.joint */
+		DELETE FROM SCHEDULE 
+		WHERE SCHEDULE_ID=#scheduleId# AND OWNER_ID=#ownerId#
+	</delete>
+	
+	<delete id="schedule.delete.calendar">/* schedule.delete.calendar */
+		DELETE FROM SCHEDULE 
+		WHERE CALENDAR_ID=#calendarId#
+	</delete>
+	
+</sqlMap>
+

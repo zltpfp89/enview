@@ -1,0 +1,28 @@
+
+The modern Thai calendar is based on the solar year 
+and conforms to the international date system based on 
+the Gregorian Calendar with January 1st as the first day 
+of year, but counts years from the beginning of the Buddhist
+Era in 543 BCE.  So, to get the BE year from the CE year, one
+just adds 543 to the CE year.
+
+Thailand adopted the solar calendar officially during the
+reign of King Rama V in B.E. 2431 using April 1 as the first
+day of year. In B.E. 2483, the government of Field Marshall
+Pibulsongkram changed the first day of year to January 1.
+As a result, both B.E. 2431 and B.E. 2483 were shorter than 
+usual.  Currently, this Javascript calendar does *not* take 
+these artifacts into account but simply displays the Gregorian
+calendar for years prior to B.E. 2483 (1940) which could be
+a problem for some applications.
+
+Note that the calendar still returns the date in ISO 8601 format,
+which is to say that it returns the CE year even though the
+BE year is displayed on the calendar.  This is done so that one
+can use the calendar in applications that conform to international
+standards.  Of course, you can modify the code if you don't want
+this behaviour.
+
+References:
+
+1. http://www.faqs.org/faqs/thai/culture/section-5.html

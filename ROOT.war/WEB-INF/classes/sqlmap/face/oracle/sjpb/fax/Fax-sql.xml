@@ -1,0 +1,289 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="face">	
+    
+    <resultMap class="com.saltware.enface.sjpb.fax.FaxVO" id="faxVO">
+		<result property="sendNo" column="SEND_NO"/>
+		<result property="sendFaxNo" column="SEND_FAX_NO"/>
+		<result property="sendFile" column="SEND_FILE"/>
+		<result property="sendDay" column="SEND_DAY"/>
+		<result property="sendDiv" column="SEND_DIV"/>
+		<result property="sendDivNm" column="SEND_DIV_NM"/>
+		<result property="sendConPath" column="SEND_CON_PATH"/>
+		<result property="sendConFile" column="SEND_CON_FILE"/>
+		<result property="dealSvrId" column="DEAL_SVR_ID"/>
+		<result property="susaCaseNo" column="SUSA_CASE_NO"/>
+		<result property="susaCaseNm" column="SUSA_CASE_NM"/>
+		<result property="finesMembNo" column="FINES_MEMB_NO"/>
+		<result property="receiver" column="RECEIVER"/>
+		<result property="membNo" column="MEMB_NO"/>
+		<result property="branchNo" column="BRANCH_NO"/>
+		<result property="submDate" column="SUBM_DATE"/>
+		<result property="docNo" column="DOC_NO"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="regUserNm" column="REG_USER_NM"/>
+		<result property="regUserFax" column="REG_USER_FAX"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="totalPage" column="TOTAL_PAGE"/>
+		<result property="rcvType" column="RCV_TYPE"/>
+		<result property="remk" column="REMK"/>
+    </resultMap>
+    
+    <select id="fax.selectFaxList" resultMap="faxVO">
+    	SELECT 
+    		SEND_NO,
+    		SEND_FAX_NO,
+    		SEND_FILE,
+    		TO_CHAR(SEND_DAY, 'YYYY-MM-DD') AS SEND_DAY,
+    		SEND_DIV,
+    		DECODE(SEND_DIV, '0', '작성중', '1', '대기중', '2', '처리중', '3', '송신성공', '4', '송신실패', '5', '송신에러', '6', '부분성공', '7', '취소') AS SEND_DIV_NM,
+    		SEND_CON_PATH,
+    		SEND_CON_FILE,
+    		DEAL_SVR_ID,
+    		SUSA_CASE_NO,
+    		(SELECT RCPT_INC_NUM FROM SJPB_INC_MAST WHERE RCPT_NUM=SUSA_CASE_NO) AS SUSA_CASE_NM,
+    		FINES_MEMB_NO,
+    		RECEIVER,
+    		MEMB_NO,
+    		BRANCH_NO,
+    		SUBM_DATE,
+    		DOC_NO,
+    		EMP_NO,
+    		REG_USER_NM,
+    		REG_USER_FAX,
+    		TO_CHAR(REG_DATE, 'YYYY-MM-DD') AS REG_DATE,
+    		TOTAL_PAGE,
+    		RCV_TYPE,
+    		REMK
+    	FROM
+    		EM_FAX_SEND
+    	WHERE
+    		1=1
+    		<isNotEmpty property="srchDocNo" prepend="AND">
+    			DOC_NO LIKE '%' || #srchDocNo# || '%'
+    		</isNotEmpty>
+    		<isNotEmpty property="srchCaseNo" prepend="AND">
+    			SUSA_CASE_NO = #srchCaseNo# 
+    		</isNotEmpty>
+    		<isNotEmpty property="srchUser" prepend="AND">
+    			REG_USER_NM LIKE '%' || #srchUser# || '%'
+    		</isNotEmpty>
+    		<isNotEmpty property="srchReceiver" prepend="AND">
+    			RECEIVER LIKE '%' || #srchReceiver# || '%'
+    		</isNotEmpty>
+    		<isNotEmpty property="srchStartDate" prepend="AND">
+    			SEND_DAY <![CDATA[>=]]> TO_DATE(#srchStartDate#, 'YYYY-MM-DD')
+    		</isNotEmpty>
+    		<isNotEmpty property="srchEndDate" prepend="AND">
+    			SEND_DAY <![CDATA[<=]]> TO_DATE(#srchEndDate#, 'YYYY-MM-DD')
+    		</isNotEmpty>
+    		<isNotEmpty property="srchStatus" prepend="AND">
+    			SEND_DIV=#srchStatus#
+    		</isNotEmpty>
+    		<isNotEmpty property="sendNo" prepend="AND">
+    			SEND_NO=#sendNo#
+    		</isNotEmpty>
+    	ORDER BY A.REG_DATE DESC
+    </select>
+    
+    <insert id="fax.saveFaxSend">
+    	INSERT 
+    	  INTO EM_FAX_SEND
+    	  (
+    		SEND_NO,
+    		SEND_FAX_NO,
+    		SEND_FILE,
+    		SEND_DAY,
+    		SEND_DIV,
+    		SEND_CON_PATH,
+    		SEND_CON_FILE,
+    		DEAL_SVR_ID,
+    		SUSA_CASE_NO,
+    		FINES_MEMB_NO,
+    		RECEIVER,
+    		MEMB_NO,
+    		BRANCH_NO,
+    		SUBM_DATE,
+    		DOC_NO,
+    		EMP_NO,
+    		REG_USER_NM,
+    		REG_USER_FAX,
+    		REG_DATE,
+    		TOTAL_PAGE,
+    		RCV_TYPE,
+    		REMK)
+    	VALUES
+   		(	LPAD(#sendNo#, 8, '0'),
+    		#sendFaxNo#,
+    		#sendFile#,
+    		#sendDay#,
+    		0,
+    		#sendConFile#,
+    		#sendConPath#,
+    		#dealSvrId#,
+    		#susaCaseNo#,
+    		#finesMembNo#,
+    		#receiver#,
+    		#membNo#,
+    		#branchNo#,
+    		#submDate#,
+    		'특사경-' || (SELECT ZBF_GET_DOCNO('now') FROM DUAL),
+    		#empNo#,
+    		#regUserNm#,
+    		#regUserFax#,
+    		SYSDATE,
+    		#totalPage#,
+    		#rcvType#,
+    		#remk#)
+    </insert>
+    
+    <update id="fax.updateFaxSend">
+    	UPDATE
+    		EM_FAX_SEND
+    	SET
+    		 SEND_FAX_NO   = #sendFaxNo#
+    		,SEND_FILE     = #sendFile#
+    		,SEND_DIV      = 0
+    		,SUSA_CASE_NO  = #susaCaseNo#
+    		,FINES_MEMB_NO   = #finesMembNo#
+    		,RECEIVER      = #receiver#
+    		,MEMB_NO       = #membNo#
+    		,BRANCH_NO     = #branchNo#
+    		,REG_USER_NM   = #regUserNm#
+    		,REG_USER_FAX  = #regUserFax#
+    		,TOTAL_PAGE = #totalPage#
+    		,RCV_TYPE = #rcvType#
+    		,REMK = #remk#
+    	WHERE 
+    		SEND_NO = #sendNo#
+    </update>
+    
+    <update id="fax.changeSendStatus">
+    	UPDATE
+    		EM_FAX_SEND
+    	SET 
+    		SEND_DIV='1',
+    		SEND_FILE=#sendFile#
+    	WHERE
+    		SEND_NO=#sendNo#
+    </update>
+    
+	<insert id="fax.insertFaxAtchMgt">
+		INSERT INTO FAX_FILE_MGT
+		(
+		  SEND_NO
+		, FILE_ID
+		, FILE_SEQ
+		)
+		VALUES
+		( 
+		  LPAD(#sendNo#, 8, '0') 
+		, #fileId#
+		, #fileSeq#
+		)
+	</insert>
+	
+    <delete id="fax.deleteFaxAtchMgt">
+        DELETE FROM FAX_FILE_MGT
+         WHERE SEND_NO = #sendNo#
+    </delete>
+    
+    <resultMap class="com.saltware.enface.sjpb.Z.service.SjpbFileVO" id="faxFileVO">
+		<result property="fileId" column="FILE_ID"/>
+		<result property="fileNm" column="FILE_NM"/>
+		<result property="fileSize" column="FILE_SIZE"/>
+		<result property="fileMask" column="FILE_MASK"/>
+		<result property="fileType" column="FILE_TYPE"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="fileCtype" column="FILE_CTYPE"/>
+		<result property="sizeSF" column="FILE_SIZESF"/>
+	</resultMap>
+	
+    <select id="fax.selectFaxFileList" resultMap="faxFileVO">
+        SELECT C.FILE_ID
+		     , C.FILE_NM                      
+		     , C.FILE_SIZE 
+		     , C.FILE_MASK                     
+		     , C.FILE_TYPE                      
+		     , C.FILE_PATH                      
+		     , C.FILE_CTYPE                   
+		     , '(' || CASE WHEN (C.FILE_SIZE/1024) <![CDATA[>=]]> 1024 THEN ROUND(C.FILE_SIZE/1024/1024, 1) ||' MB'                                                  
+		                   WHEN (C.FILE_SIZE/1024) <![CDATA[<]]>  1024 THEN ROUND(C.FILE_SIZE/1024, 1) || 'KB'                                             
+		                   ELSE ''  END || ')' FILE_SIZESF
+		  FROM 
+		  	FAX_FILE_MGT B
+		  LEFT OUTER JOIN 
+		 	EM_FAX_SEND  A  
+		  ON A.SEND_NO   = B.SEND_NO
+		  RIGHT OUTER JOIN 
+		 	SJPB_COMM_FILE C
+		  ON B.FILE_ID   = C.FILE_ID
+		  WHERE 1=1
+            AND B.SEND_NO = #sendNo#
+          ORDER BY B.FILE_SEQ
+    </select>
+    
+    <resultMap class="com.saltware.enface.sjpb.fax.FaxVO" id="bankVO">
+		<result property="membNo" column="MEMB_NO"/>
+		<result property="branchNo" column="BRANCH_NO"/>
+		<result property="finesMembNo" column="FINES_MEMB_NO"/>
+		<result property="receiver" column="BRANCH_NM"/>
+		<result property="sendFaxNo" column="FAX_NO"/>
+    </resultMap>
+    
+    <select id="fax.selectBankList" resultMap="bankVO">
+    	SELECT 
+    		MEMB_NO,
+    		BRANCH_NO,
+    		FINES_MEMB_NO,
+    		MEMB_NM || '(' || BRANCH_NM || ')' AS BRANCH_NM,
+    		FAX_NO
+    	FROM TB_JCCC002@JOSAONDB_JOSA
+    	WHERE 1=1
+    		AND FAX_NO IS NOT NULL
+    	<isNotEmpty property="srchBankNm" prepend="AND"> 
+    		MEMB_NM LIKE '%' || #srchBankNm# || '%'
+    	</isNotEmpty>
+    </select>
+    
+    <select id="fax.selectFileName" parameterClass="java.lang.String" resultClass="java.lang.String">
+    	SELECT
+		     FILE_MASK                    
+		FROM 
+			SJPB_COMM_FILE
+		WHERE FILE_ID=#fileId#
+    </select>
+    
+    <resultMap class="com.saltware.enface.sjpb.Z.service.SjpbFileVO" id="faxFileIdVO">
+		<result property="fileId" column="FILE_ID"/>
+		<result property="fileNm" column="FILE_NM"/>
+	</resultMap>
+	
+	<select id="fax.selectFaxFileIdList" resultMap = "faxFileIdVO">
+		SELECT
+			 A.FILE_MGT
+			,A.FILE_PATH
+		FROM SJPB_COMM_FILE A
+		JOIN FAX_FILE_MGT B
+		ON A.FILE_ID=B.FILE_ID
+		WHERE SEND_NO=#sendNo#
+		ORDER BY FILE_SEQ
+	</select>
+	
+	<select id="fax.selectSavedFile" parameterClass="java.lang.String" resultClass="java.lang.String">
+		SELECT
+			SEND_FILE
+		FROM 
+			EM_FAX_SEND
+		WHERE 
+			SEND_NO=#sendNo#
+	</select> 
+	
+	<!-- select id="fax.selectMaxSendNo" resultClass="int">
+		SELECT
+			TO_NUMBER(NVL(MAX(TO_NUMBER(SEND_NO)), 0))
+		FROM 
+			EM_FAX_SEND
+	</select-->
+    
+</sqlMap>

@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:flow="http://www.springframework.org/schema/webflow-config"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/webflow-config
+		                   http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd
+                           http://www.springframework.org/schema/tx 
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop 
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- View Resolver for JSPs -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/apps/enhancer/WEB-INF/view/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="1" />
+	</bean>
+	<!-- View Resolver for download without Bean id -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0" />
+	</bean>
+ 
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.lang.Exception">friendlyError</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- Multipart Resolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="EUC-KR"/>
+	</bean>
+	
+	<!-- 어플리케이션 관리 처리기 -->
+	<bean id="com.saltware.enhancer.admin.AppController" class="com.saltware.enhancer.admin.app.control.AppController">
+		<property name="appManager" ref="com.saltware.enhancer.admin.AppManager" />
+	</bean>
+	
+	<bean id="com.saltware.enhancer.admin.CategoryController" class="com.saltware.enhancer.admin.rss.control.CategoryController">
+		<property name="rssManager" ref="com.saltware.enhancer.admin.RssManager"/>
+	</bean>
+	
+	<bean id="com.saltware.enhancer.admin.FeedController" class="com.saltware.enhancer.admin.rss.control.FeedController">
+		<property name="rssManager" ref="com.saltware.enhancer.admin.RssManager"/>
+	</bean>
+	
+	<bean id="com.saltware.enhancer.admin.EntryController" class="com.saltware.enhancer.admin.rss.control.EntryController">
+		<property name="rssManager" ref="com.saltware.enhancer.admin.RssManager"/>
+	</bean>
+	
+	<bean id="com.saltware.enhancer.admin.CalendarController" class="com.saltware.enhancer.admin.calendar.control.CalendarController">
+		<property name="calendarManager" ref="com.saltware.enhancer.admin.CalendarManager"/>
+	</bean>
+
+	<!-- 쪽지 관리 처리기 -->
+	<bean id="noteController" class="com.saltware.enhancer.note.control.NoteController">
+		<property name="noteManager" ref="com.saltware.enhancer.note.NoteManager" />
+		<property name="appManager" ref="com.saltware.enhancer.admin.AppManager" />
+		<property name="fileManager" ref="com.saltware.enhancer.FileManager"/>
+	</bean>
+	
+	<!-- 쪽지 환경 설정 처리기 -->
+	<bean id="noteOptionController" class="com.saltware.enhancer.note.control.NoteOptionController">
+		<property name="noteManager" ref="com.saltware.enhancer.note.NoteManager" />
+		<property name="appManager" ref="com.saltware.enhancer.admin.AppManager" />
+	</bean>
+	
+	<!-- 보낸 쪽지함 처리기 -->
+	<bean id="sendBoxController" class="com.saltware.enhancer.note.control.SendBoxController">
+		<property name="noteManager" ref="com.saltware.enhancer.note.NoteManager" />
+		<property name="appManager" ref="com.saltware.enhancer.admin.AppManager" />
+		<property name="fileManager" ref="com.saltware.enhancer.FileManager"/>
+	</bean>
+	
+	<!-- 받은 쪽지함 처리기 -->
+	<bean id="receiveBoxController" class="com.saltware.enhancer.note.control.ReceiveBoxController">
+		<property name="noteManager" ref="com.saltware.enhancer.note.NoteManager" />
+		<property name="appManager" ref="com.saltware.enhancer.admin.AppManager" />
+		<property name="fileManager" ref="com.saltware.enhancer.FileManager"/>
+	</bean>
+	
+	<!-- 쪽지 보관함 처리기 -->
+	<bean id="storeBoxController" class="com.saltware.enhancer.note.control.StoreBoxController">
+		<property name="noteManager" ref="com.saltware.enhancer.note.NoteManager" />
+		<property name="appManager" ref="com.saltware.enhancer.admin.AppManager" />
+		<property name="fileManager" ref="com.saltware.enhancer.FileManager"/>
+	</bean>
+	
+	<!-- 수신 확인함 처리기 -->
+	<bean id="readCheckBoxController" class="com.saltware.enhancer.note.control.ReadCheckBoxController">
+		<property name="noteManager" ref="com.saltware.enhancer.note.NoteManager" />
+		<property name="appManager" ref="com.saltware.enhancer.admin.AppManager" />
+		<property name="fileManager" ref="com.saltware.enhancer.FileManager"/>
+	</bean>
+	
+	<!-- 쪽지 휴지통 처리기 -->
+	<bean id="recyclebinBoxController" class="com.saltware.enhancer.note.control.RecyclebinBoxController">
+		<property name="noteManager" ref="com.saltware.enhancer.note.NoteManager" />
+		<property name="appManager" ref="com.saltware.enhancer.admin.AppManager" />
+		<property name="fileManager" ref="com.saltware.enhancer.FileManager"/>
+	</bean>
+	
+	<!-- Multi-part file upload 처리기 -->
+	<bean id="FileManagerController" class="com.saltware.enhancer.tool.filemng.control.FileManagerController">
+		<property name="appManager" ref="com.saltware.enhancer.admin.AppManager" />
+		<property name="fileManager" ref="com.saltware.enhancer.FileManager"/>
+	</bean>
+	
+	<bean id="com.saltware.enhancer.FeedController" class="com.saltware.enhancer.rss.control.FeedController">
+	    <property name="appManager" ref="com.saltware.enhancer.admin.AppManager" />
+		<property name="rssManager" ref="com.saltware.enhancer.rss.RssManager"/>
+	</bean>
+	
+	<bean id="com.saltware.enhancer.EntryController" class="com.saltware.enhancer.rss.control.EntryController">
+	    <property name="appManager" ref="com.saltware.enhancer.admin.AppManager" />
+		<property name="rssManager" ref="com.saltware.enhancer.rss.RssManager"/>
+	</bean>
+	
+	<!-- 캘린더 관리 처리기 -->
+	<bean id="calendarController" class="com.saltware.enhancer.calendar.web.CalendarController">
+		<property name="calendarService" ref="com.saltware.enhancer.calendar.service.CalendarService" />
+		<property name="appManager" ref="com.saltware.enhancer.admin.AppManager" />
+		<property name="scheduleService" ref="com.saltware.enhancer.calendar.service.ScheduleService" />
+	</bean>
+	
+	<!-- 일정 관리 처리기 -->
+	<bean id="scheduleController" class="com.saltware.enhancer.calendar.web.ScheduleController">
+		<property name="scheduleService" ref="com.saltware.enhancer.calendar.service.ScheduleService" />
+		<property name="appManager" ref="com.saltware.enhancer.admin.AppManager" />
+		<property name="calendarService" ref="com.saltware.enhancer.calendar.service.CalendarService" />
+	</bean>
+	
+	<!-- banner 관리자  -->
+	<bean id="bannerMngController" class="com.saltware.enhancer.admin.banner.control.BannerMngController">
+		<property name="bannerMngDAO" ref="bannerMngDAO" />
+	</bean>
+	 
+	<!-- event 관리자  -->
+	<bean id="eventMngController" class="com.saltware.enhancer.admin.event.control.EventMngController">
+		<property name="eventMngDAO" ref="eventMngDAO" />
+	</bean>
+	
+	<!-- banner 사용자 -->	
+ 	<bean id="bannerUserController" class="com.saltware.enhancer.banner.web.BannerUserController" >
+		<property name="bannerUserDAO" ref="bannerUserDAO" />	
+	</bean>
+	 
+	<!-- Event 사용자 -->	
+	<bean id="eventUserController" class="com.saltware.enhancer.event.web.EventUserController" >
+		<property name="eventUserDAO" ref="eventUserDAO" />	
+	</bean>
+	
+	<!--// 회원 URL 메핑 //-->
+    <bean id="memberUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="enhancerSecurityInterceptor"/>
+			</list>
+		</property>
+        <property name="mappings">
+            <props>
+            	<!-- 캘린더 관리 -->
+            	<prop key="/calendar/calendar.hanc">calendarController</prop>
+            	<prop key="/calendar/publicCalendar.hanc">calendarController</prop>
+            	<prop key="/calendar/userPublicCalendar.hanc">calendarController</prop>
+            	<prop key="/calendar/specificCalendar.hanc">calendarController</prop>
+            	<prop key="/calendar/calendarDetail.hanc">calendarController</prop>
+            	<prop key="/calendar/saveCalendar.hanc">calendarController</prop>
+            	<prop key="/calendar/deleteCalendar.hanc">calendarController</prop>
+            	<prop key="/calendar/modifyLang.hanc">calendarController</prop>
+            	<prop key="/calendar/addCalendarUser.hanc">calendarController</prop>
+            	<prop key="/calendar/modifyCalendarUser.hanc">calendarController</prop>
+            	<prop key="/calendar/removeCalendarUser.hanc">calendarController</prop>
+            	
+            	<!-- forAjaxURL -->
+            	<prop key="/calendar/calendarList.hanc">calendarController</prop>
+            	<prop key="/calendar/publicCalendarList.hanc">calendarController</prop>
+            	<prop key="/calendar/searchUser.hanc">calendarController</prop>
+            	<prop key="/calendar/popupMenu.hanc">calendarController</prop>
+            	<prop key="/calendar/changeUserBgColor.hanc">calendarController</prop>
+            	<prop key="/calendar/timepicker.hanc">scheduleController</prop>
+
+				<!-- 일정 관리 -->
+				<prop key="/calendar/scheduleList.hanc">scheduleController</prop>
+				<prop key="/calendar/dayScheduleList.hanc">scheduleController</prop>            	
+				<prop key="/calendar/schedule.hanc">scheduleController</prop>
+				<prop key="/calendar/scheduleDetail.hanc">scheduleController</prop>
+				<prop key="/calendar/saveSchedule.hanc">scheduleController</prop>
+				<prop key="/calendar/moveSchedule.hanc">scheduleController</prop>
+				<prop key="/calendar/resizeSchedule.hanc">scheduleController</prop>
+				<prop key="/calendar/deleteSchedule.hanc">scheduleController</prop>
+            	
+            	<!-- iCal 관련: 2014. 05. 20 추가/변경 -->
+            	<prop key="/calendar/icalMenu.hanc">calendarController</prop>
+            	<prop key="/calendar/*/ics/exportSchedule.hanc">calendarController</prop>
+            	<prop key="/calendar/*/ics/importSchedule.hanc">calendarController</prop>
+            	
+            	<!-- 모바일 캘린더 -->
+            	<prop key="/calendar/mobileCalendar.hanc">calendarController</prop>
+            	
+				<!-- 쪽지 관리 메인 -->
+				<prop key="/note/note.hanc">noteController</prop>
+				
+				<!-- 팝업으로 사용자 지정할 때 -->
+				<prop key="/note/popup.hanc">noteController</prop>
+				
+				<!-- 새 쪽지 -->
+				<prop key="/note/newNote.hanc">noteController</prop>
+
+				<!-- 쪽지 쓰기 -->				
+				<prop key="/note/writeForm.hanc">noteController</prop>
+				<prop key="/note/write.hanc">noteController</prop>
+				
+				<!-- 답장 쓰기 -->
+				<prop key="/note/replyForm.hanc">noteController</prop>
+				
+				<!-- 사용자 검색 메인 -->
+				<prop key="/note/search.hanc">noteController</prop>
+
+				<!-- 사용자 검색 하기 -->
+				<prop key="/note/searchUser.hanc">noteController</prop>
+				
+				<!-- 쪽지 개인 환경 설정 -->
+				<prop key="/note/userOption.hanc">noteOptionController</prop>
+				
+				<!-- 보관함 비우기 -->
+				<prop key="/note/emptyReceiveBox.hanc">noteOptionController</prop>
+				<prop key="/note/emptySendBox.hanc">noteOptionController</prop>
+				<prop key="/note/emptyReadCheckBox.hanc">noteOptionController</prop>
+				<prop key="/note/emptyRecyclebinBox.hanc">noteOptionController</prop>
+				
+				<!-- 보관함 백업하기 -->
+				<prop key="/note/backupReceiveBox.hanc">noteOptionController</prop>
+				<prop key="/note/backupSendBox.hanc">noteOptionController</prop>
+				<prop key="/note/backupStoreBox.hanc">noteOptionController</prop>
+				
+				<!-- 모두 읽음 표시 -->
+				<prop key="/note/readAllNotes.hanc">noteOptionController</prop>
+				
+				<!-- 수신 설정 -->
+				<prop key="/note/receiveSetting.hanc">noteOptionController</prop>
+				
+				<prop key="/note/blockUser.hanc">noteOptionController</prop>
+				<prop key="/note/unblockUser.hanc">noteOptionController</prop>
+				<prop key="/note/addBox.hanc">noteOptionController</prop>
+				<prop key="/note/deleteBox.hanc">noteOptionController</prop>
+				<prop key="/note/addAutoMoveBox.hanc">noteOptionController</prop>
+				<prop key="/note/deleteAutoMoveBox.hanc">noteOptionController</prop>
+				
+				<!-- 쪽지 읽기 -->
+				<prop key="/note/readSendNote.hanc">noteController</prop>
+				<prop key="/note/readReceiveNote.hanc">noteController</prop>
+				<prop key="/note/receiverList.hanc">noteController</prop>
+				
+				<!-- 쪽지 보관 -->
+				<prop key="/note/storeNote.hanc">noteController</prop>
+				
+				<!-- 쪽지 삭제 -->
+				<prop key="/note/deleteNote.hanc">noteController</prop>
+				
+				<!-- 쪽지 복원 -->
+				<prop key="/note/restoreNote.hanc">noteController</prop>
+				
+				<!-- 받은 쪽지함 기능들 -->
+				<prop key="/note/receiveBox.hanc">receiveBoxController</prop>
+				<prop key="/note/deleteReceiveNotes.hanc">receiveBoxController</prop>
+				<prop key="/note/storeReceiveNotes.hanc">receiveBoxController</prop>
+				
+				<!-- 보낸 쪽지함 기능들 -->
+				<prop key="/note/sendBox.hanc">sendBoxController</prop>
+				<prop key="/note/deleteSendNotes.hanc">sendBoxController</prop>
+				<prop key="/note/storeSendNotes.hanc">sendBoxController</prop>
+				
+				<!-- 영구 보관함 기능들 -->
+				<prop key="/note/storeBox.hanc">storeBoxController</prop>
+				<prop key="/note/deleteStoreNotes.hanc">storeBoxController</prop>
+				
+				<!-- 수신 확인함 기능들 -->
+				<prop key="/note/readCheckBox.hanc">readCheckBoxController</prop>
+				<prop key="/note/deleteReadCheckNote.hanc">readCheckBoxController</prop>
+				<prop key="/note/deleteReadCheckNotes.hanc">readCheckBoxController</prop>
+				
+				<!-- 휴지통 기능들 -->
+				<prop key="/note/recyclebinBox.hanc">recyclebinBoxController</prop>
+				<prop key="/note/deleteRecyclebinNotes.hanc">recyclebinBoxController</prop>
+				<prop key="/note/restoreRecyclebinNotes.hanc">recyclebinBoxController</prop>
+				
+				
+				<!-- 쪽지 전체 환경 설정(관리자 전용) -->
+				<prop key="/note/option.hanc">noteOptionController</prop>
+				
+				<!-- 쪽지 사용자 검색 옵션 -->
+				<prop key="/note/searchOption.hanc">noteOptionController</prop>
+				
+				<!-- 쪽지 사용자 검색 범위 -->
+				<prop key="/note/searchRange.hanc">noteOptionController</prop>
+				
+				<!-- RSS 사용자 메뉴 -->
+				<prop key="/rss/myRss.hanc">com.saltware.enhancer.FeedController</prop>
+				
+				<prop key="/rss/myFeedList.hanc">com.saltware.enhancer.FeedController</prop>
+				<prop key="/rss/detailMyFeed.hanc">com.saltware.enhancer.FeedController</prop>
+				<prop key="/rss/subscribe.hanc">com.saltware.enhancer.FeedController</prop>
+				<prop key="/rss/cancelSubscribe.hanc">com.saltware.enhancer.FeedController</prop>
+
+				<prop key="/rss/myRequestList.hanc">com.saltware.enhancer.FeedController</prop>
+				<prop key="/rss/myRequestFeed.hanc">com.saltware.enhancer.FeedController</prop>
+				<prop key="/rss/addRequestFeed.hanc">com.saltware.enhancer.FeedController</prop>
+				<prop key="/rss/updateRequestFeed.hanc">com.saltware.enhancer.FeedController</prop>
+				<prop key="/rss/cancelRequestFeed.hanc">com.saltware.enhancer.FeedController</prop>
+
+				<prop key="/rss/myNews.hanc">com.saltware.enhancer.EntryController</prop>
+				<prop key="/rss/myEntryList.hanc">com.saltware.enhancer.EntryController</prop>
+				<prop key="/rss/service.hanc">com.saltware.enhancer.EntryController</prop>
+				<prop key="/rss/serviceList.hanc">com.saltware.enhancer.EntryController</prop>				
+				
+				<prop key="/hancer/skinmng.hanc">com.saltware.enhancer.admin.AppController</prop>
+				<prop key="/hancer/skinList.hanc">com.saltware.enhancer.admin.AppController</prop>
+				<prop key="/hancer/detailSkin.hanc">com.saltware.enhancer.admin.AppController</prop>
+				
+				<prop key="/hancer/insertSkin.hanc">com.saltware.enhancer.admin.AppController</prop>
+				<prop key="/hancer/updateSkin.hanc">com.saltware.enhancer.admin.AppController</prop>
+				<prop key="/hancer/deleteSkins.hanc">com.saltware.enhancer.admin.AppController</prop>
+				
+				<prop key="/hancer/addApps.hanc">com.saltware.enhancer.admin.AppController</prop>
+				<prop key="/hancer/removeApps.hanc">com.saltware.enhancer.admin.AppController</prop>
+				
+				<prop key="/hancer/appmng.hanc">com.saltware.enhancer.admin.AppController</prop>
+				<prop key="/hancer/appList.hanc">com.saltware.enhancer.admin.AppController</prop>
+				<prop key="/hancer/detailApp.hanc">com.saltware.enhancer.admin.AppController</prop>
+				
+				<prop key="/hancer/insertApp.hanc">com.saltware.enhancer.admin.AppController</prop>
+				<prop key="/hancer/updateApp.hanc">com.saltware.enhancer.admin.AppController</prop>
+				<prop key="/hancer/deleteApps.hanc">com.saltware.enhancer.admin.AppController</prop>
+				<prop key="/hancer/selectSkin.hanc">com.saltware.enhancer.admin.AppController</prop>
+				
+				
+				<prop key="/hancer/rss/rssmng.hanc">com.saltware.enhancer.admin.FeedController</prop>
+				
+				<prop key="/hancer/rss/categoryList.hanc">com.saltware.enhancer.admin.CategoryController</prop>
+				<prop key="/hancer/rss/categoryListForAjax.hanc">com.saltware.enhancer.admin.CategoryController</prop>
+				<prop key="/hancer/rss/insertCategory.hanc">com.saltware.enhancer.admin.CategoryController</prop>
+				<prop key="/hancer/rss/updateCategory.hanc">com.saltware.enhancer.admin.CategoryController</prop>
+				<prop key="/hancer/rss/deleteCategory.hanc">com.saltware.enhancer.admin.CategoryController</prop>
+
+				<prop key="/hancer/rss/feedList.hanc">com.saltware.enhancer.admin.FeedController</prop>				
+				<prop key="/hancer/rss/detailFeed.hanc">com.saltware.enhancer.admin.FeedController</prop>
+				<prop key="/hancer/rss/insertFeed.hanc">com.saltware.enhancer.admin.FeedController</prop>
+				<prop key="/hancer/rss/updateFeed.hanc">com.saltware.enhancer.admin.FeedController</prop>
+				<prop key="/hancer/rss/deleteFeeds.hanc">com.saltware.enhancer.admin.FeedController</prop>
+				
+				<prop key="/hancer/rss/requestRssmng.hanc">com.saltware.enhancer.admin.FeedController</prop>
+				<prop key="/hancer/rss/requestFeedList.hanc">com.saltware.enhancer.admin.FeedController</prop>				
+				<prop key="/hancer/rss/detailRequestFeed.hanc">com.saltware.enhancer.admin.FeedController</prop>
+				<prop key="/hancer/rss/updateRequestFeed.hanc">com.saltware.enhancer.admin.FeedController</prop>
+				<prop key="/hancer/rss/acceptFeed.hanc">com.saltware.enhancer.admin.FeedController</prop>
+				<prop key="/hancer/rss/acceptCancelFeed.hanc">com.saltware.enhancer.admin.FeedController</prop>
+				<prop key="/hancer/rss/denyFeed.hanc">com.saltware.enhancer.admin.FeedController</prop>
+				
+				<prop key="/hancer/rss/requestEntryList.hanc">com.saltware.enhancer.admin.EntryController</prop>
+				<prop key="/hancer/rss/entryList.hanc">com.saltware.enhancer.admin.EntryController</prop>
+				<prop key="/hancer/rss/openEntries.hanc">com.saltware.enhancer.admin.EntryController</prop>
+				<prop key="/hancer/rss/closeEntries.hanc">com.saltware.enhancer.admin.EntryController</prop>
+				
+				<prop key="/hancer/calendar/calmng.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				
+				<prop key="/hancer/calendar/publicCalendar.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/publicCalendarList.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/detailCalendar.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/insertCalendar.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/updateCalendar.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/deleteCalendars.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				
+				<prop key="/hancer/calendar/userCalendar.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/userPublicCalendarList.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/userCalendarList.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/detailUserCalendar.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/insertUserCalendar.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/updateUserCalendar.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/deleteUserCalendars.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				
+				<prop key="/hancer/calendar/langList.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/detailLang.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/insertLang.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/updateLang.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/deleteLangs.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				
+				<prop key="/hancer/calendar/userList.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/detailUser.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/insertUsers.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/updateUser.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/deleteUsers.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				
+				<prop key="/hancer/calendar/groupList.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/detailGroup.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/insertGroups.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/updateGroup.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+				<prop key="/hancer/calendar/deleteGroups.hanc">com.saltware.enhancer.admin.CalendarController</prop>
+
+				<!-- 이벤트 관리자 -->
+				<prop key="/hancer/event/selectConfirmEvent.hanc">eventMngController</prop> 		<!-- 이벤트 조회목록(이벤트관리)-->
+				<prop key="/hancer/event/deleteConfirmEvent.hanc">eventMngController</prop> 		<!-- 이벤트 삭제(이벤트관리)-->
+				<prop key="/hancer/event/selectGroup.hanc">eventMngController</prop>        		<!-- 신분선택팝업(이벤트관리)-->
+				<prop key="/hancer/event/insertEventMng.hanc">eventMngController</prop>     		<!-- 이벤트 데이터저장(이벤트관리)-->
+				<prop key="/hancer/event/selectMainEventCnt.hanc">eventMngController</prop> 		<!-- 이벤트 주요이벤트 등록갯수(이벤트관리)-->
+				<prop key="/hancer/event/selectCateList.hanc">eventMngController</prop>     		<!-- 이벤트 카테고리 목록(이벤트관리)-->
+				<prop key="/hancer/event/insertCate.hanc">eventMngController</prop>         		<!-- 이벤트 카테고리 데이터저장(이벤트관리)-->
+				<prop key="/hancer/event/blank.hanc">eventMngController</prop>             		<!-- 이벤트 file작업후iframe페이지 -->
+				
+				<!-- 이벤트 유저 -->
+		        <prop key="/event/selectMainEventList.hanc">eventUserController</prop>  	<!-- 이벤트 메인-->
+				<prop key="/event/selectEventCalendar.hanc">eventUserController</prop>		<!-- 이벤트 조회 캘린더-->
+				<prop key="/event/insertParticipation.hanc">eventUserController</prop>		<!-- 이벤트 참가-->
+				<prop key="/event/deleteEvent.hanc">eventUserController</prop>				<!-- 이벤트 삭제-->
+				<prop key="/event/selectGoogleAddEvent.hanc">eventUserController</prop>		<!-- 이벤트 구글일정추가 팝업-->
+				<prop key="/event/insertGoogleEvent.hanc">eventUserController</prop>		<!-- 이벤트 구글일정에 추가-->
+				<prop key="/event/updateParticipation.hanc">eventUserController</prop>		<!-- 이벤트 참가 취소-->
+				<prop key="/event/selectEventList.hanc">eventUserController</prop>			<!-- 이벤트 조회목록-->
+				<prop key="/event/detailEvent.hanc">eventUserController</prop>				<!-- 이벤트 상세보기-->
+				<prop key="/event/insertComment.hanc">eventUserController</prop>			<!-- 이벤트 댓글입력-->
+				<prop key="/event/detailGoogleMapEvent.hanc">eventUserController</prop> 	<!-- 이벤트 장소 구글맵 페이지호출-->
+				<prop key="/event/deleteCommentEvent.hanc">eventUserController</prop>		<!-- 이벤트 댓글삭제-->
+				<prop key="/event/recommeMailEvent.hanc">eventUserController</prop>	    	<!-- 이벤트 이메일 추천 팝업(id,pwd입력)-->
+				<prop key="/event/insertEventByUser.hanc">eventUserController</prop>		<!-- 이벤트 추가 페이지 호출-->
+				<prop key="/event/placePopUp.hanc">eventUserController</prop>				<!-- 이벤트 장소검색 팝업 호출-->
+				<prop key="/event/searchPlace.hanc">eventUserController</prop>      		<!-- 이벤트 장소검색-->
+				<prop key="/event/selectGroupList.hanc">eventUserController</prop>  		<!-- 이벤트 대상그룹 팝업 호출-->
+				<prop key="/event/insertEvent.hanc">eventUserController</prop>      		<!-- 이벤트 데이터 저장-->
+				<prop key="/event/myEventList.hanc">eventUserController</prop>      		<!-- 승인전 이벤트/이벤트참가목록(마이페이지-마이이벤트)-->
+				<prop key="/event/eventPortlet.hanc">eventUserController</prop>             		<!-- UOS Area 이벤트 리스트 -->
+				
+				<!-- 베너 관리자 -->
+				<prop key="/hancer/banner/addViewBanner.hanc">bannerMngController</prop>           <!-- 배너추가 페이지 호출-->
+				<prop key="/hancer/banner/insertBanner.hanc">bannerMngController</prop>            <!-- 배너데이터 저장-->
+				<prop key="/hancer/banner/deleteBanner.hanc">bannerMngController</prop>            <!-- 배너삭제-->
+				<prop key="/hancer/banner/availabilityCheckBanner.hanc">bannerMngController</prop> <!-- 배너등록 가능일 체크-->
+				<prop key="/hancer/banner/selectCalendarPopUp.hanc">bannerMngController</prop>     <!-- 배너가능일 캘린더 팝업-->
+				<prop key="/hancer/banner/selectBannerReg.hanc">bannerMngController</prop>         <!-- 배너등록 가능일 목록-->
+				<prop key="/hancer/banner/selectBannerList.hanc">bannerMngController</prop>        <!-- 배너목록 조회(이벤트관리)-->
+				<prop key="/hancer/banner/deleteMultiBanner.hanc">bannerMngController</prop>       <!-- 배너삭제(이벤트관리)-->
+				<prop key="/hancer/banner/fileMgr.hanc">eventMngController</prop>                  <!-- 배너 파일 업로드 -->
+				<prop key="/hancer/banner/selectCateList.hanc">bannerMngController</prop>		   <!-- 배너 카테고리 목록-->
+				<prop key="/hancer/banner/insertCate.hanc">bannerMngController</prop>		   <!-- 배너 카테고리 추가 -->
+				
+				<!-- 베너  유저 -->
+				<prop key="/banner/rollingBanner.hanc">bannerUserController</prop>     		<!-- UOS Area :화면 배너 리스트  -->
+		        <prop key="/banner/bannerList.hanc">bannerUserController</prop>				<!-- UOS Area :화면 배너 리스트  -->
+			</props>
+        </property> 
+    </bean>
+	
+	<!--// 비회원 URL 메핑 //-->
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+            	<prop key="/tool/fileManager.hanc">FileManagerController</prop>
+			</props>
+        </property> 
+    </bean>
+    
+</beans>

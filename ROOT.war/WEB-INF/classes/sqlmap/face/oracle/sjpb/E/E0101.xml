@@ -1,0 +1,36 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+ 
+<!-- Query for [ SJPB_HAWR_CRI_DTA_TAB : 수기수사자료표 ] Table -->
+ 
+	<resultMap class="com.saltware.enface.sjpb.E.service.E0101VO" id="E0101VO.list">
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="incCriNm" column="INC_CRI_NM"/>
+		<result property="dvYn" column="DV_YN"/>
+		<result property="creMbNm" column="CRI_MB_NM"/>
+		<result property="dtaTabComn" column="DTA_TAB_COMN"/>
+	</resultMap>
+	 
+	<select id="E0101.selectList" resultMap="E0101VO.list"> 
+	<![CDATA[
+		SELECT A.RCPT_NUM, /*접수번호*/
+			   B.SP_NM, /*피의자명*/
+			   B.SP_ID_NUM, /*주민등록번호*/
+			   A.REG_DATE, /*등록일자*/
+			   A.INC_CRI_NM, /*사건죄명*/
+			   A.DV_YN, /*발견여부*/
+			   C.CRI_MB_NM, /*담당수사관명*/
+			   A.DTA_TAB_COMN /*비고*/
+		FROM SJPB_HAWR_CRI_DTA_TAB A /*수기사건자료*/
+			 LEFT JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+			 LEFT JOIN SJPB_CRI_MB C ON C.CRI_MB_ID = A.RESP_CRI_OFFI;
+	]]>
+	</select>
+	 
+	
+ 
+</sqlMap>

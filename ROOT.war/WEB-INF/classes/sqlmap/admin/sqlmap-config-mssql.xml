@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+	
+<sqlMapConfig>
+ 
+	<sqlMap resource="sqlmap/admin/mssql/User-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/Userpass-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/Credential-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/UserGroup-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/UserRole-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/Group-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/GroupRole-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/Role-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/SecurityPermission-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/SecurityPolicy-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/Page-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/PageMetadata-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/PageComponent-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/Fragment-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/FragmentPreference-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/ThemeMapping-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/Codebase-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/Notice-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/NoticeMetadata-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/Lang-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/SessionData-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/PageStatistics-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/UserStatistics-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/Capability-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/Client-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/Mimetype-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/MediaType-sql.xml"/>
+	<sqlMap resource="sqlmap/admin/mssql/BatchSchedule-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/BatchAction-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/BatchResult-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/Configuration-sql.xml"/>
+	<sqlMap resource="sqlmap/admin/mssql/Domain-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/DomainLang-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/DomainPrincipal-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/mssql/DomainPortlet-sql.xml"/>
+</sqlMapConfig>
+

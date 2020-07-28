@@ -1,0 +1,101 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ SECURITY_USER_GROUP : 그룹사용자 ] Table -->
+	<resultMap id="admin_GroupUserVO_PK" class="com.saltware.enview.admin.group.service.GroupUserPK">
+	
+		<result property="userId" column="USER_ID" columnIndex="1"/>	
+		<result property="groupId" column="GROUP_ID" columnIndex="2"/>	
+	</resultMap>
+	
+	<resultMap id="admin_GroupUserVO" class="com.saltware.enview.admin.group.service.GroupUserVO">
+	 
+		<result property="groupId" column="GROUP_ID" columnIndex="1"/>	 
+		<result property="userId" column="USER_ID" columnIndex="2"/>	 
+		<result property="principalName0" column="PRINCIPAL_NAME0" columnIndex="3"/>	 
+		<result property="mileageTag" column="MILEAGE_TAG" columnIndex="4"/>	 
+		<result property="sortOrder" column="SORT_ORDER" columnIndex="5"/>	
+	</resultMap>
+	
+	<select id="groupUser.totalCount" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM SECURITY_USER_GROUP
+			WHERE 1=1	
+				<isNotEqual prepend=" AND " property="groupId" compareValue="0">GROUP_ID=#groupId#</isNotEqual>
+	</select>
+	
+	<select id="groupUser.findByPage" resultMap="admin_GroupUserVO_PK">
+			SELECT * FROM ( 
+				SELECT Row_Number() OVER (<isNull property="sortColumn">ORDER BY USER_ID ASC</isNull><isNotNull property="sortColumn"> ORDER BY $sortColumn$ $sortMethod$ </isNotNull>) AS rownum, USER_ID,GROUP_ID
+				FROM SECURITY_USER_GROUP 
+				WHERE 1=1 
+					<isNotEqual prepend=" AND " property="groupId" compareValue="0">GROUP_ID=#groupId#</isNotEqual>
+			) T1
+			WHERE rownum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="groupUser.findAll" resultMap="admin_GroupUserVO_PK">
+			SELECT USER_ID,GROUP_ID
+			FROM SECURITY_USER_GROUP
+	</select>
+	
+	<select id="groupUser.findByMaster" resultMap="admin_GroupUserVO_PK">
+			SELECT USER_ID,GROUP_ID
+			FROM SECURITY_USER_GROUP
+			WHERE 1=1 
+				<isNotEqual prepend=" AND " property="groupId" compareValue="0">=#groupId#</isNotEqual>
+	</select>
+	
+
+	<select id="groupUser.detail" resultMap="admin_GroupUserVO">
+		<![CDATA[
+			SELECT a.GROUP_ID, a.USER_ID, b.PRINCIPAL_NAME PRINCIPAL_NAME0, a.MILEAGE_TAG, a.SORT_ORDER
+			FROM SECURITY_USER_GROUP a INNER JOIN SECURITY_PRINCIPAL b ON a.GROUP_ID=b.PRINCIPAL_ID
+			WHERE 1=1 
+				AND a.USER_ID=#userId#
+				AND a.GROUP_ID=#groupId#
+		]]>
+	</select>
+	
+	<insert id="groupUser.insert">
+		<![CDATA[
+			INSERT INTO SECURITY_USER_GROUP
+				( GROUP_ID,USER_ID,MILEAGE_TAG,SORT_ORDER )
+			VALUES ( #groupId#,#userId#,#mileageTag#,#sortOrder# )
+		]]>
+	</insert>
+	
+	<update id="groupUser.update">
+		<![CDATA[
+			UPDATE SECURITY_USER_GROUP
+			SET GROUP_ID=#groupId#,USER_ID=#userId#,MILEAGE_TAG=#mileageTag#,SORT_ORDER=#sortOrder#
+			WHERE 1=1 
+				AND USER_ID=#userId#
+				AND GROUP_ID=#groupId#
+		]]>
+	</update>
+	
+	<delete id="groupUser.delete">
+		<![CDATA[
+			DELETE FROM SECURITY_USER_GROUP
+			WHERE 1=1 
+				AND USER_ID=#userId#
+				AND GROUP_ID=#groupId#
+		]]>
+	</delete>
+	
+	<delete id="groupUser.deleteChildren">
+		<![CDATA[
+			DELETE FROM SECURITY_USER_GROUP
+			WHERE 1=1 
+				AND GROUP_ID=#groupId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

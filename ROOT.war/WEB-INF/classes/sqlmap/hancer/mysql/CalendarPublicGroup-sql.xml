@@ -1,0 +1,87 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="cal">
+
+	<resultMap id="calendar.public.group.list" class="com.saltware.enhancer.admin.calendar.control.CalendarGroupVO">
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="1"/>
+		<result property="groupId" columnIndex="2"/> 
+		<result property="permissions" column="PERMISSIONS" columnIndex="3"/>
+		<result property="isDeletable" column="IS_DELETABLE" columnIndex="4"/>
+		<result property="insDatim" column="INS_DATIM" columnIndex="5"/>
+		<result property="updDatim" column="UPD_DATIM" columnIndex="6"/>
+	</resultMap>
+
+	<select id="calendar.public.group.count" resultClass="int">
+		/* calendar.public.group.count */
+			SELECT COUNT(*)
+			FROM CALENDAR_PUBLIC_GROUP
+			WHERE CALENDAR_ID=CAST(#calendarId# AS DECIMAL)
+			<isNotNull property="groupId" prepend=" AND ">GROUP_ID LIKE CONCAT( '%',#searchValue#,'%')</isNotNull>
+	</select>
+	
+	<select id="calendar.public.group.list" resultMap="calendar.public.group.list">/* calendar.public.group.list */
+			SELECT CALENDAR_ID, GROUP_ID, PERMISSIONS, 1 AS IS_DELETABLE, INS_DATIM, UPD_DATIM
+			FROM CALENDAR_PUBLIC_GROUP
+			WHERE CALENDAR_ID=CAST(#calendarId# AS DECIMAL)
+			<isNotNull property="groupId" prepend=" AND ">GROUP_ID LIKE CONCAT( '%',#searchValue#,'%') </isNotNull>
+			ORDER BY INS_DATIM
+			LIMIT #limit# OFFSET #offset#
+	</select>
+	
+	<select id="calendar.public.group.detail" resultMap="calendar.public.group.list">/* calendar.public.group.detail */
+		SELECT CALENDAR_ID, GROUP_ID, PERMISSIONS, 1 AS IS_DELETABLE, a.INS_DATIM, a.UPD_DATIM
+		FROM CALENDAR_PUBLIC_GROUP a
+		WHERE CALENDAR_ID=CAST(#calendarId# AS DECIMAL) AND a.GROUP_ID=#groupId#
+		
+	</select>
+	
+	<insert id="calendar.public.group.insert">/* calendar.public.group.insert */
+		INSERT INTO CALENDAR_PUBLIC_GROUP (CALENDAR_ID, GROUP_ID, PERMISSIONS, INS_DATIM, UPD_DATIM)
+		VALUES (CAST(#calendarId# AS DECIMAL), #groupId#, #permissions#, NOW(), NOW())
+	</insert>
+	
+	<update id="calendar.public.group.update">/* calendar.public.group.update */
+		UPDATE CALENDAR_PUBLIC_GROUP SET PERMISSIONS=#permissions#, UPD_DATIM=NOW()
+		WHERE CALENDAR_ID=CAST(#calendarId# AS DECIMAL) AND GROUP_ID=#groupId#
+	</update>
+	
+	<delete id="calendar.public.group.delete">/* calendar.public.group.delete */
+		DELETE FROM CALENDAR_PUBLIC_GROUP
+		WHERE CALENDAR_ID=CAST(#calendarId# AS DECIMAL)
+		<isNotNull property="groupId" prepend=" AND ">GROUP_ID=#groupId#</isNotNull>
+		<isNotNull property="groupIds" prepend=" AND ">GROUP_ID IN <iterate property="groupIds" open="(" close=")" conjunction=",">#groupIds[]#</iterate></isNotNull>
+	</delete>
+
+	<delete id="calendar.public.group.delete.all">/* calendar.public.group.delete.all */
+		DELETE FROM CALENDAR_PUBLIC_GROUP
+		WHERE CALENDAR_ID=CAST(#calendarId# AS DECIMAL)
+	</delete>
+
+	<!-- Customizing 필요 
+	<resultMap id="calendar.public.group.search" class="com.saltware.enhancer.admin.calendar.control.CalendarGroupVO">
+		<result property="userId" column="USER_ID" columnIndex="1"/>
+		<result property="userName" columnIndex="2"/>
+		<result property="userOrgName" columnIndex="3"/>
+		<result property="langKnd" columnIndex="4"/>
+	</resultMap>
+	
+	<select id="calendar.public.group.search" resultMap="calendar.public.group.search">/* calendar.public.group.search */
+		SELECT USER_ID, USER_NAME, CASE WHEN USER_ORG_NAME = 'N/A' THEN NULL ELSE USER_ORG_NAME END AS USER_ORG_NAME, USER_GROUP_CD, LANG_KND
+		FROM (
+	 		SELECT USER_ID,
+			<isEqual property="langKnd" compareValue="ko">
+				CASE WHEN NM_KOR IS NULL THEN NM_ENG ELSE NM_KOR END AS USER_NAME,
+				'' AS USER_ORG_NAME,
+			</isEqual>
+			<isEqual property="langKnd" compareValue="en">
+				CASE WHEN NM_ENG IS NULL THEN NM_KOR ELSE NM_ENG END AS USER_NAME,
+				'' AS USER_ORG_NAME,
+			</isEqual>
+			#langKnd# AS LANG_KND
+			FROM USERPASS
+			WHERE USER_ID !=#userId# AND( USER_ID LIKE #searchUser# OR NM_KOR LIKE #searchUser# OR NM_ENG LIKE #searchUser# ) AND TYPE_CD != 'R'
+		)
+	</select>
+	-->
+</sqlMap>
+

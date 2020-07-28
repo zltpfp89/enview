@@ -1,0 +1,386 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+ 
+<!-- Query for [ SJPB_CRI_DTA_INQ_MNG_BK : 범죄수사자료조회관리대장 ] Table -->
+ 
+	<resultMap class="com.saltware.enface.sjpb.F.service.F0101VO" id="F0101.F0101VO.list">
+		<result property="mngBkSiNum" column="MNG_BK_SI_NUM"/>
+		<result property="inqDt" column="INQ_DT"/>
+		<result property="inqNm" column="INQ_NM"/>
+		<result property="respNm" column="RESP_NM"/>
+		<result property="mngBkStatCdDesc" column="MNG_BK_STAT_CD_DESC"/>
+		<result property="taskNum" column="TASK_NUM"/>
+		<result property="taskRoleCd" column="TASK_ROLE_CD"/>
+		<result property="taskNm" column="TASK_NM"/>
+		<result property="criTmNm" column="CRI_TM_NM"/>
+		<result property="criTmId" column="CRI_TM_ID"/>
+		<result property="respIo" column="RESP_IO"/>
+	</resultMap>
+	 
+	<!-- 범죄수사자료조회관리대장 리스트 -->
+	<select id="F0101.SJPB_CRI_DTA_INQ_MNG_BK.selectList" resultMap="F0101.F0101VO.list"> /* F0101.SJPB_CRI_DTA_INQ_MNG_BK.selectList */
+		SELECT DISTINCT A.MNG_BK_SI_NUM /* 관리대장일련번호 */          
+        	   ,TO_CHAR(A.INQ_DT,'YYYY.MM.DD') AS INQ_DT /* 조회일자 */          
+        	   ,B.NM_KOR AS INQ_NM /* 조회수사관 */          
+        	   ,C.NM_KOR AS RESP_NM /* 의뢰자 */                 
+        	   ,D.CODE_NAME AS MNG_BK_STAT_CD_DESC /* 조회 상태 */
+        	   ,G.TASK_NUM /*활성타스크번호*/
+               ,G.TASK_ROLE_CD /*타스크소유코드*/
+               ,G.TASK_NM /*타스크명*/ 
+               ,H.CRI_TM_NM /* 수사팀이름 */
+               ,H.CRI_TM_ID /* 수사팀 계정 */ 
+               ,A.RESP_IO  /* 수신수사관 */
+	    FROM SJPB_CRI_DTA_INQ_MNG_BK A     
+	    LEFT JOIN USERPASS B ON B.USER_ID = A.INQ_IO   
+	    JOIN USERPASS C ON C.USER_ID = A.RESP_IO     
+	    JOIN CODEBASE D ON D.CODE_ID = 'SJPB_00019' 
+	            			 AND D.CODE = A.MNG_BK_STAT_CD 
+	            			 AND D.SYSTEM_CODE ='PT' 
+	           				 AND D.LANG_KND='ko' 
+	    JOIN SJPB_CRI_DTA_INQ_ITEM E ON E.MNG_BK_SI_NUM = A.MNG_BK_SI_NUM
+	    JOIN SJPB_INC_SP F ON F.INC_SP_NUM = E.INC_SP_NUM AND F.SP_STAT_CD = '1'
+	    JOIN (
+			   SELECT G1.RCPT_NUM, G1.WF_NUM, G2.TASK_NUM, G2.TASK_NM, G2.TASK_ROLE_CD 
+               FROM SJPB_INC_WF G1 JOIN SJPB_TASK G2  
+               ON G1.WF_NUM = G2.WF_NUM AND G1.ACTV_TASK_NUM = G2.TASK_NUM AND G1.WF_NUM = 9
+              ) G ON A.MNG_BK_SI_NUM = G.RCPT_NUM  
+        JOIN SJPB_CRI_TM H ON TO_CHAR(H.CRI_TM_ID) = C.ORG_CD AND H.CRI_TM_STAT = '1' 
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="mngBkSiNum" prepend="AND">
+				A.MNG_BK_SI_NUM = #mngBkSiNum#
+			</isNotEmpty>
+			<isNotEmpty property="respNm" prepend="AND">
+				C.NM_KOR LiKE '%' || #respNm# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="inqNm" prepend="AND">
+				B.NM_KOR LiKE '%' || #inqNm# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="spNm" prepend="AND">
+				CRYPTO.DEC('normal',F.SP_NM) LiKE '%' || #spNm# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="spIdNum" prepend="AND">
+				CRYPTO.DEC('normal',F.SP_ID_NUM) LiKE '%' || #spIdNum# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="startDay" prepend="AND">
+				TO_CHAR(A.INQ_DT,'YYYY-MM-DD')
+				BETWEEN TO_DATE(#startDay#,'YYYY-MM-DD') AND TO_DATE(#endDay#,'YYYY-MM-DD') 
+			</isNotEmpty>
+			<isNotEmpty property="criDeptIdFT" prepend="AND">
+				H.PARE_TM_ID = #criDeptIdFT#
+			</isNotEmpty>
+			<isNotEmpty property="criTmIdFT" prepend="AND">
+				H.CRI_TM_ID = #criTmIdFT#
+			</isNotEmpty>
+			<isNotEmpty property="criTmIdSC" prepend="AND">
+				H.CRI_TM_ID = #criTmIdSC#
+			</isNotEmpty>
+			<isNotEmpty property="mngBkStatCd" prepend="AND">
+				A.MNG_BK_STAT_CD = #mngBkStatCd#
+			</isNotEmpty>
+			<isNotEmpty property="rcptIncNum" prepend="AND">
+				G.RCPT_INC_NUM = #rcptIncNum#
+			</isNotEmpty>
+		</dynamic>
+		ORDER BY A.MNG_BK_SI_NUM DESC
+	</select>
+	
+	<resultMap class="com.saltware.enface.sjpb.F.service.F0101VO" id="F0101.F0101VO.prnMngReport">
+		<result property="inqDt" column="INQ_DT"/>
+		<result property="inqNm" column="INQ_NM"/>
+		<result property="respNm" column="RESP_NM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="inqPurp" column="INQ_PURP"/>
+		<result property="inqCout" column="INQ_COUT"/>
+		<result property="inqComn" column="INQ_COMN"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="tmNm" column="TM_NM"/>
+		<result property="tmDate" column="TM_DATE"/>
+		<result property="deptNm" column="DEPT_NM"/>
+		<result property="deptDate" column="DEPT_DATE"/>
+	</resultMap>
+	
+	<select id="F0101VO.prnMngReport" resultMap="F0101.F0101VO.prnMngReport"> /* F0101VO.prnMngReport */
+		SELECT TO_CHAR(A.INQ_DT,'YYYY.MM.DD') AS INQ_DT /* 조회일자 */        
+		       ,B.NM_KOR AS INQ_NM /* 조회수사관 */            
+		       ,C.NM_KOR AS RESP_NM /* 의뢰자 */ 
+		       ,CRYPTO.DEC('normal',F.SP_NM) AS SP_NM /*피의자 이름*/
+		       ,CRYPTO.DEC('normal',F.SP_ID_NUM) AS SP_ID_NUM /*피의자 주민번호*/
+		       ,E.INQ_PURP /*조회목적*/
+		       ,E.INQ_COUT /*조회 매수*/
+		       ,E.INQ_COMN /* 비고 */
+		       ,J.RCPT_INC_NUM  /* 사건번호 */     
+		       ,Q1.NM_KOR AS TM_NM /* 팀장승인 이름 */
+		       ,TO_CHAR(T1.REG_DATE,'YYYY.MM.DD') AS TM_DATE  /* 팀장승인 날짜 */
+		       ,Q2.NM_KOR AS DEPT_NM  /* 과장승인 이름 */
+		       ,TO_CHAR(T2.REG_DATE,'YYYY.MM.DD') AS DEPT_DATE  /* 과장승인 날짜 */
+		FROM SJPB_CRI_DTA_INQ_MNG_BK A     
+        JOIN SJPB_CRI_DTA_INQ_ITEM E ON E.MNG_BK_SI_NUM = A.MNG_BK_SI_NUM
+        JOIN SJPB_INC_SP F ON F.INC_SP_NUM = E.INC_SP_NUM AND F.SP_STAT_CD ='1'
+        JOIN SJPB_INC_MAST J ON F.RCPT_NUM = J.RCPT_NUM
+        LEFT JOIN USERPASS B ON B.USER_ID = A.INQ_IO  
+        LEFT JOIN USERPASS C ON C.USER_ID = A.RESP_IO
+        LEFT JOIN(SELECT RCPT_NUM,MAX(TASK_HIST_NUM) AS TASK_HIST_NUM
+                    FROM SJPB_INC_TASK_HIST 
+                    WHERE TASK_NUM=2 AND WF_NUM = 9
+                    GROUP BY RCPT_NUM) P1 ON P1.RCPT_NUM = E.MNG_BK_SI_NUM
+        LEFT JOIN SJPB_INC_TASK_HIST T1 ON T1.TASK_HIST_NUM = P1.TASK_HIST_NUM
+        JOIN USERPASS Q1 ON Q1.USER_ID = T1.TASK_RESP_MB
+        LEFT JOIN(SELECT RCPT_NUM,MAX(TASK_HIST_NUM) AS TASK_HIST_NUM
+                    FROM SJPB_INC_TASK_HIST 
+                    WHERE TASK_NUM=3 AND WF_NUM = 9
+                    GROUP BY RCPT_NUM) P2 ON P2.RCPT_NUM = E.MNG_BK_SI_NUM
+        LEFT JOIN SJPB_INC_TASK_HIST T2 ON T2.TASK_HIST_NUM = P2.TASK_HIST_NUM
+        LEFT JOIN USERPASS Q2 ON Q2.USER_ID = T2.TASK_RESP_MB
+		WHERE A.MNG_BK_STAT_CD NOT IN ('04')
+			<iterate property="mngBkSiNumList" open=" AND A.MNG_BK_SI_NUM IN(" close=")" conjunction=",">
+				 #mngBkSiNumList[]#
+			</iterate>
+	</select>
+	
+	<!-- 범죄수사자료조회담당역할 범죄수사자료 삭제 -->
+	<delete id="F0101VO.SJPB_CRI_DTA_INQ_MNG_BK.deleteMngSiNum"> /* F0101VO.SJPB_CRI_DTA_INQ_MNG_BK.deleteMngSiNum */
+		DELETE FROM SJPB_CRI_DTA_INQ_MNG_BK
+		WHERE MNG_BK_SI_NUM = #mngBkSiNum#
+	</delete>
+	<!-- 범죄수사자료조회담당역할 범죄수사자료아이템 삭제 -->
+	<delete id="F0101VO.SJPB_CRI_DTA_INQ_ITEM.deleteMngSiNum"> /* F0101VO.SJPB_CRI_DTA_INQ_ITEM.deleteMngSiNum */
+		DELETE FROM SJPB_CRI_DTA_INQ_ITEM
+		WHERE MNG_BK_SI_NUM = #mngBkSiNum# 
+	</delete>
+
+	<resultMap class="com.saltware.enface.sjpb.F.service.F0101VO" id="F0101.F0101VO.listItem">
+		<result property="mngBkSiNum" column="MNG_BK_SI_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="inqPurp" column="INQ_PURP"/>
+		<result property="inqCout" column="INQ_COUT"/>		
+		<result property="inqComn" column="INQ_COMN"/>
+		<result property="taskNum" column="TASK_NUM"/>
+		<result property="taskRoleCd" column="TASK_ROLE_CD"/>
+		<result property="taskNm" column="TASK_NM"/>
+		<result property="orgCd" column="ORG_CD"/>	
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>	
+	</resultMap>
+
+	<!-- 범죄수사자료조회 상세리스트 -->
+	<select id="F0101.SJPB_INC_CRI_CMD_ITEM.list" resultMap="F0101.F0101VO.listItem"> /* F0101.SJPB_INC_CRI_CMD_ITEM.list */
+		SELECT A.MNG_BK_SI_NUM /* 관리대장 일련번호 */
+			   ,B.RCPT_NUM  /* 접수번호 */
+			   ,CRYPTO.DEC('normal',B.SP_NM) AS SP_NM /* 피의자명 */
+			   ,B.INC_SP_NUM /* 피의자 번호 */
+		       ,CRYPTO.DEC('normal',B.SP_ID_NUM) AS SP_ID_NUM /* 주민번호 */
+		       ,A.INQ_PURP /* 조회목적 */
+		       ,A.INQ_COUT /* 조회 매수 */
+		       ,A.INQ_COMN /* 비고 */
+		       ,E.TASK_NUM /*활성타스크번호*/
+               ,E.TASK_ROLE_CD /*타스크소유코드*/
+               ,E.TASK_NM /*타스크명*/
+               ,D.ORG_CD /* 팀계정 */
+               ,J.RCPT_INC_NUM /* 사건번호 */
+               
+		FROM SJPB_CRI_DTA_INQ_ITEM A
+		LEFT JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM AND B.SP_STAT_CD = '1'
+		LEFT JOIN SJPB_CRI_DTA_INQ_MNG_BK C ON C.MNG_BK_SI_NUM = A.MNG_BK_SI_NUM
+		JOIN USERPASS D ON D.USER_ID = C.RESP_IO 
+		JOIN (
+			   SELECT E1.RCPT_NUM, E1.WF_NUM, E2.TASK_NUM, E2.TASK_NM, E2.TASK_ROLE_CD 
+               FROM SJPB_INC_WF E1 
+               JOIN SJPB_TASK E2 ON E1.WF_NUM = E2.WF_NUM AND E1.ACTV_TASK_NUM = E2.TASK_NUM AND E1.WF_NUM = 9
+              ) E ON A.MNG_BK_SI_NUM = E.RCPT_NUM 
+        LEFT JOIN SJPB_INC_MAST J ON B.RCPT_NUM = J.RCPT_NUM 
+        LEFT JOIN USERPASS F ON F.USER_ID = C.RESP_IO 
+        LEFT JOIN USERPASS G ON G.USER_ID = C.INQ_IO   
+		WHERE A.MNG_BK_SI_NUM = #mngBkSiNum#
+	</select>
+	
+	<!-- 수사팀 VO -->
+	<resultMap id="F0101.CriTmVO" class="com.saltware.enface.sjpb.Z.service.CriTmVO">
+		<result property="criTmId" column="CRI_TM_ID"/>
+		<result property="criTmNm" column="CRI_TM_NM"/>
+		<result property="criTmStat" column="CRI_TM_STAT"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>	
+	
+	<!-- 소속된 수사팀 리스트 가져오기 --> 	
+	<select id="F0101.SJPB_CRI_TM.OWN.list" resultMap="F0101.CriTmVO">	/* F0101.SJPB_CRI_TM.OWN.list */					
+			SELECT 
+			 	*
+			FROM SJPB_CRI_TM     		
+			WHERE 
+				CRI_TM_STAT = 1
+				AND CRI_TM_DIV = 'T'			
+			<isNotEqual prepend=" AND " property="criTmIdFT" compareValue="">CRI_TM_ID=#criTmIdFT#</isNotEqual>				
+			<isNotEqual prepend=" AND " property="criDeptIdFT" compareValue="">PARE_TM_ID=#criDeptIdFT#</isNotEqual>				
+			ORDER BY SORT_ORD
+	</select>
+	
+	<resultMap class="com.saltware.enface.sjpb.F.service.F0301VO" id="F0101.F0301VO.AddSpList">
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+	</resultMap>
+	<!-- 피의자 범죄수사 경력조회 요청 -->
+	<select id="F0101.SJPB_INC_SP.selectAddSpList" resultMap="F0101.F0301VO.AddSpList"> /* F0101.SJPB_INC_SP.selectAddSpList */
+		SELECT A.RCPT_NUM /* 접수번호 */
+		 	   ,B.RCPT_INC_NUM  /* 사건번호 */
+			   ,A.INC_SP_NUM /* 사건 피의자 번호 */
+			   ,CRYPTO.DEC('normal',A.SP_NM) AS SP_NM /* 피의자명 */
+		       ,CRYPTO.DEC('normal',A.SP_ID_NUM) AS SP_ID_NUM /* 주민번호 */
+		FROM SJPB_INC_SP A
+		JOIN SJPB_INC_MAST B ON A.RCPT_NUM = B.RCPT_NUM
+		WHERE A.SP_STAT_CD = '1'
+			<isNotEmpty property="incSpNumList" prepend="AND">
+			  	<iterate property="incSpNumList" open="(" close=")" conjunction="OR">
+			  		A.INC_SP_NUM = #incSpNumList[]#
+			  	</iterate>
+			</isNotEmpty>
+	</select>
+		
+	<!-- 범죄수사자료대장 일련번호 키값 가져오기 -->
+	<select id="F0101.SJPB_CRI_DTA_INQ_MNG_BK.MNG_BK_SI_NUM.SEQ" resultClass="int"> /* F0101.SJPB_CRI_DTA_INQ_MNG_BK.MNG_BK_SI_NUM.SEQ */
+		SELECT SEQ 
+		FROM KEYGEN 
+		WHERE entity_name = 'SJPB_CRI_DTA_INQ_MNG_BK.MNG_BK_SI_NUM'
+	</select>
+
+	<!-- 범죄수사자료대장 insert -->
+	<update id="F0101.SJPB_CRI_DTA_INQ_MNG_BK.insertInqireConfm" parameterClass="com.saltware.enface.sjpb.F.service.F0101VO">  /* F0101.SJPB_CRI_DTA_INQ_MNG_BK.insertInqireConfm */
+		INSERT INTO SJPB_CRI_DTA_INQ_MNG_BK (
+		    MNG_BK_SI_NUM,
+		    MNG_BK_PUBL_YR,
+		    RESP_IO, 
+		    RCPT_DT,
+		    MNG_BK_STAT_CD, 
+		    REG_USER_ID,
+		    REG_DATE, 
+		    UPD_USER_ID, 
+		    UPD_DATE
+		    ) 
+		VALUES (
+		    #mngBkSiNum#
+		    ,TO_CHAR(SYSDATE,'YYYY')
+		    ,#userId#
+		    ,SYSDATE
+		    ,'01'
+		    ,#userId#
+		    ,SYSDATE
+		    ,#userId#
+		    ,SYSDATE
+		)
+	</update>
+	
+	<resultMap class="java.lang.String" id="F0101.F0101TK.taskRoleCd">
+		<result property="taskRoleCd" column="TASK_ROLE_CD"/>
+	</resultMap>
+	
+	<!-- 시작타스크의 역할코드 -->
+	<select id="F0101.F0101TK.selectTaskRoleCd" resultMap="F0101.F0101TK.taskRoleCd">
+		SELECT TASK_ROLE_CD 
+		FROM SJPB_TASK
+		WHERE WF_NUM = 9 AND BE_TASK_YN = 'Y'
+	</select>
+	
+	<!-- 	범죄수사자료대장 아이템 피의자리스트 추가 -->
+	<update id="F0101.SJPB_CRI_DTA_INQ_ITEM.insertInqireConfm" parameterClass="com.saltware.enface.sjpb.F.service.F0101VO"> /* F0101.SJPB_CRI_DTA_INQ_ITEM.insertInqireConfm */
+		INSERT INTO SJPB_CRI_DTA_INQ_ITEM (
+		    MNG_BK_SI_NUM, 
+		    INC_SP_NUM,
+		    INQ_PURP, 
+		    INQ_COUT,
+		    INQ_COMN,
+		    REG_USER_ID, 
+		    REG_DATE, 
+		    UPD_USER_ID, 
+		    UPD_DATE 
+		) 
+		VALUES (
+		    #mngBkSiNum#
+		    ,#incSpNum#
+		    ,#inqPurp#
+		    ,#inqCout#
+		    ,#inqComn#
+		    ,#userId#
+		    ,SYSDATE
+		    ,#userId#
+		    ,SYSDATE
+		)
+	</update>
+	
+	<!-- 	범죄수사자료 재조회 요청시 범죄수사자료아이템 수정 -->
+	<update id="F0101.SJPB_CRI_DTA_INQ_ITEM.updateReInqireConfm" parameterClass="com.saltware.enface.sjpb.F.service.F0101VO"> /*F0101.SJPB_CRI_DTA_INQ_ITEM.updateReInqireConfm*/
+		UPDATE SJPB_CRI_DTA_INQ_ITEM
+		SET INQ_PURP = #inqPurp#, INQ_COUT=#inqCout#, INQ_COMN=#inqComn#, UPD_USER_ID=#userId#,UPD_DATE=SYSDATE
+		WHERE MNG_BK_SI_NUM = #mngBkSiNum# AND INC_SP_NUM = #incSpNum#
+	</update>
+
+	<!-- 범죄수사자료 재조회 요청시 피의자 삭제 -->
+	<delete id="F0101VO.SJPB_CRI_DTA_INQ_ITEM.deleteReInquireSp" parameterClass="com.saltware.enface.sjpb.F.service.F0101VO"> /* F0101VO.SJPB_CRI_DTA_INQ_ITEM.deleteReInquireSp */
+		DELETE FROM SJPB_CRI_DTA_INQ_ITEM
+		WHERE MNG_BK_SI_NUM = #mngBkSiNum# AND INC_SP_NUM = #incSpNum#
+	</delete>	
+
+
+	<!-- 수사상태코드 업데이트 -->	 		
+	<update id="F0101.SJPB_CRI_DTA_INQ_MNG_BK.CRI_STAT_CD.update"> /* F0101.SJPB_CRI_DTA_INQ_MNG_BK.CRI_STAT_CD.update */				
+		UPDATE SJPB_CRI_DTA_INQ_MNG_BK
+		SET MNG_BK_STAT_CD = #criStatCd#	
+		    ,UPD_USER_ID = #updUserId#
+		    ,UPD_DATE = SYSDATE
+		WHERE MNG_BK_SI_NUM = #rcptNum#		
+	</update>
+	
+	<!-- 타스크이행 -->
+	<resultMap id="F0101.TaskTrstVO" class="com.saltware.enface.sjpb.Z.service.TaskTrstVO">
+		<result property="wfNum" column="WF_NUM"/>
+		<result property="taskNum" column="TASK_NUM"/>
+		<result property="taskRoleCd" column="TASK_ROLE_CD"/>		
+		<result property="trstStatNum" column="TRST_STAT_NUM"/>
+		<result property="trstStatNm" column="TRST_STAT_NM"/>
+		<result property="criStatCd" column="CRI_STAT_CD"/>
+		<result property="trstOrd" column="TRST_ORD"/>		
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	<!-- 타스트 이행 리스트 가져오기 -->
+	<select id="F0101.SJPB_TASK_TRST.list" resultMap="F0101.TaskTrstVO"> /* F0101.SJPB_TASK_TRST.list */
+		<![CDATA[		
+			SELECT 
+			C.*
+			,B.TASK_ROLE_CD
+			FROM SJPB_CRI_DTA_INQ_MNG_BK A 
+			JOIN (
+				  SELECT B1.RCPT_NUM, B1.WF_NUM, B2.TASK_NUM, B2.TASK_NM, B2.TASK_ROLE_CD 
+				  FROM SJPB_INC_WF B1 JOIN SJPB_TASK B2  
+				  ON B1.WF_NUM = B2.WF_NUM AND B1.ACTV_TASK_NUM = B2.TASK_NUM AND B1.WF_NUM = 9
+				 ) B ON B.RCPT_NUM= A.MNG_BK_SI_NUM		
+			JOIN SJPB_TASK_TRST C ON B.WF_NUM = C.WF_NUM AND B.TASK_NUM =  C.TASK_NUM
+			JOIN SJPB_TASK D ON B.WF_NUM = D.WF_NUM AND B.TASK_NUM =  D.TASK_NUM
+			WHERE A.MNG_BK_SI_NUM = #mngBkSiNum#
+			ORDER BY TRST_ORD 
+		]]>
+	</select>
+	
+	<!-- 범죄수사자료 조회자,조회일자 update -->
+	<update id="F0101.SJPB_CRI_DTA_INQ_MNG_BK.updateProcessCompt.update"> /* F0101.SJPB_CRI_DTA_INQ_MNG_BK.updateProcessCompt.update */
+		UPDATE SJPB_CRI_DTA_INQ_MNG_BK
+		SET INQ_IO = #updUserId#, INQ_DT = SYSDATE, UPD_USER_ID = #updUserId#, UPD_DATE = SYSDATE
+		WHERE MNG_BK_SI_NUM = #mngBkSiNum#
+	</update>
+	<select id="F0101.confmTmId" resultClass="String">
+		SELECT CRI_TM_ID
+		FROM SJPB_CRI_TM
+		WHERE PARE_TM_ID = #orgCd# AND CRI_TM_STAT= '1'
+	</select>
+</sqlMap>
+ 

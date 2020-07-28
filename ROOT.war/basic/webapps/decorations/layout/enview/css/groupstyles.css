@@ -1,0 +1,150 @@
+
+/**** link css ****/
+
+/* member data link*/
+a.mem:link {  text-decoration: none;  color:#FF6000;font-weight: bold;}
+a.mem:visited {  text-decoration: none;  color:#FF6000;font-weight: bold;}
+a.mem:hover {  text-decoration: underline;  color:#FF6000;font-weight: bold;}
+a.mem:active {  text-decoration: none;  color:#FF6000;font-weight: bold;}			 
+
+
+
+/*Credits: CSSplay */
+/*URL: http://www.cssplay.co.uk/menus/pro_drop2 */
+.layout-Enview .preload2 {background:transparent url(../images/topmenu_over.gif);}
+.layout-Enview .menu2 {padding:0px 0px 0px 5px; margin:0px; list-style:none; height:38px; background:transparent url(../images/topmenu_bg.gif) repeat-x; position:relative; font-family:Dotum,Gulim,arial,verdana }
+.layout-Enview .menu2 li.top {padding:2px 0px 0px 0px;display:block; float:left; position:relative;}
+
+.layout-Enview .menu2 li a.top_link {display:block; float:left; height:38px; line-height:36px; color:#ffffff; text-decoration:none; font-size:12px; font-weight:bold; padding:0px 0px 0px 10px; cursor:pointer;}
+.layout-Enview .menu2 li a.top_link span {float:left; display:block; padding:0px 12px 0px 5px; height:36px;}
+
+.layout-Enview .menu2 li a.top_link:hover {color:#ffffff; background:transparent url(../images/topmenu_over.gif) no-repeat;}
+.layout-Enview .menu2 li a.top_link:hover span {background:transparent url(../images/topmenu_over.gif) no-repeat right top;}
+
+.layout-Enview .menu2 li.line {float:left;	position:relative;margin:0px;}
+
+
+/*images css*/
+.layout-Enview .imgleft_bg{background:transparent url(../images/img_left.gif) no-repeat left top;}
+.layout-Enview .imgleft_bg2{background:transparent url(../images/img_left2.gif) no-repeat left top;}
+
+
+/* form css */
+.layout-Enview .cafe {width:164px; height:20px;font-family: Dotum,Gulim,arial,verdana; border: #cccccc 1px solid; font-size: 12px; color: #666666;background-color: #ffffff; line-height:140%;}
+.layout-Enview .link {width:164px; height:20px;font-family: Dotum,Gulim,arial,verdana; border: #cccccc 1px solid; font-size: 12px; color: #666666;background-color: #ffffff; line-height:140%;}
+.layout-Enview .search_input { font-family: Dotum,Gulim,arial,verdana; border: 1px solid #8B8B8B; font-size: 12px; color: #222222; background-color: #ffffff;width:300px;}
+.layout-Enview .search_input2 { font-family: Dotum,Gulim,arial,verdana; border: 1px solid #8B8B8B; font-size: 12px; color: #222222; background-color: #ffffff;width:92px;height:20px;}
+
+/* Top Menu */
+.layout-Enview #topmenu {
+	position: relative;
+	/*
+	left:185px; 
+	top:77px; 
+	width:1024px;
+	height: 25px;
+	*/
+	z-index:1;
+	
+	margin: 0;
+	padding: 0;
+	
+	list-style: none;
+	font-weight: bold;
+	/*border: 1px solid #0000FF;*/
+}
+.layout-Enview #topmenu li {
+	float: left;
+	display: inline;
+	height: 30px;
+	padding: 5px 10px 0 10px;
+	/*border: 1px solid #FF0000;*/
+}
+
+.layout-Enview #topmenu li a {
+	color: #002980;
+}
+
+.layout-Enview #submenu {
+	position: relative;
+	margin: 0;
+	list-style: none;
+	font-weight: bold;
+	padding: 5px 0 0px;
+}
+.layout-Enview #submenu li {
+	position: relative;
+	padding: 0 0 0px;
+	height: 20px;
+	line-height: 20px;
+}
+.layout-Enview #submenu li a {
+	display: block;
+	color: #685B8F;
+	font-weight: bold;
+}
+.layout-Enview #submenu li a:hover, 
+.layout-Enview #submenu li a:active, 
+.layout-Enview #submenu li a.on {
+	color: #000;
+	
+}
+
+/* text */
+.layout-Enview .t11 {font-size:11px;line-height:1.3;}
+.layout-Enview .poll {font-size:11px;line-height:1.3;}
+.layout-Enview .lognom {font-size: 12px;color: #FF6000;font-weight: bold;}
+
+
+/***********************************************************************/
+/*   style for portlet                                                                        */
+/***********************************************************************/
+.layout-Enview  .portlet
+{
+	background: #FFFFFF;
+	font-size: 11px;
+	/*width: 95%;*/
+	padding-left: 5px;
+	padding-top: 5px;
+	/*border: 1px solid lightgray;*/
+}
+
+.layout-Enview  .portlet-title
+{
+	background-image:  url(../images/portlet/bg_title.gif);
+	padding-top: 2px;
+    padding-bottom: 16px;
+    padding-right: 2px;
+    border-left: 5px solid #DDDDDD;
+    border-right: 1px solid #666666;
+    border-top: 1px solid #DDDDDD;
+    border-bottom: 1px solid #666666;
+    color: #000000;
+    background-color: #DDDDDD;
+}
+
+.layout-Enview  .portlet-title-action
+{
+	float: right;
+	display: inline;
+}
+
+.layout-Enview  .portlet-title-more
+{
+	float: right;
+	display: inline;
+}
+
+.layout-Enview  .portlet-title-content
+{
+	font-weight:bold;
+    display: inline;
+    float: left;
+    white-space: normal;
+}
+
+.layout-Enview  .portlet-content
+{
+	background: #FFFFFF;
+	border: 1px solid lightgray;
+}

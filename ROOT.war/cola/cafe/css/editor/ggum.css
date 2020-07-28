@@ -1,0 +1,6691 @@
+#minidaum {
+    position: static;
+    z-index: 1 !important;
+}
+body {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+body.hideFlash #coca_uploader {
+    display: none;
+}
+#cafeLayout {
+    margin: 0;
+    padding: 0 10px;
+    top: 0;
+}
+ul, ol, li, dl, dt, dd {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+#wrap.wrapMinSize {
+    width: 971px !important;
+}
+.image_uloader_progressbar {
+    background: url("../../images/editor/ggum/btn_loading.png") no-repeat scroll 0 0 transparent;
+    border: 0 none;
+    height: 35px !important;
+    left: 5px;
+    position: absolute !important;
+    top: 5px;
+    width: 83px !important;
+    z-index: 99 !important;
+}
+* html .image_uloader_progressbar {
+    background: none repeat scroll 0 0 transparent;
+}
+#container {
+    position: static !important;
+}
+#header {
+    z-index: 1 !important;
+}
+#primaryContent {
+    z-index: 999;
+}
+#content {
+    position: relative;
+    z-index: 999;
+}
+#cafemenu {
+    overflow: visible !important;
+    position: relative;
+    z-index: 1000;
+}
+.fcBright, a.fcBright:link, a.fcBright:visited, a.fcBright:hover, a.fcBright:active {
+    color: #999999;
+}
+.smallFont {
+    font-size: 11px;
+}
+#homeBoardContent {
+    position: relative;
+    z-index: 1;
+}
+.boardPanel1 {
+    position: relative;
+}
+.boardPanel2 {
+    position: relative;
+}
+#sidebar2 {
+    z-index: 2;
+}
+#sidebar3 {
+    position: relative;
+    z-index: 999;
+}
+#sidebar4 {
+    z-index: 999;
+}
+#cafemenuPanel {
+    position: relative;
+    z-index: 1;
+}
+#sidebar1 {
+    z-index: 2;
+}
+.outBoxL {
+    overflow: visible !important;
+    position: relative;
+}
+.outBoxR {
+    overflow: visible !important;
+    position: relative;
+}
+.inBoxU {
+    overflow: visible !important;
+    position: relative;
+}
+.inBoxD {
+    overflow: visible !important;
+    position: relative;
+}
+#pv_CAFEINFOBOX .btn_admin_area:after {
+    clear: both;
+    content: "";
+}
+#pv_CAFEMENU .menuBox {
+    overflow: hidden;
+    position: relative;
+}
+#pv_CAFEMENU .menuBoxB:after {
+    clear: both;
+    content: "";
+}
+#pv_CAFEMENU .menuList {
+    position: relative;
+}
+#pv_CAFEMENU .ieHeightBugFix {
+    width: 100%;
+}
+#pv_TITLEPANEL {
+    position: relative;
+    z-index: 999;
+}
+.pv_component {
+    float: none;
+    position: relative;
+}
+.component {
+    overflow: visible !important;
+    position: relative;
+}
+#pv_BESTARTICLE, #pv_BESTMEMBER, #pv_CAFEMOVIE, #pv_CAFEPIE, #pv_CAFESTAT, #pv_CAFEWEBINSIDE, #pv_FAVORITELINK, #pv_RECENTCOMMENT, #pv_CAFEQA, #pv_MEMBERNOTICE {
+    float: none;
+    position: relative;
+}
+#pv_BGMPLAYER {
+    float: right;
+    height: 25px;
+    position: relative;
+    width: 186px;
+    z-index: 999;
+}
+.cafeonBox h3, .cafeonBox span.fr {
+    position: relative;
+}
+.title_stxt555 {
+    color: #555555;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+}
+a.title_stxt555:link {
+    color: #555555;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+}
+a.title_stxt555:visited {
+    color: #555555;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+}
+a.title_stxt555:hover, #remoteLayer a.title_stxt555:active {
+    color: #555555;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+}
+.title_stxt666 {
+    color: #666666;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+}
+a.title_stxt666:link {
+    color: #666666;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+}
+a.title_stxt666:visited {
+    color: #666666;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+}
+a.title_stxt666:hover, #remoteLayer a.title_stxt666:active {
+    color: #666666;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+}
+.title_txt555 {
+    color: #555555;
+    font-family: 援대┝,gulim,sans-serif;
+    font-size: 12px;
+}
+a.title_txt555:link {
+    color: #555555;
+    font-family: 援대┝,gulim,sans-serif;
+    font-size: 12px;
+}
+a.title_txt555:visited {
+    color: #555555;
+    font-family: 援대┝,gulim,sans-serif;
+    font-size: 12px;
+}
+a.title_txt555:hover, a.title_stxt555:active {
+    color: #555555;
+    font-family: 援대┝,gulim,sans-serif;
+    font-size: 12px;
+}
+.home_stxt_sp {
+    color: #5767D6;
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+a.home_stxt_sp:link {
+    color: #5767D6;
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+a.home_stxt_sp:visited {
+    color: #5767D6;
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+a.home_stxt_sp:hover, #remoteLayer a.home_stxt_sp:active {
+    color: #5767D6;
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+#remoteLayer, #remoteLayer a:link, #remoteLayer a:visited, #remoteLayer a:hover, #remoteLayer a:active {
+    text-align: left;
+}
+#remoteLayer .home_stxt {
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+#remoteLayer a.home_stxt:link {
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+#remoteLayer a.home_stxt:visited {
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+#remoteLayer a.home_stxt:hover, #remoteLayer a.home_stxt:active {
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+#remoteLayer .home_stxt555 {
+    color: #555555;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+}
+#remoteLayer a.home_stxt555:link {
+    color: #555555;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+}
+#remoteLayer a.home_stxt555:visited {
+    color: #555555;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+}
+#remoteLayer a.home_stxt555:hover, #remoteLayer a.title_stxt555:active {
+    color: #555555;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+}
+#remoteLayer .home_stxt_666 {
+    color: #666666;
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+#remoteLayer a.home_stxt_666:link {
+    color: #666666;
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+#remoteLayer a.home_stxt_666:visited {
+    color: #666666;
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+#remoteLayer a.home_stxt_666:hover, #remoteLayer a.home_stxt_666:active {
+    color: #666666;
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+#remoteLayer .home_stxt_999 {
+    color: #999999;
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+#remoteLayer a.home_stxt_999:link {
+    color: #999999;
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+#remoteLayer a.home_stxt_999:visited {
+    color: #999999;
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+#remoteLayer a.home_stxt_999:hover, #remoteLayer a.home_stxt_999:active {
+    color: #999999;
+    font: 11px/11px;
+    letter-spacing: -1px;
+}
+#remoteLayer .txt_999 {
+    color: #999999;
+    font: 12px/12px 援대┝,gulim,sans-serif;
+}
+#remoteLayer a.txt_999:link {
+    color: #999999;
+    font: 12px/12px 援대┝,gulim,sans-serif;
+}
+#remoteLayer a.txt_999:visited {
+    color: #999999;
+    font: 12px/12px 援대┝,gulim,sans-serif;
+}
+#remoteLayer a.txt_999:hover, #remoteLayer a.txt_999:active {
+    color: #999999;
+    font: 12px/12px 援대┝,gulim,sans-serif;
+}
+.b {
+    font-weight: bold;
+}
+.imgLink {
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    text-indent: -9999em;
+}
+.noLS {
+    letter-spacing: 0;
+}
+.numberCntSp {
+    color: #5868D7;
+    font: 11px/11px;
+    padding: 0 2px;
+}
+#remoteArea {
+    clear: both;
+    width: 100%;
+}
+#overlayLayer {
+    background: url("../../images/editor/ggum/bt_on_preview_withgap1.gif") no-repeat scroll -1000px -1000px transparent;
+    background: url("../../images/editor/ggum/bt_on_preview_withgap1.gif") no-repeat scroll -1000px -1000px transparent;
+    left: 0;
+    margin: 0;
+    position: absolute;
+    top: 48px;
+}
+#intro, #intro2 {
+    overflow: visible !important;
+    position: relative;
+    z-index: 999;
+}
+#pv_CAFEINFOBOX {
+    position: relative;
+}
+#pv_CAFEMENU {
+    position: relative;
+}
+#pv_TITLEPANEL {
+    position: relative;
+}
+#pv_CAFEGROUP {
+    position: relative;
+}
+#pv_CAFEON {
+    position: relative;
+}
+.layer_ {
+    background: none repeat scroll 0 0 transparent;
+    border: 1px none;
+    margin: -2px 0 0 -2px;
+    padding: 0;
+    position: absolute;
+    z-index: 999;
+}
+.layer_inside_ {
+    background: none repeat scroll 0 0 transparent;
+    border: 1px none;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    z-index: 999;
+}
+.layer_inside_block {
+    background: none repeat scroll 0 0 #FFFFFF;
+    left: 0;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    top: 0;
+    z-index: 999;
+}
+.layer_over {
+    background: none repeat scroll 0 0 transparent;
+    border: 1px dashed #000000;
+    margin: -2px 0 0 -2px;
+    padding: 0;
+    position: absolute;
+    z-index: 999;
+}
+.layer_inside_over {
+    background: none repeat scroll 0 0 transparent;
+    border: 1px dashed #FFFFFF;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    z-index: 999;
+}
+.layer_inside_block_over {
+    background: none repeat scroll 0 0 #FFFFFF;
+    left: 0;
+    margin: 0;
+    opacity: 0.2;
+    padding: 0;
+    top: 0;
+    z-index: 999;
+}
+.layer_hasDeco {
+    cursor: pointer;
+}
+.layer_Btn {
+    background: url("../../images/editor/ggum/bt_on_preview_withgap1.gif") no-repeat scroll 0 0 transparent;
+    height: 23px;
+    position: absolute;
+    top: -24px;
+    z-index: 9999;
+}
+.layer_Btn.widgetConf {
+    background-position: -139px 0;
+    width: 66px;
+}
+.layer_Btn.boardConf {
+    background-position: 0 0;
+    width: 76px;
+}
+.layer_Btn.deco {
+    background-position: -78px 0;
+    width: 59px;
+}
+.layer_Btn.board_deco {
+    background-position: -76px 0;
+    left: 76px;
+    width: 61px;
+}
+.layer_Btn.entranceConf {
+    background-position: -254px 0;
+    width: 70px;
+}
+.layer_Btn.homecontentDel {
+    background-position: -205px 0;
+    height: 23px;
+    left: 59px;
+    position: absolute;
+    width: 47px;
+    z-index: 9999;
+}
+.layer_Btn.boardDel {
+    background-position: -205px 0;
+    height: 23px;
+    left: 135px;
+    position: absolute;
+    width: 45px;
+    z-index: 9999;
+}
+.layer_Btn.widgetDel {
+    background-position: -205px 0;
+    height: 23px;
+    left: 66px;
+    position: absolute;
+    width: 47px;
+    z-index: 9999;
+}
+#pv_CAFERSS .layer_Btn.homecontentDel, #pv_CAFEON .layer_Btn.homecontentDel, #pv_CAFEGROUP .layer_Btn.homecontentDel, #pv_CAFEGAME .layer_Btn.homecontentDel {
+    background-position: -207px 0;
+    left: 0 !important;
+    width: 45px;
+}
+#pv_BGMPLAYER .layer_Btn.homecontentDel {
+    background-position: -207px 0;
+    left: -46px;
+    top: 0;
+    width: 45px;
+}
+#remoteLayer {
+    left: -1000px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    z-index: 9999;
+}
+#remoteLayerTitle {
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    margin: 0;
+    overflow: hidden;
+    padding: 7px 8px 0 1px;
+}
+#remoteLayerTitle1 a {
+    display: block;
+    float: left;
+    outline: medium none;
+    overflow: hidden;
+    position: relative;
+    text-indent: -9999em;
+}
+
+#remoteLayerTitle a {
+    display: block;
+    float: left;
+    outline: medium none;
+    overflow: hidden;
+    position: relative;
+}
+
+
+#remoteLeft {
+    position: absolute;
+}
+#remoteRight {
+    position: absolute;
+    right: 0;
+    width: 461px;
+}
+.remoteControlBg {
+    background: url("../../images/editor/ggum/content_bg.png") repeat-y scroll 0 0 transparent;
+    display: block;
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 332px;
+}
+#remoteLayer .remoteLodingMsg {
+    color: #999999;
+    font: 12px/12px 援대┝,gulim,sans-serif;
+    margin: 0;
+    padding: 20px 0;
+    text-align: center;
+}
+#remoteControl a, #remoteControl img, #remoteControl label {
+    position: relative;
+}
+#remoteFooter a {
+    position: relative;
+}
+.remote_deco_toolbar {
+    float: left;
+    height: 20px;
+    padding: 0 0 0 3px;
+    width: 48px;
+}
+.remote_deco_toolbar li {
+    float: left;
+    padding: 0 0 0 3px;
+}
+.remote_data_toolbar {
+    float: right;
+    height: 27px;
+    padding: 0 3px 0 0;
+}
+.remote_data_toolbar li {
+    float: left;
+    width: 45px;
+}
+.btn_remoteApply {
+    background-image: url("../../images/editor/ggum/top_bt_apply_a.gif");
+    height: 25px;
+    width: 45px;
+}
+.btn_remoteSave {
+    background-image: url("../../images/editor/ggum/top_bt_save.gif");
+    height: 25px;
+    width: 43px;
+}
+.remote_max #remoteLeft {
+    width: 332px;
+}
+.remote_max #remoteLayerTitle {
+    background-image: url("../../images/editor/ggum/top_bg.png");
+    height: 30px;
+    width: 323px;
+}
+.remote_max #remoteControl {
+    display: block;
+    width: 332px;
+}
+.remote_max .remote_mini_menu {
+    display: none;
+}
+.remote_min #remoteLeft {
+    width: 231px;
+}
+.remote_min #remoteLayerTitle {
+    background-image: url("../../images/editor/ggum/mini_bg_a.png");
+    height: 65px;
+    width: 222px;
+}
+.remote_min #remoteControl {
+    display: none;
+}
+.remote_min .remote_mini_menu {
+    clear: both;
+    display: block;
+    height: 22px;
+    padding: 7px 7px 9px;
+    width: 219px;
+}
+.remote_min .remote_mini_menu li {
+    display: inline;
+    float: left;
+    height: 22px;
+}
+.btn_remote_mini_Skin, .btn_remote_mini_Layout {
+    padding-right: 12px;
+}
+.btn_remote_mini_Skin a {
+    background-image: url("../../images/editor/ggum/tab_mini.png");
+    background-position: 0 0;
+    height: 22px;
+    width: 49px;
+}
+.btn_remote_mini_Skin a.selected {
+    background-position: 0 -22px;
+}
+.btn_remote_mini_Layout a {
+    background-image: url("../../images/editor/ggum/tab_mini.png");
+    background-position: -49px 0;
+    height: 22px;
+    width: 64px;
+}
+.btn_remote_mini_Layout a.selected {
+    background-position: -49px -22px;
+}
+.btn_remote_mini_Design a {
+    background-image: url("../../images/editor/ggum/tab_mini.png");
+    background-position: -113px 0;
+    height: 22px;
+    width: 80px;
+}
+.btn_remote_mini_Design a.selected {
+    background-position: -113px -22px;
+}
+* html .remoteControlBg {
+    background: none repeat scroll 0 0 transparent;
+}
+* html .remote_max #remoteLayerTitle {
+    background: none repeat scroll 0 0 transparent;
+}
+* html .remote_min #remoteLayerTitle {
+    background: none repeat scroll 0 0 transparent;
+}
+#remoteLayerTitle .btn_foldRemote {
+    background-image: url("../../images/editor/ggum/tab_bt_mini_a.gif");
+    background-repeat: no-repeat;
+    height: 19px;
+    width: 18px;
+}
+.remote_max #remoteLayerTitle .btn_foldRemote {
+    background-position: 0 0;
+}
+.remote_min #remoteLayerTitle .btn_foldRemote {
+    background-position: 0 -19px;
+}
+#remoteLayerTitle #remoteControlLockButton {
+    background: url("../../images/editor/ggum/tab_bt_lock_a.gif") no-repeat scroll 0 -19px transparent;
+    height: 19px;
+    width: 18px;
+}
+#remoteLayerTitle #remoteControlLockButton.lock {
+    background-position: 0 0;
+}
+#remoteControl {
+}
+#remoteControlContent {
+    text-align: left;
+    width: 332px;
+}
+#remoteControlContent dl {
+    float: left;
+}
+#menuControlMaster .designSet {
+    margin-left: 25px;
+    width: 254px;
+}
+#menuControlMaster .designSet li {
+    float: left;
+    margin-right: 20px;
+    width: 107px;
+}
+#menuControlMaster .designSet label {
+    color: blue;
+    display: block;
+    font-weight: bold;
+    text-align: center;
+    width: 112px;
+}
+.remoteFooterTypeA {
+    background: url("../../images/editor/ggum/setting_01_bg.png") no-repeat scroll 0 0 transparent;
+    height: 28px;
+    padding: 9px 11px 0 5px;
+    width: 316px;
+}
+.remoteFooterTypeB {
+    background: url("../../images/editor/ggum/setting_02_bg.png") no-repeat scroll 0 0 transparent;
+    height: 37px;
+    padding: 11px 11px 0 5px;
+    width: 316px;
+}
+.remoteFooterTypeC {
+    background: url("../../images/editor/ggum/setting_03_bg.png") no-repeat scroll 0 0 transparent;
+    height: 59px;
+    padding: 11px 11px 0 5px;
+    width: 316px;
+}
+* html .remoteFooterTypeA {
+    background: none repeat scroll 0 0 transparent;
+}
+* html .remoteFooterTypeB {
+    background: none repeat scroll 0 0 transparent;
+}
+* html .remoteFooterTypeC {
+    background: none repeat scroll 0 0 transparent;
+}
+#remoteFooter {
+    float: left;
+}
+#remoteFooterView {
+    float: left;
+}
+.remoteZindexH {
+    position: relative;
+    z-index: 3;
+}
+.remoteZindexM {
+    position: relative;
+    z-index: 2;
+}
+.remoteZindexL {
+    position: relative;
+    z-index: 1;
+}
+a.rollback {
+    background: url("../../images/editor/ggum/bt_reset.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    float: right;
+    height: 10px;
+    overflow: hidden;
+    text-indent: -100px;
+    width: 53px;
+}
+.remoteFooterTypeA #remoteFooterView {
+    height: 28px;
+    width: 249px;
+}
+.remoteFooterTypeB #remoteFooterView {
+    height: 37px;
+    width: 249px;
+}
+.remoteFooterTypeC #remoteFooterView {
+    height: 22px;
+    width: 302px;
+}
+.remoteFooterTypeA a.rollback {
+    margin: 2px 0 0;
+}
+.remoteFooterTypeB a.rollback {
+    margin: 5px 0 0;
+}
+.remoteFooterTypeC a.rollback {
+    margin: 12px 0 0;
+}
+.color_label {
+    color: #555555;
+    display: inline;
+    float: left;
+    font-family: dotum,"?룍??";
+    font-size: 11px;
+    letter-spacing: -1px;
+    line-height: 21px;
+    padding-left: 12px;
+    padding-right: 7px;
+    position: relative;
+}
+.color_label_a {
+    color: #555555;
+    display: inline;
+    float: left;
+    font-family: gulim,"援대┝";
+    font-size: 12px;
+    line-height: 21px;
+    padding-left: 24px;
+    padding-right: 10px;
+    position: relative;
+}
+.color_label_b {
+    color: #555555;
+    display: inline;
+    float: left;
+    font-family: gulim,"援대┝";
+    font-size: 12px;
+    line-height: 21px;
+    padding-left: 30px;
+    padding-right: 10px;
+    position: relative;
+}
+.colorLabel {
+    float: left;
+    font: 11px/11px;
+    letter-spacing: -1px;
+    padding: 5px 3px 0 0;
+}
+.colorPickerSl {
+    float: left;
+    font-size: 0;
+    height: 1px;
+    line-height: 0;
+    margin: 0;
+    padding: 0;
+    width: 3px;
+}
+.colorPickerChip {
+    float: left;
+    height: 15px;
+    margin: 0 0 0 2px;
+    width: 15px;
+}
+.cib_skinList {
+    clear: both;
+    overflow: hidden;
+}
+.cib_skinList li {
+    float: left;
+    width: 150px;
+}
+.cib_customList {
+    clear: both;
+    height: 20px;
+    width: 310px;
+}
+.cib_customList li {
+    float: left;
+    width: 80px;
+}
+.unvisible {
+    display: none;
+}
+a.txt_f {
+    color: #FFFFFF;
+}
+.debug {
+    clear: both;
+    color: #000000;
+    font: 12px/12px verdana,?룍??,dotum,sans-serif;
+    height: 12px;
+    margin: 0;
+    padding: 2px 0;
+    text-align: center;
+}
+.skinPaging {
+    margin: 0;
+    text-align: center;
+}
+#homeBoardConfigForm {
+    clear: both;
+}
+.homeBoardSelector {
+    clear: both;
+    float: left;
+}
+.sel_board {
+    width: 150px;
+}
+.sel_board_type {
+    width: 125px;
+}
+#FavoriteConfigPanel {
+    background-color: transparent;
+    height: 381px;
+    width: 320px;
+    z-index: 10000;
+}
+#FavoriteConfigPanel .favoriteConfigPanel {
+    background: url("../../images/editor/ggum/link_set_bg.png") no-repeat scroll 0 0 transparent;
+    height: 381px;
+    width: 320px;
+}
+#FavoriteConfigPanel .favoriteConfigPanel .favoritPopTit {
+    height: 44px;
+    position: relative;
+    width: 320px;
+}
+#FavoriteConfigPanel .favoriteConfigPanel .favoritPopTit h3 {
+    display: none;
+}
+#FavoriteConfigPanel .favoriteConfigPanel .favoritPopTit .favoritPopClose {
+    background: url("../../images/editor/ggum/link_set_close.gif") no-repeat scroll 0 0 transparent;
+    height: 9px;
+    position: absolute;
+    right: 14px;
+    top: 18px;
+    width: 10px;
+}
+#FavoriteConfigPanel .favoriteConfigPanel .favoritPopTit #favoritPopTip {
+    left: 111px;
+    position: absolute;
+    top: 17px;
+}
+#FavoriteConfigPanel .favoriteConfigPanel .favoriteFrame {
+    padding: 0 15px;
+    position: relative;
+}
+#FavoriteConfigPanel .favoriteConfigPanel #favoriteFrame {
+    border-bottom: 1px solid #E8E8E8;
+}
+#businessInfoContent {
+    float: left;
+}
+#BusinessInfoConfigPanel, #AgreementCheckPanel {
+    clear: both;
+    font-family: '?룍??',dotum,sans-serif;
+    width: 405px;
+    z-index: 10000;
+}
+#BusinessInfoConfigPanel .wrap, #AgreementCheckPanel .wrap {
+    border-bottom: 1px solid #DDDDDD;
+    clear: both;
+    height: 21px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.flexible_head {
+    background: url("../../images/editor/ggum/bg_infotop_2.png") no-repeat scroll 0 0 transparent;
+    height: 22px;
+    padding: 13px 16px 0;
+    width: 372px;
+}
+* html .flexible_head {
+    background: none repeat scroll 0 0 transparent;
+}
+.flexible_body {
+    background: url("../../images/editor/ggum/bg_infomid.png") repeat-y scroll 0 0 transparent;
+    padding: 16px 16px 0;
+    width: 372px;
+}
+* html .flexible_body {
+    background: none repeat scroll 0 0 transparent;
+    padding-right: 17px;
+}
+.flexible_foot {
+    background: url("../../images/editor/ggum/bg_infobot_2.png") no-repeat scroll 0 0 transparent;
+    height: 15px;
+    padding: 0 16px;
+    width: 372px;
+}
+* html .flexible_foot {
+    background: none repeat scroll 0 0 transparent;
+}
+.popClose {
+    background: url("../../images/editor/ggum/link_set_close.gif") no-repeat scroll 0 0 transparent;
+    height: 9px;
+    position: absolute;
+    right: 14px;
+    top: 16px;
+    width: 10px;
+}
+#BusinessInfoConfigPanel .flexible_head h3 {
+    background: url("../../images/editor/ggum/tit_info.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 15px;
+    margin: 0;
+    overflow: hidden;
+    text-indent: -9999em;
+    width: 90px;
+}
+* html #BusinessInfoConfigPanel .flexible_head h3 {
+    background: none repeat scroll 0 0 transparent;
+}
+#bizInfoPopTip {
+    left: 107px;
+    position: absolute;
+    top: 12px;
+}
+#BusinessInfoConfigPanel .flexible_body ul {
+}
+#BusinessInfoConfigPanel .flexible_body li {
+    clear: both;
+    color: #333333;
+    font-family: "?룍??",dotum,sans-serif;
+    height: 26px;
+}
+#BusinessInfoConfigPanel .flexible_body li label {
+    float: left;
+    margin-top: 2px;
+}
+#BusinessInfoConfigPanel .flexible_body .admin_inp {
+    float: right;
+    font-size: 12px;
+    height: 13px;
+    letter-spacing: -1px;
+    width: 213px;
+}
+#BusinessInfoConfigPanel .flexible_body .last {
+    height: 51px;
+    margin-top: 1px;
+}
+#BusinessInfoConfigPanel .flexible_body .validation_disp {
+    color: #AAAAAA;
+    font-size: 11px;
+    height: auto;
+    letter-spacing: -1px;
+    margin: -4px 0 5px;
+    padding: 0 0 0 153px;
+}
+#BusinessInfoConfigPanel .flexible_body .validation_disp .validate_message {
+    margin: -3px 0 0;
+}
+#BusinessInfoConfigPanel .flexible_body .validation_disp .txt_cnt {
+    color: #6173E8;
+    letter-spacing: 0;
+}
+#BusinessInfoConfigPanel .flexible_body .radio, #BusinessInfoConfigPanel .flexible_body .number {
+    float: right;
+    height: 22px;
+    margin: 0;
+}
+#BusinessInfoConfigPanel .flexible_body .radio {
+    margin-bottom: 4px;
+}
+#BusinessInfoConfigPanel .flexible_body .radio .img_radiobtn, #BusinessInfoConfigPanel .flexible_body .radio label {
+    float: left;
+}
+#BusinessInfoConfigPanel .flexible_body .radio .img_radiobtn {
+    margin-left: 17px;
+    margin-top: 5px;
+}
+#BusinessInfoConfigPanel .flexible_body .number {
+    width: 252px;
+}
+#mordregnoPopTip {
+    margin: 0 0 0 100px;
+    position: absolute;
+}
+#BusinessInfoConfigPanel .flexible_body .btn_wrap {
+    border-top: 1px solid #E6E6E6;
+    clear: both;
+    margin-top: 4px;
+    width: 100%;
+}
+#BusinessInfoConfigPanel .popup_btnArea {
+    margin: 10px auto 0;
+}
+#AgreementCheckPanel .flexible_head h3 {
+    background: url("../../images/editor/ggum/tit_info2.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 15px;
+    margin: 0;
+    overflow: hidden;
+    text-indent: -9999em;
+    width: 180px;
+}
+* html #AgreementCheckPanel .flexible_head h3 {
+    background: none repeat scroll 0 0 transparent;
+}
+#AgreementCheckPanel .popup_btnArea {
+    margin: 10px auto 0;
+}
+#AgreementCheckPanel .contents {
+    border-bottom: 1px solid #DDDDDD;
+    padding: 0 12px;
+}
+#AgreementCheckPanel p, #AgreementCheckPanel a {
+    color: #444444;
+    font-family: '?룍??',dotum,sans-serif;
+    margin: 0;
+}
+#AgreementCheckPanel p a {
+    text-decoration: underline;
+}
+#AgreementCheckPanel .txt_point {
+    color: #6173E8;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 17px;
+    padding-bottom: 16px;
+    padding-top: 5px;
+}
+#AgreementCheckPanel ul {
+    color: #444444;
+    font-family: '?룍??',dotum,sans-serif;
+    margin-left: -5px;
+}
+#AgreementCheckPanel .txt_sub {
+    clear: both;
+    color: #AAAAAA;
+    font-size: 11px;
+    letter-spacing: -1px;
+    line-height: 17px;
+    padding-bottom: 12px;
+    padding-left: 43px;
+    width: 255px;
+}
+#AgreementCheckPanel .check {
+    padding: 31px 0;
+}
+#ChatingConfigPanel {
+    background-color: transparent;
+    height: 309px;
+    width: 420px;
+    z-index: 10000;
+}
+#ChatingConfigPanel .configPanel {
+    background: url("../../images/editor/ggum/chat_bg.png") no-repeat scroll 0 0 transparent;
+    height: 309px;
+    width: 420px;
+}
+#ChatingConfigPanel .configPanel .popTit {
+    height: 46px;
+    position: relative;
+    width: 420px;
+}
+#ChatingConfigPanel .configPanel .popTit h3 {
+    display: none;
+}
+#ChatingConfigPanel .configPanel .popTit .popClose {
+    background: url("../../images/editor/ggum/link_set_close.gif") no-repeat scroll 0 0 transparent;
+    height: 9px;
+    position: absolute;
+    right: 14px;
+    top: 18px;
+    width: 10px;
+}
+#ChatingConfigPanel .configPanel .popTit #favoritPopTip {
+    left: 111px;
+    position: absolute;
+    top: 17px;
+}
+#ChatingConfigPanel .configPanel .ccFrame {
+    border-bottom: 1px solid #E8E8E8;
+    height: 220px;
+    margin: 0 15px;
+    position: relative;
+}
+#ChatingConfigPanel .configPanel .ccFrame .ccframe_radio1 {
+    width: 186px;
+}
+#ChatingConfigPanel .configPanel .ccFrame img {
+    float: left;
+}
+#ChatingConfigPanel .configPanel .ccFrame label {
+    color: #555555;
+    float: left;
+    font-family: ?룍??,dotum;
+    font-size: 11px;
+    line-height: 16px;
+}
+#ChatingConfigPanel .configPanel {
+}
+#GameConfigPanel {
+    background-color: transparent;
+    height: 309px;
+    width: 420px;
+    z-index: 10000;
+}
+#GameConfigPanel .configPanel {
+    background: url("../../images/editor/ggum/game_bg.png") no-repeat scroll 0 0 transparent;
+    height: 309px;
+    width: 420px;
+}
+#GameConfigPanel .configPanel .popTit {
+    height: 46px;
+    position: relative;
+    width: 420px;
+}
+#GameConfigPanel .configPanel .popTit h3 {
+    display: none;
+}
+#GameConfigPanel .configPanel .popTit .popClose {
+    background: url("../../images/editor/ggum/link_set_close.gif") no-repeat scroll 0 0 transparent;
+    height: 9px;
+    position: absolute;
+    right: 14px;
+    top: 18px;
+    width: 10px;
+}
+#GameConfigPanel .configPanel .popTit #favoritPopTip {
+    left: 111px;
+    position: absolute;
+    top: 17px;
+}
+#GameConfigPanel .configPanel .ccFrame {
+    border-bottom: 1px solid #E8E8E8;
+    height: 220px;
+    margin: 0 15px;
+    position: relative;
+}
+#GameConfigPanel .configPanel .ccFrame .ccframe_radio1 {
+    width: 186px;
+}
+#GameConfigPanel .configPanel .ccFrame img {
+    float: left;
+}
+#GameConfigPanel .configPanel .ccFrame label {
+    color: #555555;
+    float: left;
+    font-family: ?룍??,dotum;
+    font-size: 11px;
+    line-height: 16px;
+}
+html #GameConfigPanel .configPanel {
+}
+#FriendCafeConfigPanel {
+    background-color: transparent;
+    height: 381px;
+    width: 340px;
+    z-index: 10000;
+}
+#FriendCafeConfigPanel .friendCafeConfigPanel {
+    background: url("../../images/editor/ggum/link_set_bg03.png") no-repeat scroll 0 0 transparent;
+    height: 381px;
+    width: 340px;
+}
+#FriendCafeConfigPanel .friendCafePopTit {
+    height: 44px;
+    position: relative;
+    width: 340px;
+}
+#FriendCafeConfigPanel .friendCafePopTit h3 {
+    display: none;
+}
+#FriendCafeConfigPanel .friendCafePopTit .friendCafePopClose {
+    background: url("../../images/editor/ggum/link_set_close.gif") no-repeat scroll 0 0 transparent;
+    height: 9px;
+    position: absolute;
+    right: 14px;
+    top: 18px;
+    width: 10px;
+}
+#FriendCafeConfigPanel .friendCafePopTit #friendCafePopTip {
+    left: 89px;
+    position: absolute;
+    top: 17px;
+}
+#FriendCafeConfigPanel .friendCafeConfig {
+    height: 292px;
+    padding: 0 15px;
+    position: relative;
+    width: 310px;
+}
+#FriendCafeConfigPanel .friendCafeConfig .inputList {
+    background-color: #F7F7F7;
+    border: 1px solid #E8E8E8;
+    padding: 11px 0;
+    width: 308px;
+}
+#FriendCafeConfigPanel .friendCafeConfig .inputList li {
+    margin: 6px 0 0 14px;
+    position: relative;
+    width: 294px;
+}
+#FriendCafeConfigPanel .friendCafeConfig .inputList li.first {
+    margin: 0 0 0 14px;
+}
+#FriendCafeConfigPanel .friendCafeConfig .inputList li label.inputLabel, #FriendCafeConfigPanel .friendCafeConfig .inputList li .cafe_addr {
+    color: #555555;
+    display: block;
+    float: left;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+    margin: 0;
+    padding: 3px 0 0;
+}
+#FriendCafeConfigPanel .friendCafeConfig .inputList li label.inputLabel {
+    width: 48px;
+}
+#FriendCafeConfigPanel .friendCafeConfig .inputList li input.admin_inp {
+    border-color: #C2C2C2 #DCDCDC #DCDCDC #C2C2C2;
+    border-style: solid;
+    border-width: 1px;
+    color: #555555;
+    height: 19px;
+    line-height: 19px;
+    width: 163px;
+}
+#FriendCafeConfigPanel .friendCafeConfig .inputList li .cafe_addr {
+    letter-spacing: 0;
+}
+#FriendCafeConfigPanel .friendCafeConfig .inputList li #friendCafeAddr {
+    font-family:;
+    line-height: 17px;
+    margin-left: 5px;
+    width: 62px;
+}
+#FriendCafeConfigPanel .friendCafeConfig .inputList li #friendCafeName {
+    background-color: #F9F9F9;
+    color: #9A9A9A;
+    width: 181px;
+}
+#FriendCafeConfigPanel .friendCafeConfig .inputList li .error_msg {
+    color: #AAAAAA;
+    display: none;
+    font-size: 11px;
+    letter-spacing: -1px;
+    line-height: 14px;
+    padding-left: 48px;
+}
+#FriendCafeConfigPanel .friendCafeConfig .inputList li .error_msg.errorMsg_hide {
+    display: none;
+}
+#FriendCafeConfigPanel .friendCafeConfig .inputList li .error_msg.errorMsg_show {
+    display: block;
+}
+#FriendCafeConfigPanel .friendCafeConfig .friend_btn {
+    background: url("../../images/editor/ggum/layer_bt_submit2.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 21px;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    right: 17px;
+    text-indent: -9999em;
+    top: 0;
+    width: 38px;
+}
+#FriendCafeConfigPanel .friendCafeConfig .cafe_addr_search {
+    background-position: -191px 0;
+}
+#FriendCafeConfigPanel .friendCafeConfig .cafe_friend_regist {
+    background-position: -229px 0;
+}
+#FriendCafeConfigPanel .friendCafeConfig .cafeList {
+    padding: 10px 10px 0;
+    width: 290px;
+}
+#FriendCafeConfigPanel .friendCafeConfig .cafeList li {
+    color: #333333;
+    font-family: 援대┝,gulim,sans-serif;
+    font-size: 12px;
+    height: 18px;
+    line-height: 18px;
+    margin: 1px 0 0;
+    position: relative;
+    text-align: left;
+    width: 290px;
+}
+#FriendCafeConfigPanel .friendCafeConfig .bullet {
+    color: #BDBDBD;
+    padding-right: 3px;
+}
+#FriendCafeConfigPanel .friendCafeConfig .del_btn {
+    color: #666666;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+    padding-top: 1px;
+    position: absolute;
+    right: 8px;
+    top: 4px;
+}
+#FriendCafeConfigPanel .friendCafeConfig a.del_btn:link {
+    color: #666666;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+    text-decoration: none;
+}
+#FriendCafeConfigPanel .friendCafeConfig a.del_btn:visited {
+    color: #666666;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+    text-decoration: none;
+}
+#FriendCafeConfigPanel .friendCafeConfig a.del_btn:hover, #remoteLayer a.home_del_btn:active {
+    color: #666666;
+    font-family:;
+    font-size: 11px;
+    letter-spacing: -1px;
+    text-decoration: underline;
+}
+#FriendCafeConfigPanel .friendCafeConfig .empty_msg {
+    color: #666666;
+    font-family: 援대┝,gulim,sans-serif;
+    font-size: 12px;
+    line-height: 21px;
+    margin: 82px 0 0;
+    text-align: center;
+}
+#FriendCafeConfigPanel .friendCafeConfig .empty_msg .spec {
+    color: #5868D7;
+}
+.popTit h3 {
+    color: #000000;
+    font-family: 援대┝,gulim,sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0;
+    padding: 15px 0 0 15px;
+}
+.popup_btnClose {
+    background: url("../../images/editor/ggum/layer_bt_close.gif") no-repeat scroll 0 0 transparent;
+    height: 11px;
+    position: absolute;
+    right: 10px;
+    top: 11px;
+    width: 11px;
+}
+.popup_btnArea {
+    height: 21px;
+    margin: 10px auto;
+    width: 81px;
+}
+.popup_btnArea a {
+    background: url("../../images/editor/ggum/layer_bt_submit2.gif") no-repeat scroll 0 0 transparent;
+    height: 21px;
+    width: 38px;
+}
+.popup_btnArea a.popup_btnConfirm {
+    background-position: 0 0;
+    float: left;
+}
+.popup_btnArea a.popup_btnCancel {
+    background-position: -38px 0;
+    float: right;
+}
+#WidgetConfigFrame {
+    background-color: #FFFFFF;
+    border: 1px solid #AAAAAA;
+    height: 499px;
+    width: 639px;
+    z-index: 10000;
+}
+#WidgetConfigFrame .popTit {
+    background: url("../../images/editor/ggum/layer_top_bt_02.gif") no-repeat scroll 0 0 transparent;
+    height: 41px;
+    position: relative;
+    width: 639px;
+}
+#WidgetConfigFrame .widgetConfig_stage {
+    background-color: #F7F7F7;
+    border: 1px solid #E8E8E8;
+    margin: 0 auto;
+    padding: 4px;
+    width: 605px;
+}
+#WidgetConfigFrame .widgetConfig_stageInner {
+    background-color: #FFFFFF;
+    width: 605px;
+}
+#WidgetConfigFrame .widgetConfig_title {
+    border-bottom: 1px solid #E8E8E8;
+    height: 33px;
+    margin: 0 12px;
+}
+#WidgetConfigFrame .widgetConfig_title h4 {
+    color: #444444;
+    font-family: ?룍??,dotum;
+    font-size: 14px;
+    margin: 0;
+    padding: 7px 5px 0;
+}
+#WidgetConfigFrame .widgetConfig {
+    background-color: #FFFFFF;
+    height: 337px;
+    padding: 18px 0;
+    width: 605px;
+}
+#WidgetConfigFrame #widgetConfig {
+    background: url("../../images/editor/ggum/bg_widget.gif") repeat-y scroll 0 0 #FFFFFF;
+    height: 331px;
+    overflow-y: auto;
+    position: relative;
+}
+#WidgetConfigFrame .widgetPrevLayer {
+    float: left;
+    width: 256px;
+}
+#WidgetConfigFrame .widgetPrevLayer .widgetFrame {
+    margin: 0 auto;
+}
+#WidgetConfigFrame .widgetConfLayer {
+    color: #333333;
+    float: left;
+    font-family: 援대┝,gulim,sans-serif;
+    font-size: 12px;
+    padding: 0 0 0 25px;
+    width: 300px;
+}
+#WidgetConfigFrame .widgetConfLayer .widgetDesc {
+}
+#WidgetConfigFrame .widgetConfLayer .widgetCopy {
+    color: #666666;
+    font-family:;
+    font-size: 11px;
+    margin: 0 0 20px;
+    padding: 15px 0 0;
+}
+#WidgetConfigFrame .widgetConfLayer .widgetCopy .widgetSpec {
+    color: #506BE0;
+    font-family: 援대┝,gulim,tahoma,sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+}
+#WidgetConfigFrame .widgetConfLayer .widgetCopy .detailLineBarL {
+    background: url("../../images/editor/ggum/line06.gif") no-repeat scroll 0 50% transparent;
+    margin: 0 0 0 9px;
+    padding: 2px 0 0 9px;
+}
+#WidgetConfigFrame .widgetConfLayer .widgetCopy .widgetData {
+    color: #999999;
+    font-family:;
+    font-size: 11px;
+}
+#WidgetConfigFrame .widgetConfLayer .wigetConfigChange {
+    background: url("../../images/editor/ggum/bg_dot.gif") repeat-x scroll left top transparent;
+    font-weight: bold;
+    margin: 0;
+    padding: 17px 0 3px;
+}
+#WidgetConfigFrame .widgetConfLayer .widgetConfTable {
+    width: 300px;
+}
+#WidgetConfigFrame .widgetConfLayer .widgetConfTable th {
+    font-weight: normal;
+    height: 22px;
+    padding-top: 5px;
+    text-align: left;
+    width: 70px;
+}
+#WidgetConfigFrame .widgetConfLayer .widgetConfTable td {
+    height: 25px;
+    padding-top: 2px;
+    width: 230px;
+}
+.widgetConfigString {
+    background-color: #F8F8F8;
+    border: 1px solid #D3D3D3;
+    font-size: 12px;
+    height: 17px;
+    line-height: 1.6;
+    padding: 0 0 0 10px;
+    width: 148px;
+}
+.selectedLink {
+    background-color: #4C6EDA;
+}
+.componentBox {
+    overflow: visible !important;
+    padding-bottom: 1px;
+}
+#pv_CAFEINFOBOX.TAB_IMAGE .cafeTab {
+    display: block;
+}
+#pv_CAFEINFOBOX.TAB_IMAGE .myFolder {
+    display: none;
+}
+#pv_CAFEINFOBOX.TAB_IMAGE img.btn_write {
+    display: block;
+    margin: 0 auto;
+}
+#pv_CAFEINFOBOX.TAB_IMAGE .btn_admin2 {
+    display: none;
+}
+#pv_CAFEINFOBOX.TAB_IMAGE .infobox_line.infoLine.top {
+    display: none;
+}
+#pv_CAFEINFOBOX.TAB_COLOR .cafeTab {
+    display: block;
+}
+#pv_CAFEINFOBOX.TAB_COLOR .myFolder {
+    display: none;
+}
+#pv_CAFEINFOBOX.TAB_COLOR img.btn_write {
+    display: none;
+}
+#pv_CAFEINFOBOX.TAB_COLOR .btn_admin2 {
+    display: block;
+}
+#pv_CAFEINFOBOX.TAB_COLOR .infobox_line.infoLine.top {
+    display: none;
+}
+#pv_CAFEINFOBOX.FOLDING_IMAGE .cafeTab {
+    display: none;
+}
+#pv_CAFEINFOBOX.FOLDING_IMAGE .myFolder {
+    display: block;
+}
+#pv_CAFEINFOBOX.FOLDING_IMAGE img.btn_write {
+    display: block;
+    margin: 0 auto;
+}
+#pv_CAFEINFOBOX.FOLDING_IMAGE .btn_admin2 {
+    display: none;
+}
+#pv_CAFEINFOBOX.FOLDING_IMAGE .infobox_line.infoLine.top {
+    display: block;
+}
+#pv_CAFEINFOBOX.FOLDING_COLOR .cafeTab {
+    display: none;
+}
+#pv_CAFEINFOBOX.FOLDING_COLOR .myFolder {
+    display: block;
+}
+#pv_CAFEINFOBOX.FOLDING_COLOR img.btn_write {
+    display: none;
+}
+#pv_CAFEINFOBOX.FOLDING_COLOR .btn_admin2 {
+    display: block;
+}
+#pv_CAFEINFOBOX.FOLDING_COLOR .infobox_line.infoLine.top {
+    display: block;
+}
+.side_rss {
+    height: 20px;
+    position: relative;
+    width: 181px;
+    z-index: 2;
+}
+.pv_rssLayer {
+    background-color: #FFFFFF;
+    height: 20px;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    width: 181px;
+    z-index: 3;
+}
+#pv_CAFERSS {
+    display: inline;
+}
+#pv_CAFERSS .layer_, #pv_CAFERSS .layer_over, #pv_CAFERSS .layer_inside_, #pv_CAFERSS .layer_inside_over {
+    left: 0;
+}
+#cach_area {
+    display: none;
+}
+div#pv_ENTRANCE {
+}
+.ifr_introIMG {
+    height: 168px;
+    margin: 0 0 10px;
+}
+.remote_menu_dep1 {
+    background: url("../../images/editor/ggum/tab_bg.png") no-repeat scroll left top transparent;
+    display: block;
+    height: 30px;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 332px;
+}
+.remote_menu_dep1 li {
+    display: block;
+    float: left;
+    height: 30px;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 59px;
+}
+.remote_menu_dep1 li a {
+    display: block;
+    height: 30px;
+    overflow: hidden;
+    text-align: center;
+    width: 59px;
+}
+
+.remote_menu_dep1 li a span{
+    color : white;
+}
+
+.remote_menu_dep1 li a.selected span{
+    color :black;
+}
+
+
+.remote_menu_dep1 .rmd1_skin {
+    padding-left: 3px;
+}
+.remote_menu_dep1 .rmd1_layout {
+    width: 76px;
+}
+.remote_menu_dep1 .rmd1_design {
+    width: 94px;
+}
+.remote_menu_dep1 .rmd1_skin a {
+    background: url("../../images/editor/ggum/tab_01.png") no-repeat scroll left top transparent;
+}
+.remote_menu_dep1 .rmd1_layout a {
+    background: url("../../images/editor/ggum/tab_02.png") no-repeat scroll left top transparent;
+    width: 76px;
+}
+.remote_menu_dep1 .rmd1_design a {
+    background: url("../../images/editor/ggum/tab_03.png") no-repeat scroll left top transparent;
+    width: 94px;
+}
+.remote_menu_dep1 .rmd1_skin a.selected, .remote_menu_dep1 .rmd1_layout a.selected, .remote_menu_dep1 .rmd1_design a.selected {
+    background-position: left bottom;
+}
+* html .remote_menu_dep1 {
+    background: none repeat scroll 0 0 transparent;
+}
+.remote_menu_dep2 {
+    background: url("../../images/editor/ggum/sub_bar_bg.png") no-repeat scroll left top transparent;
+    clear: both;
+    height: 37px;
+    margin: 0;
+    padding: 0 0 0 6px;
+    width: 326px;
+}
+.remote_menu_dep2 li {
+    float: left;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+}
+.remote_menu_dep2 li.rmd2_skin_txt {
+    margin: 7px 0 0;
+    text-align: center;
+}
+.remote_menu_dep2 li.rmd2_skin_txt a {
+    height: 24px;
+    line-height: 24px;
+}
+.remote_menu_dep2 li.rmd2_skin_txt span.rmd_bar {
+    color: #CCCCCC;
+    font-family: dotum,"?룍??";
+    font-size: 11px;
+    height: 24px;
+    letter-spacing: -1px;
+    line-height: 24px;
+}
+.remote_menu_dep2 li.rmd2_skin_txt a.selected {
+    font-weight: bold;
+}
+.remote_menu_dep2 .remote_menu_dep1 li a {
+    height: 30px;
+    text-indent: -9999em;
+}
+.remote_menu_dep2 li.rmd2_list_one a, .remote_menu_dep2 li.rmd2_list_list a {
+    display: block;
+    height: 30px;
+    overflow: hidden;
+    text-indent: -9999em;
+    width: 59px;
+}
+.remote_menu_dep2 li.rmd2_list_one, .remote_menu_dep2 li.rmd2_list_list {
+    float: right;
+    height: 22px;
+    padding-top: 8px;
+    width: 22px;
+}
+.remote_menu_dep2 li.rmd2_list_one {
+    padding-right: 12px;
+    position: relative;
+}
+.remote_menu_dep2 li.rmd2_list_list {
+    position: relative;
+}
+.remote_menu_dep2 li.rmd2_list_one a {
+    background: url("../../images/editor/ggum/skin_tab_02.gif") no-repeat scroll left top transparent;
+    height: 22px;
+    overflow: hidden;
+    width: 22px;
+}
+.remote_menu_dep2 li.rmd2_list_list a {
+    background: url("../../images/editor/ggum/skin_tab_01.gif") no-repeat scroll left top transparent;
+    height: 22px;
+    overflow: hidden;
+    width: 22px;
+}
+.remote_menu_dep2 .rmd2_list_one a.selected, .remote_menu_dep2 .rmd2_list_list a.selected {
+    background-position: left bottom;
+}
+* html .remote_menu_dep2 {
+    background: none repeat scroll 0 0 transparent;
+}
+.remote_menu_dep2 .skinMenuDimmed {
+    background-color: #FFFFFF;
+    height: 22px;
+    opacity: 0.4;
+    position: absolute;
+    width: 22px;
+    z-index: 1;
+}
+#SkinSetList {
+    height: 295px;
+    overflow: hidden;
+    position: relative;
+    width: 332px;
+}
+#SkinSetList ul {
+    float: left;
+    padding: 0 10px 0 16px;
+    width: 306px;
+}
+#SkinSetList ul li.ssl_item {
+    background: url("../../images/editor/ggum/thumb_skin_02.gif") no-repeat scroll left top transparent;
+    float: left;
+    height: 136px;
+    margin: 10px 6px 0 0;
+    overflow: hidden;
+    width: 96px;
+}
+#SkinSetList ul li .ssl_lnk_dep1 {
+    border: medium none;
+    display: block;
+    height: 101px;
+    left: 8px;
+    overflow: hidden;
+    position: absolute;
+    top: 8px;
+    width: 80px;
+    z-index: 2;
+}
+#SkinSetList ul li .ssl_thum {
+    border: 0 none;
+}
+#SkinSetList ul li .ssl_chip_area {
+    clear: both;
+    display: block;
+    height: 11px;
+    margin: 4px auto 0;
+    width: 67px;
+}
+#SkinSetList ul li .ssl_chip_area li {
+    display: inline;
+    float: left;
+    height: 11px;
+    margin: 0 0 0 3px;
+    position: relative;
+    text-indent: -9999em;
+    width: 11px;
+}
+#SkinSetList ul li .ssl_chip_area li.first {
+    margin: 0;
+}
+#SkinSetList ul li .ssl_chip_area li a {
+    background: url("../../images/editor/ggum/skin_colorchip_border_02.png") no-repeat scroll 0 0 transparent;
+    font-size: 0;
+    height: 11px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 11px;
+}
+#SkinSetList .selected_icon {
+    height: 109px;
+    width: 88px;
+    z-index: 1;
+}
+#SkinSetOne {
+    height: 326px;
+    padding: 10px 0 0;
+    position: relative;
+    width: 332px;
+}
+#SkinSetOne .sso_thumb {
+    background: url("../../images/editor/ggum/thumb_skin_01.gif") no-repeat scroll 0 0 transparent;
+    height: 265px;
+    margin: 0 auto 10px;
+    padding: 11px;
+    position: relative;
+    width: 212px;
+}
+#SkinSetOne .sso_lnk_dep1 {
+    border: medium none;
+    display: block;
+    height: 265px;
+    left: 11px;
+    overflow: hidden;
+    position: absolute;
+    top: 11px;
+    width: 212px;
+    z-index: 2;
+}
+#SkinSetOne .sso_thumb_img {
+    border: 0 none;
+}
+#SkinSetOne .sso_bottom_area {
+    height: 14px;
+    margin: 0 auto;
+    position: relative;
+    width: 212px;
+}
+#SkinSetOne .sso_chip_area {
+    display: block;
+    float: left;
+    height: 14px;
+    width: 82px;
+}
+#SkinSetOne .sso_chip_area li {
+    display: inline;
+    float: left;
+    height: 14px;
+    margin: 0 0 0 3px;
+    position: relative;
+    text-indent: -9999em;
+    width: 14px;
+}
+#SkinSetOne .sso_chip_area li.first {
+    margin: 0;
+}
+#SkinSetOne .sso_chip_area li a {
+    background: url("../../images/editor/ggum/skin_colorchip_border_01.png") no-repeat scroll 0 0 transparent;
+    font-size: 0;
+    height: 14px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 14px;
+}
+#SkinSetOne .sso_numInfo {
+    letter-spacing: 1px;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 2px;
+    width: 50px;
+}
+#SkinSetOne .sso_numInfo .spec {
+    color: #5767D8;
+}
+#SkinSetOne .sso_navi {
+    display: block;
+    height: 42px;
+    position: absolute;
+    top: 127px;
+    width: 30px;
+}
+#SkinSetOne #sso_navi_left {
+    left: 20px;
+}
+#SkinSetOne #sso_navi_right {
+    right: 20px;
+}
+#SkinSetOne .sso_navi a {
+    background-image: url("../../images/editor/ggum/bt_skin_nav2.gif");
+    background-repeat: no-repeat;
+    height: 42px;
+    position: absolute;
+    width: 15px;
+}
+#SkinSetOne .sso_navi a.prev {
+    background-position: 0 0;
+    left: 0;
+}
+#SkinSetOne .sso_navi a.prevDimmed {
+    background-position: 0 -42px;
+    cursor: default;
+    left: 0;
+}
+#SkinSetOne .sso_navi a.next {
+    background-position: -14px 0;
+    right: 0;
+}
+#SkinSetOne .sso_navi a.nextDimmed {
+    background-position: -14px -42px;
+    cursor: default;
+    right: 0;
+}
+#SkinSetOne #sso_navi_left a.next, #SkinSetOne #sso_navi_left a.nextDimmed {
+    left: 14px;
+}
+#SkinSetOne #sso_navi_left.navi_off a.next, #SkinSetOne #sso_navi_left.navi_off a.nextDimmed {
+    display: none;
+}
+#SkinSetOne #sso_navi_right a.prev, #SkinSetOne #sso_navi_right a.prevDimmed {
+    left: 1px;
+}
+#SkinSetOne #sso_navi_right.navi_off a.prev, #SkinSetOne #sso_navi_right.navi_off a.prevDimmed {
+    display: none;
+}
+#SkinSetOne .selected_icon {
+    height: 273px;
+    left: 5px;
+    top: 5px;
+    width: 220px;
+    z-index: 1;
+}
+.skinView_footer {
+    color: #555555;
+    font: 11px/11px;
+    letter-spacing: -1px;
+    padding: 0 0 0 14px;
+}
+.skinView_footer label {
+    color: #555555;
+    font: 11px;
+    padding: 2px 5px 0 0;
+}
+#ColumnViewContent {
+    height: 253px;
+    line-height: 11px;
+    padding: 10px 10px 0 0;
+    position: relative;
+    width: 322px;
+}
+#ColumnViewContent .layout_style {
+    clear: both;
+    display: block;
+    float: left;
+}
+#ColumnViewContent .layout_style li {
+    float: left;
+    height: 86px;
+    padding: 6px 6px 4px;
+    text-align: center;
+}
+#ColumnViewContent .layout_type {
+    background: url("../../images/editor/ggum/thumb_layout.gif") no-repeat scroll left top transparent;
+    cursor: pointer;
+    display: block;
+    height: 71px;
+    margin-bottom: 4px;
+    overflow: hidden;
+    position: relative;
+    width: 66px;
+}
+#ColumnViewContent .gg_layout_type_ONE {
+    background-position: 0 0;
+}
+#ColumnViewContent .gg_layout_type_TWO1 {
+    background-position: 0 -71px;
+}
+#ColumnViewContent .gg_layout_type_THREE1 {
+    background-position: 0 -142px;
+}
+#ColumnViewContent .gg_layout_type_THREE2 {
+    background-position: 0 -213px;
+}
+#ColumnViewContent .gg_layout_type_TWO2 {
+    background-position: 0 -284px;
+}
+#ColumnViewContent .gg_layout_type_THREE4 {
+    background-position: 0 -426px;
+}
+#ColumnViewContent .gg_layout_type_THREE3 {
+    background-position: 0 -355px;
+}
+#ColumnViewContent .selected_icon {
+    height: 65px;
+    left: 1px;
+    top: 1px;
+    width: 60px;
+}
+.columnView_footer {
+    color: #555555;
+    font: 11px/11px;
+    letter-spacing: -1px;
+    padding: 0 0 0 14px;
+}
+.columnView_footer label {
+    color: #555555;
+    font: 11px;
+    padding: 2px 5px 0 0;
+}
+:first-child + html .columnView_footer label {
+    padding-right: 0;
+}
+.columnView_footer img_checkbox {
+    vertical-align: -3px;
+}
+.columnView_footer .column_bar {
+    color: #DDDDDD;
+    float: left;
+    font: 11px/11px;
+    margin-top: 2px;
+    padding: 0 9px 0 4px;
+}
+#HomeBoardGroupLayout {
+    clear: both;
+    display: block;
+    height: 264px;
+    position: relative;
+    width: 332px;
+    z-index: 2;
+}
+#HomeBoardGroupLayout .homeBoardGroupView_top {
+    clear: both;
+    height: 26px;
+    padding: 10px 0 0 20px;
+    width: 312px;
+}
+#HomeBoardGroupLayout .homeBoardGroupView_info {
+    background: url("../../images/editor/ggum/bullet_01.gif") no-repeat scroll 0 5px transparent;
+    color: #666666;
+    float: left;
+    font: 11px/11px;
+    letter-spacing: -1px;
+    padding: 1px 5px 0 9px;
+}
+#HomeBoardGroupLayout .homeBoardGroup_help {
+    background: url("../../images/editor/ggum/div_h.gif") repeat-x scroll 0 0 transparent;
+    height: 25px;
+    margin: 0 14px;
+    padding: 17px 0 0 7px;
+}
+#HomeBoardGroupLayout .homeboardgroup_layout {
+    clear: both;
+    display: block;
+    height: 170px;
+    margin: 0 auto;
+    width: 298px;
+}
+#HomeBoardGroupLayout .homeboardgroup_layout li {
+    float: left;
+    margin: 0 0 12px 14px;
+    text-align: center;
+}
+#HomeBoardGroupLayout .homeboardgroup_layout li.first {
+    margin: 0;
+}
+#HomeBoardGroupLayout .layout_type {
+    background: url("../../images/editor/ggum/thumb_bbs.gif") no-repeat scroll left top transparent;
+    cursor: pointer;
+    display: block;
+    height: 73px;
+    overflow: hidden;
+    position: relative;
+    text-align: left;
+    text-indent: -1000px;
+    width: 90px;
+}
+#HomeBoardGroupLayout .gg_layout_MLT10_MRT10 {
+    background-position: 0 -73px;
+}
+#HomeBoardGroupLayout .gg_layout_FLT20 {
+    background-position: 0 -146px;
+}
+#HomeBoardGroupLayout .gg_layout_MLT20_MRT20 {
+    background-position: 0 -219px;
+}
+#HomeBoardGroupLayout .gg_layout_MLT20_MRT10_MRB10 {
+    background-position: 0 -292px;
+}
+#HomeBoardGroupLayout .gg_layout_MLT10_MRT20_MLB10 {
+    background-position: 0 -365px;
+}
+#HomContentsList {
+    clear: both;
+    display: block;
+    height: 217px;
+    padding: 19px 0 0;
+    position: relative;
+    width: 332px;
+}
+#HomContentsList .contents_remocon {
+    display: block;
+    float: left;
+    height: 180px;
+    width: 164px;
+}
+#HomContentsList .contents_remocon li {
+    clear: both;
+    color: #666666;
+    float: left;
+    font-family: gulim,"援대┝";
+    font-size: 12px;
+    height: 22px;
+    padding-left: 19px;
+    width: 147px;
+}
+#HomContentsList .right_remocon li {
+    width: 152px;
+}
+#HomContentsList .contents_remocon li .img_checkbox, #HomContentsList .contents_remocon li label {
+    float: left;
+}
+#HomContentsList .contents_remocon li .chat_togle {
+    background: url("../../images/editor/ggum/btn_open.gif") no-repeat scroll left top transparent;
+    border: 0 none;
+    cursor: pointer;
+    height: 18px;
+    margin-left: 5px;
+    overflow: hidden;
+    text-align: left;
+    text-indent: -1000px;
+    width: 34px;
+}
+#HomContentsList .contents_remocon li .cahting_list_vislble {
+    background: url("../../images/editor/ggum/btn_hide.gif") no-repeat scroll left top transparent;
+}
+#HomContentsList .right_remocon li {
+    padding-left: 12px;
+}
+#HomContentsList .right_remocon {
+    background: url("../../images/editor/ggum/div_v.gif") repeat-y scroll 0 0 transparent;
+}
+#HomContentsList .contents_bar {
+    padding: 0 2px;
+}
+#HomContentsList .contents_config {
+    vertical-align: 1px;
+}
+#HomContentsList label {
+    margin-left: 2px;
+}
+#HomContentsList #recentCommentTip, #HomContentsList #cafeyozmTip, #HomContentsList #cafeqnaTip {
+    margin: 2px 0 0 3px;
+}
+#WidgetListRemoconTop {
+    background: url("../../images/editor/ggum/div_h.gif") repeat-x scroll left bottom transparent;
+    clear: both;
+    height: 26px;
+    margin: 0 14px;
+    padding: 10px 3px 0 6px;
+    position: relative;
+    width: 295px;
+}
+#WidgetListRemoconTop .useWidget {
+    background: url("../../images/editor/ggum/bullet_02.gif") no-repeat scroll 0 3px transparent;
+    color: #666666;
+    float: left;
+    font: 11px/11px;
+    letter-spacing: -1px;
+    margin: 1px 0 0;
+    padding: 1px 5px 0 9px;
+}
+#WidgetListRemoconTop #linkMyWidget {
+    background: url("../../images/editor/ggum/bullet_02.gif") no-repeat scroll right 5px transparent;
+    float: right;
+    padding-right: 10px;
+    text-decoration: none;
+}
+#WidgetListRemoconContent {
+    clear: both;
+}
+#WidgetListRemocon {
+    display: block;
+    height: 192px;
+    padding: 14px 0 0 28px;
+    text-align: left;
+    width: 304px;
+}
+#WidgetListRemocon .noList {
+    clear: both;
+    color: #CCCCCC;
+    margin: 0;
+    overflow: hidden;
+    padding: 100px 28px 0 0;
+    text-align: center;
+}
+#WidgetListRemocon ul {
+    clear: both;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+}
+#WidgetListRemocon li {
+    display: inline;
+    float: left;
+    height: 91px;
+    margin: 5px 0 0 1px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 75px;
+}
+#WidgetListRemocon .wr_item {
+    display: block;
+    float: left;
+    height: 46px;
+    width: 47px;
+    z-index: 1;
+}
+#WidgetListRemocon .wr_item .wri_icon {
+    cursor: pointer;
+    display: block;
+    height: 46px;
+    left: 0;
+    top: 0;
+    width: 47px;
+    z-index: 1;
+}
+#WidgetListRemocon .wr_item .wri_icon_selected {
+    cursor: pointer;
+    display: none;
+    height: 46px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 47px;
+    z-index: 10;
+}
+#WidgetListRemocon .wr_item .widget_btn_bg {
+    left: 49px;
+    position: absolute;
+    top: 2px;
+    z-index: 11;
+}
+#WidgetListRemocon .wr_item .wri_config_btn {
+    background: url("../../images/editor/ggum/bt_widzet.gif") no-repeat scroll left bottom transparent;
+    border: medium none;
+    height: 12px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 12px;
+}
+#WidgetListRemocon .wr_item .wri_delete_btn {
+    background: url("../../images/editor/ggum/bt_widzet.gif") no-repeat scroll left top transparent;
+    border: medium none;
+    height: 12px;
+    left: 0;
+    position: absolute;
+    top: 14px;
+    width: 12px;
+}
+#WidgetListRemocon li p {
+    color: #999999;
+    display: block;
+    float: left;
+    font-family: dotum,"?룍??";
+    font-size: 11px;
+    letter-spacing: -1px;
+    line-height: 15px;
+    margin: 0;
+    padding: 0;
+    width: 47px;
+}
+.widgetView_footer {
+}
+.widgetView_footer div {
+    color: #555555;
+    font: 11px/11px;
+    letter-spacing: -1px;
+    padding: 3px 3px 0 14px;
+}
+.widgetView_footer .linkWidgetBank {
+    background: url("../../images/editor/ggum/ico_link.gif") no-repeat scroll right 4px transparent;
+    float: left;
+    margin: 1px 0 0 14px;
+    padding: 0 14px 0 0;
+    text-decoration: none !important;
+}
+input#widgetCounter {
+    border: 0 none;
+    color: #5868D7;
+    font: 11px/11px;
+    height: 11px;
+    width: 10px;
+}
+#BackgroundSetList {
+    height: 200px;
+    padding: 0 0 0 16px;
+    position: relative;
+    width: 316px;
+}
+#BackgroundSetList li.bgsb_item {
+    display: inline;
+    float: left;
+    height: 96px;
+    margin: 0 6px 4px 0;
+    position: relative;
+    width: 96px;
+}
+#BackgroundSetList li.bgsb_item .bgsb_thum_area {
+    background: url("../../images/editor/ggum/thumb_background.gif") no-repeat scroll left top transparent;
+    display: block;
+    height: 96px;
+    overflow: hidden;
+    position: relative;
+    width: 96px;
+}
+#BackgroundSetList .bgsb_thum_area .bgsb_thum {
+    border: medium none;
+    height: 82px;
+    left: 7px;
+    position: absolute;
+    top: 7px;
+    width: 82px;
+}
+#BackgroundSetList .selected_icon {
+    height: 88px;
+    width: 88px;
+}
+#BackgroundColorList {
+    height: 154px;
+    padding: 4px 18px 16px;
+    position: relative;
+    width: 296px;
+}
+#BackgroundColorList .ce_list {
+    border: 1px solid #DDDDDD;
+    height: 140px;
+    padding: 7px;
+    width: 280px;
+}
+#BackgroundColorList .ce_list li {
+    float: left;
+    height: 18px;
+    padding: 1px;
+    width: 18px;
+}
+#BackgroundColorList .ce_list li a {
+    cursor: pointer;
+    height: 18px;
+    width: 18px;
+}
+#BackgroundColorList .ce_list li a.hasBorder {
+    border: 1px solid #EFEFEF;
+    height: 16px;
+    width: 16px;
+}
+#BackgroundColorList .ce_list li a.emptyColorSetChip {
+    background: url("../../images/editor/ggum/ico_c_blank.gif") no-repeat scroll 0 0 transparent;
+    cursor: default;
+}
+#BackgroundUpload {
+    height: 180px;
+    margin: 0;
+    padding: 8px 0 0 19px;
+    width: 313px;
+}
+#BackgroundUpload .backgroundUpImg {
+    float: left;
+    height: 160px;
+    margin-right: 20px;
+    width: 100px;
+}
+#BackgroundUpload #backgroundUpImg {
+    background: url("../../images/editor/ggum/img_img_blank.gif") no-repeat scroll 1px 1px transparent;
+    border: 1px solid #E7E6E2;
+    float: left;
+    height: 99px;
+    position: relative;
+    width: 99px;
+}
+#BackgroundUpload .backgroundUpConfig {
+    float: left;
+    height: 180px;
+    position: relative;
+    width: 153px;
+    padding-top: 2px;
+    padding-left: 5px;
+}
+#BackgroundUpload .backgroundUpConfig ul.configUl {
+    margin: 0;
+    padding: 0;
+}
+#BackgroundUpload .backgroundUpConfig li.configList {
+    height: 21px;
+    margin: 0 0 5px;
+    position: relative;
+}
+#BackgroundUpload .backgroundUpConfig li.configList_double {
+    height: 60px;
+}
+#BackgroundUpload .backgroundUpConfig li.configList label {
+    color: #555555;
+    float: left;
+    font-family: dotum;
+    font-size: 12px;
+    margin: 2px 0 0;
+    width: 43px;
+}
+#BackgroundUpload .backgroundUpHelp {
+    clear: both;
+    margin: 0;
+    padding: 5px 0 0 43px;
+}
+#BackgroundUpload .backgroundUpNotice {
+    margin: 0;
+    padding: 0 0 0 43px;
+}
+#BackgroundUpload .home_stxt_999 {
+    letter-spacing: 0;
+    line-height: 17px;
+}
+#BackgroundUpload #cafeBackgroundImageThumbnail {
+    display: none;
+}
+#BackgroundUpload #delPhoto {
+    background: url("../../images/editor/ggum/bt_del_photo.gif") no-repeat scroll 0 0 transparent;
+    display: none;
+    height: 12px;
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    width: 13px;
+    z-index: 1;
+}
+#BackgroundUpload .coca_uploader {
+    height: 21px;
+    width: 56px;
+}
+#BackgroundUpload .hasThum #cafeBackgroundImageThumbnail {
+    display: block;
+}
+#BackgroundUpload .hasThum #delPhoto {
+    display: block;
+}
+.design_list_none {
+    color: #CCCCCC;
+    padding: 20px 0;
+    text-align: center;
+}
+#MenuSetList {
+    padding: 0 0 0 16px;
+    position: relative;
+    width: 316px;
+}
+#MenuSetList ul {
+    clear: both;
+    display: block;
+    position: relative;
+}
+#MenuSetList ul li.msb_item {
+    display: inline;
+    float: left;
+    height: 117px;
+    margin: 0 4px 4px 0;
+    position: relative;
+    width: 148px;
+}
+#MenuSetList li.msb_item .msb_thum_area {
+    background: url("../../images/editor/ggum/thumb_cafemenu.gif") no-repeat scroll left top transparent;
+    display: block;
+    height: 117px;
+    overflow: hidden;
+    position: relative;
+    width: 148px;
+}
+#MenuSetList .msb_thum_area .msb_thum {
+    border: medium none;
+    height: 101px;
+    left: 8px;
+    position: absolute;
+    top: 8px;
+    width: 132px;
+}
+#MenuSetList .selected_icon {
+    height: 109px;
+    width: 140px;
+}
+#BoardSetList {
+    height: 230px;
+    padding: 0 0 0 16px;
+    position: relative;
+    width: 316px;
+}
+#BoardSetList li.bsb_item {
+    display: inline;
+    float: left;
+    height: 111px;
+    margin: 0 4px 4px 0;
+    position: relative;
+    width: 148px;
+}
+#BoardSetList li.bsb_item .bsb_thum_area {
+    background: url("../../images/editor/ggum/thumb_board.gif") no-repeat scroll left top transparent;
+    display: block;
+    height: 111px;
+    overflow: hidden;
+    position: relative;
+    width: 148px;
+}
+#BoardSetList .bsb_thum_area .bsb_thum {
+    border: medium none;
+    height: 95px;
+    left: 8px;
+    position: absolute;
+    top: 8px;
+    width: 132px;
+}
+#BoardSetList .selected_icon {
+    height: 103px;
+    width: 140px;
+}
+#SearchSetList {
+    height: 276px;
+    padding: 3px 0 0 0px;
+    width: 316px;
+}
+#SearchSetList li.ssb_item {
+    display: block;
+    float: left;
+    height: 66px;
+    margin: 4px 0 0;
+    padding: 0 0 0 16px;
+    position: relative;
+    width: 300px;
+    cursor: pointer;
+    
+}
+#SearchSetList li.ssb_item .ssb_thum_area {
+    background: url("../../images/editor/ggum/thumb_search.gif") no-repeat scroll left top transparent;
+    display: block;
+    height: 66px;
+    overflow: hidden;
+    position: relative;
+    width: 300px;
+}
+#SearchSetList .ssb_thum_area .ssb_thum {
+    border: medium none;
+    height: 50px;
+    left: 8px;
+    position: absolute;
+    top: 8px;
+    width: 284px;
+}
+#SearchSetList .selected_icon {
+    height: 58px;
+    width: 292px;
+}
+#cafeInfoBoxDispTypeTab {
+    height: 15px;
+    padding: 10px 0 3px 19px;
+    position: relative;
+}
+#cafeInfoBoxDispTypeTab .cib_kindTab {
+    clear: both;
+    overflow: hidden;
+}
+#cafeInfoBoxDispTypeTab .cib_kindTab li {
+    float: left;
+    height: 15px;
+    width: 80px;
+}
+#cafeInfoBoxDispTypeTab .img_radiobtn {
+    vertical-align: -3px;
+}
+#cafeInfoBoxDispTypeTab label {
+    padding: 0 0 0 1px;
+}
+#cafeInfoBoxContents #CustomEditer {
+    height: 134px;
+    margin: 0 auto;
+    padding: 11px 7px 0;
+    position: relative;
+    width: 297px;
+}
+#InfoSetList {
+    height: 280px;
+    padding: 0 0 0 16px;
+    position: relative;
+    width: 316px;
+}
+#InfoSetList ul {
+    clear: both;
+    display: block;
+    position: relative;
+}
+#InfoSetList ul li.isb_item {
+    display: block;
+    float: left;
+    height: 136px;
+    margin: 0 4px 4px 0;
+    position: relative;
+    width: 148px;
+}
+#InfoSetList li.isb_item .isb_thum_area {
+    background: url("../../images/editor/ggum/thumb_cafeinfo.gif") no-repeat scroll left top transparent;
+    display: block;
+    height: 136px;
+    overflow: hidden;
+    position: relative;
+    width: 148px;
+}
+#InfoSetList .isb_thum_area .isb_thum {
+    border: medium none;
+    height: 120px;
+    left: 8px;
+    position: absolute;
+    top: 8px;
+    width: 132px;
+}
+#InfoSetList .selected_icon {
+    height: 128px;
+    width: 140px;
+}
+#AccessarySetList {
+    height: 206px;
+    padding: 0 0 0 16px;
+    position: relative;
+    width: 316px;
+}
+#AccessarySetList li.asb_item {
+    display: inline;
+    float: left;
+    height: 99px;
+    margin: 0 6px 4px 0;
+    position: relative;
+    width: 96px;
+}
+#AccessarySetList li.asb_item .asb_thum_area {
+    background: url("../../images/editor/ggum/thumb_content.gif") no-repeat scroll left top transparent;
+    display: block;
+    height: 99px;
+    overflow: hidden;
+    position: relative;
+    width: 96px;
+}
+#AccessarySetList .asb_thum_area .asb_thum {
+    border: medium none;
+    height: 85px;
+    left: 8px;
+    position: absolute;
+    top: 8px;
+    width: 82px;
+}
+#AccessarySetList .selected_icon {
+    height: 91px;
+    width: 88px;
+}
+#FooterColor {
+    clear: both;
+}
+#FooterColor li {
+    float: left;
+    position: relative;
+}
+#CustomEditer {
+    height: 147px;
+    padding: 19px 21px 0;
+    position: relative;
+    width: 290px;
+}
+#CustomEditer .ce_list {
+    clear: both;
+    height: 21px;
+    margin-bottom: 8px;
+    position: relative;
+}
+#CustomEditer .ce_list li.custom {
+    float: left;
+}
+#CustomEditer .ce_list li.clearL {
+    clear: left;
+}
+#CustomEditer .left_nogab {
+    padding-left: 0 !important;
+}
+#CustomEditer p {
+    clear: both;
+    color: #999999;
+    display: block;
+    font-family: dotum,"?룍??";
+    font-size: 11px;
+    letter-spacing: -1px;
+    margin: 0;
+    padding: 12px 0 0;
+}
+#CustomEditer table.bgc_table {
+    border: 1px solid #DDDDDD;
+    margin: 0;
+    padding: 0;
+}
+#CustomEditer table.bgc_table td {
+    margin: 0;
+    padding: 0;
+}
+#CustomEditer table.bgc_table td div {
+    border: 1px solid #FFFFFF;
+    cursor: pointer;
+    height: 27px;
+    width: 27px;
+}
+.colorChipGab {
+    float: left;
+    padding: 1px;
+}
+.selected_icon {
+    border: 2px solid #5767D6 !important;
+    display: block;
+    left: 2px;
+    position: absolute;
+    top: 2px;
+}
+div.clear_line {
+    clear: both;
+    display: block;
+    height: 0;
+    overflow: hidden;
+}
+#paging {
+    clear: both;
+    display: block;
+    height: 27px;
+    padding: 14px 0 0;
+    position: relative;
+}
+#paging .pg_area {
+    height: 14px;
+}
+#paging .pg_area td {
+    padding: 0;
+}
+#paging .page_selected, #paging a {
+    color: #333333;
+    display: inline;
+    float: left;
+    font-family: arial;
+    font-size: 12px;
+    font-weight: bold;
+    height: 12px;
+    line-height: 12px;
+    padding: 0 5px;
+    position: static;
+    text-align: left;
+}
+#paging .pg_btn {
+    background: url("../../images/editor/ggum/page_nav.gif") no-repeat scroll 0 0 transparent;
+    display: inline;
+    float: left;
+    height: 11px;
+    margin: 1px 0 0;
+    overflow: hidden;
+    padding: 0;
+    text-align: left;
+    text-indent: -1000px;
+    width: 12px;
+}
+#paging .prev_btn {
+    margin-right: 12px;
+}
+#paging .next_btn {
+    margin-left: 12px;
+}
+#paging span.prev_btn {
+    background-position: 0 0;
+}
+#paging a.prev_btn {
+    background-position: 0 -11px;
+}
+#paging span.next_btn {
+    background-position: 0 -22px;
+}
+#paging a.next_btn {
+    background-position: 0 -33px;
+}
+#paging .page_selected {
+    color: #5767D6;
+    font-family: arial;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+#intro2 {
+    float: none !important;
+}
+.gg_typeTWO1.fixed2_1 #wrap {
+    margin: 0 auto;
+    width: 971px;
+}
+.gg_typeTWO1.flexibled2_1 #wrap {
+}
+.gg_typeTWO1 #intro {
+    display: none;
+}
+.gg_typeTWO1 #intro .intro_con {
+    display: none;
+}
+.gg_typeTWO1 #intro2 {
+    display: block;
+}
+* html .gg_typeTWO1 #intro2 .intro_con2 {
+    overflow: hidden;
+    width: 100%;
+}
+.gg_typeTWO1 #intro2 .intro_con2 {
+    display: block;
+}
+.gg_typeTWO1 #cafemenu {
+    float: left;
+}
+.gg_typeTWO1 #content {
+    margin-left: 197px;
+}
+:first-child + html .gg_typeTWO1 #content {
+    float: left;
+    margin: 0;
+    padding: 0 0 0 14px;
+}
+* html .gg_typeTWO1 #content {
+    float: left;
+    margin: 0;
+    padding: 0 0 0 14px;
+}
+.gg_typeTWO1 #primaryContent {
+    float: left;
+    width: 774px;
+}
+.gg_typeTWO1 #sidebar2 {
+    display: block;
+}
+.gg_typeTWO1 .ifr_introIMG {
+    background: url("../../images/editor/ggum/gate_preview_2.png") no-repeat scroll 0 0 transparent;
+    width: 774px;
+}
+.gg_typeTWO2 #wrap {
+    margin: 0 auto;
+    width: 971px;
+}
+.gg_typeTWO2 #intro {
+    display: none;
+}
+.gg_typeTWO2 #intro .intro_con {
+    display: none;
+}
+.gg_typeTWO2 #intro2 {
+    display: block;
+}
+* html .gg_typeTWO2 #intro2 .intro_con2 {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+}
+.gg_typeTWO2 #intro2 .intro_con2 {
+    display: block;
+}
+.gg_typeTWO2 #cafemenu {
+    float: right;
+}
+.gg_typeTWO2 #content {
+    margin-right: 197px;
+}
+* html .gg_typeTWO2 #content {
+    float: left;
+    margin-right: 0;
+    width: 774px;
+}
+.gg_typeTWO2 #primaryContent {
+    float: left;
+    width: 100%;
+}
+.gg_typeTWO2 #sidebar2 {
+    display: block;
+}
+.gg_typeTWO2 .ifr_introIMG {
+    background: url("../../images/editor/ggum/gate_preview_2.png") no-repeat scroll 0 0 transparent;
+    width: 774px;
+}
+.gg_typeONE #wrap {
+    margin: 0 auto;
+    width: 971px;
+}
+.gg_typeONE #intro2 {
+    display: none;
+}
+.gg_typeONE #intro2 .intro_con2 {
+    display: none;
+}
+* html .gg_typeONE #intro2 .intro_con2 {
+    display: none;
+}
+.gg_typeONE #intro .intro_con {
+}
+.gg_typeONE #cafemenu {
+    display: block;
+    float: left;
+}
+.gg_typeONE #content {
+    margin-left: 197px;
+    width: 774px;
+}
+* html .gg_typeONE #content {
+    float: left;
+    margin-left: 14px;
+}
+.gg_typeONE #primaryContent {
+    float: left;
+    width: 100%;
+}
+.gg_typeONE #sidebar2 {
+    display: block;
+}
+.gg_typeONE .ifr_introIMG {
+    background: url("../../images/editor/ggum/gate_preview_3.png") no-repeat scroll 0 0 transparent;
+    width: 971px;
+}
+.type2_4 #wrap {
+    margin: 0 auto;
+    width: 971px;
+}
+.type2_4 #intro .intro_con {
+    padding: 10px 0;
+}
+* html .type2_4 #intro .intro_con {
+    overflow: hidden;
+}
+.type2_4 #intro2 {
+    display: none;
+    height: 0;
+    overflow: hidden;
+    width: 0;
+}
+.type2_4 #intro2 .intro_con2 {
+    display: none;
+    height: 0;
+    overflow: hidden;
+    width: 0;
+}
+* html .type2_4 #intro2 .intro_con2 {
+    display: none;
+    height: 0;
+    overflow: hidden;
+    width: 0;
+}
+.type2_4 #cafemenu {
+    display: block;
+    float: right;
+}
+.type2_4 #content {
+    margin-right: 197px;
+}
+* html .type2_4 #content {
+    float: left;
+    margin-right: 14px;
+}
+.type2_4 #primaryContent {
+    float: left;
+    width: 100%;
+}
+.type2_4 #sidebar2 {
+    display: block;
+}
+.type2_4 .ifr_introIMG {
+    background: url("../../images/editor/ggum/gate_preview_2.png") no-repeat scroll 0 0 transparent;
+    width: 774px;
+}
+.gg_typeTHREE2.fixed3_1 #wrap {
+    margin: 0 auto;
+    width: 971px;
+}
+.gg_typeTHREE2.flexibled3_1 #wrap {
+    width: 100%;
+}
+.gg_typeTHREE2 #intro {
+    display: none;
+}
+.gg_typeTHREE2 #intro .intro_con {
+    display: none;
+}
+.gg_typeTHREE2 #intro2 {
+    display: block;
+    float: left;
+    overflow: hidden;
+    width: 100%;
+}
+.gg_typeTHREE2 #intro2 .intro_con2 {
+    display: block;
+    padding: 10px;
+}
+.gg_typeTHREE2 #cafemenu {
+    display: inline;
+    float: left;
+}
+.gg_typeTHREE2 #content {
+    margin: 0 197px;
+    padding: 0;
+}
+* html .gg_typeTHREE2 #content {
+    float: left;
+    margin: 0 14px;
+    padding: 0;
+}
+:first-child + html .gg_typeTHREE2 #content {
+    float: left;
+    margin: 0 14px;
+    padding: 0;
+}
+.gg_typeTHREE2 #primaryContent {
+    float: left;
+    width: 577px;
+}
+.gg_typeTHREE2 #sidebar {
+    display: none;
+    float: right;
+    width: 183px;
+}
+.gg_typeTHREE2 #sidebar3 {
+    display: block;
+    float: right;
+    width: 183px;
+}
+.gg_typeTHREE2 #sidebar2 {
+    display: block;
+}
+.gg_typeTHREE2 #component4 {
+    display: none;
+}
+.gg_typeTHREE2 .ifr_introIMG {
+    background: url("../../images/editor/ggum/gate_preview_1.png") no-repeat scroll 0 0 transparent;
+    width: 577px;
+}
+.gg_typeTHREE4 #wrap {
+    margin: 0 auto;
+    width: 971px;
+}
+.gg_typeTHREE4 #intro {
+    display: none;
+}
+.gg_typeTHREE4 #intro .intro_con {
+    display: none;
+}
+.gg_typeTHREE4 #intro2 {
+    display: block;
+    float: left;
+    width: 100%;
+}
+.gg_typeTHREE4 #intro2 .intro_con2 {
+    display: block;
+    padding: 10px;
+}
+.gg_typeTHREE4 #cafemenu {
+    display: inline;
+    float: right;
+}
+.gg_typeTHREE4 #content {
+    margin: 0 197px;
+    padding: 0;
+}
+* html .gg_typeTHREE4 #content {
+    float: left;
+    margin: 0 14px;
+    padding: 0;
+}
+.gg_typeTHREE4 #primaryContent {
+    float: left;
+    width: 100%;
+}
+.gg_typeTHREE4 #sidebar3 {
+    display: block;
+    float: left;
+    width: 183px;
+}
+.gg_typeTHREE4 #sidebar2 {
+    display: block;
+}
+.gg_typeTHREE4 #component4 {
+    display: none;
+}
+.gg_typeTHREE4 .ifr_introIMG {
+    background: url("../../images/editor/ggum/gate_preview_1.png") no-repeat scroll 0 0 transparent;
+    width: 577px;
+}
+.gg_typeTHREE1.fixed3_3 #wrap {
+    margin: 0 auto;
+    width: 971px;
+}
+.gg_typeTHREE1.flexibled3_3 #wrap {
+    width: 100%;
+}
+.gg_typeTHREE1 #intro {
+    display: none;
+}
+.gg_typeTHREE1 #intro .intro_con {
+    display: none;
+}
+.gg_typeTHREE1 #intro2 {
+    display: block;
+    width: 100%;
+}
+.gg_typeTHREE1 #intro2 .intro_con2 {
+    display: block;
+    padding: 10px;
+}
+.gg_typeTHREE1 #cafemenu {
+    float: left;
+}
+.gg_typeTHREE1 #content {
+    margin-left: 197px;
+}
+* html .gg_typeTHREE1 #content {
+    float: left;
+    margin-left: 14px;
+}
+:first-child + html .gg_typeTHREE1 #content {
+    float: left;
+    margin-left: 14px;
+}
+.gg_typeTHREE1 #primaryContent {
+    float: left;
+    width: 577px;
+}
+.gg_typeTHREE1 #sidebar4 {
+    display: block;
+    float: left;
+    padding-left: 14px;
+    width: 183px;
+}
+.gg_typeTHREE1 #sidebar2 {
+    display: block;
+}
+.gg_typeTHREE1 #component4 {
+    display: none;
+}
+.gg_typeTHREE1 .ifr_introIMG {
+    background: url("../../images/editor/ggum/gate_preview_2.png") no-repeat scroll 0 0 transparent;
+    width: 774px;
+}
+.gg_typeTHREE3 .home_type3 .boardPanel1 {
+    overflow: visible !important;
+    width: 577px;
+}
+.gg_typeTHREE3 #wrap {
+    margin: 0 auto;
+    width: 971px;
+}
+.gg_typeTHREE3 #intro {
+    display: inline;
+    float: left;
+    margin-right: -197px;
+    width: 100%;
+}
+.gg_typeTHREE3 #intro .intro_con {
+    margin-right: 197px;
+}
+.gg_typeTHREE3 #intro2 {
+    display: none;
+    height: 0;
+    overflow: hidden;
+    width: 0;
+}
+.gg_typeTHREE3 #intro2 .intro_con2 {
+    display: none;
+    height: 0;
+    overflow: hidden;
+    width: 0;
+}
+* html .gg_typeTHREE3 #intro2 .intro_con2 {
+    display: none;
+    height: 0;
+    overflow: hidden;
+    width: 0;
+}
+.gg_typeTHREE3 #cafemenu {
+    display: inline;
+    float: right;
+}
+.gg_typeTHREE3 #content {
+    display: block;
+    float: left;
+    margin-right: -183px;
+    width: 100%;
+}
+* html .gg_typeTHREE3 #content {
+    margin-right: -183px;
+}
+.gg_typeTHREE3 #primaryContent {
+    display: inline;
+    float: right;
+    margin: 0 197px;
+    padding: 0;
+}
+.gg_typeTHREE3 #sidebar2 {
+    display: block;
+}
+.gg_typeTHREE3 #sidebar4 {
+    display: inline;
+    float: left;
+    margin-right: -183px;
+    padding: 0;
+    width: 183px;
+}
+.gg_typeTHREE3 #component4 {
+    display: none;
+}
+.gg_typeTHREE3 .ifr_introIMG {
+    background: url("../../images/editor/ggum/gate_preview_2.png") no-repeat scroll 0 0 transparent;
+    width: 774px;
+}
+.wireframe_top {
+    background: url("../../images/editor/ggum/dummy_bt_t_a.png") no-repeat scroll 0 0 transparent;
+    height: 50px;
+    width: 461px;
+}
+.wireframe_bg {
+    background: url("../../images/editor/ggum/dummy_bg_pattern.gif") repeat-y scroll 0 0 transparent;
+    width: 461px;
+}
+.wireframe_bottom {
+    background: url("../../images/editor/ggum/dummy_bt_b_a.png") no-repeat scroll 0 0 transparent;
+    height: 8px;
+    width: 461px;
+}
+.wireframe_close {
+    background: url("../../images/editor/ggum/dummy_bt_close.gif") no-repeat scroll 0 0 transparent;
+    height: 19px;
+    position: absolute;
+    right: 7px;
+    top: 7px;
+    width: 19px;
+}
+#wireframe {
+    padding: 0 11px 8px 10px;
+}
+#wireframe .wf_component {
+    color: #666666;
+    font: 11px/15px;
+    letter-spacing: -1px;
+}
+#wireframe .wf_effct {
+    background-position: 0 100% !important;
+    left: 0;
+    margin: 0 !important;
+    position: absolute;
+    top: 0;
+    z-index: 9999;
+}
+#wireframe div.nosp {
+    font-size: 0;
+    line-height: 0;
+    margin: 0;
+    padding: 0;
+}
+#wf_centralPanel {
+    float: left;
+}
+.wf_component {
+    margin: 4px 0 0;
+    padding: 4px 4px 0 9px;
+}
+.wf_component_s {
+    background: url("../../images/editor/ggum/dummy_bit_01a.gif") no-repeat scroll 0 0 transparent;
+    height: 21px;
+    width: 71px;
+}
+.wf_component_m {
+    background: url("../../images/editor/ggum/dummy_bit_02a.gif") no-repeat scroll 0 0 transparent;
+    height: 36px;
+    width: 71px;
+}
+.wf_component_l {
+    background: url("../../images/editor/ggum/dummy_bit_03a.gif") no-repeat scroll 0 0 transparent;
+    height: 46px;
+    width: 71px;
+}
+.wf_component_w {
+    background: url("../../images/editor/ggum/dummy_bit_04a.gif") no-repeat scroll 0 0 transparent;
+    height: 36px;
+    width: 71px;
+}
+.wf_component_entrance {
+    background: url("../../images/editor/ggum/dummy_dimm_03a.gif") no-repeat scroll 0 0 transparent;
+    height: 66px;
+    width: 247px;
+}
+.wireframePanel {
+    float: left;
+    font-size: 0;
+    overflow: hidden;
+    padding: 0 2px 1px;
+    width: 84px;
+}
+#wireframe #side1 {
+    overflow: hidden;
+    width: 88px;
+}
+#wf_ROOFPANEL {
+    background: url("../../images/editor/ggum/dummy_guide.gif") no-repeat scroll 5px 4px transparent;
+    height: 27px;
+    margin: 0;
+}
+#wf_TITLEPANEL {
+    background: url("../../images/editor/ggum/dummy_dimm_02.gif") no-repeat scroll 0 0 transparent;
+    clear: both;
+    color: #666666;
+    font: 11px/15px;
+    height: 28px;
+    letter-spacing: -1px;
+    margin: 2px 2px 0;
+    padding: 4px 0 0 9px;
+    width: 427px;
+}
+#wf_ENTRANCEPANEL {
+    padding: 0 2px;
+}
+#wf_HOMEBOARDPANEL {
+    float: left;
+    font-size: 0;
+    line-height: 0;
+    padding: 0 2px;
+}
+#wf_HOMEBOARDPANEL span {
+    color: #666666;
+    font: 11px/15px;
+    letter-spacing: -1px;
+}
+#wf_INFOPANEL {
+    float: left;
+    font-size: 0;
+    line-height: 0;
+    padding: 0 2px;
+}
+#wf_INFOPANEL span {
+    color: #666666;
+    display: block;
+    font: 11px/15px;
+    letter-spacing: -1px;
+    padding-left: 5px;
+    padding-top: 20px;
+}
+#wf_CAFERSS, #wf_BGMPLAYER, #wf_MINIDAUM {
+    background: url("../../images/editor/ggum/dummy_dimm_01a.gif") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 21px;
+    padding: 4px 4px 0 9px;
+    width: 71px;
+}
+#wf_CAFERSS {
+    margin: 3px 2px 0;
+}
+#wf_BGMPLAYER, #wf_MINIDAUM {
+    color: #666666;
+    float: right;
+    font: 11px/15px;
+    letter-spacing: -1px;
+    margin: 0 2px;
+}
+.component_remocon {
+    float: left;
+    margin: 20px 0;
+    width: 110px;
+}
+.component_remocon li {
+    float: right;
+    font: 11px;
+    width: 110px;
+}
+.leftBorder {
+    border-left: 1px solid #CCCCCC;
+    padding: 0 0 0 10px;
+    width: 140px;
+}
+.leftBorder li {
+    width: 140px;
+}
+#widget_remocon {
+    clear: both;
+    width: 310px;
+}
+#widget_remocon li {
+    display: block;
+    float: left;
+    font: 11px;
+    height: 90px;
+    margin: 0 0 10px 10px;
+    overflow: hidden;
+    text-align: center;
+    width: 90px;
+}
+.btn_wf_del {
+    background: url("../../images/editor/ggum/dummy_close.gif") no-repeat scroll 1px 1px transparent;
+    float: right;
+    height: 9px;
+    width: 9px;
+}
+#wfEntrancePanel3 {
+    float: left;
+    width: 295px;
+}
+.gg_board_title_LT {
+    left: 9px;
+    position: absolute;
+    top: 8px;
+}
+.gg_board_title_RT {
+    left: 10px;
+    position: absolute;
+    top: 8px;
+}
+.gg_board_title_RB {
+    left: 10px;
+    position: absolute;
+    top: 9px;
+}
+.gg_board_title_LB {
+    left: 9px;
+    position: absolute;
+    top: 9px;
+}
+.btn_wf_modify {
+    background: url("../../images/editor/ggum/dummy_modify_a.gif") repeat scroll 0 0 transparent;
+    height: 16px;
+    position: absolute;
+    right: 6px;
+    top: 5px;
+    width: 26px;
+}
+.wf_board_empty .gg_board_title_LT, .wf_board_empty .gg_board_title_RT, .wf_board_empty .gg_board_title_RB, .wf_board_empty .gg_board_title_LB {
+    background: url("../../images/editor/ggum/ico_warning.gif") no-repeat scroll 0 1px transparent;
+    padding: 0 0 0 16px;
+}
+.wf_board {
+    float: left;
+    margin: 4px 0 0;
+}
+.wf_board_del_bg {
+    clear: both;
+    height: 16px;
+}
+.wf_board_del_bg .btn_wf_del {
+    margin: 4px 4px 0 0;
+}
+.gg_board_FLT10, .gg_board_MLT10_MRT10 {
+    height: 75px;
+    overflow: hidden;
+}
+.gg_board_FLT20, .gg_board_MLT20_MRT20, .gg_board_MLT20_MRT10_MRB10, .gg_board_MLT10_MRT20_MLB10 {
+    height: 135px;
+}
+.wf_bizinfo {
+    height: 50px;
+    margin-top: 4px;
+    overflow: hidden;
+    padding: 4px 4px 4px 10px;
+}
+#wireframe .wf_bizinfo .wf_effct {
+    width: 100%;
+}
+.wf_boardIcon {
+    background-image: url("../../images/editor/ggum/dummy_board_type_ico.gif");
+    background-repeat: no-repeat;
+    bottom: 4px;
+    height: 29px;
+    left: 7px;
+    position: absolute;
+    width: 37px;
+}
+.wf_board_empty .wf_boardIcon {
+    display: none;
+}
+.gg_boardIcon_LIST {
+    background-position: 0 0;
+}
+.gg_boardIcon_SUM1 {
+    background-position: 0 -58px;
+}
+.gg_boardIcon_SUM2 {
+    background-position: 0 -29px;
+}
+.gg_boardIcon_SUM3 {
+    background-position: 0 -87px;
+}
+.gg_boardIcon_SUM4 {
+    background-position: 0 -116px;
+}
+.gg_boardIcon_IMG1 {
+    background-position: 0 -145px;
+}
+.gg_boardIcon_IMG2 {
+    background-position: 0 -174px;
+}
+.gg_boardIcon_IMG3 {
+    background-position: 0 -203px;
+}
+.gg_boardIcon_MOV {
+    background-position: 0 -232px;
+}
+.gg_boardIcon_MENO {
+    background-position: 0 -261px;
+}
+.wf_boardIcon_LIST_TYPE {
+    background-position: 0 -290px;
+}
+.wf_boardIcon_ {
+    background-position: 0 30px;
+}
+.wf_board_sub {
+    overflow: hidden;
+    position: relative;
+}
+.wf_board_sub_hor {
+    float: left;
+}
+.wf_board_sub_ver {
+    height: 119px;
+}
+.wf_board_sub_up {
+    height: 59px;
+}
+.wf_board_sub_down {
+    height: 60px;
+}
+.wf_board_sub_down .btn_wf_modify {
+    top: 7px;
+}
+#wfHomeboardEditLayer {
+    background-color: transparent;
+    font: 12px;
+    height: 203px;
+    position: absolute;
+    right: 86px;
+    top: 250px;
+    width: 297px;
+    z-index: 10000;
+}
+#wfHomeboardEditLayer #wfHomeboardEditLayerPng {
+    background: url("../../images/editor/ggum/board_set_bg.png") no-repeat scroll 0 0 transparent;
+    height: 203px;
+    width: 297px;
+}
+#wfHomeboardEditLayer .boardPop_title {
+    height: 44px;
+    position: relative;
+    width: 297px;
+}
+#wfHomeboardEditLayer .boardPop_title h3 {
+    color: #000000;
+    display: none;
+    font-family: 援대┝,gulim,sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0;
+    padding: 15px 0 0 15px;
+}
+#wfHomeboardEditLayer .boardPop_btnClose {
+    background: url("../../images/editor/ggum/board_set_close.gif") no-repeat scroll 0 0 transparent;
+    height: 9px;
+    position: absolute;
+    right: 14px;
+    top: 18px;
+    width: 10px;
+}
+#wfHomeboardEditLayer .homeBoardEditLayer {
+    background-color: #F7F7F7;
+    border: 1px solid #E8E8E8;
+    height: 113px;
+    margin: 0 15px;
+    padding: 0;
+    width: 265px;
+}
+.popup_btnArea {
+    height: 21px;
+    margin: 10px auto;
+    width: 81px;
+}
+.popup_btnArea a {
+    background: url("../../images/editor/ggum/layer_bt_submit2.gif") no-repeat scroll 0 0 transparent;
+    height: 21px;
+    width: 38px;
+}
+.popup_btnArea a.popup_btnConfirm {
+    background-position: 0 0;
+    float: left;
+}
+.popup_btnArea a.popup_btnCancel {
+    background-position: -38px 0;
+    float: right;
+}
+#wfHomeboardEditLayer #homeBoardEditList {
+    height: 21px;
+    line-height: 1.6;
+    padding: 11px 0 11px 11px;
+    position: relative;
+    z-index: 1;
+}
+#wfHomeboardEditLayer #homeBoardEditList #homeBoardPotSel {
+    color: #333333;
+    font: 12px 援대┝,gulim,sans-serif;
+    width: 150px;
+}
+#wfHomeboardEditLayer #homeBoardEditType {
+    background: url("../../images/editor/ggum/div_h.gif") repeat-x scroll left top transparent;
+    margin: 0 10px;
+    padding: 10px 0 0;
+}
+#wfHomeboardEditLayer #homeBoardEditType .none_type {
+    color: #999999;
+    font-family: dotum,"?룍??";
+    font-size: 11px;
+    letter-spacing: -1px;
+    margin: 0;
+    padding-top: 18px;
+    text-align: center;
+}
+#wfHomeboardEditLayer #homeBoardEditType .homeBoardEditTypeList li {
+    float: left;
+    height: 48px;
+    margin: 0 0 0 15px;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    width: 37px;
+}
+#wfHomeboardEditLayer #homeBoardEditType .homeBoardEditTypeList li.first {
+    margin: 0;
+}
+#wfHomeboardEditLayer #homeBoardEditType .homeBoardEditTypeList li a {
+    display: block;
+    line-height: 20px;
+    text-align: center;
+    width: 37px;
+}
+#wfHomeboardEditLayer #homeBoardEditType .homeBoardEditTypeList .selected_icon {
+    border: 2px solid #5767D6;
+    height: 25px;
+    left: 0;
+    top: 0;
+    width: 33px;
+}
+#wfHomeboardEditLayer #homeBoardEditType .homeBoardEditTypeList .wf_boardEditIcon {
+    background-image: url("../../images/editor/ggum/dummy_board_type_ico2.gif");
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: block;
+    height: 29px;
+    width: 37px;
+}
+#wireframe.gg_typeTWO1 #side1, #wireframe.gg_typeTHREE2 #side1 {
+    float: left;
+}
+#wireframe.gg_typeTWO2 #side1, #wireframe.gg_typeTHREE4 #side1 {
+    float: right;
+}
+#wireframe.gg_typeONE #side1, #wireframe.gg_typeTHREE1 #side1 {
+    float: left;
+}
+#wireframe.type2_4 #side1, #wireframe.gg_typeTHREE3 #side1 {
+    float: right;
+}
+#wireframe.gg_typeTHREE2 #wfSidePanel2 {
+    float: right;
+}
+#wireframe.gg_typeTHREE4 #wfSidePanel2 {
+    float: left;
+}
+#wireframe.gg_typeTHREE1 #wfSidePanel2 {
+    float: left;
+}
+#wireframe.gg_typeTHREE3 #wfSidePanel2 {
+    float: left;
+}
+#wireframe.gg_typeTWO1 #wf_centralPanel, #wireframe.gg_typeTWO2 #wf_centralPanel, #wireframe.gg_typeONE #wf_centralPanel, #wireframe.type2_4 #wf_centralPanel {
+    width: 352px;
+}
+#wireframe.gg_typeTHREE2 #wf_centralPanel, #wireframe.gg_typeTHREE4 #wf_centralPanel, #wireframe.gg_typeTHREE1 #wf_centralPanel, #wireframe.gg_typeTHREE3 #wf_centralPanel {
+    width: 264px;
+}
+#wireframe.gg_typeTHREE2 #wf_centralPanel {
+    float: left;
+}
+#wireframe.gg_typeTHREE4 #wf_centralPanel {
+    float: right;
+}
+#wireframe.gg_typeTHREE1 #wf_centralPanel {
+    float: left;
+}
+#wireframe.gg_typeTHREE3 #wf_centralPanel {
+    float: right;
+}
+#wireframe .wf_bizinfo {
+    background: url("../../images/editor/ggum/dummy_dimm_04a.gif") no-repeat scroll 0 0 transparent;
+    font-family: "?룍??",dotum,sans-serif;
+    font-size: 11px;
+    letter-spacing: -1px;
+}
+#wireframe.gg_typeONE .wf_component_entrance {
+    background: url("../../images/editor/ggum/dummy_dimm_05a.gif") no-repeat scroll 0 0 transparent;
+    width: 423px;
+}
+#wireframe.gg_typeTWO2 .wf_component_entrance, #wireframe.gg_typeTWO1 .wf_component_entrance, #wireframe.type2_4 .wf_component_entrance, #wireframe.gg_typeTHREE1 .wf_component_entrance, #wireframe.gg_typeTHREE3 .wf_component_entrance {
+    background: url("../../images/editor/ggum/dummy_dimm_04a.gif") no-repeat scroll 0 0 transparent;
+    width: 335px;
+}
+#wireframe.gg_typeTHREE2 .wf_component_entrance, #wireframe.gg_typeTHREE4 .wf_component_entrance {
+    background: url("../../images/editor/ggum/dummy_dimm_03a.gif") no-repeat scroll 0 0 transparent;
+    width: 247px;
+}
+#wireframe.gg_typeTWO1 #wf_HOMEBOARDPANEL, #wireframe.gg_typeTWO2 #wf_HOMEBOARDPANEL, #wireframe.gg_typeONE #wf_HOMEBOARDPANEL, #wireframe.type2_4 #wf_HOMEBOARDPANEL, #wireframe.gg_typeTWO1 .wf_board, #wireframe.gg_typeTWO2 .wf_board, #wireframe.gg_typeONE .wf_board, #wireframe.type2_4 .wf_board, #wireframe.gg_typeTWO1 .wf_board_del_bg, #wireframe.gg_typeTWO2 .wf_board_del_bg, #wireframe.gg_typeONE .wf_board_del_bg, #wireframe.type2_4 .wf_board_del_bg {
+    width: 348px;
+}
+#wireframe.gg_typeTHREE2 #wf_HOMEBOARDPANEL, #wireframe.gg_typeTHREE4 #wf_HOMEBOARDPANEL, #wireframe.gg_typeTHREE1 #wf_HOMEBOARDPANEL, #wireframe.gg_typeTHREE3 #wf_HOMEBOARDPANEL, #wireframe.gg_typeTHREE2 .wf_board, #wireframe.gg_typeTHREE4 .wf_board, #wireframe.gg_typeTHREE1 .wf_board, #wireframe.gg_typeTHREE3 .wf_board, #wireframe.gg_typeTHREE2 .wf_board_del_bg, #wireframe.gg_typeTHREE4 .wf_board_del_bg, #wireframe.gg_typeTHREE1 .wf_board_del_bg, #wireframe.gg_typeTHREE3 .wf_board_del_bg {
+    width: 260px;
+}
+#wireframe.gg_typeTWO1 #wf_INFOPANEL, #wireframe.gg_typeTWO2 #wf_INFOPANEL, #wireframe.gg_typeONE #wf_INFOPANEL, #wireframe.type2_4 #wf_INFOPANEL, #wireframe.gg_typeTWO1 .wf_board, #wireframe.gg_typeTWO2 .wf_board, #wireframe.gg_typeONE .wf_board, #wireframe.type2_4 .wf_board, #wireframe.gg_typeTWO1 .wf_board_del_bg, #wireframe.gg_typeTWO2 .wf_board_del_bg, #wireframe.gg_typeONE .wf_board_del_bg, #wireframe.type2_4 .wf_board_del_bg {
+    width: 348px;
+}
+#wireframe.gg_typeTHREE2 #wf_INFOPANEL, #wireframe.gg_typeTHREE4 #wf_INFOPANEL, #wireframe.gg_typeTHREE1 #wf_INFOPANEL, #wireframe.gg_typeTHREE3 #wf_INFOPANEL, #wireframe.gg_typeTHREE2 .wf_board, #wireframe.gg_typeTHREE4 .wf_board, #wireframe.gg_typeTHREE1 .wf_board, #wireframe.gg_typeTHREE3 .wf_board, #wireframe.gg_typeTHREE2 .wf_board_del_bg, #wireframe.gg_typeTHREE4 .wf_board_del_bg, #wireframe.gg_typeTHREE1 .wf_board_del_bg, #wireframe.gg_typeTHREE3 .wf_board_del_bg {
+    width: 260px;
+}
+#wireframe.gg_typeTWO1 .gg_board_FLT10, #wireframe.gg_typeTWO2 .gg_board_FLT10, #wireframe.gg_typeONE .gg_board_FLT10, #wireframe.type2_4 .gg_board_FLT10 {
+    background: url("../../images/editor/ggum/dummy_board_type_b01a.gif") repeat scroll 0 0 transparent;
+}
+#wireframe.gg_typeTWO1 .gg_board_MLT10_MRT10, #wireframe.gg_typeTWO2 .gg_board_MLT10_MRT10, #wireframe.gg_typeONE .gg_board_MLT10_MRT10, #wireframe.type2_4 .gg_board_MLT10_MRT10 {
+    background: url("../../images/editor/ggum/dummy_board_type_b02a.gif") repeat scroll 0 0 transparent;
+}
+#wireframe.gg_typeTWO1 .gg_board_FLT20, #wireframe.gg_typeTWO2 .gg_board_FLT20, #wireframe.gg_typeONE .gg_board_FLT20, #wireframe.type2_4 .gg_board_FLT20 {
+    background: url("../../images/editor/ggum/dummy_board_type_b03a.gif") repeat scroll 0 0 transparent;
+}
+#wireframe.gg_typeTWO1 .gg_board_MLT20_MRT20, #wireframe.gg_typeTWO2 .gg_board_MLT20_MRT20, #wireframe.gg_typeONE .gg_board_MLT20_MRT20, #wireframe.type2_4 .gg_board_MLT20_MRT20 {
+    background: url("../../images/editor/ggum/dummy_board_type_b04a.gif") repeat scroll 0 0 transparent;
+}
+#wireframe.gg_typeTWO1 .gg_board_MLT20_MRT10_MRB10, #wireframe.gg_typeTWO2 .gg_board_MLT20_MRT10_MRB10, #wireframe.gg_typeONE .gg_board_MLT20_MRT10_MRB10, #wireframe.type2_4 .gg_board_MLT20_MRT10_MRB10 {
+    background: url("../../images/editor/ggum/dummy_board_type_b05a.gif") repeat scroll 0 0 transparent;
+}
+#wireframe.gg_typeTWO1 .gg_board_MLT10_MRT20_MLB10, #wireframe.gg_typeTWO2 .gg_board_MLT10_MRT20_MLB10, #wireframe.gg_typeONE .gg_board_MLT10_MRT20_MLB10, #wireframe.type2_4 .gg_board_MLT10_MRT20_MLB10 {
+    background: url("../../images/editor/ggum/dummy_board_type_b06a.gif") repeat scroll 0 0 transparent;
+}
+#wireframe.gg_typeTHREE2 .gg_board_FLT10, #wireframe.gg_typeTHREE4 .gg_board_FLT10, #wireframe.gg_typeTHREE1 .gg_board_FLT10, #wireframe.gg_typeTHREE3 .gg_board_FLT10 {
+    background: url("../../images/editor/ggum/dummy_board_type_01a.gif") repeat scroll 0 0 transparent;
+}
+#wireframe.gg_typeTHREE2 .gg_board_MLT10_MRT10, #wireframe.gg_typeTHREE4 .gg_board_MLT10_MRT10, #wireframe.gg_typeTHREE1 .gg_board_MLT10_MRT10, #wireframe.gg_typeTHREE3 .gg_board_MLT10_MRT10 {
+    background: url("../../images/editor/ggum/dummy_board_type_02a.gif") repeat scroll 0 0 transparent;
+}
+#wireframe.gg_typeTHREE2 .gg_board_FLT20, #wireframe.gg_typeTHREE4 .gg_board_FLT20, #wireframe.gg_typeTHREE1 .gg_board_FLT20, #wireframe.gg_typeTHREE3 .gg_board_FLT20 {
+    background: url("../../images/editor/ggum/dummy_board_type_03a.gif") repeat scroll 0 0 transparent;
+}
+#wireframe.gg_typeTHREE2 .gg_board_MLT20_MRT20, #wireframe.gg_typeTHREE4 .gg_board_MLT20_MRT20, #wireframe.gg_typeTHREE1 .gg_board_MLT20_MRT20, #wireframe.gg_typeTHREE3 .gg_board_MLT20_MRT20 {
+    background: url("../../images/editor/ggum/dummy_board_type_04a.gif") repeat scroll 0 0 transparent;
+}
+#wireframe.gg_typeTHREE2 .gg_board_MLT20_MRT10_MRB10, #wireframe.gg_typeTHREE4 .gg_board_MLT20_MRT10_MRB10, #wireframe.gg_typeTHREE1 .gg_board_MLT20_MRT10_MRB10, #wireframe.gg_typeTHREE3 .gg_board_MLT20_MRT10_MRB10 {
+    background: url("../../images/editor/ggum/dummy_board_type_05a.gif") repeat scroll 0 0 transparent;
+}
+#wireframe.gg_typeTHREE2 .gg_board_MLT10_MRT20_MLB10, #wireframe.gg_typeTHREE4 .gg_board_MLT10_MRT20_MLB10, #wireframe.gg_typeTHREE1 .gg_board_MLT10_MRT20_MLB10, #wireframe.gg_typeTHREE3 .gg_board_MLT10_MRT20_MLB10 {
+    background: url("../../images/editor/ggum/dummy_board_type_06a.gif") repeat scroll 0 0 transparent;
+}
+#wireframe.gg_typeTWO1 .wf_board_sub_hor, #wireframe.gg_typeTWO2 .wf_board_sub_hor, #wireframe.gg_typeONE .wf_board_sub_hor, #wireframe.type2_4 .wf_board_sub_hor {
+    width: 174px;
+}
+#wireframe.gg_typeTHREE2 .wf_board_sub_hor, #wireframe.gg_typeTHREE4 .wf_board_sub_hor, #wireframe.gg_typeTHREE1 .wf_board_sub_hor, #wireframe.gg_typeTHREE3 .wf_board_sub_hor {
+    width: 130px;
+}
+.shadow_hidden {
+    display: none;
+}
+.drag_effect {
+    background-position: 0 50% !important;
+    color: #FFFFFF !important;
+    opacity: 0.8 !important;
+    z-index: 9999 !important;
+}
+.drag_effect a {
+    visibility: hidden !important;
+}
+.drag_effect .wf_board_sub {
+    color: #FFFFFF !important;
+}
+.drag_effect span {
+    color: #FFFFFF !important;
+}
+.drag_effect .wf_boardIcon {
+    visibility: hidden !important;
+}
+.drop_board_effect {
+    background-color: #666666 !important;
+    padding-bottom: 4px !important;
+}
+.drag_shadow_effect {
+    background: none repeat scroll 0 0 #777777 !important;
+}
+.drop_over_effect {
+    border: 1px inset #FFFFFF !important;
+}
+#wf_FRIENDCAFE_tooltip {
+    background: url("../../images/editor/ggum/img_layer_friend_n.gif") no-repeat scroll 0 0 transparent;
+    display: none;
+    height: 59px;
+    width: 175px;
+    z-index: 1;
+}
+#wireframe.gg_typeTWO1 #wf_FRIENDCAFE_tooltip, #wireframe.gg_typeONE #wf_FRIENDCAFE_tooltip, #wireframe.gg_typeTHREE2 #wf_FRIENDCAFE_tooltip, #wireframe.gg_typeTHREE1 #wf_FRIENDCAFE_tooltip {
+    background-position: 0 -227px;
+}
+#wireframe.gg_typeTWO2 #wf_FRIENDCAFE_tooltip, #wireframe.type2_4 #wf_FRIENDCAFE_tooltip, #wireframe.gg_typeTHREE4 #wf_FRIENDCAFE_tooltip, #wireframe.gg_typeTHREE3 #wf_FRIENDCAFE_tooltip {
+    background-position: 0 -169px;
+}
+#wf_centralPanel #wf_FRIENDCAFE_tooltip {
+    background-position: 0 0;
+}
+#founderHeaderWrap {
+    background: url("../../images/editor/ggum/gnb/gnb_bg.gif") repeat-x scroll 0 0 #5B6AE7;
+    height: 49px;
+    position: relative;
+    z-index: 10000;
+}
+#founderHeader {
+    background: url("../../images/editor/ggum/gnb/gnb_bg.gif") repeat-x scroll 0 0 #5B6AE7;
+    margin: 0 auto;
+    text-align: left;
+    width: 971px;
+}
+#founderHeader h1, #founderHeader h2 {
+    float: left;
+    margin: 0;
+}
+#founderHeader h1 a.logo_daum {
+    background: url("../../images/editor/ggum/gnb/gnb_logo_2010.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    float: left;
+    height: 49px;
+    overflow: hidden;
+    text-decoration: none;
+    text-indent: -1000em;
+    width: 56px;
+}
+#founderHeader h1 a.logo_cafeadmin {
+    background: url("../../images/editor/ggum/gnb/gnb_title.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    float: left;
+    height: 49px;
+    overflow: hidden;
+    text-decoration: none;
+    text-indent: -1000em;
+    width: 69px;
+}
+#founderHeader h2 {
+    font-size: 0;
+    padding: 19px 0 0 10px;
+}
+#founderHeader h2 a.cafeurl {
+    color: #DCDFFF;
+    font-family: 援대┝,gulim,tahoma,sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 12px;
+    margin: 0;
+    padding: 0;
+}
+#founderHeader ul {
+    float: right;
+    margin: 0;
+    padding: 0;
+}
+#founderHeader li {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+#founderHeader li a {
+    background: url("../../images/editor/ggum/gnb/gnb_menu.gif") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 47px;
+    overflow: hidden;
+    text-indent: -1000em;
+}
+#founderHeader li a.founder_home {
+    background-position: 0 0;
+    width: 69px;
+}
+#founderHeader li a.founder_entrance {
+    background-position: -69px 0;
+    width: 56px;
+}
+#founderHeader li a.founder_title {
+    background-position: -125px 0;
+    width: 67px;
+}
+#founderHeader li a.founder_repository {
+    background-position: -192px 0;
+    width: 68px;
+}
+#founderHeader li a.founder_recommendedset {
+    background-position: -260px 0;
+    width: 80px;
+}
+#founderHeader li a.founder_cubetip {
+    background: url("../../images/editor/ggum/gnb/btn_help.gif") no-repeat scroll 0 0 transparent;
+    height: 22px;
+    margin: 14px 0 0 12px;
+    overflow: hidden;
+    text-indent: -1000em;
+    width: 60px;
+}
+#founderHeader li a.founder_home_on {
+    background-image: url("../../images/editor/ggum/gnb/gnb_menu_act.gif");
+    background-position: 0 0;
+    width: 90px;
+}
+#founderHeader li a.founder_entrance_on {
+    background-image: url("../../images/editor/ggum/gnb/gnb_menu_act.gif");
+    background-position: -90px 0;
+    width: 78px;
+}
+#founderHeader li a.founder_title_on {
+    background-image: url("../../images/editor/ggum/gnb/gnb_menu_act.gif");
+    background-position: -168px 0;
+    width: 90px;
+}
+#founderHeader li a.founder_repository_on {
+    background-image: url("../../images/editor/ggum/gnb/gnb_menu_act.gif");
+    background-position: -258px 0;
+    width: 91px;
+}
+#founderHeader li a.founder_recommendedset_on {
+    background-image: url("../../images/editor/ggum/gnb/gnb_menu_act.gif");
+    background-position: -349px 0;
+    width: 80px;
+}
+#founderHeader li.html_management {
+    position: relative;
+}
+#founderHeader li.html_management ul {
+    height: 25px;
+    left: -25px;
+    position: absolute;
+    top: 40px;
+    width: 215px;
+}
+#founderHeader li.html_management li.hm_list1 {
+    width: 67px;
+}
+#founderHeader li.html_management li.hm_list2 {
+    width: 76px;
+}
+#founderHeader li.html_management li a {
+    background-image: url("../../images/editor/ggum/gnb/gate_submenu.gif");
+    background-position: 0 0;
+    cursor: pointer;
+    height: 25px;
+    line-height: 30px;
+    width: 67px;
+}
+#founderHeader li.html_management li.hm_list2 a {
+    background-position: right -25px;
+    width: 76px;
+}
+#founderHeader li.html_management .hm_list_HTMLENTRANCE li.hm_list1 a {
+    background-position: left -25px;
+}
+#founderHeader li.html_management .hm_list_HTMLENTRANCE li.hm_list2 a {
+    background-position: right top;
+}
+#founderHeader li.html_management .hm_list_ li.hm_list1 a {
+    background-position: left top;
+}
+#founderHeader li.html_management .hm_list_ li.hm_list2 a {
+    background-position: right top;
+}
+#titleCafeBg {
+    width: 100%;
+}
+#titleEditor {
+    margin: 0 auto;
+    padding-top: 34px;
+    width: 975px;
+    z-index: 700;
+}
+#titleEditor a {
+    text-decoration: none;
+}
+#titleEditorArea {
+    border: 1px solid #CBCBCB;
+    padding: 1px 1px 0;
+    width: 971px;
+}
+#titleEditorInner {
+    height: 340px;
+    position: relative;
+    width: 971px;
+}
+#titleEditorInner .searchBg {
+    position: relative;
+}
+#titleGridLayer {
+    border: 1px solid #00FFFF;
+    left: -1px;
+    position: absolute;
+    top: -1px;
+    width: 971px;
+    z-index: 90;
+}
+#titleDragArea {
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+#titleDragArea.grid {
+    background: url("../../images/editor/ggum/title/title_s_grid.gif") repeat scroll 0 0 transparent;
+    opacity: 0.2;
+}
+#titleMaskArea {
+    background: url("../../images/editor/ggum/title/title_s_pattern_a.gif") repeat scroll left bottom transparent;
+    bottom: 0;
+    left: -1px;
+    overflow: hidden;
+    position: absolute;
+    width: 973px;
+    z-index: 310;
+}
+#heightDragArea {
+    height: 304px;
+    left: -1px;
+    position: absolute;
+    top: 50px;
+    width: 973px;
+    z-index: 100;
+}
+#heightResizeBar {
+    cursor: row-resize !important;
+    height: 19px;
+    left: -1px;
+    overflow: hidden;
+    position: absolute;
+    text-align: center;
+    width: 973px;
+    z-index: 400;
+}
+#heightResizeBar .resize_bar {
+    background: url("../../images/editor/ggum/title/title_s_grabbg_a.gif") repeat-x scroll 0 0 transparent;
+    height: 7px;
+    margin-top: 1px;
+    width: 100%;
+}
+#heightResizeBar img {
+    cursor: row-resize;
+    margin: 0 auto;
+    position: relative;
+    top: -7px;
+}
+* html #heightResizeBar img {
+    display: block;
+    margin-top: -7px;
+}
+#titleEditorControl {
+    width: 975px;
+}
+#titleEditorControl dl {
+    background: url("../../images/editor/ggum/title/title_s_menubg.gif") repeat-x scroll 0 0 transparent;
+    border-left: 1px solid #CBCBCB;
+    border-right: 1px solid #CBCBCB;
+    clear: both;
+    height: 47px;
+    width: 973px;
+}
+#titleEditorControl dt {
+    float: left;
+    padding: 20px 0 0 24px;
+}
+#titleEditorControl dd {
+    float: right;
+    padding: 14px 11px 0 0;
+}
+#titleEditorControl ul {
+    float: left;
+}
+#titleEditorControl li {
+    float: left;
+}
+#titleEditorControl dt a {
+    background-image: url("../../images/editor/ggum/title/title_s_menu_a.gif");
+    background-repeat: no-repeat;
+    display: block;
+    height: 12px;
+    overflow: hidden;
+    text-indent: -1000em;
+}
+#titleEditorControl dt a:hover {
+    background-image: url("../../images/editor/ggum/title/title_s_menub_a.gif");
+}
+#titleEditorControl dt a.on {
+    background-image: url("../../images/editor/ggum/title/title_s_menub_a.gif");
+}
+#titleEditorControl dt #tb_TITLETEMPLATE {
+    background-position: 0 0;
+    width: 45px;
+}
+#titleEditorControl dt #tb_TITLEBACKGROUND {
+    background-position: -45px 0;
+    width: 48px;
+}
+#titleEditorControl dt #tb_TITLECAFENAME {
+    background-position: -93px 0;
+    width: 70px;
+}
+#titleEditorControl dt #tb_TITLECAFEADDRESS {
+    background-position: -163px 0;
+    width: 71px;
+}
+#titleEditorControl dt #tb_TITLEMENUGROUP {
+    background-position: -234px 0;
+    width: 86px;
+}
+#titleEditorControl dt #tb_TITLESEARCH {
+    background-position: -320px 0;
+    width: 58px;
+}
+#titleEditorControl dt #tb_TITLECAFEINFO {
+    background-position: -378px 0;
+    width: 47px;
+}
+#titleEditorControl dd li.vbar {
+    background: url("../../images/editor/ggum/title/title_s_mdiv.gif") no-repeat scroll 0 -16px transparent;
+    margin: 0 10px;
+    overflow: hidden;
+    text-indent: -1000em;
+    width: 2px;
+}
+#titleEditorControl dd li span {
+    float: left;
+    font-family: dotum;
+    font-size: 11px;
+    margin-right: 4px;
+    padding-top: 3px;
+}
+#titleEditorControl dd .heightBox {
+    background: url("../../images/editor/ggum/title/title_s_height.gif") no-repeat scroll 0 0 transparent;
+    float: left;
+    padding-left: 5px;
+}
+#titleEditorControl dd #inpHeightVal {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    float: left;
+    font-size: 11px;
+    margin-top: 5px;
+    width: 25px;
+}
+#titleEditorControl dd #btnHeightVal {
+    background: url("../../images/editor/ggum/title/title_s_heightbtn.gif") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    cursor: pointer;
+    float: left;
+    height: 23px;
+    padding: 0;
+    width: 28px;
+}
+* html #titleEditorControl dd #btnHeightVal {
+    vertical-align: top;
+}
+:first-child + html #titleEditorControl dd #btnHeightVal {
+    vertical-align: top;
+}
+#titleEditorControl dd #btnLevelUp {
+    background: url("../../images/editor/ggum/title/title_s_order_a.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    float: left;
+    height: 23px;
+    margin-right: 2px;
+    overflow: hidden;
+    position: relative;
+    text-indent: -1000em;
+    width: 48px;
+}
+#titleEditorControl dd #btnLevelDown {
+    background: url("../../images/editor/ggum/title/title_s_order_a.gif") no-repeat scroll 0 -23px transparent;
+    display: block;
+    float: left;
+    height: 23px;
+    overflow: hidden;
+    position: relative;
+    text-indent: -1000em;
+    width: 48px;
+}
+#titleEditorControl dd .level_on {
+    opacity: 1;
+}
+#titleEditorControl dd .level_off {
+    opacity: 0.3;
+}
+#titleEditorControl dd #btnReset {
+    background: url("../../images/editor/ggum/bt_reset.gif") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 10px;
+    margin-top: 2px;
+    overflow: hidden;
+    text-indent: -1000em;
+    width: 53px;
+}
+#titleEditorControl dd li.pd {
+    padding-top: 4px;
+}
+#titleEditorControl .editorShadow {
+    background: url("../../images/editor/ggum/title/title_s_menubm.png") no-repeat scroll 0 0 transparent;
+    height: 7px;
+    overflow: hidden;
+    width: 100%;
+}
+* html #titleEditorControl .editorShadow {
+    background: none repeat scroll 0 0 transparent;
+}
+.btn_title {
+    height: 28px;
+    margin-top: 25px;
+    position: relative;
+    text-align: center;
+}
+.btn_entrance_editer {
+    height: 28px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    text-indent: -1000px;
+}
+.btnPreview {
+    background: url("../../images/editor/ggum/title/title_s_prebtn.png") no-repeat scroll 0 0 transparent;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 63px;
+}
+* html .btnPreview {
+    background: none repeat scroll 0 0 transparent;
+    width: 63px;
+}
+.btnApply {
+    background: url("../../images/editor/ggum/title/title_s_regbtn.png") no-repeat scroll 0 0 transparent;
+    width: 47px;
+}
+* html .btnApply {
+    background: none repeat scroll 0 0 transparent;
+    width: 47px;
+}
+.btnCancel {
+    background: url("../../images/editor/ggum/title/title_s_cacbtn.png") no-repeat scroll 0 0 transparent;
+    width: 47px;
+}
+* html .btnCancel {
+    background: none repeat scroll 0 0 transparent;
+    width: 47px;
+}
+.btnSave {
+    background: url("../../images/editor/ggum/title/title_s_savbtn.png") no-repeat scroll 0 0 transparent;
+    width: 47px;
+}
+* html .btnSave {
+    background: none repeat scroll 0 0 transparent;
+    width: 47px;
+}
+#selectedComponentBox {
+    border: 1px dashed #000000;
+    left: -2px;
+    position: absolute;
+    top: -2px;
+    z-index: 300;
+}
+#selectedComponentBox div {
+    border: 1px dashed #FFFFFF;
+    height: 100%;
+}
+#overComponentBox {
+    border: 1px dashed #FF0000;
+    left: -2px;
+    position: absolute;
+    top: -2px;
+    z-index: 200;
+}
+#overComponentBox div {
+    border: 1px dashed #FFFF00;
+    height: 100%;
+}
+#componentControlBtn {
+    height: 20px;
+    position: absolute;
+    width: 38px;
+    z-index: 300;
+}
+.btn_s_config {
+    background: url("../../images/editor/ggum/title/title_s_setbtn_a.gif") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    float: left;
+    font-size: 0;
+    height: 18px;
+    margin-right: 2px;
+    overflow: hidden;
+    text-indent: -100em;
+    width: 18px;
+}
+.btn_s_remove {
+    background: url("../../images/editor/ggum/title/title_s_setbtn_a.gif") no-repeat scroll 0 -18px transparent;
+    cursor: pointer;
+    float: left;
+    font-size: 0;
+    height: 18px;
+    overflow: hidden;
+    text-indent: -100em;
+    width: 18px;
+}
+#componentEditorLayer {
+    left: 100px;
+    position: absolute;
+    text-align: left;
+    top: 80px;
+    z-index: 30720;
+}
+#componentEditorLayer #componentTitleArea .roundL {
+    background-image: url("../../images/editor/ggum/title/title_l_topr1.png");
+    height: 36px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 6px;
+}
+* html #componentEditorLayer #componentTitleArea .roundL {
+    background: none repeat scroll 0 0 transparent;
+}
+#componentEditorLayer #componentTitleArea .roundR {
+    background-image: url("../../images/editor/ggum/title/title_l_topr2.png");
+    height: 36px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 6px;
+}
+* html #componentEditorLayer #componentTitleArea .roundR {
+    background: none repeat scroll 0 0 transparent;
+}
+#componentEditorLayer #componentTitleArea dl {
+    background-image: url("../../images/editor/ggum/title/title_l_topbg.gif");
+    clear: both;
+    height: 36px;
+    margin: 0 6px;
+}
+#componentEditorLayer #componentTitleArea dt {
+    background: url("../../images/editor/ggum/title/title_l_title.gif") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 16px;
+    margin: 10px;
+    overflow: hidden;
+    text-indent: -1000em;
+    width: 62px;
+}
+#componentEditorLayer #componentTitleArea dd {
+    float: right;
+    padding: 12px 8px 0 0;
+}
+#componentEditorLayer #componentTitleArea a {
+    background: url("../../images/editor/ggum/layer_bt_close.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    font-size: 0;
+    height: 11px;
+    overflow: hidden;
+    text-indent: -100em;
+    width: 11px;
+}
+#componentEditorLayer #componentTitleArea dt.menu {
+    background-position: 0 0;
+}
+#componentEditorLayer #componentTitleArea dt.background {
+    background-position: 0 -16px;
+}
+#componentEditorLayer #componentTitleArea dt.template {
+    background-position: 0 -32px;
+}
+#componentEditorLayer #componentTitleArea dt.cafename {
+    background-position: 0 -48px;
+}
+#componentEditorLayer #componentTitleArea dt.cafeaddress {
+    background-position: 0 -64px;
+}
+#componentEditorLayer #componentTitleArea dt.cafeinfo {
+    background-position: 0 -80px;
+}
+#componentEditorLayer #componentTitleArea dt.search {
+    background-position: 0 -96px;
+}
+#componentEditorLayer #componentEditorArea {
+    background: url("../../images/editor/ggum/title/title_l_sideborder1.gif") repeat-y scroll 0 0 #FBFBFB;
+    clear: both;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+#componentEditorLayer #componentEditorArea #componentView {
+    background: url("../../images/editor/ggum/title/title_l_sideborder2.gif") repeat-y scroll right 0 transparent;
+    position: relative;
+    z-index: 1;
+}
+#componentEditorLayer #componentEditorArea #disabledComponentLayer {
+    background: none repeat scroll 0 0 #FFFFFF;
+    height: 100%;
+    left: 3px;
+    opacity: 0.75;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 50;
+}
+#componentEditorLayer #componentBtnArea {
+    background: url("../../images/editor/ggum/title/title_l_sideborder1.gif") repeat-y scroll 0 0 #FBFBFB;
+    clear: both;
+    width: 100%;
+}
+#componentEditorLayer #componentBtnArea .btnArea {
+    background: url("../../images/editor/ggum/title/title_l_sideborder2.gif") repeat-y scroll right 0 transparent;
+}
+#componentEditorLayer #componentBtnArea .btnInner {
+    background: url("../../images/editor/ggum/div_h.gif") repeat-x scroll 0 0 transparent;
+    height: 26px;
+    margin: 0 3px;
+    padding: 8px 0 3px;
+    text-align: center;
+}
+#componentEditorLayer #componentBtnArea a {
+    text-decoration: none;
+}
+#componentEditorLayer #componentBtnArea .btnConfirm_s {
+    background: url("../../images/editor/ggum/title/title_l_btn.gif") no-repeat scroll 0 0 transparent;
+}
+#componentEditorLayer #componentBtnArea .btnCancel_s {
+    background: url("../../images/editor/ggum/title/title_l_btn.gif") no-repeat scroll 0 -26px transparent;
+}
+#componentEditorLayer #componentFooter {
+    clear: both;
+    position: relative;
+    width: 100%;
+}
+#componentEditorLayer #componentFooter .roundL {
+    background-image: url("../../images/editor/ggum/title/title_l_btmr1.png");
+    height: 8px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 6px;
+}
+* html #componentEditorLayer #componentFooter .roundL {
+    background: none repeat scroll 0 0 transparent;
+}
+#componentEditorLayer #componentFooter .center {
+    background-image: url("../../images/editor/ggum/title/title_l_btmbg.png");
+    height: 8px;
+    margin: 0 6px;
+}
+* html #componentEditorLayer #componentFooter .center {
+    background: none repeat scroll 0 0 transparent;
+}
+#componentEditorLayer #componentFooter .roundR {
+    background-image: url("../../images/editor/ggum/title/title_l_btmr2.png");
+    height: 8px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 6px;
+}
+* html #componentEditorLayer #componentFooter .roundR {
+    background: none repeat scroll 0 0 transparent;
+}
+#componentEditorBlind {
+    background: none repeat scroll 0 0 transparent;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 49px;
+    width: 100%;
+    z-index: 710;
+}
+#nameFontTemplate {
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+#addressFontTemplate {
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+#menuTemplate {
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+#templateEditor {
+    padding: 14px;
+}
+#templateEditor p {
+    color: #666666;
+    font-family: dotum;
+    font-size: 11px;
+    letter-spacing: -1px;
+    margin: 0 0 12px 2px;
+}
+#templateEditor ul {
+    clear: both;
+    height: 396px;
+    width: 100%;
+}
+#templateEditor li {
+    border: 1px solid #C9C9C9;
+    cursor: pointer;
+    float: left;
+    height: 90px;
+    margin-bottom: 9px;
+    width: 500px;
+}
+#templateEditor #selectedLayerBox {
+    border: 2px solid #5767D6;
+    height: 88px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 498px;
+}
+#backgroundEditor .backgroundTab {
+    border-bottom: 1px solid #DDDDDD;
+    clear: both;
+    height: 30px;
+    padding-left: 10px;
+}
+#backgroundEditor .backgroundTab li {
+    float: left;
+    margin: 0;
+    padding: 7px 12px 3px 0;
+}
+#backgroundEditor .backgroundTab li img {
+    vertical-align: -4px;
+}
+#backgroundEditor .backgroundTab li label {
+    color: #555555;
+    font-family: dotum;
+    font-size: 11px;
+}
+#backgroundEditor .backgroundTab li.selected label {
+    font-weight: bold;
+    letter-spacing: -1px;
+}
+#backgroundEditor #patternView {
+    padding: 14px;
+    position: relative;
+}
+#backgroundEditor #patternView .designListBox {
+    clear: both;
+    float: left;
+    height: 178px;
+    position: relative;
+    width: 292px;
+    z-index: 10;
+}
+#backgroundEditor #patternView ul {
+    border-left: 1px solid #C9C9C9;
+    border-top: 1px solid #C9C9C9;
+    float: left;
+}
+#backgroundEditor #patternView li {
+    border-bottom: 1px solid #C9C9C9;
+    border-right: 1px solid #C9C9C9;
+    cursor: pointer;
+    float: left;
+    height: 88px;
+    width: 96px;
+}
+#backgroundEditor #selectedBgDesignBox {
+    border: 2px solid #5767D6;
+    height: 86px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 94px;
+    z-index: 100;
+}
+#backgroundEditor #colorView {
+    clear: both;
+    height: 130px;
+    padding: 14px;
+    position: relative;
+}
+#backgroundEditor #colorView #previewBox {
+    background: url("../../images/editor/ggum/title/title_l_patt.gif") repeat scroll 0 0 transparent;
+    float: left;
+    height: 121px;
+    margin-right: 16px;
+    width: 140px;
+}
+#backgroundEditor #colorView #previewColorBox {
+    height: 100%;
+    width: 100%;
+}
+#backgroundEditor #colorView ul.control {
+    float: left;
+    width: 135px;
+}
+#backgroundEditor #colorView li.control {
+    float: left;
+    margin: 0 0 8px;
+    width: 100%;
+}
+#backgroundEditor #colorView li.control label {
+    color: #555555;
+    float: left;
+    margin: 2px 7px 0 0;
+}
+#backgroundEditor #colorView li.control .slider_area {
+    float: left;
+    margin-top: 6px;
+    position: relative;
+    width: 90px;
+}
+#backgroundEditor #colorView #titleBgColor {
+    z-index: 11000;
+}
+#backgroundEditor #colorView #titleBorderColor {
+    z-index: 10000;
+}
+#backgroundEditor #userimageView {
+    padding: 14px 15px 10px;
+}
+#backgroundEditor #userimageView dl {
+    clear: both;
+    height: 160px;
+    position: relative;
+}
+#backgroundEditor #userimageView dt {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E6E6E6;
+    float: left;
+    height: 120px;
+    margin-right: 15px;
+    position: relative;
+    width: 140px;
+}
+#backgroundEditor #userimageView dt .coca_uploader {
+    left: 40px;
+    position: relative;
+    top: 50px;
+    z-index: 20;
+}
+#backgroundEditor #userimageView dt .priview_img {
+    display: block;
+    height: 120px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 140px;
+    z-index: 10;
+}
+#backgroundEditor #userimageView dt .priview_img img {
+    display: block;
+    height: 120px;
+    width: 140px;
+    z-index: 10;
+}
+#backgroundEditor #userimageView dt #btnImageDelete {
+    background: url("../../images/editor/ggum/bt_del_photo.gif") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    display: block;
+    height: 12px;
+    overflow: hidden;
+    position: absolute;
+    right: 5px;
+    text-indent: -100em;
+    top: 5px;
+    width: 13px;
+    z-index: 30;
+}
+#backgroundEditor #userimageView dd {
+    float: left;
+}
+#backgroundEditor #userimageView ul {
+    float: left;
+    width: 130px;
+}
+#backgroundEditor #userimageView li.control {
+    float: left;
+    margin-bottom: 8px;
+    width: 130px;
+}
+#backgroundEditor #userimageView li.control label {
+    color: #555555;
+    float: left;
+    font-family: dotum;
+    font-size: 11px;
+    letter-spacing: -1px;
+    margin: 2px 0 0;
+    width: 38px;
+}
+#backgroundEditor #userimageView li.control .coca_uploader {
+    height: 21px;
+}
+#backgroundEditor #userimageView li.control p {
+    color: #999999;
+    font-family: dotum;
+    font-size: 11px;
+    margin: 0;
+    padding: 0;
+}
+#backgroundEditor #userimageView li.control p.notice {
+    padding-top: 4px;
+}
+#backgroundEditor #userimageView #titleUserColor {
+    z-index: 1;
+}
+#cafeNameEditor {
+    padding: 14px;
+}
+#cafeNameEditor .previewArea {
+    border: 1px solid #C9C9C9;
+    height: 110px;
+    overflow: hidden;
+    width: 390px;
+}
+#cafeNameEditor #cafeToolbar dl {
+    clear: both;
+    height: 22px;
+    margin-top: 10px;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+#cafeNameEditor #cafeToolbar dd {
+    float: left;
+    margin-right: 5px;
+}
+* html #cafeNameEditor #cafeToolbar dd {
+    margin-right: 4px;
+}
+#cafeNameEditor #cafeToolbar dd.last {
+    margin-right: 0;
+}
+#cafeNameEditor #cafeToolbar dd label {
+    float: left;
+    margin: 2px 4px 0 0;
+}
+#cafeNameEditor #tcFontEffect {
+    clear: both;
+    height: 22px;
+    margin-top: 14px;
+    position: relative;
+    width: 100%;
+}
+#cafeNameEditor #tcFontEffect li {
+    float: left;
+    margin-right: 15px;
+}
+#cafeNameEditor #tcFontEffect li label {
+    float: left;
+    margin: 3px 6px 0 0;
+}
+#cafeNameEditor #tcFontEffect li img {
+    float: left;
+    margin-top: 4px;
+}
+.font_help_layer {
+    background-color: #000000;
+    height: 22px;
+    left: 15px;
+    opacity: 0.6;
+    position: absolute;
+    top: 104px;
+    width: 350px;
+    z-index: 10;
+}
+* html .font_help_layer {
+    left: 0;
+}
+.font_help {
+    background: url("../../images/editor/ggum/ico_warning.gif") no-repeat scroll 7px 6px transparent;
+    color: #FFFFFF;
+    font-family: dotum;
+    font-size: 11px;
+    height: 19px;
+    left: 15px;
+    letter-spacing: -1px;
+    padding: 3px 0 0 25px;
+    position: absolute;
+    top: 104px;
+    width: 325px;
+    z-index: 20;
+}
+* html .font_help {
+    left: 0;
+}
+#nameFontTip {
+    margin: 3px 0 0 10px;
+}
+.help_message {
+    background: url("../../images/editor/ggum/ico_tip2.gif") no-repeat scroll 0 2px transparent;
+    clear: both;
+    color: #999999;
+    display: block;
+    height: 19px;
+    margin: 8px 0 0;
+    padding-left: 19px;
+}
+#cafeAddressEditor {
+    padding: 14px;
+}
+#cafeAddressEditor .previewArea {
+    border: 1px solid #C9C9C9;
+    height: 110px;
+    overflow: hidden;
+    width: 390px;
+}
+#cafeAddressEditor #cafeToolbar dl {
+    clear: both;
+    height: 22px;
+    margin-top: 10px;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+#cafeAddressEditor #cafeToolbar dd {
+    float: left;
+    margin-right: 5px;
+}
+* html #cafeAddressEditor #cafeToolbar dd {
+    margin-right: 4px;
+}
+#cafeAddressEditor #cafeToolbar dd.last {
+    margin-right: 0;
+}
+#cafeAddressEditor #cafeToolbar dd label {
+    float: left;
+    margin: 2px 4px 0 0;
+}
+#cafeAddressEditor #taFontEffect {
+    clear: both;
+    height: 22px;
+    margin-top: 14px;
+    position: relative;
+    width: 100%;
+}
+#cafeAddressEditor #taFontEffect li {
+    float: left;
+    margin-right: 15px;
+}
+#cafeAddressEditor #taFontEffect li label {
+    float: left;
+    margin: 3px 6px 0 0;
+}
+#cafeAddressEditor #taFontEffect li img {
+    float: left;
+    margin-top: 4px;
+}
+#addressFontTip {
+    margin: 3px 0 0 10px;
+}
+#menuGroupEditor {
+    padding: 3px;
+}
+.cube_input {
+    border-color: #C2C2C2 #C2C2C2 #DCDCDC #DCDCDC;
+    border-style: solid;
+    border-width: 1px;
+    height: 15px;
+    padding: 4px 0 0 7px;
+}
+#menuGroupEditor .detailDesignArea {
+    background: url("../../images/editor/ggum/title/title_l_div.gif") no-repeat scroll 0 bottom transparent;
+    margin-bottom: 17px;
+    padding: 10px 8px;
+    position: relative;
+    z-index: 1000;
+}
+.menu_layer {
+    background-image: none;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 999;
+}
+.menu_layer_over {
+    border: 1px dashed #000000;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 999;
+}
+.inner_layer_over {
+    border: 1px dashed #FFFFFF;
+}
+.inner_layer_blind {
+    background-color: #FFFFFF;
+    cursor: pointer;
+    opacity: 0;
+}
+.layer_btns {
+    height: 22px;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: -19px;
+}
+#barDesignBox #previewBarBox {
+    background: url("../../images/editor/ggum/title/title_l_patt.gif") repeat scroll 0 0 transparent;
+    border: 1px solid #FFFFFF;
+    height: 110px;
+    margin-bottom: 12px;
+    overflow: auto;
+    position: relative;
+    width: 480px;
+}
+#barDesignBox #barPreviewer {
+    border: medium none;
+    width: 860px;
+}
+#barDesignBox #barPreviewer a {
+    cursor: pointer;
+}
+#barPreviewer {
+    background-color: #7B80F6;
+    height: 37px;
+    position: absolute;
+    width: 100%;
+}
+#barPreviewer ul {
+    clear: both;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+#barPreviewer li {
+    float: left;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+#barPreviewer li.mbar {
+    color: #FFFFFF;
+    opacity: 0.3;
+    padding: 10px 0 0 1px;
+    width: 6px;
+}
+#barPreviewer li a {
+    color: #FFFFFF;
+    display: block;
+    font-family: gulim;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    margin: 10px 15px 0;
+    overflow: hidden;
+    padding: 0;
+    text-decoration: none;
+}
+#barDesignBox .btn_s_config {
+    margin: 0 3px 0 0 !important;
+}
+#barDesignBox .btn_s_remove {
+    margin: 0 !important;
+}
+#barDesignBox .bar_control {
+    clear: both;
+    height: 22px;
+    margin: 10px 0 0 6px;
+    position: relative;
+    z-index: 2;
+}
+#barDesignBox .bar_control li {
+    float: left;
+    margin-right: 20px;
+}
+#barDesignBox .bar_control li label {
+    float: left;
+    margin: 2px 10px 0 0;
+}
+#barDesignBox li.menu_add {
+    float: right;
+    margin: 0;
+}
+#btnDesignBox {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 2;
+}
+#btnDesignBox #previewBtnBox {
+    border: 1px solid #FFFFFF;
+}
+#btnDesignBox.hidden #previewBtnBox {
+    border: 0 none;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    width: 1px;
+}
+#btnDesignBox.hidden object {
+    height: 1px;
+    left: 0;
+    top: 0;
+    width: 1px;
+}
+#btnDesignBox.hidden ul {
+    display: none;
+}
+#btnDesignBox .btn_control {
+    clear: both;
+    height: 30px;
+    margin-top: 10px;
+    position: relative;
+}
+#btnDesignBox li.control {
+    float: left;
+    margin-right: 20px;
+}
+#btnDesignBox li.control label {
+    float: left;
+    margin: 2px 4px 0 0;
+}
+#btnDesignBox li.menu_add {
+    display: block;
+    float: right;
+    margin: 0;
+}
+#btnDesignBox li .titleMenuIcon {
+    margin: 2px 0 0;
+}
+#menuGroupEditor .btn_addmenu {
+    background: url("../../images/editor/ggum/title/title_l_plusbtn.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    font-size: 0;
+    height: 22px;
+    overflow: hidden;
+    text-indent: -100em;
+    width: 63px;
+}
+#menuGroupEditor a#btnDesignSelect {
+    color: #555555;
+    margin-left: 11px;
+    padding-left: 10px;
+    text-decoration: none;
+}
+#menuGroupEditor .dropdown {
+    background: url("../../images/editor/ggum/title/title_l_tria.gif") no-repeat scroll 0 0 transparent;
+}
+#menuGroupEditor .dropup {
+    background: url("../../images/editor/ggum/title/title_l_tria.gif") no-repeat scroll 0 -11px transparent;
+}
+#menuItemBlindLayer {
+    background-color: #FFFFFF;
+    height: 642px;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+#menuItemConfigLayer {
+    background-color: #FBFBFB;
+    border: 1px solid #AAAAAB;
+    left: 82px;
+    position: absolute;
+    top: 122px;
+    width: 333px;
+    z-index: 9999;
+}
+* html #menuItemConfigLayer {
+    top: 112px;
+}
+#menuItemConfigLayer dl.config_header {
+    background: url("../../images/editor/ggum/div_h.gif") repeat-x scroll 0 bottom transparent;
+    clear: both;
+    height: 30px;
+    padding: 15px 14px 0 15px;
+}
+#menuItemConfigLayer dl.config_header dt {
+    color: #333333;
+    float: left;
+    font-family: gulim;
+    font-size: 12px;
+    font-weight: bold;
+}
+#menuItemConfigLayer dl.config_header dd {
+    float: right;
+}
+#menuItemConfigLayer dl.config_header dd a {
+    background: url("../../images/editor/ggum/layer_bt_close.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    font-size: 0;
+    height: 11px;
+    text-indent: -1000em;
+    width: 11px;
+}
+#menuItemConfigLayer ul.config_control {
+    float: left;
+    margin: 16px 0 0 28px;
+}
+:first-child + html #menuItemConfigLayer ul.config_control {
+    margin-bottom: 16px;
+}
+* html #menuItemConfigLayer ul.config_control {
+    margin: 16px 0 16px 14px;
+}
+#menuItemConfigLayer ul.config_control li.control {
+    float: left;
+    margin-bottom: 6px;
+    width: 277px;
+}
+#menuItemConfigLayer ul.config_control label {
+    color: #545454;
+    float: left;
+    font-family: dotum;
+    font-size: 11px;
+    letter-spacing: -1px;
+    padding-top: 4px;
+    width: 50px;
+}
+#menuItemConfigLayer ul.config_control input {
+    float: left;
+}
+#menuItemConfigLayer ul.config_control .counter {
+    color: #999999;
+    display: block;
+    float: left;
+    font-family: tahoma;
+    font-size: 11px;
+    height: 21px;
+    padding: 2px 0 0 10px;
+}
+#menuItemConfigLayer ul.config_control .counter strong {
+    color: #5767D6;
+}
+#menuItemConfigLayer #btnIconSelectArea {
+    position: relative;
+}
+#menuItemConfigLayer #iconSelector {
+    cursor: pointer;
+    float: left;
+    height: 121px;
+    position: relative;
+    width: 191px;
+}
+#menuItemConfigLayer #selectedIconBox {
+    background-color: transparent;
+    border: 1px solid #6A6A6A;
+    cursor: pointer;
+    height: 29px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 37px;
+}
+#menuItemConfigLayer .A01 {
+    background: url("../../images/editor/ggum/title/A01_select_rs.gif") no-repeat scroll 0 0 transparent;
+}
+#menuItemConfigLayer .A02 {
+    background: url("../../images/editor/ggum/title/A02_select_rs.gif") no-repeat scroll 0 0 transparent;
+}
+#menuItemConfigLayer .A03 {
+    background: url("../../images/editor/ggum/title/A03_select_rs.gif") no-repeat scroll 0 0 transparent;
+}
+#menuItemConfigLayer .A04 {
+    background: url("../../images/editor/ggum/title/A04_select_rs.gif") no-repeat scroll 0 0 transparent;
+}
+#menuItemConfigLayer .A05 {
+    background: url("../../images/editor/ggum/title/A05_select_rs.gif") no-repeat scroll 0 0 transparent;
+}
+#menuItemConfigLayer .A06 {
+    background: url("../../images/editor/ggum/title/A06_select_rs.gif") no-repeat scroll 0 0 transparent;
+}
+#menuItemConfigLayer .B01 {
+    background: url("../../images/editor/ggum/title/B01_select_rs.gif") no-repeat scroll 0 0 transparent;
+}
+#menuItemConfigLayer .B02 {
+    background: url("../../images/editor/ggum/title/B02_select_rs.gif") no-repeat scroll 0 0 transparent;
+}
+#menuItemConfigLayer .B03 {
+    background: url("../../images/editor/ggum/title/B03_select_rs.gif") no-repeat scroll 0 0 transparent;
+}
+#menuItemConfigLayer .B04 {
+    background: url("../../images/editor/ggum/title/B04_select_rs.gif") no-repeat scroll 0 0 transparent;
+}
+#menuItemConfigLayer .B05 {
+    background: url("../../images/editor/ggum/title/B05_select_rs.gif") no-repeat scroll 0 0 transparent;
+}
+#menuItemConfigLayer .B06 {
+    background: url("../../images/editor/ggum/title/B06_select_rs.gif") no-repeat scroll 0 0 transparent;
+}
+#noticeBoardText {
+    background: url("../../images/editor/ggum/ico_warning.gif") no-repeat scroll 0 3px transparent;
+    color: #555555;
+    float: left;
+    font-family: dotum;
+    font-size: 11px;
+    margin: 0 0 14px 28px;
+    padding: 0 0 0 22px;
+}
+#hiddenBoardTip {
+    margin: 2px 0 0 4px;
+}
+#noBoardTip {
+    margin: 2px 0 0 4px;
+}
+#disabledConfigLayer {
+    background-color: #FFFFFF;
+    height: 60px;
+    left: 20px;
+    opacity: 0.6;
+    position: absolute;
+    top: 55px;
+    width: 255px;
+    z-index: 10;
+}
+#menuItemConfigLayer #menuItemListArea {
+    float: left;
+}
+#menuItemConfigLayer div.config_footer {
+    background: url("../../images/editor/ggum/div_h.gif") repeat-x scroll 0 0 transparent;
+    clear: both;
+    height: 21px;
+    padding: 8px 0 9px;
+    text-align: center;
+}
+#menuItemConfigLayer div.config_footer .btn_config_confirm {
+    background: url("../../images/editor/ggum/layer_bt_submit2.gif") no-repeat scroll 0 0 transparent;
+    margin-right: 5px;
+}
+#menuItemConfigLayer div.config_footer .btn_config_cancel {
+    background: url("../../images/editor/ggum/layer_bt_submit2.gif") no-repeat scroll -38px 0 transparent;
+}
+#menuGroupEditor #menuDesignSetArea {
+    padding: 11px 11px 0;
+}
+#menuGroupEditor .menu_category {
+    background: url("../../images/editor/ggum/title/title_l_dotline.gif") repeat-x scroll 0 0 transparent;
+    clear: both;
+    height: 20px;
+    margin-bottom: 11px;
+    padding-top: 10px;
+}
+#menuGroupEditor .menu_category li {
+    float: left;
+    margin-left: 16px;
+}
+#menuGroupEditor #menuDesignSetList {
+    position: relative;
+}
+* html #menuGroupEditor #menuDesignSetList {
+    float: left;
+    width: 476px;
+}
+:first-child + html #menuGroupEditor #menuDesignSetList {
+    float: left;
+    width: 476px;
+}
+#menuGroupEditor #menuDesignSetList ul {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #C9C9C9 -moz-use-text-color -moz-use-text-color #C9C9C9;
+    border-style: solid none none solid;
+    border-width: 1px medium medium 1px;
+    float: left;
+}
+#menuGroupEditor #menuDesignSetList ul.BAR li {
+    border-bottom: 1px solid #C9C9C9;
+    border-right: 1px solid #C9C9C9;
+    cursor: pointer;
+    float: left;
+    height: 53px;
+    width: 236px;
+}
+#menuGroupEditor #menuDesignSetList ul.BTN li {
+    border-bottom: 1px solid #C9C9C9;
+    border-right: 1px solid #C9C9C9;
+    cursor: pointer;
+    float: left;
+    height: 71px;
+    width: 236px;
+}
+#menuGroupEditor #menuDesignSetList ul.BAR img {
+    float: left;
+    height: 53px;
+    width: 236px;
+}
+#menuGroupEditor #menuDesignSetList ul.BTN img {
+    float: left;
+    height: 71px;
+    width: 236px;
+}
+#menuGroupEditor #selectedMenuDesign {
+    border: 2px solid #5767D6;
+    height: 51px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 234px;
+    z-index: 100;
+}
+#searchEditor {
+    clear: both;
+    height: 296px;
+    padding: 14px 14px 0;
+}
+#searchEditor ul {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #C9C9C9 #C9C9C9 -moz-use-text-color;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+    float: left;
+}
+#searchEditor li {
+    border-bottom: 1px solid #C9C9C9;
+    cursor: pointer;
+    float: left;
+    height: 50px;
+    width: 250px;
+}
+#searchEditor #selectedSearchBox {
+    border: 2px solid #5767D6;
+    height: 49px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 248px;
+}
+#cafeInfoBoxEditor {
+    padding: 1px;
+}
+#cafeInfoBoxEditor .previewer {
+    padding: 13px 13px 0;
+}
+* html #cafeInfoBoxEditor .previewer {
+    padding-bottom: 10px;
+}
+#cafeInfoBoxEditor #counterPreviewer {
+    height: 170px;
+    width: 360px;
+}
+#cafeInfoBoxEditor #cafeInfoControl {
+    background: url("../../images/editor/ggum/title/title_l_div.gif") no-repeat scroll 0 bottom transparent;
+    margin-bottom: 10px;
+    padding: 5px 13px 15px;
+}
+#cafeInfoBoxEditor #cafeInfoControl dl {
+    clear: both;
+    height: 22px;
+    margin-top: 12px;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+#cafeInfoBoxEditor #cafeInfoControl dd {
+    float: left;
+    margin-right: 15px;
+}
+#cafeInfoBoxEditor #cafeInfoControl dd label {
+    color: #555555;
+    float: left;
+    margin: 2px 6px 0 0;
+}
+#cafeInfoBoxEditor #cafeInfoControl dd.last {
+    margin-right: 0;
+}
+#cafeInfoBoxEditor #cafeInfoControl dl.top_control {
+    z-index: 2;
+}
+#cafeInfoBoxEditor #cafeInfoControl dl.bot_control label {
+    margin-right: 4px;
+}
+#cafeInfoBoxEditor #cafeInfoControl dl.bot_control dd {
+    margin-right: 8px;
+}
+#cafeInfoBoxEditor #cafeInfoControl dl.bot_control dd.last {
+    margin: 0 0 0 10px;
+}
+* html #cafeInfoBoxEditor #cafeInfoControl dl.bot_control dd.last {
+    margin-left: 5px;
+}
+#cafeInfoBoxEditor #cafeInfoControl dl.bot_control #cornerSlider {
+    float: left;
+    margin-top: 4px;
+}
+#cafeInfoBoxEditor #cafeInfoControl dl.bot_control #alphaSlider {
+    float: left;
+    margin-top: 4px;
+}
+#cafeInfoBoxEditor a#btnOpenDesign {
+    color: #555555;
+    margin-left: 14px;
+    padding-left: 10px;
+    text-decoration: none;
+}
+#cafeInfoBoxEditor .dropdown {
+    background: url("../../images/editor/ggum/title/title_l_tria.gif") no-repeat scroll 0 0 transparent;
+}
+#cafeInfoBoxEditor .dropup {
+    background: url("../../images/editor/ggum/title/title_l_tria.gif") no-repeat scroll 0 -11px transparent;
+}
+#cafeInfoBoxEditor #cafeInfoDesignSetArea {
+    padding: 8px 12px 12px;
+}
+#cafeInfoBoxEditor #cafeInfoDesignSetArea .line {
+    background: url("../../images/editor/ggum/title/title_l_dotline.gif") repeat-x scroll 0 0 transparent;
+    height: 15px;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+}
+#cafeInfoBoxEditor #cafeInfoDesignSetList {
+    position: relative;
+}
+* html #cafeInfoBoxEditor #cafeInfoDesignSetList {
+    float: left;
+    width: 362px;
+}
+:first-child + html #cafeInfoBoxEditor #cafeInfoDesignSetList {
+    float: left;
+    width: 362px;
+}
+#cafeInfoBoxEditor #cafeInfoDesignSetList ul {
+    border-left: 1px solid #C9C9C9;
+    border-top: 1px solid #C9C9C9;
+    float: left;
+}
+#cafeInfoBoxEditor #cafeInfoDesignSetList li {
+    border-bottom: 1px solid #C9C9C9;
+    border-right: 1px solid #C9C9C9;
+    cursor: pointer;
+    float: left;
+    height: 119px;
+    width: 179px;
+}
+#cafeInfoBoxEditor #selectedCounterDesign {
+    border: 2px solid #5767D6;
+    height: 118px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 178px;
+}
+body#repositoryPage {
+    background-color: #F6F6F6;
+    height: 100%;
+}
+.repository_wrap {
+    margin: 25px auto 0;
+    width: 975px;
+}
+.repository_wrap .stage_header {
+    background: url("../../images/editor/ggum/storage/bg_t.gif") no-repeat scroll 0 0 transparent;
+    font-size: 0;
+    height: 4px;
+    width: 100%;
+}
+.repository_wrap .stage_body {
+    background: none repeat scroll 0 0 #FBFBFB;
+    border-left: 1px solid #CBCBCB;
+    border-right: 1px solid #CBCBCB;
+    padding: 22px 30px 18px;
+}
+.repository_wrap .stage_footer {
+    background: url("../../images/editor/ggum/storage/bg_b.gif") no-repeat scroll 0 0 transparent;
+    font-size: 0;
+    height: 7px;
+    width: 100%;
+}
+.repository_tab {
+    clear: both;
+    height: 30px;
+    margin-bottom: 18px;
+    width: 911px;
+}
+.repository_tab dt {
+    border-bottom: 2px solid #B6C1EC;
+    float: left;
+    height: 28px;
+    width: 618px;
+}
+.repository_tab dt label {
+    background: url("../../images/editor/ggum/storage/title.gif") no-repeat scroll 10px 2px transparent;
+    float: left;
+    height: 28px;
+    text-indent: -1000em;
+    width: 55px;
+}
+.repository_tab dt span {
+    float: left;
+}
+.admin_control {
+    background: none repeat scroll 0 0 #F8F8F8;
+    border-bottom: 1px solid #DDDDDD;
+    border-top: 1px solid #DDDDDD;
+    clear: both;
+    height: 27px;
+    margin-top: -1px;
+    padding-top: 5px;
+}
+.admin_control span {
+    float: left;
+}
+.admin_control span.chk {
+    margin-right: 10px;
+    padding: 5px 0 0 10px;
+}
+.admin_control span.countChg {
+    float: right;
+    padding: 0 10px 0 0;
+}
+.admin_control span.bar {
+    background: url("../../images/editor/ggum/lin_sec03.gif") no-repeat scroll 0 2px transparent;
+    margin-left: 6px;
+    padding-left: 7px;
+}
+.admin_control label {
+    color: #666666;
+    float: left;
+    padding: 3px 5px 0 0;
+}
+:first-child + html .admin_control label {
+    padding-top: 2px;
+}
+.no_lineB {
+    border-bottom: medium none;
+}
+.btn_delete {
+    background: url("../../images/editor/ggum/btn_event_002.gif") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    float: left;
+    height: 22px;
+    overflow: hidden;
+    text-indent: -1000em;
+    width: 34px;
+}
+#repositoryListBody tr.selected {
+    background-color: #FFFFE5;
+}
+.repository_tab dt span.title_bar {
+    color: #E7E7E7;
+    font-size: 14px;
+    padding: 0 10px;
+}
+.repository_tab dt span.notice {
+    color: #6173EC;
+    padding-top: 2px;
+}
+.repository_tab dt span.notice a {
+    color: #666666;
+    text-decoration: underline;
+}
+.repository_tab dd {
+    float: right;
+    width: 293px;
+}
+.repository_tab ul {
+    background: url("../../images/editor/ggum/storage/tab_b.gif") no-repeat scroll 0 0 transparent;
+    float: left;
+    padding-left: 16px;
+    width: 277px;
+}
+.repository_tab ul.home {
+    background-position: 0 0;
+}
+.repository_tab ul.entrance {
+    background-position: 0 -30px;
+}
+.repository_tab ul.title {
+    background-position: 0 -60px;
+}
+.repository_tab ul li {
+    float: left;
+}
+.repository_tab ul li a {
+    display: block;
+    height: 30px;
+    overflow: hidden;
+    text-indent: -100em;
+    width: 84px;
+}
+.repository_tab ul li a.entrance {
+    width: 89px;
+}
+.repository_info {
+    color: #666666;
+    font-family: gulim;
+    font-size: 12px;
+    margin: 0 0 10px 10px;
+}
+.repository_table {
+    background: url("../../images/editor/ggum/boa_shadow.gif") repeat-x scroll 0 29px transparent;
+    border-collapse: collapse;
+    clear: both;
+    width: 911px;
+}
+:first-child + html .repository_table {
+    background: url("../../images/editor/ggum/boa_shadow.gif") repeat-x scroll 0 30px transparent;
+}
+.repository_table th {
+    background: url("../../images/editor/ggum/boa_bg.gif") repeat-x scroll 0 0 transparent;
+    border-bottom: 1px solid #C7C7C7;
+    border-top: 1px solid #C7C7C7;
+    font-weight: normal;
+    padding: 6px 0 2px;
+    text-align: center;
+}
+:first-child + html .repository_table th {
+    padding: 6px 0 3px;
+}
+* html .repository_table th {
+    padding: 6px 0 3px;
+}
+.repository_table th.sort {
+    padding: 0;
+}
+:first-child + html .repository_table th.sort {
+    padding: 0;
+}
+.repository_table th div {
+    padding: 6px 1px 2px;
+}
+:first-child + html .repository_table th div {
+    padding-bottom: 3px;
+}
+* html .repository_table th div {
+    padding: 8px 1px 5px;
+}
+.repository_table th.lineL {
+    border-left: 1px solid #C7C7C7;
+}
+.repository_table th.lineR {
+    border-right: 1px solid #C7C7C7;
+}
+.repository_table th.lbar {
+    background: url("../../images/editor/ggum/boa_line.gif") repeat-x scroll 0 0 transparent;
+}
+.repository_table th img {
+    margin-left: 4px;
+    vertical-align: 2px;
+}
+.repository_table th div {
+    cursor: pointer;
+}
+.repository_table th.sort {
+    padding: 0;
+}
+.repository_table div.sort_desc {
+    background: url("../../images/editor/ggum/boa_bg_on.gif") repeat-x scroll 0 0 transparent;
+    border-left: 1px solid #E6E6E6;
+    padding-left: 0;
+}
+.repository_table div.sort_asc {
+    background: url("../../images/editor/ggum/boa_bg_on.gif") repeat-x scroll 0 0 transparent;
+    border-left: 1px solid #E6E6E6;
+    padding-left: 0;
+}
+.repository_table div.sort_desc img {
+    background: url("../../images/editor/ggum/btn_arrow_click.gif") repeat scroll 0 0 transparent;
+}
+.repository_table div.sort_asc img {
+    background: url("../../images/editor/ggum/btn_arrow_click02.gif") repeat scroll 0 0 transparent;
+}
+.repository_table div.sort_off img {
+    background: url("../../images/editor/ggum/btn_arrow.gif") repeat scroll 0 0 transparent;
+}
+.repository_table div.sort_over {
+    background: url("../../images/editor/ggum/boa_bg_over.gif") repeat-x scroll 0 0 transparent;
+    border-left: 1px solid #E6E6E6;
+    padding-left: 0;
+}
+.repository_table div.sort_over img {
+    background: url("../../images/editor/ggum/btn_arrow_over.gif") repeat scroll 0 0 transparent;
+}
+.repositoryListBody {
+    min-height: 320px;
+}
+.repository_table2 {
+    border-collapse: collapse;
+    clear: both;
+    table-layout: fixed;
+    width: 911px;
+}
+.repository_table2 td {
+    border-bottom: 1px solid #EEEEEE;
+    padding: 7px 10px 4px;
+    word-wrap: break-word;
+}
+.repository_table2 td {
+    border-bottom: 1px solid #EEEEEE;
+    padding: 7px 10px 4px;
+    word-wrap: break-word;
+}
+.repository_table2 td a {
+    color: #444444;
+    text-decoration: none;
+}
+.repository_table2 td a:hover {
+    color: #444444;
+    text-decoration: underline;
+}
+.repository_table2 td.date {
+    color: #666666;
+    font-family: Tahoma;
+    font-size: 11px;
+    padding-left: 0;
+    text-align: center;
+}
+.repository_table2 .btn_modify {
+    background: url("../../images/editor/ggum/storage/bt_manage.gif") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 19px;
+    margin-right: 3px;
+    overflow: hidden;
+    text-indent: -100em;
+    width: 18px;
+}
+.repository_table2 .btn_delete {
+    background: url("../../images/editor/ggum/storage/bt_manage.gif") no-repeat scroll -18px 0 transparent;
+    float: left;
+    height: 19px;
+    margin-right: 3px;
+    overflow: hidden;
+    text-indent: -100em;
+    width: 18px;
+}
+.repository_table2 .btn_apply {
+    background: url("../../images/editor/ggum/storage/bt_manage.gif") no-repeat scroll -36px 0 transparent;
+    float: left;
+    height: 19px;
+    margin-right: 3px;
+    overflow: hidden;
+    text-indent: -100em;
+    width: 29px;
+}
+.repository_table2 .btn_preview {
+    background: url("../../images/editor/ggum/storage/bt_manage.gif") no-repeat scroll -65px 0 transparent;
+    float: left;
+    height: 19px;
+    overflow: hidden;
+    text-indent: -100em;
+    width: 50px;
+}
+#recommendedBody {
+    background-color: #DEDEDE;
+}
+.recommendedset_slide_bg {
+    background: url("../../images/editor/ggum/propose/pro_bg.jpg") repeat-x scroll 0 0 transparent;
+}
+.recommendedsetStep1 {
+    background: url("../../images/editor/ggum/propose/pro_barbg.gif") repeat-x scroll 0 0 transparent;
+    position: relative;
+    width: 100%;
+    z-index: 999;
+}
+.recommendedsetStep1 dl {
+    clear: both;
+    height: 51px;
+    margin: 0 auto;
+    width: 990px;
+}
+.recommendedsetStep1 dt {
+    background: url("../../images/editor/ggum/propose/pro_title05.gif") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 51px;
+    text-indent: -1000em;
+    width: 276px;
+}
+.recommendedsetStep1 dt div {
+    float: right;
+    margin-top: 14px;
+}
+.recommendedsetStep1 dd {
+    float: right;
+    margin: 0 15px 0 0;
+    padding: 14px 0;
+    width: 163px;
+}
+.recommendedsetStep1 ul {
+    background: url("../../images/editor/ggum/propose/pro_viewbtn_n.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 23px;
+    overflow: hidden;
+    position: absolute;
+    text-indent: -1000em;
+    width: 163px;
+}
+.recommendedsetStep1 ul.listType {
+    background-position: 0 0;
+}
+.recommendedsetStep1 ul.slideType {
+    background-position: 0 -23px;
+}
+.recommendedsetStep1 li.btnRecommendedSlideType {
+    float: left;
+    height: 23px;
+    width: 90px;
+}
+.recommendedsetStep1 li.btnRecommendedListType {
+    float: left;
+    height: 23px;
+    width: 73px;
+}
+.recommendedsetStep1 li.btnRecommendedSlideType a {
+    float: left;
+    height: 23px;
+    overflow: hidden;
+    text-indent: -1000em;
+    width: 90px;
+}
+.recommendedsetStep1 li.btnRecommendedListType a {
+    float: left;
+    height: 23px;
+    overflow: hidden;
+    text-indent: -1000em;
+    width: 73px;
+}
+.recommendedset_slide_bg #recommendedSet {
+    margin: 0 auto;
+    padding-top: 0;
+    text-align: center;
+    width: 971px;
+}
+#recommendedSet {
+    margin: 0 auto;
+    padding-top: 31px;
+    width: 971px;
+}
+#recommendedSet ol {
+    float: left;
+    width: 990px;
+}
+#recommendedSet li {
+    background: url("../../images/editor/ggum/propose/pro_thumbbg.gif") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 286px;
+    margin-bottom: 32px;
+    width: 217px;
+}
+#recommendedSet li.vspace {
+    background: none repeat scroll 0 0 transparent;
+    float: left;
+    height: 262px;
+    width: 34px;
+}
+#recommendedSet li img.thumb {
+    display: block;
+}
+#recommendedSet li div.thumb_box_selected {
+    border: 2px solid #5C68E2;
+    cursor: pointer;
+    padding: 6px;
+    position: relative;
+}
+#recommendedSet li div.thumb_box {
+    cursor: pointer;
+    padding: 8px 0 8px 8px;
+    position: relative;
+}
+#recommendedSet li div .series_left {
+    background: url("../../images/editor/ggum/propose/btn_pre_n.png") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    height: 39px;
+    left: 4px;
+    position: absolute;
+    top: 110px;
+    width: 24px;
+}
+#recommendedSet li div .series_right {
+    background: url("../../images/editor/ggum/propose/btn_next_n.png") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    height: 39px;
+    position: absolute;
+    right: 4px;
+    top: 110px;
+    width: 24px;
+}
+* html #recommendedSet li div .series_left {
+    background: none repeat scroll 0 0 transparent;
+}
+* html #recommendedSet li div .series_right {
+    background: none repeat scroll 0 0 transparent;
+}
+#recommendedSet li div.thumb_box_selected .series_left {
+    display: block;
+}
+#recommendedSet li div.thumb_box .series_left {
+    display: none;
+}
+#recommendedSet li div.thumb_box_selected .series_right {
+    display: block;
+}
+#recommendedSet li div.thumb_box .series_right {
+    display: none;
+}
+#recommendedSet li dl {
+    clear: both;
+    height: 21px;
+    padding: 3px 1px 0 2px;
+    width: 100%;
+}
+#recommendedSet li dt {
+    float: left;
+}
+#recommendedSet li dd {
+    float: right;
+    width: 25px;
+}
+#recommendedSet li dd a {
+    background: url("../../images/editor/ggum/propose/pro_zoombtn.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    float: right;
+    height: 21px;
+    overflow: hidden;
+    text-indent: -1000em;
+    width: 21px;
+}
+#recommendedSet #selectedRecommendedBox {
+    border: 3px solid #5767D6;
+    height: 261px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 215px;
+    z-index: -1;
+}
+#recommendedSet .recommended_line {
+    background: url("../../images/editor/ggum/propose/pro_bottomline.gif") repeat-x scroll 0 0 transparent;
+    clear: both;
+    height: 2px;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+}
+#recommendedSet #paging {
+    padding-top: 24px;
+}
+.recommendedsetStep2 {
+    background: url("../../images/editor/ggum/propose/pro_barbg.gif") repeat-x scroll 0 0 transparent;
+}
+.recommendedsetStep2 dl {
+    clear: both;
+    height: 51px;
+    margin: 0 auto;
+    width: 990px;
+}
+.recommendedsetStep2 dt {
+    background: url("../../images/editor/ggum/propose/pro_title04.gif") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 51px;
+    text-indent: -1000em;
+    width: 237px;
+}
+.recommendedsetStep2 dd {
+    float: right;
+}
+.recommendedsetStep2 ul {
+    float: left;
+}
+.recommendedsetStep2 li {
+    display: inline;
+    float: left;
+    margin: 0 15px 0 0;
+    padding: 19px 0 0;
+}
+.recommendedsetStep2 li.button {
+    padding: 8px 0 0;
+}
+.recommendedsetStep2 li img {
+    float: left;
+}
+.recommendedsetStep2 li label.my_entrance {
+    background: url("../../images/editor/ggum/propose/pro_mine03.gif") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    float: left;
+    height: 13px;
+    text-indent: -1000em;
+    width: 68px;
+}
+.recommendedsetStep2 li label.my_title {
+    background: url("../../images/editor/ggum/propose/pro_mine04.gif") no-repeat scroll 0 0 transparent;
+    cursor: pointer;
+    float: left;
+    height: 13px;
+    text-indent: -1000em;
+    width: 78px;
+}
+.recommendedsetStep2 li a.btnRecommendedList {
+    background: url("../../images/editor/ggum/propose/pro_listbtn02.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    float: left;
+    height: 34px;
+    margin-right: 3px;
+    overflow: hidden;
+    text-indent: -1000em;
+    width: 80px;
+}
+.recommendedsetStep2 li a.btnRecommendedApply {
+    background: url("../../images/editor/ggum/propose/pro_applybtn.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    float: left;
+    height: 34px;
+    overflow: hidden;
+    text-indent: -1000em;
+    width: 74px;
+}
+#recommendedEditLayer {
+    background-color: #FFFFFF;
+    border: 1px solid #AAAAAA;
+    font: 12px;
+    position: absolute;
+    width: 291px;
+    z-index: 1000;
+}
+#recommendedEditLayer .popTit {
+    background: url("../../images/editor/ggum/layer_top_bt_03.gif") no-repeat scroll 0 0 transparent;
+    height: 41px;
+    position: relative;
+    width: 291px;
+}
+#recommendedEditLayer .homeBoardEditLayer {
+    background-color: #F7F7F7;
+    border: 1px solid #E8E8E8;
+    height: 113px;
+    margin: 0 12px;
+    padding: 0;
+    width: 265px;
+}
+#recommendedEditLayer .EntranceEditLayer {
+    background-color: #F7F7F7;
+    border: 1px solid #E8E8E8;
+    height: 43px;
+    margin: 0 12px;
+    padding: 0;
+    width: 265px;
+}
+#recommendedEditLayer #homeBoardEditList {
+    height: 21px;
+    line-height: 1.6;
+    padding: 11px 0 11px 11px;
+    position: relative;
+    z-index: 1;
+}
+#recommendedEditLayer #homeBoardEditList #homeBoardPotSel {
+    color: #333333;
+    font: 12px 援대┝,gulim,sans-serif;
+    width: 150px;
+}
+#recommendedEditLayer #homeBoardEditType {
+    background: url("../../images/editor/ggum/div_h.gif") repeat-x scroll left top transparent;
+    margin: 0 10px;
+    padding: 10px 0 0;
+}
+#recommendedEditLayer #homeBoardEditType .homeBoardEditTypeList li {
+    float: left;
+    height: 48px;
+    margin: 0 0 0 15px;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    width: 37px;
+}
+#recommendedEditLayer #homeBoardEditType .homeBoardEditTypeList li.first {
+    margin: 0;
+}
+#recommendedEditLayer #homeBoardEditType .homeBoardEditTypeList li a {
+    color: #666666;
+    display: block;
+    font: 11px;
+    letter-spacing: -1px;
+    text-align: center;
+    width: 37px;
+}
+#recommendedEditLayer #homeBoardEditType .homeBoardEditTypeList .selected_icon {
+    border: 2px solid #5767D6;
+    height: 25px;
+    left: 0;
+    top: 0;
+    width: 33px;
+}
+#recommendedEditLayer #homeBoardEditType .homeBoardEditTypeList .wf_boardEditIcon {
+    background-image: url("../../images/editor/ggum/dummy_board_type_ico2.gif");
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: block;
+    height: 29px;
+    margin-bottom: 3px;
+    width: 37px;
+}
+.recommended_apply_loadingBox {
+    height: 105px;
+    position: absolute;
+    width: 263px;
+    z-index: 89999;
+}
+#loading_bg {
+    background: url("../../images/editor/ggum/propose/pro_loadingbg.png") no-repeat scroll 0 0 transparent;
+    height: 105px;
+    position: absolute;
+    width: 263px;
+    z-index: 89999;
+}
+* html #loading_bg {
+    background: none repeat scroll 0 0 transparent;
+}
+#loading_step {
+    background-image: url("../../images/editor/ggum/propose/pro_loadingtext.gif");
+    background-repeat: no-repeat;
+    height: 83px;
+    left: 10px;
+    position: absolute;
+    text-align: center;
+    top: 10px;
+    width: 241px;
+    z-index: 89999;
+}
+#loading_step img {
+    left: 24px;
+    position: absolute;
+    top: 18px;
+}
+.step1_on {
+    background-position: 0 0;
+}
+.step2_on {
+    background-position: 0 -83px;
+}
+.step3_on {
+    background-position: 0 -166px;
+}
+.recommended_select_layer {
+    height: 543px;
+    position: absolute;
+    width: 429px;
+    z-index: 40000;
+}
+#select_layer_bg {
+    background: url("../../images/editor/ggum/propose/pro_layerbg02.png") no-repeat scroll 0 0 transparent;
+    height: 543px;
+    position: absolute;
+    width: 429px;
+    z-index: 40000;
+}
+* html #select_layer_bg {
+    background: none repeat scroll 0 0 transparent;
+}
+#selectedItem {
+    height: 543px;
+    position: relative;
+    width: 429px;
+    z-index: 40000;
+}
+#selectedItem a.layer_close_btn {
+    background: url("../../images/editor/ggum/select_layer_close.gif") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 11px;
+    overflow: hidden;
+    position: absolute;
+    right: 14px;
+    text-indent: -1000em;
+    top: 17px;
+    width: 12px;
+    z-index: 40000;
+}
+#selectedItem #selectedImg {
+    margin: 60px 0 0 57px;
+    position: absolute;
+}
+#selectedItem #selectedName {
+    margin: 26px 0 0 57px;
+}
+#selectedItem a.layer_select_btn {
+    background: url("../../images/editor/ggum/propose/pro_layerbtn.gif") no-repeat scroll 0 0 transparent;
+    bottom: 18px;
+    display: block;
+    height: 30px;
+    left: 165px;
+    overflow: hidden;
+    position: absolute;
+    text-indent: -1000em;
+    width: 49px;
+    z-index: 40000;
+}
+#selectedItem a.layer_cancel_btn {
+    background: url("../../images/editor/ggum/propose/pro_layerbtn.gif") no-repeat scroll 0 -30px transparent;
+    bottom: 18px;
+    display: block;
+    height: 30px;
+    left: 214px;
+    overflow: hidden;
+    position: absolute;
+    text-indent: -1000em;
+    width: 49px;
+    z-index: 40000;
+}
+#MessageBox.message_box {
+    color: #333333;
+    position: absolute;
+    width: 291px;
+    z-index: 30002;
+}
+#MessageBox.message_box .msgCont {
+    color: #999999;
+}
+#MessageBox.message_box .message_box_round_bg {
+    background: url("../../images/editor/ggum/alert_bg_1.png") no-repeat scroll 0 0 transparent;
+    height: 164px;
+    width: 297px;
+}
+* html #MessageBox.message_box .message_box_round_bg {
+    background: none repeat scroll 0 0 transparent;
+}
+#MessageBox.message_box .message_box_round {
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+#MessageBox.message_box button {
+    border: 0 none;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 0;
+}
+#MessageBox.message_box button span {
+    visibility: hidden;
+}
+#MessageBox.message_box button.close {
+    background: url("../../images/editor/ggum/layer_bt_close.gif") no-repeat scroll 0 0 transparent;
+    height: 11px;
+    position: absolute;
+    right: 8px;
+    top: 9px;
+    width: 11px;
+}
+#MessageBox.message_box button.confirm {
+    background: url("../../images/editor/ggum/layer_bt_submit_n.gif") no-repeat scroll 0 0 transparent;
+    height: 21px;
+    width: 38px;
+}
+#MessageBox.message_box .message_box_footer_saved button.confirm {
+    background: url("../../images/editor/ggum/layer_bt_submit_n.gif") no-repeat scroll -191px 0 transparent;
+    height: 21px;
+    width: 106px;
+}
+#MessageBox.message_box button.cancel {
+    background: url("../../images/editor/ggum/layer_bt_submit_n.gif") no-repeat scroll -38px 0 transparent;
+    height: 21px;
+    margin-left: 5px;
+    width: 38px;
+}
+#MessageBox.message_box .message_box_footer_saved button.cancel {
+    background: url("../../images/editor/ggum/layer_bt_submit2.gif") no-repeat scroll -114px 0 transparent;
+    height: 21px;
+    margin-left: 5px;
+    width: 77px;
+}
+#MessageBox.message_box .message_box_footer_saved_false button.cancel {
+    background: url("../../images/editor/ggum/btn_gocom.gif") no-repeat scroll 0 0 transparent;
+}
+#MessageBox.message_box .message_box_header {
+    height: 25px;
+    width: 291px;
+}
+#MessageBox.message_box .message_box_footer {
+    margin: 0 12px;
+    padding: 0;
+    text-align: center;
+}
+#MessageBox.message_box .message_box_content {
+    height: 105px;
+    margin: 0 20px;
+    padding: 0;
+    text-align: center;
+    width: 255px;
+}
+#MessageBox.message_box .message_box_content .counter {
+    color: #999999;
+    display: block;
+    float: left;
+    font-family: tahoma;
+    font-size: 11px;
+    height: 21px;
+    padding: 2px 0 0 10px;
+}
+#MessageBox.message_box .message_box_content .counter strong {
+    color: #5767D6;
+}
+#MessageBox.message_box .message_box_content .mbc_saved_box {
+    background-color: #F7F7F7;
+    border: 1px solid #E8E8E8;
+    margin-top: 9px;
+    padding: 8px;
+    width: 205px;
+}
+#MessageBox.message_box .message_box_content .mbc_saved_box span {
+    color: #5867D5;
+    word-wrap: break-word;
+}
+#MessageBox.mb_type_pageSaveConfirm {
+    color: #333333;
+    position: absolute;
+    width: 291px;
+}
+#MessageBox.mb_type_pageSaveConfirm .message_box_round_bg {
+    background: url("../../images/editor/ggum/alert_bg_2.png") no-repeat scroll 0 0 transparent;
+    height: 184px;
+    width: 297px;
+}
+* html #MessageBox.mb_type_pageSaveConfirm .message_box_round_bg {
+    background: none repeat scroll 0 0 transparent;
+}
+#MessageBox.mb_type_pageSaveConfirm .message_box_content {
+    height: 125px;
+    text-align: left;
+}
+#MessageBox.mb_type_pageSaveConfirm .message_box_content .mbc_text {
+    color: #333333;
+    font-family: gulim,"援대┝";
+    font-size: 12px;
+    padding-top: 18px;
+    text-align: left;
+}
+#MessageBox.mb_type_pageSaveConfirm .message_box_content .mbc_name_show {
+    opacity: 1;
+}
+#MessageBox.mb_type_pageSaveConfirm .message_box_content .mbc_name_hidden {
+    opacity: 0.4;
+}
+#MessageBox.mb_type_pageSaveConfirm .message_box_content .mbc_name_area {
+    background-color: #F7F7F7;
+    border: 1px solid #E8E8E8;
+    clear: both;
+    display: block;
+    height: 39px;
+    margin: 0 0 5px;
+    padding: 0;
+    position: relative;
+    text-align: left;
+    width: 249px;
+}
+#MessageBox.mb_type_pageSaveConfirm .message_box_content .mbc_chk_area {
+    clear: both;
+    display: block;
+    height: 21px;
+    margin: 0;
+    padding: 9px 0 0;
+    text-align: left;
+}
+#MessageBox.mb_type_pageSaveConfirm .message_box_content label {
+    color: #666666;
+    font-family: "援대┝",gulim;
+    font-size: 12px;
+    line-height: 12px;
+}
+#MessageBox.mb_type_pageSaveConfirm .message_box_content .mbc_inp {
+    border: 1px solid #DDDDDD;
+    color: #666666;
+    display: block;
+    float: left;
+    font-family: "援대┝",gulim;
+    font-size: 12px;
+    height: 17px;
+    left: 0;
+    margin: 7px 0 0 7px;
+    padding: 2px 0 0 2px;
+    position: absolute;
+    text-align: left;
+    top: 0;
+    width: 179px;
+}
+#MessageBox.mb_type_pageSaveConfirm .message_box_content .counter {
+    float: left;
+    left: 193px;
+    padding: 8px 0 0 7px;
+    position: absolute;
+    text-align: left;
+    top: 0;
+}
+#MessageBox.mb_type_pageSaveConfirm .message_box_footer {
+    border-top: medium none;
+}
+#MessageBox.mb_type_confirm .message_box_content .mbc_text_icon, #MessageBox.mb_type_alert .message_box_content .mbc_text_icon {
+    background: url("../../images/editor/ggum/alert_icon.gif") no-repeat scroll 0 0 transparent;
+    line-height: 18px;
+    padding-left: 24px;
+    text-align: left;
+}
+#MessageBox.mb_type_confirm .message_box_content .mbc_text_talbe {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+}
+#MessageBox.mb_type_confirm .message_box_content .mbc_text_talbe td {
+    color: #333333;
+    font-family: gulim,"援대┝";
+    font-size: 12px;
+}
+#MessageBox.mb_type_addPageLogConfirm .message_box_footer {
+    border-top: medium none;
+}
+#MessageBox.mb_type_addPageLogConfirm .message_box_content {
+    height: 105px;
+    text-align: left;
+}
+#MessageBox.mb_type_addPageLogConfirm .message_box_content .mbc_text {
+    padding-top: 18px;
+    text-align: left;
+}
+#MessageBox.mb_type_addPageLogConfirm .message_box_content .mbc_name_area {
+    background-color: #F7F7F7;
+    border: 1px solid #E8E8E8;
+    clear: both;
+    display: block;
+    height: 39px;
+    margin: 10px 0 5px;
+    padding: 0;
+    position: relative;
+    text-align: left;
+    width: 217px;
+}
+#MessageBox.mb_type_addPageLogConfirm .message_box_content .mbc_inp {
+    border: 1px solid #DDDDDD;
+    color: #666666;
+    display: block;
+    float: left;
+    font-family: "援대┝",gulim;
+    font-size: 12px;
+    height: 17px;
+    left: 0;
+    margin: 7px 0 0 7px;
+    padding: 2px 0 0 2px;
+    position: absolute;
+    text-align: left;
+    top: 0;
+    width: 152px;
+}
+#MessageBox.mb_type_addPageLogConfirm .message_box_content .counter {
+    float: left;
+    left: 161px;
+    padding: 8px 0 0 7px;
+    position: absolute;
+    top: 0;
+}
+#MessageBox.mb_type_progress {
+    height: 74px;
+    position: absolute;
+    width: 196px;
+    z-index: 30002;
+}
+#MessageBox.mb_type_progress .message_box_round_bg {
+    background: url("../../images/editor/ggum/alert_bg_image.png") no-repeat scroll 0 0 transparent;
+    height: 74px;
+    width: 196px;
+}
+* html #MessageBox.mb_type_progress .message_box_round_bg {
+    background: none repeat scroll 0 0 transparent;
+}
+#MessageBox.mb_type_progress .message_box_content {
+    height: 70px;
+    margin: 0;
+    text-align: left;
+}
+#MessageBox.mb_type_progress .message_box_header {
+    display: none;
+}
+#MessageBox.mb_type_progress .mbc_text {
+    display: none;
+}
+#MessageBox.mb_type_progress .mbp_bar {
+    background-color: #D3D4DE;
+    display: block;
+    height: 3px;
+    left: 46px;
+    position: absolute;
+    top: 49px;
+    width: 100px;
+}
+#remoteDesignSubTab {
+    padding-left: 6px;
+    width: 326px;
+}
+#remoteDesignSubTab li {
+    margin: 7px 0 0;
+    text-align: center;
+}
+#remoteDesignSubTab li a {
+    height: 24px;
+    line-height: 24px;
+}
+#remoteDesignSubTab li span.rmd_bar {
+    color: #CCCCCC;
+    font-family: dotum,"?룍??";
+    font-size: 11px;
+    height: 24px;
+    letter-spacing: -1px;
+    line-height: 24px;
+}
+#remoteDesignSubTab li a.selected {
+    font-weight: bold;
+}
+.rmd2_sub_sub {
+    clear: both;
+    height: 32px;
+    margin: 0;
+    padding-left: 7px;
+    width: 325px;
+}
+.rmd2_sub_sub li.rmd2_sub_sub_li {
+    color: #666666;
+    display: block;
+    float: left;
+    font-family: dotum,"?룍??";
+    font-size: 11px;
+    height: 11px;
+    letter-spacing: -1px;
+    margin: 0;
+    padding: 11px 0 8px 12px;
+}
+.rmd2_sub_sub li.rmd2_sub_sub_li img {
+    vertical-align: -4px;
+}
+.rmd2_sub_sub li.cibSelectBox {
+    float: right;
+    padding: 7px 18px 0 0;
+}
+.rmd2_sub_sub li.cibSelectBoxFix {
+    float: right;
+    padding: 7px 18px 0 0;
+    width: 136px;
+}
+.rmd2_sub_sub li.cibSelectBoxFix .defaultFontSizeLabel {
+    float: left;
+    padding: 4px 8px 0 0;
+}
+.rmd2_sub_sub li.cibSelectBoxFix #defaultFontSizeTipLayer {
+    float: right;
+    margin-top: 4px;
+    position: relative;
+}
+.rmd2_sub_div {
+    background: url("../../images/editor/ggum/div_h.gif") repeat-x scroll 0 0 transparent;
+    font-size: 0;
+    height: 2px;
+    margin: 3px 14px 0;
+}
+#remoteDesignSubTab li#rmd_layout_wire {
+    float: right;
+}
+#remoteDesignSubTab li#rmd_layout_wire #wfVisible {
+    background: url("../../images/editor/ggum/layout_tab.gif") no-repeat scroll 0 -22px transparent;
+    cursor: pointer;
+    display: block;
+    float: none;
+    height: 22px;
+    margin: 1px 12px 0 0;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    text-indent: -9999em;
+    width: 23px;
+}
+#remoteDesignSubTab li#rmd_layout_wire #wfVisible.hide {
+    background-position: 0 0;
+}
+.not_flash_player {
+    height: 139px;
+    padding-top: 100px;
+    text-align: center;
+    width: 100%;
+}
+.business_info {
+    clear: both;
+    margin: 0 0 15px;
+    overflow: hidden;
+}
+.business_info .box {
+    padding: 15px 15px 13px;
+}
+.business_info li {
+    font-family: "?룍??",dotum,sans-serif;
+    font-size: 11px;
+    letter-spacing: -1px;
+    opacity: 0.6;
+    word-wrap: break-word;
+}
+.business_info li .txt_sub {
+    padding: 0 5px;
+}
+.business_info .layer_Btn.homecontentDel {
+    left: -1px;
+}
+#pv_bizinfoEmpty {
+    text-align: center;
+}
+
+.selectedBox { display: none; position: absolute; border: 2px solid highlight; margin-left: 16px; }
+.selectedBox2 { display: none; position: absolute; border: 2px solid highlight; }
+
+.skinBgFile { width: 88px; height: 20px; line-height: 20px; font-size: 12px; font-family: "?룍??",dotum,sans-serif; }

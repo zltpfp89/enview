@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <bean id="_portletDefinitionImplPortletPreferencesProviderInitializer"
+    class="com.saltware.enview.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or registry" />
+    <property name="className" value="com.saltware.enview.om.portlet.impl.PortletDefinitionImpl" />
+    <property name="methodName" value="setPortletPreferencesProvider" />
+    <property name="typeName" value="com.saltware.enview.components.portletpreferences.PortletPreferencesProvider" />
+    <property name="value">
+      <ref bean="com.saltware.enview.components.portletpreferences.PortletPreferencesProvider" />
+    </property>
+  </bean>
+
+  <!-- PortletEntity is obsolete
+  <bean id="_portletEntityImplPortletRegistryInitializer"
+    class="com.saltware.enview.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or registry" />
+    <property name="className" value="com.saltware.enview.components.portletentity.PortletEntityImpl" />
+    <property name="methodName" value="setPortletRegistry" />
+    <property name="typeName" value="com.saltware.enview.components.portletregistry.PortletRegistry" />
+    <property name="value">
+      <ref bean="portletRegistry" />
+    </property>
+  </bean>
+   -->
+
+  <!--bean id="_abstractBaseElementInitializer"
+    class="com.saltware.enview.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or xmlPageManager or pageSerializer" />
+    <property name="className" value="com.saltware.enview.om.page.psml.AbstractBaseElement" />
+    <property name="methodName" value="setPermissionsFactory" />
+    <property name="typeName" value="com.saltware.enview.security.PermissionFactory" />
+    <property name="value">
+      <ref bean="com.saltware.enview.security.PermissionManager" />
+    </property>
+  </bean-->
+
+  <!--bean id="_baseElementImplInitializer" class="com.saltware.enview.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or dbPageManager or pageSerializer" />
+    <property name="className" value="com.saltware.enview.om.page.impl.BaseElementImpl" />
+    <property name="methodName" value="setPermissionsFactory" />
+    <property name="typeName" value="com.saltware.enview.security.PermissionFactory" />
+    <property name="value">
+      <ref bean="com.saltware.enview.security.PermissionManager" />
+    </property>
+  </bean-->
+
+  <!--bean id="_dbFolderImplInitializer" class="com.saltware.enview.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or dbPageManager or pageSerializer" />
+    <property name="className" value="com.saltware.enview.om.folder.impl.FolderImpl" />
+    <property name="methodName" value="setPermissionsFactory" />
+    <property name="typeName" value="com.saltware.enview.security.PermissionFactory" />
+    <property name="value">
+      <ref bean="com.saltware.enview.security.PermissionManager" />
+    </property>
+  </bean-->
+
+  <!--bean id="_xmlFolderImplInitializer" class="com.saltware.enview.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or xmlPageManager or pageSerializer" />
+    <property name="className" value="com.saltware.enview.om.folder.psml.FolderImpl" />
+    <property name="methodName" value="setPermissionsFactory" />
+    <property name="typeName" value="com.saltware.enview.security.PermissionFactory" />
+    <property name="value">
+      <ref bean="com.saltware.enview.security.PermissionManager" />
+    </property>
+  </bean-->
+
+  <bean id="_enviewPrincipalConcreteClassRowReaderInitializer"
+    class="com.saltware.enview.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or security" />
+    <property name="className" value="com.saltware.enview.security.util.ojb.EnviewPrincipalConcreteClassRowReader" />
+    <property name="methodName" value="setEnviewPrincipalManagerProvider" />
+    <property name="typeName" value="com.saltware.enview.security.EnviewPrincipalManagerProvider" />
+    <property name="value">
+      <ref bean="com.saltware.enview.security.spi.EnviewPrincipalManagerProvider" />
+    </property>
+  </bean>
+
+  <bean id="_transientEnviewPrincipalInitializer"
+    class="com.saltware.enview.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or security" />
+    <property name="className" value="com.saltware.enview.security.impl.TransientEnviewPrincipal" />
+    <property name="methodName" value="setEnviewPrincipalManagerProvider" />
+    <property name="typeName" value="com.saltware.enview.security.EnviewPrincipalManagerProvider" />
+    <property name="value">
+      <ref bean="com.saltware.enview.security.spi.EnviewPrincipalManagerProvider" />
+    </property>
+  </bean>
+
+  <bean id="_baseEnviewPrincipalManagerInitializer"
+    class="com.saltware.enview.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or security" />
+    <property name="className" value="com.saltware.enview.security.impl.BaseEnviewPrincipalManager" />
+    <property name="methodName" value="setEnviewPrincipalManagerProvider" />
+    <property name="typeName" value="com.saltware.enview.security.EnviewPrincipalManagerProvider" />
+    <property name="value">
+      <ref bean="com.saltware.enview.security.spi.EnviewPrincipalManagerProvider" />
+    </property>
+  </bean>
+
+</beans>

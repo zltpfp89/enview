@@ -1,0 +1,264 @@
+@charset "utf-8";
+
+
+/*  ////////////////////////////////////////////////////////////////////////////
+	Base		기본적인 세팅
+	Btn			버튼관련
+	Bullet		블릿관련
+//////////////////////////////////////////////////////////////////////////// */
+
+@import url("core_base.css");
+@import url("core_btn.css");
+@import url("core_bullet.css");
+
+
+
+/*  ////////////////////////////////////////////////////////////////////////////
+추가되는 css는 본 페이지에 작업해주세요
+core_의 파일들은 수정하지 말것
+
+
+
+//////////////////////////////////////////////////////////////////////////// */
+
+@import url("core_search.css");
+
+
+
+
+
+/*            Layout         */
+
+		/*.body_s{
+			min-width:780px; 
+			width:780px;
+			margin:0px 0px 0px 10px;
+			border:1px solid #e8e8e8;
+			position:relative;
+			z-index:1;
+			}
+
+		.body_s_full{
+			min-width:740px;
+			margin:20px;
+			padding:0;
+			border:0px solid green;
+			position:relative;
+			z-index:1;
+			}
+		*/
+			.banner{
+				width:420px;
+				float:left;
+			}
+			
+			.form{
+				width:300px;
+				float:right;
+			}
+
+			.banner1{
+				width:390px;
+				float:left;
+			}
+			
+			.form1{
+				width:330px;
+				float:right;
+			}
+
+
+
+			.view{
+				border:1px solid #e7e7e7;
+				margin:5px 0px 5px 0px;
+				padding-left:40px;
+				padding-top:3px;
+				/*text-align:center;*/
+			}
+
+
+/* 컨텐츠박스 추가 */
+		.contentIn{
+			border-top:1px solid #e8e8e8;
+			overflow:hidden;
+			padding:15px 0 0 0;
+			}
+	
+
+/*   달력아이콘   */
+
+.ts_50 { width:50px;}
+.ts_60 { width:60px;}/*2011.12.28추가*/
+.ts_190 { width:190px;}/*2011.12.28추가*/
+
+
+
+/* 테이블 리스트 */
+
+.table_list {font:11px dotum,돋움,Arial;;margin-bottom:10px;}
+.table_list .btn{text-align:right; margin-bottom:3px;}
+.table_list .list{margin-bottom:2px;}
+.img_Rin {clear:both}
+.img_lin {float:left;width:125px;}
+.img_linb {float:left; padding:0; width:251px;}
+
+
+
+
+
+/* 테이블 type3 */
+
+.tabletype3 {
+	border-left:1px solid #e7e7e7;
+	border-top:1px solid #e7e7e7;
+	margin:0px 0px 10px 0px;
+	width:100%;
+}
+
+.tabletype3 th {
+	font:normal 11px dotum,돋움,arial;
+	border-bottom:1px solid #e7e7e7;
+	border-right:1px solid #e7e7e7;
+	padding:5px 0 5px 3px;
+	background-color:#f7f7f7;
+	line-height:110%;
+	font-weight:bold;
+}
+
+.tabletype3 td {
+	text-align:center;
+	font:11px dotum,돋움,arial;
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	line-height:110%;
+	padding:5px 10px 5px 10px;
+}
+
+
+input.banner{
+	width:80px;
+	margin-top:10px;
+}
+
+
+
+.tabletype3 img {
+	vertical-align:middle;
+	margin:0px;
+	width:150px;
+}
+
+
+
+/* 테이블 type301 */
+
+.tabletype301 {
+	border-left:1px solid #e7e7e7;
+	border-top:1px solid #e7e7e7;
+	margin:0px 0px 10px 0px;
+	width:100%;
+}
+.tabletype301 th {
+	font:normal 11px dotum,돋움,arial;
+	border-bottom:1px solid #e7e7e7;
+	border-right:1px solid #e7e7e7;
+	padding:0;
+	background-color:#f7f7f7;
+	line-height:110%;
+	font-weight:bold;
+}
+.tabletype301 td {
+	font:11px dotum,돋움,arial;
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	line-height:110%;
+	padding:5px 5px 5px 5px;
+}
+
+
+
+.tabletype301 img {
+	vertical-align:middle;
+}
+
+
+
+
+
+/* 좌우조합 */
+.bbs_p {   border-bottom:1px solid #e7e7e7 ;border-top:1px solid #e7e7e7 ;background-color:#f7f7f7; padding:4px 3px 4px 3px;margin-bottom:10px; margin-top:10px;}
+.btn_both{overflow:hidden ;clear:both; padding:4px 3px 4px 3px; margin-bottom:0px ;margin-top:0px;}  
+.btn_both .fl{float:left; } 
+.btn_both .flt{float:left; padding-top:3px; padding-left:7px;}
+.btn_both .flt input {vertical-align:top; height:16px; margin:0; padding:0; *vertical-align:middle;}
+.btn_both .flt select {vertical-align:top; height:18px; margin:0; padding:0; *vertical-align:middle;}
+.btn_both .fr{float:right; padding-top:3px; padding-right:7px;}  
+.txt_both{overflow:hidden;clear:both;width:99%;padding:2px;}  
+.txt_both .fl{float:left; }  
+.txt_both .fr{float:right; }   
+.txt_fl {color: #F60; }
+.comment_both{overflow:hidden;clear:both;width:99%;line-height: 14px;;border:1px solid #e7e7e7; padding:3px;margin-bottom:5px}  
+.comment_both .fl{float:left; padding-left:7px; padding-top:1px; }  
+.comment_both .fr{float:right;width:90%;}
+
+.comment2_both{overflow:hidden;clear:both;width:99%;line-height: 14px;padding:3px;margin-bottom:5px}  
+.comment2_both .fl{float:left; padding-left:7px; padding-top:1px;;font-size:11px; }  
+.comment2_both .fr{float:right;}
+.comment2_both .fr .txt{float:right;width:90%;text-decoration: underline;font-size:11px; padding-right:3px;}
+
+
+
+
+
+
+
+/*         bullet              */
+
+h1{
+	clear:both;
+	display:block;
+	width:100%;
+	font:bold 15px dotum,돋움,arial;
+	line-height:101%;
+	letter-spacing:-1px;
+	padding:0 0 0 15px;
+	margin:0 0 10px 0;
+	background:url(./img/h1.gif) no-repeat 0px 3px;
+	border:0px solid red;
+}
+
+
+
+h3{
+	clear:both;
+	display:block;
+	width:50%;
+	font-size:12px;
+	letter-spacing:-1px;
+	font-weight:bold;
+	padding:0px 0px 0px 15px;
+	margin:20px 0px 10px 0px;
+	background:url(./img/h3.gif) no-repeat 3px 7px;
+	border:0px solid red;
+}
+
+h3 em{
+	border:0px solid red;
+	text-align:right;
+	float:right;
+	padding:0px 20px 0px 0px;
+	margin:auto;
+	font-size:11px;
+	color:#c03500;
+	}
+
+
+
+/* 이미지파일 추가 */
+.imgbox {text-align:center; width:150px; border:0px solid red; margin:0 auto;}
+.imgbox .addimg {border:1px solid #e8e8e8;width:148px;height:61px;margin:7px 0;background:url(./img/event/default03.gif) center center;}
+.fileinput {border:0px solid red;position:relative;overflow:hidden;}
+.imgbox input {width:80px;background:#f4f4f4;height:16px;margin:0;padding:0; vertical-align:middle;}
+.imgbox span.btn {overflow:hidden; width:64px;height:18px;background:#f4f4f4 url(./img/btn_find2.gif);border:0px solid blue;display:inline-block;vertical-align:middle;}
+.imgbox input[type=file] {cursor:pointer;width:64px;height:20px;filter:alpha(opacity:0);opacity:0;position:absolute;right:0;top:0;} /* input file 숨김 */

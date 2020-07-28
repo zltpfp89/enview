@@ -1,0 +1,326 @@
+@charset "utf-8";
+/*  ///////////////////////
+
+	Table		
+
+//////////////////////// */
+
+
+
+/* 테이블 type1 */
+.tabletype1 {
+	border-left:1px solid #cedcef;
+	border-top:1px solid #cedcef;
+	margin:0px 0px 10px 0px;
+	width:100%;
+}
+.tabletype1 th {
+	color:#3f79ca;
+	font-weight:bold;
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	padding:5px 10px 5px 10px;
+	background-color:#f3f9ff;
+	font:bold 11px dotum,돋움,arial;
+	line-height:110%;
+}
+.tabletype1 td {
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	line-height:110%;
+	padding:5px 10px 5px 10px;
+}
+
+.tabletype1 img {
+	vertical-align:middle;
+}
+
+.tabletype1 {
+	border-left:1px solid #cedcef;
+	border-top:1px solid #cedcef;
+	margin:0px 0px 10px 0px;
+	width:100%;
+}
+.tabletype1 th {
+	color:#3f79ca;
+	font-weight:bold;
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	padding:5px 10px 5px 10px;
+	background-color:#f3f9ff;
+	font:bold 11px dotum,돋움,arial;
+	line-height:110%;
+}
+.tabletype1 td {
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	line-height:110%;
+	padding:5px 10px 5px 10px;
+}
+
+.tabletype1 img {
+	vertical-align:middle;
+}
+
+/* 테이블 type10101 */
+.tabletype101 {
+	border-left:1px solid #cedcef;
+	border-top:1px solid #cedcef;
+	margin:0px 0px 10px 0px;
+	width:100%;
+}
+.tabletype101 th {
+	color:#3f79ca;
+	font-weight:bold;
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	padding:5px 10px 5px 10px;
+	background-color:#f3f9ff;
+	font:bold 11px dotum,돋움,arial;
+	line-height:110%;
+}
+.tabletype101 td {
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	line-height:110%;
+	padding:5px 10px 5px 10px;
+	text-align:center;
+}
+
+.tabletype101 ul.type101 li {
+	margin:5px 0;
+}
+
+.tabletype101 ul.type2 li {
+	background:url(./img/h4.gif) no-repeat left 5px;
+	padding-left:10px;
+	margin:5px 0;
+}
+
+.tabletype101 img {
+	vertical-align:middle;
+}
+
+.tabletype101 {
+	border-left:1px solid #cedcef;
+	border-top:1px solid #cedcef;
+	margin:0px 0px 10px 0px;
+	width:100%;
+}
+.tabletype101 th {
+	color:#3f79ca;
+	font-weight:bold;
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	padding:5px 10px 5px 10px;
+	background-color:#f3f9ff;
+	font:bold 11px dotum,돋움,arial;
+	line-height:110%;
+}
+.tabletype101 td {
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	line-height:110%;
+	padding:5px 10px 5px 10px;
+}
+
+.tabletype101 td a{
+		text-decoration:underline;
+		letter-spacing:-1px;
+}
+
+.tabletype101 img {
+	vertical-align:middle;
+}
+
+/* 테이블 type2 */
+
+
+.tabletype2 {
+	border-left:1px solid #cedcef;
+	border-top:1px solid #cedcef;
+	border-top:2px solid #5d8bc9;
+	margin:0px 0px 10px 0px;
+	width:100%;
+}
+.tabletype2 th {
+	color:#3f78c9;
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	padding:8px 10px 8px 10px;
+	background-color:#f3f9ff;
+	font-size:11px;
+	font-weight:bold;
+	line-height:110%;
+}
+
+.tabletype2 tbody td {
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	line-height:110%;
+	padding:5px 10px 5px 10px;
+	text-align:center;
+}
+
+.tabletype2 .thead {
+	background-color:#cfdcef !important;
+}
+/* 테이블 type2_201 ___ stone */
+
+.tabletype201 {
+	border-left:1px solid #cedcef;
+	border-top:1px solid #cedcef;
+	border-top:2px solid #5d8bc9;
+	margin:0px 0px 10px 0px;
+	width:100%;
+}
+.tabletype201 th {
+	color:#3f78c9;
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	padding:12px 10px 12px 10px;
+	background-color:#f3f9ff;
+	font-size:11px;
+	font-weight:bold;
+	line-height:140%;
+}
+
+.tabletype201 td {
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	line-height:110%;
+	padding:12px 10px 12px 15px;
+	text-align:left;
+	line-height:130%;
+}
+
+/* 테이블 type3 */
+
+.tabletype3 {
+	border-left:1px solid #e7e7e7;
+	border-top:1px solid #e7e7e7;
+	margin:0px 0px 10px 0px;
+	width:100%;
+}
+.tabletype3 th {
+	font:normal 11px dotum,돋움,arial;
+	border-bottom:1px solid #e7e7e7;
+	border-right:1px solid #e7e7e7;
+	padding:5px 10px 5px 10px;
+	background-color:#f7f7f7;
+	line-height:110%;
+	font-weight:bold;
+}
+.tabletype3 td {
+	font:11px dotum,돋움,arial;
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	line-height:110%;
+	padding:5px 10px 5px 10px;
+}
+
+.tabletype3 img {
+	vertical-align:middle;
+}
+
+/* 테이블 type301 */
+
+.tabletype301 {
+	border-left:1px solid #e7e7e7;
+	border-top:1px solid #e7e7e7;
+	margin:0px 0px 10px 0px;
+	width:100%;
+}
+.tabletype301 th {
+	font:normal 11px dotum,돋움,arial;
+	border-bottom:1px solid #e7e7e7;
+	border-right:1px solid #e7e7e7;
+	padding:5px 10px 5px 10px;
+	background-color:#f7f7f7;
+	line-height:110%;
+	font-weight:bold;
+}
+.tabletype301 td {
+	font:11px dotum,돋움,arial;
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	line-height:110%;
+	padding:5px 10px 5px 10px;
+	text-align:center;
+}
+
+.tabletype301 img {
+	vertical-align:middle;
+}
+
+
+tbody td.left {
+	text-align:left !important;
+}
+.require {
+	background-image:url(./img/require.gif);
+	background-position:right;
+	background-repeat:no-repeat
+}
+.table_discription {
+	color:#999999
+}
+/* 페이징 */
+.paging {
+	width:100%;
+	text-align:center;
+	margin-bottom:5px;
+}
+.paging img {
+	border:0;
+	vertical-align:middle;
+}
+.paging a {
+	font:bold 12px dotum, 돋움, arial;
+	color:#989898;
+	padding:0 5px;
+	border-left:1px solid #e8e8e8;
+}
+.paging a.first {
+	border:none;
+}
+.paging a.noline {
+	border:none;
+	padding:0;
+}
+.paging strong {
+	color:#484848;
+}
+
+
+/* 테이블리스트 */
+
+
+ul.type1 li {margin:5px 0;}
+ul.type2 li{padding-left:10px;margin:5px 0;background:url(./img/h4.gif) no-repeat left 5px;border:0px solid lime;}
+ol.type2 li {padding-left:10px;margin:5px 0;background:none;border:0px solid lime;}
+ul.type3 li, ol.type3 li {padding-left:20px;margin:5px 0;background:url(./img/h4.gif) no-repeat 10px 5px;border:0px solid gold;}
+
+
+table img.goods {float:left; margin-right:10px;}
+
+
+.e th {
+	font:normal 11px dotum,돋움,arial;
+	border-bottom:1px solid #e7e7e7;
+	border-right:1px solid #e7e7e7;
+	padding:5px 0;
+	background-color:#f7f7f7;
+	line-height:110%;
+	font-weight:bold;
+	letter-spacing:-1px;
+}
+.e td {
+	font:11px dotum,돋움,arial;
+	border-bottom:1px solid #cedcef;
+	border-right:1px solid #cedcef;
+	line-height:110%;
+	padding:5px 0;
+	text-align:center;
+	letter-spacing:-1px;
+}

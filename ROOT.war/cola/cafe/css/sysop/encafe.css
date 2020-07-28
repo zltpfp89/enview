@@ -1,0 +1,353 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* BEGIN:: Default */
+/* Reset */
+html,body{width:100%;height:100%;}
+html{overflow-y:scroll;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td{margin:0;padding:0;}
+body,h1,h2,h3,h4,input,button,select{font:12px dotum,돋움,"Trebuchet MS",Helvetica,sans-serif;color:#767676;}
+table {border-collapse:collapse;border-spacing:0;}
+caption,legend{display:none;}
+fieldset,img {	border:0;}
+address,caption,cite,code,dfn,em,strong,th,var {font-style:normal;font-weight:normal;}
+ul {list-style:none;}
+caption,th {text-align:left;}
+h1,h2,h3,h4,h5,h6 {font-size:100%;font-weight:normal;}
+a{color:#767676;text-decoration:none}
+a:hover{color:#767676;text-decoration:none;}
+
+img,input,select{vertical-align:middle;}
+q:before,q:after {content:'';}
+abbr,acronym { border:0;}
+
+select {border:1px solid #e9e9e9;}
+/* END:: Default */
+
+/* BEGIN:: Layout */
+body{margin:0; padding:0;  letter-spacing:-1px;}
+
+/* main */
+#wrap{margin:0 auto; width:980px; ; border:0px solid; min-width:980px;}
+#wrap:after{clear:both; display:block; content:"";}
+
+/* headerArea */
+.searchArea{float:left; position:relative; width:288px; height:27px; background:url(../../images/home/encafe/search_bg.gif) no-repeat; }
+.subsystem{position:absolute; right:0; bottom:0px; border:0px solid}
+#gnb{height:30px; padding:9px 90px; *padding:9px 0 0  100px;   background: url(../../images/home/encafe/gnb_bg.gif) repeat-x; border:0px solid red;}
+#container:after{clear:both; display:block; content:"";}
+#footer{clear:both; width:100%; height:70px; padding-top:10px;text-align:center; font-size:11px;  color:#ccc; font-weight:0; letter-spacing:; background-color:#fafafa;  border-top:1px solid #d3d3d3;}
+/* END:: Layout */
+
+.cafepanel {
+	background-color: #F5F5F5;
+	/*padding:1px;*/
+	border:1px solid #CACACA;
+	border-width: 1px;	
+}
+
+.cafepanel TABLE, TR, TD {font-family: Dotum; font-size: 12px;  color: #666666; }
+
+.cafepanel image {border:0px}
+.cafepanel table {border:0px; word-break:break-all}
+.cafepanel input,select,textarea{font-family:Dotum;color:#666666;font-size:12px;}
+
+
+.cafepanel A:link		{color: #666666; text-decoration: none}
+.cafepanel A:visited	{color: #666666; text-decoration: none}
+.cafepanel A:active	{color: #666666; text-decoration: none}
+.cafepanel A:hover		{color: #666666;}
+/*.cafepanel A:hover		{color: #666666; text-decoration: underline}*/
+
+.cafegridpanel {
+	background-color: #FFFFFF;
+	/* border:1px solid Silver; */
+	padding: 4px;
+	font-size: 12px;
+	color: #333367;
+	border:1px solid #ccc;
+}
+.cafegridpanel TABLE, TR, TD, SPAN {font-family: Dotum; font-size: 12px;  color: #666666; }
+.cafegridpanel image {border:0px}
+.cafegridpanel table {border:0px; word-break:break-all}
+.cafegridpanel input,select,textarea{font-family:Dotum;color:#666666;font-size:12px;}
+
+.cafeformpanel {
+	/*background: #CACACA;*/
+	/*width: 100%; */
+	padding: 4px;
+	font-size: 12px;
+	color: #333367;
+}
+
+.cafegridpanel .cafegridlimit {
+	background-color:#333367
+}
+.cafegridpanel .cafegridheader {
+	background:transparent url(../../images/sysop/encafe/tl_top_line.gif) no-repeat right top;
+	background-color:#F2F0FB;
+	color:#333367;
+	font-weight:bold;
+	text-align: center;
+	padding:2px 4px 2px 4px;
+}
+.cafegridpanel .cafegridheaderlast {
+	background-color:#F2F0FB;
+	color:#333367;
+	font-weight:bold;
+	text-align: center;
+	padding:2px 4px 2px 4px;
+}
+.cafegridpanel .cafegridline {
+	background-color:#FAFAFD;
+	padding:2px 4px 2px 4px;
+}
+.cafegridpanel .cafegrid {
+	border:#CACACA solid;
+	border-width:1px 1px 0px 0px;
+	padding:2px 4px 2px 4px;
+}
+.cafegridpanel .cafegridlast {
+	border:#CACACA solid;
+	border-width:1px 0px 0px 0px;
+	padding:2px 4px 2px 4px;
+}
+.cafeformpanel .cafeformfield {
+	padding:2px 0px 2px 4px;
+	border:#CACACA solid;
+	border-width:1px 1px 0px 0px;
+}
+.cafeformpanel .cafeformfielddark {
+	background-color:#FCFCFE;
+	padding:2px 0px 2px 4px;
+	border:#CACACA solid;
+	border-width:1px 1px 0px 0px;
+}
+.cafeformpanel .cafeformfieldlast {
+	padding:2px 0px 2px 4px;
+	border:#CACACA solid;
+	border-width:1px 0px 0px 0px;
+}
+.cafeformpanel .cafeformfielddarklast {
+	background-color:#FCFCFE;
+	padding:2px 0px 2px 4px;
+	border:#CACACA solid;
+	border-width:1px 0px 0px 0px;
+}
+.cafeformpanel .cafeformlabel {
+	background-color:#F7F6FB;
+	padding:2px 0px 2px 4px;
+	border:#CACACA solid;
+	border-width:1px 1px 0px 0px;
+	color:#333367;
+	font-weight:bold;
+	height: 22px;
+}
+.cafeformpanel .cafeformlabellast {
+	background-color:#F7F6FB;
+	padding:2 0 2 4;
+	border:#CACACA solid;
+	border-width:1px 0px 0px 0px;
+	color:#333367;
+	font-weight:bold;
+	height: 22px;
+}
+.cafeformpanel .cafeformlabeldark {
+	background-color:#F0F0FC;
+	padding:2px 0px 2px 4px;
+	border:#CACACA solid;
+	border-width:1px 1px 0px 0px;
+	color:#333367;
+	font-weight:bold;
+}
+.cafeformpanel .cafeformlabeldarklast {
+	background-color:#F0F0FC;
+	padding:2px 0px 2px 4px;
+	border:#CACACA solid;
+	border-width:1px 0px 0px 0px;
+	color:#333367;
+	font-weight:bold;
+}
+.cafeformpanel .cafeformlimit {
+	background-color:#333367
+}
+
+div.cafecontrolpanel {
+	width: 100%;
+	height: 17px;
+	border: none;
+	border-top: 1px solid #CACACA;
+}
+
+div.cafecontrolpanel span {
+	margin-top: 7px;
+	margin-right: 50%;
+	margin-bottom: 0px;
+	margin-left: 50%;
+}
+
+
+/*********************************************************/
+/*  CSS Button
+/*********************************************************/
+/* Temp */
+/*
+table{width:100%}
+th, td{padding:5px}
+*/
+caption{font-weight:bold;text-align:left}
+.btn_pack,
+.btn_pack *{display:inline-block;overflow:visible;position:relative;margin:0;padding:0;border:0;background:url(../../images/sysop/encafe/btn_pack.gif) no-repeat;font-size:12px;font-family:Tahoma, Sans-serif;color:#333;text-decoration:none !important;vertical-align:top;white-space:nowrap}
+.btn_pack{margin-right:4px}
+.btn_pack *{left:4px;cursor:pointer;_cursor:hand}
+.btn_pack.medium,
+.btn_pack.medium *{height:24px;line-height:24px}
+.btn_pack.large,
+.btn_pack.large *{height:30px;line-height:30px}
+.btn_pack.xlarge,
+.btn_pack.xlarge *{height:36px;line-height:36px}
+.btn_pack.small,
+.btn_pack.small *{height:19px;line-height:19px}
+.btn_pack.medium{background-position:left 0}
+.btn_pack.large{background-position:left -30px}
+.btn_pack.xlarge{background-position:left -65px}
+.btn_pack.small{background-position:left -106px}
+.btn_pack.medium *{padding:0 10px 0 6px;background-position:right top;font-size:12px}
+.btn_pack.large *{padding:0 10px 0 6px;background-position:right -30px;font-size:16px}
+.btn_pack.xlarge *{padding:0 10px 0 6px;background-position:right -65px;font-size:20px}
+.btn_pack.small *{padding:0 6px 0 2px;background-position:right -106px;font-size:11px}
+.btn_pack *:hover,
+.btn_pack *:active,
+.btn_pack *:focus{color:#690}
+.btn_pack.strong *{font-weight:bold !important}
+.btn_pack.icon *{padding-left:20px}
+.btn_pack.small.icon *{padding-left:16px}
+.btn_pack.icon span{width:20px;margin-right:-20px;padding:0 !important}
+.btn_pack.medium .check{background-position:4px -150px}
+.btn_pack.large .check{background-position:4px -146px}
+.btn_pack.xlarge .check{background-position:5px -144px}
+.btn_pack.small .check{background-position:3px -153px}
+.btn_pack.medium .add{background-position:-16px -150px}
+.btn_pack.large .add{background-position:-14px -146px}
+.btn_pack.xlarge .add{background-position:-14px -144px}
+.btn_pack.small .add{background-position:-18px -153px}
+.btn_pack.medium .delete{background-position:-34px -150px}
+.btn_pack.large .delete{background-position:-34px -146px}
+.btn_pack.xlarge .delete{background-position:-34px -144px}
+.btn_pack.small .delete{background-position:-37px -153px}
+.btn_pack.medium .calendar{background-position:-56px -150px}
+.btn_pack.large .calendar{background-position:-56px -146px}
+.btn_pack.xlarge .calendar{background-position:-56px -144px}
+.btn_pack.small .calendar{background-position:-59px -153px}
+.btn_pack.medium .refresh{background-position:-76px -150px}
+.btn_pack.large .refresh{background-position:-76px -146px}
+.btn_pack.xlarge .refresh{background-position:-76px -144px}
+.btn_pack.small .refresh{background-position:-79px -153px}
+.btn_pack.medium .download{background-position:-96px -151px}
+.btn_pack.large .download{background-position:-96px -147px}
+.btn_pack.xlarge .download{background-position:-96px -145px}
+.btn_pack.small .download{background-position:-99px -154px}
+/* //UI Object */
+
+/**/
+body{margin:0; padding:0; background:url(../../images/sysop/encafe/header_bg.gif) repeat-x;}
+#header{position:relative; width:100%; height:53px;margin:0 auto; border:0px solid lime;}
+.adminMenu{float:left; width:200px; height:527px;background:url(../../images/sysop/encafe/sidemenu_bg.gif) repeat-y;}
+.contents{float:right; min-width: 761px; min-height: 389px; max-width: 780px; max-height: 512px; }
+h3{background:url(../../images/sysop/encafe/h3.gif) no-repeat 0 0; padding:0 0 0 15px; font-weight:bold; font-size:14px;}
+
+/*header*/
+#adminLogo {position:relative; padding:20px 0 0 0px; margin:0 0 30px 0 border:px solid; cursor: pointer; }
+#adminLogo *{ cursor: pointer; }
+#adminLogo .name{position:absolute; left:110px; top:27px; font-weight:bold; border:px solid;}
+#adminLogo .btn_hlpe{position:absolute; right:0px; bottom:0px; border:px solid;}
+
+/*sidemenu*/
+.adminMenu ul{margin:20px 0 20px 0;}
+.adminMenu ul li {padding:2px 0; }
+.adminMenu ul li.title {font-size:12px; font-weight:bold;}
+.adminMenu li ul.dept1 {margin-top:7px; font-weight:normal;}
+.adminMenu .dept1 li{ background:url(../../images/sysop/encafe/dept01.gif) no-repeat 0 5px; padding:0 0 0 7px; margin:0 0 4px 0;}
+
+/* tab */
+.tab_wrap {position:relative; height:200px; margin:15px 0 0 0; }
+.tab_wrap:after {display:block; clear:both; content:"";}
+.tab_wrap ul {position:relative;margin:0;padding:0;border-bottom:1px solid #9cb2c2; border-left:none; font-family:dotum;font-size:12px;list-style:none;*zoom:1}
+.tab_wrap ul:after {display:block; clear:both; content:"";}
+.tab_wrap li{float:left; margin-bottom:-1px; }
+.tab_wrap li > a {/*float:left;position:relative; margin-top:1px;  border:1px solid #c7daea; border-bottom-color:#9cb2c2;background:#f9fafd;color:#5b6da8;text-decoration:none;*/
+float:left;position:relative;margin-top:1px;border:1px solid #c7daea;border-bottom-color:#9cb2c2; border-left:none; background:#f5f7f9;color:#5467a4;text-decoration:none;  border-left:1px solid #c7daea;}
+
+.tab_wrap li a span{/*display:inline-block; padding:7px 15px 7px 15px; letter-spacing:normal; cursor:pointer; border:1px solid #9cb2c2; */display:inline-block;padding:7px 15px 7px 15px;letter-spacing:normal;cursor:pointer;border-top:1px solid #fff;border-right:1px solid #fff; }
+.tab_wrap li div.tab_list {display:none; position:absolute;top:31px; *top:28px; left:0; *left:0; width:100%; margin:0;padding:15px 0 15px 0; *padding:25px 0 15px 0;list-style:none;*zoom:1;}
+.tab_wrap li div.tab_list:after {display:block; clear:both; content:"";}
+
+.tab_wrap.m1 .m1 > a,
+.tab_wrap.m2 .m2 > a,
+.tab_wrap.m3 .m3 > a,
+.tab_wrap.m4 .m4 > a{margin-top:0; color:#000; font-weight:bold; background:#fff;  border:1px solid #9cb2c2; border-bottom:2px solid #fff;}
+.tab_wrap.m1 .m1 > div,
+.tab_wrap.m2 .m2 > div,
+.tab_wrap.m3 .m3 > div,
+.tab_wrap.m4 .m4 > div{display:block; margin:0; border:1px solid #9cb2c2; border-top:none;}
+
+/*CAFE*/
+.tab_list dl{margin:10px 20px 12px 20px;  padding-bottom:20px; *padding-bottom:25px; border-bottom:1px solid #e8e8e8; }
+.tab_list dl:after{clear:both; display:block; content:"";}
+.tab_list dt{float:left;padding-right:15px; border:0px solid lime;}
+.tab_list dl dd{}
+.tab_list dl .title{border:none !important;font-size:14px; font-weight:bold; color:#454545; padding-bottom:7px;}
+.tab_list dl .mamberNum{color:#bdbdbd; padding-top:5px; }
+.tab_list dl .mamberNum span{text-decoration:underline; color:#959595; letter-spacing:0;}
+
+
+/*contents*/
+.main_flash_tot{background-color:#fafafa; border:0px solid red;}
+
+.admin_cafeinfo{width:350px;margin:20px 0 0 20px; border:0px solid lime;}
+.admin_cafeinfo:after{clear:both; display:block; content:"";}
+.admin_cafeinfo .dept1 {margin-top:20px;}
+.admin_cafeinfo .dept1 li{position:relative; background:url(../../images/sysop/encafe/dept01.gif) no-repeat 0 5px; padding:0 0 0 7px; margin:0 0 8px 0; }
+.admin_cafeinfo .dept1 li label {display:inline-block;width:55px; font-weight:bold; padding:0 10px 0 0;}
+.admin_cafeinfo .dept1 li .info{ background:url(../../images/sysop/encafe/subsystem_line.gif) no-repeat 0 0;  padding:0 0 0 5px;}
+.admin_cafeinfo .dept1 li .btn_g{position:absolute; right:0; top:0px;}
+
+/*subject */
+h2.cafeformsubject {
+	margin-top: 20px;
+	margin-bottom:5px;
+	padding-left: 13px;
+	font-size: 13px;
+	font-weight: bold;
+	font-family: Dotum;
+	color: #333367;
+	background-image: url('../../images/sysop/encafe/subject_arrow.gif');
+	background-repeat: no-repeat;
+	background-position: 0 0; 
+}
+
+/* 메뉴 관리 */
+.menu_tree { width: 185px; }
+.menu_info { width: 580px; }
+.menu_menuTypes { width: 174px; height: 26px; background-color: #ececec; padding: 6px 0px 0px 6px;}
+.fl { float: left; }
+.fr { float: right; }
+.menu_menuType { width: 120px; height: 21px; line-height: 21px; margin-bottom: 5px; border: 1px solid #999; font-size: 13px; font-family: gulim; }
+.menu_menuType option { padding: 2px; }
+.menu_menuTree { margin-bottom: 5px; }
+.menuList { border: 1px solid #d3d3d3; width: 178px; height: 22px; margin-top: -1px; }
+.menuList:hover { background-color: #ececec; }
+.menu_selected { background-color: rgb(240, 240, 210); }
+.menuLabel { font-size: 13px; font-family: gulim; line-height: 22px; margin-left: 5px; }
+.indent_2 { margin-left: 12px; }
+
+.menu_right_btns { margin-right: 5px; }
+.pdb05 { padding-bottom: 5px; }
+
+
+.edit_menu_bar		{ width: 100%;	height: 40px;	background: #abdefe; position: absolute; z-index: 999999; top: 0px; }
+.edit_menus			{ margin: 0px auto 0px auto;	height: 30px;	width: 985px;	padding-top: 7px; vertical-align: middle; }
+.edit_menu			{ float: left;	font-size: 14px;	font-family: sans-serif;	color: hsl(200,60%,30%);	background-color: rgb(200,210,187);	height: 20px; line-height: 20px;
+					  border: 1px solid #828282;	padding: 2px;	margin-right: 10px;	cursor: pointer; text-align: center;  }
+.edit_menu_right	{ float: right; margin-right: 0px; margin-left: 10px; }
+#edit_menu_bar{ background:url(../../images/sysop/encafe/header_bg.gif) repeat-x; position:relative; width:100%; height:53px;margin:0 auto; border:0px solid lime;}

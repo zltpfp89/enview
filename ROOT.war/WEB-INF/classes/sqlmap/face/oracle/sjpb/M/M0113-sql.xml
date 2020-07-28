@@ -1,0 +1,144 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0113VO" id="M0113VO.list">
+		<result property="cathArstTrptNum" column="CATH_ARST_TRPT_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="cstdPernNum" column="CSTD_PERN_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="rcpnReqPersNm" column="RCPN_REQ_PERS_NM"/>
+		<result property="rcpnReqPersAddr" column="RCPN_REQ_PERS_ADDR"/>
+		<result property="cstdPersRelt" column="CSTD_PERS_RELT"/>
+		<result property="careDiv" column="CARE_DIV"/>
+		<result property="trptDt" column="TRPT_DT"/>
+		<result property="letrContGist" column="LETR_CONT_GIST"/>
+		<result property="cathArstTrptComn" column="CATH_ARST_TRPT_COMN"/>
+		<result property="handOffi" column="HAND_OFFI"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+	
+ 	<select id="M0113.SJPB_CATH_ARST_TRPT_DOC.selectList" resultMap="M0113VO.list">  /* M0113.SJPB_CATH_ARST_TRPT_DOC.selectList */
+ 		SELECT A.CATH_ARST_TRPT_NUM  /* 체포구속인교통부번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,D.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,A.CSTD_PERN_NUM  /* 유치인번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,A.RCPN_REQ_PERS_NM  /* 접견신청자성명 */
+		       ,A.RCPN_REQ_PERS_ADDR  /* 접견신청자주거 */
+		       ,A.CSTD_PERS_RELT  /* 유치인과의관계 */
+		       ,A.CARE_DIV  /* 수발의구별 */
+		       ,A.TRPT_DT  /* 교통일시 */
+		       ,A.LETR_CONT_GIST  /* 서신내용의요지 */
+		       ,A.CATH_ARST_TRPT_COMN  /* 비고 */
+		       ,A.HAND_OFFI  /* 취급자 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,C.NM_KOR  /* 작성자이름 */
+		FROM SJPB_CATH_ARST_TRPT_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST D ON B.RCPT_NUM = D.RCPT_NUM
+		JOIN USERPASS C ON C.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				A.CSTD_PERN_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				D.RCPT_NUM = #rcptNumSc# OR D.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				B.SP_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0113.SJPB_CATH_ARST_TRPT_DOC.insertTrpt" parameterClass="com.saltware.enface.sjpb.M.service.M0113VO">  /* M0113.SJPB_CATH_ARST_TRPT_DOC.insertTrpt */
+ 		INSERT INTO SJPB_CATH_ARST_TRPT_DOC (
+		    CATH_ARST_TRPT_NUM
+		    ,RCPT_NUM
+		    ,INC_SP_NUM
+		    ,CSTD_PERN_NUM
+		    ,RCPN_REQ_PERS_NM
+		    ,RCPN_REQ_PERS_ADDR
+		    ,CSTD_PERS_RELT
+		    ,CARE_DIV
+		    ,TRPT_DT
+		    ,LETR_CONT_GIST
+		    ,CATH_ARST_TRPT_COMN
+		    ,HAND_OFFI
+		    ,REG_USER_ID
+		    ,REG_DATE
+		    ,UPD_USER_ID
+		    ,UPD_DATE
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_CATH_ARST_TRPT_DOC.CATH_ARST_TRPT_NUM')
+		    ,#rcptNum#
+		    ,#incSpNum#
+		    ,#cstdPernNum#
+		    ,#rcpnReqPersNm#
+		    ,#rcpnReqPersAddr#
+		    ,#cstdPersRelt#
+		    ,#careDiv#
+		    ,#trptDt#
+		    ,#letrContGist#
+		    ,#cathArstTrptComn#
+		    ,#handOffi#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		)
+ 	</update>
+ 	<update id="M0113.SJPB_CATH_ARST_TRPT_DOC.updateTrpt" parameterClass="com.saltware.enface.sjpb.M.service.M0113VO">  /* M0113.SJPB_CATH_ARST_TRPT_DOC.updateTrpt */
+ 		UPDATE SJPB_CATH_ARST_TRPT_DOC 
+		SET CSTD_PERN_NUM = #cstdPernNum#,
+		    RCPN_REQ_PERS_NM = #rcpnReqPersNm#,
+		    RCPN_REQ_PERS_ADDR = #rcpnReqPersAddr#,
+		    CSTD_PERS_RELT = #cstdPersRelt#,
+		    CARE_DIV = #careDiv#,
+		    TRPT_DT = #trptDt#,
+		    LETR_CONT_GIST = #letrContGist#,
+		    CATH_ARST_TRPT_COMN = #cathArstTrptComn#,
+		    HAND_OFFI = #handOffi#,
+		    UPD_USER_ID = #regUserId#,
+		    UPD_DATE = SYSDATE
+		WHERE CATH_ARST_TRPT_NUM = #cathArstTrptNum#
+ 	</update>
+ 	
+ 	<select id="M0113.SJPB_CATH_ARST_TRPT_DOC.prnCheckReport" resultMap="M0113VO.list">  /* M0113.SJPB_CATH_ARST_TRPT_DOC.prnCheckReport */
+ 		SELECT A.CATH_ARST_TRPT_NUM  /* 체포구속인교통부번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,D.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,A.CSTD_PERN_NUM  /* 유치인번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,A.RCPN_REQ_PERS_NM  /* 접견신청자성명 */
+		       ,A.RCPN_REQ_PERS_ADDR  /* 접견신청자주거 */
+		       ,A.CSTD_PERS_RELT  /* 유치인과의관계 */
+		       ,A.CARE_DIV  /* 수발의구별 */
+               ,DECODE(A.TRPT_DT,NULL,'',SUBSTR(A.TRPT_DT,1,4)||'.'|| SUBSTR(A.TRPT_DT,5,2) ||'.'||SUBSTR(A.TRPT_DT,7,2)) AS TRPT_DT  /* 교통일시 */ 
+		       ,A.LETR_CONT_GIST  /* 서신내용의요지 */
+		       ,A.CATH_ARST_TRPT_COMN  /* 비고 */
+		       ,A.HAND_OFFI  /* 취급자 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,E.NM_KOR
+		FROM SJPB_CATH_ARST_TRPT_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST D ON D.RCPT_NUM = B.RCPT_NUM
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="cathArstTrptNumList" prepend="AND">
+				<iterate property="cathArstTrptNumList" open="A.CATH_ARST_TRPT_NUM IN(" close=")" conjunction=",">
+					 #cathArstTrptNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+</sqlMap>

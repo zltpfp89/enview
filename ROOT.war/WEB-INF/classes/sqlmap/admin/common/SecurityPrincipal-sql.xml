@@ -1,0 +1,117 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ SECURITY_PRINCIPAL : 사용자관리 ] Table -->
+	<resultMap id="admin_SecurityPrincipalVO_PK" class="com.saltware.enview.admin.user.service.SecurityPrincipalPK">
+	
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_SecurityPrincipalVO" class="com.saltware.enview.admin.user.service.SecurityPrincipalVO">
+	 
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="1"/>	 
+		<result property="shortPath" column="SHORT_PATH" columnIndex="2"/>	 
+		<result property="principalName" column="PRINCIPAL_NAME" columnIndex="3"/>	 
+		<result property="theme" column="THEME" columnIndex="4"/>	 
+		<result property="defaultPage" column="DEFAULT_PAGE" columnIndex="5"/>	 
+		<result property="columnValue0" column="COLUMN_VALUE0" columnIndex="6"/>	 
+		<result property="isEnabled" column="IS_ENABLED" columnIndex="7"/>	 
+		<result property="updateRequired0" column="UPDATE_REQUIRED0" columnIndex="8"/>	 
+		<result property="authFailures0" column="AUTH_FAILURES0" columnIndex="9"/>	 
+		<result property="modifiedDate0" column="MODIFIED_DATE0" columnIndex="10"/>	 
+		<result property="authMethod" column="AUTH_METHOD" columnIndex="11"/>	 
+		<result property="principalType" column="PRINCIPAL_TYPE" columnIndex="12"/>	 
+		<result property="principalInfo01" column="PRINCIPAL_INFO01" columnIndex="13"/>	 
+		<result property="principalInfo02" column="PRINCIPAL_INFO02" columnIndex="14"/>	 
+		<result property="principalInfo03" column="PRINCIPAL_INFO03" columnIndex="15"/>	 
+		<result property="creationDate" column="CREATION_DATE" columnIndex="16"/>	 
+		<result property="modifiedDate" column="MODIFIED_DATE" columnIndex="17"/>	 
+		<result property="principalDesc" column="PRINCIPAL_DESC" columnIndex="18"/>	
+	</resultMap>
+	
+	<select id="securityPrincipal.totalCount" resultClass="int">
+	/* securityPrincipal.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM SECURITY_PRINCIPAL
+		WHERE 1=1	
+				<isNotNull prepend=" AND " property="groupIdJoinCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_GROUP WHERE GROUP_ID=#groupIdJoinCond#)</isNotNull>
+				<isNotNull  prepend=" AND " property="roleIdJoinCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID LIKE COALESCE(#roleIdJoinCond#,'%')||'%')</isNotNull>
+				<isNotNull  prepend=" AND " property="shortPathCond">SHORT_PATH LIKE COALESCE(#shortPathCond#,'%')||'%'</isNotNull>
+				<isNotNull  prepend=" AND " property="principalNameCond">PRINCIPAL_NAME LIKE COALESCE(#principalNameCond#,'%')||'%'</isNotNull>
+	</select>
+	
+	<select id="securityPrincipal.findByPage" resultMap="admin_SecurityPrincipalVO_PK">
+	/* securityPrincipal.findByPage */
+		SELECT tb1.* FROM (
+			SELECT PRINCIPAL_ID,ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY PRINCIPAL_ID ASC</isNull>
+			) as rnum
+			FROM SECURITY_PRINCIPAL
+			WHERE 1=1 
+			<isNotNull prepend=" AND " property="groupIdJoinCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_GROUP WHERE GROUP_ID=#groupIdJoinCond#)</isNotNull>
+			<isNotNull  prepend=" AND " property="roleIdJoinCond">PRINCIPAL_ID IN (SELECT USER_ID FROM SECURITY_USER_ROLE WHERE ROLE_ID LIKE COALESCE(#roleIdJoinCond#,'%')||'%')</isNotNull>
+			<isNotNull  prepend=" AND " property="shortPathCond">SHORT_PATH LIKE COALESCE(#shortPathCond#,'%')||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="principalNameCond">PRINCIPAL_NAME LIKE COALESCE(#principalNameCond#,'%')||'%'</isNotNull>
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="securityPrincipal.findAll" resultMap="admin_SecurityPrincipalVO_PK">
+		/* securityPrincipal.findAll */
+			SELECT PRINCIPAL_ID
+			FROM SECURITY_PRINCIPAL
+	</select>
+	
+
+	<select id="securityPrincipal.detail" resultMap="admin_SecurityPrincipalVO">
+		/* securityPrincipal.detail */
+		<![CDATA[
+			SELECT a.PRINCIPAL_ID, a.SHORT_PATH, a.PRINCIPAL_NAME, a.THEME, a.DEFAULT_PAGE, b.COLUMN_VALUE COLUMN_VALUE0, a.IS_ENABLED, b.UPDATE_REQUIRED UPDATE_REQUIRED0, b.AUTH_FAILURES AUTH_FAILURES0, b.MODIFIED_DATE MODIFIED_DATE0, a.AUTH_METHOD, a.PRINCIPAL_TYPE, a.PRINCIPAL_INFO01, a.PRINCIPAL_INFO02, a.PRINCIPAL_INFO03, a.CREATION_DATE, a.MODIFIED_DATE, a.PRINCIPAL_DESC
+			FROM SECURITY_PRINCIPAL a INNER JOIN SECURITY_CREDENTIAL b ON a.PRINCIPAL_ID=b.PRINCIPAL_ID
+			WHERE 1=1 
+				AND a.PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+		]]>
+	</select>
+	
+	<insert id="securityPrincipal.insert">
+		/* securityPrincipal.insert */
+		<![CDATA[
+			INSERT INTO SECURITY_PRINCIPAL
+				( PRINCIPAL_ID,SHORT_PATH,PRINCIPAL_NAME,THEME,DEFAULT_PAGE,IS_ENABLED,AUTH_METHOD,PRINCIPAL_TYPE,PRINCIPAL_INFO01,PRINCIPAL_INFO02,PRINCIPAL_INFO03,CREATION_DATE,MODIFIED_DATE,PRINCIPAL_DESC )
+			VALUES ( CAST(#principalId# AS INTEGER),#shortPath#,#principalName#,#theme#,#defaultPage#,CAST(#isEnabled# AS INTEGER),#authMethod#,#principalType#,#principalInfo01#,#principalInfo02#,#principalInfo03#,#creationDate#,#modifiedDate#,#principalDesc# )
+		]]>
+	</insert>
+	
+	<update id="securityPrincipal.update">
+		/* securityPrincipal.update */
+		<![CDATA[
+			UPDATE SECURITY_PRINCIPAL
+			SET PRINCIPAL_ID=CAST(#principalId# AS INTEGER),SHORT_PATH=#shortPath#,PRINCIPAL_NAME=#principalName#,THEME=#theme#,DEFAULT_PAGE=#defaultPage#,IS_ENABLED=CAST(#isEnabled# AS INTEGER),AUTH_METHOD=#authMethod#,PRINCIPAL_TYPE=#principalType#,PRINCIPAL_INFO01=#principalInfo01#,PRINCIPAL_INFO02=#principalInfo02#,PRINCIPAL_INFO03=#principalInfo03#,CREATION_DATE=#creationDate#,MODIFIED_DATE=#modifiedDate#,PRINCIPAL_DESC=#principalDesc#
+			WHERE 1=1 
+				AND PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+		]]>
+	</update>
+	
+	<delete id="securityPrincipal.delete">
+		/* securityPrincipal.delete */
+		<![CDATA[
+			DELETE FROM SECURITY_PRINCIPAL
+			WHERE 1=1 
+				AND PRINCIPAL_ID=CAST(#principalId# AS INTEGER)
+		]]>
+	</delete>
+	
+	<delete id="securityPrincipal.deleteChildren">
+		/* securityPrincipal.deleteChildren */
+		<![CDATA[
+			DELETE FROM SECURITY_PRINCIPAL
+			WHERE 1=1 
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

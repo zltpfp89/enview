@@ -1,0 +1,46 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	int contextRootIndex = request.getRequestURL().indexOf("/enview");
+	String domain = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+	
+%>
+<div class="previewPanel">
+	<div id="previewCafeUrl" class="previewCafeUrl"><%=domain%>/cafe/<c:out value="${cmntVO.cmntUrl }"/></div>
+</div>
+<br>
+<div class="cafeNameEditPanel">
+	<div class="editorWideRow">
+		<div class="fontName">
+			<div class="editorLabel">폰트명</div>
+			<select id="CF0104_fontNm" name="fontNm" class="fontNameSelect">
+				<option value="굴림" selected="selected">굴림</option>
+				<option value="돋움">돋움</option>
+				<option value="바탕">바탕</option>
+				<option value="궁서">궁서</option>
+				<option value="serif">serif</option>
+				<option value="sans-serif">sans-serif</option>
+				<option value="cursive">cursive</option>
+			</select>
+		</div>
+		<div class="fontSize">
+			<div class="editorLabelCenter">크기</div>
+			<select id="CF0104_fontSize" name="fontSize" class="fontSizeSelect">
+				<option value="11px" selected="selected">11px</option>
+				<option value="12px">12px</option>
+				<option value="13px">13px</option>
+				<option value="14px">14px</option>
+				<option value="17px">17px</option>
+				<option value="20px">20px</option>
+				<option value="24px">24px</option>
+				<option value="28px">28px</option>
+				<option value="35px">35px</option>
+				<option value="45px">45px</option>
+			</select>
+		</div>
+		<div class="fontColor">
+			<div class="editorLabelCenter2">폰트색</div>
+			<div id="CF0104_fontColor" class="fontColorPicker" onclick="javascript:cfColorPicker.initialize('CF0104_fontColor', cfTitleEditor.setCafeUrlColor);"></div>
+		</div>
+	</div>
+</div>

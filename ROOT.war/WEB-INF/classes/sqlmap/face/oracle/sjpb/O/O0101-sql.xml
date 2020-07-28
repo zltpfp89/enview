@@ -1,0 +1,48 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+ 	
+	 <resultMap class="com.saltware.enface.sjpb.O.service.O0101VO" id="O0101VO.list">
+	 	<result property="inqHistSiNum" column="INQ_HIST_SI_NUM"/>
+		<result property="histDiv" column="HIST_DIV"/>
+		<result property="histDivDesc" column="HIST_DIV_DESC"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="inqUserId" column="INQ_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="inqDt" column="INQ_DT"/>
+	 </resultMap>
+ 
+	 <select id="O0101VO.selectList" resultMap="O0101VO.list"> /* O0101VO.selectList */
+	 	SELECT A.INQ_HIST_SI_NUM  /* 사건조회이력일련번호 */
+		       ,A.HIST_DIV  /* 이력구분 */
+		       ,CASE A.HIST_DIV WHEN 'A' THEN '내사사건'
+		                        WHEN 'B' THEN '고발/인지'
+		                        WHEN 'D' THEN '사건조회'
+		                        ELSE NULL END AS HIST_DIV_DESC
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 피의자번호 */
+		       ,D.SP_NM AS SP_NM  /* 피의자 이름 */
+		       ,A.INQ_USER_ID  /* 조회자 */
+		       ,B.NM_KOR  /* 조회자 이름 */
+		       ,A.INQ_DT  /* 조회일시 */
+		FROM SJPB_INC_INQ_HIST A
+		JOIN USERPASS B ON B.USER_ID = A.INQ_USER_ID
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		LEFT JOIN SJPB_INC_SP D ON D.INC_SP_NUM = A.INC_SP_NUM
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="nmKorSc" prepend="AND">
+				B.NM_KOR = #nmKorSc#
+			</isNotEmpty>
+			<isNotEmpty property="inqDtSc" prepend="AND">
+				TO_CHAR(A.INQ_DT,'YYYY-MM-DD') = #inqDtSc#
+			</isNotEmpty>
+		</dynamic>
+		ORDER BY A.INQ_DT DESC
+	 </select>
+ 
+ 
+</sqlMap>

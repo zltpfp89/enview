@@ -1,0 +1,110 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ DOMAIN_LANG : 도몌인 다국어 ] Table -->
+	<resultMap id="admin_DomainLangVO_PK" class="com.saltware.enview.admin.domain.service.DomainLangPK">
+		<result property="domainId" column="DOMAIN_ID" columnIndex="1"/>	
+		<result property="langKnd" column="LANG_KND" columnIndex="2"/>	
+	</resultMap>
+	
+	<resultMap id="admin_DomainLangVO" class="com.saltware.enview.admin.domain.service.DomainLangVO">
+		<result property="domainId" column="DOMAIN_ID" columnIndex="1"/>	 
+		<result property="langKnd" column="LANG_KND" columnIndex="2"/>	 
+		<result property="domainNm" column="DOMAIN_NM" columnIndex="3"/>	 
+		<result property="domainDesc" column="DOMAIN_DESC" columnIndex="4"/>	
+		<result property="domain" column="domain" columnIndex="5"/>	
+	</resultMap>
+	
+	<select id="domainLang.totalCount" resultClass="int">
+	/* domainLang.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM DOMAIN_LANG
+		WHERE DOMAIN_ID=CAST(#domainId# AS INTEGER)
+	</select>
+	
+	<select id="domainLang.findByPage" resultMap="admin_DomainLangVO_PK">
+	/* domainLang.findByPage */
+		SELECT * FROM (
+			SELECT  DOMAIN_ID,LANG_KND, ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY DOMAIN_ID ASC</isNull>
+			) as rnum 
+			FROM DOMAIN_LANG
+			WHERE DOMAIN_ID=CAST(#domainId# AS INTEGER)
+		) t1 WHERE t1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="domainLang.findAll" resultMap="admin_DomainLangVO">
+			SELECT a.DOMAIN_ID,a.LANG_KND,a.DOMAIN_NM,a.DOMAIN_DESC, b.DOMAIN
+			FROM DOMAIN_LANG a, DOMAIN b
+			WHERE  a.DOMAIN_ID = b.DOMAIN_ID
+	</select>
+	
+	<select id="domainLang.findByMaster" resultMap="admin_DomainLangVO_PK">
+			SELECT DOMAIN_ID,LANG_KND
+			FROM DOMAIN_LANG
+			WHERE 1=1 
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+		
+	</select>
+	
+
+	<select id="domainLang.detail" resultMap="admin_DomainLangVO">
+     <![CDATA[
+				SELECT a.DOMAIN_ID,a.LANG_KND,a.DOMAIN_NM,a.DOMAIN_DESC, b.domain
+				FROM DOMAIN_LANG a, domain b
+				WHERE 1=1 
+				AND a.DOMAIN_ID=CAST(#domainId# AS INTEGER) AND b.DOMAIN_ID = CAST(#domainId# AS INTEGER)
+				AND LANG_KND=#langKnd#
+		   ]]>
+    </select>
+	
+	<select id="domainLang.exist" resultClass="int">
+			SELECT COUNT(*) cnt
+			FROM DOMAIN_LANG
+			WHERE 1=1 
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+				AND LANG_KND=#langKnd#
+	</select>
+	
+	<insert id="domainLang.insert">
+		<![CDATA[
+			INSERT INTO DOMAIN_LANG
+				( DOMAIN_ID,LANG_KND,DOMAIN_NM,DOMAIN_DESC )
+			VALUES ( CAST(#domainId# AS INTEGER),#langKnd#,#domainNm#,#domainDesc# )
+		]]>
+	</insert>
+	
+	<update id="domainLang.update">
+		<![CDATA[
+			UPDATE DOMAIN_LANG
+			SET DOMAIN_ID=CAST(#domainId# AS INTEGER),LANG_KND=#langKnd#,DOMAIN_NM=#domainNm#,DOMAIN_DESC=#domainDesc#
+			WHERE 1=1 
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+				AND LANG_KND=#langKnd#
+		]]>
+	</update>
+	
+	<delete id="domainLang.delete">
+		<![CDATA[
+			DELETE FROM DOMAIN_LANG
+			WHERE 1=1 
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+				AND LANG_KND=#langKnd#
+		]]>
+	</delete>
+	
+	<delete id="domainLang.deleteChildren">
+		<![CDATA[
+			DELETE FROM DOMAIN_LANG
+			WHERE 1=1 
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

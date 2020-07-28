@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./QCELL/css/qcell.css" type="text/css" rel="stylesheet" />
+		<style type='text/css'>
+		.aligncenter {
+			text-align: center;
+		}
+		
+		.fontsize18 {
+			font-size: 18px;
+		}
+		
+		.alignright {
+			text-align: right;
+		}
+		</style>
+        <script type="text/javascript">
+            var RightTechPath = './';
+        </script>
+        <script type="text/javascript" src="./QCELL/qcell.js"></script>
+        <script type="text/javascript">
+			var select_gubun = [
+				{'label':'개발제한',	'value': 0},
+				{'label':'대부및방문',	'value': 1},
+				{'label':'석유및자동차',	'value': 2},
+				{'label':'식품위생',	'value': 3},
+				{'label':'의약',		'value': 4},
+				{'label':'환경',		'value': 5}
+			];
+			
+			var select_inv = [
+				{'label': '민생수사지원',	'value': 0},
+				{'label': '방문판매',		'value': 1},
+				{'label': '보건의약',		'value': 2},
+				{'label': '식품안전',		'value': 3},
+				{'label': '환경보전',		'value': 4}
+			];
+			
+			var select_inv_man = [
+				{'label': '김영희',	'value': 0},
+				{'label': '김철수',	'value': 1},
+				{'label': '홍길동',	'value': 2}
+			];
+			
+			var select_vio = [
+				{'label': '개발제한구역의지정및관리에관한특별조치법위반',	'value': 0},
+				{'label': '건강기능식품에관한법률위반',				'value': 1},
+				{'label': '방문판매등에관한법률위반',				'value': 2},
+				{'label': '석유및석유대체사업법위반',				'value': 3},
+				{'label': '수질및수생태계보전에관한법률위반',			'value': 4},
+				{'label': '식품위생법위반',						'value': 5},
+				{'label': '약사법위반',							'value': 6},
+				{'label': '폐기물관리법위반',						'value': 7}
+			];
+			
+			var select_cause_det = [
+				{'label': '고발',	'value': 0},
+				{'label': '인지',	'value': 1}
+			];
+			
+			var select_send_comm = [
+				{'label': '',				'value': 0},
+				{'label': '불구속기소',			'value': 1},
+				{'label': '혐의없음(증거불충분)',	'value': 2}
+			];
+			
+			var select_send_agency = [
+				{'label': '',		'value': 0},
+				{'label': '동부',		'value': 1},
+				{'label': '북부',		'value': 2},
+				{'label': '중앙',		'value': 3}
+			];
+			
+			var select_send_res = [
+				{'label': '',		'value': 0},
+				{'label': '완료',		'value': 1}
+			];
+			
+			var data = [{"num":20,"gubun":5,"case_number":"20180102-120-01","inv":4,"inv_man":2,"vio":7,"cause_det":1,"inv_dir":"2018-01-24","send_comm":1,"send_date":"2018-07-21","send_agency":1,"send_res":1},{"num":19,"gubun":3,"case_number":"20180102-120-02","inv":3,"inv_man":1,"vio":5,"cause_det":0,"inv_dir":"2018-01-24","send_comm":1,"send_date":"2018-07-15","send_agency":3,"send_res":1},{"num":18,"gubun":3,"case_number":"20180102-120-03","inv":3,"inv_man":0,"vio":5,"cause_det":0,"inv_dir":"2018-01-24","send_comm":1,"send_date":"2018-07-17","send_agency":3,"send_res":1},{"num":17,"gubun":3,"case_number":"20180102-120-04","inv":3,"inv_man":2,"vio":5,"cause_det":0,"inv_dir":"2018-01-24","send_comm":1,"send_date":"2018-07-21","send_agency":2,"send_res":1},{"num":16,"gubun":3,"case_number":"20180102-120-05","inv":3,"inv_man":1,"vio":5,"cause_det":0,"inv_dir":"2018-01-24","send_comm":1,"send_date":"2018-07-15","send_agency":3,"send_res":1},{"num":15,"gubun":3,"case_number":"20180102-120-06","inv":3,"inv_man":0,"vio":5,"cause_det":0,"inv_dir":"2018-01-24","send_comm":1,"send_date":"2018-07-17","send_agency":3,"send_res":1},{"num":14,"gubun":3,"case_number":"20180102-120-07","inv":3,"inv_man":2,"vio":5,"cause_det":0,"inv_dir":"2018-01-24","send_comm":2,"send_date":"2018-07-21","send_agency":1,"send_res":1},{"num":13,"gubun":3,"case_number":"20180102-120-08","inv":3,"inv_man":1,"vio":5,"cause_det":0,"inv_dir":"2018-01-24","send_comm":1,"send_date":"2018-07-15","send_agency":3,"send_res":1},{"num":12,"gubun":5,"case_number":"20180102-120-09","inv":4,"inv_man":0,"vio":4,"cause_det":0,"inv_dir":"2018-01-24","send_comm":1,"send_date":"2018-07-17","send_agency":3,"send_res":1},{"num":11,"gubun":5,"case_number":"20180102-120-10","inv":4,"inv_man":2,"vio":4,"cause_det":1,"inv_dir":"2018-01-24","send_comm":1,"send_date":"2018-07-21","send_agency":2,"send_res":1},{"num":10,"gubun":4,"case_number":"20180102-120-11","inv":2,"inv_man":1,"vio":6,"cause_det":0,"inv_dir":"2018-01-24","send_comm":2,"send_date":"2018-07-15","send_agency":3,"send_res":1},{"num":9,"gubun":3,"case_number":"20180102-120-12","inv":3,"inv_man":0,"vio":1,"cause_det":0,"inv_dir":"2018-01-24","send_comm":1,"send_date":"2018-07-17","send_agency":3,"send_res":1},{"num":8,"gubun":3,"case_number":"20180102-120-13","inv":3,"inv_man":2,"vio":5,"cause_det":1,"inv_dir":"2018-01-24","send_comm":1,"send_date":"2018-07-21","send_agency":1,"send_res":1},{"num":7,"gubun":2,"case_number":"20180102-120-14","inv":4,"inv_man":1,"vio":3,"cause_det":0,"inv_dir":"2018-01-24","send_comm":2,"send_date":"2018-07-15","send_agency":3,"send_res":1},{"num":6,"gubun":3,"case_number":"20180102-120-15","inv":3,"inv_man":0,"vio":5,"cause_det":0,"inv_dir":"2018-01-24","send_comm":1,"send_date":"2018-07-17","send_agency":3,"send_res":1},{"num":5,"gubun":0,"case_number":"20180102-120-16","inv":0,"inv_man":2,"vio":0,"cause_det":0,"inv_dir":"2018-01-24","send_comm":1,"send_date":"2018-08-12","send_agency":1,"send_res":1},{"num":4,"gubun":0,"case_number":"20180102-120-17","inv":0,"inv_man":1,"vio":0,"cause_det":0,"inv_dir":"2018-01-24","send_comm":1,"send_date":"2018-08-14","send_agency":3,"send_res":1},{"num":3,"gubun":0,"case_number":"20180102-120-18","inv":0,"inv_man":0,"vio":0,"cause_det":0,"inv_dir":"2018-01-24","send_comm":0,"send_date":"","send_agency":"","send_res":""},{"num":2,"gubun":0,"case_number":"20180102-120-19","inv":0,"inv_man":1,"vio":0,"cause_det":0,"inv_dir":"2018-01-24","send_comm":0,"send_date":"","send_agency":"","send_res":""},{"num":1,"gubun":1,"case_number":"20180102-120-20","inv":1,"inv_man":0,"vio":2,"cause_det":1,"inv_dir":"2018-01-24","send_comm":2,"send_date":"2018-08-30","send_agency":3,"send_res":1}];
+			
+            $(document).ready(function(){
+                var QCELLProp = {
+                    "parentid" : "sheet",
+                    "id"		: "cell",
+                    "data"		: {"input" : data},
+                    "columns"	: [
+						{width: '70',	key: 'num',			title: ['연번'],																					sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+                        {width: '100',	key: 'gubun',		title: ['구분'],						type:'selectmenu',	options:{input: select_gubun},			sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+                        {width: '300',	key: 'case_number',	title: ['사건번호'],																				sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+						{width: '200',	key: 'inv',			title: ['수사팀'],					type:'selectmenu',	options:{input: select_inv},			sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+						{width: '200',	key: 'inv_man',		title: ['수사 담당자'],					type:'selectmenu',	options:{input: select_inv_man},		sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+						{width: '500',	key: 'vio',			title: ['관련법률 및 죄명\r\n(위반내용)'],	type:'selectmenu',	options:{input: select_vio},			sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+						{width: '200',	key: 'cause_det',	title: ['발각 원인'],					type:'selectmenu',	options:{input: select_cause_det},		sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+						{width: '200',	key: 'inv_dir',		title: ['수사지휘'],																				sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+						{width: '300',	key: 'send_comm',	title: ['송치 의견'],					type:'selectmenu',	options:{input: select_send_comm},		sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+						{width: '200',	key: 'send_date',	title: ['송치 일시'],																				sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+						{width: '200',	key: 'send_agency',	title: ['송치기관'],					type:'selectmenu',	options:{input: select_send_agency},	sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+						{width: '200',	key: 'send_res',	title: ['송치결과'],					type:'selectmenu',	options:{input: select_send_res},		sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}}
+					],
+					//"rowheader"	: "sequence",
+					"frozencols" : 5
+                };
+                QCELL.create(QCELLProp);
+            });
+        </script>
+
+
+    </head>
+    <body>
+        <div id="sheet" style="height: 580px; width: 100%"></div>
+    </body>
+</html>

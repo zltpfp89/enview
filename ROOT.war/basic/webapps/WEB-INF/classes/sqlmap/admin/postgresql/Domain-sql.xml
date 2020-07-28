@@ -1,0 +1,26 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	<insert id="domain.insert.postgresql">
+		/* domain.insert.postgresql */
+		<![CDATA[
+			INSERT INTO DOMAIN
+				( DOMAIN_ID,DOMAIN_CODE,DOMAIN,PAGE_PATH,LOGIN_PAGE,USE_YN,UPD_USER_ID,UPD_DATIM )
+			VALUES ( #domainId#,#domainCode#,#domain#,#pagePath#,#loginPage#,#useYn#,#updUserId#,LOCALTIMESTAMP )
+		]]>
+	</insert>
+	
+	
+	<update id="domain.update.postgresql">
+		/* domain.update.postgresql */
+		<![CDATA[
+			UPDATE DOMAIN
+			SET DOMAIN_ID=#domainId#,DOMAIN_CODE=#domainCode#,DOMAIN=#domain#,PAGE_PATH=#pagePath#,LOGIN_PAGE=#loginPage#,USE_YN=#useYn#,UPD_USER_ID=#updUserId#,UPD_DATIM=LOCALTIMESTAMP
+			WHERE 1=1
+				AND DOMAIN_ID=#domainId#
+		]]>
+	</update>
+
+</sqlMap>
+

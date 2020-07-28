@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:flow="http://www.springframework.org/schema/webflow-config"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/webflow-config
+		                   http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd
+                           http://www.springframework.org/schema/tx 
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop 
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="/WEB-INF/apps/encola/WEB-INF/conf/encola.properties"/>
+    </bean>
+
+	<!-- View Resolver for JSPs -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/apps/encola/WEB-INF/view/cafe/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<bean id="methodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName" value="m" />
+		<property name="defaultMethodName" value="uiInit" />
+	</bean>
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- the maximum file size in bytes -->
+		<!--property name="maxUploadSize" value="${cafe.max.upload.size}"/-->
+		<property name="maxUploadSize" value="10000000"/>
+		<property name="defaultEncoding" value="EUC-KR"/>
+	</bean>
+	
+	<!--bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.lang.Exception">error/friendlyError</prop>
+				<prop key="com.saltware.encola.common.exception.AdminException">error/adminError</prop>
+				<prop key="com.saltware.encola.common.exception.Cafexception">error/cafeError</prop>
+			</props>
+		</property>
+	</bean-->
+
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+				<prop key="/ad.cafe">cafe.SuperController</prop>
+				<prop key="/op.cafe">cafe.SysopController</prop>
+				<prop key="/home.cafe">cafe.HomeController</prop>
+				<prop key="/each.cafe">cafe.EachController</prop>
+				<prop key="/editor.cafe">cafe.EditorController</prop>
+				<prop key="/help.cafe">cafe.HelpController</prop>
+				<prop key="*">cafe.HomeController</prop>
+			</props>
+		</property>
+		<property name="interceptors">
+			<list>
+				<ref bean="cola.cafe.SecurityInterceptor"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cafe.CafeBaseController" class="com.saltware.encola.cafe.control.CafeBaseController">
+		<property name="methodNameResolver" ref="methodNameResolver"/>
+		<property name="cacheMngr" ref="com.saltware.encola.common.cache.CacheMngr"/>
+		<property name="ebCacheMngr" ref="com.saltware.enboard.cache.CacheMngr"/>
+	</bean>
+	<bean id="cafe.SuperController"  parent="cafe.CafeBaseController" class="com.saltware.encola.cafe.control.SuperController"/>
+	<bean id="cafe.SysopController"  parent="cafe.CafeBaseController" class="com.saltware.encola.cafe.control.SysopController"/>
+	<bean id="cafe.EachController"   parent="cafe.CafeBaseController" class="com.saltware.encola.cafe.control.EachController"/>
+	<bean id="cafe.HomeController"   parent="cafe.CafeBaseController" class="com.saltware.encola.cafe.control.HomeController"/>
+	<bean id="cafe.EditorController" parent="cafe.CafeBaseController" class="com.saltware.encola.cafe.control.EditorController"/>
+	<bean id="cafe.HelpController"   parent="cafe.CafeBaseController" class="com.saltware.encola.cafe.control.HelpController"/>
+	<!--bean id="adminCafeValidator" class="com.saltware.encola.validator.AdminCafeValidator" /-->
+	<!--bean id="cafeValidator" class="com.saltware.encola.validator.CafeValidator" /-->
+	
+</beans>

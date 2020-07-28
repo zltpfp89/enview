@@ -1,0 +1,11 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="attachFile">
+	<update id="attachFile.insert.postgresql">
+			INSERT INTO atch_file
+			( system_id, file_id, file_seq, atch_type, file_name, file_mask, file_size, down_cnt, atch_datim)
+			VALUES 
+			( #systemId#, #fileId#, #fileSeq#, #atchType#, #fileName#, #fileMask#, #fileSize#, 0, LOCALTIMESTAMP)
+	</update>
+</sqlMap>
+

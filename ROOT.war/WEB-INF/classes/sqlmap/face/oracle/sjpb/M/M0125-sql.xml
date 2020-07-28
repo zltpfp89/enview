@@ -1,0 +1,175 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0125VO" id="M0125VO.list">
+		<result property="cmctCnfmRepyBkNum" column="CMCT_CNFM_REPY_BK_NUM"/>
+		<result property="repyBkSiNum" column="REPY_BK_SI_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="reqDt" column="REQ_DT"/>
+		<result property="dtaRnge" column="DTA_RNGE"/>
+		<result property="repyDt" column="REPY_DT"/>
+		<result property="repyBkComn" column="REPY_BK_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="nmKor" column="NM_KOR"/>
+
+	</resultMap>
+ 	<select id="M0125.selectList" resultMap="M0125VO.list">  /* M0125.selectList */
+ 		SELECT 
+ 			A.CMCT_CNFM_REPY_BK_NUM
+			,A.REPY_BK_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,TO_DATE(A.REQ_DT, 'YYYY.MM.DD') AS REQ_DT
+			,A.DTA_RNGE
+			,TO_DATE(A.REPY_DT, 'YYYY.MM.DD') AS REPY_DT
+			,A.REPY_BK_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_CMCT_CNFM_REPY_BK_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="repyBkSiNumSc" prepend="AND">
+				A.REPY_BK_SI_NUM LIKE = #repyBkSiNumSc#
+			</isNotEmpty>
+			<isNotEmpty property="sReqDtSc" prepend="AND">
+				A.REQ_DT &gt;= TO_DATE(#sReqDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="eReqDtSc" prepend="AND">
+				A.REQ_DT &lt;= TO_DATE(#eReqDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="regUserNmSc" prepend="AND">
+				D.NM_KOR LIKE '%' || #regUserNmSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				C.SP_NM LiKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="sRepyDtSc" prepend="AND">
+				A.REPY_DT &gt;= TO_DATE(#sRepyDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="eRepyDtSc" prepend="AND">
+				A.REPY_DT &lt;= TO_DATE(#eRepyDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				B.RCPT_NUM = #rcptNumSc# OR B.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+		</dynamic>
+        ORDER BY REG_DATE DESC
+ 	</select>
+ 	
+ 	<!-- 데이터 조회 (pk 일련번호)-->
+	<select id="M0125.selectData" resultMap="M0125VO.list"> /* M0125.selectData */
+		SELECT 
+ 			A.CMCT_CNFM_REPY_BK_NUM
+			,A.REPY_BK_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,TO_DATE(A.REQ_DT, 'YYYY.MM.DD') AS REQ_DT
+			,A.DTA_RNGE
+			,TO_DATE(A.REPY_DT, 'YYYY.MM.DD') AS REPY_DT
+			,A.REPY_BK_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_CMCT_CNFM_REPY_BK_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		WHERE A.CMCT_CNFM_REPY_BK_NUM = #cmctCnfmRepyBkNum#
+	</select>
+	
+	<!-- 데이터 추가 -->
+	<insert id="M0125.insertData"> /* M0125.insertData */
+		INSERT INTO SJPB_CMCT_CNFM_REPY_BK_DOC
+			(
+				CMCT_CNFM_REPY_BK_NUM
+				,REPY_BK_SI_NUM
+				,RCPT_NUM
+				,INC_SP_NUM
+				,REQ_DT
+				,DTA_RNGE
+				,REPY_DT
+				,REPY_BK_COMN
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE
+			)
+		VALUES (
+				#cmctCnfmRepyBkNum#
+				,#repyBkSiNum#
+				,#rcptNum#
+				,#incSpNum#
+				,#reqDt#
+				,#dtaRnge#
+				,#repyDt#
+				,#repyBkComn#
+				,#regUserId#
+				,SYSDATE
+				,#updUserId#
+				,SYSDATE
+			)
+	</insert>
+	
+	<!-- 데이터 수정 -->	 		
+	<update id="M0125.updateData"> /* M0125.updateData */	
+		UPDATE SJPB_CMCT_CNFM_REPY_BK_DOC
+			SET	RCPT_NUM = #rcptNum#
+				,INC_SP_NUM = #incSpNum#
+				,REPY_BK_SI_NUM = #repyBkSiNum#
+				,REQ_DT = #reqDt#
+				,DTA_RNGE = #dtaRnge#
+				,REPY_DT = #repyDt#
+				,REPY_BK_COMN = #repyBkComn#
+				,UPD_USER_ID = #updUserId#
+				,UPD_DATE = SYSDATE
+			WHERE CMCT_CNFM_REPY_BK_NUM = #cmctCnfmRepyBkNum#
+	</update>
+ 	
+ 	<select id="M0125.SJPB_CMCT_CNFM_REPY_BK_DOC.prnCheckReport" resultMap="M0125VO.list">  /* M0125.SJPB_CMCT_CNFM_REPY_BK_DOC.prnCheckReport */
+ 		SELECT 
+ 			A.CMCT_CNFM_REPY_BK_NUM
+			,A.REPY_BK_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,TO_DATE(A.REQ_DT, 'YYYY.MM.DD') AS REQ_DT
+			,A.DTA_RNGE
+			,TO_DATE(A.REPY_DT, 'YYYY.MM.DD') AS REPY_DT
+			,A.REPY_BK_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_CMCT_CNFM_REPY_BK_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="cmctCnfmRepyBkNumList" prepend="AND">
+				<iterate property="cmctCnfmRepyBkNumList" open="A.CMCT_CNFM_REPY_BK_NUM IN(" close=")" conjunction=",">
+					 #cmctCnfmRepyBkNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

@@ -1,0 +1,333 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0215VO" id="M0215VO.list">
+		<result property="prhbDeptReqNum" column="PRHB_DEPT_REQ_NUM"/>
+		<result property="docNum" column="DOC_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="reqType" column="REQ_TYPE"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="persNaty" column="PERS_NATY"/>
+		<result property="persPassportNum" column="PERS_PASSPORT_NUM"/>
+		<result property="persPassportEndDate" column="PERS_PASSPORT_END_DATE"/>
+		<result property="persReqPeriod" column="PERS_REQ_PERIOD"/>
+		<result property="persReqResln" column="PERS_REQ_RESLN"/>
+		<result property="attorNm" column="ATTOR_NM"/>
+		<result property="attorOpinion" column="ATTOR_OPINION"/>
+		<result property="attorCmdDate" column="ATTOR_CMD_DATE"/>
+		<result property="prhbBanDate" column="PRHB_BAN_DATE"/>
+		<result property="prhbBanResn" column="PRHB_BAN_RESN"/>
+		<result property="prhbBanGrnd" column="PRHB_BAN_GRND"/>
+		<result property="prhbBanYn" column="PRHB_BAN_YN"/>
+		<result property="prhbBanPerd" column="PRHB_BAN_PERD"/>
+		<result property="prhbExtDate" column="PRHB_EXT_DATE"/>
+		<result property="prhbExtResn" column="PRHB_EXT_RESN"/>
+		<result property="prhbExtGrnd" column="PRHB_EXT_GRND"/>
+		<result property="prhbExtYn" column="PRHB_EXT_YN"/>
+		<result property="prhbExtPerd" column="PRHB_EXT_PERD"/>
+		<result property="prhbDisDate" column="PRHB_DIS_DATE"/>
+		<result property="prhbDisGrnd" column="PRHB_DIS_GRND"/>
+		<result property="prhbDisYn" column="PRHB_DIS_YN"/>
+		<result property="prhbComn" column="PRHB_COMN"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="spJob" column="SP_JOB"/>
+		
+		<result property="nmKor" column="NM_KOR"/>
+
+	</resultMap>
+	
+ 	<select id="M0215.selectList" resultMap="M0215VO.list">  /* M0215.selectList */
+ 		 SELECT
+		    A.PRHB_DEPT_REQ_NUM,
+		    A.DOC_NUM,
+		    A.RCPT_NUM,
+		    B.RCPT_INC_NUM,
+		    A.REQ_TYPE,
+		    A.INC_SP_NUM,
+		    C.SP_NM AS SP_NM,
+		    C.SP_ID_NUM AS SP_ID_NUM,
+		    C.SP_ADDR AS SP_ADDR,
+		    C.SP_JOB AS SP_JOB,
+		    A.PERS_NATY,
+		    A.PERS_PASSPORT_NUM,
+		    A.PERS_PASSPORT_END_DATE,
+		    A.PERS_REQ_PERIOD,
+		    A.PERS_REQ_RESLN,
+		    A.ATTOR_NM,
+		    A.ATTOR_OPINION,
+		    A.ATTOR_CMD_DATE,
+		    A.PRHB_BAN_DATE,
+		    A.PRHB_BAN_RESN,
+		    A.PRHB_BAN_GRND,
+		    A.PRHB_BAN_YN,
+		    A.PRHB_BAN_PERD,
+		    A.PRHB_EXT_DATE,
+		    A.PRHB_EXT_RESN,
+		    A.PRHB_EXT_GRND,
+		    A.PRHB_EXT_YN,
+		    A.PRHB_EXT_PERD,
+		    A.PRHB_DIS_DATE,
+		    A.PRHB_DIS_GRND,
+		    A.PRHB_DIS_YN,
+		    A.PRHB_COMN,
+		    A.REG_DATE,
+		    A.REG_USER_ID,
+		    A.UPD_DATE,
+		    A.UPD_USER_ID,
+		    D.NM_KOR
+		FROM SJPB_PRHB_DEPT_REQ_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+		JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				B.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="regUserNmSc" prepend="AND">
+				D.NM_KOR LIKE '%' || #regUserNmSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				B.RCPT_NUM = #rcptNumSc# OR B.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+		</dynamic>
+        ORDER BY REG_DATE DESC
+ 	</select>
+ 	
+	<!-- 데이터 조회 (pk 일련번호)-->
+	<select id="M0215.selectData" resultMap="M0215VO.list"> /* M0215.selectData */
+		SELECT
+		    A.PRHB_DEPT_REQ_NUM,
+		    A.DOC_NUM,
+		    A.RCPT_NUM,
+		    B.RCPT_INC_NUM,
+		    A.REQ_TYPE,
+		    A.INC_SP_NUM,
+		    C.SP_NM AS SP_NM,
+		    C.SP_ID_NUM AS SP_ID_NUM,
+		    C.SP_ADDR AS SP_ADDR,
+		    C.SP_JOB AS SP_JOB,
+		    A.PERS_NATY,
+		    A.PERS_PASSPORT_NUM,
+		    A.PERS_PASSPORT_END_DATE,
+		    A.PERS_REQ_PERIOD,
+		    A.PERS_REQ_RESLN,
+		    A.ATTOR_NM,
+		    A.ATTOR_OPINION,
+		    A.ATTOR_CMD_DATE,
+		    A.PRHB_BAN_DATE,
+		    A.PRHB_BAN_RESN,
+		    A.PRHB_BAN_GRND,
+		    A.PRHB_BAN_YN,
+		    A.PRHB_BAN_PERD,
+		    A.PRHB_EXT_DATE,
+		    A.PRHB_EXT_RESN,
+		    A.PRHB_EXT_GRND,
+		    A.PRHB_EXT_YN,
+		    A.PRHB_EXT_PERD,
+		    A.PRHB_DIS_DATE,
+		    A.PRHB_DIS_GRND,
+		    A.PRHB_DIS_YN,
+		    A.PRHB_COMN,
+		    A.REG_DATE,
+		    A.REG_USER_ID,
+		    A.UPD_DATE,
+		    A.UPD_USER_ID,
+		    D.NM_KOR
+		FROM SJPB_PRHB_DEPT_REQ_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+		JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		WHERE A.PRHB_DEPT_REQ_NUM = #prhbDeptReqNum#
+	</select>
+ 	
+ 	<!-- 데이터 추가 -->
+	<insert id="M0215.insertData"> /* M0215.insertData */
+		INSERT INTO SJPB_PRHB_DEPT_REQ_DOC
+			(
+				PRHB_DEPT_REQ_NUM,
+			    DOC_NUM,
+			    RCPT_NUM,
+			    REQ_TYPE,
+			    INC_SP_NUM,
+			    PERS_NATY,
+			    PERS_PASSPORT_NUM,
+			    PERS_PASSPORT_END_DATE,
+			    PERS_REQ_PERIOD,
+			    PERS_REQ_RESLN,
+			    ATTOR_NM,
+			    ATTOR_OPINION,
+			    ATTOR_CMD_DATE,
+			    PRHB_BAN_DATE,
+			    PRHB_BAN_RESN,
+			    PRHB_BAN_GRND,
+			    PRHB_BAN_YN,
+			    PRHB_BAN_PERD,
+			    PRHB_EXT_DATE,
+			    PRHB_EXT_RESN,
+			    PRHB_EXT_GRND,
+			    PRHB_EXT_YN,
+			    PRHB_EXT_PERD,
+			    PRHB_DIS_DATE,
+			    PRHB_DIS_GRND,
+			    PRHB_DIS_YN,
+			    PRHB_COMN,
+			    REG_DATE,
+			    REG_USER_ID,
+			    UPD_DATE,
+			    UPD_USER_ID
+			)
+		VALUES (
+				  #prhbDeptReqNum#,
+				  #docNum#,
+				  #rcptNum#,
+				  #reqType#,
+				  #incSpNum#,
+				  #persNaty#,
+				  #persPassportNum#,
+				  #persPassportEndDate#,
+				  #persReqPeriod#,
+				  #persReqResln#,
+				  #attorNm#,
+				  #attorOpinion#,
+				  #attorCmdDate#,
+				  #prhbBanDate#,
+				  #prhbBanResn#,
+				  #prhbBanGrnd#,
+				  #prhbBanYn#,
+				  #prhbBanPerd#,
+				  #prhbExtDate#,
+				  #prhbExtResn#,
+				  #prhbExtGrnd#,
+				  #prhbExtYn#,
+				  #prhbExtPerd#,
+				  #prhbDisDate#,
+				  #prhbDisGrnd#,
+				  #prhbDisYn#,
+				  #prhbComn#,
+				 SYSDATE,
+				 #regUserId#,
+				 SYSDATE,
+				 #updUserId#
+			)
+	</insert>
+	
+	<!-- 데이터 수정 -->	 		
+	<update id="M0215.updateData"> /* M0215.updateData */	
+		UPDATE SJPB_PRHB_DEPT_REQ_DOC
+			SET	DOC_NUM = #docNum#,
+				REQ_TYPE = #reqType#,
+				INC_SP_NUM = #incSpNum#,
+				PERS_NATY = #persNaty#,
+				PERS_PASSPORT_NUM = #persPassportNum#,
+				PERS_PASSPORT_END_DATE = #persPassportEndDate#,
+				PERS_REQ_PERIOD = #persReqPeriod#,
+				PERS_REQ_RESLN = #persReqResln#,
+				ATTOR_NM = #attorNm#,
+				ATTOR_OPINION = #attorOpinion#,
+				ATTOR_CMD_DATE = #attorCmdDate#,
+				PRHB_BAN_DATE = #prhbBanDate#,
+				PRHB_BAN_RESN = #prhbBanResn#,
+				PRHB_BAN_GRND = #prhbBanGrnd#,
+				PRHB_BAN_YN = #prhbBanYn#,
+				PRHB_BAN_PERD = #prhbBanPerd#,
+				PRHB_EXT_DATE = #prhbExtDate#,
+				PRHB_EXT_RESN = #prhbExtResn#,
+				PRHB_EXT_GRND = #prhbExtGrnd#,
+				PRHB_EXT_YN = #prhbExtYn#,
+				PRHB_EXT_PERD = #prhbExtPerd#,
+				PRHB_DIS_DATE = #prhbDisDate#,
+				PRHB_DIS_GRND = #prhbDisGrnd#,
+				PRHB_DIS_YN = #prhbDisYn#,
+				PRHB_COMN = #prhbComn#,
+				UPD_DATE = SYSDATE,
+				UPD_USER_ID = #updUserId#
+			WHERE PRHB_DEPT_REQ_NUM = #prhbDeptReqNum#
+	</update>
+	
+ 	<resultMap class="com.saltware.enface.sjpb.M.service.M0215VO" id="M0215VO.listPrn">
+		<result property="prhbDeptReqNum" column="PRHB_DEPT_REQ_NUM"/>
+		<result property="docNum" column="DOC_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="reqType" column="REQ_TYPE"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="persNaty" column="PERS_NATY"/>
+		<result property="persPassportNum" column="PERS_PASSPORT_NUM"/>
+		<result property="persPassportEndDate" column="PERS_PASSPORT_END_DATE"/>
+		<result property="persReqPeriod" column="PERS_REQ_PERIOD"/>
+		<result property="persReqResln" column="PERS_REQ_RESLN"/>
+		<result property="attorNm" column="ATTOR_NM"/>
+		<result property="attorOpinion" column="ATTOR_OPINION"/>
+		<result property="attorCmdDate" column="ATTOR_CMD_DATE"/>
+		<result property="prhbBanDate" column="PRHB_BAN_DATE"/>
+		<result property="prhbBanResn" column="PRHB_BAN_RESN"/>
+		<result property="prhbBanGrnd" column="PRHB_BAN_GRND"/>
+		<result property="prhbBanYn" column="PRHB_BAN_YN"/>
+		<result property="prhbBanPerd" column="PRHB_BAN_PERD"/>
+		<result property="prhbExtDate" column="PRHB_EXT_DATE"/>
+		<result property="prhbExtResn" column="PRHB_EXT_RESN"/>
+		<result property="prhbExtGrnd" column="PRHB_EXT_GRND"/>
+		<result property="prhbExtYn" column="PRHB_EXT_YN"/>
+		<result property="prhbExtPerd" column="PRHB_EXT_PERD"/>
+		<result property="prhbDisDate" column="PRHB_DIS_DATE"/>
+		<result property="prhbDisGrnd" column="PRHB_DIS_GRND"/>
+		<result property="prhbDisYn" column="PRHB_DIS_YN"/>
+		<result property="prhbComn" column="PRHB_COMN"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="spJob" column="SP_JOB"/>
+		
+		<result property="nmKor" column="NM_KOR"/>
+
+	</resultMap>
+ 	<select id="M0215.SJPB_PRHB_DEPT_REQ_DOC.prnCheckReport" resultMap="M0215VO.listPrn">  /* M0215.SJPB_PRHB_DEPT_REQ_DOC.prnCheckReport */
+ 		SELECT A.CMCT_CNFM_DELY_NOTC_NUM
+			,A.NOTC_SI_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.APPR_DOC_NUM
+			,A.NOTC_TRGT_PERS
+			,A.EXEC_OFFI_TITL
+			,A.EXEC_OFFI_NM
+			,(A.EXEC_OFFI_TITL || ' ' || A.EXEC_OFFI_NM) AS EXEC_OFFI_TITL_NM
+			,TO_DATE(A.HAND_DT, 'YYYY.MM.DD') AS HAND_DT
+			,A.HAND_RST
+			,(TO_DATE(A.HAND_DT, 'YYYY.MM.DD') || ' ' || A.HAND_RST) AS HAND_DT_RST
+			,TO_DATE(A.NOTC_RECV_DT, 'YYYY.MM.DD') AS NOTC_RECV_DT
+			,TO_DATE(A.NOTC_DT, 'YYYY.MM.DD') AS NOTC_DT
+			,A.CMCT_CNFM_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE 
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_CMCT_CNFM_DELY_NOTC_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        LEFT JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="cmctCnfmDelyNotcNumList" prepend="AND">
+				<iterate property="cmctCnfmDelyNotcNumList" open="A.CMCT_CNFM_DELY_NOTC_NUM IN(" close=")" conjunction=",">
+					 #cmctCnfmDelyNotcNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+		
+</sqlMap>

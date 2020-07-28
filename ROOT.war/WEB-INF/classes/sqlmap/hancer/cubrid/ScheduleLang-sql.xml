@@ -1,0 +1,17 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sche.cubrid">
+
+	<insert id="schedule.lang.insert.cubrid">/* schedule.lang.insert.cubrid */
+		INSERT INTO SCHEDULE_LANG (SCHEDULE_ID, LANG_KND, NAME, PLACE, COMMENTS, INS_DATIM, UPD_DATIM)
+		VALUES (#scheduleId#, #langKnd#, #name#, #place#, #comments#, SYSDATETIME, SYSDATETIME)
+	</insert>
+	
+	<update id="schedule.lang.update.cubrid">/* schedule.lang.update.cubrid */
+		UPDATE SCHEDULE_LANG SET NAME=#name#, PLACE=#place#, COMMENTS=#comments#, UPD_DATIM=SYSDATETIME
+		WHERE SCHEDULE_ID=#scheduleId#
+		<isNotNull property="langKnd" prepend=" AND ">LANG_KND=#langKnd#</isNotNull>
+	</update>
+	
+</sqlMap>
+

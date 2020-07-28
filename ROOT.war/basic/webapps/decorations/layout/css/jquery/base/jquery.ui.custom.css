@@ -1,0 +1,16 @@
+
+.ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 0; background: none; }
+.ui-widget .ui-widget {	font-size: 11px;}
+.ui-widget {
+	font-family: Verdana,Arial,sans-serif/*{ffDefault}*/;
+	font-size: 11px/*{fsDefault}*/;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+	width: 16px;
+	height: 16px;
+}
+
+.ui-datepicker select.ui-datepicker-month {
+	width: 40%;
+}

@@ -1,0 +1,18 @@
+<session-config>
+	<shared>true</shared>
+	<timeout>180</timeout>
+	<distributable>true</distributable>
+	<session-cookie>
+		<domain>.fss.or.kr</domain>
+	</session-cookie>
+	<session-server>
+		<primary-server>fssmgt</primary-server>
+		<backup-server>fsssmt</backup-server>
+		<connect-timeout>3000</connect-timeout>
+		<read-timeout>120000</read-timeout>
+		<check-level>set</check-level>
+	</session-server>
+</session-config>
+
+02-3145-5408  받는
+02-3145-6973 보내는

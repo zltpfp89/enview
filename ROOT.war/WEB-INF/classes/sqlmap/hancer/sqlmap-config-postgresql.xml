@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+	
+<sqlMapConfig>
+	<sqlMap resource="sqlmap/hancer/common/Calendar-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/common/CalendarLang-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/common/CalendarUser-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/common/CalendarPublic-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/common/CalendarPublicUser-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/common/CalendarPublicGroup-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/common/Schedule-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/common/ScheduleLang-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/common/ScheduleUser-sql.xml"/>
+	
+	<sqlMap resource="sqlmap/hancer/common/EventMng-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/common/EventUser-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/common/BannerMng-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/common/BannerUser-sql.xml"/>
+	
+	<sqlMap resource="sqlmap/hancer/postgresql/Calendar-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/postgresql/CalendarLang-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/postgresql/CalendarUser-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/postgresql/CalendarPublic-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/postgresql/CalendarPublicUser-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/postgresql/CalendarPublicGroup-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/postgresql/Schedule-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/postgresql/ScheduleLang-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/postgresql/ScheduleUser-sql.xml"/>
+	
+	<sqlMap resource="sqlmap/hancer/postgresql/EventMng-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/postgresql/EventUser-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/postgresql/BannerMng-sql.xml"/>
+	<sqlMap resource="sqlmap/hancer/postgresql/BannerUser-sql.xml"/>
+	
+</sqlMapConfig>

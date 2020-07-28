@@ -1,0 +1,234 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0111VO" id="M0111VO.list">
+		<result property="cathArstPernNum" column="CATH_ARST_PERN_NUM"/>
+		<result property="pernBkSiNum" column="PERN_BK_SI_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="cathArstHandSscf" column="CATH_ARST_HAND_SSCF"/>
+		<result property="cathArstHandStcf" column="CATH_ARST_HAND_STCF"/>
+		<result property="cathArstHandHdcf" column="CATH_ARST_HAND_HDCF"/>
+		<result property="cathWrntDt" column="CATH_WRNT_DT"/>
+		<result property="cathArstEmgyCathDt" column="CATH_ARST_EMGY_CATH_DT"/>
+		<result property="flgtOfdrCathDt" column="FLGT_OFDR_CATH_DT"/>
+		<result property="arstWrntDt" column="ARST_WRNT_DT"/>
+		<result property="relsHandSscf" column="RELS_HAND_SSCF"/>
+		<result property="relsHandStcf" column="RELS_HAND_STCF"/>
+		<result property="relsHandHdcf" column="RELS_HAND_HDCF"/>
+		<result property="relsDt" column="RELS_DT"/>
+		<result property="relsRsn" column="RELS_RSN"/>
+		<result property="impsHeit" column="IMPS_HEIT"/>
+		<result property="impsFram" column="IMPS_FRAM"/>
+		<result property="impsHair" column="IMPS_HAIR"/>
+		<result property="impsEybr" column="IMPS_EYBR"/>
+		<result property="impsBerd" column="IMPS_BERD"/>
+		<result property="impsFrhd" column="IMPS_FRHD"/>
+		<result property="impsEar" column="IMPS_EAR"/>
+		<result property="impsEye" column="IMPS_EYE"/>
+		<result property="impsMout" column="IMPS_MOUT"/>
+		<result property="impsToth" column="IMPS_TOTH"/>
+		<result property="impsNose" column="IMPS_NOSE"/>
+		<result property="impsAprc" column="IMPS_APRC"/>
+		<result property="impsFace" column="IMPS_FACE"/>
+		<result property="impsFaceColr" column="IMPS_FACE_COLR"/>
+		<result property="impsEtcFetr" column="IMPS_ETC_FETR"/>
+		<result property="impsLkds" column="IMPS_LKDS"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="regtBaseArea" column="REGT_BASE_AREA"/>
+		<result property="spCrrd" column="SP_CRRD"/>
+		<result property="spCriNm" column="SP_CRI_NM"/>
+		<result property="spCriNum" column="SP_CRI_NUM"/>
+		<result property="acmpReltPersNm" column="ACMP_RELT_PERS_NM"/>
+		<result property="famlRelt" column="FAML_RELT"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+	</resultMap>
+ 	<select id="M0111.SJPB_CATH_ARST_PERN_DOC.selectList" resultMap="M0111VO.list">  /* M0111.SJPB_CATH_ARST_PERN_DOC.selectList */
+ 		SELECT A.CATH_ARST_PERN_NUM  /* 체포구속인명부번호 */
+		       ,A.PERN_BK_SI_NUM  /* 명부일련번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,A.CATH_ARST_HAND_SSCF  /* 체포구속취급자계장 */
+		       ,A.CATH_ARST_HAND_STCF  /* 체포구속취급자과장 */
+		       ,A.CATH_ARST_HAND_HDCF  /* 체포구속취급자구청장 */
+		       ,A.CATH_WRNT_DT  /* 체포구속체포영장일 */
+		       ,A.CATH_ARST_EMGY_CATH_DT  /* 체포구속긴급체포일 */
+		       ,A.FLGT_OFDR_CATH_DT  /* 체포구속현행범인체포일 */
+		       ,A.ARST_WRNT_DT  /* 체포구속구속영장일 */
+		       ,A.RELS_HAND_SSCF  /* 석방취급자계장 */
+		       ,A.RELS_HAND_STCF  /* 석방취급자과장 */
+		       ,A.RELS_HAND_HDCF  /* 석방취급자구청장 */
+		       ,A.RELS_DT  /* 석방연월일시 */
+		       ,A.RELS_RSN  /* 석방사유 */
+		       ,A.IMPS_HEIT  /* 인상키 */
+		       ,A.IMPS_FRAM  /* 인상몸집 */
+		       ,A.IMPS_HAIR  /* 인상머리털 */
+		       ,A.IMPS_EYBR  /* 인상눈썹 */
+		       ,A.IMPS_BERD  /* 인상수염 */
+		       ,A.IMPS_FRHD  /* 인상이마 */
+		       ,A.IMPS_EAR  /* 인상귀 */
+		       ,A.IMPS_EYE  /* 인상눈 */
+		       ,A.IMPS_MOUT  /* 인상입 */
+		       ,A.IMPS_TOTH  /* 인상이 */
+		       ,A.IMPS_NOSE  /* 인상코 */
+		       ,A.IMPS_APRC  /* 인상용모 */
+		       ,A.IMPS_FACE  /* 인상얼굴 */
+		       ,A.IMPS_FACE_COLR  /* 인상얼굴색 */
+		       ,A.IMPS_ETC_FETR  /* 인상기타특징 */
+		       ,A.IMPS_LKDS  /* 착의 */
+		       ,B.SP_NM  /* 체포,구속된자의 성명 */
+		       ,B.SP_ID_NUM  /* 체포,구속된자의 주민등록번호 */
+		       ,B.SP_ADDR  /* 체포,구속된자의 주거 */
+		       ,A.REGT_BASE_AREA  /* 등록기준지 */
+		       ,A.SP_CRRD  /* 전과 */
+		       ,A.SP_CRI_NM  /* 죄명 */
+		       ,A.SP_CRI_NUM  /* 범수 */
+		       ,A.ACMP_RELT_PERS_NM  /* 공범관계자성명 */
+		       ,A.FAML_RELT  /* 가족관계 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		FROM SJPB_CATH_ARST_PERN_DOC
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="cathArstPernNum" prepend="AND">
+				A.CATH_ARST_PERN_NUM = #cathArstPernNum#
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0111.SJPB_CATH_ARST_PERN_DOC.insertPern" parameterClass="com.saltware.enface.sjpb.M.service.M0111VO">  /* M0111.SJPB_CATH_ARST_PERN_DOC.insertPern */
+ 		INSERT INTO SJPB_CATH_ARST_PERN_DOC (
+		    CATH_ARST_PERN_NUM,
+		    PERN_BK_SI_NUM,
+		    RCPT_NUM,
+		    INC_SP_NUM,
+		    CATH_ARST_HAND_SSCF,
+		    CATH_ARST_HAND_STCF,
+		    CATH_ARST_HAND_HDCF,
+		    CATH_WRNT_DT,
+		    CATH_ARST_EMGY_CATH_DT,
+		    FLGT_OFDR_CATH_DT,
+		    ARST_WRNT_DT,
+		    RELS_HAND_SSCF,
+		    RELS_HAND_STCF,
+		    RELS_HAND_HDCF,
+		    RELS_DT,
+		    RELS_RSN,
+		    IMPS_HEIT,
+		    IMPS_FRAM,
+		    IMPS_HAIR,
+		    IMPS_EYBR,
+		    IMPS_BERD,
+		    IMPS_FRHD,
+		    IMPS_EAR,
+		    IMPS_EYE,
+		    IMPS_MOUT,
+		    IMPS_TOTH,
+		    IMPS_NOSE,
+		    IMPS_APRC,
+		    IMPS_FACE,
+		    IMPS_FACE_COLR,
+		    IMPS_ETC_FETR,
+		    IMPS_LKDS,
+		    REGT_BASE_AREA,
+		    SP_CRRD,
+		    SP_CRI_NM,
+		    SP_CRI_NUM,
+		    ACMP_RELT_PERS_NM,
+		    FAML_RELT,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+		    (SELECT SEQ+1 FROM KEYGEN WHERE entity_name = 'SJPB_CATH_ARST_PERN_DOC.CATH_ARST_PERN_NUM')
+		    ,TO_CHAR(SYSDATE,'YYYY') || '-' || (SELECT SEQ+1 FROM KEYGEN WHERE entity_name = 'SJPB_CATH_ARST_PERN_DOC.PERN_BK_SI_NUM')
+		    ,#rcptNum#
+		    ,#incSpNum#
+		    ,#cathArstHandSscf#
+		    ,#cathArstHandStcf#
+		    ,#cathArstHandHdcf#
+		    ,#cathWrntDt#
+		    ,#cathArstEmgyCathDt#
+		    ,#flgtOfdrCathDt#
+		    ,#arstWrntDt#
+		    ,#relsHandSscf#
+		    ,#relsHandStcf#
+		    ,#relsHandHdcf#
+		    ,#relsDt#
+		    ,#relsRsn#
+		    ,#impsHeit#
+		    ,#impsFram#
+		    ,#impsHair#
+		    ,#impsEybr#
+		    ,#impsBerd#
+		    ,#impsFrhd#
+		    ,#impsEar#
+		    ,#impsEye#
+		    ,#impsMout#
+		    ,#impsToth#
+		    ,#impsNose#
+		    ,#impsAprc#
+		    ,#impsFace#
+		    ,#impsFaceColr#
+		    ,#impsEtcFetr#
+		    ,#impsLkds#
+		    ,#regtBaseArea#
+		    ,#spCrrd#
+		    ,#spCriNm#
+		    ,#spCriNum#
+		    ,#acmpReltPersNm#
+		    ,#famlRelt#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		)
+ 	</update>
+ 	<update id="M0111.SJPB_CATH_ARST_PERN_DOC.updatePern" parameterClass="com.saltware.enface.sjpb.M.service.M0111VO">  /* M0111.SJPB_CATH_ARST_PERN_DOC.updatePern */
+ 		UPDATE sjpb_cath_arst_pern_doc
+		SET RCPT_NUM = #rcptNum#
+		    ,INC_SP_NUM = #incSpNum#
+		    ,CATH_ARST_HAND_SSCF = #cathArstHandSscf#
+		    ,CATH_ARST_HAND_STCF = #cathArstHandStcf#
+		    ,CATH_ARST_HAND_HDCF = #cathArstHandHdcf#
+		    ,CATH_WRNT_DT = #cathWrntDt#
+		    ,CATH_ARST_EMGY_CATH_DT = #cathArstEmgyCathDt#
+		    ,FLGT_OFDR_CATH_DT = #flgtOfdrCathDt#
+		    ,ARST_WRNT_DT = #arstWrntDt#
+		    ,RELS_HAND_SSCF = #relsHandSscf#
+		    ,RELS_HAND_STCF = #relsHandStcf#
+		    ,RELS_HAND_HDCF = #relsHandHdcf#
+		    ,RELS_DT = #relsDt#
+		    ,RELS_RSN = #relsRsn#
+		    ,IMPS_HEIT = #impsHeit#
+		    ,IMPS_FRAM = #impsFram#
+		    ,IMPS_HAIR = #impsHair#
+		    ,IMPS_EYBR = #impsEybr#
+		    ,IMPS_BERD = #impsBerd#
+		    ,IMPS_FRHD = #impsFrhd#
+		    ,IMPS_EAR = #impsEar#
+		    ,IMPS_EYE = #impsEye#
+		    ,IMPS_MOUT = #impsMout#
+		    ,IMPS_TOTH = #impsToth#
+		    ,IMPS_NOSE = #impsNose#
+		    ,IMPS_APRC = #impsAprc#
+		    ,IMPS_FACE = #impsFace#
+		    ,IMPS_FACE_COLR = #impsFaceColr#
+		    ,IMPS_ETC_FETR = #impsEtcFetr#
+		    ,IMPS_LKDS = #impsLkds#
+		    ,REGT_BASE_AREA = #regtBaseArea#
+		    ,SP_CRRD = #spCrrd#
+		    ,SP_CRI_NM = #spCriNm#
+		    ,SP_CRI_NUM = #spCriNum#
+		    ,ACMP_RELT_PERS_NM = #acmpReltPersNm#
+		    ,FAML_RELT = #famlRelt#
+		    ,UPD_USER_ID = #regUserId#
+		    ,UPD_DATE = SYSDATE
+		WHERE CATH_ARST_PERN_NUM =#cathArstPernNum#
+ 	</update>
+</sqlMap>

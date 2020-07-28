@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:flow="http://www.springframework.org/schema/webflow-config"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/webflow-config
+		                   http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd
+                           http://www.springframework.org/schema/tx 
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop 
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- View Resolver for JSPs -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/apps/enboard/WEB-INF/view/" />
+		<property name="suffix" value=".jsp" /> 
+	</bean>
+
+	<bean id="methodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName" value="m" />
+		<property name="defaultMethodName" value="uiInit" />
+	</bean>
+
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.lang.Exception">error/friendlyError</prop>
+				<prop key="com.saltware.enboard.exception.AdminException">error/adminError</prop>
+				<prop key="com.saltware.enboard.exception.BoardException">error/boardError</prop>
+			</props>
+		</property>
+	</bean>
+
+    <bean id="urlMappingAdmin" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+            	<prop key="/board/adCate.brd">adminCateController</prop>
+            	<prop key="/board/adBoard.brd">adminBoardController</prop>
+            	<prop key="/board/adAuxil.brd">adminAuxilController</prop>
+            	<prop key="/board/adPoll.brd">adminPollController</prop>
+            	<prop key="/board/adMile.brd">adminMileController</prop>
+			</props>
+		</property>
+		<property name="interceptors">
+			<list>
+				<ref bean="board.adminSecurityInterceptor"/>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="urlMappingBoard" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+            	<prop key="/board/list.brd">boardController</prop>
+            	<prop key="/board/read.brd">boardController</prop>
+            	<prop key="/board/edit.brd">boardController</prop>
+            	<prop key="/board/save.brd">boardController</prop>
+            	<prop key="/board/memo.brd">boardController</prop>
+            	<prop key="/board/eval.brd">boardController</prop>
+            	<prop key="/board/best.brd">boardController</prop>
+            	<prop key="/board/permit.brd">boardController</prop>
+            	<prop key="/board/poll.brd">boardController</prop>
+            	<prop key="/board/more.brd">boardController</prop>
+            	<prop key="/board/excel.brd">boardController</prop>
+            	<prop key="/board/badBltn.brd">boardController</prop>
+            	<prop key="/board/accSet.brd">boardController</prop>
+            	<prop key="/board/atom.brd">boardController</prop>
+            	<prop key="/board/rss.brd">boardController</prop>
+            	<prop key="/board/atom.brd">boardController</prop>
+            	<prop key="/board/xml.brd">boardController</prop>
+            	<prop key="/board/json.brd">boardController</prop>
+            	<prop key="/board/blank.brd">boardController</prop>
+            	<prop key="/board/board.brd">boardController</prop>
+			</props>
+		</property>
+		<property name="interceptors">
+			<list>
+				<ref bean="board.boardSecurityInterceptor"/>
+			</list>
+		</property>
+	</bean>
+
+	<!--bean id="adminBoardController" class="com.saltware.enboard.control.AdminBoardController">
+		<Set if request parameters should be bound to the form object in case of a non-submitting request>
+		<property name="bindOnNewForm" value="true" />
+		<Set the name of the command in the model. The command object will be included in the model under this name>
+		<property name="commandName"   value="command" />
+		<Set the command class for this controller. An instance of this class gets populated and validated on each request>
+		<property name="commandClass"  value="com.saltware.enboard.form.AdminBoardForm" />
+		<Set the name of the view that should be shown on successful submit>
+		<property name="successView"   value="admin/admin_board" />
+		<property name="validator" ref="adminBoardValidator"/>
+	</bean-->
+	<bean id="adminBoardController" class="com.saltware.enboard.control.AdminBoardController">
+		<property name="methodNameResolver" ref="methodNameResolver"/>
+		<!--property name="validators">
+			<list>
+				<ref="adminBoardValidator"/>
+			</list>
+		</property-->
+		<property name="cacheMngr" ref="com.saltware.enboard.cache.CacheMngr"/>
+	</bean>
+
+	<bean id="adminCateController" class="com.saltware.enboard.control.AdminCateController">
+		<property name="methodNameResolver" ref="methodNameResolver"/>
+		<!--property name="validators">
+			<list>
+				<ref="adminCateValidator"/>
+			</list>
+		</property-->
+		<property name="cacheMngr" ref="com.saltware.enboard.cache.CacheMngr"/>
+	</bean>
+
+	<bean id="adminAuxilController" class="com.saltware.enboard.control.AdminAuxilController">
+		<property name="methodNameResolver" ref="methodNameResolver"/>
+		<!--property name="validators">
+			<list>
+				<ref="adminAuxilValidator"/>
+			</list>
+		</property-->
+		<property name="cacheMngr" ref="com.saltware.enboard.cache.CacheMngr"/>
+	</bean>
+
+	<bean id="adminPollController" class="com.saltware.enboard.control.AdminPollController">
+		<property name="methodNameResolver" ref="methodNameResolver"/>
+		<!--property name="validators">
+			<list>
+				<ref="adminPollValidator"/>
+			</list>
+		</property-->
+		<property name="cacheMngr" ref="com.saltware.enboard.cache.CacheMngr"/>
+	</bean>
+
+	<bean id="adminMileController" class="com.saltware.enboard.control.AdminMileController">
+		<property name="methodNameResolver" ref="methodNameResolver"/>
+		<!--property name="validators">
+			<list>
+				<ref="adminMileValidator"/>
+			</list>
+		</property-->
+		<property name="cacheMngr" ref="com.saltware.enboard.cache.CacheMngr"/>
+	</bean>
+
+	<bean id="boardController" class="com.saltware.enboard.control.BoardController">
+		<property name="cacheMngr" ref="com.saltware.enboard.cache.CacheMngr"/>
+	</bean>
+
+	<!-->
+	<bean id="adminBoardValidator" class="com.saltware.enboard.validator.AdminBoardValidator" />
+	<bean id="adminCateValidator"  class="com.saltware.enboard.validator.AdminCateValidator" />
+	<bean id="adminAuxilValidator" class="com.saltware.enboard.validator.AdminAuxilValidator" />
+	<bean id="adminPollValidator"  class="com.saltware.enboard.validator.AdminPollValidator" />
+	<bean id="adminMileValidator"  class="com.saltware.enboard.validator.AdminMileValidator" />
+	-->
+	
+</beans>

@@ -1,0 +1,184 @@
+
+.cldtable {
+    vertical-align: middle;
+    text-align: center; 
+	border-collapse: collapse;
+	border: 2px solid #000; 
+	background-color: #FBFBFF; 
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	color: #000;
+}
+
+.cldtd {
+    text-align: center; 
+	border: 1px solid #AA77FF;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 2px;
+	padding-right: 2px;
+	width: 17px;
+	height: 10px;
+}
+
+.cldtd:hover {
+	font-weight: bold;
+	font-style: normal;
+	color: #fff;
+	background-color: #AA77FF;
+	cursor: pointer;
+}
+
+.cldth{
+    text-align: center; 
+	border: 1px solid;
+	border-color: #313f7f;
+	background-color: #fff;
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #000;
+	padding: 2px;
+	font-style: normal;
+	font-weight: bold;
+	margin: 0px;
+	width: 17px;
+	height: 10px;
+}
+
+.cldhead{
+    text-align: center; 
+	font-size: 10pt;
+	font-weight: bold;
+	font-style: normal;
+	color: #fff;
+	background-color: #AA77FF;
+	border-width: 2px 0px 2px 0px;
+	border-top: 2px solid #000;
+	border-bottom: 2px solid #000;
+	height: 20px;
+}
+
+
+.thisday {
+	color: #fff;
+	font-style: normal;
+	font-weight: bold; 
+	background-color: #7777FF; 
+}
+
+.thisday:hover {
+	background-color: #fff; 
+	color: #AA77FF;
+}
+
+.leftmonth{
+    text-align: right; 
+	display: block;
+	border-style: solid;
+	border-color: #AA77FF #000 #AA77FF #AA77FF;
+	width:0px;
+	height:0px;
+	line-height:0px;
+	border-width:4px;
+	border-left-width: 0px;
+	border-right-width: 6px;
+	left: 0px;
+	top:  5px;
+	cursor: pointer;
+}
+
+.leftmonth:hover{
+	border-right-color: #fff;
+}
+
+.rightmonth{
+    text-align: left; 
+	display: block;
+	border-style: solid;
+	border-color: #AA77FF #AA77FF #AA77FF #000;
+	width:0px;
+	height:0px;
+	line-height:0px;
+	border-width:4px;
+	border-right-width: 0px;
+	border-left-width: 6px;
+	left: 0px;
+	top:  5px;
+	cursor: pointer;
+}
+
+.rightmonth:hover{
+	border-left-color: #fff;
+}
+
+.leftyear{
+    text-align: right; 
+	display: block;
+	border-style: solid;
+	border-color: #AA77FF #000 #AA77FF #AA77FF;
+	width: 0px;
+	height: 0px;
+	line-height: 0px;
+	border-width: 6px;
+	border-left-width: 0px;
+	border-right-width: 10px;
+	left: 0px;
+	top:  5px;
+	cursor: pointer;
+}
+
+.leftyear10{
+    text-align: right; 
+	display: block;
+	border-style: solid;
+	border-color: #AA77FF #000 #AA77FF #AA77FF;
+	width: 0px;
+	height: 0px;
+	line-height: 0px;
+	border-width: 8px;
+	border-left-width: 0px;
+	border-right-width: 14px;
+	left: 0px;
+	top:  5px;
+	cursor: pointer;
+}
+
+.leftyear:hover{
+	border-right-color: #fff;
+}
+
+.rightyear{
+    text-align: left; 
+	display: block;
+	border-style: solid;
+	border-color: #AA77FF #AA77FF #AA77FF #000;
+	width: 0px;
+	height: 0px;
+	line-height: 0px;
+	border-width: 6px;
+	border-right-width: 0px;
+	border-left-width: 10px;
+	left: 0px;
+	top:  5px;
+	cursor: pointer;
+}
+
+.rightyear10{
+    text-align: left; 
+	display: block;
+	border-style: solid;
+	border-color: #AA77FF #AA77FF #AA77FF #000;
+	width: 0px;
+	height: 0px;
+	line-height: 0px;
+	border-width: 8px;
+	border-right-width: 0px;
+	border-left-width: 14px;
+	left: 0px;
+	top:  5px;
+	cursor: pointer;
+}
+
+.rightyear:hover{
+	border-left-color: #fff;
+}
+

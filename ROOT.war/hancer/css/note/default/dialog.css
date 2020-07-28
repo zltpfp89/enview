@@ -1,0 +1,41 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*bace*/
+a:hover{text-decoration:none;}
+p{margin:0; padding:0;}
+
+.btnArea{position:relative; width:733px; height:22px; background:url(../../../images/note/default/controlPanel.gif) no-repeat 0 0;  padding:3px 0 0 0;margin:3px 9px; border:1px solid #e8e8e8;  }
+.btnArea_C{text-align:center; margin:0 0 20px 0;}
+.tableArea{background-color:#fff; margin:3px 15px; }
+
+
+/* 버튼 */
+.pageBtn{position:absolute; top:3px; right:0px; margin:0 12px; }
+.pageBtn img{margin:0 0 0 10px;}
+
+.btn_type01 {display:inline-block; height:20px; line-height:22px; padding:0 0 0 10px; margin:0 0 0 3px; background:url(../../../images/note/default/btn_off_left.gif) no-repeat left top;}
+.btn_type01 span {display:inline-block; height:20px; line-height:22px; font-size:11px;  padding:0 10px 0 0; background:url(../../../images/note/default/btn_off_right.gif) no-repeat right top;}
+.btn_type01:hover {cursor:pointer; display:inline-block; height:20px; line-height:22px; padding:0 0 0 10px; margin:0 0 0 3px; background:url(../../../images/note/default/btn_on_left.gif) no-repeat left top;}
+.btn_type01:hover span {cursor:pointer;  display:inline-block; height:20px; line-height:22px; font-size:11px; font-weight:bold; color:#fff; padding:0 10px 0 0; background:url(../../../images/note/default/btn_on_right.gif) no-repeat right top;}
+
+
+/* table */
+caption {display:none; }
+table td input.txt{width:85%;}
+/* type01 */
+.table_type01{width:100%; margin: 0px; padding:0; border-bottom:1px solid #e1e1e1; outline:0px solid red; }
+.table_type01 .left {text-align:left; }
+.table_type01 th{font-weight:bold; color:#666; font-size:11px; padding:0; margin:5px 0;  border-bottom:1px solid #e1e1e1; }
+.table_type01 th,.table_type01 td{height:25px; text-align:center; padding:0 0 0 10px; }
+.table_type01 td { font-size: 12px; }
+.table_type01 td.padding{height:5px;}
+.table_type01 table a:hover{text-decoration:none; color:#06909e;}
+
+
+/* 페이지 */
+#receiverPaging.paging {text-align:center; margin: 7px 0; padding:0; height:17px; border:0px solid red; overflow:hidden;}
+#receiverPaging.paging a {display:inline-block; width:17px; height:17px; line-height:15px; vertical-align:middle; text-align:center; text-decoration:none; margin:0 2px;  }
+#receiverPaging.paging a.selected {color:#fff; background:#00a3b4;}
+#receiverPaging.paging a:hover {color:#fff; background:#00a3b4;}
+#receiverPaging.paging img {vertical-align:middle; }

@@ -1,0 +1,838 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="face">
+	<resultMap id="PTL.procStatus" class="com.saltware.enface.sjpb.Z.service.PTL01VO">
+		<result property="rcptIncNum" column="RCPT_INC_NUM" />
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC" />
+		<result property="vioCount" column="VIO_COUNT" />
+		<result property="vioCont" column="VIO_CONT" />
+		<result property="nmKor" column="NM_KOR" />
+		<result property="updDate" column="UPD_DATE" />
+		<result property="criStatCdDesc" column="CRI_STAT_CD_DESC" />
+		<result property="criStatCd" column="CRI_STAT_CD" />
+		<result property="req" column="REQ" />
+	</resultMap>
+
+	<!-- (송치관 제외)수사업무 처리현황 리스트 -->
+	<select id="PTL.PTL0101" resultMap="PTL.procStatus"> /* PTL.PTL0101 */
+		SELECT G.RCPT_INC_NUM  /* 사건번호 */
+			   ,I.CODE_NAME AS RLT_ACT_CRI_NM_CD_DESC /* 위반법률 */
+			   ,(SELECT COUNT(L.ACT_VIO_NUM)-1
+                        FROM SJPB_ACT_VIO L
+                        WHERE L.INC_SP_NUM = X.MIN_INC_SP_NUM
+                        GROUP BY X.MIN_INC_SP_NUM
+                       ) AS VIO_COUNT /* 위반법률개수 */
+			   ,C.VIO_CONT /* 위반내용 */
+			   ,H.NM_KOR /* 요청자 */
+               ,TO_CHAR(G.UPD_DATE,'YYYY-MM-DD') AS UPD_DATE  /* 요청일 */
+               ,E.CODE_NAME AS CRI_STAT_CD_DESC /* 수사상태명 */
+               ,G.CRI_STAT_CD  /* 수사상태코드 */
+               ,G.UPD_DATE AS REQ
+		FROM ((SELECT Z.RCPT_NUM
+					  ,MIN(Z.INC_SP_NUM) AS MIN_INC_SP_NUM
+		        FROM (SELECT A.RCPT_NUM
+		                       ,B.INC_SP_NUM
+		                       ,CASE WHEN A.CRI_STAT_CD IN('11','12') THEN CASE WHEN A.UPD_DATE BETWEEN SYSDATE-7 AND SYSDATE THEN A.CRI_STAT_CD END
+		                       WHEN A.CRI_STAT_CD IN('10','13','20','21','30','40') THEN A.CRI_STAT_CD END AS CRI_STAT_CD
+		                FROM SJPB_INC_MAST A
+		                JOIN SJPB_INC_SP B ON B.RCPT_NUM = A.RCPT_NUM
+		                LEFT JOIN SJPB_INC_CRI_MB D ON D.RCPT_NUM = A.RCPT_NUM AND D.CRI_LV_CD ='01'
+		                LEFT JOIN USERPASS F ON F.USER_ID = D.CRI_MB_ID AND F.ORG_CD = A.CRI_TM_ID
+		                <dynamic prepend="WHERE">
+		                	<isNotEmpty property="criMbId" prepend="AND">
+		                		F.USER_ID = #criMbId#
+		                	</isNotEmpty>
+		                	<isEqual property="taskNum" compareValue="2">
+		                		F.ORG_CD = #orgCd#
+		                	</isEqual>
+		                </dynamic>
+		                ) Z
+		        WHERE Z.CRI_STAT_CD IS NOT NULL
+		        GROUP BY Z.RCPT_NUM)
+		        <dynamic prepend="UNION">
+		        	<isEqual property="taskNum" compareValue="2">
+				        SELECT A.RCPT_NUM  /* 사건번호 */
+						       ,MIN(INC_SP_NUM) AS MIN_INC_SP_NUM
+						FROM SJPB_INC_MAST A
+						JOIN SJPB_INC_SP B ON B.RCPT_NUM = A.RCPT_NUM
+						WHERE A.CRI_STAT_CD='30' AND A.CRI_TM_ID = #orgCd#
+						GROUP BY A.RCPT_NUM
+					</isEqual>
+				</dynamic>
+		        ) X
+		 LEFT JOIN SJPB_ACT_VIO C ON C.INC_SP_NUM = X.MIN_INC_SP_NUM AND C.INQ_ORD = '1'
+		 LEFT JOIN CODEBASE I ON I.CODE_ID = 'SJPB_00012' AND I.CODE = C.RLT_ACT_CRI_NM_CD AND I.SYSTEM_CODE='PT' AND I.LANG_KND='ko'
+		 JOIN SJPB_INC_MAST G ON G.RCPT_NUM = X.RCPT_NUM
+		 LEFT JOIN CODEBASE E ON E.CODE_ID = 'SJPB_00001' AND E.CODE = G.CRI_STAT_CD AND E.SYSTEM_CODE='PT' AND E.LANG_KND='ko'
+		 JOIN USERPASS H ON H.USER_ID = G.UPD_USER_ID
+		 <dynamic prepend="UNION ALL">
+		 	<isEmpty property="taskNum">
+		 		SELECT *
+				FROM (SELECT '' AS RCPT_INC_NUM
+					         ,'' AS RLT_ACT_CRI_NM_CD_DESC
+					         ,0 AS VIO_COUNT
+					         ,CONCAT('범죄수사자료 ',D.CODE_NAME) AS VIO_CONT
+					         ,C.NM_KOR  /* 범죄수사자료조회 의뢰자 */                 
+					         ,TO_CHAR(
+		                       CASE WHEN G.TASK_NUM=6 AND A.UPD_DATE BETWEEN SYSDATE-7 AND SYSDATE THEN A.UPD_DATE
+		                       WHEN G.TASK_NUM NOT IN('6') THEN A.UPD_DATE
+		                       ELSE NULL END 
+		                       ,'YYYY-MM-DD') AS UPD_DATE
+					         ,D.CODE_NAME AS CRI_STAT_CD_DESC
+					         ,'1' AS CRI_STAT_CD
+					         ,CASE WHEN G.TASK_NUM=6 AND A.UPD_DATE BETWEEN SYSDATE-7 AND SYSDATE THEN A.UPD_DATE
+		                       WHEN G.TASK_NUM NOT IN('6') THEN A.UPD_DATE
+		                       ELSE NULL END AS REQ
+				       FROM SJPB_CRI_DTA_INQ_MNG_BK A      
+					   LEFT JOIN USERPASS C ON C.USER_ID = A.RESP_IO     
+					   JOIN (
+						      SELECT G1.RCPT_NUM, G1.WF_NUM, G2.TASK_NUM, G2.TASK_NM, G2.TASK_ROLE_CD 
+						       FROM SJPB_INC_WF G1 JOIN SJPB_TASK G2  
+						       ON G1.WF_NUM = G2.WF_NUM AND G1.ACTV_TASK_NUM = G2.TASK_NUM AND G1.WF_NUM = 9
+						      ) G ON A.MNG_BK_SI_NUM = G.RCPT_NUM  
+						JOIN SJPB_CRI_TM H ON TO_CHAR(H.CRI_TM_ID) = C.ORG_CD AND H.CRI_TM_STAT = '1' 
+		                JOIN CODEBASE D ON D.CODE_ID = 'SJPB_00019' 
+			            			 AND D.CODE = A.MNG_BK_STAT_CD 
+			            			 AND D.SYSTEM_CODE ='PT' 
+			           				 AND D.LANG_KND='ko' 
+		                WHERE A.RESP_IO = #criMbId#)
+                WHERE UPD_DATE IS NOT NULL
+		 	</isEmpty>
+		 	<isEqual property="taskNum" compareValue="2">
+		 		SELECT '' AS RCPT_INC_NUM
+				       ,'' AS RLT_ACT_CRI_NM_CD_DESC
+				       ,0 AS VIO_COUNT
+				       ,'범죄수사자료조회요청 승인' AS VIO_CONT
+				       ,C.NM_KOR  /* 범죄수사자료조회 의뢰자 */                 
+				       ,TO_CHAR(A.UPD_DATE,'YYYY-MM-DD') AS UPD_DATE
+				       ,'승인요청' AS CRI_STAT_CD_DESC
+				       ,'1' AS CRI_STAT_CD
+				       ,A.UPD_DATE AS REQ
+				FROM SJPB_CRI_DTA_INQ_MNG_BK A      
+				LEFT JOIN USERPASS C ON C.USER_ID = A.RESP_IO     
+				JOIN (
+				       SELECT G1.RCPT_NUM, G1.WF_NUM, G2.TASK_NUM, G2.TASK_NM, G2.TASK_ROLE_CD 
+				       FROM SJPB_INC_WF G1 JOIN SJPB_TASK G2  
+				       ON G1.WF_NUM = G2.WF_NUM AND G1.ACTV_TASK_NUM = G2.TASK_NUM AND G1.WF_NUM = 9
+				      ) G ON A.MNG_BK_SI_NUM = G.RCPT_NUM  
+				JOIN SJPB_CRI_TM H ON TO_CHAR(H.CRI_TM_ID) = C.ORG_CD AND H.CRI_TM_STAT = '1' 
+				WHERE H.CRI_TM_ID= #orgCd# AND G.TASK_NUM = #taskNum#
+		 	</isEqual>
+		 	<isEqual property="taskNum" compareValue="3">
+		 		SELECT '' AS RCPT_INC_NUM
+				       ,'' AS RLT_ACT_CRI_NM_CD_DESC
+				       ,0 AS VIO_COUNT
+				       ,'범죄수사자료조회요청 승인' AS VIO_CONT
+				       ,C.NM_KOR  /* 범죄수사자료조회 의뢰자 */                 
+				       ,TO_CHAR(A.UPD_DATE,'YYYY-MM-DD') AS UPD_DATE
+				       ,'승인요청' AS CRI_STAT_CD_DESC
+				       ,'1' AS CRI_STAT_CD
+				       ,A.UPD_DATE AS REQ
+				FROM SJPB_CRI_DTA_INQ_MNG_BK A      
+				LEFT JOIN USERPASS C ON C.USER_ID = A.RESP_IO     
+				JOIN (
+				       SELECT G1.RCPT_NUM, G1.WF_NUM, G2.TASK_NUM, G2.TASK_NM, G2.TASK_ROLE_CD 
+				       FROM SJPB_INC_WF G1 JOIN SJPB_TASK G2  
+				       ON G1.WF_NUM = G2.WF_NUM AND G1.ACTV_TASK_NUM = G2.TASK_NUM AND G1.WF_NUM = 9
+				      ) G ON A.MNG_BK_SI_NUM = G.RCPT_NUM  
+				JOIN SJPB_CRI_TM H ON TO_CHAR(H.CRI_TM_ID) = C.ORG_CD AND H.CRI_TM_STAT = '1' 
+				WHERE H.PARE_TM_ID= #orgCd# AND G.TASK_NUM = #taskNum#
+		 	</isEqual>
+		 </dynamic>
+		 ORDER BY REQ DESC
+	</select>
+	
+	<!-- (송치관)수사업무 처리현황 리스트 -->
+	<select id="PTL.PTL0104" resultMap="PTL.procStatus"> /* PTL.PTL0104 */
+		SELECT G.RCPT_INC_NUM  /* 사건번호 */
+			   ,I.CODE_NAME AS RLT_ACT_CRI_NM_CD_DESC /* 위반법률 */
+			   ,(SELECT COUNT(L.ACT_VIO_NUM)-1
+                        FROM SJPB_ACT_VIO L
+                        WHERE L.INC_SP_NUM = X.MIN_INC_SP_NUM
+                        GROUP BY X.MIN_INC_SP_NUM
+                       ) AS VIO_COUNT /* 위반법률개수 */
+			   ,C.VIO_CONT /* 위반내용 */
+			   ,H.NM_KOR /* 요청자 */
+               ,TO_CHAR(G.UPD_DATE,'YYYY-MM-DD') AS UPD_DATE  /* 요청일 */
+               ,E.CODE_NAME AS CRI_STAT_CD_DESC /* 수사상태명 */
+               ,G.CRI_STAT_CD  /* 수사상태코드 */
+               ,G.UPD_DATE AS REQ
+		FROM ((SELECT Z.RCPT_NUM
+					  ,MIN(Z.INC_SP_NUM) AS MIN_INC_SP_NUM
+		        FROM (SELECT A.RCPT_NUM
+		                       ,B.INC_SP_NUM
+		                       ,CASE WHEN A.CRI_STAT_CD IN('90','91','72') THEN CASE WHEN A.UPD_DATE BETWEEN SYSDATE-7 AND SYSDATE THEN A.CRI_STAT_CD END
+		                       WHEN A.CRI_STAT_CD IN('20','30','31','50','51','52','53','54','55','56','57','58','59','70','71','73','74','75','76','77','78','79') THEN A.CRI_STAT_CD END AS CRI_STAT_CD
+		                FROM SJPB_INC_MAST A
+		                JOIN SJPB_INC_SP B ON B.RCPT_NUM = A.RCPT_NUM
+		                LEFT JOIN SJPB_INC_CRI_MB D ON D.RCPT_NUM = A.RCPT_NUM AND D.CRI_LV_CD ='01'
+		                ) Z
+		        WHERE Z.CRI_STAT_CD IS NOT NULL
+		        GROUP BY Z.RCPT_NUM)
+		        ) X
+		 LEFT JOIN SJPB_ACT_VIO C ON C.INC_SP_NUM = X.MIN_INC_SP_NUM AND C.INQ_ORD = '1'
+		 LEFT JOIN CODEBASE I ON I.CODE_ID = 'SJPB_00012' AND I.CODE = C.RLT_ACT_CRI_NM_CD AND I.SYSTEM_CODE='PT' AND I.LANG_KND='ko'
+		 JOIN SJPB_INC_MAST G ON G.RCPT_NUM = X.RCPT_NUM
+		 LEFT JOIN CODEBASE E ON E.CODE_ID = 'SJPB_00001' AND E.CODE = G.CRI_STAT_CD AND E.SYSTEM_CODE='PT' AND E.LANG_KND='ko'
+		 JOIN USERPASS H ON H.USER_ID = G.UPD_USER_ID
+		 <dynamic prepend="UNION ALL">
+		 	<isEqual property="taskNum" compareValue="4">
+		 		SELECT '' AS RCPT_INC_NUM
+				       ,'' AS RLT_ACT_CRI_NM_CD_DESC
+				       ,0 AS VIO_COUNT
+				       ,'범죄수사자료조회요청' AS VIO_CONT
+				       ,C.NM_KOR  /* 범죄수사자료조회 의뢰자 */                 
+				       ,TO_CHAR(A.UPD_DATE,'YYYY-MM-DD') AS UPD_DATE
+				       ,'조회요청' AS CRI_STAT_CD_DESC
+				       ,'1' AS CRI_STAT_CD
+				       ,A.UPD_DATE AS REQ
+				FROM SJPB_CRI_DTA_INQ_MNG_BK A      
+				LEFT JOIN USERPASS C ON C.USER_ID = A.RESP_IO     
+				JOIN (
+				       SELECT G1.RCPT_NUM, G1.WF_NUM, G2.TASK_NUM, G2.TASK_NM, G2.TASK_ROLE_CD 
+				       FROM SJPB_INC_WF G1 JOIN SJPB_TASK G2  
+				       ON G1.WF_NUM = G2.WF_NUM AND G1.ACTV_TASK_NUM = G2.TASK_NUM AND G1.WF_NUM = 9
+				      ) G ON A.MNG_BK_SI_NUM = G.RCPT_NUM  
+				WHERE G.TASK_NUM = #taskNum#
+		 	</isEqual>
+		 </dynamic>
+		 ORDER BY REQ DESC
+	</select>
+	
+	<!-- 수사업무 처리현황 리스트 (내사) -->
+	<select id="PTL.PTL0105" resultMap="PTL.procStatus"> /* PTL.PTL0101 */
+		SELECT B.INC_SP_COMN AS VIO_CONT /* 내사할 사항 */
+			  ,E.CODE_NAME AS CRI_STAT_CD_DESC /* 수사상태명 */
+		FROM SJPB_INC_MAST A
+		JOIN SJPB_INC_SP B ON B.RCPT_NUM = A.RCPT_NUM
+		LEFT JOIN SJPB_INC_CRI_MB D ON D.RCPT_NUM = A.RCPT_NUM
+		LEFT JOIN CODEBASE E ON E.CODE_ID = 'SJPB_00001' AND E.CODE = A.CRI_STAT_CD AND E.SYSTEM_CODE='PT' AND E.LANG_KND='ko'
+		LEFT JOIN USERPASS F ON F.USER_ID = D.CRI_MB_ID AND F.ORG_CD = A.CRI_TM_ID
+		WHERE F.USER_ID = #userId#
+		<isNotEmpty property="criStatCdList" prepend="AND">
+			<iterate property="criStatCdList" open="(" close=")"
+				conjunction="OR">
+				A.CRI_STAT_CD LIKE #criStatCdList[]#||'%'
+			</iterate>
+		</isNotEmpty>
+	</select>
+
+	<resultMap id="PTL.moniIncMast" class="com.saltware.enface.sjpb.Z.service.PTL0201VO">
+		<result property="criTmNm" column="CRI_TM_NM" />
+		<result property="trnsr" column="TRNSR" />
+		<result property="prsct" column="PRSCT" />
+	</resultMap>
+
+	<!-- (전체) 사건현황 모니터링 리스트 -->
+	<select id="PTL.PTL0200" resultMap="PTL.moniIncMast"> /* PTL.PTL0200 */
+		SELECT DECODE((SELECT 'NULL' FROM DUAL),'NULL','전체',(SELECT 'NULL' FROM DUAL)) AS CRI_TM_NM
+			   ,(
+			   	 SELECT COUNT(CASE WHEN A.CRI_STAT_CD IN ('70','71','72','73','74','75','76','77','78','79') THEN 1 END)
+				 FROM SJPB_INC_MAST A
+				 WHERE SUBSTR(A.RCPT_INC_NUM,1,4) = #year#
+				 ) AS TRNSR /*송치*/
+			 ,(
+			 	SELECT COUNT(CASE WHEN A.CRI_STAT_CD NOT IN ('10','11','12','13') THEN 1 END)
+				FROM SJPB_INC_MAST A
+				WHERE SUBSTR(A.RCPT_INC_NUM,1,4) = #year#
+			  ) AS PRSCT /*입건*/
+		FROM DUAL
+	</select>
+
+	<!-- (팀) 사건현황 모니터링 리스트 -->
+	<select id="PTL.PTL0201" resultMap="PTL.moniIncMast"> /* PTL.PTL0201 */
+		SELECT A.CRI_TM_NM /* 수사팀 이름 */
+			   ,COUNT(CASE WHEN B.CRI_STAT_CD IN ('70','71','72','73','74','75','76','77','78','79') THEN 1 END) AS TRNSR /*송치*/
+			   ,COUNT(CASE WHEN B.CRI_STAT_CD NOT IN ('10','11','12','13') THEN 1 END) AS PRSCT /*입건*/
+		FROM SJPB_CRI_TM A
+		LEFT JOIN SJPB_INC_MAST B ON B.CRI_TM_ID = A.CRI_TM_ID AND SUBSTR(B.RCPT_INC_NUM,1,4) = #year#
+		LEFT JOIN SJPB_INC_CRI_MB C ON C.RCPT_NUM = B.RCPT_NUM
+		WHERE A.CRI_TM_ID = #orgCd# AND A.CRI_TM_DIV='T' AND A.CRI_TM_STAT = '1'
+		GROUP BY A.CRI_TM_NM
+	</select>
+
+	<!-- (과) 사건현황 모니터링 리스트 -->
+	<select id="PTL.PTL0203" resultMap="PTL.moniIncMast"> /* PTL.PTL0203 */
+		SELECT A.CRI_TM_NM /* 수사팀 이름 */
+			   ,COUNT(CASE WHEN C.CRI_STAT_CD IN ('70','71','72','73','74','75','76','77','78','79') THEN 1 END) AS TRNSR /*송치*/
+			   ,COUNT(CASE WHEN C.CRI_STAT_CD NOT IN ('10','11','12','13') THEN 1 END) AS PRSCT /*입건*/
+		FROM SJPB_CRI_TM A
+		LEFT JOIN SJPB_CRI_TM B ON A.CRI_TM_ID = B.PARE_TM_ID AND B.CRI_TM_STAT = '1'
+		LEFT JOIN SJPB_INC_MAST C ON C.CRI_TM_ID = B.CRI_TM_ID AND SUBSTR(C.RCPT_INC_NUM,1,4) = #year#
+		LEFT JOIN SJPB_INC_CRI_MB D ON D.RCPT_NUM = C.RCPT_NUM
+		WHERE A.CRI_TM_DIV='G' AND A.CRI_TM_STAT = '1' AND A.CRI_TM_ID = #orgCd#
+		GROUP BY A.CRI_TM_NM
+	</select>
+
+	<!-- (전체) 사건현황 모니터링 리스트 -->
+	<select id="PTL.PTL0204" resultMap="PTL.moniIncMast"> /* PTL.PTL0204 */
+		SELECT A.CRI_TM_NM /* 수사팀 이름 */
+			   ,COUNT(CASE WHEN C.CRI_STAT_CD IN ('70','71','72','73','74','75','76','77','78','79') THEN 1 END) AS TRNSR /*송치*/
+			   ,COUNT(CASE WHEN C.CRI_STAT_CD NOT IN ('10','11','12','13') THEN 1 END) AS PRSCT /*입건*/
+		FROM SJPB_CRI_TM A
+		LEFT JOIN SJPB_CRI_TM B ON A.CRI_TM_ID = B.PARE_TM_ID AND B.CRI_TM_STAT = '1'
+		LEFT JOIN SJPB_INC_MAST C ON C.CRI_TM_ID = B.CRI_TM_ID AND SUBSTR(C.RCPT_INC_NUM,1,4) = #year#
+		LEFT JOIN SJPB_INC_CRI_MB D ON D.RCPT_NUM = C.RCPT_NUM
+		WHERE A.CRI_TM_DIV='G' AND A.CRI_TM_STAT = '1' AND A.PARE_TM_ID = #orgCd#
+		GROUP BY A.CRI_TM_NM
+	</select>
+	
+	<resultMap id="PTL.incState" class="com.saltware.enface.sjpb.Z.service.PTL02VO">
+		<result property="sort" column="SORT" />
+		<result property="secinv" column="SECINV" />
+		<result property="prsct" column="PRSCT" />
+		<result property="prsAccus" column="PRS_ACCUS" />
+		<result property="prsPapst" column="PRS_PAPST" />
+		<result property="trnsr" column="TRNSR" />
+		<result property="trnAccus" column="TRN_ACCUS" />
+		<result property="trnPapst" column="TRN_PAPST" />
+		<result property="indict" column="INDICT" />
+		<result property="deindict" column="DEINDICT" />
+		<result property="etc" column="ETC" />
+		<result property="disping" column="DISPING" />
+		<result property="indictNum" column="INDICT_NUM" />
+		<result property="deindictNum" column="DEINDICT_NUM" />
+		<result property="etcNum" column="ETC_NUM" />
+		<result property="dispingNum" column="DISPING_NUM" />
+	</resultMap>
+	
+	<select id="PTL.PTL0202Stat" resultMap="PTL.incState">
+		SELECT O.*
+		       ,P.INDICT_NUM  /* 기소 명수 */
+		       ,P.DEINDICT_NUM  /* 불기소 명수 */
+		       ,P.ETC_NUM  /* 기타 명수 */
+		       ,P.DISPING_NUM  /* 처분중 명수 */
+		FROM (SELECT DECODE(I.CRI_TM_NM,NULL,'전체',I.CRI_TM_NM) AS SORT
+		            ,COUNT(CASE WHEN K.SECINV IS NOT NULL AND K.ORG_CD = C.CRI_TM_ID THEN 1 END) AS SECINV  /* 내사 */
+		           ,COUNT(CASE WHEN C.RCPT_INC_NUM IS NOT NULL THEN 1 END) AS PRSCT  /* 입건 */
+		           ,COUNT(CASE WHEN C.DV_FORM = '02' AND C.RCPT_INC_NUM IS NOT NULL THEN 1 END) AS PRS_ACCUS  /* 고소 */
+		           ,COUNT(CASE WHEN C.DV_FORM = '01' AND C.RCPT_INC_NUM IS NOT NULL THEN 1 END) AS PRS_PAPST  /* 인지 */
+		           ,COUNT(CASE WHEN E.INC_TRF_ITEM_NUM IS NOT NULL THEN 1 END) AS TRNSR  /* 송치 */
+		           ,COUNT(CASE WHEN E.INC_TRF_ITEM_NUM IS NOT NULL AND C.DV_FORM = '02' THEN 1 END) AS TRN_ACCUS  /* 송치_고발 */
+		           ,COUNT(CASE WHEN E.INC_TRF_ITEM_NUM IS NOT NULL AND C.DV_FORM = '01' THEN 1 END) AS TRN_PAPST  /* 송치_인지 */
+		           ,SUM(CASE WHEN Z.INDICT IS NOT NULL THEN '1' ELSE '0' END) AS INDICT  /* 기소 건수 */
+		           ,SUM(CASE WHEN Z.DEINDICT IS NOT NULL THEN '1' ELSE '0' END) AS DEINDICT  /* 불기소 건수 */
+		           ,SUM(CASE WHEN Z.ETC IS NOT NULL THEN '1' ELSE '0' END) AS ETC  /* 기타 건수 */
+		           ,SUM(CASE WHEN Z.DISPING IS NOT NULL THEN '1' ELSE '0' END) AS DISPING  /* 처분중 건수 */
+		    FROM SJPB_CRI_TM I
+            JOIN USERPASS A ON I.CRI_TM_ID = A.ORG_CD AND A.ORG_CD = #orgCd#
+		    JOIN SJPB_CRI_MB D ON D.CRI_MB_STAT = '1' AND D.CRI_MB_ID = A.USER_ID
+		    LEFT JOIN SJPB_INC_CRI_MB B ON D.CRI_MB_ID = B.CRI_MB_ID AND B.CRI_LV_CD = '01'
+		    LEFT JOIN SJPB_CRI_MB T ON t.cri_mb_id = B.cri_mb_id AND t.cri_mb_stat='1'
+		    LEFT JOIN SJPB_INC_MAST C ON A.ORG_CD = C.CRI_TM_ID AND C.RCPT_NUM = B.RCPT_NUM AND SUBSTR(C.RCPT_INC_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+		    LEFT JOIN (SELECT a.RCPT_INC_NUM
+		                       ,SUM(CASE WHEN C.PO_CONT_CD IN ('01','03','10','12','04','02','20','21','30','31') THEN '1' ELSE NULL END) AS INDICT  /*기소*/
+		                       ,SUM(CASE WHEN C.PO_CONT_CD IN ('16','17','15','05','06','07','08','09') THEN '1' ELSE NULL END) AS DEINDICT  /* 불기소 */
+		                       ,SUM(CASE WHEN C.PO_CONT_CD IN ('14','09','11','99') THEN '1' ELSE NULL END) AS ETC  /* 기타 */
+		                       ,SUM(CASE WHEN A.RCPT_INC_NUM IS NOT NULL AND B.ACT_VIO_NUM IS NULL THEN '1' ELSE NULL END) AS DISPING  /* 처분중 */
+		                FROM SJPB_INC_MAST A
+		                JOIN SJPB_INC_CRI_MB X ON X.RCPT_NUM = A.RCPT_NUM AND X.CRI_LV_CD ='01'
+		                JOIN SJPB_INC_SP Z ON Z.RCPT_NUM = X.RCPT_NUM
+		                JOIN SJPB_ACT_VIO B ON B.INC_SP_NUM = Z.INC_SP_NUM
+		                JOIN SJPB_INC_DIP_RST C ON B.ACT_VIO_NUM=C.ACT_VIO_NUM
+		                WHERE SUBSTR(A.RCPT_INC_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+		                GROUP BY A.RCPT_INC_NUM) Z ON Z.RCPT_INC_NUM = C.RCPT_INC_NUM
+		    LEFT JOIN SJPB_INC_TRF_ITEM E ON E.RCPT_NUM = C.RCPT_NUM
+		    LEFT JOIN (SELECT U1.REG_USER_ID
+		                       ,U1.INTI_NUM AS SECINV  /*내사*/
+		                       ,U1.RCPT_NUM
+		                       ,A1.ORG_CD
+		                FROM USERPASS A1
+		                JOIN SJPB_INC_CRI_MB B1 ON A1.USER_ID = B1.CRI_MB_ID AND B1.CRI_LV_CD = '01'
+		                JOIN SJPB_INC_MAST C1 ON A1.ORG_CD = C1.CRI_TM_ID AND C1.RCPT_NUM = B1.RCPT_NUM AND C1.RCPT_TP_CD ='1'
+		                JOIN SJPB_CRI_MB D1 ON D1.CRI_MB_STAT = '1' AND D1.CRI_MB_ID = B1.CRI_MB_ID
+		                JOIN SJPB_INTI_INC_DTS U1 ON U1.RCPT_NUM = C1.RCPT_NUM AND U1.INTI_NUM Is NOT NULL AND U1.REG_USER_ID = D1.CRI_MB_ID AND SUBSTR(U1.INTI_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+		    			) K ON K.REG_USER_ID = D.CRI_MB_ID AND K.RCPT_NUM = C.RCPT_NUM
+		    WHERE I.CRI_TM_STAT = '1'
+		    GROUP BY ROLLUP(I.CRI_TM_NM)
+			) O
+		JOIN (SELECT DECODE(I.CRI_TM_NM,NULL,'전체',I.CRI_TM_NM) AS SORT
+                       ,SUM(CASE WHEN Z.INDICT IS NOT NULL THEN '1' ELSE '0' END) AS INDICT_NUM  /* 기소 명수 */
+                       ,SUM(CASE WHEN Z.INDICT IS NULL AND Z.DEINDICT IS NOT NULL THEN '1' ELSE '0' END) AS DEINDICT_NUM  /* 불기소 명수 */
+                       ,SUM(CASE WHEN Z.INDICT IS NULL AND Z.DEINDICT IS NULL AND Z.ETC IS NOT NULL THEN '1' ELSE '0' END) AS ETC_NUM  /* 기타 명수 */
+                       ,SUM(CASE WHEN Z.INDICT IS NULL AND Z.DEINDICT IS NULL AND Z.ETC IS NULL THEN '1' ELSE '0' END) AS DISPING_NUM  /* 처분중 명수 */
+                FROM SJPB_CRI_TM I 
+                JOIN USERPASS A ON I.CRI_TM_ID = A.ORG_CD AND A.ORG_CD = #orgCd#
+                JOIN SJPB_CRI_MB D ON D.CRI_MB_STAT = '1' AND D.CRI_MB_ID = A.USER_ID
+                LEFT JOIN SJPB_INC_CRI_MB B ON D.CRI_MB_ID = B.CRI_MB_ID AND B.CRI_LV_CD = '01'
+                LEFT JOIN SJPB_CRI_MB T ON T.CRI_MB_ID = B.CRI_MB_ID AND T.CRI_MB_STAT='1'
+                LEFT JOIN SJPB_INC_MAST C ON A.ORG_CD = C.CRI_TM_ID AND C.RCPT_NUM = B.RCPT_NUM AND SUBSTR(C.RCPT_INC_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+                LEFT JOIN SJPB_INC_SP G ON G.RCPT_NUM = C.RCPT_NUM
+                LEFT JOIN (SELECT A.INC_SP_NUM
+                                   ,SUM(CASE WHEN C.PO_CONT_CD IN ('01','03','10','12','04','02','20','21','30','31') THEN '1' ELSE NULL END) AS INDICT  /*기소*/
+                                   ,SUM(CASE WHEN C.PO_CONT_CD IN ('16','17','15','05','06','07','08','09') THEN '1' ELSE NULL END) AS DEINDICT  /* 불기소 */
+                                   ,SUM(CASE WHEN C.PO_CONT_CD IN ('14','09','11','99') THEN '1' ELSE NULL END) AS ETC  /* 기타 */
+                            FROM SJPB_INC_SP A
+                            LEFT JOIN SJPB_ACT_VIO B ON B.INC_SP_NUM = A.INC_SP_NUM
+                            LEFT JOIN SJPB_INC_DIP_RST C ON B.ACT_VIO_NUM=C.ACT_VIO_NUM
+                            WHERE C.PO_CONT_CD IS NOT NULL
+                            GROUP BY A.INC_SP_NUM) Z ON Z.inc_sp_num = g.inc_sp_num
+                WHERE I.CRI_TM_STAT = '1'
+                GROUP BY ROLLUP(I.CRI_TM_NM)
+		        ) P ON O.SORT = P.SORT
+	</select>
+	<select id="PTL.PTL0203Stat" resultMap="PTL.incState">
+		SELECT O.*
+		       ,P.INDICT_NUM  /* 기소 명수 */
+		       ,P.DEINDICT_NUM  /* 불기소 명수 */
+		       ,P.ETC_NUM  /* 기타 명수 */
+		       ,P.DISPING_NUM  /* 처분중 명수 */
+		FROM (SELECT DECODE(I.CRI_TM_NM,NULL,'전체',I.CRI_TM_NM) AS SORT
+		            ,COUNT(CASE WHEN K.SECINV IS NOT NULL AND K.ORG_CD = C.CRI_TM_ID THEN 1 END) AS SECINV  /* 내사 */
+		            ,COUNT(CASE WHEN C.RCPT_INC_NUM IS NOT NULL THEN 1 END) AS PRSCT  /* 입건 */
+		            ,COUNT(CASE WHEN C.DV_FORM = '02' AND C.RCPT_INC_NUM IS NOT NULL THEN 1 END) AS PRS_ACCUS  /* 고소 */
+		            ,COUNT(CASE WHEN C.DV_FORM = '01' AND C.RCPT_INC_NUM IS NOT NULL THEN 1 END) AS PRS_PAPST  /* 인지 */
+		            ,COUNT(CASE WHEN E.INC_TRF_ITEM_NUM IS NOT NULL THEN 1 END) AS TRNSR  /* 송치 */
+		            ,COUNT(CASE WHEN E.INC_TRF_ITEM_NUM IS NOT NULL AND C.DV_FORM = '02' THEN 1 END) AS TRN_ACCUS  /* 송치_고발 */
+		            ,COUNT(CASE WHEN E.INC_TRF_ITEM_NUM IS NOT NULL AND C.DV_FORM = '01' THEN 1 END) AS TRN_PAPST  /* 송치_인지 */
+		            ,SUM(CASE WHEN Z.INDICT IS NOT NULL THEN '1' ELSE '0' END) AS INDICT  /* 기소 건수 */
+		            ,SUM(CASE WHEN Z.DEINDICT IS NOT NULL THEN '1' ELSE '0' END) AS DEINDICT  /* 불기소 건수 */
+		            ,SUM(CASE WHEN Z.ETC IS NOT NULL THEN '1' ELSE '0' END) AS ETC  /* 기타 건수 */
+		            ,SUM(CASE WHEN Z.DISPING IS NOT NULL THEN '1' ELSE '0' END) AS DISPING  /* 처분중 건수 */
+		     FROM SJPB_CRI_TM I
+             JOIN USERPASS A ON I.CRI_TM_ID = A.ORG_CD
+		     JOIN SJPB_CRI_MB D ON D.CRI_MB_STAT = '1' AND D.CRI_MB_ID = A.USER_ID
+		     LEFT JOIN SJPB_INC_CRI_MB B ON D.CRI_MB_ID = B.CRI_MB_ID AND B.CRI_LV_CD = '01'
+		     LEFT JOIN SJPB_CRI_MB T ON t.cri_mb_id = B.cri_mb_id AND t.cri_mb_stat='1'
+		     LEFT JOIN SJPB_INC_MAST C ON A.ORG_CD = C.CRI_TM_ID AND C.RCPT_NUM = B.RCPT_NUM AND SUBSTR(C.RCPT_INC_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+		     LEFT JOIN (SELECT a.RCPT_INC_NUM
+		                       ,SUM(CASE WHEN C.PO_CONT_CD IN ('01','03','10','12','04','02','20','21','30','31') THEN '1' ELSE NULL END) AS INDICT  /*기소*/
+		                       ,SUM(CASE WHEN C.PO_CONT_CD IN ('16','17','15','05','06','07','08','09') THEN '1' ELSE NULL END) AS DEINDICT  /* 불기소 */
+		                       ,SUM(CASE WHEN C.PO_CONT_CD IN ('14','09','11','99') THEN '1' ELSE NULL END) AS ETC  /* 기타 */
+		                       ,SUM(CASE WHEN A.RCPT_INC_NUM IS NOT NULL AND B.ACT_VIO_NUM IS NULL THEN '1' ELSE NULL END) AS DISPING  /* 처분중 */
+		                FROM SJPB_INC_MAST A
+		                JOIN SJPB_INC_CRI_MB X ON X.RCPT_NUM = A.RCPT_NUM AND X.CRI_LV_CD ='01'
+		                JOIN SJPB_INC_SP Z ON Z.RCPT_NUM = X.RCPT_NUM
+		                JOIN SJPB_ACT_VIO B ON B.INC_SP_NUM = Z.INC_SP_NUM
+		                JOIN SJPB_INC_DIP_RST C ON B.ACT_VIO_NUM=C.ACT_VIO_NUM
+		                WHERE SUBSTR(A.RCPT_INC_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+		                GROUP BY A.RCPT_INC_NUM) Z ON Z.RCPT_INC_NUM = C.RCPT_INC_NUM
+		     LEFT JOIN SJPB_INC_TRF_ITEM E ON E.RCPT_NUM = C.RCPT_NUM
+		     LEFT JOIN (SELECT U1.REG_USER_ID
+		                       ,U1.INTI_NUM AS SECINV  /*내사*/
+		                       ,U1.RCPT_NUM
+		                       ,A1.ORG_CD
+		                FROM USERPASS A1
+		                JOIN SJPB_INC_CRI_MB B1 ON A1.USER_ID = B1.CRI_MB_ID AND B1.CRI_LV_CD = '01'
+		                JOIN SJPB_INC_MAST C1 ON A1.ORG_CD = C1.CRI_TM_ID AND C1.RCPT_NUM = B1.RCPT_NUM AND C1.RCPT_TP_CD ='1'
+		                JOIN SJPB_CRI_MB D1 ON D1.CRI_MB_STAT = '1' AND D1.CRI_MB_ID = B1.CRI_MB_ID
+		                JOIN SJPB_INTI_INC_DTS U1 ON U1.RCPT_NUM = C1.RCPT_NUM AND U1.INTI_NUM Is NOT NULL AND U1.REG_USER_ID = D1.CRI_MB_ID AND SUBSTR(U1.INTI_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+		    			) K ON K.REG_USER_ID = D.CRI_MB_ID AND K.RCPT_NUM = C.RCPT_NUM
+		     WHERE I.CRI_TM_STAT = 1 AND I.PARE_TM_ID = #orgCd#
+		     GROUP BY ROLLUP(I.CRI_TM_NM)
+			) O
+		JOIN (SELECT DECODE(I.CRI_TM_NM,NULL,'전체',I.CRI_TM_NM) AS SORT
+                     ,SUM(CASE WHEN Z.INDICT IS NOT NULL THEN '1' ELSE '0' END) AS INDICT_NUM  /* 기소 명수 */
+                     ,SUM(CASE WHEN Z.INDICT IS NULL AND Z.DEINDICT IS NOT NULL THEN '1' ELSE '0' END) AS DEINDICT_NUM  /* 불기소 명수 */
+                     ,SUM(CASE WHEN Z.INDICT IS NULL AND Z.DEINDICT IS NULL AND Z.ETC IS NOT NULL THEN '1' ELSE '0' END) AS ETC_NUM  /* 기타 명수 */
+                     ,SUM(CASE WHEN Z.INDICT IS NULL AND Z.DEINDICT IS NULL AND Z.ETC IS NULL THEN '1' ELSE '0' END) AS DISPING_NUM  /* 처분중 명수 */
+              FROM SJPB_CRI_TM I 
+              JOIN USERPASS A ON I.CRI_TM_ID = A.ORG_CD 
+              JOIN SJPB_CRI_MB D ON D.CRI_MB_STAT = '1' AND D.CRI_MB_ID = A.USER_ID
+              LEFT JOIN SJPB_INC_CRI_MB B ON D.CRI_MB_ID = B.CRI_MB_ID AND B.CRI_LV_CD = '01'
+              LEFT JOIN SJPB_CRI_MB T ON T.CRI_MB_ID = B.CRI_MB_ID AND T.CRI_MB_STAT='1'
+              LEFT JOIN SJPB_INC_MAST C ON A.ORG_CD = C.CRI_TM_ID AND C.RCPT_NUM = B.RCPT_NUM AND SUBSTR(C.RCPT_INC_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+              LEFT JOIN SJPB_INC_SP G ON G.RCPT_NUM = C.RCPT_NUM
+              LEFT JOIN (SELECT A.INC_SP_NUM
+                                ,SUM(CASE WHEN C.PO_CONT_CD IN ('01','03','10','12','04','02','20','21','30','31') THEN '1' ELSE NULL END) AS INDICT  /*기소*/
+                                ,SUM(CASE WHEN C.PO_CONT_CD IN ('16','17','15','05','06','07','08','09') THEN '1' ELSE NULL END) AS DEINDICT  /* 불기소 */
+                                ,SUM(CASE WHEN C.PO_CONT_CD IN ('14','09','11','99') THEN '1' ELSE NULL END) AS ETC  /* 기타 */
+                         FROM SJPB_INC_SP A
+                         LEFT JOIN SJPB_ACT_VIO B ON B.INC_SP_NUM = A.INC_SP_NUM
+                         LEFT JOIN SJPB_INC_DIP_RST C ON B.ACT_VIO_NUM=C.ACT_VIO_NUM
+                         WHERE C.PO_CONT_CD IS NOT NULL
+                         GROUP BY A.INC_SP_NUM) Z ON Z.inc_sp_num = g.inc_sp_num
+               WHERE I.CRI_TM_STAT = 1 AND i.pare_tm_id = #orgCd#
+               GROUP BY ROLLUP(I.CRI_TM_NM)
+		      ) P ON O.SORT = P.SORT
+	</select>
+	
+	<select id="PTL.PTL0204Stat" resultMap="PTL.incState">
+		SELECT O.*
+		       ,P.INDICT_NUM  /* 기소 명수 */
+		       ,P.DEINDICT_NUM  /* 불기소 명수 */
+		       ,P.ETC_NUM  /* 기타 명수 */
+		       ,P.DISPING_NUM  /* 처분중 명수 */
+		FROM (SELECT DECODE(I.CRI_TM_NM,NULL,'전체',I.CRI_TM_NM) AS SORT
+		            ,COUNT(CASE WHEN K.SECINV IS NOT NULL AND K.ORG_CD = C.CRI_TM_ID THEN 1 END) AS SECINV  /* 내사 */
+		           ,COUNT(CASE WHEN C.RCPT_INC_NUM IS NOT NULL THEN 1 END) AS PRSCT  /* 입건 */
+		           ,COUNT(CASE WHEN C.DV_FORM = '02' AND C.RCPT_INC_NUM IS NOT NULL THEN 1 END) AS PRS_ACCUS  /* 고소 */
+		           ,COUNT(CASE WHEN C.DV_FORM = '01' AND C.RCPT_INC_NUM IS NOT NULL THEN 1 END) AS PRS_PAPST  /* 인지 */
+		           ,COUNT(CASE WHEN E.INC_TRF_ITEM_NUM IS NOT NULL THEN 1 END) AS TRNSR  /* 송치 */
+		           ,COUNT(CASE WHEN E.INC_TRF_ITEM_NUM IS NOT NULL AND C.DV_FORM = '02' THEN 1 END) AS TRN_ACCUS  /* 송치_고발 */
+		           ,COUNT(CASE WHEN E.INC_TRF_ITEM_NUM IS NOT NULL AND C.DV_FORM = '01' THEN 1 END) AS TRN_PAPST  /* 송치_인지 */
+		           ,SUM(CASE WHEN Z.INDICT IS NOT NULL THEN '1' ELSE '0' END) AS INDICT  /* 기소 건수 */
+		           ,SUM(CASE WHEN Z.DEINDICT IS NOT NULL THEN '1' ELSE '0' END) AS DEINDICT  /* 불기소 건수 */
+		           ,SUM(CASE WHEN Z.ETC IS NOT NULL THEN '1' ELSE '0' END) AS ETC  /* 기타 건수 */
+		           ,SUM(CASE WHEN Z.DISPING IS NOT NULL THEN '1' ELSE '0' END) AS DISPING  /* 처분중 건수 */
+		    FROM SJPB_CRI_TM I
+            JOIN SJPB_CRI_TM S ON S.pare_tm_id = i.cri_tm_id
+            JOIN USERPASS A ON S.CRI_TM_ID = A.ORG_CD
+		    JOIN SJPB_CRI_MB D ON D.CRI_MB_STAT = '1' AND D.CRI_MB_ID = A.USER_ID
+		    LEFT JOIN SJPB_INC_CRI_MB B ON D.CRI_MB_ID = B.CRI_MB_ID AND B.CRI_LV_CD = '01'
+		    LEFT JOIN SJPB_CRI_MB T ON t.cri_mb_id = B.cri_mb_id AND t.cri_mb_stat='1'
+		    LEFT JOIN SJPB_INC_MAST C ON A.ORG_CD = C.CRI_TM_ID AND C.RCPT_NUM = B.RCPT_NUM AND SUBSTR(C.RCPT_INC_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+		    LEFT JOIN (SELECT a.RCPT_INC_NUM
+		                       ,SUM(CASE WHEN C.PO_CONT_CD IN ('01','03','10','12','04','02','20','21','30','31') THEN '1' ELSE NULL END) AS INDICT  /*기소*/
+		                       ,SUM(CASE WHEN C.PO_CONT_CD IN ('16','17','15','05','06','07','08','09') THEN '1' ELSE NULL END) AS DEINDICT  /* 불기소 */
+		                       ,SUM(CASE WHEN C.PO_CONT_CD IN ('14','09','11','99') THEN '1' ELSE NULL END) AS ETC  /* 기타 */
+		                       ,SUM(CASE WHEN A.RCPT_INC_NUM IS NOT NULL AND B.ACT_VIO_NUM IS NULL THEN '1' ELSE NULL END) AS DISPING  /* 처분중 */
+		                FROM SJPB_INC_MAST A
+		                JOIN SJPB_INC_CRI_MB X ON X.RCPT_NUM = A.RCPT_NUM AND X.CRI_LV_CD ='01'
+		                JOIN SJPB_INC_SP Z ON Z.RCPT_NUM = X.RCPT_NUM
+		                JOIN SJPB_ACT_VIO B ON B.INC_SP_NUM = Z.INC_SP_NUM
+		                JOIN SJPB_INC_DIP_RST C ON B.ACT_VIO_NUM=C.ACT_VIO_NUM
+		                WHERE SUBSTR(A.RCPT_INC_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+		                GROUP BY A.RCPT_INC_NUM) Z ON Z.RCPT_INC_NUM = C.RCPT_INC_NUM
+		    LEFT JOIN SJPB_INC_TRF_ITEM E ON E.RCPT_NUM = C.RCPT_NUM
+		    LEFT JOIN (SELECT U1.REG_USER_ID
+		                       ,U1.INTI_NUM AS SECINV  /*내사*/
+		                       ,U1.RCPT_NUM
+		                       ,A1.ORG_CD
+		                FROM USERPASS A1
+		                JOIN SJPB_INC_CRI_MB B1 ON A1.USER_ID = B1.CRI_MB_ID AND B1.CRI_LV_CD = '01'
+		                JOIN SJPB_INC_MAST C1 ON A1.ORG_CD = C1.CRI_TM_ID AND C1.RCPT_NUM = B1.RCPT_NUM AND C1.RCPT_TP_CD ='1'
+		                JOIN SJPB_CRI_MB D1 ON D1.CRI_MB_STAT = '1' AND D1.CRI_MB_ID = B1.CRI_MB_ID
+		                JOIN SJPB_INTI_INC_DTS U1 ON U1.RCPT_NUM = C1.RCPT_NUM AND U1.INTI_NUM Is NOT NULL AND U1.REG_USER_ID = D1.CRI_MB_ID AND SUBSTR(U1.INTI_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+		    			) K ON K.REG_USER_ID = D.CRI_MB_ID AND K.RCPT_NUM = C.RCPT_NUM
+		    WHERE I.CRI_TM_STAT = 1 AND i.pare_tm_id = #orgCd#
+		    GROUP BY ROLLUP(I.CRI_TM_NM)
+			) O
+		JOIN (SELECT DECODE(I.CRI_TM_NM,NULL,'전체',I.CRI_TM_NM) AS SORT
+                       ,SUM(CASE WHEN Z.INDICT IS NOT NULL THEN '1' ELSE '0' END) AS INDICT_NUM  /* 기소 명수 */
+                       ,SUM(CASE WHEN Z.INDICT IS NULL AND Z.DEINDICT IS NOT NULL THEN '1' ELSE '0' END) AS DEINDICT_NUM  /* 불기소 명수 */
+                       ,SUM(CASE WHEN Z.INDICT IS NULL AND Z.DEINDICT IS NULL AND Z.ETC IS NOT NULL THEN '1' ELSE '0' END) AS ETC_NUM  /* 기타 명수 */
+                       ,SUM(CASE WHEN Z.INDICT IS NULL AND Z.DEINDICT IS NULL AND Z.ETC IS NULL THEN '1' ELSE '0' END) AS DISPING_NUM  /* 처분중 명수 */
+                FROM SJPB_CRI_TM I 
+                JOIN SJPB_CRI_TM S ON S.pare_tm_id = i.cri_tm_id
+                JOIN USERPASS A ON S.CRI_TM_ID = A.ORG_CD 
+                JOIN SJPB_CRI_MB D ON D.CRI_MB_STAT = '1' AND D.CRI_MB_ID = A.USER_ID
+                LEFT JOIN SJPB_INC_CRI_MB B ON D.CRI_MB_ID = B.CRI_MB_ID AND B.CRI_LV_CD = '01'
+                LEFT JOIN SJPB_CRI_MB T ON T.CRI_MB_ID = B.CRI_MB_ID AND T.CRI_MB_STAT='1'
+                LEFT JOIN SJPB_INC_MAST C ON A.ORG_CD = C.CRI_TM_ID AND C.RCPT_NUM = B.RCPT_NUM AND SUBSTR(C.RCPT_INC_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+                LEFT JOIN SJPB_INC_SP G ON G.RCPT_NUM = C.RCPT_NUM
+                LEFT JOIN (SELECT A.INC_SP_NUM
+                                   ,SUM(CASE WHEN C.PO_CONT_CD IN ('01','03','10','12','04','02','20','21','30','31') THEN '1' ELSE NULL END) AS INDICT  /*기소*/
+                                   ,SUM(CASE WHEN C.PO_CONT_CD IN ('16','17','15','05','06','07','08','09') THEN '1' ELSE NULL END) AS DEINDICT  /* 불기소 */
+                                   ,SUM(CASE WHEN C.PO_CONT_CD IN ('14','09','11','99') THEN '1' ELSE NULL END) AS ETC  /* 기타 */
+                            FROM SJPB_INC_SP A
+                            LEFT JOIN SJPB_ACT_VIO B ON B.INC_SP_NUM = A.INC_SP_NUM
+                            LEFT JOIN SJPB_INC_DIP_RST C ON B.ACT_VIO_NUM=C.ACT_VIO_NUM
+                            WHERE C.PO_CONT_CD IS NOT NULL
+                            GROUP BY A.INC_SP_NUM) Z ON Z.inc_sp_num = g.inc_sp_num
+                WHERE I.CRI_TM_STAT = 1 AND i.pare_tm_id = #orgCd#
+                GROUP BY ROLLUP(I.CRI_TM_NM)
+		        ) P ON O.SORT = P.SORT
+	</select>
+	
+	<resultMap id="PTL.CountIncMast" class="com.saltware.enface.sjpb.Z.service.PTL01VO">
+		<result property="sort" column="SORT"/>
+		<result property="secinv" column="SECINV"/>
+		<result property="papstmp" column="PAPSTMP"/>
+		<result property="prsct" column="PRSCT"/>
+		<result property="trnsr" column="TRNSR"/>
+		<result property="demad" column="DEMAD"/>
+		<result property="judge" column="JUDGE"/>
+	</resultMap>
+
+	<!-- 팀원 사건현황 list count 리스트 -->
+	<select id="PTL.PTL0401" resultMap="PTL.CountIncMast"> /* PTL.PTL0401 */
+		<![CDATA[
+			SELECT DECODE(A.NM_KOR,NULL,'전체',A.NM_KOR) AS SORT
+			       ,COUNT(CASE WHEN C.RCPT_TP_CD IN ('1') THEN 0 END) AS SECINV  /*내사*/
+			       ,COUNT(CASE WHEN C.DV_FORM IN ('01') THEN 0 END) AS PAPSTMP /*인지*/
+			       ,COUNT(CASE WHEN C.RCPT_INC_NUM IS NOT NULL THEN 0 END) AS PRSCT /*입건*/
+			       ,COUNT(CASE WHEN E.INC_TRF_ITEM_NUM IS NOT NULL THEN 0 END) AS TRNSR /*송치*/
+			       ,COUNT(CASE WHEN H.ACT_VIO_NUM IS NOT NULL THEN 0 END) AS DEMAD /*구형*/
+			       ,COUNT(CASE WHEN I.ACT_VIO_NUM IS NOT NULL THEN 0 END) AS JUDGE /*판결*/
+			FROM USERPASS A
+			JOIN SJPB_CRI_MB D ON D.CRI_MB_STAT = '1' AND D.CRI_MB_ID = A.USER_ID
+			LEFT JOIN SJPB_INC_CRI_MB B ON D.CRI_MB_ID = B.CRI_MB_ID AND B.CRI_LV_CD = '01'
+			LEFT JOIN SJPB_INC_MAST C ON A.ORG_CD = C.CRI_TM_ID AND C.RCPT_NUM = B.RCPT_NUM AND SUBSTR(C.RCPT_INC_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+			LEFT JOIN SJPB_INC_TRF_ITEM E ON E.RCPT_NUM = C.RCPT_NUM
+			LEFT JOIN SJPB_INC_SP F ON F.RCPT_NUM = C.RCPT_NUM
+			LEFT JOIN SJPB_ACT_VIO G ON G.INC_SP_NUM = F.INC_SP_NUM
+			LEFT JOIN SJPB_INC_DIP_RST H ON H.ACT_VIO_NUM = G.ACT_VIO_NUM
+			LEFT JOIN SJPB_INC_JDT_RST I ON I.ACT_VIO_NUM = G.ACT_VIO_NUM
+			WHERE A.ORG_CD = #criTmId#
+			GROUP BY ROLLUP(A.NM_KOR)
+			ORDER BY DECODE(A.NM_KOR,null,'1',#nmKor#,'2')
+		]]>
+	</select>
+
+	<!-- 팀별 사건현황 list count 리스트 -->
+	<select id="PTL.PTL0402" resultMap="PTL.CountIncMast"> /* PTL.PTL0402 */
+		<![CDATA[
+			SELECT DECODE(A.CRI_TM_NM,NULL,'전체',A.CRI_TM_NM) AS SORT
+			       ,COUNT(CASE WHEN C.RCPT_TP_CD IN ('1') THEN 0 END) AS SECINV  /*내사*/
+			       ,COUNT(CASE WHEN C.DV_FORM IN ('01') THEN 0 END) AS PAPSTMP /*인지*/
+			       ,COUNT(CASE WHEN C.RCPT_INC_NUM IS NOT NULL THEN 0 END) AS PRSCT /*입건*/
+			       ,COUNT(CASE WHEN E.INC_TRF_ITEM_NUM IS NOT NULL THEN 0 END) AS TRNSR /*송치*/
+			       ,COUNT(CASE WHEN H.ACT_VIO_NUM IS NOT NULL THEN 0 END) AS DEMAD /*구형*/
+			       ,COUNT(CASE WHEN I.ACT_VIO_NUM IS NOT NULL THEN 0 END) AS JUDGE /*판결*/
+			FROM SJPB_CRI_TM A 
+			JOIN SJPB_CRI_MB D ON D.CRI_MB_STAT = '1' AND D.CRI_MB_ID = A.USER_ID
+			LEFT JOIN SJPB_INC_CRI_MB B ON D.CRI_MB_ID = B.CRI_MB_ID AND B.CRI_LV_CD = '01'
+			LEFT JOIN SJPB_INC_MAST C ON A.ORG_CD = C.CRI_TM_ID AND C.RCPT_NUM = B.RCPT_NUM AND SUBSTR(C.RCPT_INC_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+			LEFT JOIN SJPB_INC_TRF_ITEM E ON E.RCPT_NUM = C.RCPT_NUM
+			LEFT JOIN SJPB_INC_SP F ON F.RCPT_NUM = C.RCPT_NUM
+			LEFT JOIN SJPB_ACT_VIO G ON G.INC_SP_NUM = F.INC_SP_NUM
+			LEFT JOIN SJPB_INC_DIP_RST H ON H.ACT_VIO_NUM = G.ACT_VIO_NUM
+			LEFT JOIN SJPB_INC_JDT_RST I ON I.ACT_VIO_NUM = G.ACT_VIO_NUM
+			WHERE A.PARE_TM_ID = #criTmId# AND A.CRI_TM_STAT ='1'
+			GROUP BY ROLLUP(A.CRI_TM_NM)
+			ORDER BY DECODE(GROUPING(A.CRI_TM_NM),1,'0',A.CRI_TM_NM)
+		]]>
+	</select>
+
+	<!-- 과별 사건현황 list count 리스트 -->
+	<select id="PTL.PTL0403" resultMap="PTL.CountIncMast"> /* PTL.PTL0403 */
+		<![CDATA[
+			SELECT DECODE(A.CRI_TM_NM,NULL,'전체',A.CRI_TM_NM) AS SORT
+			       ,COUNT(CASE WHEN C.RCPT_TP_CD IN ('1') THEN 0 END) AS SECINV  /*내사*/
+			       ,COUNT(CASE WHEN C.DV_FORM IN ('01') THEN 0 END) AS PAPSTMP /*인지*/
+			       ,COUNT(CASE WHEN C.RCPT_INC_NUM IS NOT NULL THEN 0 END) AS PRSCT /*입건*/
+			       ,COUNT(CASE WHEN E.INC_TRF_ITEM_NUM IS NOT NULL THEN 0 END) AS TRNSR /*송치*/
+			       ,COUNT(CASE WHEN H.ACT_VIO_NUM IS NOT NULL THEN 0 END) AS DEMAD /*구형*/
+			       ,COUNT(CASE WHEN I.ACT_VIO_NUM IS NOT NULL THEN 0 END) AS JUDGE /*판결*/
+			FROM SJPB_CRI_TM A 
+            JOIN SJPB_CRI_MB D ON D.CRI_MB_STAT = '1' AND D.CRI_MB_ID = A.USER_ID
+			LEFT JOIN SJPB_INC_CRI_MB B ON D.CRI_MB_ID = B.CRI_MB_ID AND B.CRI_LV_CD = '01'
+			LEFT JOIN SJPB_INC_MAST C ON A.ORG_CD = C.CRI_TM_ID AND C.RCPT_NUM = B.RCPT_NUM AND SUBSTR(C.RCPT_INC_NUM,1,4) = TO_CHAR(SYSDATE,'YYYY')
+			LEFT JOIN SJPB_INC_TRF_ITEM E ON E.RCPT_NUM = C.RCPT_NUM
+			LEFT JOIN SJPB_INC_SP F ON F.RCPT_NUM = C.RCPT_NUM
+			LEFT JOIN SJPB_ACT_VIO G ON G.INC_SP_NUM = F.INC_SP_NUM
+			LEFT JOIN SJPB_INC_DIP_RST H ON H.ACT_VIO_NUM = G.ACT_VIO_NUM
+			LEFT JOIN SJPB_INC_JDT_RST I ON I.ACT_VIO_NUM = G.ACT_VIO_NUM
+            WHERE A.PARE_TM_ID= #criTmId# AND A.CRI_TM_STAT ='1'
+            GROUP BY ROLLUP(A.CRI_TM_NM)
+            ORDER BY DECODE(GROUPING(A.CRI_TM_NM),1,'0',A.CRI_TM_NM)
+		]]>
+	</select>
+
+	<resultMap id="PTL.monCount" class="com.saltware.enface.sjpb.Z.service.PTL01VO">
+		<result property="month" column="MONTH" />
+		<result property="prsct" column="PRSCT" />
+		<result property="trnsr" column="TRNSR" />
+	</resultMap>
+
+	<!-- (팀)월별 사건현황 count 리스트 -->
+	<select id="PTL.PTL0602" resultMap="PTL.monCount"> /* PTL.PTL0602 */
+		<![CDATA[
+			SELECT D.MONTH AS MONTH /* 월 */
+				   ,D.PRS AS PRSCT /* 입건 */
+				   ,DECODE(F.TRN,NULL,0,F.TRN) AS TRNSR /* 송치 */
+			FROM
+				(SELECT CONCAT(MONS.LV,'월') AS MONTH /* 월 */
+					    ,COUNT(A.BE_DT) AS PRS /* 입건 */
+				FROM (
+				      SELECT LPAD(LEVEL, 2, '0') LV 
+				      FROM DUAL 
+				      CONNECT BY LEVEL <= 12
+				      ) MONS
+				LEFT JOIN SJPB_INC_MAST A ON TO_CHAR(A.BE_DT,'YYYY') = TO_CHAR(SYSDATE,'YYYY')
+				          AND MONS.LV = TO_CHAR(A.BE_DT,'MM') AND A.RCPT_TP_CD = '2' AND A.CRI_TM_ID = #orgCd# 
+	            GROUP BY MONS.LV
+				) D
+			LEFT JOIN 
+					(SELECT CONCAT(MONS.LV,'월') AS MONTH /* 월 */
+					       ,COUNT(D.TRF_PRO_DT) AS TRN /* 송치 */
+					FROM (
+					      SELECT LPAD(LEVEL, 2, '0') LV 
+					      FROM DUAL 
+					      CONNECT BY LEVEL <= 12
+					      ) MONS
+					JOIN SJPB_INC_MAST B ON B.CRI_TM_ID = #orgCd# 
+		            JOIN SJPB_INC_TRF_ITEM C ON C.RCPT_NUM = B.RCPT_NUM
+                    JOIN SJPB_INC_TRF_BK D ON MONS.LV = TO_CHAR(D.TRF_PRO_DT,'MM') AND C.INC_TRF_BK_NUM =D.INC_TRF_BK_NUM AND  TO_CHAR(D.TRF_PRO_DT,'YYYY') = TO_CHAR(SYSDATE,'YYYY') 
+		            GROUP BY MONS.LV
+					) F ON F.MONTH = D.MONTH
+			ORDER BY D.MONTH
+		]]>
+	</select>
+
+	<!-- (과)월별 사건현황 count 리스트 -->
+	<select id="PTL.PTL0603" resultMap="PTL.monCount"> /* PTL.PTL0603 */
+		<![CDATA[
+			SELECT F.MONTH AS MONTH /* 월 */
+				   ,F.PRS AS PRSCT /* 입건 */
+				   ,DECODE(G.TRN,NULL,0,G.TRN) AS TRNSR  /* 송치 */
+			FROM
+				(SELECT CONCAT(MONS.LV,'월') AS MONTH /* 월 */
+							       ,COUNT(B.BE_DT) AS PRS /* 입건 */
+							FROM (
+							      SELECT LPAD(LEVEL, 2, '0') LV 
+							      FROM DUAL 
+							      CONNECT BY LEVEL <= 12
+							      ) MONS
+                            JOIN SJPB_CRI_TM A ON  A.PARE_TM_ID = #orgCd#
+							LEFT JOIN SJPB_INC_MAST B ON TO_CHAR(B.BE_DT,'YYYY') = TO_CHAR(SYSDATE,'YYYY')
+							          AND MONS.LV = TO_CHAR(B.BE_DT,'MM') AND B.RCPT_TP_CD = '2' AND A.CRI_TM_ID =B.CRI_TM_ID
+				            WHERE B.RCPT_INC_NUM IS NOT NULL
+				            GROUP BY MONS.LV
+				) F
+			LEFT JOIN 
+					(SELECT CONCAT(MONS.LV,'월') AS MONTH /* 월 */
+					       ,COUNT(F.TRF_PRO_DT) AS TRN /* 송치 */
+					FROM (
+					      SELECT LPAD(LEVEL, 2, '0') LV 
+					      FROM DUAL 
+					      CONNECT BY LEVEL <= 12
+					      ) MONS
+                    JOIN SJPB_CRI_TM C ON C.PARE_TM_ID = #orgCd#
+					LEFT JOIN SJPB_INC_MAST D ON D.CRI_TM_ID = c.cri_tm_id
+		            LEFT JOIN SJPB_INC_TRF_ITEM E ON E.RCPT_NUM = D.RCPT_NUM
+		            JOIN SJPB_INC_TRF_BK F ON MONS.LV = TO_CHAR(F.TRF_PRO_DT,'MM') AND E.INC_TRF_BK_NUM =F.INC_TRF_BK_NUM AND  TO_CHAR(F.TRF_PRO_DT,'YYYY') = TO_CHAR(SYSDATE,'YYYY') 
+		            WHERE E.INC_TRF_ITEM_NUM IS NOT NULL
+		            GROUP BY MONS.LV
+					) G ON G.MONTH = F.MONTH
+			ORDER BY F.MONTH
+		]]>
+	</select>
+
+	<!-- (전체) 월별 사건현황 count 리스트 -->
+	<select id="PTL.PTL0604" resultMap="PTL.monCount"> /* PTL.PTL0604 */
+		<![CDATA[
+			SELECT F.MONTH AS MONTH /* 월 */
+				   ,F.PRS AS PRSCT /* 입건 */
+				   ,DECODE(G.TRN,NULL,0,G.TRN) AS TRNSR /* 송치 */
+			FROM
+				(SELECT CONCAT(MONS.LV,'월') AS MONTH /* 월 */
+							       ,COUNT(B.BE_DT) AS PRS /* 입건 */
+							FROM (
+							      SELECT LPAD(LEVEL, 2, '0') LV 
+							      FROM DUAL 
+							      CONNECT BY LEVEL <= 12
+							      ) MONS
+                            JOIN SJPB_CRI_TM A ON  A.PARE_TM_ID = #orgCd#
+                            JOIN SJPB_CRI_TM J ON J.PARE_TM_ID = a.cri_tm_id
+							LEFT JOIN SJPB_INC_MAST B ON TO_CHAR(B.BE_DT,'YYYY') = TO_CHAR(SYSDATE,'YYYY')
+							          AND MONS.LV = TO_CHAR(B.BE_DT,'MM') AND B.RCPT_TP_CD = '2' AND J.CRI_TM_ID =B.CRI_TM_ID
+				            WHERE B.RCPT_INC_NUM IS NOT NULL
+				            GROUP BY MONS.LV
+				)F
+			LEFT JOIN 
+					(SELECT CONCAT(MONS.LV,'월') AS MONTH /* 월 */
+					       ,COUNT(F.TRF_PRO_DT) AS TRN /* 송치 */
+					FROM (
+					      SELECT LPAD(LEVEL, 2, '0') LV 
+					      FROM DUAL 
+					      CONNECT BY LEVEL <= 12
+					      ) MONS
+                    JOIN SJPB_CRI_TM C ON C.PARE_TM_ID = #orgCd#
+                    JOIN SJPB_CRI_TM N ON N.PARE_TM_ID = C.cri_tm_id
+					LEFT JOIN SJPB_INC_MAST D ON N.CRI_TM_ID = D.cri_tm_id
+		            LEFT JOIN SJPB_INC_TRF_ITEM E ON E.RCPT_NUM = D.RCPT_NUM
+		            JOIN SJPB_INC_TRF_BK F ON MONS.LV = TO_CHAR(F.TRF_PRO_DT,'MM') AND E.INC_TRF_BK_NUM =F.INC_TRF_BK_NUM AND  TO_CHAR(F.TRF_PRO_DT,'YYYY') = TO_CHAR(SYSDATE,'YYYY') 
+		            WHERE E.INC_TRF_ITEM_NUM IS NOT NULL
+		            GROUP BY MONS.LV
+					) G ON G.MONTH = F.MONTH
+			ORDER BY F.MONTH
+		]]>
+	</select>
+
+	<resultMap id="PTL.sjpbNotice" class="com.saltware.enface.sjpb.Z.service.PTL07VO">
+		<result property="bltnSubj" column="BLTN_SUBJ" />
+		<result property="regDatim" column="REG_DATIM" />
+		<result property="bltnNo" column="BLTN_NO" />
+		<result property="newYn" column="NEW_YN" />
+	</resultMap>
+
+	<!-- 업무공지 포틀릿 리스트 -->
+	<select id="PTL.PTL07" resultMap="PTL.sjpbNotice"> /* PTL.PTL07 */
+		<![CDATA[
+			SELECT *
+			FROM (
+				SELECT A.BLTN_SUBJ  /* 공지 이름 */
+					   ,TO_CHAR(A.REG_DATIM, 'YYYY-MM-DD') AS REG_DATIM /* 등록일자 */
+					   ,A.BLTN_NO /* 게시글번호 */
+	                   ,CASE WHEN TO_CHAR(A.REG_DATIM, 'YYYYMMDDHH24') > TO_CHAR(SYSDATE-1, 'YYYYMMDDHH24') THEN 1 ELSE 0 END AS NEW_YN /* 최신글여부 */
+				FROM BULLETIN A
+				WHERE A.BOARD_ID = 'sjpbnotice' AND A.DEL_FLAG='N'
+				ORDER BY A.REG_DATIM DESC
+				)
+			WHERE ROWNUM < 6
+		]]>
+	</select>
+
+	<resultMap id="PTL.tmSchedule" class="com.saltware.enface.sjpb.Z.service.PTL08VO">
+		<result property="name" column="NAME" />
+		<result property="startDatim" column="START_DATIM" />
+		<result property="endDatim" column="END_DATIM" />
+	</resultMap>
+
+	<!-- (팀) 일정 포틀릿 리스트 -->
+	<select id="PTL.PTL0802" resultMap="PTL.tmSchedule"> /* PTL.PTL0802 */
+		<![CDATA[
+			SELECT A.NAME /* 일정 이름*/
+			       ,C.START_DATIM /* 시작 날짜 */
+			       ,B.GROUP_ID /* 그룹아이디 */
+			FROM SCHEDULE_LANG A
+			JOIN CALENDAR_PUBLIC_GROUP B ON B.GROUP_ID = #orgCd#
+			JOIN SCHEDULE C ON C.CALENDAR_ID = B.CALENDAR_ID AND C.SCHEDULE_ID=A.SCHEDULE_ID 
+			JOIN SJPB_CRI_TM D ON D.CRI_TM_STAT = '1' AND D.CRI_TM_ID = B.GROUP_ID AND D.CRI_TM_DIV = 'T'
+			WHERE SYSDATE <= C.END_DATIM AND A.LANG_KND='ko' AND (TO_CHAR(SYSDATE,'YYYY-MM') >=TO_CHAR(C.START_DATIM,'YYYY-MM')) 
+				  AND (TO_CHAR(SYSDATE,'YYYY-MM') <= TO_CHAR(C.END_DATIM,'YYYY-MM'))
+			ORDER BY C.START_DATIM
+		]]>
+	</select>
+
+	<!-- (과) 일정 포틀릿 리스트 -->
+	<select id="PTL.PTL0803" resultMap="PTL.tmSchedule"> /* PTL.PTL0803 */
+		<![CDATA[
+			SELECT A.NAME /* 일정 이름*/
+			       ,C.START_DATIM /* 시작 날짜 */
+			FROM SCHEDULE_LANG A
+			JOIN CALENDAR_PUBLIC_GROUP B ON B.GROUP_ID = #orgCd#
+			JOIN SCHEDULE C ON C.CALENDAR_ID = B.CALENDAR_ID AND C.SCHEDULE_ID=A.SCHEDULE_ID 
+			JOIN SJPB_CRI_TM D ON D.CRI_TM_STAT = '1' AND D.PARE_TM_ID = B.GROUP_ID AND D.CRI_TM_DIV = 'T'
+			JOIN SJPB_CRI_TM E ON E.CRI_TM_STAT = '1' AND E.PARE_TM_ID = D.CRI_TM_ID AND D.CRI_TM_DIV = 'D'
+			WHERE SYSDATE <= C.END_DATIM AND A.LANG_KND='ko' AND (TO_CHAR(SYSDATE,'YYYY-MM') >=TO_CHAR(C.START_DATIM,'YYYY-MM')) 
+				  AND (TO_CHAR(SYSDATE,'YYYY-MM') <= TO_CHAR(C.END_DATIM,'YYYY-MM'))
+			ORDER BY C.START_DATIM
+		]]>
+	</select>
+
+	<!-- (전체) 일정 포틀릿 리스트 -->
+	<select id="PTL.PTL0800" resultMap="PTL.tmSchedule"> /* PTL.PTL0804 */
+		<![CDATA[
+   			SELECT   DECODE(ALLDAY,'1' ,TO_CHAR(START_DATIM,'YYYY-MM-DD'),TO_CHAR(START_DATIM,'YYYY-MM-DD hh24:MI')) AS START_DATIM,  /*시작일자*/
+            		 DECODE(ALLDAY,'1' ,TO_CHAR(END_DATIM,'YYYY-MM-DD'),TO_CHAR(END_DATIM,'YYYY-MM-DD hh24:MI')) AS END_DATIM,    /*종료일자*/
+		             NAME      /*제목*/
+		    FROM     SCHEDULE a
+		             JOIN SCHEDULE_LANG B
+		             ON       B.SCHEDULE_ID = A.SCHEDULE_ID
+		             AND      LANG_KND      = 'ko'
+		             JOIN CALENDAR_PUBLIC C
+		             ON       C.CALENDAR_ID = A.CALENDAR_ID
+		    WHERE    a.CALENDAR_ID =CAST( #calendarId# AS INTEGER)
+		    AND
+		             (
+		                      TO_CHAR(SYSDATE,'YYYY-MM') >=TO_CHAR(START_DATIM,'YYYY-MM')
+		             )
+		    AND
+		
+		             (
+		                      TO_CHAR(SYSDATE,'YYYY-MM') <= TO_CHAR(END_DATIM,'YYYY-MM')
+		             )
+		    ORDER BY START_DATIM
+		]]>
+	</select>
+	
+	
+	
+
+	<resultMap id="PTL.forsSchedule" class="com.saltware.enface.sjpb.Z.service.PTL10VO">
+		<result property="reqComn" column="REQ_COMN" />
+	</resultMap>
+
+	<!-- 디지털포렌식 센터 업무일정 포틀릿 리스트 -->
+	<select id="PTL.PTL10" resultMap="Z0101.forsSchedule"> /* PTL.PTL10 */
+		<![CDATA[
+			SELECT REQ_COMN,TO_CHAR(INVE_FI_DT,'YY-MM-DD') AS INVE_FI_DT
+			FROM SJPB_FORS_INVE_REQ_BK
+			WHERE TO_CHAR(INVE_FI_DT,'YY-MM-DD') = TO_CHAR(SYSDATE,'YY-MM-DD')
+		]]>
+	</select>
+</sqlMap>
+

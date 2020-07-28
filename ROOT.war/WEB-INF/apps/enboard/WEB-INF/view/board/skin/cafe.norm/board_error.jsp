@@ -1,0 +1,1 @@
+<jsp:include page='<%="../../include//board_cafe_error.jsp"%>'/>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+	
+<sqlMapConfig>
+	<sqlMap resource="sqlmap/admin/common/Codebase-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/Codebase-sql.xml"/>
+	 
+	<sqlMap resource="sqlmap/admin/db2/User-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/Userpass-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/Credential-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/UserGroup-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/UserRole-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/Group-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/GroupRole-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/Role-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/SecurityPermission-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/SecurityPolicy-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/Page-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/PageMetadata-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/PageComponent-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/Fragment-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/FragmentPreference-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/ThemeMapping-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/Notice-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/NoticeMetadata-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/Lang-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/SessionData-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/PageStatistics-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/UserStatistics-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/Capability-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/Client-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/Mimetype-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/MediaType-sql.xml"/>
+	<sqlMap resource="sqlmap/admin/db2/BatchSchedule-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/BatchAction-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/BatchResult-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/Configuration-sql.xml"/>
+	<sqlMap resource="sqlmap/admin/db2/Domain-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/DomainLang-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/DomainPrincipal-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/DomainPortlet-sql.xml"/>
+	<sqlMap resource="sqlmap/admin/db2/PortletService-sql.xml"/>
+	<sqlMap resource="sqlmap/admin/db2/UserPreference-sql.xml"/> 
+	<sqlMap resource="sqlmap/admin/db2/AttachFile-sql.xml"/> 
+</sqlMapConfig>

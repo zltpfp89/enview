@@ -1,0 +1,249 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0124VO" id="M0124VO.list">
+		<result property="cmctCnfmReqExecNum" column="CMCT_CNFM_REQ_EXEC_NUM"/>
+		<result property="execNum" column="EXEC_NUM"/>
+		<result property="apprDocNum" column="APPR_DOC_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="cmctCnfmExecTrgt" column="CMCT_CNFM_EXEC_TRGT"/>
+		<result property="cmctCnfmExecType" column="CMCT_CNFM_EXEC_TYPE"/>
+		<result property="cmctCnfmExecRnge" column="CMCT_CNFM_EXEC_RNGE"/>
+		<result property="cmctCnfmExecDt" column="CMCT_CNFM_EXEC_DT"/>
+		<result property="cmctCnfmComn" column="CMCT_CNFM_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="docNum" column="DOC_NUM"/>
+		<result property="recvNm" column="RECV_NM"/>
+		<result property="reqResn" column="REQ_RESN"/>
+		<result property="subsConn" column="SUBS_CONN"/>
+		<result property="requMatr" column="REQU_MATR"/>
+		
+	</resultMap>
+ 	<select id="M0124.selectList" resultMap="M0124VO.list">  /* M0124.selectList */
+ 		SELECT 
+ 			A.CMCT_CNFM_REQ_EXEC_NUM
+			,A.EXEC_NUM
+			,A.APPR_DOC_NUM
+			,A.RCPT_NUM
+			,B.RCPT_INC_NUM
+			,A.INC_SP_NUM
+			,A.CMCT_CNFM_EXEC_TRGT
+			,A.CMCT_CNFM_EXEC_TYPE
+			,A.CMCT_CNFM_EXEC_RNGE
+			,TO_DATE(A.CMCT_CNFM_EXEC_DT, 'YYYY.MM.DD') AS CMCT_CNFM_EXEC_DT
+			,A.CMCT_CNFM_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+            ,A.DOC_NUM
+			,A.RECV_NM
+			,A.REQ_RESN
+			,A.SUBS_CONN
+			,A.REQU_MATR
+ 		FROM SJPB_CMCT_CNFM_REQ_EXEC_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				B.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="execNumSc" prepend="AND">
+				A.EXEC_NUM LIKE = #execNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="apprDocNumSc" prepend="AND">
+				A.APPR_DOC_NUM LIKE = #apprDocNumSc#
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				C.SP_NM LiKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="cmctCnfmExecTrgtSc" prepend="AND">
+				A.CMCT_CNFM_EXEC_TRGT LIKE '%' || #cmctCnfmExecTrgtSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="cmctCnfmExecTypeSc" prepend="AND">
+				A.CMCT_CNFM_EXEC_TYPE LIKE '%' || #cmctCnfmExecTypeSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="sCmctCnfmExecDtSc" prepend="AND">
+				A.CMCT_CNFM_EXEC_DT &gt;= TO_DATE(#sCmctCnfmExecDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="eCmctCnfmExecDtSc" prepend="AND">
+				A.CMCT_CNFM_EXEC_DT &lt;= TO_DATE(#eCmctCnfmExecDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="regUserNmSc" prepend="AND">
+				D.NM_KOR LIKE '%' || #regUserNmSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				B.RCPT_NUM = #rcptNumSc#  OR B.PARE_RCPT_NUM = #rcptNumSc#  
+			</isNotEmpty>
+		</dynamic>
+        ORDER BY REG_DATE DESC
+ 	</select>
+ 	
+	<!-- 데이터 조회 (pk 일련번호)-->
+	<select id="M0124.selectData" resultMap="M0124VO.list"> /* M0124.selectData */
+		SELECT 
+ 			A.CMCT_CNFM_REQ_EXEC_NUM
+			,A.EXEC_NUM
+			,A.APPR_DOC_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.CMCT_CNFM_EXEC_TRGT
+			,A.CMCT_CNFM_EXEC_TYPE
+			,A.CMCT_CNFM_EXEC_RNGE
+			,TO_DATE(A.CMCT_CNFM_EXEC_DT, 'YYYY-MM-DD') AS CMCT_CNFM_EXEC_DT
+			,A.CMCT_CNFM_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+            ,A.DOC_NUM
+			,A.RECV_NM
+			,A.REQ_RESN
+			,A.SUBS_CONN
+			,A.REQU_MATR
+ 		FROM SJPB_CMCT_CNFM_REQ_EXEC_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		WHERE A.CMCT_CNFM_REQ_EXEC_NUM = #cmctCnfmReqExecNum#
+	</select>
+ 	
+ 	<!-- 데이터 추가 -->
+	<insert id="M0124.insertData"> /* M0124.insertData */
+		INSERT INTO SJPB_CMCT_CNFM_REQ_EXEC_DOC
+			(
+				CMCT_CNFM_REQ_EXEC_NUM
+				,EXEC_NUM
+				,APPR_DOC_NUM
+				,RCPT_NUM
+				,INC_SP_NUM
+				,CMCT_CNFM_EXEC_TRGT
+				,CMCT_CNFM_EXEC_TYPE
+				,CMCT_CNFM_EXEC_RNGE
+				,CMCT_CNFM_EXEC_DT
+				,CMCT_CNFM_COMN
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE
+				,DOC_NUM
+				,RECV_NM
+				,REQ_RESN
+				,SUBS_CONN
+				,REQU_MATR
+			)
+		VALUES (
+				#cmctCnfmReqExecNum#
+				,#execNum#
+				,#apprDocNum#
+				,#rcptNum#
+				,#incSpNum#
+				,#cmctCnfmExecTrgt#
+				,#cmctCnfmExecType#
+				,#cmctCnfmExecRnge#
+				,#cmctCnfmExecDt#
+				,#cmctCnfmComn#
+				,#regUserId#
+				,SYSDATE
+				,#updUserId#
+				,SYSDATE
+				,#docNum#
+				,#recvNm#
+				,#reqResn#
+				,#subsConn#
+				,#requMatr#
+			)
+	</insert>
+	
+	<!-- 데이터 수정 -->	 		
+	<update id="M0124.updateData"> /* M0124.updateData */	
+		UPDATE SJPB_CMCT_CNFM_REQ_EXEC_DOC
+			SET	EXEC_NUM = #execNum#
+				,RCPT_NUM = #rcptNum#
+				,INC_SP_NUM = #incSpNum#
+				,APPR_DOC_NUM = #apprDocNum#
+				,CMCT_CNFM_EXEC_TRGT = #cmctCnfmExecTrgt#
+				,CMCT_CNFM_EXEC_TYPE = #cmctCnfmExecType#
+				,CMCT_CNFM_EXEC_RNGE = #cmctCnfmExecRnge#
+				,CMCT_CNFM_EXEC_DT = #cmctCnfmExecDt#
+				,CMCT_CNFM_COMN = #cmctCnfmComn#
+				,UPD_USER_ID = #updUserId#
+				,UPD_DATE = SYSDATE
+				,DOC_NUM = #docNum#
+				,RECV_NM = #recvNm#
+				,REQ_RESN = #reqResn#
+				,SUBS_CONN = #subsConn#
+				,REQU_MATR = #requMatr#
+			WHERE CMCT_CNFM_REQ_EXEC_NUM = #cmctCnfmReqExecNum#
+	</update>
+	
+ 	<resultMap class="com.saltware.enface.sjpb.M.service.M0124VO" id="M0124VO.listPrn">
+		<result property="cmctCnfmReqExecNum" column="CMCT_CNFM_REQ_EXEC_NUM"/>
+		<result property="execNum" column="EXEC_NUM"/>
+		<result property="apprDocNum" column="APPR_DOC_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="cmctCnfmExecTrgt" column="CMCT_CNFM_EXEC_TRGT"/>
+		<result property="cmctCnfmExecType" column="CMCT_CNFM_EXEC_TYPE"/>
+		<result property="cmctCnfmExecRnge" column="CMCT_CNFM_EXEC_RNGE"/>
+		<result property="cmctCnfmExecDt" column="CMCT_CNFM_EXEC_DT"/>
+		<result property="cmctCnfmComn" column="CMCT_CNFM_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="nmKor" column="NM_KOR"/>		
+	</resultMap>
+	
+ 	<select id="M0124.SJPB_CMCT_CNFM_REQ_EXEC_DOC.prnCheckReport" resultMap="M0124VO.listPrn">  /* M0124.SJPB_CMCT_CNFM_REQ_EXEC_DOC.prnCheckReport */
+ 		SELECT 
+ 			A.CMCT_CNFM_REQ_EXEC_NUM
+			,A.EXEC_NUM
+			,A.APPR_DOC_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.CMCT_CNFM_EXEC_TRGT
+			,A.CMCT_CNFM_EXEC_TYPE
+			,A.CMCT_CNFM_EXEC_RNGE
+			,TO_DATE(A.CMCT_CNFM_EXEC_DT, 'YYYY.MM.DD') AS CMCT_CNFM_EXEC_DT
+			,A.CMCT_CNFM_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_CMCT_CNFM_REQ_EXEC_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="cmctCnfmReqExecNumList" prepend="AND">
+				<iterate property="cmctCnfmReqExecNumList" open="A.CMCT_CNFM_REQ_EXEC_NUM IN(" close=")" conjunction=",">
+					 #cmctCnfmReqExecNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

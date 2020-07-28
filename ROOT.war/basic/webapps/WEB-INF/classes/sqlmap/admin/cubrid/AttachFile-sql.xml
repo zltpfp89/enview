@@ -1,0 +1,70 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="attachFile">
+	<resultMap id="attachFile_AttachFileVO" class="com.saltware.enview.admin.attachfile.service.AttachFileVO">
+		<result property="systemId" column="SYSTEM_ID"/>	 
+		<result property="fileId" column="FILE_ID"/>	 
+		<result property="fileSeq" column="FILE_SEQ"/>	 
+		<result property="atchType" column="ATCH_TYPE"/>	 
+		<result property="fileName" column="FILE_NAME"/>	 
+		<result property="fileMask" column="FILE_MASK"/>	 
+		<result property="fileSize" column="FILE_SIZE"/>	 
+		<result property="downCnt" column="DOWN_CNT"/>	 
+		<result property="atchDatim" column="ATCH_DATIM"/>	 
+	</resultMap>
+	
+	<select id="attachFile.maxFileSeq" resultClass="java.lang.Integer">
+			SELECT NVL( MAX(file_seq), 0) + 1
+			FROM atch_file
+			WHERE system_id = #systemId# AND file_id = #fileId#
+	</select>
+
+	<select id="attachFile.find" resultMap="attachFile_AttachFileVO">
+			SELECT system_id, file_id, file_seq, atch_type, file_name, file_mask, file_size, down_cnt, atch_datim
+			FROM atch_file
+			WHERE system_id = #systemId# 
+			<isNotEmpty property="fileId">
+			AND file_id = #fileId#
+			<isNotEmpty property="fileSeq">
+			AND file_seq = #fileSeq#
+			</isNotEmpty>
+			</isNotEmpty>
+			<isEmpty property="fileId">
+			AND file_mask = #fileMask#
+			</isEmpty>
+	</select>
+	
+	<select id="attachFile.detail" resultMap="attachFile_AttachFileVO">
+			SELECT system_id, file_id, file_seq, atch_type, file_name, file_mask, file_size, down_cnt, atch_datim
+			FROM atch_file
+			WHERE system_id = #systemId# AND file_id = #fileId# AND file_seq = #fileSeq#
+	</select>
+	
+	<update id="attachFile.insert">
+			INSERT INTO atch_file
+			( system_id, file_id, file_seq, atch_type, file_name, file_mask, file_size, down_cnt, atch_datim)
+			VALUES 
+			( #systemId#, #fileId#, #fileSeq#, #atchType#, #fileName#, #fileMask#, #fileSize#, 0, SYSTIMESTAMP)
+	</update>
+	
+	
+	<update id="attachFile.delete">
+			DELETE FROM  atch_file
+			WHERE system_id = #systemId# 
+			  AND file_id = #fileId# 
+			  AND file_seq = #fileSeq#
+	</update>
+	
+	<update id="attachFile.deleteAll">
+			DELETE FROM  atch_file
+			WHERE system_id = #systemId#
+			<isEmpty property="fileId">
+			  AND file_id = #fileId# 
+			</isEmpty> 
+			<isEmpty property="fileSeq">
+			  AND file_seq = #fileSeq#
+			</isEmpty>
+	</update>
+
+</sqlMap>
+

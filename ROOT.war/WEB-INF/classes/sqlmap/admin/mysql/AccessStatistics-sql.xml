@@ -1,0 +1,90 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ USER_STATISTICS : 접속현황통계 ] Table -->
+	<resultMap id="admin_AccessStatisticsVO_PK" class="com.saltware.enview.admin.statistics.service.AccessStatisticsPK">
+	
+	</resultMap>
+	
+	<resultMap id="admin_AccessStatisticsVO" class="com.saltware.enview.admin.statistics.service.AccessStatisticsVO">
+	 
+		<result property="currentUser" column="CURRENT_USER" columnIndex="1"/>	 
+		<result property="todayUser" column="TODAY_USER" columnIndex="2"/>	 
+		<result property="averageUser" column="AVERAGE_USER" columnIndex="3"/>	 
+		<result property="accumulateUser" column="ACCUMULATE_USER" columnIndex="4"/>	 
+		<result property="registUser" column="REGIST_USER" columnIndex="5"/>	 
+		<result property="secessionUser" column="SECESSION_USER" columnIndex="6"/>	
+	</resultMap>
+	
+	<select id="accessStatistics.totalCount" resultClass="int">
+	/* accessStatistics.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM USER_STATISTICS
+		WHERE 1=1	
+		<isNotNull  prepend=" AND " property="groupIdCond">GROUP_ID LIKE CONCAT('%',#groupIdCond#,'%')</isNotNull>
+		<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE CONCAT('%',#userIdCond#,'%')</isNotNull>
+		<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE CONCAT('%',#userNameCond#,'%')</isNotNull>
+		<isNotNull prepend=" AND " property="startTimeStampCond">START_TIME_STAMP=#startTimeStampCond#</isNotNull>
+		<isNotNull prepend=" AND " property="endTimeStampCond">END_TIME_STAMP=#endTimeStampCond#</isNotNull>
+	</select>
+	
+	<select id="accessStatistics.findByPage" resultMap="admin_AccessStatisticsVO_PK">
+		/* accessStatistics.findByPage */
+		SELECT * 
+		FROM USER_STATISTICS
+		WHERE 1=1 
+		<isNotNull  prepend=" AND " property="groupIdCond">GROUP_ID LIKE CONCAT('%',#groupIdCond#,'%')</isNotNull>
+		<isNotNull  prepend=" AND " property="userIdCond">USER_ID LIKE CONCAT('%',#userIdCond#,'%')</isNotNull>
+		<isNotNull  prepend=" AND " property="userNameCond">USER_NAME LIKE CONCAT('%',#userNameCond#,'%')</isNotNull>
+		<isNotNull prepend=" AND " property="startTimeStampCond">START_TIME_STAMP=#startTimeStampCond#</isNotNull>
+		<isNotNull prepend=" AND " property="endTimeStampCond">END_TIME_STAMP=#endTimeStampCond#</isNotNull>
+
+		<isNotNull property="sortColumn"> ORDER BY $sortColumn$ $sortMethod$ </isNotNull>
+		<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+		<isNull property="sortColumn">ORDER BY START_TIME_STAMP DESC</isNull>
+		LIMIT #limit# OFFSET #offset# 
+	</select>
+
+	<select id="accessStatistics.findAll" resultMap="admin_AccessStatisticsVO_PK">
+			SELECT 
+			FROM USER_STATISTICS
+	</select>
+	
+
+	<select id="accessStatistics.detail" resultMap="admin_AccessStatisticsVO">
+		<![CDATA[
+			SELECT CURRENT_USER,TODAY_USER,AVERAGE_USER,ACCUMULATE_USER,REGIST_USER,SECESSION_USER
+			FROM USER_STATISTICS
+			WHERE 1=1 
+		]]>
+	</select>
+	
+	<insert id="accessStatistics.insert">
+		<![CDATA[
+			INSERT INTO USER_STATISTICS
+				( CURRENT_USER,TODAY_USER,AVERAGE_USER,ACCUMULATE_USER,REGIST_USER,SECESSION_USER )
+			VALUES ( #currentUser#,#todayUser#,#averageUser#,#accumulateUser#,#registUser#,#secessionUser# )
+		]]>
+	</insert>
+	
+	<update id="accessStatistics.update">
+		<![CDATA[
+			UPDATE USER_STATISTICS
+			SET CURRENT_USER=#currentUser#,TODAY_USER=#todayUser#,AVERAGE_USER=#averageUser#,ACCUMULATE_USER=#accumulateUser#,REGIST_USER=#registUser#,SECESSION_USER=#secessionUser#
+			WHERE 1=1 
+		]]>
+	</update>
+	
+	<delete id="accessStatistics.delete">
+		<![CDATA[
+			DELETE FROM USER_STATISTICS
+			WHERE 1=1 
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

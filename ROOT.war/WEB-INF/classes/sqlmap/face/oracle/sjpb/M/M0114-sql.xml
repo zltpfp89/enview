@@ -1,0 +1,129 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0114VO" id="M0114VO.list">
+		<result property="cathArstCsltNum" column="CATH_ARST_CSLT_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="cstdPersNm" column="CSTD_PERS_NM"/>
+		<result property="dgnsDctrNm" column="DGNS_DCTR_NM"/>
+		<result property="csltCau" column="CSLT_CAU"/>
+		<result property="csltDt" column="CSLT_DT"/>
+		<result property="dgnsRst" column="DGNS_RST"/>
+		<result property="cathArstCsltComn" column="CATH_ARST_CSLT_COMN"/>
+		<result property="prscOffi" column="PRSC_OFFI"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+	
+ 	<select id="M0114.SJPB_CATH_ARST_CSLT_DOC.selectList" resultMap="M0114VO.list">  /* M0114.SJPB_CATH_ARST_CSLT_DOC.selectList */
+ 		SELECT A.CATH_ARST_CSLT_NUM  /* 체포구속인진료부번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,D.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,A.CSTD_PERS_NM AS CSTD_PERS_NM  /* 유치인성명 */
+		       ,A.DGNS_DCTR_NM  /* 진단의사성명 */
+		       ,A.CSLT_CAU  /* 진료원인 */
+		       ,A.CSLT_DT  /* 진료일시 */
+		       ,A.DGNS_RST  /* 진단결과 */
+		       ,A.CATH_ARST_CSLT_COMN  /* 비고 */
+		       ,A.PRSC_OFFI  /* 입회관 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,C.NM_KOR  /* 작성자이름 */
+		FROM SJPB_CATH_ARST_CSLT_DOC A
+		JOIN SJPB_INC_MAST D ON D.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS C ON C.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				D.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				A.CSTD_PERS_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				D.RCPT_NUM = #rcptNumSc# OR D.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0114.SJPB_CATH_ARST_CSLT_DOC.insertCslt" parameterClass="com.saltware.enface.sjpb.M.service.M0114VO">  /* M0114.SJPB_CATH_ARST_CSLT_DOC.insertCslt */
+ 		INSERT INTO SJPB_CATH_ARST_CSLT_DOC (
+		    CATH_ARST_CSLT_NUM,
+		    RCPT_NUM,
+		    INC_SP_NUM,
+		    CSTD_PERS_NM,
+		    DGNS_DCTR_NM,
+		    CSLT_CAU,
+		    CSLT_DT,
+		    DGNS_RST,
+		    CATH_ARST_CSLT_COMN,
+		    PRSC_OFFI,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_CATH_ARST_CSLT_DOC.CATH_ARST_CSLT_NUM')
+		    ,#rcptNum#
+		    ,#incSpNum#
+		    ,#cstdPersNm#
+		    ,#dgnsDctrNm#
+		    ,#csltCau#
+		    ,#csltDt#
+		    ,#dgnsRst#
+		    ,#cathArstCsltComn#
+		    ,#prscOffi#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		)
+ 	</update>
+ 	<update id="M0114.SJPB_CATH_ARST_CSLT_DOC.updateCslt" parameterClass="com.saltware.enface.sjpb.M.service.M0114VO">  /* M0114.SJPB_CATH_ARST_CSLT_DOC.updateCslt */
+ 		UPDATE SJPB_CATH_ARST_CSLT_DOC 
+		SET INC_SP_NUM = #incSpNum#,
+		    CSTD_PERS_NM = #cstdPersNm#,
+		    DGNS_DCTR_NM = #dgnsDctrNm#,
+		    CSLT_CAU = #csltCau#,
+		    CSLT_DT = #csltDt#,
+		    DGNS_RST = #dgnsRst#,
+		    CATH_ARST_CSLT_COMN = #cathArstCsltComn#,
+		    PRSC_OFFI = #prscOffi#,
+		    UPD_USER_ID = #regUserId#,
+		    UPD_DATE = SYSDATE
+		WHERE CATH_ARST_CSLT_NUM = #cathArstCsltNum#
+ 	</update>
+ 	
+ 	<select id="M0114.SJPB_CATH_ARST_CSLT_DOC.prnCheckReport" resultMap="M0114VO.list">  /* M0114.SJPB_CATH_ARST_CSLT_DOC.prnCheckReport */
+ 		SELECT A.CATH_ARST_CSLT_NUM  /* 체포구속인진료부번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,D.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,A.CSTD_PERS_NM AS CSTD_PERS_NM  /* 유치인성명 */
+		       ,A.DGNS_DCTR_NM  /* 진단의사성명 */
+		       ,A.CSLT_CAU  /* 진료원인 */
+               ,DECODE(A.CSLT_DT,NULL,'',SUBSTR(A.CSLT_DT,1,4)||'.'|| SUBSTR(A.CSLT_DT,5,2) ||'.'||SUBSTR(A.CSLT_DT,7,2)) AS CSLT_DT  /* 진료일시 */ 
+		       ,A.DGNS_RST  /* 진단결과 */
+		       ,A.CATH_ARST_CSLT_COMN  /* 비고 */
+		       ,A.PRSC_OFFI  /* 입회관 */
+		       ,A.REG_USER_ID  /* 등록자 */
+               ,E.NM_KOR
+		FROM SJPB_CATH_ARST_CSLT_DOC A
+		JOIN SJPB_INC_MAST D ON D.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="cathArstCsltNumList" prepend="AND">
+				<iterate property="cathArstCsltNumList" open="A.CATH_ARST_CSLT_NUM IN(" close=")" conjunction=",">
+					 #cathArstCsltNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+</sqlMap>

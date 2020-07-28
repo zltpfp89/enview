@@ -1,0 +1,137 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0208VO" id="M0208VO.list">
+		<result property="crimRepoNum" column="CRIM_REPO_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="docNum" column="DOC_NUM"/>
+		<result property="recvNm" column="RECV_NM"/>
+		<result property="susp" column="SUSP"/>
+		<result property="persMatt" column="PERS_MATT"/>
+		<result property="crimRecr" column="CRIM_RECR"/>
+		<result property="crimPoint" column="CRIM_POINT"/>
+		<result property="crimNameAndAtto" column="CRIM_NAME_AND_ATTO"/>
+		<result property="srchAndCrimRecg" column="SRCH_AND_CRIM_RECG"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+	
+ 	<select id="M0208.selectList" resultMap="M0208VO.list">  /* M0208.selectList */
+ 		SELECT
+		    A.CRIM_REPO_NUM,
+		    A.RCPT_NUM,
+		    B.RCPT_INC_NUM,
+		    A.DOC_NUM,
+		    A.RECV_NM,
+		    A.SUSP,
+		    A.PERS_MATT,
+		    A.CRIM_RECR,
+		    A.CRIM_POINT,
+		    A.CRIM_NAME_AND_ATTO,
+		    A.SRCH_AND_CRIM_RECG,
+		    A.REG_USER_ID,
+		    A.REG_DATE,
+		    A.UPD_USER_ID,
+		    A.UPD_DATE,
+		    D.NM_KOR
+		FROM SJPB_CRIM_REPO_DOC A	
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				B.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc#  || '%'
+			</isNotEmpty>
+			<isNotEmpty property="sReqDtSc" prepend="AND">
+				A.REQ_DT &gt;= TO_DATE(#sReqDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="eReqDtSc" prepend="AND">
+				A.REQ_DT &lt;= TO_DATE(#eReqDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				B.RCPT_NUM = #rcptNumSc# OR B.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+		</dynamic>
+        ORDER BY REG_DATE DESC
+ 	</select>
+ 	
+	<!-- 데이터 조회 (pk 일련번호)-->
+	<select id="M0208.selectData" resultMap="M0208VO.list"> /* M0208.selectData */
+		SELECT
+		    A.CRIM_REPO_NUM,
+		    A.RCPT_NUM,
+		    B.RCPT_INC_NUM,
+		    A.DOC_NUM,
+		    A.RECV_NM,
+		    A.SUSP,
+		    A.PERS_MATT,
+		    A.CRIM_RECR,
+		    A.CRIM_POINT,
+		    A.CRIM_NAME_AND_ATTO,
+		    A.SRCH_AND_CRIM_RECG,
+		    A.REG_USER_ID,
+		    A.REG_DATE,
+		    A.UPD_USER_ID,
+		    A.UPD_DATE,
+		    D.NM_KOR
+		FROM SJPB_CRIM_REPO_DOC A	
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		WHERE A.CRIM_REPO_NUM = #crimRepoNum#
+	</select>
+ 	
+ 	<!-- 데이터 추가 -->
+	<insert id="M0208.insertData"> /* M0208.insertData */
+		INSERT INTO SJPB_CRIM_REPO_DOC (
+			    CRIM_REPO_NUM,
+			    RCPT_NUM,
+			    DOC_NUM,
+			    RECV_NM,
+			    SUSP,
+			    PERS_MATT,
+			    CRIM_RECR,
+			    CRIM_POINT,
+			    CRIM_NAME_AND_ATTO,
+			    SRCH_AND_CRIM_RECG,
+			    REG_USER_ID,
+			    REG_DATE,
+			    UPD_USER_ID,
+			    UPD_DATE
+		) VALUES (
+				#crimRepoNum#
+				,#rcptNum#
+				,#docNum#
+				,#recvNm#
+				,#susp#
+				,#persMatt#
+				,#crimRecr#
+				,#crimPoint#
+				,#crimNameAndAtto#
+				,#srchAndCrimRecg#
+				,#regUserId#
+				,SYSDATE
+				,#updUserId#
+				,SYSDATE
+			)
+	</insert>
+	
+	<!-- 데이터 수정 -->	 		
+	<update id="M0208.updateData"> /* M0208.updateData */	
+		UPDATE SJPB_CRIM_REPO_DOC
+		SET DOC_NUM = #docNum#
+			,RECV_NM = #recvNm#
+			,SUSP = #susp#
+			,PERS_MATT = #persMatt#
+			,CRIM_RECR = #crimRecr#
+			,CRIM_POINT = #crimPoint#
+			,CRIM_NAME_AND_ATTO = #crimNameAndAtto#
+			,SRCH_AND_CRIM_RECG = #srchAndCrimRecg#
+			,UPD_USER_ID = #updUserId#
+			,UPD_DATE = SYSDATE
+		WHERE CRIM_REPO_NUM = #crimRepoNum#
+	</update>
+ 	
+</sqlMap>

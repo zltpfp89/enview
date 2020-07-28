@@ -1,0 +1,1447 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="face">	
+    <typeAlias alias="rsrcVO" type="com.saltware.enface.rsrc.vo.RsrcVO"/>
+    
+    <resultMap class="rsrcVO" id="RsrcResultMap.rsrcOprInfo">
+        <result property="rsrcId"              column="RSRC_ID"/>
+		<result property="oprId"               column="OPR_ID"/>
+		<result property="oprCntns"            column="OPR_CNTNS"/>
+		<result property="oprStrtTm"           column="OPR_STRT_TM"/>
+		<result property="oprEndTm"            column="OPR_END_TM"/>
+		<result property="oprUseCntns"         column="OPR_USE_CNTNS"/>
+		<result property="oprApvClsf"          column="OPR_APV_CLSF"/>
+		<result property="oprApvCntns"         column="OPR_APV_CNTNS"/>
+		<result property="oprReqRgsrtId"       column="OPR_REQ_RGSRT_ID"/>
+		<result property="oprReqRgsrtNm"       column="OPR_REQ_RGSRT_NM"/>
+		<result property="oprReqRgsrtDeptNm"   column="OPR_REQ_RGSRT_DEPT_NM"/>
+		<result property="oprReqRgsrtDt"       column="OPR_REQ_RGSRT_DT"/>
+		<result property="oprUsePlc"           column="OPR_USE_PLC"/>
+    </resultMap>
+     
+    <!-- 자원현황 리스트 COUNT-->
+    <select id="rsrc.selectResourceListCount" parameterClass="rsrcVO" resultClass="int" >
+        /* selectResourceListCount 자원현황 리스트 리스트 COUNT 조회*/
+		SELECT COUNT(*) CNT
+          FROM (SELECT	M.*
+          		FROM	RSRC_MGT M
+          		INNER JOIN RSRC_DEPT_MGT S
+          			ON	M.DEPT_CD = S.DEPT_CD
+					AND S.DEPT_DEL = 'N'
+          	   ) A 
+             , (SELECT *
+                  FROM (
+                        SELECT RSRC_ID 
+                             , ABLE_SEQ 
+                             , ABLE_RSN 
+                             , ABLE_STRT_TM 
+                             , ABLE_END_TM 
+                             , 'N' ABLE
+                             , ROW_NUMBER()OVER(PARTITION BY RSRC_ID ORDER BY ABLE_SEQ DESC) RNK
+                          FROM RSRC_ABLE_MGT
+                         WHERE ABLE_STRT_TM <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDDHH24MMSS')
+                           AND TO_CHAR(SYSDATE, 'YYYYMMDDHH24MMSS') <![CDATA[<=]]> ABLE_END_TM 
+                      )
+                  WHERE 1=1
+                    AND RNK = 1
+               ) B ,
+               (SELECT RSRC_ID ,
+                       B.FILE_ID ,
+                       FILE_MASK ,
+                       FILE_TYPE ,
+                       FILE_PATH ,
+                       FILE_NM
+                  FROM SJPB_COMM_FILE A ,
+                       RSRC_ATCH_MGT B
+                 WHERE A.FILE_ID = B.FILE_ID
+                   AND B.RSRC_ID = RSRC_ID ) C
+         WHERE 1=1
+           AND A.RSRC_ID = B.RSRC_ID(+)
+           AND A.RSRC_ID = C.RSRC_ID(+)
+           AND RSRC_ABLT_CLSF = '0'
+           <isNotEmpty property="dept_cd" prepend="AND">
+               DEPT_CD = #dept_cd#                     
+           </isNotEmpty>
+           <isNotEmpty property="rsrc_clsf" prepend="AND">
+               RSRC_CLSF = #rsrc_clsf#                     
+           </isNotEmpty>
+           <isNotEmpty property="rsrc_nm" prepend="AND">
+               RSRC_NM LIKE '%' ||#rsrc_nm#|| '%'                     
+           </isNotEmpty>
+    </select>
+    
+    <!-- 자원현황 리스트 -->
+    <select id="rsrc.selectResourceList" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        /* selectResourceList 자원현황 리스트 조회*/
+		SELECT *
+		  FROM (SELECT A.RSRC_ID 
+		  			 , RSRC_CLSF
+		             , DEPT_CD 
+		             , RSRC_NM 
+		             , RSRC_LCTN 
+		             , RSRC_CNTNS 
+		             , RSRC_CNT 
+		             , RSRC_DDCNT 
+		             , RSRC_MGT_ID 
+		             , RSRC_MGT_NM 
+		             , RSRC_MGT_DEPT_NM 
+		             , NVL(ABLE, 'Y') ABLE 
+		             , ABLE_RSN 
+		             , C.FILE_ID 
+		             , FILE_TYPE 
+		             , FILE_PATH || '/' || FILE_MASK AS FILE_PATH  
+		             , FILE_NM 
+		             , ROW_NUMBER()OVER(ORDER BY A.RSRC_NM ASC) RNUM
+		          FROM (SELECT	M.*
+		          		FROM	RSRC_MGT M
+		          		INNER JOIN RSRC_DEPT_MGT S
+		          			ON	M.DEPT_CD = S.DEPT_CD
+							AND S.DEPT_DEL = 'N'
+		          	   ) A 
+		             , (SELECT *
+		                  FROM (
+		                        SELECT RSRC_ID 
+		                             , ABLE_SEQ 
+		                             , ABLE_RSN 
+		                             , ABLE_STRT_TM 
+		                             , ABLE_END_TM 
+		                             , 'N' ABLE
+		                             , ROW_NUMBER()OVER(PARTITION BY RSRC_ID ORDER BY ABLE_SEQ DESC) RNK
+		                          FROM RSRC_ABLE_MGT
+		                         WHERE ABLE_STRT_TM <![CDATA[<=]]> TO_CHAR(SYSDATE, 'YYYYMMDDHH24MMSS')
+		                           AND TO_CHAR(SYSDATE, 'YYYYMMDDHH24MMSS') <![CDATA[<=]]> ABLE_END_TM 
+		                      )
+		                  WHERE 1=1
+		                    AND RNK = 1
+		               ) B ,
+		               (SELECT RSRC_ID 
+		                     , B.FILE_ID 
+		                     , FILE_MASK  
+		                     , FILE_TYPE 
+		                     , FILE_PATH 
+		                     , FILE_NM
+		                  FROM SJPB_COMM_FILE A 
+		                     , RSRC_ATCH_MGT B
+		                 WHERE A.FILE_ID = B.FILE_ID
+		                   AND B.RSRC_ID = RSRC_ID ) C
+		         WHERE 1=1
+		           AND A.RSRC_ID = B.RSRC_ID(+)
+		           AND A.RSRC_ID = C.RSRC_ID(+)
+		           AND RSRC_ABLT_CLSF = '0'
+                    <isNotEmpty property="dept_cd" prepend="AND">
+                        DEPT_CD = #dept_cd#                     
+                    </isNotEmpty>
+                    <isNotEmpty property="rsrc_clsf" prepend="AND">
+                        A.RSRC_CLSF = #rsrc_clsf#                     
+                    </isNotEmpty>
+                    <isNotEmpty property="rsrc_nm" prepend="AND">
+                        RSRC_NM LIKE '%' ||#rsrc_nm#|| '%'                     
+                    </isNotEmpty>
+		           
+		         ORDER BY RSRC_NM ASC 
+		       )
+		 WHERE 1=1
+		   AND RNUM BETWEEN #startRow# AND #endRow#
+    </select>
+    
+    <!-- 자원 예약현황 목록 -->
+    <select id="rsrc.selectResourceViewWeek" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        /** selectResourceViewWeek 자원 주간 예약현황*/
+         SELECT YYYYMMDD
+              , TO_CHAR(TO_DATE(YYYYMMDD,'yyyymmdd'), 'DY', 'NLS_DATE_LANGUAGE=KOREAN')  K_DAY 
+              , TO_CHAR(TO_DATE(YYYYMMDD,'yyyymmdd'), 'DY', 'NLS_DATE_LANGUAGE=ENGLISH') E_DAY 
+              , SUBSTR(YYYYMMDD,-2) DD
+		      , NVL(T1 ,'EM') T1
+		      , NVL(T2 ,'EM') T2
+		      , NVL(T3 ,'EM') T3
+		      , NVL(T4 ,'EM') T4
+		      , NVL(T5 ,'EM') T5
+		      , NVL(T6 ,'EM') T6
+		      , NVL(T7 ,'EM') T7
+		      , NVL(T8 ,'EM') T8
+		      , NVL(T9 ,'EM') T9
+		      , NVL(T10,'EM') T10
+		      , NVL(T11,'EM') T11
+		      , NVL(T12,'EM') T12
+		      , NVL(T13,'EM') T13
+		      , NVL(T14,'EM') T14
+		      , NVL(T15,'EM') T15
+		      , NVL(T16,'EM') T16
+		      , NVL(T17,'EM') T17
+		      , NVL(T18,'EM') T18
+		      , NVL(T19,'EM') T19
+		      , NVL(T20,'EM') T20
+		      , NVL(T21,'EM') T21
+		      , NVL(T22,'EM') T22
+		      , NVL(T23,'EM') T23
+		      , NVL(T24,'EM') T24
+		      , NVL(T25,'EM') T25
+		      , NVL(T26,'EM') T26
+		      , NVL(T27,'EM') T27
+		      , NVL(T28,'EM') T28
+		      , NVL(T29,'EM') T29
+		      , NVL(T30,'EM') T30  
+		      , #rsrc_id# RSRC_ID  
+		    FROM (SELECT (CASE WHEN TM = 1 THEN TO_CHAR(TO_DATE(REPLACE(#select_date#,'.',''), 'yyyymmdd'),  'YYYYMMDD') END) || 
+		                (CASE WHEN TM = 2 THEN TO_CHAR(TO_DATE(REPLACE(#select_date#,'.',''), 'yyyymmdd')+1, 'YYYYMMDD') END) || 
+		                (CASE WHEN TM = 3 THEN TO_CHAR(TO_DATE(REPLACE(#select_date#,'.',''), 'yyyymmdd')+2, 'YYYYMMDD') END) || 
+		                (CASE WHEN TM = 4 THEN TO_CHAR(TO_DATE(REPLACE(#select_date#,'.',''), 'yyyymmdd')+3, 'YYYYMMDD') END) ||
+		                (CASE WHEN TM = 5 THEN TO_CHAR(TO_DATE(REPLACE(#select_date#,'.',''), 'yyyymmdd')+4, 'YYYYMMDD') END) ||
+		                (CASE WHEN TM = 6 THEN TO_CHAR(TO_DATE(REPLACE(#select_date#,'.',''), 'yyyymmdd')+5, 'YYYYMMDD') END) || 
+		                (CASE WHEN TM = 7 THEN TO_CHAR(TO_DATE(REPLACE(#select_date#,'.',''), 'yyyymmdd')+6, 'YYYYMMDD') END) 
+		                YYYYMMDD
+		           FROM (SELECT LEVEL TM
+		                   FROM DUAL
+		                 CONNECT BY LEVEL <![CDATA[<=]]> 7
+		                )
+		         ) A, 
+			    (SELECT YMD
+			         , MAX((CASE WHEN YMD||'090000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'090000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T1
+			         , MAX((CASE WHEN YMD||'093000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'093000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T2
+			         , MAX((CASE WHEN YMD||'100000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'100000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T3
+			         , MAX((CASE WHEN YMD||'103000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'103000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T4
+			         , MAX((CASE WHEN YMD||'110000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'110000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T5
+			         , MAX((CASE WHEN YMD||'113000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'113000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T6
+			         , MAX((CASE WHEN YMD||'120000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'120000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T7
+			         , MAX((CASE WHEN YMD||'123000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'123000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T8
+			         , MAX((CASE WHEN YMD||'130000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'130000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T9
+			         , MAX((CASE WHEN YMD||'133000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'133000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T10
+			         , MAX((CASE WHEN YMD||'140000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'140000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T11
+			         , MAX((CASE WHEN YMD||'143000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'143000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T12
+			         , MAX((CASE WHEN YMD||'150000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'150000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T13
+			         , MAX((CASE WHEN YMD||'153000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'153000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T14
+			         , MAX((CASE WHEN YMD||'160000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'160000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T15
+			         , MAX((CASE WHEN YMD||'163000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'163000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T16
+			         , MAX((CASE WHEN YMD||'170000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'170000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T17
+			         , MAX((CASE WHEN YMD||'173000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'173000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T18
+			         , MAX((CASE WHEN YMD||'180000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'180000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T19
+			         , MAX((CASE WHEN YMD||'183000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'183000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T20
+			         , MAX((CASE WHEN YMD||'190000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'190000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T21   
+			         , MAX((CASE WHEN YMD||'193000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'193000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T22   
+			         , MAX((CASE WHEN YMD||'200000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'200000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T23   
+			         , MAX((CASE WHEN YMD||'203000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'203000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T24 
+			         , MAX((CASE WHEN YMD||'210000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'210000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T25   
+			         , MAX((CASE WHEN YMD||'213000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'213000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T26   
+			         , MAX((CASE WHEN YMD||'220000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'220000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T27   
+			         , MAX((CASE WHEN YMD||'223000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'223000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T28   
+			         , MAX((CASE WHEN YMD||'230000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'230000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T29   
+			         , MAX((CASE WHEN YMD||'233000' <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(YMD||'233000') <![CDATA[<]]>  TO_NUMBER(ENDDT) THEN YN END)) AS T30    
+			            
+			      FROM (SELECT YMD 
+			                 , RSRC_ID
+			                 , OPR_ID
+			                 , OPR_STRT_TM STADT
+			                 , OPR_END_TM ENDDT
+			                 , YN
+			              FROM (SELECT (CASE WHEN TM = 1 THEN TO_CHAR(TO_DATE(REPLACE(#select_date#,'.',''), 'yyyymmdd'),   'YYYYMMDD') END)||
+			                           (CASE WHEN TM = 2 THEN TO_CHAR(TO_DATE(REPLACE(#select_date#,'.',''), 'yyyymmdd')+1, 'YYYYMMDD') END)||
+			                           (CASE WHEN TM = 3 THEN TO_CHAR(TO_DATE(REPLACE(#select_date#,'.',''), 'yyyymmdd')+2, 'YYYYMMDD') END)|| 
+			                           (CASE WHEN TM = 4 THEN TO_CHAR(TO_DATE(REPLACE(#select_date#,'.',''), 'yyyymmdd')+3, 'YYYYMMDD') END)||
+			                           (CASE WHEN TM = 5 THEN TO_CHAR(TO_DATE(REPLACE(#select_date#,'.',''), 'yyyymmdd')+4, 'YYYYMMDD') END)||
+			                           (CASE WHEN TM = 6 THEN TO_CHAR(TO_DATE(REPLACE(#select_date#,'.',''), 'yyyymmdd')+5, 'YYYYMMDD') END)|| 
+			                           (CASE WHEN TM = 7 THEN TO_CHAR(TO_DATE(REPLACE(#select_date#,'.',''), 'yyyymmdd')+6, 'YYYYMMDD') END) YMD
+			                      FROM (SELECT LEVEL TM
+			                              FROM DUAL
+			                             WHERE LEVEL <![CDATA[>=]]> 1 
+			                            CONNECT BY LEVEL <![CDATA[<=]]> 7)
+			                     GROUP BY TM 
+			                   ) A
+			                 , (SELECT RSRC_ID
+			                         , OPR_ID
+			                         , OPR_STRT_TM
+			                         , OPR_END_TM
+			                         , YN
+			                      FROM (SELECT RSRC_ID
+			                                 , OPR_ID
+			                                 , OPR_STRT_TM
+			                                 , OPR_END_TM
+			                                 , (CASE WHEN OPR_REQ_RGSRT_ID = #usr_id# THEN OPR_APV_CLSF||'F'||OPR_ID
+			                                         ELSE OPR_APV_CLSF||'T'||OPR_ID END) AS YN
+			                              FROM RSRC_OPR_MGT
+			                             WHERE RSRC_ID = #rsrc_id#
+			                               AND (OPR_APV_CLSF = '0' OR OPR_APV_CLSF = '1')
+			                            UNION
+			                            SELECT RSRC_ID
+			                                 , ABLE_SEQ
+			                                 , ABLE_STRT_TM
+			                                 , ABLE_END_TM
+			                                 , 'NO'||ABLE_SEQ YN
+			                              FROM RSRC_ABLE_MGT
+			                             WHERE RSRC_ID = #rsrc_id# 
+			                           ) 
+			                   ) B
+			             WHERE YMD BETWEEN SUBSTR(OPR_STRT_TM, 0, 8) AND SUBSTR(OPR_END_TM, 0, 8) 
+			            ) 
+			        GROUP BY YMD 
+			       ) B 
+			 WHERE A.YYYYMMDD = B.YMD(+) 
+			 ORDER BY YYYYMMDD
+    </select>
+    
+    <!-- 오늘날짜조회 -->
+    <select id="rsrc.selectToDay" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        /*selectToDay 오늘날짜 조회*/
+        SELECT TO_CHAR(SYSDATE,'YYYYMMDD') TO_DATE FROM DUAL
+    </select>
+    
+    <!-- 자원 상세정보 -->
+    <select id="rsrc.selectResourceDetail" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        /*selectResourceDetail 자원상세정보 조회*/
+        SELECT RSRC_ID            /*자원일련번호*/
+		     , DEPT_CD            /*자원관리부서코드*/
+		     , RSRC_NM            /*자원명*/
+		     , RSRC_LCTN          /*자원위치*/
+		     , RSRC_CNTNS         /*자원설명*/
+		     , RSRC_CNT           /*자원설명*/
+		     , RSRC_DDCNT         /*예약신청가능일(~일전)*/
+		     , RSRC_MGT_ID        /*자원관리자ID*/
+		     , RSRC_MGT_NM        /*자원관리자성명*/
+		     , RSRC_MGT_DEPT_NM   /*자원관리자부서*/
+		     , RSRC_CLSF          /**/
+		     , TO_CHAR(SYSDATE,'YYYY.MM.DD') CUR_DATE 
+		  FROM RSRC_MGT 
+		 WHERE RSRC_ID = #rsrc_id#
+    </select>
+    
+    <!-- 자원 구분조회 -->
+    <select id="rsrc.selectResourceCode" resultClass="java.util.HashMap" >
+        /*selectResourceCode 자원구분 조회*/
+        SELECT CODE,NAME FROM RSRC_CODE_MGT
+    </select>
+    
+    <!-- 자원부서조회 -->
+    <select id="rsrc.selectRsrcDeptCode" parameterClass="java.lang.String" resultClass="java.util.HashMap" >
+        /*selectRsrcDeptCode 자원부서조회*/
+        SELECT	  DEPT_CD AS CODE
+				, CASE WHEN DEPT_DEL = 'Y' THEN DEPT_NM || '[사용안함]' ELSE DEPT_NM END AS NAME 
+		FROM	RSRC_DEPT_MGT
+		WHERE	1=1
+		<isEmpty>
+			AND	DEPT_DEL = 'N'
+		</isEmpty>
+		ORDER BY DEPT_SEQ
+    </select>
+    
+    <!-- 자원부서담당자조회 -->
+    <select id="rsrc.selectRsrcAdminList" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        /*selectRsrcAdminList 자원부서담당자조회*/
+        SELECT USR_ID
+		     , USR_NM
+		  FROM RSRC_UTPRS_MGT A
+		     , RSRC_DEPT_MGT B
+		 WHERE A.DEPT_CD = B.DEPT_CD
+		   AND A.DEPT_CD = #dept_cd#
+    </select>
+    
+    <!-- 자원 관리자권한 체크 -->
+    <select id="rsrc.selectAdminChk" parameterClass="String" resultClass="String" >
+		/*selectAdminChk 자원 관리자권한 체크*/
+		SELECT CASE when COUNT(*) > 0 THEN 'Y'
+	           ELSE 'N' END ADMIN_CHK
+	      FROM RSRC_UTPRS_MGT
+	     WHERE USR_ID = #usr_id#
+    </select>
+    
+    <!-- 자원ID조회 -->
+    <select id="rsrc.selectRsrcId" resultClass="String" >
+        /* selectSdskAcptNo 자원ID조회*/
+        SELECT NVL(MAX(RSRC_ID)+1,1) RSRC_ID
+          FROM RSRC_MGT
+    </select>
+    
+    <!-- 자원등록-->
+    <insert id="rsrc.insertResource" parameterClass="rsrcVO">
+        /*insert_resource 자원등록*/
+        INSERT INTO RSRC_MGT 
+		( RSRC_ID
+		, DEPT_CD
+		, OBJ_ID
+		, RSRC_NM
+		, RSRC_LCTN
+		, RSRC_CNTNS
+		, RSRC_CNT
+		, RSRC_DDCNT
+		, RSRC_MGT_ID
+		, RSRC_MGT_NM
+		, RSRC_MGT_DEPT_NM
+		, RSRC_RGSRT_ID
+		, RSRC_RGSRT_NM
+		, RSRC_RGSRT_DEPT_NM
+		, RSRC_RGSRT_DT
+		, RSRC_CLSF
+		)VALUES
+		( #rsrc_id#
+		, #dept_cd#
+		, ''
+		, #rsrc_nm#
+		, #rsrc_lctn#
+		, #rsrc_cntns#
+		, #rsrc_cnt#
+		, #rsrc_ddcnt# 
+		, #rsrc_mgt_id#
+		, F_GET_USR_NM(#rsrc_mgt_id#)
+		, F_GET_USR_DEPT_NM(#rsrc_mgt_id#) 
+		, #usr_id#
+		, F_GET_USR_NM(#usr_id#)
+		, F_GET_USR_DEPT_NM(#usr_id#) 
+		, SYSDATE
+		, #rsrc_clsf#
+		)
+    </insert>
+    
+    <!-- 자원 이미지정보 등록 -->
+    <insert id="rsrc.insertAtchFile">
+        /*insertAtchFile 자원 이미지정보 등록*/
+        INSERT INTO RSRC_ATCH_MGT
+        ( RSRC_ID
+        , FILE_ID
+        )VALUES
+        ( #rsrc_id#
+        , #file_id#
+        )
+    </insert>
+    
+    <update id="rsrc.updateResource">
+        /*updateResource 자원정보 수정*/
+        UPDATE RSRC_MGT
+           SET DEPT_CD             = #dept_cd#
+	         , RSRC_NM             = #rsrc_nm#
+	         , RSRC_LCTN           = #rsrc_lctn#
+	         , RSRC_CNTNS          = #rsrc_cntns#
+	         , RSRC_CNT            = #rsrc_cnt#
+	         , RSRC_DDCNT          = #rsrc_ddcnt#
+	         , RSRC_MGT_ID         = #rsrc_mgt_id#
+	         , RSRC_MGT_NM         = F_GET_USR_NM(#rsrc_mgt_id#)
+	         , RSRC_MGT_DEPT_NM    = F_GET_USR_DEPT_NM(#rsrc_mgt_id#) 
+	         , RSRC_RGSRT_ID       = #usr_id#
+	         , RSRC_RGSRT_NM       = F_GET_USR_NM(#usr_id#)
+	         , RSRC_RGSRT_DEPT_NM  = F_GET_USR_DEPT_NM(#usr_id#) 
+	         , RSRC_CLSF           = #rsrc_clsf#
+         WHERE 1=1
+           AND RSRC_ID             = #rsrc_id# 
+	         
+    </update>
+    
+    <!-- 자원 이미지정보 삭제 -->
+    <insert id="rsrc.deleteAtchFile">
+        /*deleteAtchFile 자원 이미지정보 삭제*/
+        DELETE FROM RSRC_ATCH_MGT
+        WHERE RSRC_ID = #rsrc_id#
+    </insert>
+    
+    <!-- 자원사용불가사유 조회 -->
+    <select id="rsrc.selectRsrcAble" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        /* selectRsrcAble 자원사용불가사유 조회*/
+        SELECT RSRC_ID
+		     , ABLE_SEQ
+		     , ABLE_RSN
+		     , TO_CHAR(TO_DATE(ABLE_STRT_TM,'`YYMMDDHH24MISS'),'`YY.MM.DD HH24:MI:SS') ABLE_STRT_TM
+		     , TO_CHAR(TO_DATE(ABLE_END_TM,'`YYMMDDHH24MISS'),'`YY.MM.DD HH24:MI:SS') ABLE_END_TM  
+		     , TO_CHAR(TO_DATE(ABLE_STRT_TM,'YYYYMMDDHH24MISS'),'YYYY.MM.DD') ABLE_STRT_DT
+		     , TO_CHAR(TO_DATE(ABLE_END_TM,'YYYYMMDDHH24MISS'),'YYYY.MM.DD') ABLE_END_DT
+		     , TO_CHAR(TO_DATE(ABLE_STRT_TM,'YYYYMMDDHH24MISS'),'HH24MI') ABLE_STRT_HM
+		     , TO_CHAR(TO_DATE(ABLE_END_TM,'YYYYMMDDHH24MISS'),'HH24MI') ABLE_END_HM
+		   FROM RSRC_ABLE_MGT 
+		  WHERE 1=1
+		  <isNotEmpty property="rsrc_id">
+            AND RSRC_ID = #rsrc_id#
+          </isNotEmpty>
+          <isNotEmpty property="able_seq">
+            AND ABLE_SEQ = #able_seq#
+          </isNotEmpty>
+          <isEmpty property="able_seq">
+		    AND TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS') <![CDATA[<]]> ABLE_END_TM
+		  </isEmpty> 
+		  ORDER BY ABLE_STRT_TM 
+    </select>
+    
+    <!-- 자원삭제 -->
+    <update id="rsrc.deleteResource" parameterClass="rsrcVO">
+        /* deleteResource 자원삭제*/
+        UPDATE RSRC_MGT 
+		   SET RSRC_ABLT_CLSF    = '1'
+		     , RSRC_ABLT_ID      = #usr_id#
+		     , RSRC_ABLT_NM      = F_GET_USR_DEPT_NM(#usr_id#) 
+		     , RSRC_ABLT_DEPT_NM = F_GET_USR_NM(#usr_id#) 
+		     , RSRC_ABLT_DT      = SYSDATE 
+		 WHERE 1=1 
+		 <dynamic prepend="AND">
+            <iterate property="check" conjunction="," open="RSRC_ID IN (" close= ")">
+                #check[]#
+            </iterate>
+		 </dynamic>
+    </update>
+    
+    <!-- 자원사용불가사유 등록 -->
+    <insert id="rsrc.insertRsrcAble" parameterClass="rsrcVO">
+        /*insertRsrcAble 자원사용불가사유 등록*/
+        MERGE 
+		 INTO RSRC_ABLE_MGT A
+		USING (SELECT #able_seq# ABLE_SEQ FROM DUAL) B
+		   ON (A.ABLE_SEQ = B.ABLE_SEQ)
+		 WHEN MATCHED THEN 
+		UPDATE 
+		   SET ABLE_RSN     = #able_rsn# 
+		     , ABLE_STRT_TM = REPLACE(#able_strt_dt#,'.','') ||  #able_strt_tm# || '00'
+		     , ABLE_END_TM  = REPLACE(#able_end_dt#,'.','')  ||  #able_end_tm#  || '00'
+		 WHEN NOT MATCHED THEN
+		INSERT
+		VALUES (#rsrc_id# 
+		     , (SELECT NVL(MAX(ABLE_SEQ), 0)+1 ABLE_SEQ
+		          FROM RSRC_ABLE_MGT
+		       ) 
+		     , #able_rsn#
+		     , REPLACE(#able_strt_dt#,'.','') ||  #able_strt_tm# || '00'
+		     , REPLACE(#able_end_dt#,'.','')  ||  #able_end_tm# || '00'
+		     ) 
+    </insert>
+    
+    <!-- 자원불가 사유 삭제 -->
+    <delete id="rsrc.deleteRsrcAble" parameterClass="rsrcVO">
+        /*deleteRsrcAble 자원불가 사유 삭제*/
+        DELETE RSRC_ABLE_MGT 
+         WHERE ABLE_SEQ = #able_seq# 
+    </delete>
+    
+    <!-- 자원예약가능여부 체크 -->
+    <select id="rsrc.selectRsrcUseChk" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        /*selectRsrcUseChk 자원예약가능여부 체크*/
+         SELECT CASE WHEN COUNT(*) > 0 THEN 'N' ELSE 'Y' END USE_CHK
+		   FROM (SELECT OPR_STRT_TM
+		              , OPR_END_TM
+		           FROM RSRC_OPR_MGT
+		          WHERE 1=1
+		          	AND RSRC_ID = #rsrc_id#
+		          	AND OPR_APV_CLSF <![CDATA[<]]> '2'
+		            <isNotEmpty property="opr_id" prepend="AND">
+		            OPR_ID != #opr_id#
+		            </isNotEmpty>
+		          UNION ALL
+		         SELECT ABLE_STRT_TM
+		              , ABLE_END_TM
+		           FROM RSRC_ABLE_MGT
+		          WHERE RSRC_ID = #rsrc_id#       
+		        )
+		 WHERE 1=1
+		   AND OPR_STRT_TM <![CDATA[>]]> REPLACE(#opr_strt_dt#,'.','') || #opr_strt_tm# || '00' AND OPR_END_TM  <![CDATA[<]]> REPLACE(#opr_end_dt#,'.','') || #opr_end_tm# || '00' 
+		    OR OPR_END_TM  <![CDATA[>]]> REPLACE(#opr_strt_dt#,'.','') || #opr_strt_tm# || '00' AND OPR_STRT_TM <![CDATA[<]]> REPLACE(#opr_end_dt#,'.','') || #opr_end_tm# || '00' 
+    </select>
+    
+    <!-- 자원예약 -->
+    <insert id="rsrc.insertRsrcResve" parameterClass="rsrcVO">
+        /*insertRsrcResve 자원예약*/
+        MERGE 
+		 INTO RSRC_OPR_MGT A
+		USING (SELECT #opr_id#  OPR_ID
+		         FROM DUAL
+		      ) B
+		   ON ( A.OPR_ID     = B.OPR_ID
+		      )
+		 WHEN MATCHED THEN 
+		UPDATE 
+		   SET OPR_CNTNS        = #opr_cntns#
+		     , OPR_STRT_TM      = REPLACE(#opr_strt_dt#,'.','') || #opr_strt_tm# || '00' 
+		     , OPR_END_TM       = REPLACE(#opr_end_dt#,'.','')  || #opr_end_tm# || '00'
+		     , OPR_USE_CNTNS    = #opr_use_cntns#
+		     , OPR_CHR_RGSRT_ID = #chr_usr_id#
+		     , OPR_CHR_RGSRT_NM = F_GET_USR_NM(#chr_usr_id#)
+		     , OPR_CHR_RGSRT_DEPT_NM = F_GET_USR_DEPT_NM(#chr_usr_id#)
+		     , OPR_REQ_RGSRT_DT = SYSDATE
+		     , OPR_USE_PLC      = #opr_use_plc#
+		 WHEN NOT MATCHED THEN
+		INSERT 
+	         (RSRC_ID
+		     , OPR_ID
+		     , OPR_CNTNS
+		     , OPR_STRT_TM
+		     , OPR_END_TM
+		     , OPR_USE_CNTNS
+		     , OPR_APV_CLSF
+		     , OPR_APV_CNTNS
+		     , OPR_REQ_RGSRT_ID
+		     , OPR_REQ_RGSRT_NM
+		     , OPR_REQ_RGSRT_DEPT_NM
+		     , OPR_CHR_RGSRT_ID
+		     , OPR_CHR_RGSRT_NM
+		     , OPR_CHR_RGSRT_DEPT_NM		     
+		     , OPR_REQ_RGSRT_DT
+		     , OPR_USE_PLC
+		     )
+		VALUES 
+		     ( #rsrc_id#
+		     , #opr_id#
+		     , #opr_cntns#
+		     , REPLACE(#opr_strt_dt#,'.','') || #opr_strt_tm# || '00'
+             , REPLACE(#opr_end_dt#,'.','')  || #opr_end_tm# || '00'
+		     , #opr_use_cntns#
+		     , '0'
+		     , ''
+		     , #usr_id#
+		     , F_GET_USR_NM(#usr_id#)
+		     , F_GET_USR_DEPT_NM(#usr_id#)
+		     , #chr_usr_id#
+		     , F_GET_USR_NM(#chr_usr_id#)
+		     , F_GET_USR_DEPT_NM(#chr_usr_id#)
+		     , SYSDATE
+		     , #opr_use_plc#
+             ) 
+    </insert>
+    
+    <!-- 자원예약정보 -->
+    <select id="rsrc.selectResveDetail" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        /*selectResveDetail 자원예약정보 조회*/
+        SELECT RSRC_ID                                                                      /*자원일련번호*/ 
+		     , OPR_ID                                                                       /*예약일련번호*/
+		     , OPR_CNTNS                                                                    /*예약신청사유*/
+		     , TO_CHAR(TO_DATE(OPR_STRT_TM,'YYYYMMDDHH24MISS'),'YYYY.MM.DD') OPR_STRT_DT    /*예약시작시간*/
+		     , SUBSTR(SUBSTR(OPR_STRT_TM,-6),1,4) OPR_STRT_TM                                           
+		     , TO_CHAR(TO_DATE(OPR_END_TM,'YYYYMMDDHH24MISS'),'YYYY.MM.DD') OPR_END_DT      /*예약종료시간*/
+		     , SUBSTR(SUBSTR(OPR_END_TM,-6),1,4) OPR_END_TM                                             
+		     , OPR_END_TM                                                                   
+		     , OPR_USE_CNTNS                                                                /*예약자원사용인원*/
+		     , OPR_APV_CLSF                                                                 /*예약결과구분(0:신청,2:승인,3:반려,4:승인취소)*/
+		     , OPR_APV_CNTNS                                                                /*예약심사의견*/
+		     , OPR_REQ_RGSRT_ID                                                             /*예약신청자ID*/
+		     , OPR_REQ_RGSRT_NM                                                             /*예약신청자성명*/
+		     , OPR_REQ_RGSRT_DEPT_NM                                                        /*예약신청자부서*/
+		     , OPR_CHR_RGSRT_ID                                                             /*담당수사관ID*/
+		     , OPR_CHR_RGSRT_NM                                                             /*담당수사관성명*/
+		     , OPR_CHR_RGSRT_DEPT_NM                                                        /*담당수사관부서*/
+		     , OPR_USE_PLC          
+		 FROM RSRC_OPR_MGT
+		WHERE OPR_ID = #opr_id#
+    </select>
+    
+    <!-- 예약일정 삭제 -->
+    <delete id="rsrc.deleteRsrcResve" parameterClass="rsrcVO">
+        /*deleteRsrcResve 예약일정 삭제*/
+        DELETE FROM RSRC_OPR_MGT
+         WHERE OPR_ID = #opr_id#
+    </delete>
+    
+    <!-- 자원현황 리스트 count -->
+    <select id="rsrc.selectResourceBookListCount" parameterClass="rsrcVO" resultClass="int" >
+        /* selectResourceBookListCount 자원심사 리스트 COUNT*/
+        SELECT COUNT(*) CNT
+          FROM RSRC_OPR_MGT A
+             , RSRC_MGT B
+         WHERE 1=1
+           AND A.RSRC_ID = B.RSRC_ID
+           <isNotEmpty property="opr_apv_clsf" prepend="AND">
+               OPR_APV_CLSF = #opr_apv_clsf#
+           </isNotEmpty>
+           <isNotEmpty property="dept_cd" prepend="AND">
+               DEPT_CD = #dept_cd#
+           </isNotEmpty>
+           <isNotEmpty property="rsrc_clsf" prepend="AND">
+               RSRC_CLSF = #rsrc_clsf#
+           </isNotEmpty>
+           <isNotEmpty property="rsrc_id" prepend="AND">
+               B.RSRC_ID = #rsrc_id#
+           </isNotEmpty>
+           <isNotEmpty property="opr_strt_dt" prepend="AND">
+             (
+               (
+                 TO_DATE(OPR_STRT_TM, 'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_DATE(REPLACE( #opr_strt_dt# ,'.','')  || '000000','YYYYMMDDHH24MISS')
+                 OR
+                 TO_DATE(OPR_STRT_TM, 'YYYYMMDDHH24MISS') BETWEEN TO_DATE(REPLACE( #opr_strt_dt# ,'.','') || '000000','YYYYMMDDHH24MISS') AND TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+               )
+               AND
+               (
+                 TO_DATE(OPR_END_TM, 'YYYYMMDDHH24MISS') <![CDATA[>=]]> TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+                 OR
+                 TO_DATE(OPR_END_TM, 'YYYYMMDDHH24MISS') BETWEEN TO_DATE(REPLACE( #opr_strt_dt#,'.','') || '000000','YYYYMMDDHH24MISS') AND TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+               )
+             )
+           </isNotEmpty>
+    </select>
+    
+    <!-- 자원현황 리스트 -->
+    <select id="rsrc.selectResourceBookList" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        /* selectResourceBookList 자원심사 리스트 조회*/
+        SELECT *
+		  FROM (
+		        SELECT ROW_NUMBER()OVER(ORDER BY OPR_REQ_RGSRT_DT DESC) RNUM
+		             , A.RSRC_ID
+		             , B.DEPT_CD
+		             , OPR_ID
+		             , B.RSRC_NM
+		             , TO_CHAR(TO_DATE(OPR_STRT_TM,'YYYYMMDDHH24MISS'),'YYYY.MM.DD HH24:MI') OPR_STRT_TM
+                     , TO_CHAR(TO_DATE(OPR_END_TM,'YYYYMMDDHH24MISS'),'YYYY.MM.DD HH24:MI') OPR_END_TM
+		             , OPR_REQ_RGSRT_ID
+		             , OPR_REQ_RGSRT_NM
+		             , OPR_REQ_RGSRT_DEPT_NM
+		             , TO_CHAR(OPR_REQ_RGSRT_DT,'YYYY.MM.DD') OPR_REQ_RGSRT_DT
+		             , OPR_CNTNS
+		             , OPR_USE_CNTNS
+		             , B.RSRC_MGT_ID
+		             , B.RSRC_MGT_NM
+		             , B.RSRC_MGT_DEPT_NM
+		             , OPR_APV_CLSF
+		             , DECODE(OPR_APV_CLSF,'0','승인신청','1','승인완료','승인취소') OPR_APV_CLSF_NM
+		             , OPR_APV_CNTNS
+		             , A.OPR_CHR_RGSRT_ID
+         			 , A.OPR_CHR_RGSRT_NM 
+            		 , A.OPR_CHR_RGSRT_DEPT_NM              
+		          FROM RSRC_OPR_MGT A
+		             , RSRC_MGT B
+		         WHERE 1=1
+		           AND A.RSRC_ID = B.RSRC_ID 
+                    <isNotEmpty property="opr_apv_clsf" prepend="AND">
+                        OPR_APV_CLSF = #opr_apv_clsf#
+                    </isNotEmpty>
+                    <isNotEmpty property="dept_cd" prepend="AND">
+                        DEPT_CD = #dept_cd#
+                    </isNotEmpty>
+                    <isNotEmpty property="rsrc_clsf" prepend="AND">
+                        RSRC_CLSF = #rsrc_clsf#
+                    </isNotEmpty>
+                    <isNotEmpty property="rsrc_id" prepend="AND">
+                        B.RSRC_ID = #rsrc_id#
+                    </isNotEmpty>
+		           <isNotEmpty property="opr_strt_dt" prepend="AND">
+		             (
+		               (
+		                 TO_DATE(OPR_STRT_TM, 'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_DATE(REPLACE( #opr_strt_dt# ,'.','')  || '000000','YYYYMMDDHH24MISS')
+		                 OR
+		                 TO_DATE(OPR_STRT_TM, 'YYYYMMDDHH24MISS') BETWEEN TO_DATE(REPLACE( #opr_strt_dt# ,'.','') || '000000','YYYYMMDDHH24MISS') AND TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+		               )
+		               AND
+		               (
+		                 TO_DATE(OPR_END_TM, 'YYYYMMDDHH24MISS') <![CDATA[>=]]> TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+		                 OR
+		                 TO_DATE(OPR_END_TM, 'YYYYMMDDHH24MISS') BETWEEN TO_DATE(REPLACE( #opr_strt_dt#,'.','') || '000000','YYYYMMDDHH24MISS') AND TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+		               )
+		             )
+		           </isNotEmpty>
+                ORDER BY OPR_REQ_RGSRT_DT DESC
+                  
+		       )
+		 WHERE 1=1
+           AND RNUM BETWEEN #startRow# AND #endRow#
+    </select>
+    
+ 
+  <!-- 내 예약현황 리스트 count -->
+    <select id="rsrc.selectResourceMyRsveListCount" parameterClass="rsrcVO" resultClass="int" >
+        /* selectResourceMyRsveListCount 내 예약현황 리스트 COUNT*/
+        SELECT COUNT(*) CNT
+          FROM RSRC_OPR_MGT A
+             , RSRC_MGT B
+         WHERE 1=1
+           AND A.RSRC_ID = B.RSRC_ID
+           <isNotEmpty property="opr_apv_clsf" prepend="AND">
+               OPR_APV_CLSF = #opr_apv_clsf#
+           </isNotEmpty>
+           <isNotEmpty property="dept_cd" prepend="AND">
+               DEPT_CD = #dept_cd#
+           </isNotEmpty>
+           <isNotEmpty property="rsrc_clsf" prepend="AND">
+               RSRC_CLSF = #rsrc_clsf#
+           </isNotEmpty>
+           <isNotEmpty property="rsrc_id" prepend="AND">
+               B.RSRC_ID = #rsrc_id#
+           </isNotEmpty>
+	      AND
+	         (
+	            A.OPR_REQ_RGSRT_ID =#usr_id# OR a.OPR_CHR_RGSRT_ID=#usr_id#
+	         )             
+          AND
+             (
+               (
+                 TO_DATE(OPR_STRT_TM, 'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_DATE(REPLACE( #opr_strt_dt# ,'.','')  || '000000','YYYYMMDDHH24MISS')
+                 OR
+                 TO_DATE(OPR_STRT_TM, 'YYYYMMDDHH24MISS') BETWEEN TO_DATE(REPLACE( #opr_strt_dt# ,'.','') || '000000','YYYYMMDDHH24MISS') AND TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+               )
+               AND
+               (
+                 TO_DATE(OPR_END_TM, 'YYYYMMDDHH24MISS') <![CDATA[>=]]> TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+                 OR
+                 TO_DATE(OPR_END_TM, 'YYYYMMDDHH24MISS') BETWEEN TO_DATE(REPLACE( #opr_strt_dt#,'.','') || '000000','YYYYMMDDHH24MISS') AND TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+               )
+             )
+    </select>
+    
+    <!-- 내 예약현황 리스트 -->
+    <select id="rsrc.selectResourceMyRsveList" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        /* selectResourceMyRsveList  내 예약현황 리스트 조회*/
+        SELECT *
+		  FROM (
+		        SELECT ROW_NUMBER()OVER(ORDER BY OPR_REQ_RGSRT_DT DESC) RNUM
+		             , A.RSRC_ID
+		             , B.DEPT_CD
+		             , OPR_ID
+		             , B.RSRC_NM
+		             , TO_CHAR(TO_DATE(OPR_STRT_TM,'YYYYMMDDHH24MISS'),'YYYY.MM.DD HH24:MI') OPR_STRT_TM
+                     , TO_CHAR(TO_DATE(OPR_END_TM,'YYYYMMDDHH24MISS'),'YYYY.MM.DD HH24:MI') OPR_END_TM
+		             , OPR_REQ_RGSRT_ID
+		             , OPR_REQ_RGSRT_NM
+		             , OPR_REQ_RGSRT_DEPT_NM
+		             , TO_CHAR(OPR_REQ_RGSRT_DT,'YYYY.MM.DD') OPR_REQ_RGSRT_DT
+		             , OPR_CNTNS
+		             , OPR_USE_CNTNS
+		             , B.RSRC_MGT_ID
+		             , B.RSRC_MGT_NM
+		             , B.RSRC_MGT_DEPT_NM
+		             , OPR_APV_CLSF
+		             , DECODE(OPR_APV_CLSF,'0','승인신청','1','승인완료','승인취소') OPR_APV_CLSF_NM
+		             , OPR_APV_CNTNS
+		             , A.OPR_CHR_RGSRT_ID
+         			 , A.OPR_CHR_RGSRT_NM 
+            		 , A.OPR_CHR_RGSRT_DEPT_NM              
+		          FROM RSRC_OPR_MGT A
+		             , RSRC_MGT B
+		         WHERE 1=1
+		           AND A.RSRC_ID = B.RSRC_ID 
+                    <isNotEmpty property="opr_apv_clsf" prepend="AND">
+                        OPR_APV_CLSF = #opr_apv_clsf#
+                    </isNotEmpty>
+                    <isNotEmpty property="dept_cd" prepend="AND">
+                        DEPT_CD = #dept_cd#
+                    </isNotEmpty>
+                    <isNotEmpty property="rsrc_clsf" prepend="AND">
+                        RSRC_CLSF = #rsrc_clsf#
+                    </isNotEmpty>
+                    <isNotEmpty property="rsrc_id" prepend="AND">
+                        B.RSRC_ID = #rsrc_id#
+                    </isNotEmpty>
+                   AND
+			          (
+			             A.OPR_REQ_RGSRT_ID =#usr_id# OR a.OPR_CHR_RGSRT_ID=#usr_id#
+			          )    
+                   AND
+		              (
+		                (
+		                  TO_DATE(OPR_STRT_TM, 'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_DATE(REPLACE( #opr_strt_dt# ,'.','')  || '000000','YYYYMMDDHH24MISS')
+		                  OR
+		                  TO_DATE(OPR_STRT_TM, 'YYYYMMDDHH24MISS') BETWEEN TO_DATE(REPLACE( #opr_strt_dt# ,'.','') || '000000','YYYYMMDDHH24MISS') AND TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+		                )
+		                AND
+		                (
+		                  TO_DATE(OPR_END_TM, 'YYYYMMDDHH24MISS') <![CDATA[>=]]> TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+		                  OR
+		                  TO_DATE(OPR_END_TM, 'YYYYMMDDHH24MISS') BETWEEN TO_DATE(REPLACE( #opr_strt_dt#,'.','') || '000000','YYYYMMDDHH24MISS') AND TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+		                )
+		              )
+                ORDER BY OPR_REQ_RGSRT_DT DESC
+                  
+		       )
+		 WHERE 1=1
+           AND RNUM BETWEEN #startRow# AND #endRow#
+    </select>
+    
+    
+        <!--  예약현황 리스트 -->
+    <select id="rsrc.selectResourceRsveList" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        /* selectResourceMyRsveList  내 예약현황 리스트 조회*/
+        SELECT *
+		  FROM (
+		        SELECT ROW_NUMBER()OVER(ORDER BY OPR_REQ_RGSRT_DT DESC) RNUM
+		             , A.RSRC_ID
+		             , B.DEPT_CD
+		             , OPR_ID
+		             , B.RSRC_NM
+		             , TO_CHAR(TO_DATE(OPR_STRT_TM,'YYYYMMDDHH24MISS'),'YYYY.MM.DD HH24:MI') OPR_STRT_TM
+                     , TO_CHAR(TO_DATE(OPR_END_TM,'YYYYMMDDHH24MISS'),'YYYY.MM.DD HH24:MI') OPR_END_TM
+		             , OPR_REQ_RGSRT_ID
+		             , OPR_REQ_RGSRT_NM
+		             , OPR_REQ_RGSRT_DEPT_NM
+		             , TO_CHAR(OPR_REQ_RGSRT_DT,'YYYY.MM.DD') OPR_REQ_RGSRT_DT
+		             , OPR_CNTNS
+		             , OPR_USE_CNTNS
+		             , B.RSRC_MGT_ID
+		             , B.RSRC_MGT_NM
+		             , B.RSRC_MGT_DEPT_NM
+		             , OPR_APV_CLSF
+		             , DECODE(OPR_APV_CLSF,'0','승인신청','1','승인완료','승인취소') OPR_APV_CLSF_NM
+		             , OPR_APV_CNTNS
+		             , A.OPR_CHR_RGSRT_ID
+         			 , A.OPR_CHR_RGSRT_NM 
+            		 , A.OPR_CHR_RGSRT_DEPT_NM              
+		          FROM RSRC_OPR_MGT A
+		             , RSRC_MGT B
+		         WHERE 1=1
+		           AND A.RSRC_ID = B.RSRC_ID 
+                    <isNotEmpty property="opr_apv_clsf" prepend="AND">
+                        OPR_APV_CLSF = #opr_apv_clsf#
+                    </isNotEmpty>
+                    <isNotEmpty property="dept_cd" prepend="AND">
+                        DEPT_CD = #dept_cd#
+                    </isNotEmpty>
+                    <isNotEmpty property="rsrc_clsf" prepend="AND">
+                        RSRC_CLSF = #rsrc_clsf#
+                    </isNotEmpty>
+                    <isNotEmpty property="rsrc_id" prepend="AND">
+                        B.RSRC_ID = #rsrc_id#
+                    </isNotEmpty>
+					AND
+                
+		              (
+		                (
+		                  TO_DATE(OPR_STRT_TM, 'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_DATE(REPLACE( #opr_strt_dt# ,'.','')  || '000000','YYYYMMDDHH24MISS')
+		                  OR
+		                  TO_DATE(OPR_STRT_TM, 'YYYYMMDDHH24MISS') BETWEEN TO_DATE(REPLACE( #opr_strt_dt# ,'.','') || '000000','YYYYMMDDHH24MISS') AND TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+		                )
+		                AND
+		                (
+		                  TO_DATE(OPR_END_TM, 'YYYYMMDDHH24MISS') <![CDATA[>=]]> TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+		                  OR
+		                  TO_DATE(OPR_END_TM, 'YYYYMMDDHH24MISS') BETWEEN TO_DATE(REPLACE( #opr_strt_dt#,'.','') || '000000','YYYYMMDDHH24MISS') AND TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+		                )
+		              )
+                ORDER BY OPR_REQ_RGSRT_DT DESC
+                  
+		       )
+		 WHERE 1=1
+    </select>
+    <!-- 자원 조회 -->
+    <select id="rsrc.selectDeptManageResourceList" resultClass="java.util.HashMap" >
+        /*selectDeptManageResourceList 자원조회*/
+        SELECT RSRC_ID
+		     , RSRC_NM
+		  FROM (
+				SELECT  M.* 
+				FROM   RSRC_MGT M
+	            INNER JOIN RSRC_DEPT_MGT S
+	              ON M.DEPT_CD = S.DEPT_CD
+	              <isEmpty property="authType">
+	              	AND S.DEPT_DEL = 'N'
+	              </isEmpty>
+		  	   )
+		 WHERE 1=1
+		   AND RSRC_ABLT_CLSF = '0'
+		   <isNotEmpty property="dept_cd" prepend="AND">
+		   DEPT_CD   = #dept_cd#
+		   </isNotEmpty>
+		   <isNotEmpty property="rsrc_clsf" prepend="AND">
+           RSRC_CLSF = #rsrc_clsf#
+           </isNotEmpty>
+		 ORDER BY RSRC_NM ASC
+    </select>
+    
+    <!-- 자원예약 승인,취소처리 -->
+    <update id="rsrc.updateBookJudge" parameterClass="rsrcVO" >
+        /*updateBookJudge 승인,취소처리*/
+        UPDATE RSRC_OPR_MGT
+		   SET OPR_APV_CLSF  = #opr_apv_clsf#
+		     , OPR_APV_CNTNS = #opr_apv_cntns#
+         WHERE OPR_ID = #opr_id#
+    </update>
+    
+    <!-- 자원예약 조회(일간) -->
+    <select id="rsrc.selectResourceViewDay" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        /*selectResourceViewDay 자원예약 조회(일간)*/
+         SELECT A.RSRC_ID
+              , A.RSRC_NM
+              , NVL(T1 ,'EM') T1
+              , NVL(T2 ,'EM') T2
+              , NVL(T3 ,'EM') T3
+              , NVL(T4 ,'EM') T4
+              , NVL(T5 ,'EM') T5
+              , NVL(T6 ,'EM') T6
+              , NVL(T7 ,'EM') T7
+              , NVL(T8 ,'EM') T8
+              , NVL(T9 ,'EM') T9
+              , NVL(T10,'EM') T10
+              , NVL(T11,'EM') T11
+              , NVL(T12,'EM') T12
+              , NVL(T13,'EM') T13
+              , NVL(T14,'EM') T14
+              , NVL(T15,'EM') T15
+              , NVL(T16,'EM') T16
+              , NVL(T17,'EM') T17
+              , NVL(T18,'EM') T18
+              , NVL(T19,'EM') T19
+              , NVL(T20,'EM') T20 
+              , NVL(T21,'EM') T21 
+              , NVL(T22,'EM') T22 
+              , NVL(T23,'EM') T23 
+              , NVL(T24,'EM') T24 
+              , NVL(T25,'EM') T25 
+              , NVL(T26,'EM') T26 
+              , NVL(T27,'EM') T27 
+              , NVL(T28,'EM') T28 
+              , NVL(T29,'EM') T29 
+              , NVL(T30,'EM') T30 
+              , REPLACE(#select_date#,'.','') SELECT_DATE
+           FROM (SELECT RSRC_ID
+                      , RSRC_NM 
+                   FROM (
+              			SELECT  M.* 
+						FROM	RSRC_MGT M
+			            INNER	JOIN RSRC_DEPT_MGT S
+			              ON M.DEPT_CD = S.DEPT_CD
+		              	  AND S.DEPT_DEL = 'N'
+                   		) 
+                  WHERE 1=1
+                  <isNotEmpty property="dept_cd">
+                    AND DEPT_CD = #dept_cd#
+                  </isNotEmpty>
+                    AND RSRC_ABLT_CLSF = '0'
+                  <isNotEmpty property="rsrc_clsf">
+                    AND RSRC_CLSF = #rsrc_clsf#
+                  </isNotEmpty>
+                ) A
+              , (SELECT RSRC_ID
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'090000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'090000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T1
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'093000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'093000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T2
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'100000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'100000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T3
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'103000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'103000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T4
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'110000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'110000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T5
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'113000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'113000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T6
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'120000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'120000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T7
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'123000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'123000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T8
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'130000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'130000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T9
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'133000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'133000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T10
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'140000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'140000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T11
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'143000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'143000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T12
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'150000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'150000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T13
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'153000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'153000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T14
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'160000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'160000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T15
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'163000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'163000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T16
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'170000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'170000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T17
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'173000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'173000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T18
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'180000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'180000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T19
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'183000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'183000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T20 
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'190000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'190000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T21 
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'193000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'193000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T22 
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'200000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'200000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T23 
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'203000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'203000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T24 
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'210000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'210000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T25 
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'213000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'213000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T26 
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'220000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'220000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T27 
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'223000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'223000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T28 
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'230000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'230000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T29 
+                      , MAX((CASE WHEN TO_NUMBER(REPLACE(#select_date#,'.','')||'233000') <![CDATA[>=]]> TO_NUMBER(STADT) AND TO_NUMBER(REPLACE(#select_date#,'.','')||'233000') <![CDATA[<]]> TO_NUMBER(ENDDT) THEN YN END)) AS T30   
+                   FROM (SELECT RSRC_ID, OPR_ID, SUBSTR(OPR_STRT_TM,0,14) STADT, SUBSTR(OPR_END_TM,0,14) ENDDT, YN 
+                           FROM (SELECT  RSRC_ID, OPR_ID, OPR_STRT_TM, OPR_END_TM, YN 
+                                   FROM (SELECT RSRC_ID, OPR_ID, OPR_STRT_TM, OPR_END_TM
+                                              , (CASE WHEN OPR_REQ_RGSRT_ID = #usr_id# THEN OPR_APV_CLSF||'F'||OPR_ID ELSE OPR_APV_CLSF||'T'||OPR_ID END) AS YN 
+                                           FROM RSRC_OPR_MGT 
+                                          WHERE (OPR_APV_CLSF = '0' OR  OPR_APV_CLSF = '1') 
+                                         UNION 
+                                         SELECT RSRC_ID, ABLE_SEQ,  ABLE_STRT_TM, ABLE_END_TM, 'NO'||ABLE_SEQ YN 
+                                           FROM RSRC_ABLE_MGT 
+                                        ) 
+                                ) A 
+                          WHERE REPLACE(#select_date#,'.','') BETWEEN SUBSTR(OPR_STRT_TM,0,8) AND SUBSTR(OPR_END_TM,0,8) 
+                        ) 
+                  GROUP BY RSRC_ID 
+                ) B 
+          WHERE A.RSRC_ID = B.RSRC_ID(+)
+		  <isNotEmpty property="rsrc_id" prepend="AND"><!-- mobile경우 단건 조회 -->
+            A.RSRC_ID = #rsrc_id#
+          </isNotEmpty>
+          ORDER BY RSRC_NM 
+    </select>
+    
+    <!-- 예약일련번호 조회 -->
+    <select id="rsrc.selectOprId" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        SELECT NVL(MAX(OPR_ID), 0)+1 OPR_ID
+          FROM RSRC_OPR_MGT
+    </select>
+    
+    <!-- 신청후 예약정보를 조회한다.-->
+    <select id="rsrc.selectRsrcOprInfo" resultMap="RsrcResultMap.rsrcOprInfo">
+        /*selectRsrcOprInfo 예약정보조회*/
+        SELECT *
+		  FROM RSRC_OPR_MGT T
+		 WHERE OPR_ID = (SELECT MAX(OPR_ID) FROM RSRC_OPR_MGT)
+    </select>
+    
+    <!-- 월 데이터조회 -->
+    <select id="rsrc.selectMonth" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        /*selectMonth 월 데이터조회*/
+        SELECT SUN
+		     , MON
+		     , TUE
+		     , WED
+		     , THU
+		     , FRI
+		     , SAT
+		     , SUBSTR(SUN,-2) DAY1
+		     , SUBSTR(MON,-2) DAY2
+		     , SUBSTR(TUE,-2) DAY3
+		     , SUBSTR(WED,-2) DAY4
+		     , SUBSTR(THU,-2) DAY5
+		     , SUBSTR(FRI,-2) DAY6
+		     , SUBSTR(SAT,-2) DAY7
+		     , CURR_YN_1
+		     , CURR_YN_2
+		     , CURR_YN_3
+		     , CURR_YN_4
+		     , CURR_YN_5
+		     , CURR_YN_6
+		     , CURR_YN_7
+		  FROM (
+		        SELECT MAX(DECODE(RN,1,DAYS)) SUN
+		             , MAX(DECODE(RN,2,DAYS)) MON
+		             , MAX(DECODE(RN,3,DAYS)) TUE
+		             , MAX(DECODE(RN,4,DAYS)) WED
+		             , MAX(DECODE(RN,5,DAYS)) THU
+		             , MAX(DECODE(RN,6,DAYS)) FRI
+		             , MAX(DECODE(RN,7,DAYS)) SAT
+		             , MAX(DECODE(RN, 1, CUR_MONTH_YN)) CURR_YN_1
+		             , MAX(DECODE(RN, 2, CUR_MONTH_YN)) CURR_YN_2
+		             , MAX(DECODE(RN, 3, CUR_MONTH_YN)) CURR_YN_3
+		             , MAX(DECODE(RN, 4, CUR_MONTH_YN)) CURR_YN_4
+		             , MAX(DECODE(RN, 5, CUR_MONTH_YN)) CURR_YN_5
+		             , MAX(DECODE(RN, 6, CUR_MONTH_YN)) CURR_YN_6
+		             , MAX(DECODE(RN, 7, CUR_MONTH_YN)) CURR_YN_7
+		          FROM (
+		                SELECT DAYS
+		                     , ROW_NUMBER()OVER(PARTITION BY WEEK ORDER BY DAYS) RN
+		                     , WEEK
+		                     , CUR_MONTH_YN
+		                  from (
+		                        SELECT DAYS
+		                             , DECODE(INSTR(DAYS,REPLACE( #select_month#, '.', '')),0,'N','Y') CUR_MONTH_YN
+		                             , CASE WHEN ROWNUM <![CDATA[<=]]> 7  THEN '1'
+		                                    WHEN ROWNUM <![CDATA[<=]]> 14 THEN '2'
+		                                    WHEN ROWNUM <![CDATA[<=]]> 21 THEN '3'
+		                                    WHEN ROWNUM <![CDATA[<=]]> 28 THEN '4'
+		                                    WHEN ROWNUM <![CDATA[<=]]> 35 THEN '5'
+		                                    WHEN ROWNUM <![CDATA[<=]]> 42 THEN '6'
+		                                    END WEEK
+		                          FROM (SELECT to_char(NEXT_DAY((TO_DATE(REPLACE(#select_month#,'.','') || '01', 'YYYYMMDDHH24MISS') - 7), 1) + ROWNUM - 1,'YYYYMMDD') DAYS
+		                                  FROM ALL_OBJECTS
+		                                 WHERE ROWNUM <![CDATA[<=]]> (NEXT_DAY(LAST_DAY(TO_DATE(REPLACE(#select_month#,'.','') || '01', 'YYYYMMDD')), 1) - NEXT_DAY((TO_DATE( REPLACE( #select_month# ,'.','') || '01', 'YYYYMMDD') - 7), 1)) 
+		                               ) CALDATES       
+		                       )
+		               )
+		        GROUP BY WEEK
+		       )
+		       
+		       
+    </select>
+    
+    <!-- 자원예약현황 -->
+    <select id="rsrc.selectResveStatus" parameterClass="rsrcVO" resultClass="java.util.HashMap" >
+        /*selectResveStatus 자원예약현황*/
+         SELECT RSRC_ID
+              , OPR_ID
+              , OPR_STRT_TM
+              , OPR_END_TM
+              , YN
+              , DAYS
+		   FROM (
+		         SELECT DAYS
+		         FROM (SELECT TO_CHAR(NEXT_DAY((TO_DATE(REPLACE(#select_month#,'.','') || '01', 'YYYYMMDDHH24MISS') - 7), 1) + ROWNUM - 1,'YYYYMMDD') DAYS
+		                 FROM ALL_OBJECTS
+		                WHERE ROWNUM <![CDATA[<=]]> (NEXT_DAY(LAST_DAY(TO_DATE(REPLACE(#select_month#,'.','') || '01', 'YYYYMMDD')), 1) - NEXT_DAY((TO_DATE(REPLACE(#select_month#,'.','') || '01', 'YYYYMMDD') - 7), 1)) 
+		              )
+		        ) A
+		      , (
+		         SELECT RSRC_ID 
+		              , OPR_ID 
+		              , OPR_STRT_TM 
+		              , OPR_END_TM 
+		              , CASE WHEN OPR_REQ_RGSRT_ID = #opr_req_rgsrt_id# THEN OPR_APV_CLSF||'F'||OPR_ID
+		                     ELSE OPR_APV_CLSF||'T'||OPR_ID
+		                END AS YN
+		           FROM RSRC_OPR_MGT
+		          WHERE ( OPR_APV_CLSF = '0' OR OPR_APV_CLSF = '1' )
+		          UNION ALL
+		          SELECT RSRC_ID 
+		               , ABLE_SEQ 
+		               , ABLE_STRT_TM 
+		               , ABLE_END_TM 
+		               , 'NO'||ABLE_SEQ YN
+		            FROM RSRC_ABLE_MGT
+		        ) B
+		  WHERE 1=1
+		    AND B.RSRC_ID = #rsrc_id#
+		    AND A.DAYS BETWEEN SUBSTR(B.OPR_STRT_TM,1,8) AND SUBSTR(B.OPR_END_TM,1,8)
+		  ORDER BY B.OPR_STRT_TM DESC
+    </select>
+    
+    <resultMap class="rsrcVO" id="RsrcResultMap.excelResultMap">
+    	<result property="oprReqRgsrtDt" column="OPR_REQ_RGSRT_DT"/>
+    	<result property="oprTm" column="OPR_TM"/>
+    	<result property="rsrc_nm" column="RSRC_NM"/>
+    	<result property="oprReqRgsrtNm" column="OPR_REQ_RGSRT_NM"/>
+    	<result property="oprReqRgsrtDeptNm" column="OPR_REQ_RGSRT_DEPT_NM"/>
+    	<result property="oprCntns" column="OPR_CNTNS"/>
+    	<result property="oprUsePlc" column="OPR_USE_PLC"/>
+    	<result property="oprUseCntns" column="OPR_USE_CNTNS"/>
+    	<result property="oprApvCntns" column="OPR_APV_CNTNS"/>
+    </resultMap>
+    
+    <!-- 자원예약현황 -->
+    <select id="rsrc.selectExcelList" parameterClass="rsrcVO" resultMap="RsrcResultMap.excelResultMap">
+        /*selectExcelList 자원심사엑셀다운로드*/
+        SELECT TO_CHAR(B.OPR_REQ_RGSRT_DT, 'YYYY.MM.DD') AS OPR_REQ_RGSRT_DT
+		     , TO_CHAR(TO_DATE(OPR_STRT_TM, 'YYYYMMDDHH24MISS'), 'MM/DD HH24:MI') || ' ~ ' || TO_CHAR(TO_DATE(OPR_END_TM, 'YYYYMMDDHH24MISS'), 'MM/DD HH24:MI') AS OPR_TM
+		     , A.RSRC_NM
+		     , B.OPR_REQ_RGSRT_NM
+		     , B.OPR_REQ_RGSRT_DEPT_NM
+		     , B.OPR_CNTNS
+		     , B.OPR_USE_PLC
+		     , B.OPR_USE_CNTNS
+		     , B.OPR_APV_CNTNS
+		  FROM RSRC_MGT A
+		  JOIN RSRC_OPR_MGT B
+		    ON B.RSRC_ID = A.RSRC_ID
+	<isNotEmpty property="opr_apv_clsf" prepend="AND">
+			 OPR_APV_CLSF = #opr_apv_clsf#
+    </isNotEmpty>
+    <isNotEmpty property="dept_cd" prepend="AND">
+			 DEPT_CD = #dept_cd#
+    </isNotEmpty>
+    <isNotEmpty property="rsrc_clsf" prepend="AND">
+        	 RSRC_CLSF = #rsrc_clsf#
+    </isNotEmpty>
+    <isNotEmpty property="rsrc_id" prepend="AND">
+        	 B.RSRC_ID = #rsrc_id#
+    </isNotEmpty>
+    <isNotEmpty property="opr_strt_dt" prepend="AND">
+				(
+					(
+					TO_DATE(OPR_STRT_TM, 'YYYYMMDDHH24MISS') <![CDATA[<=]]> TO_DATE(REPLACE( #opr_strt_dt# ,'.','')  || '000000','YYYYMMDDHH24MISS')
+  					OR
+  					TO_DATE(OPR_STRT_TM, 'YYYYMMDDHH24MISS') BETWEEN TO_DATE(REPLACE( #opr_strt_dt# ,'.','') || '000000','YYYYMMDDHH24MISS') AND TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+					)
+					AND
+					(
+  					TO_DATE(OPR_END_TM, 'YYYYMMDDHH24MISS') <![CDATA[>=]]> TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+    				OR
+    				TO_DATE(OPR_END_TM, 'YYYYMMDDHH24MISS') BETWEEN TO_DATE(REPLACE( #opr_strt_dt#,'.','') || '000000','YYYYMMDDHH24MISS') AND TO_DATE(REPLACE( #opr_end_dt#,'.','') || 235959,'YYYYMMDDHH24MISS')
+					)
+				)
+	</isNotEmpty>
+		 ORDER BY OPR_REQ_RGSRT_DT DESC
+    </select>
+    
+    <!-- 자원 부서목록(트리) -->
+    <select id="rsrc.resourceAdminDeptTree" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+	    /* rsrc.resourceAdminDeptTree 자원 부서목록(트리) */
+	    SELECT	  0 AS LEV
+	    		, dept_seq AS SEQ
+	    		, dept_cd AS ID
+	    		, CASE WHEN dept_del = 'Y' THEN dept_nm || '[사용안함]' ELSE dept_nm END AS text
+	    		, 'folder' AS type
+	    FROM	rsrc_dept_mgt
+	    ORDER BY dept_seq
+    </select>
+    
+	<resultMap class="rsrcVO" id="RsrcResultMap.selectRsrcDeptInfo">
+    	<result property="dept_cd"		column="DEPT_CD"/>
+    	<result property="dept_nm"		column="DEPT_NM"/>
+    	<result property="dept_seq"		column="DEPT_SEQ"/>
+    	<result property="dept_del"		column="DEPT_DEL"/>
+    </resultMap>
+    
+    <!-- 자원부서조회 -->
+    <select id="rsrc.selectRsrcDeptInfo" parameterClass="rsrcVO" resultMap="RsrcResultMap.selectRsrcDeptInfo" >
+        /* rsrc.selectRsrcDeptInfo 자원부서조회*/
+        SELECT	  dept_cd
+        		, dept_nm
+        		, dept_seq
+        		, dept_del
+        FROM	rsrc_dept_mgt
+        WHERE	1=1
+        	AND	dept_cd = #dept_cd#
+        ORDER	BY	dept_seq
+    </select>
+    
+   	<resultMap class="com.saltware.enface.sjpb.Z.service.SjpbUserVO" id="RsrcResultMap.selectRsrcDeptUserList">
+		<result property="rnum"				column="rnum"/>
+		<result property="userId"			column="USER_ID"/>
+		<result property="orgCd"			column="ORG_CD"/>
+		<result property="orgName"			column="ORG_NAME"/>
+		<result property="kindCd"			column="KIND_CD"/>
+		<result property="criMbPosiNm"		column="CRI_MB_POSI_NM"/>
+		<result property="nmKor"			column="NM_KOR"/>
+		<result property="mobileTel"		column="MOBILE_TEL"/>
+		<result property="emailAddr"		column="EMAIL_ADDR"/>
+	</resultMap>
+    
+    <!-- 자원부서 담당자 조회 -->
+    <select id="rsrc.selectRsrcDeptUserList" parameterClass="rsrcVO" resultMap="RsrcResultMap.selectRsrcDeptUserList" >
+        /* rsrc.selectRsrcDeptUserList 자원부서 담당자 조회*/
+        SELECT	*
+		FROM	(
+				SELECT	  ROW_NUMBER () OVER ( ORDER BY USER_ID ) RNUM
+						, TT.*
+				FROM	(
+						SELECT	  T1.*
+						FROM	( 
+										SELECT  A.USER_ID AS USER_ID, 
+												A.ORG_CD AS ORG_CD,
+										        (     SELECT
+										            F.CRI_TM_NM AS CRI_TM_NM     
+										        FROM
+										            SJPB_CRI_TM F     
+										        WHERE
+										             F.CRI_TM_ID = A.ORG_CD                ) AS ORG_NAME,        
+										        A.KIND_CD,
+										        (SELECT CODE_NAME FROM CODEBASE WHERE CODE_ID ='SJPB_00013' AND CODE= A.KIND_CD AND LANG_KND='ko') AS CRI_MB_POSI_NM,
+										        A.NM_KOR,
+										        A.MOBILE_TEL,
+										        A.EMAIL_ADDR
+										    FROM
+										        USERPASS A       
+										    INNER JOIN
+										        SECURITY_PRINCIPAL B 
+										            ON A.USER_ID=B.SHORT_PATH     
+										    INNER JOIN
+										        SECURITY_CREDENTIAL C 
+										            ON B.PRINCIPAL_ID=C.PRINCIPAL_ID     
+										     JOIN
+										        SJPB_CRI_MB I 
+										            ON I.CRI_MB_ID = A.USER_ID              
+										    WHERE
+										        B.PRINCIPAL_TYPE='U'     
+										        AND CRI_MB_STAT='1'
+						) T1
+						WHERE	T1.USER_ID IN (SELECT usr_id FROM rsrc_utprs_mgt WHERE dept_cd = #dept_cd#)
+				) TT
+		)
+    </select>
+    
+    <!-- 자원부서 등록여부 -->
+    <select id="rsrc.resourceAdminIsDept" parameterClass="rsrcVO" resultClass="java.lang.Integer">
+    	/* "rsrc.resourceAdminIsDept" 자원부서 등록여부 */
+    	SELECT COUNT(*) FROM rsrc_dept_mgt WHERE dept_cd = #dept_cd#
+    </select>
+    
+    <!-- 자원부서 등록 -->
+    <insert id="rsrc.resourceAdminAddDept" parameterClass="rsrcVO">
+    	/* rsrc.resourceAdminAddDept 자원부서 등록 */
+    	INSERT INTO rsrc_dept_mgt
+    	( dept_cd, dept_nm, dept_seq )
+    	VALUES
+    	( #dept_cd#, #dept_nm#, (SELECT NVL(MAX(dept_seq) + 1, 1) FROM rsrc_dept_mgt ) )
+    </insert>
+    
+    <!-- 자원부서 담당자 등록 여부 -->
+    <select id="rsrc.resourceAdminIsUser" parameterClass="rsrcVO" resultClass="java.lang.Integer">
+    	/* rsrc.resourceAdminIsUser 자원부서 담당자 등록 여부 */
+    	SELECT COUNT(*) FROM rsrc_utprs_mgt WHERE 1=1 AND dept_cd = #dept_cd# AND usr_id = #usr_id#
+    </select>
+    
+    <!-- 자원부서 담당자 등록 -->
+    <insert id="rsrc.resourceAdminAddUser" parameterClass="rsrcVO">
+    	/* rsrc.resourceAdminAddUser 자원부서 담당자 등록 */
+    	INSERT INTO rsrc_utprs_mgt
+    	( dept_cd, usr_id, usr_nm )
+    	VALUES
+    	( #dept_cd#, #usr_id#, #usr_nm# )
+    </insert>
+    
+    <!-- 자원 부서 사용여부 변경 -->
+    <update id="rsrc.resourceAdminUseDept" parameterClass="rsrcVO">
+    	/* rsrc.resourceAdminUseDept 자원 부서 사용여부 변경 */
+    	UPDATE	rsrc_dept_mgt
+    	SET		dept_del = #dept_del#
+    	WHERE	dept_cd = #dept_cd#
+    </update>
+    
+    <!-- 자원 부서삭제 -->
+    <update id="rsrc.resourceAdminDeleteDept" parameterClass="rsrcVO">
+    	/* rsrc.resourceAdminDeleteDept 자원 부서삭제 */
+    	DELETE FROM rsrc_dept_mgt WHERE dept_cd = #dept_cd#
+    </update>
+    
+    <!-- 자원 부서 담당자삭제 -->
+    <delete id="rsrc.resourceAdminDeleteUser" parameterClass="rsrcVO">
+    	/* rsrc.resourceAdminDeleteUser 자원 부서 담당자삭제 */
+    	DELETE FROM rsrc_utprs_mgt WHERE 1=1 AND dept_cd = #dept_cd# AND usr_id = #usr_id#
+    </delete>
+    
+    <!-- 자원 부서 순서 저장 -->
+    <update id="rsrc.resourceAdminSaveDeptOrder" parameterClass="rsrcVO">
+    	/* rsrc.resourceAdminSaveDeptOrder 자원 부서 순서 저장 */
+    	UPDATE	rsrc_dept_mgt
+    	SET		dept_seq = #dept_seq#
+    	WHERE	dept_cd = #dept_cd#
+    </update>
+    
+    <!-- 자원부서의 담당자확인(사용안함인 경우만) -->
+    <select id="rsrc.selectAdminUserToNotUse" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+    	/* rsrc.selectAdminUserToNotUse 자원부서의 담당자확인(사용안함인 경우만) */
+    	SELECT	COUNT(*) 
+		FROM  	rsrc_utprs_mgt M
+		INNER JOIN rsrc_dept_mgt S
+		  ON	M.dept_cd = S.dept_cd
+		WHERE 1=1
+			AND	M.usr_id = #usr_id#
+			AND	S.dept_del = 'Y'
+    </select>
+    
+    
+    <!-- 자원 맵핑 파일정보 삭제 -->
+    <delete id="rsrc.deletefileMappingInfo" parameterClass="rsrcVO">
+    	/* rsrc.deletefileMappingInfo 자원 맵핑 파일정보 삭제 */
+    	DELETE FROM ZEP_RSRC_ATCH_MGT WHERE 1=1 AND RSRC_ID = #rsrc_id# AND FILE_ID = #file_id#
+    </delete>
+    
+    <!-- 자원구분 목록(트리) -->
+    <select id="rsrc.resourceAdminTypeTree" resultClass="org.apache.commons.collections.map.CaseInsensitiveMap">
+	    /* rsrc.resourceAdminTypeTree 자원구분 목록(트리) */
+	    SELECT	  0 AS LEV
+	    		, ordr AS SEQ
+	    		, code AS ID
+	    		, name AS text
+	    		, 'folder' AS type
+	    FROM	rsrc_code_mgt
+	    ORDER BY ordr
+    </select>
+    
+    <resultMap class="rsrcVO" id="RsrcResultMap.selectRsrcTypeInfo">
+    	<result property="code"		column="CODE"/>
+    	<result property="name"		column="NAME"/>
+    	<result property="ordr"		column="ORDR"/>
+    </resultMap>
+    
+    <!-- 자원구분조회 -->
+    <select id="rsrc.selectRsrcTypeInfo" parameterClass="rsrcVO" resultMap="RsrcResultMap.selectRsrcTypeInfo" >
+        /* rsrc.selectRsrcTypeInfo 자원구분조회*/
+        SELECT	  code
+        		, name
+        		, ordr
+        FROM	rsrc_code_mgt
+        WHERE	1=1
+        	AND	code = #code#
+        ORDER	BY	ordr
+    </select>
+    
+    <!-- 자원구분 순서 저장 -->
+    <update id="rsrc.resourceAdminSaveTypeOrder" parameterClass="rsrcVO">
+    	/* rsrc.resourceAdminSaveTypeOrder 자원구분 순서 저장 */
+    	UPDATE	rsrc_code_mgt
+    	SET		ordr = #ordr#
+    	WHERE	code = #code#
+    </update>
+    
+    <!-- 자원구분 등록 -->
+    <insert id="rsrc.resourceAdminAddType" parameterClass="rsrcVO">
+    	/* rsrc.resourceAdminAddDept 자원부서 등록 */
+    	INSERT INTO rsrc_code_mgt
+    	( code, name, ordr )
+    	VALUES
+    	( (SELECT NVL(MAX(code) + 1, 1) FROM rsrc_code_mgt ), #name#, (SELECT NVL(MAX(ordr) + 1, 1) FROM rsrc_code_mgt ) )
+    </insert>
+    
+    <!-- 자원구분 수정 -->
+    <update id="rsrc.resourceAdminModifyType" parameterClass="rsrcVO">
+   		/* rsrc.resourceAdminModifyType 자원부서 수정 */
+   		UPDATE	rsrc_code_mgt
+   		SET		name = #name#
+   		WHERE	code = #code#
+    </update>
+    
+    <!-- 자원구분 삭제 -->
+    <update id="rsrc.resourceAdminDeleteType" parameterClass="rsrcVO">
+   		/* rsrc.resourceAdminDeleteType 자원삭제 */
+   		DELETE 
+   		FROM	rsrc_code_mgt
+   		WHERE	code = #code#
+    </update>
+    
+    <!-- 현재날짜와 예약일자 차이 값 조회  -->
+    <select id="rsrc.selectRsrcAvaleChk" parameterClass="rsrcVO" resultClass="java.lang.Integer">
+    	/* rsrc.selectRsrcAvaleChk 자원부서의 담당자확인(사용안함인 경우만) */
+    	SELECT TO_DATE(REPLACE(#opr_strt_dt#,'.',''), 'YYYYMMDD')  - TRUNC(SYSDATE)   AS TERM_DAY FROM DUAL 
+    </select>
+</sqlMap>

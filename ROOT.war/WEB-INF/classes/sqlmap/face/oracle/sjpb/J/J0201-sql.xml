@@ -1,0 +1,144 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+ 
+	<resultMap class="com.saltware.enface.sjpb.J.service.J0201VO" id="J0201VO.incInput">
+		<result property="sort" column="SORT"/>
+		<result property="total" column="TOTAL"/>
+		<result property="gen" column="GEN"/>
+		<result property="ie" column="IE"/>
+		<result property="mob" column="MOB"/>
+		<result property="inc" column="INC"/>
+	</resultMap>
+	 
+	 <!-- 사건 유입 통계 -->
+	 <select id="J0201.J0201.incInput" resultMap="J0201VO.incInput">  /* J0201.J0201.incInput */
+	 	SELECT DECODE(A.CODE_NAME,NULL,'전체',A.CODE_NAME) AS SORT
+	 		   ,NVL(COUNT(C.RCPT_NUM),0) AS TOTAL
+		       ,NVL(SUM(CASE WHEN C.INFW_DIV = '01' 
+		       			<isNotEmpty property="regStart" prepend="AND">
+							<isNotEmpty property="regEnd">
+								TO_CHAR(C.BE_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+							</isNotEmpty>
+						</isNotEmpty>
+						<isNotEmpty property="year" prepend="AND">
+							SUBSTR(C.RCPT_INC_NUM,1,4) = #year#
+						</isNotEmpty>
+		       			THEN 1 ELSE 0 END),0) AS GEN  
+		       ,NVL(SUM(CASE WHEN C.INFW_DIV = '02' 
+		       			<isNotEmpty property="regStart" prepend="AND">
+							<isNotEmpty property="regEnd">
+								TO_CHAR(C.BE_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+							</isNotEmpty>
+						</isNotEmpty>
+						<isNotEmpty property="year" prepend="AND">
+							SUBSTR(C.RCPT_INC_NUM,1,4) = #year#
+						</isNotEmpty>
+		       			THEN 1 ELSE 0 END),0) AS IE 
+		       ,NVL(SUM(CASE WHEN C.INFW_DIV = '03' 
+		       			<isNotEmpty property="regStart" prepend="AND">
+							<isNotEmpty property="regEnd">
+								TO_CHAR(C.BE_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+							</isNotEmpty>
+						</isNotEmpty>
+						<isNotEmpty property="year" prepend="AND">
+							SUBSTR(C.RCPT_INC_NUM,1,4) = #year#
+						</isNotEmpty>
+		       			THEN 1 ELSE 0 END),0) AS MOB  
+		       ,NVL(SUM(CASE WHEN C.INFW_DIV = '04' 
+		       			<isNotEmpty property="regStart" prepend="AND">
+							<isNotEmpty property="regEnd">
+								TO_CHAR(C.BE_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+							</isNotEmpty>
+						</isNotEmpty>
+						<isNotEmpty property="year" prepend="AND">
+							SUBSTR(C.RCPT_INC_NUM,1,4) = #year#
+						</isNotEmpty>
+		       			THEN 1 ELSE 0 END),0) AS INC  
+		FROM CODEBASE A 
+		LEFT JOIN SJPB_INC_MAST C ON A.CODE = C.FD_CD
+		WHERE A.CODE_ID = 'SJPB_00002' AND A.CODE NOT IN('0000000000') AND C.PARE_RCPT_NUM IS NULL
+			  <isNotEmpty property="fdCdArray" prepend="AND">
+				  A.CODE IN($fdCdArray$)
+			  </isNotEmpty>
+			  <isNotEmpty property="year" prepend="AND">
+				  SUBSTR(C.RCPT_INC_NUM,1,4) = #year#
+			  </isNotEmpty>
+		GROUP BY ROLLUP(A.CODE_NAME)
+		ORDER BY DECODE(A.CODE_NAME,NULL,'1')
+	 </select>
+	 
+	 <resultMap class="com.saltware.enface.sjpb.J.service.J0201VO" id="J0201VO.bkMng">
+		<result property="sort" column="SORT"/>
+		<result property="total" column="TOTAL"/>
+	</resultMap>
+	 
+	 <select id="J0201.J0202.bkMng" resultMap="J0201VO.bkMng"> 
+	 	SELECT DECODE(E.CODE_NAME,NULL,'전체',E.CODE_NAME) AS SORT
+		       ,NVL(SUM(CASE WHEN <isNotEmpty property="regStart">
+									   <isNotEmpty property="regEnd">
+										   TO_CHAR(A.INQ_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+									   </isNotEmpty>
+								   </isNotEmpty>
+						THEN '1' ELSE '0' END),0) AS TOTAL
+		FROM CODEBASE E
+		LEFT JOIN SJPB_INC_MAST D ON E.CODE = D.FD_CD
+		LEFT JOIN SJPB_INC_SP C ON D.RCPT_NUM = C.RCPT_NUM AND C.SP_STAT_CD ='1'
+		LEFT JOIN SJPB_CRI_DTA_INQ_ITEM B ON C.INC_SP_NUM = B.INC_SP_NUM
+		LEFT JOIN SJPB_CRI_DTA_INQ_MNG_BK A ON A.MNG_BK_SI_NUM = B.MNG_BK_SI_NUM AND A.MNG_BK_STAT_CD = '05'
+		WHERE E.CODE_ID = 'SJPB_00002' AND E.CODE NOT IN ('0000000000')
+			 <isNotEmpty property="regStart" prepend="AND">
+				 <isNotEmpty property="regEnd">
+					 TO_CHAR(A.INQ_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				 </isNotEmpty>
+			 </isNotEmpty>
+			 <isNotEmpty property="fdCdArray" prepend="AND">
+				 E.CODE IN($fdCdArray$)
+			 </isNotEmpty> 
+		GROUP BY ROLLUP(E.CODE_NAME)
+		ORDER BY DECODE(E.CODE_NAME,NULL,'1')
+	 </select>
+	
+	<resultMap class="com.saltware.enface.sjpb.J.service.J0201VO" id="J0201VO.J0203">
+		<result property="sort" column="SORT"/>
+		<result property="gen" column="GEN"/>
+		<result property="total" column="TOTAL"/>
+		<result property="disk" column="DISK"/>
+		<result property="mob" column="MOB"/>
+	</resultMap>
+	
+	<select id="J0201.J0203List" resultMap="J0201VO.J0203"> /* J0201.J0203List */
+		SELECT DECODE(A.CRI_TM,NULL,'전체',A.CRI_TM) AS SORT
+		       ,COUNT(A.FORS_SUPP_SI_NUM) AS GEN
+		       ,SUM(B.MEDI_NUM) AS TOTAL
+		       ,SUM(B.DISK) AS DISK
+               ,SUM(B.MOB) AS MOB
+		FROM (
+                SELECT FORS_SUPP_SI_NUM
+                	   ,DECODE(CRI_TM,NULL,'미배정수사팀',CRI_TM) AS CRI_TM
+                	   ,COLL_DT
+                FROM SJPB_FORS_SUPP_WORK_CUST 
+              ) A
+		JOIN (
+		        SELECT  FORS_SUPP_SI_NUM,COUNT(FORS_SUPP_MEDI_SI_NUM) AS MEDI_NUM
+		        		,SUM(CASE WHEN MEDI_DIV = '01' THEN 1 ELSE 0 END) AS DISK
+                        ,SUM(CASE WHEN MEDI_DIV = '02' THEN 1 ELSE 0 END) AS MOB
+		        FROM SJPB_FORS_SUPP_MEDI 
+		        WHERE MEDI_STAT_CD =1
+		        GROUP BY FORS_SUPP_SI_NUM
+		    )
+		    B ON A.FORS_SUPP_SI_NUM = B.FORS_SUPP_SI_NUM
+		LEFT JOIN SJPB_CRI_TM C ON C.CRI_TM_NM = A.CRI_TM
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="regStart" prepend="AND">
+				 <isNotEmpty property="regEnd">
+					 TO_CHAR(A.COLL_DT,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				 </isNotEmpty>
+			 </isNotEmpty>
+		</dynamic>
+	    GROUP BY ROLLUP(A.CRI_TM)
+	    ORDER BY DECODE(A.CRI_TM,NULL,1,'미배정수사팀',2)
+	</select>
+	
+</sqlMap>
+ 

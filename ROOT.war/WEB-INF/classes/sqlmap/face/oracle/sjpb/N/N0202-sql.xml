@@ -1,0 +1,273 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="face">
+	<!-- Query for [ SJPB_CMCT_DTA_DTS: 통신자료  상세] Table -->
+	<resultMap class="com.saltware.enface.sjpb.N.service.N0202VO" id="N0202VO.selectList">
+		<result property="cmctDtaDtsNum" column="CMCT_DTA_DTS_NUM"/>
+		<result property="cmctDtaBkNum" column="CMCT_DTA_BK_NUM"/>
+		<result property="cmctCmpyCd" column="CMCT_CMPY_CD"/>
+		<result property="cmctCmpyNm" column="CMCT_CMPY_NM"/>
+		<result property="useTp" column="USE_TP"/>
+		<result property="useTpNm" column="USE_TP_NM"/>
+		<result property="sendRecvDiv" column="SEND_RECV_DIV"/>
+		<result property="sendRecvDivNm" column="SEND_RECV_DIV_NM"/>
+		<result property="sendNum" column="SEND_NUM"/>
+		<result property="recvNum" column="RECV_NUM"/>
+		<result property="callBeTime" column="CALL_BE_TIME"/>
+		<result property="callBeTimeConv" column="CALL_BE_TIME_CONV"/>
+		<result property="callDurtTimeConv" column="CALL_DURT_TIME_CONV"/>		
+		<result property="sendBaseSttnAddr" column="SEND_BASE_STTN_ADDR"/>
+	</resultMap>
+
+	
+	
+	<select id="N0202.selectList" resultMap="N0202VO.selectList"> /* N0202.selectList */
+		SELECT CMCT_DTA_DTS_NUM ,
+		       CMCT_DTA_BK_NUM ,
+		       CMCT_CMPY_CD ,
+			   CMCT_CMPY_NM ,
+			   USE_TP,		       
+		       (SELECT CODE_NAME
+		       FROM    CODEBASE
+		       WHERE   CODE_ID ='SJPB_00034'
+		       AND     CODE   !='0000000000'
+		       AND     LANG_KND='ko'
+		       AND     CODE    =USE_TP
+		       )
+		       USE_TP_NM ,
+		       SEND_RECV_DIV,
+		       (SELECT CODE_NAME
+		       FROM    CODEBASE
+		       WHERE   CODE_ID ='SJPB_00035'
+		       AND     CODE   !='0000000000'
+		       AND     LANG_KND='ko'
+		       AND     CODE    =SEND_RECV_DIV
+		       )
+		       SEND_RECV_DIV_NM ,
+		       CRYPTO.DEC('normal',SEND_NUM) AS SEND_NUM,
+		       CRYPTO.DEC('normal',RECV_NUM) AS RECV_NUM,
+		       CALL_BE_TIME,
+		       TO_CHAR(CALL_BE_TIME,'yyyy-MM-dd HH:mm:ss') AS CALL_BE_TIME_CONV,
+			  	(FLOOR (CALL_DURT_TIME/ (60*60 ) ) ) ||':'||LPAD(FLOOR (MOD( (CALL_DURT_TIME/60 ), 60) ), 2, 0) ||':'|| LPAD(FLOOR (MOD(CALL_DURT_TIME, 60) ), 2, 0) AS CALL_DURT_TIME_CONV,       
+		       SEND_BASE_STTN_ADDR
+		FROM   SJPB_CMCT_DTA_DTS
+		WHERE  1               =1
+		AND    CMCT_DTA_BK_NUM =#cmctDtaBkNum#
+		AND    REG_USER_ID     =#regUserId#	
+		<isNotEmpty  prepend=" AND " property="cmctCmpyNm">CMCT_CMPY_NM LIKE '%'||#cmctCmpyNm#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="useTp">USE_TP =#useTp#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendRecvDiv">SEND_RECV_DIV =#sendRecvDiv#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="recvNum">CRYPTO.DEC('normal',RECV_NUM) =#recvNum#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendNum">CRYPTO.DEC('normal',SEND_NUM) =#sendNum#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendBaseSttnAddr">SEND_BASE_STTN_ADDR LIKE '%'||#sendBaseSttnAddr#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sDate">CALL_BE_TIME &gt;= #sDate#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="eDate">CALL_BE_TIME &lt;= TO_DATE(#eDate#, 'YYYY-MM-DD')+1</isNotEmpty>			 	
+	 	ORDER BY CALL_BE_TIME ASC
+	</select>
+	
+
+	<select id="N0202.selectDtlList" resultMap="N0202VO.selectList"> /* N0102.selectDtlList */
+		SELECT CMCT_DTA_DTS_NUM ,
+		       CMCT_DTA_BK_NUM ,
+		       CMCT_CMPY_CD ,
+		       CMCT_CMPY_NM ,
+		       USE_TP,
+		       (SELECT CODE_NAME
+		       FROM    CODEBASE
+		       WHERE   CODE_ID ='SJPB_00034'
+		       AND     CODE   !='0000000000'
+		       AND     LANG_KND='ko'
+		       AND     CODE    =USE_TP
+		       )
+		       USE_TP_NM ,
+		       SEND_RECV_DIV,
+		       (SELECT CODE_NAME
+		       FROM    CODEBASE
+		       WHERE   CODE_ID ='SJPB_00035'
+		       AND     CODE   !='0000000000'
+		       AND     LANG_KND='ko'
+		       AND     CODE    =SEND_RECV_DIV
+		       )
+		       SEND_RECV_DIV_NM,
+		       CRYPTO.DEC('normal',SEND_NUM) AS SEND_NUM,
+		       CRYPTO.DEC('normal',RECV_NUM) AS RECV_NUM,	       
+		       CALL_BE_TIME,
+		       TO_CHAR(CALL_BE_TIME,'yyyy-MM-dd HH:mm:ss') AS CALL_BE_TIME_CONV,
+			  	(FLOOR (CALL_DURT_TIME/ (60*60 ) ) ) ||':'||LPAD(FLOOR (MOD( (CALL_DURT_TIME/60 ), 60) ), 2, 0) ||':'|| LPAD(FLOOR (MOD(CALL_DURT_TIME, 60) ), 2, 0) AS CALL_DURT_TIME_CONV,       
+		       SEND_BASE_STTN_ADDR
+		FROM   SJPB_CMCT_DTA_DTS
+		WHERE  1               =1
+		AND    CMCT_DTA_BK_NUM =#cmctDtaBkNum#
+		AND    REG_USER_ID     =#regUserId#		
+		<isNotEmpty  prepend=" AND " property="cmctCmpyNm">CMCT_CMPY_NM LIKE '%'||#cmctCmpyNm#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="useTp">USE_TP =#useTp#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendRecvDiv">SEND_RECV_DIV =#sendRecvDiv#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="recvNum">CRYPTO.DEC('normal',RECV_NUM) =#recvNum#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendNum">CRYPTO.DEC('normal',SEND_NUM) =#sendNum#</isNotEmpty>	
+		<isNotEmpty  prepend=" AND " property="sendBaseSttnAddr">
+		SEND_BASE_STTN_ADDR LIKE '%'||#sendBaseSttnAddr#||'%'
+		</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sDate">CALL_BE_TIME &gt;= #sDate#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="eDate">CALL_BE_TIME &lt;= TO_DATE(#eDate#, 'YYYY-MM-DD')+1</isNotEmpty>						 	
+	 	ORDER BY CALL_BE_TIME ASC
+	</select>	
+
+	<delete id="N0202.SJPB_FINC_DTA_DTS.delete">  /* N0202.SJPB_FINC_DTA_DTS.delete */
+		<![CDATA[	
+			DELETE FROM SJPB_CMCT_DTA_DTS WHERE CMCT_DTA_DTS_NUM=#fincDtaDtsNum#
+		]]>
+	</delete>
+	
+	
+	<resultMap class="com.saltware.enface.sjpb.N.service.N0202VO" id="N0202.selectSendRecvDivStatisticsList">
+		<result property="recvNum" column="RECV_NUM"/>
+		<result property="sendDivCnt" column="SEND_DIV_CNT"/>
+		<result property="recvDivCnt" column="RECV_DIV_CNT"/>
+	</resultMap>
+	
+	<resultMap class="com.saltware.enface.sjpb.N.service.N0202VO" id="N0202.selectSendDivStatisticsList">
+		<result property="sendNum" column="SEND_NUM"/>
+		<result property="sendDivCnt" column="SEND_DIV_CNT"/>
+	</resultMap>
+	
+	<resultMap class="com.saltware.enface.sjpb.N.service.N0202VO" id="N0202.selectRecvDivStatisticsList">
+		<result property="recvNum" column="RECV_NUM"/>
+		<result property="recvDivCnt" column="RECV_DIV_CNT"/>
+	</resultMap>
+	
+	<resultMap class="com.saltware.enface.sjpb.N.service.N0202VO" id="N0202.sendBaseSttnAddrGroupList">
+		<result property="sendBaseSttnAddr" column="SEND_BASE_STTN_ADDR"/>
+		<result property="sendBaseSttnAddrCnt" column="SEND_BASE_STTN_ADDR_CNT"/>
+	</resultMap>
+	
+	<select id="N0202.selectSendRecvDivStatisticsList" resultMap="N0202.selectSendRecvDivStatisticsList"> /* N0102.selectSendRecvDivStatisticsList */
+		SELECT   CRYPTO.DEC('normal',RECV_NUM) AS RECV_NUM,
+		         COUNT(DECODE(SEND_RECV_DIV,1,
+		                      '1')) AS SEND_DIV_CNT,
+		         COUNT(DECODE(SEND_RECV_DIV,2,
+		                      '2')) AS RECV_DIV_CNT
+		FROM     SJPB_CMCT_DTA_DTS
+		WHERE    1               =1
+			AND    CMCT_DTA_BK_NUM =#cmctDtaBkNum#
+			AND    REG_USER_ID     =#regUserId#		
+		<isNotEmpty  prepend=" AND " property="cmctCmpyNm">CMCT_CMPY_NM LIKE '%'||#cmctCmpyNm#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="useTp">USE_TP =#useTp#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendRecvDiv">SEND_RECV_DIV =#sendRecvDiv#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendBaseSttnAddr">SEND_BASE_STTN_ADDR LIKE '%'||#sendBaseSttnAddr#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sDate">CALL_BE_TIME &gt;= #sDate#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="eDate">CALL_BE_TIME &lt;= TO_DATE(#eDate#, 'YYYY-MM-DD')+1</isNotEmpty>					  
+			GROUP BY RECV_NUM
+			ORDER BY RECV_NUM 
+	</select>
+	
+	<select id="N0202.selectSendDivStatisticsList" resultMap="N0202.selectSendDivStatisticsList"> /* N0202.selectSendDivStatisticsList*/
+		SELECT   CRYPTO.DEC('normal',SEND_NUM) AS SEND_NUM,
+		         COUNT(DECODE(SEND_RECV_DIV,1,
+		                      '1')) AS SEND_DIV_CNT
+		FROM     SJPB_cmct_DTA_DTS
+		WHERE    1               =1
+			AND    CMCT_DTA_BK_NUM =#cmctDtaBkNum#
+			AND    REG_USER_ID     =#regUserId#		
+		<isNotEmpty  prepend=" AND " property="cmctCmpyNm">CMCT_CMPY_NM LIKE '%'||#cmctCmpyNm#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="useTp">USE_TP =#useTp#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendRecvDiv">SEND_RECV_DIV =#sendRecvDiv#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendBaseSttnAddr">SEND_BASE_STTN_ADDR LIKE '%'||#sendBaseSttnAddr#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sDate">CALL_BE_TIME &gt;= #sDate#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="eDate">CALL_BE_TIME &lt;= TO_DATE(#eDate#, 'YYYY-MM-DD')+1</isNotEmpty>					  
+			GROUP BY SEND_NUM
+			ORDER BY SEND_NUM 
+	</select>
+	
+	<select id="N0202.selectRecvDivStatisticsList" resultMap="N0202.selectRecvDivStatisticsList"> /* N0202.selectRecvDivStatisticsList */
+		SELECT   CRYPTO.DEC('normal',RECV_NUM) AS RECV_NUM,
+		         COUNT(DECODE(SEND_RECV_DIV,2,
+		                      '2')) AS RECV_DIV_CNT
+		FROM     SJPB_CMCT_DTA_DTS
+		WHERE    1               =1
+			AND    CMCT_DTA_BK_NUM =#cmctDtaBkNum#
+			AND    REG_USER_ID     =#regUserId#		
+		<isNotEmpty  prepend=" AND " property="cmctCmpyNm">CMCT_CMPY_NM LIKE '%'||#cmctCmpyNm#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="useTp">USE_TP =#useTp#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendRecvDiv">SEND_RECV_DIV =#sendRecvDiv#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendBaseSttnAddr">SEND_BASE_STTN_ADDR LIKE '%'||#sendBaseSttnAddr#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sDate">CALL_BE_TIME &gt;= #sDate#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="eDate">CALL_BE_TIME &lt;= TO_DATE(#eDate#, 'YYYY-MM-DD')+1</isNotEmpty>					  
+			GROUP BY RECV_NUM
+			ORDER BY RECV_NUM 
+	</select>		
+	
+	<select id="N0202.sendBaseSttnAddrGroupList" resultMap="N0202.sendBaseSttnAddrGroupList"> /* N0202.sendBaseSttnAddrGroupList */
+		SELECT   SEND_BASE_STTN_ADDR,
+		         COUNT(*) AS SEND_BASE_STTN_ADDR_CNT
+		FROM     SJPB_cmct_DTA_DTS
+		WHERE    1               =1
+			AND    CMCT_DTA_BK_NUM =#cmctDtaBkNum#
+			AND    REG_USER_ID     =#regUserId#		
+		<isNotEmpty  prepend=" AND " property="cmctCmpyNm">CMCT_CMPY_NM LIKE '%'||#cmctCmpyNm#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="useTp">USE_TP =#useTp#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendRecvDiv">
+			SEND_RECV_DIV =#sendRecvDiv#
+		<isEqual property="sendRecvDiv" compareValue="1">
+			AND CRYPTO.DEC('normal',SEND_NUM)=#sendNum#
+		</isEqual>
+		<isEqual property="sendRecvDiv" compareValue="2">
+			AND CRYPTO.DEC('normal',RECV_NUM)=#recvNum#
+		</isEqual>	
+		</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendBaseSttnAddr">SEND_BASE_STTN_ADDR LIKE '%'||#sendBaseSttnAddr#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sDate">CALL_BE_TIME &gt;= #sDate#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="eDate">CALL_BE_TIME &lt;= TO_DATE(#eDate#, 'YYYY-MM-DD')+1</isNotEmpty>					  
+			GROUP BY SEND_BASE_STTN_ADDR
+			ORDER BY SEND_BASE_STTN_ADDR 
+	</select>	
+	
+	<select id="N0202.selectSendBaseSttnAddrStatisticsAllList" resultMap="N0202VO.selectList"> /* N0202.selectSendBaseSttnAddrStatisticsAllList */
+		SELECT CMCT_DTA_DTS_NUM ,
+		       CMCT_DTA_BK_NUM ,
+		       CMCT_CMPY_CD ,
+			   CMCT_CMPY_NM ,
+			   USE_TP,		       
+		       (SELECT CODE_NAME
+		       FROM    CODEBASE
+		       WHERE   CODE_ID ='SJPB_00034'
+		       AND     CODE   !='0000000000'
+		       AND     LANG_KND='ko'
+		       AND     CODE    =USE_TP
+		       )
+		       USE_TP_NM ,
+		       SEND_RECV_DIV,
+		       (SELECT CODE_NAME
+		       FROM    CODEBASE
+		       WHERE   CODE_ID ='SJPB_00035'
+		       AND     CODE   !='0000000000'
+		       AND     LANG_KND='ko'
+		       AND     CODE    =SEND_RECV_DIV
+		       )
+		       SEND_RECV_DIV_NM ,
+		       CRYPTO.DEC('normal',SEND_NUM) AS SEND_NUM,
+		       CRYPTO.DEC('normal',RECV_NUM) AS RECV_NUM,
+		       CALL_BE_TIME,
+		       TO_CHAR(CALL_BE_TIME,'yyyy-MM-dd HH:mm:ss') AS CALL_BE_TIME_CONV,
+			  	(FLOOR (CALL_DURT_TIME/ (60*60 ) ) ) ||':'||LPAD(FLOOR (MOD( (CALL_DURT_TIME/60 ), 60) ), 2, 0) ||':'|| LPAD(FLOOR (MOD(CALL_DURT_TIME, 60) ), 2, 0) AS CALL_DURT_TIME_CONV,       
+		       SEND_BASE_STTN_ADDR
+		FROM   SJPB_CMCT_DTA_DTS
+		WHERE  1               =1
+		AND    CMCT_DTA_BK_NUM =#cmctDtaBkNum#
+		AND    REG_USER_ID     =#regUserId#	
+		<isNotEmpty  prepend=" AND " property="cmctCmpyNm">CMCT_CMPY_NM LIKE '%'||#cmctCmpyNm#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="useTp">USE_TP =#useTp#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendRecvDiv">SEND_RECV_DIV =#sendRecvDiv#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="recvNum">CRYPTO.DEC('normal',RECV_NUM) =#recvNum#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sendNum">CRYPTO.DEC('normal',SEND_NUM) =#sendNum#</isNotEmpty>
+		<isEmpty  property="allCheck">
+			<isNotEmpty  prepend=" AND " property="sendBaseSttnAddr">SEND_BASE_STTN_ADDR LIKE '%'||#sendBaseSttnAddr#||'%'</isNotEmpty>
+			<isEmpty  prepend=" AND " property="sendBaseSttnAddr">SEND_BASE_STTN_ADDR IS NULL</isEmpty>
+		</isEmpty>
+		<isNotEmpty  prepend=" AND " property="sDate">CALL_BE_TIME &gt;= #sDate#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="eDate">CALL_BE_TIME &lt;= TO_DATE(#eDate#, 'YYYY-MM-DD')+1</isNotEmpty>			 	
+	 	ORDER BY CALL_BE_TIME ASC
+	</select>	
+	
+	
+</sqlMap>
+

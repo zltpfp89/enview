@@ -1,0 +1,275 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0109VO" id="M0109VO.list">
+		<result property="seizSechWrntReqNum" column="SEIZ_SECH_WRNT_REQ_NUM"/>
+		<result property="prgsNum" column="PRGS_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="reqDt" column="REQ_DT"/>
+		<result property="reqPersTitl" column="REQ_PERS_TITL"/>
+		<result property="reqPersNm" column="REQ_PERS_NM"/>
+		<result property="pstrRjctDt" column="PSTR_RJCT_DT"/>
+		<result property="judgRjctDt" column="JUDG_RJCT_DT"/>
+		<result property="seizSechIsue" column="SEIZ_SECH_ISUE"/>
+		<result property="valdPi" column="VALD_PI"/>
+		<result property="execDt" column="EXEC_DT"/>
+		<result property="execPla" column="EXEC_PLA"/>
+		<result property="execHandRst" column="EXEC_HAND_RST"/>
+		<result property="seizSechComn" column="SEIZ_SECH_COMN"/>
+		<result property="docNum" column="DOC_NUM"/>
+		<result property="attoNm" column="ATTO_NM"/>
+		<result property="seizObj" column="SEIZ_OBJ"/>
+		<result property="sechPlaBodyObj" column="SECH_PLA_BODY_OBJ"/>
+		<result property="overWeekResn" column="OVER_WEEK_RESN"/>
+		<result property="overTwoPersRes" column="OVER_TWO_PERS_RES"/>
+		<result property="midNightExecResn" column="MID_NIGHT_EXEC_RESN"/>
+		<result property="persGendAndHealth" column="PERS_GEND_AND_HEALTH"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+ 	<select id="M0109.SJPB_SEIZ_SECH_WRNT_REQ_DOC.selectList" resultMap="M0109VO.list">  /* M0109.SJPB_SEIZ_SECH_WRNT_REQ_DOC.selectList */
+ 		SELECT A.SEIZ_SECH_WRNT_REQ_NUM /* 압수수색검증영장신청부번호 */
+		       ,A.PRGS_NUM  /* 진행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM  /* 사건번호 */ 
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM AS SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB AS SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR AS SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */ 
+		       ,A.REQ_DT  /* 신청연월일 */
+		       ,A.REQ_PERS_TITL  /* 신청자관직 */
+		       ,A.REQ_PERS_NM  /* 신청자성명 */
+		       ,A.PSTR_RJCT_DT  /* 검사기각일시 */
+		       ,A.JUDG_RJCT_DT  /* 판사기각일시 */
+		       ,A.SEIZ_SECH_ISUE  /* 발부 */
+		       ,A.VALD_PI  /*유효기간  */
+		       ,A.EXEC_DT  /* 집행일시 */
+		       ,A.EXEC_PLA  /* 집행장소 */
+		       ,A.EXEC_HAND_RST  /* 집행처리결과 */
+		       ,A.SEIZ_SECH_COMN  /* 비고 */
+		       ,A.DOC_NUM  /* 문서번호 */
+			   ,A.ATTO_NM  /* 변호인 */
+			   ,A.SEIZ_OBJ  /* 압수할물건 */
+			   ,A.SECH_PLA_BODY_OBJ  /* 수색 검증할 장소, 신체 또는 물건 */
+			   ,A.OVER_WEEK_RESN  /* 7일을 넘는 유효기간을 필요로 하는 취지와 사유 */
+			   ,A.OVER_TWO_PERS_RES  /* 둘 이상의 영장을 신청하는 취지와 사유 */
+			   ,A.MID_NIGHT_EXEC_RESN  /* 일출 전 또는 일몰 후 집행을 필요로 하는 취지와 사유 */
+			   ,A.PERS_GEND_AND_HEALTH  /* 신체검사를 받을 자의 성별, 건강상태 */
+		       ,A.REG_USER_ID  /* 작성자 */
+		       ,D.NM_KOR  /* 작성자 이름 */
+		FROM SJPB_SEIZ_SECH_WRNT_REQ_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="spNmSc" prepend="AND">
+				B.SP_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				C.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				C.RCPT_NUM = #rcptNumSc# OR C.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0109.SJPB_SEIZ_SECH_WRNT_REQ_DOC.insertSeizSech" parameterClass="com.saltware.enface.sjpb.M.service.M0109VO">  /* M0109.SJPB_SEIZ_SECH_WRNT_REQ_DOC.insertSeizSech */
+ 		INSERT INTO SJPB_SEIZ_SECH_WRNT_REQ_DOC (
+		    SEIZ_SECH_WRNT_REQ_NUM,
+		    PRGS_NUM,
+		    RCPT_NUM,
+		    INC_SP_NUM,
+		    REQ_DT,
+		    REQ_PERS_TITL,
+		    REQ_PERS_NM,
+		    PSTR_RJCT_DT,
+		    JUDG_RJCT_DT,
+		    SEIZ_SECH_ISUE,
+		    VALD_PI,
+		    EXEC_DT,
+		    EXEC_PLA,
+		    EXEC_HAND_RST,
+		    SEIZ_SECH_COMN,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE,
+		    DOC_NUM,
+			ATTO_NM,
+			SEIZ_OBJ,
+			SECH_PLA_BODY_OBJ,
+			OVER_WEEK_RESN,
+			OVER_TWO_PERS_RES,
+			MID_NIGHT_EXEC_RESN,
+			PERS_GEND_AND_HEALTH
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_SEIZ_SECH_WRNT_REQ_DOC.SEIZ_SECH_WRNT_REQ_NUM')
+		    ,#prgsNum#
+		    ,#rcptNum#
+		    ,#incSpNum#
+		    ,#reqDt#
+		    ,#reqPersTitl#
+		    ,#reqPersNm#
+		    ,#pstrRjctDt#
+		    ,#judgRjctDt#
+		    ,#seizSechIsue#
+		    ,#valdPi#
+		    ,#execDt#
+		    ,#execPla#
+		    ,#execHandRst#
+		    ,#seizSechComn#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#docNum#
+		    ,#attoNm#
+		    ,#seizObj#
+		    ,#sechPlaBodyObj#
+		    ,#overWeekResn#
+		    ,#overTwoPersRes#
+		    ,#midNightExecResn#
+		    ,#persGendAndHealth#
+		)
+ 	</update>
+ 	<update id="M0109.SJPB_SEIZ_SECH_WRNT_REQ_DOC.updateSeizSech" parameterClass="com.saltware.enface.sjpb.M.service.M0109VO">  /* M0109.SJPB_SEIZ_SECH_WRNT_REQ_DOC.updateSeizSech */
+ 		UPDATE SJPB_SEIZ_SECH_WRNT_REQ_DOC
+		SET PRGS_NUM = #prgsNum#
+			,RCPT_NUM = #rcptNum#
+			,INC_SP_NUM = #incSpNum#
+			,REQ_DT = #reqDt#
+		    ,REQ_PERS_TITL = #reqPersTitl#
+		    ,REQ_PERS_NM = #reqPersNm#
+		    ,PSTR_RJCT_DT = #pstrRjctDt#
+		    ,JUDG_RJCT_DT = #judgRjctDt#
+		    ,SEIZ_SECH_ISUE = #seizSechIsue#
+		    ,VALD_PI = #valdPi#
+		    ,EXEC_DT = #execDt#
+		    ,EXEC_PLA = #execPla#
+		    ,EXEC_HAND_RST = #execHandRst#
+		    ,SEIZ_SECH_COMN = #seizSechComn#
+		    ,UPD_USER_ID = #regUserId#
+		    ,UPD_DATE = SYSDATE
+		    ,DOC_NUM = #docNum#
+		    ,ATTO_NM = #attoNm#
+		    ,SEIZ_OBJ = #seizObj#
+		    ,SECH_PLA_BODY_OBJ = #sechPlaBodyObj#
+		    ,OVER_WEEK_RESN = #overWeekResn#
+		    ,OVER_TWO_PERS_RES = #overTwoPersRes#
+		    ,MID_NIGHT_EXEC_RESN = #midNightExecResn#
+		    ,PERS_GEND_AND_HEALTH = #persGendAndHealth#
+		WHERE SEIZ_SECH_WRNT_REQ_NUM = #seizSechWrntReqNum#
+ 	</update>
+ 	<resultMap class="com.saltware.enface.sjpb.M.service.M0109VO" id="M0109VO.prn">
+		<result property="seizSechWrntReqNum" column="SEIZ_SECH_WRNT_REQ_NUM"/>
+		<result property="prgsNum" column="PRGS_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="reqDt" column="REQ_DT"/>
+		<result property="reqPersTitl" column="REQ_PERS_TITL"/>
+		<result property="reqPersNm" column="REQ_PERS_NM"/>
+		<result property="pstrRjctDt" column="PSTR_RJCT_DT"/>
+		<result property="judgRjctDt" column="JUDG_RJCT_DT"/>
+		<result property="seizSechIsue" column="SEIZ_SECH_ISUE"/>
+		<result property="valdPi" column="VALD_PI"/>
+		<result property="execDt" column="EXEC_DT"/>
+		<result property="execPla" column="EXEC_PLA"/>
+		<result property="execHandRst" column="EXEC_HAND_RST"/>
+		<result property="seizSechComn" column="SEIZ_SECH_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+	</resultMap>
+ 	<select id="M0109.SJPB_SEIZ_SECH_WRNT_REQ_DOC.prnReport" resultMap="M0109VO.prn">  /* M0109.SJPB_SEIZ_SECH_WRNT_REQ_DOC.prnReport */
+ 		SELECT A.SEIZ_SECH_WRNT_REQ_NUM /* 압수수색검증영장신청부번호 */
+		       ,A.PRGS_NUM  /* 진행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM AS SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR AS SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */ 
+		       ,DECODE(A.REQ_DT,NULL,'',SUBSTR(A.REQ_DT,1,4)||'.'||SUBSTR(A.REQ_DT,5,2) ||'.'||SUBSTR(A.REQ_DT,7,2)) AS REQ_DT  /* 신청연월일 */
+		       ,A.REQ_PERS_TITL  /* 신청자관직 */
+		       ,A.REQ_PERS_NM  /* 신청자성명 */
+		       ,DECODE(A.PSTR_RJCT_DT,NULL,'',SUBSTR(A.PSTR_RJCT_DT,1,4)||'.'||SUBSTR(A.PSTR_RJCT_DT,5,2) ||'.'||SUBSTR(A.PSTR_RJCT_DT,7,2)) AS PSTR_RJCT_DT  /* 검사기각일시 */
+		       ,DECODE(A.JUDG_RJCT_DT,NULL,'',SUBSTR(A.JUDG_RJCT_DT,1,4)||'.'||SUBSTR(A.JUDG_RJCT_DT,5,2) ||'.'||SUBSTR(A.JUDG_RJCT_DT,7,2)) AS JUDG_RJCT_DT  /* 판사기각일시 */
+		       ,DECODE(A.SEIZ_SECH_ISUE,NULL,'',SUBSTR(A.SEIZ_SECH_ISUE,1,4)||'.'||SUBSTR(A.SEIZ_SECH_ISUE,5,2) ||'.'||SUBSTR(A.SEIZ_SECH_ISUE,7,2)) AS SEIZ_SECH_ISUE  /* 발부 */
+		       ,DECODE(A.VALD_PI,NULL,'',SUBSTR(A.VALD_PI,1,4)||'.'||SUBSTR(A.VALD_PI,5,2) ||'.'||SUBSTR(A.VALD_PI,7,2)) AS VALD_PI  /*유효기간  */
+		       ,DECODE(A.EXEC_DT,NULL,'',SUBSTR(A.EXEC_DT,1,4)||'.'||SUBSTR(A.EXEC_DT,5,2) ||'.'||SUBSTR(A.EXEC_DT,7,2)) AS EXEC_DT  /* 집행일시 */
+		       ,A.EXEC_PLA  /* 집행장소 */
+		       ,A.EXEC_HAND_RST  /* 집행처리결과 */
+		       ,A.SEIZ_SECH_COMN  /* 비고 */
+		       ,A.DOC_NUM  /* 문서번호 */
+			   ,A.ATTO_NM  /* 변호인 */
+		       ,A.REG_USER_ID  /* 작성자 */
+		FROM SJPB_SEIZ_SECH_WRNT_REQ_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		WHERE A.SEIZ_SECH_WRNT_REQ_NUM = #seizSechWrntReqNum#
+ 	</select>
+ 	<select id="M0109.SJPB_SEIZ_SECH_WRNT_REQ_DOC.prnCheckReport" resultMap="M0109VO.prn">  /* M0109.SJPB_SEIZ_SECH_WRNT_REQ_DOC.prnCheckReport */
+ 		SELECT A.SEIZ_SECH_WRNT_REQ_NUM /* 압수수색검증영장신청부번호 */
+		       ,A.PRGS_NUM  /* 진행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM AS SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR AS SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */ 
+		       ,DECODE(A.REQ_DT,NULL,'',SUBSTR(A.REQ_DT,1,4)||'.'||SUBSTR(A.REQ_DT,5,2) ||'.'||SUBSTR(A.REQ_DT,7,2)) AS REQ_DT  /* 신청연월일 */
+		       ,A.REQ_PERS_TITL  /* 신청자관직 */
+		       ,A.REQ_PERS_NM  /* 신청자성명 */
+		       ,DECODE(A.PSTR_RJCT_DT,NULL,'',SUBSTR(A.PSTR_RJCT_DT,1,4)||'.'||SUBSTR(A.PSTR_RJCT_DT,5,2) ||'.'||SUBSTR(A.PSTR_RJCT_DT,7,2)) AS PSTR_RJCT_DT  /* 검사기각일시 */
+		       ,DECODE(A.JUDG_RJCT_DT,NULL,'',SUBSTR(A.JUDG_RJCT_DT,1,4)||'.'||SUBSTR(A.JUDG_RJCT_DT,5,2) ||'.'||SUBSTR(A.JUDG_RJCT_DT,7,2)) AS JUDG_RJCT_DT  /* 판사기각일시 */
+		       ,DECODE(A.SEIZ_SECH_ISUE,NULL,'',SUBSTR(A.SEIZ_SECH_ISUE,1,4)||'.'||SUBSTR(A.SEIZ_SECH_ISUE,5,2) ||'.'||SUBSTR(A.SEIZ_SECH_ISUE,7,2)) AS SEIZ_SECH_ISUE  /* 발부 */
+		       ,DECODE(A.VALD_PI,NULL,'',SUBSTR(A.VALD_PI,1,4)||'.'||SUBSTR(A.VALD_PI,5,2) ||'.'||SUBSTR(A.VALD_PI,7,2)) AS VALD_PI  /*유효기간  */
+		       ,DECODE(A.EXEC_DT,NULL,'',SUBSTR(A.EXEC_DT,1,4)||'.'||SUBSTR(A.EXEC_DT,5,2) ||'.'||SUBSTR(A.EXEC_DT,7,2)) AS EXEC_DT  /* 집행일시 */
+		       ,A.EXEC_PLA  /* 집행장소 */
+		       ,A.EXEC_HAND_RST  /* 집행처리결과 */
+		       ,A.SEIZ_SECH_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 작성자 */
+		FROM SJPB_SEIZ_SECH_WRNT_REQ_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="seizSechWrntReqNumList" prepend="AND">
+				<iterate property="seizSechWrntReqNumList" open="A.SEIZ_SECH_WRNT_REQ_NUM IN(" close=")" conjunction=",">
+					 #seizSechWrntReqNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+</sqlMap>

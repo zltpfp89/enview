@@ -1,0 +1,114 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ SECURITY_GROUP_ROLE : 그룹역할 ] Table -->
+	<resultMap id="admin_GroupRoleVO_PK" class="com.saltware.enview.admin.group.service.GroupRolePK">
+	
+		<result property="groupId" column="GROUP_ID" columnIndex="1"/>	
+		<result property="roleId" column="ROLE_ID" columnIndex="2"/>	
+	</resultMap>
+	
+	<resultMap id="admin_GroupRoleVO" class="com.saltware.enview.admin.group.service.GroupRoleVO">
+	 
+		<result property="groupId" column="GROUP_ID" columnIndex="1"/>	 
+		<result property="roleId" column="ROLE_ID" columnIndex="2"/>	 
+		<result property="shortPath" column="SHORT_PATH" columnIndex="3"/>	 
+		<result property="principalName0" column="PRINCIPAL_NAME0" columnIndex="4"/>	
+	</resultMap>
+	
+	<select id="groupRole.totalCount" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM SECURITY_GROUP_ROLE
+			WHERE 1=1	
+				<isNotEqual prepend=" AND " property="groupId" compareValue="0">GROUP_ID=#groupId#</isNotEqual>
+	</select>
+	
+	<select id="groupRole.exist" resultClass="int">
+
+			SELECT COUNT(*) cnt
+			FROM SECURITY_GROUP_ROLE
+			WHERE GROUP_ID=#groupId#
+			  AND ROLE_ID=#roleId#
+	</select>
+	
+	<select id="groupRole.findByPage" resultMap="admin_GroupRoleVO_PK">
+			SELECT * FROM ( 
+				SELECT Row_Number() OVER (<isNull property="sortColumn">ORDER BY GROUP_ID ASC</isNull><isNotNull property="sortColumn"> ORDER BY $sortColumn$ $sortMethod$ </isNotNull>) AS rownum, GROUP_ID,ROLE_ID
+				FROM SECURITY_GROUP_ROLE 
+				WHERE 1=1 
+					<isNotEqual prepend=" AND " property="groupId" compareValue="0">GROUP_ID=#groupId#</isNotEqual>
+			) T1
+			WHERE rownum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="groupRole.findAll" resultMap="admin_GroupRoleVO_PK">
+			SELECT GROUP_ID,ROLE_ID
+			FROM SECURITY_GROUP_ROLE
+	</select>
+	
+	<select id="groupRole.findByMaster" resultMap="admin_GroupRoleVO_PK">
+			SELECT GROUP_ID,ROLE_ID
+			FROM SECURITY_GROUP_ROLE
+			WHERE 1=1 
+				<isNotEqual prepend=" AND " property="groupId" compareValue="0">=#groupId#</isNotEqual>
+	</select>
+	
+
+	<select id="groupRole.detail" resultMap="admin_GroupRoleVO">
+		<![CDATA[
+			SELECT a.GROUP_ID, a.ROLE_ID, b.SHORT_PATH, b.PRINCIPAL_NAME PRINCIPAL_NAME0
+			FROM SECURITY_GROUP_ROLE a INNER JOIN SECURITY_PRINCIPAL b ON a.ROLE_ID=b.PRINCIPAL_ID
+			WHERE 1=1 
+				AND a.GROUP_ID=#groupId#
+				AND a.ROLE_ID=#roleId#
+		]]>
+	</select>
+	
+	<insert id="groupRole.insert">
+		<![CDATA[
+			INSERT INTO SECURITY_GROUP_ROLE
+				( GROUP_ID,ROLE_ID )
+			VALUES ( #groupId#,#roleId# )
+		]]>
+	</insert>
+	
+	<update id="groupRole.update">
+		<![CDATA[
+			UPDATE SECURITY_GROUP_ROLE
+			SET GROUP_ID=#groupId#,ROLE_ID=#roleId#
+			WHERE 1=1 
+				AND GROUP_ID=#groupId#
+				AND ROLE_ID=#roleId#
+		]]>
+	</update>
+	
+	<delete id="groupRole.delete">
+		<![CDATA[
+			DELETE FROM SECURITY_GROUP_ROLE
+			WHERE 1=1 
+				AND GROUP_ID=#groupId#
+				AND ROLE_ID=#roleId#
+		]]>
+	</delete>
+	
+	<delete id="groupRole.deleteGroupChildren">
+		<![CDATA[
+			DELETE FROM SECURITY_GROUP_ROLE
+			WHERE 1=1 
+				AND ROLE_ID=#roleId#
+		]]>
+	</delete>
+	
+	<delete id="groupRole.deleteRoleChildren">
+		<![CDATA[
+			DELETE FROM SECURITY_GROUP_ROLE
+			WHERE 1=1 
+				AND GROUP_ID=#groupId#
+		]]>
+	</delete>
+	
+</sqlMap>

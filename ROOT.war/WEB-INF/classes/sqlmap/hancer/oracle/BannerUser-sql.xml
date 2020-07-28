@@ -1,0 +1,51 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="face">
+	<resultMap id="banner" class="com.saltware.enhancer.banner.service.BannerUserVO">
+		<result property="bannerSeq" column="BANNER_SEQ" />
+		<result property="bannerTitle" column="TITLE" />
+		<result property="bannerImageName" column="IMAGE_NM" />
+		<result property="bannerImagePath" column="IMAGE_PATH" />
+		<result property="bannerSrc" column="BANNER_TEXT" />
+		<result property="bannerLink" column="TARGET_LINK" />
+		<result property="bannerStart" column="START_DATE" />
+		<result property="bannerDate" column="END_DATE" />
+	</resultMap>
+
+	<select id="bannerUser.bannerLang" resultMap="banner" parameterClass="java.util.HashMap">
+		SELECT BANNER_SEQ BANNER_SEQ,
+		<isEqual property="LANG_KND" compareValue="ko">
+			TITLE_KOR TITLE,
+			IMAGE_NM_KOR IMAGE_NM,
+			IMAGE_PATH_KOR IMAGE_PATH,
+			BANNER_TEXT_KOR BANNER_TEXT,
+			TARGET_LINK TARGET_LINK,
+			START_DATE_KOR START_DATE,
+			END_DATE_KOR END_DATE
+		</isEqual>
+		<isEqual property="LANG_KND" compareValue="en">
+			TITLE_ENG TITLE,
+			IMAGE_NM_ENG IMAGE_NM,
+			IMAGE_PATH_ENG IMAGE_PATH,
+			BANNER_TEXT_ENG BANNER_TEXT,
+			TARGET_LINK TARGET_LINK,
+			START_DATE_ENG START_DATE,
+			END_DATE_ENG END_DATE
+		</isEqual>
+		FROM BANNER
+		WHERE TOP_BANNER = 'N' AND STATE = '2'
+			  AND DOMAIN_ID = #DOMAIN_ID#
+		<isNotEqual property="CATEGORY_SEQ" compareValue="0">
+			  AND CATEGORY_SEQ = #CATEGORY_SEQ#
+		</isNotEqual>
+		
+		<isEqual property="LANG_KND" compareValue="ko">
+			AND SYSDATE BETWEEN TRUNC (START_DATE_KOR)
+			AND TRUNC (END_DATE_KOR + 1) - 1 / (24 * 60 * 60)
+		</isEqual>
+		<isEqual property="LANG_KND" compareValue="en">
+			AND SYSDATE BETWEEN TRUNC (START_DATE_ENG)
+			AND TRUNC (END_DATE_ENG + 1) - 1 / (24 * 60 * 60)
+		</isEqual>
+	</select>
+</sqlMap>

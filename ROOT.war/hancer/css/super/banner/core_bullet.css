@@ -1,0 +1,202 @@
+@charset "utf-8";
+
+/*  ///////////////////////
+
+	Bullet		
+
+//////////////////////// */
+em { font-style:normal; font-weight:normal}
+/* backup --
+h1{
+	clear:both;
+	display:block;
+	width:100%;
+	font-size:15px;
+	line-height:101%;
+	letter-spacing:-1px;
+	font-weight:bold;
+	padding:0px 0px 0px 15px;
+	margin:0px 0px 0px 0px;
+	background:url(./img/h1.gif) no-repeat 0px 3px;
+	border:0px solid red;
+}
+
+p.h1dis{
+	clear:both;
+	display:block;
+	width:100%;
+	font-size:12px;
+	padding:10px 0px 10px 1px;
+	margin:0px 0px 10px 0px;
+	border-bottom:1px solid #e5e5e5;
+}
+*/
+h1{
+	clear:both;
+	display:block;
+	width:100%;
+	font:bold 15px dotum,돋움,arial;
+	line-height:101%;
+	letter-spacing:-1px;
+	padding:0 0 0 15px;
+	margin:0 0 10px 0;
+	background:url(./img/h1.gif) no-repeat 0px 3px;
+	border:0px solid red;
+}
+
+p.h1dis{
+	clear:both;
+	display:block;
+	width:100%;
+	font-size:12px;
+	padding:0 0 10px 1px;
+	margin:0;
+}
+
+p.h1dis span.hitcol{
+	border:0px solid red;
+	clear:both;
+	display:block;
+	font-size:11px;
+	color:#c03500;
+	}
+
+/* backup --
+h2{
+	clear:both;	
+	display:block;
+	width:100%;
+	font-size:12px;
+	line-height:120%;
+	letter-spacing:-1px;
+	font-weight:bold;
+	padding:0px 0px 0px 16px;
+	margin:20px 0px 10px 0px;
+	background:url(./img/h2.gif) no-repeat 0px 2px;
+	border:0px solid red;
+}
+*/
+
+h2{
+	clear:both;	
+	display:block;
+	width:100%;
+	font-size:12px;
+	line-height:120%;
+	letter-spacing:-1px;
+	font-weight:bold;
+	padding:0px 0px 0px 16px;
+	margin:0 0 10px 0;
+	background:url(./img/h2.gif) no-repeat 0 1px;
+	border:0px solid red;
+}
+
+h2 img {
+	vertical-align:middle;
+	border:0;
+}
+
+/*add_s */
+
+.dept1{
+	margin-bottom:20px;
+}
+
+ol.dept1 li{
+	list-style:decimal;
+	margin-left:36px;
+	border:0px solid #000;
+}
+
+ul.dept1 li{
+	padding-left:28px;
+	background:url(./img/h4.gif) no-repeat 17px 7px;
+	border:0px solid red;
+}
+
+ul.dept2 {
+	margin-top:7px;
+}
+
+
+ul.dept2 li{
+	margin-bottom:3px;
+	padding:0 0 0 15px;
+	background:none;
+}
+
+ol.dept1 ul.dept2 li{
+	margin:0 0 3px 0;
+	padding:0 0 0 0;
+	background:none;
+	list-style:none;
+	border:0px solid #000;
+}
+
+ol.dept1 ul.dept2 li ul.dept3 li{
+	margin:0 0 3px 0;
+	padding:0 0 0 15px;
+	background:none;
+	list-style:none;
+	border:0px solid #000;
+}
+
+span.point {color:#c03500;}
+span.point a {color:#c03500;}
+
+/*h3{
+	clear:both;
+	display:block;
+	width:100%;
+	font:normal 12px dotum,돋움,arial;
+	letter-spacing:-1px;
+	padding:0 0 0 10px;
+	margin:15px 0 10px 8px;
+	background:url(./img/h3.gif) no-repeat 2px 4px;
+	border:0px solid red;
+}*/
+
+h3{
+	clear:both;
+	display:block;
+	width:100%;
+	font-size:12px;
+	letter-spacing:-1px;
+	font-weight:bold;
+	padding:0px 0px 0px 15px;
+	margin:20px 0px 10px 0px;
+	background:url(./img/h3.gif) no-repeat 3px 7px;
+	border:0px solid red;
+}
+
+h3 em{
+	border:0px solid red;
+	text-align:right;
+	float:right;
+	padding:0px 20px 0px 0px;
+	margin:auto;
+	font-size:11px;
+	color:#c03500;
+	}
+
+/*  기타 관련 
+.caption{ 
+	float:left;
+	width:100%;
+	font-size:11px;
+	font-weight:normal;
+	color:#6b77ac;
+	padding:2px 0px 2px 0px;
+	margin:0px 0px 0px 0px;
+}
+*/
+
+
+/* 패딩추가 */
+.pdl16 {
+	padding-left:16px;
+}
+
+.pdt10 {
+	padding-top:10px;
+}

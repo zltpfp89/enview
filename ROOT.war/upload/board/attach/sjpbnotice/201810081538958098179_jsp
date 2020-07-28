@@ -1,0 +1,218 @@
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="java.util.Iterator" %>
+
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="util" uri="/WEB-INF/tld/utility.tld" %>
+
+<html>
+	<head>
+		<title>범죄수사자료조회관리대장</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Content-style-type" content="text/css" />
+		
+		<%--
+		<script type="text/javascript" src="${pageContext.request.contextPath}/kbig/js/jquery-1.9.1.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/kbig/js/jquery-ui.min.js"></script>
+		 --%>
+		 
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/QCELL/css/qcell.css" type="text/css">
+		
+		<style type='text/css'>
+		.aligncenter {
+			text-align: center;
+		}
+		
+		.fontsize18 {
+			font-size: 18px;
+		}
+		
+		.alignright {
+			text-align: right;
+		}
+		</style>
+        <script type="text/javascript">
+            var RightTechPath = "/";
+            var queryString="";
+            var criData="";
+            var qcell;
+        </script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/QCELL/qcell.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/jquery/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript">
+				
+		$(document).ready(function(){
+			pageInit();
+		});
+			
+			//화면 진입시 동작함
+			function pageInit(){
+				queryString="{}";
+				fn_selectList(queryString);
+			}
+			////범죄수사자료조회관리대장 검색리스트를 가져온다. (ajax)
+			function fn_searchList(){
+				queryString = $("#searchList").serialize(); 
+				fn_selectList(queryString);
+			}
+	
+	//범죄수사자료조회관리대장 화면(리스트)을 가져온다. (ajax)
+	function fn_selectList(queryString){
+		$.ajax({
+			 type: "POST",
+			 url: "/sjpb/F/selectList.face",
+			 data : queryString,
+			 datatype : 'json',
+			 success: function(data)	 {
+				 var QCELLProp = {
+		                "parentid" : "sheet",
+		                "id"		: "cell",
+		                "data"		: {"input" : data.qCell},
+		                "rowheader"	: "sequence",
+		                "columns"	: [
+		                	{width: '50',	key: 'checkbox',			title: [''], 	type:'checkbox',	style:{data:{"background-color":"gray"}}, options:{wholeselect:true},	  resize: true, styleclassname: {data: 'aligncenter fontsize13'}},
+		                	{width: '100',	key: 'mngBkSiNum',			title: ['일련번호'],		sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+		                	{width: '100',	key: 'regDate',			title: ['작성일자'],		sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+		                	{width: '100',	key: 'criTmNm',			title: ['수사팀'],		sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+		                	{width: '100',	key: 'criMbNm',			title: ['담당수사관'],		sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+		                	{width: '100',	key: 'sp',			title: ['피의자'],		sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}},
+		                	{width: '100',	key: 'mngBkComn',			title: ['비고'],		sort:true, move:true, resize: true, styleclassname: {data: 'aligncenter fontsize18'}}
+		                ],
+						//"rowheader"	: "sequence",
+						"frozencols" : 5
+		            };
+				 	QCELL.create(QCELLProp);
+				 	fn_btnInsert();
+				 	alert("안된다");
+				 	qcell = QCELL.getInstance("cell");
+				 	qcell.bind("click",eventFn);
+		           	alert("된다");
+			 },
+			 error: function( xhr, status, error)	 {
+				 alert('서버오류 입니다. 관리자에게 확인하세요. ' + error);
+			 }
+		});
+	}
+	
+	function fn_insertcriData(){//getRowData
+		var insert = $("#insertdata").serialize();
+		var d = document.insertdata;
+		if(d.criMbNm.value =='' || d.criMbNm.value==null){
+			alert("담당수사관을 입력하세요.");
+			d.criMbNm.focus();
+			return false;
+		}
+		if(d.sp.value =='' || d.sp.value==null){
+			alert("피의자을 입력하세요.");
+			d.sp.focus();
+			return false;
+		}
+		$.ajax({
+			 type: "POST",
+			 url: "/sjpb/F/insertCriData.face",
+			 data : insert,
+			 dataType : "json",
+			 success: function(data)	 {
+				 if(data.result == "success"){
+				 	alert("등록되었습니다.");
+				 	fn_selectList("{}");
+				 }else {
+					alert("등록에 실패하였습니다.");
+				}
+			 },
+			 error: function( xhr, status, error)	 {
+				 alert('서버오류 입니다. 관리자에게 확인하세요. ' + error);
+			 }
+		});
+	}
+	
+	function eventFn(e){
+		alert("안온다");
+		//선택한 인덱스 가져오기
+		var rowIdx = qcell.getIdx("row");
+		
+		//선택한 데이터 가져오기
+		var data = qcell.getRowData(rowIdx);
+		alert("온다");
+		$.ajax({
+			 type: "POST",
+			 url: "/sjpb/F/selectCriData.face",
+			 data : {mngBkSiNum : data.mngBkSiNum},
+			 datatype : 'json',
+			 success: function(data)	 {		 
+				 //범죄수사자료조회관리대장 정보 셋팅 
+				 $("#criMbNm").html(data.criMbNm);		//담당수사관
+				 $("#sp").html(data.sp);			//피의자
+				 $("#mngBkComn").html(data.mngBkComn);			//관리대장비고
+		 
+			 },
+			 error: function( xhr, status, error)	 {
+				 alert('서버오류 입니다. 관리자에게 확인하세요. ' + error);
+			 }
+		});
+	}
+	function fn_btnInsert(){
+		var con = document.getElementById("abc"); 
+		if(con.style.display=='none'){ 
+			con.style.display = 'block'; 
+		}else{ 
+			con.style.display = 'none'; 
+		}
+		
+	}
+// 		alert(qcell.getIdx("col"));
+// 		qcell.deleteRow();//여기에 몇행 넣는거..	
+// 	}
+</script>
+		
+		
+	</head>
+	<body>
+		<form name="searchList" id="searchList" method="post">
+			수사관 <input type="text" name="criMbNm" value="${vo.criMbNm }">
+			피의자 <input type="text" name="sp" value="${vo.sp }">
+			등록일자 <input type="date" name="startDay" value="${vo.startDay }"> ~ <input type="date" name="endDay" value="${vo.endDay }"><br>
+			<input type="button" id="btn_search" onClick="javascript:fn_searchList();" value="검색">
+			<input type="reset" value="초기화">
+		</form>
+		
+		<div id="sheet" style="height: 580px; width: 100%"></div>
+		
+		<input type="button" value="신규" onClick="javascript:fn_btnInsert();">
+		<input type="button" value="삭제" onClick="javascript:fn_deleteCriData();">
+		<input type="button" value="출력" onClick="exportLOC();">
+		
+		<form name="insertdata" id="insertdata" method="post">
+			<table>
+				<tr>
+					<th>수사관</th>
+					<td>
+						<input type="text" name="criMbNm" id="criMbNm">
+						<input type="button" onClick="javascript:fn_searchCriMbNm()" value="검색">
+					</td>
+					<td><input type="hidden" name="regUserId"></td>
+					<td><input type="hidden" name="respIo" value="${respIo }"></td>
+				</tr>
+				<tr>
+					<th>피의자</th>
+					<td><input type="text" name="sp"></td>
+				</tr>
+				<tr>
+					<th>비고</th>
+					<td><textarea name="mngBkComn" id="mngBkComn"></textarea></td>
+				</tr>
+				
+					<tr>
+						<td><div id="abc">
+							<input type="button" value="등록" onClick="javascript:fn_insertcriData();">
+						</div></td>
+					</tr>
+				
+			</table>
+		</form>
+		
+	</body>
+</html>

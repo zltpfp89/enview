@@ -1,0 +1,209 @@
+/****************************************************************
+ *****	Note Management's Cascading Style Sheet
+ *****	Time: 2012-03-20
+ *****	Author: Seongwook Kim, Research & Development, Saltware
+ *****	Contact: 82 - 10 - 8957 - 9389
+ ****************************************************************/
+
+/* Common Attributes */
+.inputField:FOCUS {
+	border: 1px solid highlight;
+}
+
+.searchForm {
+	width: 460px;
+	height: 30px;
+	line-height: 30px;
+	
+	border-bottom: 1px solid #AAA;
+	margin-bottom: 5px;
+}
+
+.searchType {
+	font-size: 11px;
+	font-family: sans-serif;
+	height: 20px;
+	margin-top: 5px;
+	margin-left: 5px;
+	float: right;
+	
+	border: 1px solid #AAA;
+}
+
+.firstOptn{
+	
+}
+
+.searchValue {
+	font-size: 11px;
+	font-family: sans-serif;
+	width: 150px;
+	height: 16px;
+	line-height: 18px;
+	margin-top: 5px;
+	margin-left: 5px;
+	float: right;
+	
+	border: 1px solid #AAA;
+}
+
+.searchButton{
+	font-size: 11px;
+	font-family: sans-serif;
+	color: #323232;
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: 50px;
+	height:16px;
+	line-height: 17px;
+	float: right;
+	border: 1px solid #AAA;
+	cursor: pointer;
+	
+	text-align: center;
+	
+	padding-top: 2px;
+}
+
+.searchButton:HOVER {
+	border: 1px solid #888;
+	cursor: pointer;
+	background-color: #EFEFFF;
+}
+
+
+.searchButton:ACTIVE {
+	color: #323232;
+	border: 1px solid #555;
+	cursor: pointer;
+	background-color: #D0D0F0;
+	
+	text-indent: 7px;
+	
+	line-height: 18px;
+	
+}
+
+.message{
+	width: 460px;
+	height: 18px;
+	line-height: 20px;
+	
+	border-bottom: 1px solid #aaa;
+}
+
+.searchMessage {
+	margin-left: 5px;
+	font-size: 11px;
+	font-family: sans-serif;
+	width: 440px;
+	height: 20px;
+	text-align: left;
+	float: left;
+}
+
+.noteButton {
+	font-size: 11px;
+	font-family: sans-serif;
+	color: #323232;
+	border: 1px solid #AAA;
+	cursor: pointer;
+	
+	float: left;
+	width: 50px;
+	height:17px;
+	line-height: 18px;
+	text-align: center;
+	padding-top: 2px;
+}
+
+.noteButton:HOVER {
+	border: 1px solid #888;
+	cursor: pointer;
+	background-color: #EFEFFF;
+}
+
+.noteButton:ACTIVE {
+	color: #323232;
+	background-color: #D0D0F0;
+	border: 1px solid #555;
+	cursor: pointer;
+	line-height: 20px;
+	text-indent: 7px;
+}
+
+.addButton {
+	margin-top: 90px;
+	margin-left: 14px;
+}
+
+.removeButton {
+	margin-top: 10px;
+	margin-left: 14px;
+}
+
+.searchResult {
+	margin: 0px auto;
+	
+	width: 460px;
+	height: 250px;
+}
+.layer {
+	float: left;
+	
+	width: 190px;
+	height: 230px;
+}
+
+.controls {
+	float: left;
+	
+	width: 80px;
+	height: 230px;
+}
+
+.search_label {
+	float: left;
+	width: 190px;
+	height: 30px;
+	
+	font-size: 11px;
+	font-family: sans-serif;
+	color: #323232;
+	
+	line-height: 35px;
+	text-align: left;
+	text-indent: 10px;
+}
+
+.list {
+	font-size: 12px;
+	font-family: sans-serif;
+	color: #323232;
+	
+	float: left;
+	width: 190px;
+	height: 200px;
+	overflow: auto;
+	
+	padding-top: 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-bottom: 2px;
+}
+
+.controlLayer {
+	width: 460px;
+	height: 30px;
+	line-height: 40px;
+	margin: 15px auto 0px auto;
+}
+
+.OKButton {
+	margin-left: 174px;
+	margin-right: 10px;
+}
+
+.cancelButton {
+}

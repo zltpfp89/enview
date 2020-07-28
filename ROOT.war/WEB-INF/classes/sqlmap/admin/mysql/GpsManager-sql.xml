@@ -1,0 +1,48 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	<!-- Query for [ USER_STATISTICS : 사용자로그 ] Table -->
+	<resultMap id="admin_GpsManagerVO_PK" class="com.saltware.enview.admin.user.service.GpsManagerPK">
+	</resultMap>
+	
+	<resultMap id="admin_GpsManagerVO" class="com.saltware.enview.admin.user.service.GpsManagerVO">
+	 	<result property="userId" column="ID" columnIndex="1"/>	 
+	 	<result property="latiTude" column="LATITUDE" columnIndex="2"/>
+	 	<result property="longiTude" column="LONGITUDE" columnIndex="3"/>	 	 
+	 	<result property="addRess" column="ADDRESS" columnIndex="4"/>
+	</resultMap>
+	
+	<select id="gpsManager.findByPage" resultMap="admin_GpsManagerVO">
+			SELECT *
+			from GPS_INFO
+	</select>
+
+	<select id="gpsManager.findById" resultMap="admin_GpsManagerVO">
+			SELECT *
+            from GPS_INFO
+            where ID=#userId#
+	</select>
+
+	<insert id="gpsManager.insert">
+      	    INSERT INTO GPS_INFO(ID, LATITUDE, LONGITUDE, ADDRESS)
+			VALUES(#userId#,#latiTude#,#longiTude#,#addRess#)  
+	</insert>
+	
+	<select id="gpsManager.detail" resultMap="admin_GpsManagerVO">
+		<![CDATA[
+		    SELECT *
+			FROM GPS_INFO
+			WHERE 1=1 
+				AND ID=#userId#
+		]]>
+	</select>
+	
+	<select id="gpsManager.totalCount" resultClass="int">
+			SELECT COUNT(*) totcnt
+	        FROM GPS_INFO
+			WHERE 1=1	
+				 AND ID='sangwoo'
+	</select>
+</sqlMap>
+

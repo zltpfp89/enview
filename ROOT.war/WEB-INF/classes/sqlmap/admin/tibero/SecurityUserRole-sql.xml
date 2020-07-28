@@ -1,0 +1,103 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ SECURITY_USER_ROLE : 사용자역할 ] Table -->
+	<resultMap id="admin_SecurityUserRoleVO_PK" class="com.saltware.enview.admin.user.service.SecurityUserRolePK">
+	
+		<result property="userId" column="USER_ID" columnIndex="1"/>	
+		<result property="roleId" column="ROLE_ID" columnIndex="2"/>	
+	</resultMap>
+	
+	<resultMap id="admin_SecurityUserRoleVO" class="com.saltware.enview.admin.user.service.SecurityUserRoleVO">
+	 
+		<result property="roleId" column="ROLE_ID" columnIndex="1"/>	 
+		<result property="userId" column="USER_ID" columnIndex="2"/>	 
+		<result property="principalName0" column="PRINCIPAL_NAME0" columnIndex="3"/>	 
+		<result property="mileageTag" column="MILEAGE_TAG" columnIndex="4"/>	
+	</resultMap>
+	
+	<select id="securityUserRole.totalCount" resultClass="int">
+	/* securityUserRole.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM SECURITY_USER_ROLE
+		WHERE 1=1	
+			<isNotEqual prepend=" AND " property="userId" compareValue="0">USER_ID=#userId#</isNotEqual>
+	</select>
+	
+	<select id="securityUserRole.findByPage" resultMap="admin_SecurityUserRoleVO_PK">
+	/* securityUserRole.findByPage */
+		SELECT tb1.* FROM (
+			SELECT USER_ID,ROLE_ID,ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY START_TIME_STAMP DESC</isNull>
+			) as rnum
+			FROM SECURITY_USER_ROLE
+			WHERE 1=1 
+			<isNotEqual prepend=" AND " property="userId" compareValue="0">USER_ID=#userId#</isNotEqual>
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="securityUserRole.findAll" resultMap="admin_SecurityUserRoleVO_PK">
+			SELECT USER_ID,ROLE_ID
+			FROM SECURITY_USER_ROLE
+	</select>
+	
+	<select id="securityUserRole.findByMaster" resultMap="admin_SecurityUserRoleVO_PK">
+			SELECT USER_ID,ROLE_ID
+			FROM SECURITY_USER_ROLE
+			WHERE 1=1 
+				<isNotEqual prepend=" AND " property="userId" compareValue="0">=#userId#</isNotEqual>
+	</select>
+	
+
+	<select id="securityUserRole.detail" resultMap="admin_SecurityUserRoleVO">
+		<![CDATA[
+			SELECT a.ROLE_ID, a.USER_ID, b.PRINCIPAL_NAME PRINCIPAL_NAME0, a.MILEAGE_TAG
+			FROM SECURITY_USER_ROLE a INNER JOIN SECURITY_PRINCIPAL b ON a.USER_ID=b.PRINCIPAL_ID
+			WHERE 1=1 
+				AND a.USER_ID=#userId#
+				AND a.ROLE_ID=#roleId#
+		]]>
+	</select>
+	
+	<insert id="securityUserRole.insert">
+		<![CDATA[
+			INSERT INTO SECURITY_USER_ROLE
+				( ROLE_ID,USER_ID,MILEAGE_TAG )
+			VALUES ( #roleId#,#userId#,#mileageTag# )
+		]]>
+	</insert>
+	
+	<update id="securityUserRole.update">
+		<![CDATA[
+			UPDATE SECURITY_USER_ROLE
+			SET ROLE_ID=#roleId#,USER_ID=#userId#,MILEAGE_TAG=#mileageTag#
+			WHERE 1=1 
+				AND USER_ID=#userId#
+				AND ROLE_ID=#roleId#
+		]]>
+	</update>
+	
+	<delete id="securityUserRole.delete">
+		<![CDATA[
+			DELETE FROM SECURITY_USER_ROLE
+			WHERE 1=1 
+				AND USER_ID=#userId#
+				AND ROLE_ID=#roleId#
+		]]>
+	</delete>
+	
+	<delete id="securityUserRole.deleteChildren">
+		<![CDATA[
+			DELETE FROM SECURITY_USER_ROLE
+			WHERE 1=1 
+				AND USER_ID=#userId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

@@ -1,0 +1,31 @@
+
+.layout-admin #topmenu {
+	position: relative;
+	/*margin: 17px 30px 0 -3px;
+	padding: 0 0 0 30px;*/
+	left: -45px;
+	/*left: -15px;*/
+	display: inline;
+	list-style: none;
+	width: 800px;
+	height: 32px;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+.layout-admin #topmenu li {
+	float: left;
+	display: inline;
+	height: 20px;
+	padding: 10px 10px 0 10px;
+}
+
+.layout-admin #topmenu li ul {
+	position: absolute;
+	top: 24px;
+	left: -12px;
+	margin: 0;
+	padding: 8px 10px 0 10px;
+	display: none;
+	width: 800px;
+}

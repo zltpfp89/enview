@@ -1,0 +1,374 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+ 
+	<resultMap class="com.saltware.enface.sjpb.J.service.J0401VO" id="J0401VO.CriCondition">
+		<result property="sort" column="SORT"/>
+		<result property="allMem" column="ALL_MEM"/>
+		<result property="all03" column="ALL_03"/>
+		<result property="all04" column="ALL_04"/>
+		<result property="all05" column="ALL_05"/>
+		<result property="all06" column="ALL_06"/>
+		<result property="all07" column="ALL_07"/>
+		<result property="all08" column="ALL_08"/>
+		<result property="all09" column="ALL_09"/>
+		<result property="cityMem" column="CITY_MEM"/>
+		<result property="city03" column="CITY_03"/>
+		<result property="city04" column="CITY_04"/>
+		<result property="city05" column="CITY_05"/>
+		<result property="city06" column="CITY_06"/>
+		<result property="city07" column="CITY_07"/>
+		<result property="city08" column="CITY_08"/>
+		<result property="city09" column="CITY_09"/>
+		<result property="townMem" column="TOWN_MEM"/>
+		<result property="town05" column="TOWN_05"/>
+		<result property="town06" column="TOWN_06"/>
+		<result property="town07" column="TOWN_07"/>
+		<result property="town08" column="TOWN_08"/>
+		<result property="town09" column="TOWN_09"/>
+	</resultMap>
+	 
+	<!-- 직렬/직급별 현황 -->
+	<select id="J0401.J0401List" resultMap="J0401VO.CriCondition">  /* J0401.J0401List */
+		SELECT DECODE(B.CODE_NAME,NULL,'전체',B.CODE_NAME) AS SORT
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS IS NOT NULL THEN '1' ELSE '0' END) AS ALL_MEM
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '03' THEN '1' ELSE '0' END) AS ALL_03
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '04' THEN '1' ELSE '0' END) AS ALL_04
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '05' THEN '1' ELSE '0' END) AS ALL_05
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '06' THEN '1' ELSE '0' END) AS ALL_06
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '07' THEN '1' ELSE '0' END) AS ALL_07
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '08' THEN '1' ELSE '0' END) AS ALL_08
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '09' THEN '1' ELSE '0' END) AS ALL_09
+		       ,SUM(CASE WHEN A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_MEM
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '03' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_03
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '04' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_04
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '05' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_05
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '06' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_06
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '07' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_07
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '08' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_08
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '09' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_09
+		       ,SUM(CASE WHEN A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_MEM
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '05' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_05
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '06' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_06
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '07' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_07
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '08' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_08
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '09' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_09
+		FROM SJPB_CRI_MB A
+		JOIN CODEBASE B ON B.CODE_ID = 'SJPB_00014' AND B.CODE = A.CRI_MB_SROC
+		WHERE A.SPR_PSN IS NULL AND A.CRI_MB_STAT = '1'
+		GROUP BY ROLLUP(B.CODE_NAME)
+		ORDER BY DECODE(B.CODE_NAME,NULL,1,'행정',2,'전산',3,'사회복지',4) ASC,B.CODE_NAME ASC
+	</select>
+	<resultMap class="com.saltware.enface.sjpb.J.service.J0401VO" id="J0401VO.J0402.TeamCondition">
+		<result property="sort" column="SORT"/>
+		<result property="allMem" column="ALL_MEM"/>
+		<result property="all03" column="ALL_03"/>
+		<result property="all04" column="ALL_04"/>
+		<result property="all05" column="ALL_05"/>
+		<result property="all06" column="ALL_06"/>
+		<result property="all07" column="ALL_07"/>
+		<result property="all08" column="ALL_08"/>
+		<result property="all09" column="ALL_09"/>
+		<result property="cityMem" column="CITY_MEM"/>
+		<result property="city03" column="CITY_03"/>
+		<result property="city04" column="CITY_04"/>
+		<result property="city05" column="CITY_05"/>
+		<result property="city06" column="CITY_06"/>
+		<result property="city07" column="CITY_07"/>
+		<result property="city08" column="CITY_08"/>
+		<result property="city09" column="CITY_09"/>
+		<result property="townMem" column="TOWN_MEM"/>
+		<result property="town05" column="TOWN_05"/>
+		<result property="town06" column="TOWN_06"/>
+		<result property="town07" column="TOWN_07"/>
+		<result property="town08" column="TOWN_08"/>
+		<result property="town09" column="TOWN_09"/>
+	</resultMap>
+	<!-- 소속별 현황 -->
+	 <select id="J0401.J0402List" resultMap="J0401VO.J0402.TeamCondition">  /* J0401.J0402List */
+	 	SELECT '전체' AS SORT
+		       ,1 AS PARE_TM_ID
+		       ,1 AS SORT_ORD
+		       ,1 AS CRI_TM_ID
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS IS NOT NULL THEN '1' ELSE '0' END) AS ALL_MEM
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '03' THEN '1' ELSE '0' END) AS ALL_03
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '04' THEN '1' ELSE '0' END) AS ALL_04
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '05' THEN '1' ELSE '0' END) AS ALL_05
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '06' THEN '1' ELSE '0' END) AS ALL_06
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '07' THEN '1' ELSE '0' END) AS ALL_07
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '08' THEN '1' ELSE '0' END) AS ALL_08
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '09' THEN '1' ELSE '0' END) AS ALL_09
+		       ,SUM(CASE WHEN A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_MEM
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '03' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_03
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '04' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_04
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '05' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_05
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '06' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_06
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '07' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_07
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '08' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_08
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '09' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_09
+		       ,SUM(CASE WHEN A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_MEM
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '05' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_05
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '06' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_06
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '07' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_07
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '08' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_08
+		       ,SUM(CASE WHEN A.CRI_MB_CLAS = '09' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_09
+		FROM SJPB_CRI_MB A
+		WHERE A.SPR_PSN IS NULL AND A.CRI_MB_STAT = '1'
+		
+		UNION ALL
+		
+		SELECT *
+		FROM(
+			SELECT B.CRI_TM_NM AS SORT,B.CRI_TM_ID AS PARE_TM_ID,B.SORT_ORD,A.*
+			FROM (
+				    SELECT DECODE(C.PARE_TM_ID,1,C.CRI_TM_ID,C.PARE_TM_ID) AS CRI_TM_ID
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS IS NOT NULL THEN '1' ELSE '0' END) AS ALL_MEM
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '03' THEN '1' ELSE '0' END) AS ALL_03
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '04' THEN '1' ELSE '0' END) AS ALL_04
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '05' THEN '1' ELSE '0' END) AS ALL_05
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '06' THEN '1' ELSE '0' END) AS ALL_06
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '07' THEN '1' ELSE '0' END) AS ALL_07
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '08' THEN '1' ELSE '0' END) AS ALL_08
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '09' THEN '1' ELSE '0' END) AS ALL_09
+				           ,SUM(CASE WHEN A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_MEM
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '03' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_03
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '04' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_04
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '05' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_05
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '06' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_06
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '07' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_07
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '08' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_08
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '09' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_09
+				           ,SUM(CASE WHEN A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_MEM
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '05' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_05
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '06' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_06
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '07' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_07
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '08' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_08
+				           ,SUM(CASE WHEN A.CRI_MB_CLAS = '09' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_09
+				    FROM SJPB_CRI_MB A
+				    JOIN USERPASS B ON B.USER_ID = A.CRI_MB_ID
+				    JOIN SJPB_CRI_TM C ON TO_CHAR(C.CRI_TM_ID) = B.ORG_CD AND C.CRI_TM_STAT ='1' 
+				    WHERE A.SPR_PSN IS NULL AND A.CRI_MB_STAT = '1' AND B.ORG_CD NOT IN('1')
+				    GROUP BY (DECODE(C.PARE_TM_ID,1,C.CRI_TM_ID,C.PARE_TM_ID)
+			    )
+			) A
+			JOIN SJPB_CRI_TM B ON B.CRI_TM_ID = A.CRI_TM_ID
+
+			UNION ALL
+
+			SELECT D.CRI_TM_NM AS SORT,D.PARE_TM_ID,D.SORT_ORD,C.*
+			FROM (
+					SELECT C.CRI_TM_ID 
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS IS NOT NULL THEN '1' ELSE '0' END) AS ALL_MEM
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '03' THEN '1' ELSE '0' END) AS ALL_03
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '04' THEN '1' ELSE '0' END) AS ALL_04
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '05' THEN '1' ELSE '0' END) AS ALL_05
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '06' THEN '1' ELSE '0' END) AS ALL_06
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '07' THEN '1' ELSE '0' END) AS ALL_07
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '08' THEN '1' ELSE '0' END) AS ALL_08
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '09' THEN '1' ELSE '0' END) AS ALL_09
+					       ,SUM(CASE WHEN A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_MEM
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '03' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_03
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '04' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_04
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '05' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_05
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '06' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_06
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '07' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_07
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '08' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_08
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '09' AND A.DISP_GUOF IS NULL THEN '1' ELSE '0' END) AS CITY_09
+					       ,SUM(CASE WHEN A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_MEM
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '05' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_05
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '06' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_06
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '07' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_07
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '08' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_08
+					       ,SUM(CASE WHEN A.CRI_MB_CLAS = '09' AND A.DISP_GUOF IS NOT NULL THEN '1' ELSE '0' END) AS TOWN_09
+					FROM SJPB_CRI_MB A
+					JOIN USERPASS B ON B.USER_ID = A.CRI_MB_ID
+					JOIN SJPB_CRI_TM C ON TO_CHAR(C.CRI_TM_ID) = B.ORG_CD AND C.CRI_TM_STAT ='1' AND C.CRI_TM_DIV = 'T'
+					WHERE A.SPR_PSN IS NULL AND A.CRI_MB_STAT = '1'
+					GROUP BY (C.CRI_TM_ID)
+			)C
+			JOIN SJPB_CRI_TM D ON C.CRI_TM_ID = D.CRI_TM_ID
+		)
+		ORDER BY PARE_TM_ID,SORT_ORD
+	 </select>
+	
+	<resultMap class="com.saltware.enface.sjpb.J.service.J0403VO" id="J0403VO.CurrentCondition">
+		<result property="criMbSpoc" column="CRI_MB_SROC"/>
+		<result property="criMbClas" column="CRI_MB_CLAS"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="genDiv" column="GEN_DIV"/>
+		<result property="birDt" column="BIR_DT"/>
+		<result property="initApptDt" column="INIT_APPT_DT"/>
+		<result property="currPosiDt" column="CURR_POSI_DT"/>
+		<result property="criOffiApptDt" column="CRI_OFFI_APPT_DT"/>
+		<result property="criProfOffiBeDt" column="CRI_PROF_OFFI_BE_DT"/>
+		<result property="dept" column="DEPT"/>
+		<result property="team" column="TEAM"/>
+		<result property="criMbPosi" column="CRI_MB_POSI"/>
+		<result property="workDt" column="WORK_DT"/>
+		<result property="miPreDeptNm" column="MI_PRE_DEPT_NM"/>
+		<result property="intro" column="INTRO"/>
+	</resultMap>
+	<!-- 시직원 현황 -->
+	<select id="J0401.J0403List" resultMap="J0403VO.CurrentCondition">  /* J0401.J0403List */
+		SELECT B.CODE_NAME AS CRI_MB_SROC  /* 직렬 */
+		       ,D.CODE_NAME AS CRI_MB_CLAS  /* 직급 */
+		       ,C.NM_KOR  /* 성명 */
+		       ,DECODE(C.SEX_FLAG,'1','남자','2','여자') AS GEN_DIV  /* 성별 */
+		       ,C.REG_NO AS BIR_DT  /* 생년월일 */
+		       ,TO_CHAR(A.INIT_APPT_DT,'YYYY-MM-DD') AS INIT_APPT_DT  /* 최초임용일 */
+		       ,TO_CHAR(A.CURR_POSI_DT,'YYYY-MM-DD') AS CURR_POSI_DT  /* 현직급일 */
+		       ,TO_CHAR(A.CRI_OFFI_APPT_DT,'YYYY-MM-DD') AS CRI_OFFI_APPT_DT  /* 전입일 */
+		       ,TO_CHAR(A.CRI_PROF_OFFI_BE_DT,'YYYY-MM-DD') AS CRI_PROF_OFFI_BE_DT  /* 수사전문관지정일 */
+		       ,DECODE(F.CRI_TM_NM,NULL,DECODE(G.CRI_TM_NM,NULL,H.CRI_TM_NM,G.CRI_TM_NM),F.CRI_TM_NM) AS DEPT  /* 소속부서 */
+		       ,E.CRI_TM_NM AS TEAM  /* 소속팀 */
+		       ,DECODE(I.CODE_NAME,'정책','수사','수사서무','수사',I.CODE_NAME) AS CRI_MB_POSI  /* 직위 */
+		       ,TRUNC(MONTHS_BETWEEN(SYSDATE,A.CRI_OFFI_APPT_DT)/12) ||'년 '|| TRUNC(MOD(MONTHS_BETWEEN(SYSDATE,A.CRI_OFFI_APPT_DT),12)) ||'월 '||FLOOR(MOD(MONTHS_BETWEEN(SYSDATE,A.CRI_OFFI_APPT_DT),1)*30.5)||'일' AS WORK_DT  /* 재직기간 */
+		       ,A.MI_PRE_DEPT_NM  /* 전입전부서 */
+		       ,C.INTRO  /* 기타사항 */
+		FROM SJPB_CRI_MB A
+		LEFT JOIN CODEBASE B ON B.CODE_ID = 'SJPB_00014' AND B.CODE = A.CRI_MB_SROC
+		JOIN USERPASS C ON A.CRI_MB_ID = C.USER_ID
+		LEFT JOIN CODEBASE D ON D.CODE_ID = 'SJPB_00021' AND D.CODE = A.CRI_MB_CLAS
+		LEFT JOIN SJPB_CRI_TM E ON TO_CHAR(E.CRI_TM_ID) = C.ORG_CD AND E.CRI_TM_DIV = 'T'
+		LEFT JOIN SJPB_CRI_TM F ON F.CRI_TM_ID = E.PARE_TM_ID AND F.CRI_TM_DIV = 'G'
+		LEFT JOIN SJPB_CRI_TM G ON TO_CHAR(G.CRI_TM_ID) = C.ORG_CD AND G.CRI_TM_DIV = 'G'
+		LEFT JOIN SJPB_CRI_TM H ON TO_CHAR(H.CRI_TM_ID) = C.ORG_CD AND H.CRI_TM_DIV = 'D'
+		LEFT JOIN CODEBASE I ON I.CODE_ID = 'SJPB_00020' AND I.CODE = A.CRI_MB_POSI
+		WHERE A.SPR_PSN IS NULL AND A.CRI_MB_STAT = '1' AND A.DISP_GUOF IS NULL
+		ORDER BY CRI_MB_CLAS ASC		
+	</select>
+	<resultMap class="com.saltware.enface.sjpb.J.service.J0403VO" id="J0403VO.J0404.CurrentCondition">
+		<result property="dispGuof" column="DISP_GUOF"/>
+		<result property="criMbSpoc" column="CRI_MB_SROC"/>
+		<result property="criMbClas" column="CRI_MB_CLAS"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="genDiv" column="GEN_DIV"/>
+		<result property="birDt" column="BIR_DT"/>
+		<result property="initApptDt" column="INIT_APPT_DT"/>
+		<result property="currPosiDt" column="CURR_POSI_DT"/>
+		<result property="criOffiApptDt" column="CRI_OFFI_APPT_DT"/>
+		<result property="dispDt" column="DISP_DT"/>
+		<result property="dept" column="DEPT"/>
+		<result property="team" column="TEAM"/>
+		<result property="criMbPosi" column="CRI_MB_POSI"/>
+		<result property="workDt" column="WORK_DT"/>
+		<result property="miPreDeptNm" column="MI_PRE_DEPT_NM"/>
+		<result property="intro" column="INTRO"/>
+	</resultMap>
+	<!-- 자치구 직원 현황 -->
+	<select id="J0401.J0404List" resultMap="J0403VO.J0404.CurrentCondition">  /* J0401.J0404List */
+		SELECT J.CODE_NAME AS DISP_GUOF  /* 파견구청 */
+		       ,B.CODE_NAME AS CRI_MB_SROC  /* 직렬 */
+		       ,D.CODE_NAME AS CRI_MB_CLAS  /* 직급 */
+		       ,C.NM_KOR  /* 성명 */
+		       ,DECODE(C.SEX_FLAG,'1','남자','2','여자') AS GEN_DIV  /* 성별 */
+		       ,C.REG_NO AS BIR_DT /* 생년월일 */
+		       ,TO_CHAR(A.INIT_APPT_DT,'YYYY-MM-DD') AS INIT_APPT_DT  /* 최초임용일 */
+		       ,TO_CHAR(A.CURR_POSI_DT,'YYYY-MM-DD') AS CURR_POSI_DT  /* 현직급일 */
+		       ,TO_CHAR(A.CRI_OFFI_APPT_DT,'YYYY-MM-DD') AS CRI_OFFI_APPT_DT  /* 전입일 */
+		       ,TO_CHAR(A.DISP_BE_DT,'YYYY-MM-DD') ||'~'|| TO_CHAR(A.DISP_ED_DT,'YYYY-MM-DD') AS DISP_DT  /* 파견기간 */
+		       ,DECODE(F.CRI_TM_NM,NULL,DECODE(G.CRI_TM_NM,NULL,H.CRI_TM_NM,G.CRI_TM_NM),F.CRI_TM_NM) AS DEPT  /* 소속부서 */
+		       ,E.CRI_TM_NM AS TEAM  /* 소속팀 */
+		       ,DECODE(I.CODE_NAME,'정책','수사','수사서무','수사',I.CODE_NAME) AS CRI_MB_POSI  /* 직위 */
+		       ,TRUNC(MONTHS_BETWEEN(SYSDATE,A.CRI_OFFI_APPT_DT)/12) ||'년 '|| TRUNC(MOD(MONTHS_BETWEEN(SYSDATE,A.CRI_OFFI_APPT_DT),12)) ||'월 '||FLOOR(MOD(MONTHS_BETWEEN(SYSDATE,A.CRI_OFFI_APPT_DT),1)*30.5)||'일' AS WORK_DT  /* 재직기간 */
+		       ,A.MI_PRE_DEPT_NM  /* 전입전부서 */
+		       ,C.INTRO  /* 기타사항 */
+		FROM SJPB_CRI_MB A
+		LEFT JOIN CODEBASE B ON B.CODE_ID = 'SJPB_00014' AND B.CODE = A.CRI_MB_SROC
+		JOIN USERPASS C ON A.CRI_MB_ID = C.USER_ID
+		LEFT JOIN CODEBASE D ON D.CODE_ID = 'SJPB_00021' AND D.CODE = A.CRI_MB_CLAS
+		LEFT JOIN SJPB_CRI_TM E ON TO_CHAR(E.CRI_TM_ID) = C.ORG_CD AND E.CRI_TM_DIV = 'T'
+		LEFT JOIN SJPB_CRI_TM F ON F.CRI_TM_ID = E.PARE_TM_ID AND F.CRI_TM_DIV = 'G'
+		LEFT JOIN SJPB_CRI_TM G ON TO_CHAR(G.CRI_TM_ID) = C.ORG_CD AND G.CRI_TM_DIV = 'G'
+		LEFT JOIN SJPB_CRI_TM H ON TO_CHAR(H.CRI_TM_ID) = C.ORG_CD AND H.CRI_TM_DIV = 'D'
+		LEFT JOIN CODEBASE I ON I.CODE_ID = 'SJPB_00020' AND I.CODE = A.CRI_MB_POSI
+		JOIN CODEBASE J ON J.CODE_ID = 'SJPB_00023' AND J.CODE = A.DISP_GUOF
+		WHERE A.SPR_PSN IS NULL AND A.CRI_MB_STAT = '1' AND A.DISP_GUOF IS NOT NULL
+		ORDER BY CRI_MB_CLAS ASC
+	</select>
+	
+	<resultMap class="com.saltware.enface.sjpb.J.service.J0403VO" id="J0403VO.J0405.CurrentCondition">
+		<result property="dept" column="DEPT"/>
+		<result property="team" column="TEAM"/>
+		<result property="criMbSpoc" column="CRI_MB_SROC"/>
+		<result property="criMbClas" column="CRI_MB_CLAS"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="genDiv" column="GEN_DIV"/>
+		<result property="birDt" column="BIR_DT"/>
+		<result property="initApptDt" column="INIT_APPT_DT"/>
+		<result property="currPosiDt" column="CURR_POSI_DT"/>
+		<result property="criOffiApptDt" column="CRI_OFFI_APPT_DT"/>
+		<result property="workDt" column="WORK_DT"/>
+		<result property="criProfOffiBeDt" column="CRI_PROF_OFFI_BE_DT"/>
+		<result property="criProfOffiDt" column="CRI_PROF_OFFI_DT"/>
+	</resultMap>
+	
+	<!-- 전문관 직원 현황 -->
+	<select id="J0401.J0405List" resultMap = "J0403VO.J0405.CurrentCondition">  /* J0401.J0405List */
+		SELECT DECODE(F.CRI_TM_NM,NULL,DECODE(G.CRI_TM_NM,NULL,H.CRI_TM_NM,G.CRI_TM_NM),F.CRI_TM_NM) AS DEPT  /* 소속부서 */
+		       ,E.CRI_TM_NM AS TEAM  /* 소속팀 */
+		       ,B.CODE_NAME AS CRI_MB_SROC  /* 직렬 */
+		       ,D.CODE_NAME AS CRI_MB_CLAS  /* 직급 */
+		       ,C.NM_KOR  /* 성명 */
+		       ,DECODE(C.SEX_FLAG,'1','남자','2','여자') AS GEN_DIV  /* 성별 */
+		       ,C.REG_NO AS BIR_DT  /* 생년월일 */
+		       ,TO_CHAR(A.INIT_APPT_DT,'YYYY-MM-DD') AS INIT_APPT_DT  /* 최초임용일 */
+		       ,TO_CHAR(A.CURR_POSI_DT,'YYYY-MM-DD') AS CURR_POSI_DT  /* 현직급일 */
+		       ,TO_CHAR(A.CRI_OFFI_APPT_DT,'YYYY-MM-DD') AS CRI_OFFI_APPT_DT  /* 전입일 */
+		       ,TRUNC(MONTHS_BETWEEN(SYSDATE,A.CRI_OFFI_APPT_DT)/12) ||'년 '|| TRUNC(MOD(MONTHS_BETWEEN(SYSDATE,A.CRI_OFFI_APPT_DT),12)) ||'월 '||FLOOR(MOD(MONTHS_BETWEEN(SYSDATE,A.CRI_OFFI_APPT_DT),1)*30.5)||'일' AS WORK_DT  /* 재직기간 */
+		       ,TO_CHAR(A.CRI_PROF_OFFI_BE_DT,'YYYY-MM-DD') AS CRI_PROF_OFFI_BE_DT  /* 수사전문관지정일 */
+		       ,TRUNC(MONTHS_BETWEEN(SYSDATE,A.CRI_PROF_OFFI_BE_DT)/12) ||'년 '|| TRUNC(MOD(MONTHS_BETWEEN(SYSDATE,A.CRI_PROF_OFFI_BE_DT),12)) ||'월 '||FLOOR(MOD(MONTHS_BETWEEN(SYSDATE,A.CRI_PROF_OFFI_BE_DT),1)*30.5)||'일' AS CRI_PROF_OFFI_DT  /* 전문관근무기간 */
+		FROM SJPB_CRI_MB A
+		LEFT JOIN CODEBASE B ON B.CODE_ID = 'SJPB_00014' AND B.CODE = A.CRI_MB_SROC
+		JOIN USERPASS C ON A.CRI_MB_ID = C.USER_ID
+		LEFT JOIN CODEBASE D ON D.CODE_ID = 'SJPB_00021' AND D.CODE = A.CRI_MB_CLAS
+		LEFT JOIN SJPB_CRI_TM E ON TO_CHAR(E.CRI_TM_ID) = C.ORG_CD AND E.CRI_TM_DIV = 'T'
+		LEFT JOIN SJPB_CRI_TM F ON F.CRI_TM_ID = E.PARE_TM_ID AND F.CRI_TM_DIV = 'G'
+		LEFT JOIN SJPB_CRI_TM G ON TO_CHAR(G.CRI_TM_ID) = C.ORG_CD AND G.CRI_TM_DIV = 'G'
+		LEFT JOIN SJPB_CRI_TM H ON TO_CHAR(H.CRI_TM_ID) = C.ORG_CD AND H.CRI_TM_DIV = 'D'
+		LEFT JOIN CODEBASE I ON I.CODE_ID = 'SJPB_00020' AND I.CODE = A.CRI_MB_POSI
+		WHERE A.SPR_PSN IS NULL AND A.CRI_MB_STAT = '1' AND CRI_OFFI_ED_DT IS NULL AND CRI_PROF_OFFI_BE_DT IS NOT NULL
+		ORDER BY CRI_MB_CLAS ASC	
+	</select>
+	
+	<resultMap class="com.saltware.enface.sjpb.J.service.J0403VO" id="J0403VO.J0406.CurrentCondition">
+		<result property="sort" column="SORT"/>
+		<result property="dept" column="DEPT"/>
+		<result property="team" column="TEAM"/>
+		<result property="criMbSpoc" column="CRI_MB_SROC"/>
+		<result property="criMbClas" column="CRI_MB_CLAS"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="genDiv" column="GEN_DIV"/>
+		<result property="birDt" column="BIR_DT"/>
+		<result property="initApptDt" column="INIT_APPT_DT"/>
+		<result property="currPosiDt" column="CURR_POSI_DT"/>
+		<result property="criOffiApptDt" column="CRI_OFFI_APPT_DT"/>
+	</resultMap>
+	
+	<!-- 별도정원현황 -->
+	<select id="J0401.J0406List" resultMap="J0403VO.J0406.CurrentCondition">   /* J0401.J0406List */
+		SELECT '별도정원' AS SORT
+		       ,DECODE(F.CRI_TM_NM,NULL,DECODE(G.CRI_TM_NM,NULL,H.CRI_TM_NM,G.CRI_TM_NM),F.CRI_TM_NM) AS DEPT  /* 소속부서 */
+		       ,E.CRI_TM_NM AS TEAM  /* 소속팀 */
+		       ,B.CODE_NAME AS CRI_MB_SROC  /* 직렬 */
+		       ,D.CODE_NAME AS CRI_MB_CLAS  /* 직급 */
+		       ,C.NM_KOR  /* 성명 */
+		       ,DECODE(C.SEX_FLAG,'1','남자','2','여자') AS  GEN_DIV  /* 성별 */
+		       ,C.REG_NO AS BIR_DT  /* 생년월일 */
+		       ,TO_CHAR(A.INIT_APPT_DT,'YYYY-MM-DD') AS INIT_APPT_DT  /* 최초임용일 */
+		       ,TO_CHAR(A.CURR_POSI_DT,'YYYY-MM-DD') AS CURR_POSI_DT  /* 현직급일 */
+		       ,TO_CHAR(A.CRI_OFFI_APPT_DT,'YYYY-MM-DD') AS CRI_OFFI_APPT_DT  /* 별도정원지정일 */
+		FROM SJPB_CRI_MB A
+		LEFT JOIN CODEBASE B ON B.CODE_ID = 'SJPB_00014' AND B.CODE = A.CRI_MB_SROC
+		JOIN USERPASS C ON A.CRI_MB_ID = C.USER_ID
+		LEFT JOIN CODEBASE D ON D.CODE_ID = 'SJPB_00021' AND D.CODE = A.CRI_MB_CLAS
+		LEFT JOIN SJPB_CRI_TM E ON TO_CHAR(E.CRI_TM_ID) = C.ORG_CD AND E.CRI_TM_DIV = 'T'
+		LEFT JOIN SJPB_CRI_TM F ON F.CRI_TM_ID = E.PARE_TM_ID AND F.CRI_TM_DIV = 'G'
+		LEFT JOIN SJPB_CRI_TM G ON TO_CHAR(G.CRI_TM_ID) = C.ORG_CD AND G.CRI_TM_DIV = 'G'
+		LEFT JOIN SJPB_CRI_TM H ON TO_CHAR(H.CRI_TM_ID) = C.ORG_CD AND H.CRI_TM_DIV = 'D'
+		LEFT JOIN CODEBASE I ON I.CODE_ID = 'SJPB_00020' AND I.CODE = A.CRI_MB_POSI
+		WHERE A.SPR_PSN IS NOT NULL AND A.CRI_MB_STAT = '1'
+		ORDER BY CRI_MB_CLAS ASC
+	</select>
+</sqlMap>
+ 

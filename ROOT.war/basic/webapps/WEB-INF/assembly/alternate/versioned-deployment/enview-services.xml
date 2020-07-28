@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <!-- Portlet Services  -->
+  <bean id="PortalServices" class="com.saltware.enview.services.EnviewPortletServices">
+    <constructor-arg>
+      <map>
+        <entry key="PortletRegistryComponent">
+          <ref bean="com.saltware.enview.components.portletregistry.PortletRegistry" />
+        </entry>
+        <entry key="SearchComponent">
+          <ref bean="com.saltware.enview.search.SearchEngine" />
+        </entry>
+        <entry key="PAM">
+          <ref bean="PAM" />
+        </entry>
+        <entry key="UserManager">
+          <ref bean="com.saltware.enview.security.UserManager" />
+        </entry>
+        <entry key="PageManager">
+          <ref bean="com.saltware.enview.page.PageManager" />
+        </entry>
+        <entry key="RoleManager">
+          <ref bean="com.saltware.enview.security.RoleManager" />
+        </entry>
+        <entry key="GroupManager">
+          <ref bean="com.saltware.enview.security.GroupManager" />
+        </entry>
+        <entry key="Profiler">
+          <ref bean="com.saltware.enview.profiler.Profiler" />
+        </entry>
+        <entry key="SSO">
+          <ref bean="com.saltware.enview.sso.SSOProvider" />
+        </entry>
+        <!-- PortletEntity is obsolete
+        <entry key="EntityAccessor">
+          <ref bean='com.saltware.enview.components.portletentity.PortletEntityAccessComponent' />
+        </entry>
+         -->
+        <entry key="PortletFactory">
+          <ref bean="portletFactory" />
+        </entry>
+        <entry key="DeploymentManager">
+          <ref bean="deploymentManager" />
+        </entry>
+        <entry key='IdGenerator'>
+          <ref bean='IdGenerator' />
+        </entry>
+        <entry key='Powertools'>
+          <ref bean='Powertools' />
+        </entry>
+        <entry key="HeaderResource">
+          <ref bean="com.saltware.enview.headerresource.HeaderResourceFactory" />
+        </entry>
+        <entry key="TemplateLocator">
+          <ref bean="TemplateLocator" />
+        </entry>
+        <entry key="DecorationLocator">
+          <ref bean="DecorationLocator" />
+        </entry>
+        <entry key="DecorationFactory">
+          <ref bean="DecorationFactory" />
+        </entry>
+        <entry key="Desktop">
+          <ref bean="EnviewDesktop" />
+        </entry>
+        <entry key="PermissionManager">
+          <ref bean="com.saltware.enview.security.PermissionManager" />
+        </entry>
+        <entry key="PortalStatistics">
+          <ref bean="PortalStatistics" />
+        </entry>
+        <entry key="PortalAdministration">
+          <ref bean="PortalAdministration" />
+        </entry>
+        <entry key="com.saltware.enview.container.session.PortalSessionsManager">
+          <ref bean="com.saltware.enview.container.session.PortalSessionsManager" />
+        </entry>
+        <entry key="SecurityAccessController">
+          <ref bean="com.saltware.enview.security.SecurityAccessController" />
+        </entry>
+        <entry key="PortletTrackingManager">
+          <ref bean="com.saltware.enview.aggregator.PortletTrackingManager" />
+        </entry>
+        <entry key="PortalAuthenticationConfiguration">
+          <ref bean="com.saltware.enview.administration.PortalAuthenticationConfiguration" />
+        </entry>
+        <entry key="PortalConfiguration">
+          <ref bean="PortalConfiguration" />
+        </entry>
+        <entry key="ImporterManager">
+          <ref bean="importerCastorPageManager" />
+        </entry>
+        <entry key="decorationContentCache">
+          <ref bean="decorationContentCache" />
+        </entry>
+        <entry key="portletContentCache">
+          <ref bean="portletContentCache" />
+        </entry>
+        <entry key="AuditActivity">
+          <ref bean="com.saltware.enview.audit.AuditActivity" />
+        </entry>
+        <entry key="EnviewSerializerFactory">
+          <ref bean="com.saltware.enview.serializer.EnviewSerializerFactory" />
+        </entry>
+        <entry key="SecurityAttributesProvider">
+        	<ref bean="com.saltware.enview.security.attributes.SecurityAttributesProvider" />
+        </entry>        
+        <!--entry key="PageLayoutComponent">
+        	<ref bean="com.saltware.enview.layout.PageLayoutComponent" />
+        </entry--> 
+        <!-- first uncomment the below service bean in security-spi-atn.xml
+          <entry key="PasswordEncodingService">
+          <ref bean="com.saltware.enview.security.PasswordEncodingService" />
+          </entry>
+        -->
+      </map>
+    </constructor-arg>
+  </bean>
+</beans>

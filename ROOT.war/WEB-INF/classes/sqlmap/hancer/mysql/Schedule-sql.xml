@@ -1,0 +1,395 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sche">
+
+	<resultMap id="schedule.list" class="com.saltware.enhancer.calendar.service.ScheduleVO">
+		<result property="scheduleId" column="SCHEDULE_ID" columnIndex="1"/>	 
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="2"/>	 
+		<result property="allday" column="ALLDAY" columnIndex="3"/>
+		<result property="ownerId" columnIndex="4"/>	 
+		<result property="start" column="START_DATIM" columnIndex="5"/>
+		<result property="end" column="END_DATIM" columnIndex="6"/>
+		<result property="langKnd" column="LANG_KND" columnIndex="7"/>	 
+		<result property="name" column="NAME" columnIndex="8"/>
+		<result property="calPermissions" columnIndex="9"/>
+		<result property="permissions" columnIndex="10"/>
+		<result property="alarmPattern" columnIndex="11"/>
+		<result property="freq" columnIndex="12"/>
+		<result property="until" columnIndex="13"/>
+		<result property="interval" columnIndex="14"/>
+		<result property="bymonthday" columnIndex="15"/>
+		<result property="byday" columnIndex="16"/>
+		<result property="fgColor" columnIndex="17"/>
+		<result property="bgColor" columnIndex="18"/>
+		<result property="isJoint" columnIndex="19"/>
+		<result property="ownerName" columnIndex="20"/>
+		<result property="repeatStart" column="START_DATIM"/>
+	</resultMap>
+	
+	<select id="schedule.list.onwer" resultMap="schedule.list">/* schedule.list.onwer */
+		SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, LANG_KND, NAME, 'CRUDA' AS CAL_PERMISSIONS, 'CRUDA' AS PERMISSIONS,
+		ALARM_PATTERN, FREQ, UNTIL, INTERVAL, BYMONTHDAY, BYDAY, FG_COLOR, BG_COLOR, 'N' AS IS_JOINT,
+		<isEqual property="langKnd" compareValue="ko">
+			(SELECT NM_KOR FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isEqual>
+		<isNotEqual property="langKnd" compareValue="ko">
+			(SELECT NM_ENG FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isNotEqual>
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG B ON B.SCHEDULE_ID = A.SCHEDULE_ID AND LANG_KND=#langKnd#
+		JOIN CALENDAR C ON C.CALENDAR_ID = A.CALENDAR_ID
+		WHERE C.OWNER_ID=#ownerId# AND a.CALENDAR_ID=CAST(#calendarId# AS DECIMAL)
+		<isNotNull property="start" prepend=" AND ">
+			<![CDATA[(
+				( START_DATIM < STR_TO_DATE(#end#, 'YYYY-MM-DD HH24:MI') AND STR_TO_DATE(#start#, 'YYYY-MM-DD HH24:MI') <= END_DATIM) OR 
+				( ( START_DATIM <= STR_TO_DATE(#start#, 'YYYY-MM-DD HH24:MI') AND FREQ IS NOT NULL AND UNTIL IS NULL) OR STR_TO_DATE(#start#, 'YYYY-MM-DD') <= STR_TO_DATE(UNTIL, 'YYYYMMDD') )  
+			)]]>
+		</isNotNull>
+		ORDER BY START_DATIM
+	</select>
+	
+	<select id="schedule.list.joint.calendar" resultMap="schedule.list">/* schedule.list.joint.calendar */
+	 	SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, LANG_KND, NAME, d.PERMISSIONS AS CAL_PERMISSIONS, a.PERMISSIONS,
+		ALARM_PATTERN, FREQ, UNTIL, INTERVAL, BYMONTHDAY, BYDAY, COALESCE(d.FG_COLOR, c.FG_COLOR) AS FG_COLOR, COALESCE(d.BG_COLOR, c.BG_COLOR) AS BG_COLOR, 'N' AS IS_JOINT,
+		<isEqual property="langKnd" compareValue="ko">
+			(SELECT NM_KOR FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isEqual>
+		<isNotEqual property="langKnd" compareValue="ko">
+			(SELECT NM_ENG FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isNotEqual>
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG B ON B.SCHEDULE_ID = A.SCHEDULE_ID AND LANG_KND=#langKnd#
+		JOIN CALENDAR C ON C.CALENDAR_ID = A.CALENDAR_ID
+		JOIN CALENDAR_USER D ON D.CALENDAR_ID = C.CALENDAR_ID
+		WHERE D.USER_ID=#userId# AND a.CALENDAR_ID=CAST(#calendarId# AS DECIMAL)
+		<isNotNull property="start" prepend=" AND ">
+			<![CDATA[(
+				( START_DATIM < STR_TO_DATE(#end#, 'YYYY-MM-DD HH24:MI') AND STR_TO_DATE(#start#, 'YYYY-MM-DD HH24:MI') <= END_DATIM) OR 
+				( ( START_DATIM <= STR_TO_DATE(#start#, 'YYYY-MM-DD HH24:MI') AND FREQ IS NOT NULL AND UNTIL IS NULL) OR STR_TO_DATE(#start#, 'YYYY-MM-DD') <= STR_TO_DATE(UNTIL, 'YYYYMMDD') )  
+			)]]>
+		</isNotNull>
+		ORDER BY START_DATIM
+	</select>
+
+	<select id="schedule.list.joint.schedule" resultMap="schedule.list">/* schedule.list.joint.schedule */
+		SELECT a.SCHEDULE_ID, CAST(#calendarId# AS DECIMAL) AS CALENDAR_ID, ALLDAY, c.USER_ID, START_DATIM, END_DATIM, LANG_KND, NAME, a.PERMISSIONS AS CAL_PERMISSIONS, a.PERMISSIONS,
+		ALARM_PATTERN, FREQ, UNTIL, INTERVAL, BYMONTHDAY, BYDAY,
+		(SELECT FG_COLOR FROM CALENDAR WHERE IS_DEFAULT='Y' AND OWNER_ID=#userId#) AS FG_COLOR,  
+		(SELECT BG_COLOR FROM CALENDAR WHERE IS_DEFAULT='Y' AND OWNER_ID=#userId#) AS BG_COLOR,
+		'Y' AS IS_JOINT,
+		<isEqual property="langKnd" compareValue="ko">
+			(SELECT NM_KOR FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isEqual>
+		<isNotEqual property="langKnd" compareValue="ko">
+			(SELECT NM_ENG FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isNotEqual>
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG b ON b.SCHEDULE_ID = a.SCHEDULE_ID
+		JOIN SCHEDULE_USER c ON c.SCHEDULE_ID = a.SCHEDULE_ID
+		JOIN CALENDAR d ON d.CALENDAR_ID = a.CALENDAR_ID
+		WHERE c.USER_ID=#userId# 
+		AND LANG_KND=#langKnd#
+		<isNotNull property="start" prepend=" AND ">
+			<![CDATA[(
+				( START_DATIM < STR_TO_DATE(#end#, 'YYYY-MM-DD HH24:MI') AND STR_TO_DATE(#start#, 'YYYY-MM-DD HH24:MI') <= END_DATIM) OR 
+				( ( START_DATIM <= STR_TO_DATE(#start#, 'YYYY-MM-DD HH24:MI') AND FREQ IS NOT NULL AND UNTIL IS NULL) OR STR_TO_DATE(#start#, 'YYYY-MM-DD') <= STR_TO_DATE(UNTIL, 'YYYYMMDD') )  
+			)]]>
+		</isNotNull>
+		ORDER BY START_DATIM
+	</select>
+	
+	<resultMap id="schedule.list.public" class="com.saltware.enhancer.calendar.service.ScheduleVO">
+		<result property="scheduleId" column="SCHEDULE_ID" columnIndex="1"/>	 
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="2"/>	 
+		<result property="allday" column="ALLDAY" columnIndex="3"/>
+		<result property="ownerId" columnIndex="4"/>	 
+		<result property="start" column="START_DATIM" columnIndex="5"/>
+		<result property="end" column="END_DATIM" columnIndex="6"/>
+		<result property="langKnd" column="LANG_KND" columnIndex="7"/>	 
+		<result property="name" column="NAME" columnIndex="8"/>
+		<result property="calPermissions" columnIndex="9"/>
+		<result property="permissions" columnIndex="10"/>
+		<result property="alarmPattern" columnIndex="11"/>
+		<result property="freq" columnIndex="12"/>
+		<result property="until" columnIndex="13"/>
+		<result property="interval" columnIndex="14"/>
+		<result property="bymonthday" columnIndex="15"/>
+		<result property="byday" columnIndex="16"/>
+		<result property="fgColor" columnIndex="17"/>
+		<result property="bgColor" columnIndex="18"/>
+		<result property="repeatStart" column="START_DATIM"/>
+	</resultMap>
+	
+	<select id="schedule.list.public" resultMap="schedule.list.public">/* schedule.list.public */
+	 	SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, LANG_KND, NAME, 
+	 	CASE WHEN c.OWNER_ID=#userId#
+		THEN 'CRUDA' 
+		ELSE CASE WHEN d.PERMISSIONS IS NULL THEN CASE WHEN g.PERMISSIONS IS NULL THEN 'R' ELSE g.PERMISSIONS END ELSE d.PERMISSIONS END END AS CAL_PERMISSIONS,
+	 	CASE WHEN a.OWNER_ID=#userId#
+		THEN 'CRUDA' 
+		ELSE CASE WHEN a.PERMISSIONS IS NULL THEN 'R' ELSE a.PERMISSIONS END END AS PERMISSIONS,
+		ALARM_PATTERN, FREQ, UNTIL, INTERVAL, BYMONTHDAY, BYDAY, c.FG_COLOR, c.BG_COLOR,
+		<isEqual property="langKnd" compareValue="ko">
+			(SELECT NM_KOR FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isEqual>
+		<isNotEqual property="langKnd" compareValue="ko">
+			(SELECT NM_ENG FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isNotEqual>
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG B ON B.SCHEDULE_ID = A.SCHEDULE_ID AND LANG_KND=#langKnd#
+		JOIN CALENDAR_PUBLIC C ON C.CALENDAR_ID = A.CALENDAR_ID
+		LEFT OUTER JOIN CALENDAR_PUBLIC_USER D ON D.CALENDAR_ID = C.CALENDAR_ID AND D.USER_ID=#userId#
+		LEFT OUTER JOIN (
+			SELECT e.CALENDAR_ID, e.GROUP_ID, e.PERMISSIONS, f.USER_ID
+			FROM CALENDAR_PUBLIC_GROUP e
+			JOIN USERPASS f ON f.ORG_CD = e.GROUP_ID
+			WHERE f.USER_ID=#userId#
+		) g ON g.CALENDAR_ID = a.CALENDAR_ID
+		WHERE a.CALENDAR_ID=CAST(#calendarId# AS DECIMAL)
+		<isNotNull property="start" prepend=" AND ">
+			<![CDATA[(
+				( START_DATIM < STR_TO_DATE(#end#, 'YYYY-MM-DD HH24:MI') AND STR_TO_DATE(#start#, 'YYYY-MM-DD HH24:MI') <= END_DATIM) OR 
+				( ( START_DATIM <= STR_TO_DATE(#start#, 'YYYY-MM-DD HH24:MI') AND FREQ IS NOT NULL AND UNTIL IS NULL) OR STR_TO_DATE(#start#, 'YYYY-MM-DD') <= STR_TO_DATE(UNTIL, 'YYYYMMDD') )  
+			)]]>
+		</isNotNull>
+		ORDER BY START_DATIM
+	</select>
+	
+	<select id="schedule.list.user.public" resultMap="schedule.list.public">/* schedule.list.user.public */
+	 	SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, LANG_KND, NAME, 
+	 	CASE WHEN c.OWNER_ID = #userId# THEN 'CRUDA' ELSE COALESCE(d.PERMISSIONS, 'R') END AS CAL_PERMISSIONS,
+	 	CASE WHEN a.OWNER_ID = #userId# THEN 'CRUDA' ELSE COALESCE(a.PERMISSIONS, 'R') END AS PERMISSIONS,
+		ALARM_PATTERN, FREQ, UNTIL, INTERVAL, BYMONTHDAY, BYDAY, c.FG_COLOR, c.BG_COLOR,
+		<isEqual property="langKnd" compareValue="ko">
+			(SELECT NM_KOR FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isEqual>
+		<isNotEqual property="langKnd" compareValue="ko">
+			(SELECT NM_ENG FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isNotEqual>
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG B ON B.SCHEDULE_ID = A.SCHEDULE_ID AND LANG_KND=#langKnd#
+		JOIN CALENDAR C ON C.CALENDAR_ID = A.CALENDAR_ID
+		LEFT OUTER JOIN CALENDAR_USER D ON D.CALENDAR_ID = C.CALENDAR_ID AND D.USER_ID=#userId#
+		WHERE a.CALENDAR_ID=CAST(#calendarId# AS DECIMAL)
+		<isNotNull property="start" prepend=" AND ">
+			<![CDATA[(
+				( START_DATIM < STR_TO_DATE(#end#, 'YYYY-MM-DD HH24:MI') AND STR_TO_DATE(#start#, 'YYYY-MM-DD HH24:MI') <= END_DATIM) OR 
+				( ( START_DATIM <= STR_TO_DATE(#start#, 'YYYY-MM-DD HH24:MI') AND FREQ IS NOT NULL AND UNTIL IS NULL) OR STR_TO_DATE(#start#, 'YYYY-MM-DD') <= STR_TO_DATE(UNTIL, 'YYYYMMDD') )  
+			)]]>
+		</isNotNull>
+		ORDER BY START_DATIM
+	</select>
+	
+	<resultMap id="schedule.detail" class="com.saltware.enhancer.calendar.service.ScheduleVO">
+		<result property="scheduleId" column="SCHEDULE_ID" columnIndex="1"/>	 
+		<result property="calendarId" column="CALENDAR_ID" columnIndex="2"/>	 
+		<result property="allday" column="ALLDAY" columnIndex="3"/>
+		<result property="ownerId" columnIndex="4"/>	 
+		<result property="start" column="START_DATIM" columnIndex="5"/>
+		<result property="end" column="END_DATIM" columnIndex="6"/>
+		<result property="calPermissions" columnIndex="7"/>
+		<result property="permissions" columnIndex="8"/>
+		<result property="alarmPattern" columnIndex="9"/>
+		<result property="freq" columnIndex="10"/>
+		<result property="until" columnIndex="11"/>
+		<result property="interval" columnIndex="12"/>
+		<result property="bymonthday" columnIndex="13"/>
+		<result property="byday" columnIndex="14"/>
+		<result property="insDatim" column="INS_DATIM" columnIndex="15"/>
+		<result property="updDatim" column="UPD_DATIM" columnIndex="16"/>
+		<result property="ownerName" column="OWNER_NAME" columnIndex="17"/>
+		<result property="repeatStart" column="START_DATIM"/>
+	</resultMap>
+	
+	<select id="schedule.detail.owner" resultMap="schedule.detail"> /* schedule.detail.owner */
+		SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, 'CRUDA' AS CAL_PERMISSIONS, a.PERMISSIONS,
+		a.ALARM_PATTERN, FREQ, UNTIL, INTERVAL, BYMONTHDAY, BYDAY, a.INS_DATIM, a.UPD_DATIM,
+		<isEqual property="langKnd" compareValue="ko">
+			(SELECT NM_KOR FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isEqual>
+		<isNotEqual property="langKnd" compareValue="ko">
+			(SELECT NM_ENG FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isNotEqual> 
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG b ON b.SCHEDULE_ID = a.SCHEDULE_ID
+		JOIN CALENDAR c ON c.calendar_id = a.calendar_id
+		WHERE c.OWNER_ID=#userId# AND LANG_KND=#langKnd# AND a.SCHEDULE_ID=CAST(#scheduleId# AS DECIMAL)
+	</select>
+	
+	<select id="schedule.detail.joint.calendar" resultMap="schedule.detail"> /* schedule.detail.joint.calendar */
+		SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, c.PERMISSIONS AS CAL_PERMISSIONS, a.PERMISSIONS,
+		a.ALARM_PATTERN, FREQ, UNTIL, INTERVAL, BYMONTHDAY, BYDAY, a.INS_DATIM, a.UPD_DATIM,
+		<isEqual property="langKnd" compareValue="ko">
+			(SELECT NM_KOR FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isEqual>
+		<isNotEqual property="langKnd" compareValue="ko">
+			(SELECT NM_ENG FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isNotEqual> 
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG b ON b.SCHEDULE_ID = a.SCHEDULE_ID
+		JOIN CALENDAR_USER c ON c.calendar_id = a.calendar_id
+		WHERE c.USER_ID=#userId# AND LANG_KND=#langKnd# AND a.SCHEDULE_ID=CAST(#scheduleId# AS DECIMAL)
+	</select>
+	
+	<select id="schedule.detail.joint.schedule" resultMap="schedule.detail"> /* schedule.detail.joint.schedule */
+		SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, a.PERMISSIONS AS CAL_PERMISSIONS, a.PERMISSIONS,
+		a.ALARM_PATTERN, FREQ, UNTIL, INTERVAL, BYMONTHDAY, BYDAY, a.INS_DATIM, a.UPD_DATIM,
+		<isEqual property="langKnd" compareValue="ko">
+			(SELECT NM_KOR FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isEqual>
+		<isNotEqual property="langKnd" compareValue="ko">
+			(SELECT NM_ENG FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isNotEqual> 
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG b ON b.SCHEDULE_ID = a.SCHEDULE_ID
+		JOIN SCHEDULE_USER c ON c.SCHEDULE_ID = a.SCHEDULE_ID 
+		WHERE c.USER_ID=#userId# AND LANG_KND=#langKnd# AND a.SCHEDULE_ID=CAST(#scheduleId# AS DECIMAL)
+	</select>
+	
+	<select id="schedule.detail.public" resultMap="schedule.detail"> /* schedule.detail.public */
+		SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, 
+		CASE WHEN c.OWNER_ID=#userId#
+		THEN 'CRUDA' 
+		ELSE CASE WHEN d.PERMISSIONS IS NULL THEN CASE WHEN g.PERMISSIONS IS NULL THEN 'R' ELSE g.PERMISSIONS END ELSE d.PERMISSIONS END END AS CAL_PERMISSIONS,
+	 	CASE WHEN a.OWNER_ID=#userId#
+		THEN 'CRUDA' 
+		ELSE CASE WHEN a.PERMISSIONS IS NULL THEN 'R' ELSE a.PERMISSIONS END END AS PERMISSIONS,
+		a.ALARM_PATTERN, FREQ, UNTIL, INTERVAL, BYMONTHDAY, BYDAY, a.INS_DATIM, a.UPD_DATIM,
+		<isEqual property="langKnd" compareValue="ko">
+			(SELECT NM_KOR FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isEqual>
+		<isNotEqual property="langKnd" compareValue="ko">
+			(SELECT NM_ENG FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isNotEqual>
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG b ON b.SCHEDULE_ID = a.SCHEDULE_ID AND LANG_KND=#langKnd#
+		JOIN CALENDAR_PUBLIC C ON c.CALENDAR_ID = a.CALENDAR_ID
+		LEFT OUTER JOIN CALENDAR_PUBLIC_USER d ON d.CALENDAR_ID = c.CALENDAR_ID AND d.USER_ID=#userId#
+		LEFT OUTER JOIN (
+			SELECT e.CALENDAR_ID, e.GROUP_ID, e.PERMISSIONS, f.USER_ID
+			FROM CALENDAR_PUBLIC_GROUP e
+			JOIN USERPASS f ON f.ORG_CD = e.GROUP_ID
+			WHERE f.USER_ID=#userId#
+		) g ON g.CALENDAR_ID = a.CALENDAR_ID
+		WHERE a.SCHEDULE_ID=CAST(#scheduleId# AS DECIMAL)
+	</select>
+	
+	<select id="schedule.detail.user.public" resultMap="schedule.detail"> /* schedule.detail.user.public */
+		SELECT a.SCHEDULE_ID, a.CALENDAR_ID, ALLDAY, a.OWNER_ID, START_DATIM, END_DATIM, 
+		CASE WHEN c.OWNER_ID = #userId# THEN 'CRUDA' ELSE COALESCE(d.PERMISSIONS, 'R') END AS CAL_PERMISSIONS,
+	 	CASE WHEN a.OWNER_ID = #userId# THEN 'CRUDA' ELSE COALESCE(a.PERMISSIONS, 'R') END AS PERMISSIONS, 
+		a.ALARM_PATTERN, FREQ, UNTIL, INTERVAL, BYMONTHDAY, BYDAY, a.INS_DATIM, a.UPD_DATIM,
+		<isEqual property="langKnd" compareValue="ko">
+			(SELECT NM_KOR FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isEqual>
+		<isNotEqual property="langKnd" compareValue="ko">
+			(SELECT NM_ENG FROM USERPASS WHERE USER_ID = a.OWNER_ID) AS OWNER_NAME
+		</isNotEqual>
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG b ON b.SCHEDULE_ID = a.SCHEDULE_ID AND LANG_KND=#langKnd#
+		JOIN CALENDAR C ON c.CALENDAR_ID = a.CALENDAR_ID
+		LEFT OUTER JOIN CALENDAR_USER d ON d.CALENDAR_ID = c.CALENDAR_ID AND d.USER_ID=#userId#
+		WHERE a.SCHEDULE_ID=CAST(#scheduleId# AS DECIMAL)
+	</select>
+	
+	<insert id="schedule.insert">/* schedule.insert */
+		INSERT INTO SCHEDULE (SCHEDULE_ID, CALENDAR_ID, ALLDAY, OWNER_ID, PERMISSIONS, ALARM_PATTERN, FREQ, UNTIL, INTERVAL, BYMONTHDAY, BYDAY, START_DATIM, END_DATIM, INS_DATIM, UPD_DATIM)
+		VALUES (CAST(#scheduleId# AS DECIMAL), CAST(#calendarId# AS DECIMAL), $allday$, #ownerId#, #permissions#, #alarmPattern#, #freq#, #until#, #interval#, #bymonthday#, #byday#,
+		TO_TIMESTAMP(#start#, 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP(#end#, 'YYYY-MM-DD HH24:MI'), NOW(), NOW())
+	</insert>
+	
+	<update id="schedule.update">/* schedule.update */
+		UPDATE SCHEDULE SET UPD_DATIM=NOW()
+		<isNotNull property="start">, START_DATIM=TO_TIMESTAMP(#start#, 'YYYY-MM-DD HH24:MI')</isNotNull>
+		<isNotNull property="end">, END_DATIM=TO_TIMESTAMP(#end#, 'YYYY-MM-DD HH24:MI')</isNotNull>
+		<isNotNull property="permissions">, PERMISSIONS=#permissions#</isNotNull>
+		<isNotNull property="calendarId">, CALENDAR_ID=CAST(#calendarId# AS DECIMAL)</isNotNull>
+		<isNotNull property="allday">, ALLDAY=$allday$</isNotNull> 
+		<isNotNull property="alarmPattern">, ALARM_PATTERN=#alarmPattern#</isNotNull>
+		<isNotNull property="freq">, FREQ=#freq#</isNotNull>
+		<isNotNull property="until">, UNTIL=#until#</isNotNull>
+		<isNotNull property="interval">, INTERVAL=#interval#</isNotNull>
+		<isNotNull property="bymonthday">, BYMONTHDAY=#bymonthday#</isNotNull>
+		<isNotNull property="byday">, BYDAY=#byday#</isNotNull>
+		WHERE SCHEDULE_ID=CAST(#scheduleId# AS DECIMAL)
+	</update>
+	
+	<delete id="schedule.delete">/* schedule.delete */
+		DELETE FROM SCHEDULE 
+		WHERE SCHEDULE_ID=CAST(#scheduleId# AS DECIMAL)
+	</delete>
+	
+	<delete id="schedule.delete.owner">/* schedule.delete.owner */
+		DELETE FROM SCHEDULE 
+		WHERE SCHEDULE_ID=CAST(#scheduleId# AS DECIMAL) AND OWNER_ID=#ownerId#
+	</delete>
+	
+	<delete id="schedule.delete.joint">/* schedule.delete.joint */
+		DELETE FROM SCHEDULE 
+		WHERE SCHEDULE_ID=CAST(#scheduleId# AS DECIMAL) AND OWNER_ID=#ownerId#
+	</delete>
+	
+	<delete id="schedule.delete.calendar">/* schedule.delete.calendar */
+		DELETE FROM SCHEDULE 
+		WHERE CALENDAR_ID=CAST(#calendarId# AS DECIMAL)
+	</delete>
+	
+	<resultMap id="schedule.list.ical" class="com.saltware.enhancer.calendar.service.ScheduleVO">
+		<result property="allday" column="ALLDAY" columnIndex="1"/>
+		<result property="start" column="START_DATIM" columnIndex="2"/>
+		<result property="end" column="END_DATIM" columnIndex="3"/>			 
+		<result property="name" column="NAME" columnIndex="4"/>
+		<result property="comments" column="COMMENTS" columnIndex="5"/>
+		<result property="place" column="PLACE" columnIndex="6"/>
+		<result property="freq" column="FREQ" columnIndex="7"/>
+		<result property="until" column="UNTIL" columnIndex="8"/>
+		<result property="interval" column="INTERVAL" columnIndex="9"/>
+		<result property="bymonthday" column="BYMONTHDAY" columnIndex="10"/>
+		<result property="byday" column="BYDAY" columnIndex="11"/>
+		<result property="insDatim" column="INS_DATIM" columnIndex="12"/>
+		<result property="updDatim" column="UPD_DATIM" columnIndex="13"/>
+		<result property="repeatStart" column="START_DATIM"/>
+	</resultMap>	
+	
+	<select id="schedule.list.ical.user" resultMap="schedule.list.ical">/* schedule.list.ical.user */
+	 	SELECT ALLDAY, START_DATIM, END_DATIM, NAME, COMMENTS, PLACE, FREQ, UNTIL, INTERVAL, BYMONTHDAY, BYDAY, 
+	 	a.INS_DATIM, a.UPD_DATIM
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG B ON B.SCHEDULE_ID = A.SCHEDULE_ID AND LANG_KND=#langKnd#
+		JOIN CALENDAR C ON C.CALENDAR_ID = A.CALENDAR_ID
+		WHERE a.CALENDAR_ID=CAST(#calendarId# AS DECIMAL)
+		<isNotNull property="start" prepend=" AND ">
+			<![CDATA[(
+				( #start# <= DATE_FORMAT(START_DATIM, 'YYYY') AND DATE_FORMAT(START_DATIM, 'YYYY') < #end# ) OR
+				( START_DATIM <= STR_TO_DATE(#start#||'01', 'YYYYMM') AND FREQ IS NOT NULL AND UNTIL IS NULL) OR 
+				STR_TO_DATE(#start#||'01', 'YYYYMM') <= STR_TO_DATE(UNTIL, 'YYYY') 
+			)]]>
+		</isNotNull>
+		ORDER BY START_DATIM
+	</select>
+	
+	<select id="schedule.list.ical.public" resultMap="schedule.list.ical">/* schedule.list.ical.public */
+	 	SELECT ALLDAY, START_DATIM, END_DATIM, NAME, COMMENTS, PLACE, FREQ, UNTIL, INTERVAL, BYMONTHDAY, BYDAY, 
+	 	a.INS_DATIM, a.UPD_DATIM
+		FROM SCHEDULE a
+		JOIN SCHEDULE_LANG B ON B.SCHEDULE_ID = A.SCHEDULE_ID AND LANG_KND=#langKnd#
+		JOIN CALENDAR_PUBLIC C ON C.CALENDAR_ID = A.CALENDAR_ID
+		WHERE a.CALENDAR_ID=CAST(#calendarId# AS DECIMAL)
+		<isNotNull property="start" prepend=" AND ">
+			<![CDATA[(
+				( #start# <= DATE_FORMAT(START_DATIM, 'YYYY') AND DATE_FORMAT(START_DATIM, 'YYYY') < #end# ) OR
+				( START_DATIM <= STR_TO_DATE(#start#||'01', 'YYYYMM') AND FREQ IS NOT NULL AND UNTIL IS NULL) OR 
+				STR_TO_DATE(#start#||'01', 'YYYYMM') <= STR_TO_DATE(UNTIL, 'YYYYMMDD') 
+			)]]>
+		</isNotNull>
+		ORDER BY START_DATIM
+	</select>
+	
+	<select id="schedule.ical.years" resultClass="java.lang.String"> /* schedule.ical.years */
+		SELECT DISTINCT DATE_FORMAT(START_DATIM, 'YYYY') AS YEARS
+		FROM SCHEDULE 
+		<isNotNull property="calendarId">WHERE CALENDAR_ID=CAST(#calendarId# AS DECIMAL)</isNotNull> 
+		ORDER BY YEARS ASC
+	</select>
+</sqlMap>
+

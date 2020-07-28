@@ -1,0 +1,439 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="face">
+	
+	<!-- 오늘날짜구하기 -->
+	<select id="bannerMng.getSysdate" parameterClass="java.util.Map" resultClass="string">                 /* BannerMng.getSysdate */
+		SELECT TO_CHAR (SYSDATE, 'yyyymmdd')FROM DUAL	
+	</select>
+	
+	<!--배너상세정보-->
+	<select id="bannerMng.getBannerInfo" parameterClass="java.util.Map" resultClass="java.util.HashMap">   /* BannerMng.getBannerInfo */
+		SELECT 
+				 T1.BANNER_SEQ
+				,T1.DOMAIN_ID
+				,T1.CATEGORY_SEQ
+				,T1.TYPE
+				,T1.TOP_BANNER
+				,T1.TITLE_KOR
+				,T1.TITLE_ENG
+				,T1.DEPT_CD_KOR
+				,T1.DEPT_CD_ENG
+				,T1.SCH_PLACE_KOR
+				,T1.SCH_PLACE_ENG
+				,TO_CHAR(T1.START_DATE_KOR,'YYYYMMDD') AS START_DATE_KOR
+				,TO_CHAR(T1.END_DATE_KOR,'YYYYMMDD') AS END_DATE_KOR
+				,TO_CHAR(T1.START_DATE_ENG,'YYYYMMDD') AS START_DATE_ENG
+				,TO_CHAR(T1.END_DATE_ENG,'YYYYMMDD') AS END_DATE_ENG
+				,T1.IMAGE_NM_KOR
+				,T1.IMAGE_PATH_KOR
+				,T1.IMAGE_NM_ENG
+				,T1.IMAGE_PATH_ENG
+				,T1.STATE
+				,T1.REG_DATIM
+				,T1.REG_USER_ID
+				,T1.UPD_DATIM
+				,T1.UPD_USER_ID
+				,T1.TARGET_LINK
+				,T1.BANNER_TEXT_KOR
+				,T1.BANNER_TEXT_ENG
+		FROM BANNER T1 
+		WHERE BANNER_SEQ = #BANNER_SEQ#
+	</select>
+	
+	<!-- 배너 시퀀스 -->
+	<select id="bannerMng.getBannerSeq" parameterClass="java.lang.String" resultClass="java.lang.String"> /* BannerMng.getBannerSeq */
+		SELECT  NVL( MAX(BANNER_SEQ), 0) + 1 FROM BANNER
+	</select>
+	
+	<!-- 배너 추가 -->
+	<insert id="bannerMng.insertBanner" parameterClass="java.util.Map"> /* BannerMng.insertBanner*/
+		INSERT  INTO BANNER
+			(
+				 BANNER_SEQ
+				,DOMAIN_ID
+				,CATEGORY_SEQ
+				,TYPE
+				,TOP_BANNER
+				,TITLE_KOR
+				,TITLE_ENG
+				,DEPT_CD_KOR
+				,DEPT_CD_ENG
+				,SCH_PLACE_KOR
+				,SCH_PLACE_ENG
+				,START_DATE_KOR
+				,END_DATE_KOR
+				,START_DATE_ENG
+				,END_DATE_ENG
+				,IMAGE_NM_KOR
+				,IMAGE_PATH_KOR
+				,IMAGE_NM_ENG
+				,IMAGE_PATH_ENG
+				,STATE
+				,REG_DATIM
+				,REG_USER_ID
+				,TARGET_LINK
+				,BANNER_TEXT_KOR
+				,BANNER_TEXT_ENG
+				,REG_DEPT_CODE
+			)VALUES(
+				 #BANNER_SEQ#
+				,#DOMAIN_ID#
+				,#CATEGORY_SEQ#
+				,#bn_img#
+				,#topBanner#
+				,#titleKor#
+				,#titleEng#
+				,#deptCdKor#
+				,#deptCdEng#
+				,#schPlaceKor#
+				,#schPlaceEng#
+				,TO_DATE(#date1_ko#,'YYYYMMDD')
+				,TO_DATE(#date2_ko#,'YYYYMMDD')
+				,TO_DATE(#date1_ko#,'YYYYMMDD')
+				,TO_DATE(#date2_ko#,'YYYYMMDD')
+				,#IMAGE_NM_KOR#
+				,#IMAGE_PATH_KOR#
+				,#IMAGE_NM_ENG#
+				,#IMAGE_PATH_ENG#
+				,#STATE#
+				,SYSDATE
+				,#USER_ID#
+				,#link#
+				,#BANNER_TEXT_KOR#
+				,#BANNER_TEXT_ENG#
+				,#REG_DEPT_CODE#
+			)     
+	</insert>
+	
+	<!-- 배너수정 -->
+	<update id="bannerMng.updateBanner" parameterClass="java.util.Map">  /* BannerMng.updateBanner */
+		UPDATE BANNER SET  
+		                   DOMAIN_ID = #DOMAIN_ID#
+		                  ,TYPE = #bn_img#
+		                  ,CATEGORY_SEQ = #CATEGORY_SEQ#
+						  ,TOP_BANNER = #topBanner#
+						  ,TITLE_KOR  = #titleKor#
+						  ,TITLE_ENG  = #titleEng#
+						  ,DEPT_CD_KOR = #deptCdKor#
+						  ,DEPT_CD_ENG = #deptCdEng#
+						  ,SCH_PLACE_KOR  = #schPlaceKor#
+						  ,SCH_PLACE_ENG  = #schPlaceEng#
+						  ,START_DATE_KOR = TO_DATE(#date1_ko#,'YYYYMMDD')
+						  ,END_DATE_KOR   = TO_DATE(#date2_ko#,'YYYYMMDD')
+						  ,START_DATE_ENG = TO_DATE(#date1_ko#,'YYYYMMDD')
+						  ,END_DATE_ENG = TO_DATE(#date2_ko#,'YYYYMMDD')
+						  <isNotNull property="IMAGE_PATH_KOR">
+							  ,IMAGE_NM_KOR = #IMAGE_NM_KOR#
+							  ,IMAGE_PATH_KOR = #IMAGE_PATH_KOR#
+						  </isNotNull>
+						  <isNotNull property="IMAGE_PATH_ENG">
+							  ,IMAGE_NM_ENG   = #IMAGE_NM_ENG#
+							  ,IMAGE_PATH_ENG = #IMAGE_PATH_ENG#
+						  </isNotNull>
+						  <isNull property="IMAGE_PATH_KOR">
+							  <isNotEqual property="bn_img" compareValue="00">
+							  ,IMAGE_NM_KOR = #IMAGE_NM_KOR#	/*수작업배너작성시 이미지는 삭제*/
+							  ,IMAGE_PATH_KOR = #IMAGE_PATH_KOR#
+							  </isNotEqual>
+						  </isNull>
+						  <isNull property="IMAGE_PATH_ENG">
+							  <isNotEqual property="bn_img" compareValue="00">
+							  ,IMAGE_NM_ENG   = #IMAGE_NM_ENG#  /*수작업배너작성시 이미지는 삭제*/
+							  ,IMAGE_PATH_ENG = #IMAGE_PATH_ENG#
+							  </isNotEqual>
+						  </isNull>
+						  ,STATE = #STATE#
+						  ,UPD_DATIM = SYSDATE
+						  ,UPD_USER_ID = #USER_ID#
+						  ,TARGET_LINK = #link#
+						  ,BANNER_TEXT_KOR = #BANNER_TEXT_KOR#
+						  ,BANNER_TEXT_ENG = #BANNER_TEXT_ENG#
+		WHERE BANNER_SEQ = #BANNER_SEQ#
+	</update>
+	
+	<!-- 배너삭제 -->
+	<delete id="bannerMng.deleteBanner" parameterClass="string"> /* BannerMng.deleteBanner */
+		DELETE FROM BANNER WHERE BANNER_SEQ = #value#
+	</delete>
+	
+	<!-- 배너승인목록 -->
+	<select id="bannerMng.getBannerList" parameterClass="java.util.Map" resultClass="java.util.HashMap"> /* BannerMng.getBannerList */
+		SELECT
+            B.*
+        FROM
+        (
+            SELECT
+                A.*,ROWNUM AS RNUM
+            FROM
+            (
+				SELECT
+						  T1.BANNER_SEQ
+						 ,T1.TOP_BANNER
+						 ,T1.CATEGORY_SEQ
+						 ,T1.REG_USER_ID
+						 ,T1.STATE AS STATE_CODE
+						 ,T1.IMAGE_PATH_KOR
+						 ,T1.IMAGE_PATH_ENG
+						<isEqual property="LANG_KND" compareValue="ko">
+						 ,(CASE WHEN T1.STATE = '1' THEN '계류'
+								WHEN T1.STATE = '2' THEN '승인' END) AS STATE
+						 ,T1.DEPT_CD_KOR AS DEPT_CD
+						 ,T1.TITLE_KOR AS TITLE
+						 ,T1.SCH_PLACE_KOR AS SCH_PLACE
+						 ,TO_CHAR(T1.START_DATE_KOR,'YYYY/MM/DD') AS START_DATE
+						 ,TO_CHAR(T1.END_DATE_KOR,'YYYY/MM/DD') AS END_DATE
+						</isEqual>
+						<isEqual property="LANG_KND" compareValue="en">
+						,(CASE WHEN T1.STATE = '1' THEN 'Defer'
+								WHEN T1.STATE = '2' THEN 'Approval' END) AS STATE
+						 ,T1.DEPT_CD_ENG AS DEPT_CD
+						 ,T1.TITLE_ENG AS TITLE
+						 ,T1.SCH_PLACE_ENG AS SCH_PLACE
+						 ,TO_CHAR(T1.START_DATE_ENG,'YYYY/MM/DD') AS START_DATE
+						 ,TO_CHAR(T1.END_DATE_ENG,'YYYY/MM/DD') AS END_DATE
+						</isEqual>
+						 
+				  FROM  BANNER T1      
+				  WHERE 1=1
+				  AND T1.DOMAIN_ID = #DOMAIN_ID#
+				  <isNotEmpty property="STATE">
+				  AND T1.STATE = #STATE#    /*상태*/
+				  </isNotEmpty>
+				  AND (TO_CHAR(T1.REG_DATIM,'YYYYMMDD') <![CDATA[ >= ]]> #REG_FROM#  OR TO_CHAR(T1.UPD_DATIM,'YYYYMMDD')  <![CDATA[ >= ]]> #REG_FROM#)        /*등록일FROM*/
+				  AND (TO_CHAR(T1.REG_DATIM,'YYYYMMDD') <![CDATA[ <= ]]> #REG_TO#   OR TO_CHAR(T1.UPD_DATIM,'YYYYMMDD')  <![CDATA[ <= ]]>  #REG_TO#  )  /*등록일TO*/
+				  <isNotEmpty property="TITLE_NM">
+					<isEqual property="LANG_KND" compareValue="ko">
+					AND T1.TITLE_KOR LIKE '%'||#TITLE_NM#||'%' /*행사명KOR*/
+					</isEqual>
+					<isEqual property="LANG_KND" compareValue="en">
+					AND T1.TITLE_ENG LIKE '%'||#TITLE_NM#||'%' /*행사명ENG*/
+					</isEqual>
+				  </isNotEmpty>
+				ORDER BY REG_DATIM DESC         
+			) A
+		) B
+	WHERE
+		RNUM BETWEEN ((#PAGE_NUM#-1)*#PAGE_SIZE#+1) AND #PAGE_NUM#*#PAGE_SIZE#
+	</select>
+	
+	<!-- 배너승인목록 토탈카운트-->
+	<select id="bannerMng.getBannerListCnt" parameterClass="java.util.Map" resultClass="java.lang.Integer"> /* BannerMng.getBannerListCnt */
+		SELECT
+				COUNT(*) AS CNT
+				 
+		  FROM    BANNER T1      
+	      WHERE 1=1
+		  AND T1.DOMAIN_ID = #DOMAIN_ID#
+		  <isNotEmpty property="STATE">
+		  AND T1.STATE = #STATE#    /*상태*/
+		  </isNotEmpty>
+		  AND TO_CHAR(T1.REG_DATIM,'YYYYMMDD') <![CDATA[ >= ]]> #REG_FROM# /*등록일FROM*/
+		  AND TO_CHAR(T1.REG_DATIM,'YYYYMMDD') <![CDATA[ <= ]]> #REG_TO#   /*등록일TO*/
+		  <isNotEmpty property="TITLE_NM">
+			<isEqual property="LANG_KND" compareValue="ko">
+			AND T1.TITLE_KOR LIKE '%'||#TITLE_NM#||'%' /*행사명KOR*/
+			</isEqual>
+			<isEqual property="LANG_KND" compareValue="en">
+			AND T1.TITLE_ENG LIKE '%'||#TITLE_NM#||'%' /*행사명ENG*/
+			</isEqual>
+		  </isNotEmpty>
+	</select>
+
+	<!-- 배너상태코드목록 -->
+	<select id="bannerMng.getBnStateList" parameterClass="java.util.Map" resultClass="java.util.HashMap"> /* BannerMng.getBnStateList */
+		SELECT
+				T1.SYSTEM_CODE
+			   ,T1.CODE_ID
+			   ,T1.CODE
+			   ,T1.LANG_KND
+			   ,T1.CODE_NAME
+		  FROM  CODEBASE T1       
+		 WHERE  SYSTEM_CODE = 'PT'
+		   AND  CODE != '0000000000'/*상위코드제외*/
+		   AND  CODE_ID = '997'
+		   <isEqual property="LANG_KND" compareValue="ko">
+		   AND  LANG_KND = 'ko'
+		   </isEqual>
+		    <isEqual property="LANG_KND" compareValue="en">
+		   AND  LANG_KND = 'en'
+		   </isEqual>
+	</select>
+	
+	<!-- 삭제할 배너이미지 목록 -->
+	<select id="bannerMng.getBannerImg" parameterClass="java.util.List" resultClass="java.util.HashMap"> /* BannerMng.getBannerImg */
+		  SELECT
+				T1.IMAGE_PATH_KOR
+			   ,T1.IMAGE_PATH_ENG
+		  FROM  BANNER T1       
+		 <dynamic prepend="WHERE BANNER_SEQ IN ">
+			 <iterate open="(" close=")" conjunction=",">
+				 #[].BANNER_SEQ#
+			 </iterate>
+		</dynamic>
+		AND T1.TYPE = 00
+	</select>
+	
+	<!-- 배너 다중삭제 -->
+	<delete id="bannerMng.deleteBannerMulti" parameterClass="java.util.List"> /* BannerMng.deleteBannerMulti */
+		  DELETE FROM  BANNER      
+		 <dynamic prepend="WHERE BANNER_SEQ IN ">
+			 <iterate open="(" close=")" conjunction=",">
+				 #[].BANNER_SEQ#
+			 </iterate>
+		</dynamic>
+	</delete>
+	
+	<!-- 배너 등록 가능일 조회 -->
+	<select id="bannerMng.getRegEnableBnDate" parameterClass="java.util.Map" resultClass="java.util.HashMap"> /* BannerMng.getRegEnableBnDate */
+		SELECT   EVENT_DAY,
+				 (SELECT   COUNT ( * )
+					FROM   BANNER B
+				   WHERE   A.EVENT_DAY BETWEEN TO_CHAR (B.START_DATE_KOR, 'YYYYMMDD')AND  TO_CHAR (B.END_DATE_KOR, 'YYYYMMDD') AND B.STATE='2')AS CNT
+		  FROM   (    SELECT   TO_CHAR (BASE_MON + LEVEL - 1, 'YYYYMMDD') AS EVENT_DAY
+						FROM   (SELECT   TO_DATE (#BANNER_DAY#, 'yyyymm') AS BASE_MON FROM   DUAL)
+				  CONNECT BY   BASE_MON + LEVEL - 1 <![CDATA[ <= ]]> LAST_DAY (BASE_MON)
+				  ) A
+	</select>
+
+	<!-- 기관별 배너등록건수  조회:2회연속 게시여부검사-->
+	<select id="bannerMng.checkPeriodDouble" parameterClass="java.util.Map" resultClass="java.lang.Integer"> /* BannerMng.checkPeriodDouble */
+		SELECT   COUNT ( * ) AS CNT
+		  FROM   (  SELECT   START_DATE_KOR, END_DATE_KOR, BANNER_SEQ, STATE
+					  FROM   BANNER
+					 WHERE   REG_DEPT_CODE = #baseData#
+				 ) ST1
+		  WHERE  (
+					ABS(ST1.END_DATE_KOR - TO_DATE(#fromDt#, 'YYYYMMDD'))<![CDATA[ <= ]]>1
+					OR	
+					ABS(ST1.END_DATE_KOR - TO_DATE(#toDt#, 'YYYYMMDD'))<![CDATA[ <= ]]>1
+					OR	
+					ABS(ST1.START_DATE_KOR - TO_DATE(#fromDt#, 'YYYYMMDD'))<![CDATA[ <= ]]>1
+					OR	
+					ABS(ST1.START_DATE_KOR - TO_DATE(#toDt#, 'YYYYMMDD'))<![CDATA[ <= ]]>1
+					OR
+					TO_DATE(#fromDt#, 'YYYYMMDD') BETWEEN ST1.START_DATE_KOR AND ST1.END_DATE_KOR
+					OR
+					TO_DATE(#toDt#, 'YYYYMMDD') BETWEEN ST1.START_DATE_KOR AND ST1.END_DATE_KOR
+				 )
+		 <isNotEmpty property="bannerSeq">
+		   AND ST1.BANNER_SEQ != #bannerSeq# /*수정일경우 건수에서 제외*/
+		 </isNotEmpty>
+		 AND ST1.STATE = '2'/*승인건만 대상으로*/
+	</select>
+
+	<!-- 기간내 배너등록 최대건수 검사-->
+	<select id="bannerMng.checkMaxRegCnt" parameterClass="java.util.Map" resultClass="java.lang.Integer">  /* BannerMng.checkMaxRegCnt */
+		SELECT MAX(CNT) AS MAXCNT 
+		FROM (
+				SELECT 
+						EVENT_DAY
+					   ,( SELECT 
+								 COUNT(*) 
+							FROM BANNER B 
+						   WHERE A.EVENT_DAY BETWEEN TO_CHAR(B.START_DATE_KOR, 'YYYYMMDD') AND TO_CHAR(B.END_DATE_KOR, 'YYYYMMDD') 
+						   <isNotEmpty property="bannerSeq">
+						     AND B.BANNER_SEQ != #bannerSeq# /*수정일경우 건수에서 제외*/
+						   </isNotEmpty>
+						   AND B.STATE = '2'/*승인건만 대상으로*/
+						) AS CNT
+				FROM (
+						SELECT TO_CHAR (BASE_MON + LEVEL - 1 , 'YYYYMMDD') AS EVENT_DAY
+						  FROM (
+								 SELECT TO_DATE(#baseData#, 'yyyymm') AS BASE_MON FROM DUAL
+							   ) CONNECT BY BASE_MON + LEVEL - 1 <![CDATA[ <= ]]> LAST_DAY (BASE_MON)
+					) A 
+			) C WHERE EVENT_DAY BETWEEN #fromDt# AND #toDt#
+	</select>
+	
+	<!-- 하루 게시 가능한 배너건수 조회 -->
+	<select id="bannerMng.checkLimitRegCnt" parameterClass="java.util.Map" resultClass="java.lang.Integer">  /* BannerMng.checkLimitRegCnt */
+		 SELECT TO_NUMBER(T1.CODE_NAME)AS MAX_CNT
+		  FROM CODEBASE T1
+		 WHERE SYSTEM_CODE='PT' 
+		   AND CODE != '0000000000'/*상위코드제외*/
+		   AND CODE_ID = '996'
+		   AND LANG_KND='ko' 
+	</select>
+	
+	<!-- 배너 카테고리 목록-->
+	<select id="bannerMng.getCategoryList" parameterClass="java.util.Map" resultClass="java.util.HashMap"> /* bannerMng.getCategoryList */
+		SELECT  T1.CATEGORY_SEQ
+		       ,T1.DOMAIN_ID
+			   ,T1.NM_KOR
+			   ,T1.NM_ENG
+			   ,T1.DSP_ORDER
+		  FROM  BANNER_CATEGORY T1
+		 WHERE  T1.STATE = 'Y'
+		 <isEqual prepend=" AND " property="ADMIN_ROLE" compareValue="N">
+		  	    T1.DOMAIN_ID = #DOMAIN_ID#
+		 </isEqual>
+		 ORDER BY T1.DSP_ORDER ASC
+	</select>
+	
+	<!-- 카테고리 삭제(상태변경) -->
+	<update id="bannerMng.deleteCategory" parameterClass="java.util.List">  /* bannerMng.deleteCategory */
+		 UPDATE BANNER_CATEGORY SET STATE='N',UPD_DATIM = SYSDATE
+		 <dynamic prepend="WHERE CATEGORY_SEQ IN ">
+			 <iterate open="(" close=")" conjunction=",">
+				 #[].CATEGORY_SEQ#
+			 </iterate>
+		 </dynamic>
+	</update>
+	
+	<!-- 카테고리 수정 -->
+	<update id="bannerMng.updateCategory" parameterClass="java.util.Map"> /* bannerMng.updateCategory */
+		UPDATE   BANNER_CATEGORY
+		   SET   DOMAIN_ID = #DOMAIN_ID#
+		        ,NM_KOR = #NM_KOR#
+				,NM_ENG = #NM_ENG#
+				,DSP_ORDER = #DSP_ORDER#
+				,UPD_USER_ID = #UPD_USER_ID#
+				,UPD_DATIM = SYSDATE
+		 WHERE  CATEGORY_SEQ = #CATEGORY_SEQ#
+	</update>
+	
+	<!-- 카테고리 추가 -->
+	<insert id="bannerMng.insertCategory" parameterClass="java.util.Map"> /* bannerMng.insertCategory */
+		INSERT  INTO BANNER_CATEGORY
+			(
+				 CATEGORY_SEQ
+				,DOMAIN_ID
+				,STATE
+				,NM_KOR
+				,NM_ENG
+				,DSP_ORDER
+				,REG_DATIM
+				,REG_USER_ID
+			)VALUES(
+				 NVL((SELECT  MAX(CATEGORY_SEQ + 1) AS NEXT_SEQ FROM BANNER_CATEGORY),1)
+				,#DOMAIN_ID#
+				,'Y'
+				,#NM_KOR#	
+				,#NM_ENG#					
+				,#DSP_ORDER#
+				,SYSDATE
+				,#UPD_USER_ID#
+			)     
+	</insert>
+	
+	<!-- 카테고리 코드리스트 -->
+	<select id="bannerMng.getCateCode"  parameterClass="java.util.Map" resultClass="java.util.HashMap">  /* bannerMng.getCateCode */
+		SELECT
+		        T1.CATEGORY_SEQ,
+		        T1.DOMAIN_ID
+			   <isEqual property="LANG_KND" compareValue="ko">
+		       ,T1.NM_KOR AS CATEGORY_NM
+			   </isEqual>
+			   <isEqual property="LANG_KND" compareValue="en">
+		       ,T1.NM_ENG AS CATEGORY_NM
+			   </isEqual>
+        
+		FROM  BANNER_CATEGORY T1  	
+		WHERE  T1.STATE ='Y' /*사용중*/
+		 <isEqual prepend=" AND " property="ADMIN_ROLE" compareValue="N">
+		  	 	 T1.DOMAIN_ID = #DOMAIN_ID#
+		 </isEqual>
+		ORDER BY DSP_ORDER ASC
+	</select>
+</sqlMap>

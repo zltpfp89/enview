@@ -1,0 +1,73 @@
+/*maincontents*/
+/*btngray*/
+.councilList li .btngray {display:inline-block; height:20px; line-height:21px; padding:0 0 0 8px; margin:0 0 0 5px; background:url(../images/btn/btnGrayL.gif) no-repeat left top !important; }
+.councilList li .btngray a {display:inline-block; height:20px; line-height:21px; font-weight:bold; font-size:11px; color:#9d9b9b;  padding:0 8px 0 0; background:url(../images/btn/btnGrayR.gif) no-repeat right top !important;}
+/*btngreeen*/
+.councilList li .btngreeen {display:inline-block; height:20px; line-height:21px; padding:0 0 0 8px; margin:0 0 0 5px; background:url(../images/btn/btnGreenL.gif) no-repeat left top !important;}
+.councilList li .btngreeen a {display:inline-block; height:20px; line-height:21px; font-weight:bold; font-size:11px; color:#99a166;  padding:0 8px 0 0; background:url(../images/btn/btnGreenR.gif) no-repeat right top !important;}
+
+.councilList li .btngray a , .councilList li .btngreeen a{font-weight:normal !important; }
+.councilList li .btngray a:hover , .councilList li .btngreeen a:hover{text-decoration:none !important; }
+
+
+/*student*/
+/*btn_gra*/
+.btn_gra {display:inline-block; height:18px; line-height:20px; padding:0 0 0 10px;  background:url(../images/btn/btn_gra_L.gif) no-repeat left top;}
+.btn_gra span {display:inline-block; height:18px; line-height:20px; font-weight:; font-size:11px; color:#333; padding:0 10px 0 0; background:url(../images/btn/btn_gra_R.gif) no-repeat right top;}
+
+
+/*footer*/
+/*control_gray*/
+.control_gray {display:inline-block; height:24px; line-height:24px; padding:0 0 0 30px;  background:url(../images/btn/control_gray_L.gif) no-repeat left top;}
+.control_gray span {display:inline-block; height:24px; line-height:24px; font-weight:; font-size:12px; color:#fff; padding:0 12px 0 8px; background:url(../images/btn/control_gray_R.gif) no-repeat right top;}
+/*control_blue*/
+.control_blue {display:inline-block; height:24px; line-height:24px; padding:0 0 0 30px;  background:url(../images/btn/control_blue_L.gif) no-repeat left top;}
+.control_blue span {display:inline-block; height:24px; line-height:24px; font-weight:; font-size:12px; color:#fff; padding:0 12px 0 8px;  background:url(../images/btn/control_blue_R.gif) no-repeat right top;}
+
+/*btn_help*/
+.btn_help {display:inline-block; height:24px; line-height:24px; padding:0 0 0 20px;  background:url(../images/btn/btn_help_L.gif) no-repeat left top;}
+.btn_help span {display:inline-block; height:24px; line-height:24px; font-weight:; font-size:12px; color:#000; padding:0 28px 0 0;  background:url(../images/btn/btn_help_R.gif) no-repeat right top;}
+
+/*btn_black*/
+.btn_black {display:inline-block; height:21px; line-height:22px; padding:0 0 0 10px;  background:url(../images/btn/btn_black_L.gif) no-repeat left top;}
+.btn_black span {display:inline-block; height:21px; line-height:22px; font-weight:bold; font-size:11px; color:#fff; padding:0 10px 0 0; background:url(../images/btn/btn_black_R.gif) no-repeat right top;}
+
+
+/*professor*/
+/*btn_Cgray*/
+.btn_Cgray {display:inline-block; height:24px; line-height:22px; padding:0 0 0 7px;  background:url(../images/btn/btn_Cgray_L.gif) no-repeat left top;}
+.btn_Cgray span {display:inline-block; height:24px; line-height:22px; font-weight:bold; font-size:11px; color:#959595; padding:0 7px 0 0px; background:url(../images/btn/btn_Cgray_R.gif) no-repeat right top;}
+
+
+/*board*/
+/*searchBg*/
+.searchBg {display:inline-block; height:24px; line-height:27px; padding:0 0 0 12px;  background:url(../images/board/btn_searchBg_L.gif) no-repeat left top;}
+.searchBg span {display:inline-block; height:24px; line-height:27px; font-weight:; font-size:11px; color:#fff; padding:0 17px 0 0; background:url(../images/board/btn_searchBg_R.gif) no-repeat right top;}
+
+/*btn_red*/
+.btn_red {display:inline-block; height:18px; line-height:20px; padding:0 0 0 3px;  background:url(../images/board/btn_red_L.gif) no-repeat left top;}
+.btn_red span {display:inline-block; height:18px; line-height:20px; font-weight:; font-size:11px; color:#bb3c3c; padding:0 7px 0 3px; background:url(../images/board/btn_red_R.gif) no-repeat right top;}
+/*btn_gmini*/
+.btn_gmini {display:inline-block; height:18px; line-height:20px; padding:0 0 0 3px;  background:url(../images/board/btn_gmini_L.gif) no-repeat left top;}
+.btn_gmini span {display:inline-block; height:18px; line-height:20px; font-weight:; font-size:11px; color:#959595; padding:0 7px 0 3px; background:url(../images/board/btn_gmini_R.gif) no-repeat right top;}
+/*btn_deep*/
+.btn_deep {display:inline-block; height:18px; line-height:20px; padding:0 0 0 3px;  background:url(../images/board/btn_deep_L.gif) no-repeat left top;}
+.btn_deep span {display:inline-block; height:18px; line-height:20px; font-weight:; font-size:11px; color:#757575; padding:0 7px 0 3px; background:url(../images/board/btn_deep_R.gif) no-repeat right top;}
+
+/*btn_gray*/
+.btn_gray {display:inline-block; height:21px; line-height:23px; padding:0 0 0 3px;  background:url(../images/board/btn_gray_L.gif) no-repeat left top;}
+.btn_gray span {display:inline-block; height:21px; line-height:23px; font-weight:bold; font-size:11px; color:#fff; padding:0 10px 0 7px; background:url(../images/board/btn_gray_R.gif) no-repeat right top;}
+
+
+/*btn_bmini*/
+.btn_bmini {display:inline-block; height:18px; line-height:20px; padding:0 0 0 3px;  background:url(../images/board/btn_bmini_L.gif) no-repeat left top;}
+.btn_bmini span {display:inline-block; height:18px; line-height:20px; font-weight:; font-size:11px; color:#fff; padding:0 7px 0 3px; background:url(../images/board/btn_bmini_R.gif) no-repeat right top;}
+
+/*popup*/
+/*btnArea*/
+.btnArea_C{text-align:center; margin:20px 0; }
+.btnArea_R{text-align:right; }
+.btnArea_L{text-align:left; }
+/*pop_gray*/
+.pop_gray {display:inline-block; height:24px; line-height:24px; padding:0 0 0 10px;  background:url(../images/popup/pop_gray_L.gif) no-repeat left top;}
+.pop_gray span {display:inline-block; height:24px; line-height:24px; font-size:12px; color:#333; padding:0 10px 0 0; background:url(../images/popup/pop_gray_R.gif) no-repeat right top;}

@@ -1,0 +1,66 @@
+@charset "utf-8";
+
+/*  ///////////////////////TOP공용//////////////////////// */
+
+/* Layout */
+#common_wrap {
+	width:100%;
+	height:77px;
+	margin:0 auto;
+	background:url(../img/top_common/top_bg.gif) repeat-x;
+}
+
+
+#common_top {
+	width:970px; height:77px;
+	border:0px solid red;
+	background:url(../img/top_common/top_bg2.gif) no-repeat left top;
+	position:relative;
+}
+
+#common_top h1 {
+	clear:none;
+	margin:0;
+	padding:9px 0 0 16px; 
+	width:400px;
+	background:none;
+	float:left;
+	display:inline;
+	border:0px solid red;	
+}
+
+#common_top h2 {
+	clear:none;
+	float:right;
+	display:inline;
+	width:300px; 
+	text-align:right;
+	vertical-align:bottom;
+	margin:0; 
+	padding:40px 0 0 0;
+	background:none;
+	border:0px solid gold;
+}
+
+.gnbLink {
+	position:absolute;
+	right:-10px; top:10px;	
+}
+
+.gnbLink li.first {
+	border:none;
+}
+
+.gnbLink li{
+	font:normal 11px dotum,돋움,arial;
+	color:#fff;
+	float:left;
+	padding:0 10px;
+	border-left:1px solid #5d8bca;
+	height:11px;
+}
+
+.gnbLink li a {
+	font:normal 11px dotum,돋움,arial;
+	color:#fff;
+}

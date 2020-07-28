@@ -1,0 +1,100 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ THEME_MAPPING : 테마맵핑관리 ] Table -->
+	<resultMap id="admin_ThemeMappingVO_PK" class="com.saltware.enview.admin.themeMapping.service.ThemeMappingPK">
+	
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="1"/>	
+		<result property="seasonType" column="SEASON_TYPE" columnIndex="2"/>	
+		<result property="pageType" column="PAGE_TYPE" columnIndex="3"/>	
+	</resultMap>
+	
+	<resultMap id="admin_ThemeMappingVO" class="com.saltware.enview.admin.themeMapping.service.ThemeMappingVO">
+	 
+		<result property="principalId" column="PRINCIPAL_ID" columnIndex="1"/>	 
+		<result property="seasonType" column="SEASON_TYPE" columnIndex="2"/>	 
+		<result property="pageType" column="PAGE_TYPE" columnIndex="3"/>	 
+		<result property="themeName" column="THEME_NAME" columnIndex="4"/>	
+		<result property="groupId" column="GROUP_ID" columnIndex="5"/>	
+	</resultMap>
+	
+	<select id="themeMapping.totalCount" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM THEME_MAPPING
+			WHERE 1=1	
+					<isNotNull  prepend=" AND " property="themeNameCond">THEME_NAME LIKE ISNULL(#themeNameCond#,'%')+'%'</isNotNull>
+	</select>
+	
+	<select id="themeMapping.exist" resultClass="int">
+
+			SELECT COUNT(*) cnt
+			FROM THEME_MAPPING
+			WHERE PRINCIPAL_ID=#principalId#
+			  AND SEASON_TYPE=#seasonType#
+			  AND PAGE_TYPE=#pageType#
+	</select>
+	
+	<select id="themeMapping.findByPage" resultMap="admin_ThemeMappingVO_PK">
+			SELECT * FROM ( 
+				SELECT Row_Number() OVER (<isNull property="sortColumn">ORDER BY PRINCIPAL_ID,SEASON_TYPE,PAGE_TYPE ASC</isNull><isNotNull property="sortColumn"> ORDER BY $sortColumn$ $sortMethod$ </isNotNull>) AS rownum, PRINCIPAL_ID,SEASON_TYPE,PAGE_TYPE
+				FROM THEME_MAPPING 
+				WHERE 1=1 
+					<isNotNull  prepend=" AND " property="themeNameCond">THEME_NAME LIKE ISNULL(#themeNameCond#,'%')+'%'</isNotNull>
+			) T1
+			WHERE rownum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="themeMapping.findAll" resultMap="admin_ThemeMappingVO">
+			SELECT a.PRINCIPAL_ID,a.SEASON_TYPE,a.PAGE_TYPE,a.THEME_NAME, b.SHORT_PATH AS GROUP_ID
+			FROM THEME_MAPPING a INNER JOIN SECURITY_PRINCIPAL b ON a.PRINCIPAL_ID=b.PRINCIPAL_ID
+			ORDER BY a.THEME_NAME ASC
+	</select>
+	
+
+	<select id="themeMapping.detail" resultMap="admin_ThemeMappingVO">
+		<![CDATA[
+			SELECT a.PRINCIPAL_ID,a.SEASON_TYPE,a.PAGE_TYPE,a.THEME_NAME, b.SHORT_PATH AS GROUP_ID
+			FROM THEME_MAPPING a INNER JOIN SECURITY_PRINCIPAL b ON a.PRINCIPAL_ID=b.PRINCIPAL_ID
+			WHERE 1=1 
+				AND a.PRINCIPAL_ID=#principalId#
+				AND a.SEASON_TYPE=#seasonType#
+				AND a.PAGE_TYPE=#pageType#
+		]]>
+	</select>
+	
+	<insert id="themeMapping.insert">
+		<![CDATA[
+			INSERT INTO THEME_MAPPING
+				( PRINCIPAL_ID,SEASON_TYPE,PAGE_TYPE,THEME_NAME )
+			VALUES ( #principalId#,#seasonType#,#pageType#,#themeName# )
+		]]>
+	</insert>
+	
+	<update id="themeMapping.update">
+		<![CDATA[
+			UPDATE THEME_MAPPING
+			SET PRINCIPAL_ID=#principalId#,SEASON_TYPE=#seasonType#,PAGE_TYPE=#pageType#,THEME_NAME=#themeName#
+			WHERE 1=1 
+				AND PRINCIPAL_ID=#principalId#
+				AND SEASON_TYPE=#seasonType#
+				AND PAGE_TYPE=#pageType#
+		]]>
+	</update>
+	
+	<delete id="themeMapping.delete">
+		<![CDATA[
+			DELETE FROM THEME_MAPPING
+			WHERE 1=1 
+				AND PRINCIPAL_ID=#principalId#
+				AND SEASON_TYPE=#seasonType#
+				AND PAGE_TYPE=#pageType#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

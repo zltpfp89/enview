@@ -1,0 +1,98 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ PAGE_COMPONENT : 페이지컴포넌트 ] Table -->
+	<resultMap id="admin_PageComponentVO_PK" class="com.saltware.enview.admin.page.service.PageComponentPK">
+	
+		<result property="pageComponentId" column="PAGE_COMPONENT_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_PageComponentVO" class="com.saltware.enview.admin.page.service.PageComponentVO">
+	 
+		<result property="pageComponentId" column="PAGE_COMPONENT_ID" columnIndex="1"/>	 
+		<result property="pageId" column="PAGE_ID" columnIndex="2"/>	 
+		<result property="region" column="REGION" columnIndex="3"/>	 
+		<result property="portletName" column="PORTLET_NAME" columnIndex="4"/>	 
+		<result property="parameter" column="PARAMETER" columnIndex="5"/>	 
+		<result property="elementOrder" column="ELEMENT_ORDER" columnIndex="6"/>	
+	</resultMap>
+	
+	<select id="pageComponent.totalCount" resultClass="int">
+	/* pageComponent.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM PAGE_COMPONENT
+		WHERE 1=1	
+			<isNotEqual prepend=" AND " property="pageId" compareValue="0">PAGE_ID=#pageId#</isNotEqual>
+	</select>
+	
+	<select id="pageComponent.findByPage" resultMap="admin_PageComponentVO_PK">
+	/* pageComponent.findByPage */
+		SELECT PAGE_COMPONENT_ID
+		FROM PAGE_COMPONENT
+		WHERE 1=1 
+		<isNotEqual prepend=" AND " property="pageId" compareValue="0">PAGE_ID=#pageId#</isNotEqual>
+		<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+		<isNull property="sortColumn">ORDER BY PAGE_COMPONENT_ID ASC</isNull>
+		LIMIT #limit# OFFSET #offset# 
+	</select>
+
+	<select id="pageComponent.findAll" resultMap="admin_PageComponentVO">
+			SELECT PAGE_COMPONENT_ID,PAGE_ID,REGION,PORTLET_NAME,PARAMETER,ELEMENT_ORDER
+			FROM PAGE_COMPONENT
+	</select>
+	
+	<select id="pageComponent.findByMaster" resultMap="admin_PageComponentVO_PK">
+			SELECT PAGE_COMPONENT_ID
+			FROM PAGE_COMPONENT
+			WHERE PAGE_ID=#pageId#
+	</select>
+	
+
+	<select id="pageComponent.detail" resultMap="admin_PageComponentVO">
+		<![CDATA[
+			SELECT PAGE_COMPONENT_ID,PAGE_ID,REGION,PORTLET_NAME,PARAMETER,ELEMENT_ORDER
+			FROM PAGE_COMPONENT
+			WHERE 1=1 
+				AND PAGE_COMPONENT_ID=#pageComponentId#
+		]]>
+	</select>
+	
+	<insert id="pageComponent.insert">
+		<![CDATA[
+			INSERT INTO PAGE_COMPONENT
+				( PAGE_COMPONENT_ID,PAGE_ID,REGION,PORTLET_NAME,PARAMETER,ELEMENT_ORDER )
+			VALUES ( #pageComponentId#,#pageId#,#region#,#portletName#,#parameter#,#elementOrder# )
+		]]>
+	</insert>
+	
+	<update id="pageComponent.update">
+		<![CDATA[
+			UPDATE PAGE_COMPONENT
+			SET PAGE_COMPONENT_ID=#pageComponentId#,PAGE_ID=#pageId#,REGION=#region#,PORTLET_NAME=#portletName#,PARAMETER=#parameter#,ELEMENT_ORDER=#elementOrder#
+			WHERE 1=1 
+				AND PAGE_COMPONENT_ID=#pageComponentId#
+		]]>
+	</update>
+	
+	<delete id="pageComponent.delete">
+		<![CDATA[
+			DELETE FROM PAGE_COMPONENT
+			WHERE 1=1 
+				AND PAGE_COMPONENT_ID=#pageComponentId#
+		]]>
+	</delete>
+	
+	<delete id="pageComponent.deleteChildren">
+		<![CDATA[
+			DELETE FROM PAGE_COMPONENT
+			WHERE 1=1 
+				AND PAGE_ID=#pageId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

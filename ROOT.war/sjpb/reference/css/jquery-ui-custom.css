@@ -1,0 +1,100 @@
+
+.ui-dialog {
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding:0;
+	outline: 0;
+	border: 1px solid #535353;
+}
+.ui-dialog .ui-dialog-titlebar {
+	padding:0;
+	position: relative;
+}
+.ui-dialog .ui-dialog-title {
+	float: left;
+	margin:0;
+	white-space: nowrap;
+	width: 90%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size:14px
+}
+.ui-dialog .ui-dialog-titlebar-close {
+width:32px; height:32px; background:url(../../images/popup/popup_btn_close.png) no-repeat center !important; position:Absolute; right:10px; top:10px; cursor:pointer; text-indent:-9999px; border:0 !important;
+	outline:none;
+	padding:0;
+	margin:0;
+}
+
+.ui-draggable .ui-dialog-titlebar {
+	cursor: move;
+	width:100%; height:54px; background:#007ece url(../../images/popup/popup_title_bg.gif) no-repeat right top; color:#fff; text-indent:20px; line-height:54px; font-family:"Nanum GothicBold"; position:Relative;
+	box-sizing:border-box;
+
+}
+
+.ui-dialog .ui-dialog-buttonpane button {
+	margin: 5px 3px;
+	cursor: pointer;
+	border:0;
+	background:#ddd;
+	outline:none;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+	text-align: center;
+	border-width: 1px 0 0 0;
+	background-image: none;
+	margin-top: .5em;
+	padding: .3em 1em .5em .4em;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+	float: none;
+}
+.btn_black{background:#535353 !important;}
+.btn_green{background:#a5c667 !important;}
+.btn_orange{background:#ff982f !important;}
+.btn_darkorange{background:#fa4f03 !important;}
+.btn_gray{background:#666 !important;}
+
+/* 다이얼로그 타이틀바의 icon바 숨김 */
+.ui-dialog-titlebar .ui-icon {
+	background-image: none;
+}
+
+.ui-dialog-content {
+	background: #eff2f4 !important;
+}
+
+/*
+.ui-icon,
+.ui-widget-content .ui-icon {
+	background-image: none;
+}
+.ui-widget-header .ui-icon {
+	background-image: none;
+}
+.ui-state-default .ui-icon {
+	background-image: none;
+}
+.ui-state-hover .ui-icon,
+.ui-state-focus .ui-icon {
+	background-image: none;
+}
+.ui-state-active .ui-icon {
+	background-image: none;
+}
+.ui-state-highlight .ui-icon {
+	background-image: none;
+}
+.ui-state-error .ui-icon,
+.ui-state-error-text .ui-icon {
+	background-image: none;
+}
+*/
+
+/* btn_gray */
+.btn_gray{display:inline-block; height:32px; line-height:32px; background:#555; padding:0 28px; border-radius:16px; -moz-border-radius:16px; -webkit-border-radius:16px; margin-left:6px;}
+.btn_gray span{display:inline-block; height:32px; line-height:30px; font-size:14px; font-weight:400; color:#fff;}

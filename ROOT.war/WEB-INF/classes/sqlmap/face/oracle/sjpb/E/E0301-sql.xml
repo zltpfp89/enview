@@ -1,0 +1,82 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+ 
+<!-- Query for [ SJPB_HAWR_CRI_DTA_TAB : 수기수사자료표 ] Table -->
+ 
+	 
+	<resultMap class="com.saltware.enface.sjpb.E.service.E0301VO" id="E0301VO.spList">
+ 		<result property="rcptIncNum" column="RCPT_INC_NUM"/> 
+		<result property="regDate" column="REG_DATE"/> 
+		<result property="nmKor" column="NM_KOR"/> 
+		<result property="rltActCriNmCd" column="RLT_ACT_CRI_NM_CD"/> 
+		<result property="spNm" column="SP_NM"/> 
+		<result property="spIdNum" column="SP_ID_NUM"/> 
+		<result property="dvForm" column="DV_FORM"/> 
+		<result property="userId" column="USER_ID"/> 
+		<result property="incSpNum" column="INC_SP_NUM"/> 
+		<result property="rltActCrinmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+	</resultMap>
+	
+	<!-- 피의자 추가 리스트 -->
+	<select id="E0301VO.searchSpList" resultMap="E0301VO.spList">  /*  E0301VO.searchSpList  */
+		 SELECT B.RCPT_INC_NUM /*접수 사건번호*/
+		        ,TO_CHAR(B.REG_DATE,'YYYY-MM-DD') AS REG_DATE /*접수일자*/
+		        ,D.NM_KOR /*담당 수사관*/
+		        ,E.RLT_ACT_CRI_NM_CD /*관련법률 및 죄명*/
+		        ,CRYPTO.DEC('normal',A.SP_NM) AS SP_NM /*피의자 이름*/
+		        ,CRYPTO.DEC('normal',A.SP_ID_NUM) AS SP_ID_NUM /*주민등록번호*/
+		        ,B.DV_FORM /*발각형태*/
+		        ,D.USER_ID /*수사관 계정*/
+		        ,A.INC_SP_NUM /*사건피의자번호*/
+		        ,F.CODE_NAME AS RLT_ACT_CRI_NM_CD_DESC /*사건죄명*/
+		 FROM SJPB_INC_SP A
+	     JOIN SJPB_INC_MAST B ON A.RCPT_NUM = B.RCPT_NUM
+	     LEFT JOIN SJPB_INC_CRI_MB C ON C.RCPT_NUM = B.RCPT_NUM AND C.CRI_LV_CD = '01'
+	     LEFT JOIN USERPASS D ON D.USER_ID = C.CRI_MB_ID
+	     LEFT JOIN SJPB_ACT_VIO E ON E.INC_SP_NUM = A.INC_SP_NUM
+	     LEFT JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		 WHERE B.RCPT_INC_NUM IS NOT NULL AND A.SP_STAT_CD = '1'
+			<isNotEmpty property="rcptIncNum" prepend="AND">
+				B.RCPT_INC_NUM = #rcptIncNum#
+			</isNotEmpty>
+			<isNotEmpty property="spNm" prepend="AND">
+				CRYPTO.DEC('normal',A.SP_NM) LiKE '%' ||#spNm#||'%'
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(B.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		 ORDER BY TO_NUMBER(REGEXP_SUBSTR(REGEXP_SUBSTR(B.RCPT_INC_NUM,'[^-]+',1,1),'[^,]+',1,1)) DESC,TO_NUMBER(REGEXP_SUBSTR(REGEXP_SUBSTR(B.RCPT_INC_NUM,'[^-]+',1,2),'[^,]+',1,1)) DESC
+	</select>
+	
+	<!-- 수기수사자료표 피의자 등록 -->
+	<update id="E0301VO.insertHawrCriData" parameterClass="com.saltware.enface.sjpb.E.service.E0301VO">  /*  E0301VO.insertHawrCriData  */
+		INSERT INTO SJPB_HAWR_CRI_DTA_TAB(
+			   BK_PUBL_YR
+			   ,BK_SI_NUM
+			   ,INC_SP_NUM
+			   ,INC_CRI_NM
+			   ,DV_YN
+			   ,RESP_CRI_OFFI
+			   ,REG_USER_ID
+			   ,REG_DATE
+			   ,UPD_USER_ID
+			   ,UPD_DATE
+			   )
+		VALUES(
+			   TO_CHAR(SYSDATE,'YYYY')
+			   ,(SELECT SEQ+1 FROM KEYGEN WHERE entity_name = 'SJPB_HAWR_CRI_DTA_TAB.BK_SI_NUM')
+			   ,#incSpNum#
+			   ,#rltActCriNmCd#
+			   ,#dvYn#
+			   ,#userId#
+			   ,#userId#
+			   ,SYSDATE
+			   ,#userId#
+			   ,SYSDATE
+			  )
+	</update>
+ 
+</sqlMap>

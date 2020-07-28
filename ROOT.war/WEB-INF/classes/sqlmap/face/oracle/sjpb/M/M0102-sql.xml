@@ -1,0 +1,204 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0102VO" id="M0102VO.list">
+		<result property="seizBkSiNum" column="SEIZ_BK_SI_NUM"/>
+		<result property="seizBkNum" column="SEIZ_BK_NUM"/>
+		<result property="seizProdNum" column="SEIZ_PROD_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="seizDt" column="SEIZ_DT"/>
+		<result property="seizProdKind" column="SEIZ_PROD_KIND"/>
+		<result property="seizProdQnty" column="SEIZ_PROD_QNTY"/>
+		<result property="ownrNm" column="OWNR_NM"/>
+		<result property="ownrAddr" column="OWNR_ADDR"/>
+		<result property="revIpdrNm" column="REV_IPDR_NM"/>
+		<result property="revIpdrAddr" column="REV_IPDR_ADDR"/>
+		<result property="csdnNm" column="CSDN_NM"/>
+		<result property="trsrNm" column="TRSR_NM"/>
+		<result property="dipDt" column="DIP_DT"/>
+		<result property="dipGist" column="DIP_GIST"/>
+		<result property="seizBkComn" column="SEIZ_BK_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+ 	<select id="M0102.SJPB_SEIZ_BK_DOC.selectList" resultMap="M0102VO.list">  /* M0102.SJPB_SEIZ_BK_DOC.selectList */
+ 		SELECT A.SEIZ_BK_SI_NUM  /* 압수부 일련번호 */
+		       ,A.SEIZ_BK_NUM  /* 압수부 번호*/
+		       ,A.SEIZ_PROD_NUM  /* 압수물번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,B.RCPT_INC_NUM  /* 범죄사건부번호 */
+		       ,A.SEIZ_DT  /* 압수 연월일 */
+		       ,A.SEIZ_PROD_KIND /* 압수물건품종 */
+		       ,A.SEIZ_PROD_QNTY  /*  압수물건 수량 */
+		       ,A.OWNR_NM  /* 소유자의 성명 */
+		       ,A.OWNR_ADDR  /* 소유자의 주거 */
+		       ,A.REV_IPDR_NM  /* 피압수자 성명 */
+		       ,A.REV_IPDR_ADDR  /* 피압수자 주거 */
+		       ,A.CSDN_NM  /* 보관자 확인 */
+		       ,A.TRSR_NM  /* 취급자 확인 */
+		       ,A.DIP_DT  /* 처분연월일 */
+		       ,A.DIP_GIST  /* 처분요지 */
+		       ,A.SEIZ_BK_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,C.NM_KOR  /* 작성자이름 */
+ 		FROM SJPB_SEIZ_BK_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+		LEFT JOIN USERPASS C ON C.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				B.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				B.RCPT_NUM = #rcptNumSc# OR B.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+		ORDER BY TO_NUMBER(REGEXP_SUBSTR(A.SEIZ_BK_NUM,'[^-]+',1,2)) ASC,TO_NUMBER(REGEXP_SUBSTR(A.SEIZ_PROD_NUM,'[^-]+',1,2)) ASC
+ 	</select>
+
+	<!-- 압수부 등록 -->
+	<update id="M0102.SJPB_SEIZ_BK_DOC.insertSeiz" parameterClass="com.saltware.enface.sjpb.M.service.M0102VO">   /* M0102.SJPB_SEIZ_BK_DOC.insertSeiz */
+		INSERT INTO SJPB_SEIZ_BK_DOC (
+			SEIZ_BK_SI_NUM
+			,SEIZ_BK_NUM
+			,SEIZ_PROD_NUM
+			,RCPT_NUM
+			,SEIZ_DT
+			,SEIZ_PROD_KIND
+			,SEIZ_PROD_QNTY
+			,OWNR_NM
+			,OWNR_ADDR
+			,REV_IPDR_NM
+			,REV_IPDR_ADDR
+			,CSDN_NM
+			,TRSR_NM
+			,DIP_DT
+			,DIP_GIST
+			,SEIZ_BK_COMN
+			,REG_USER_ID
+			,REG_DATE
+			,UPD_USER_ID
+			,UPD_DATE
+			) 
+		VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_SEIZ_BK_DOC.SEIZ_BK_SI_NUM')
+		    ,#seizBkNum#
+		    ,#seizProdNum#
+		    ,#rcptNum#
+		    ,#seizDt#
+		    ,#seizProdKind#
+		    ,#seizProdQnty#
+		    ,#ownrNm#
+		    ,#ownrAddr#
+		    ,#revIpdrNm#
+		    ,#revIpdrAddr#
+		    ,#csdnNm#
+		    ,#trsrNm#
+		    ,#dipDt#
+		    ,#dipGist#
+		    ,#seizBkComn#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		)	    
+	</update>
+	
+	<!-- 압수부 등록 -->
+	<update id="M0102.SJPB_SEIZ_BK_DOC.updateSeiz" parameterClass="com.saltware.enface.sjpb.M.service.M0102VO">   /* M0102.SJPB_SEIZ_BK_DOC.updateSeiz */
+		UPDATE SJPB_SEIZ_BK_DOC
+		SET SEIZ_BK_NUM = #seizBkNum#
+			,SEIZ_PROD_NUM = #seizProdNum#
+			,SEIZ_DT = #seizDt#
+			,SEIZ_PROD_KIND = #seizProdKind#
+			,SEIZ_PROD_QNTY = #seizProdQnty#
+			,OWNR_NM = #ownrNm#
+			,OWNR_ADDR = #ownrAddr#
+			,REV_IPDR_NM = #revIpdrNm#
+			,REV_IPDR_ADDR = #revIpdrAddr#
+			,CSDN_NM = #csdnNm#
+			,TRSR_NM = #trsrNm#
+			,DIP_DT = #dipDt#
+			,DIP_GIST = #dipGist#
+			,SEIZ_BK_COMN = #seizBkComn#
+			,UPD_USER_ID = #regUserId#
+			,UPD_DATE = SYSDATE
+		WHERE SEIZ_BK_SI_NUM = #seizBkSiNum#
+	</update>
+	
+	<select id="M0102.SJPB_SEIZ_BK_DOC.prnCheckReport" resultMap="M0102VO.list">  /* M0102.SJPB_SEIZ_BK_DOC.prnCheckReport */
+ 		SELECT A.SEIZ_BK_SI_NUM  /* 압수부 일련번호 */
+		       ,A.SEIZ_BK_NUM  /* 압수부 번호*/
+		       ,A.SEIZ_PROD_NUM  /* 압수물번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,B.RCPT_INC_NUM  /* 범죄사건부번호 */
+		       ,DECODE(A.SEIZ_DT,NULL,'',SUBSTR(A.SEIZ_DT,1,4)||'.'|| SUBSTR(A.SEIZ_DT,5,2)||'.'|| SUBSTR(A.SEIZ_DT,7,2)) AS SEIZ_DT/* 압수 연월일 */
+		       ,A.SEIZ_PROD_KIND /* 압수물건품종 */
+		       ,A.SEIZ_PROD_QNTY  /*  압수물건 수량 */
+		       ,A.OWNR_NM  /* 소유자의 성명 */
+		       ,A.OWNR_ADDR  /* 소유자의 주거 */
+		       ,A.REV_IPDR_NM  /* 피압수자 성명 */
+		       ,A.REV_IPDR_ADDR  /* 피압수자 주거 */
+		       ,A.CSDN_NM  /* 보관자 확인 */
+		       ,A.TRSR_NM  /* 취급자 확인 */
+		       ,DECODE(A.DIP_DT,NULL,'',SUBSTR(A.DIP_DT,1,4)||'.'|| SUBSTR(A.DIP_DT,5,2)||'.'|| SUBSTR(A.DIP_DT,7,2)) AS DIP_DT /* 처분연월일 */
+		       ,A.DIP_GIST  /* 처분요지 */
+		       ,A.SEIZ_BK_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,D.NM_KOR
+		FROM SJPB_SEIZ_BK_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+		LEFT JOIN SJPB_INC_CRI_MB C ON C.RCPT_NUM = B.RCPT_NUM AND C.CRI_LV_CD = '01'
+		LEFT JOIN USERPASS D ON D.USER_ID = C.CRI_MB_ID
+		<dynamic prepend="WHERE">
+			<iterate property="seizBkSiNumList" open="A.SEIZ_BK_SI_NUM IN(" close=")" conjunction=",">
+				 #seizBkSiNumList[]#
+			</iterate>
+		</dynamic>
+		ORDER BY TO_NUMBER(REGEXP_SUBSTR(A.SEIZ_BK_NUM,'[^-]+',1,2)) ASC,TO_NUMBER(REGEXP_SUBSTR(A.SEIZ_PROD_NUM,'[^-]+',1,2)) ASC
+ 	</select>
+	
+	<!-- 압수부 번호 키값 가져오기 -->
+	<select id="M0102.SJPB_SEIZ_BK_DOC.SEIZ_BK_NUM.SEQ" resultClass="String"> /* M0102.SJPB_SEIZ_BK_DOC.SEIZ_BK_NUM.SEQ */
+		SELECT #caseYear# || '-' || SEQ
+		FROM KEYGEN 
+		WHERE entity_name = 'SJPB_SEIZ_BK_DOC.SEIZ_BK_NUM'
+	</select>
+	
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0102VO" id="M0102VO.selectSeizBkProdNum">
+ 		<result property="seizBkNum" column="SEIZ_BK_NUM"/>
+ 		<result property="seizProdNum" column="SEIZ_PROD_NUM"/>
+ 	</resultMap>
+	
+	<!-- 압수부/압수물 번호 가져오기 -->
+	<select id="M0102.SJPB_SEIZ_BK_DOC.SEIZ_BK_PROD_NUM" resultMap="M0102VO.selectSeizBkProdNum">  /* M0102.SJPB_SEIZ_BK_DOC.SEIZ_BK_PROD_NUM */
+		SELECT SEIZ_BK_NUM,MAX(TO_NUMBER(REGEXP_SUBSTR(SEIZ_PROD_NUM,'[^-]+',1,2)))+1 AS SEIZ_PROD_NUM 
+		FROM SJPB_SEIZ_BK_DOC
+		WHERE RCPT_NUM = #rcptNum#
+		GROUP BY SEIZ_BK_NUM
+	</select>
+	
+	<update id="M0102.DOC_HIST.insert">  /* M0102.DOC_HIST.insert */
+		INSERT INTO DOC_HIST(PAGE_ID,REG_DATE) VALUES(#pageId#,SYSDATE)
+	</update>
+	
+	<!-- 압수부 등록(Excel) 시 범죄 사건부 번호가 이미 등록되어 있는지 확인한다. -->
+	<select id="M0102.SJPB_BK_DOC.hasNoRcptIncNum" resultClass="int">	/* M0102.SJPB__BK_DOC.hasNoRcptIncNum */
+		SELECT RCPT_NUM
+		FROM SJPB_INC_MAST
+		WHERE RCPT_INC_NUM = #rcptIncNum#
+	</select>
+	
+	<!-- 압수부 등록(Excel) 시 범죄 사건부 번호에 해당하는 접수번호를 가져온다. -->
+	<select id="M0102.SJPB_BK_DOC.selectRcptNum" resultClass="java.lang.String">	/* M0102.SJPB__BK_DOC.selectRcptNum */
+		SELECT RCPT_NUM
+		FROM SJPB_INC_MAST
+		WHERE RCPT_INC_NUM = #rcptIncNum#
+	</select>
+
+</sqlMap>

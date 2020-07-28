@@ -1,0 +1,248 @@
+/**
+ * Default Setting for Mini Event Styles
+ * Last Modified: 2011-10-18
+ * Modifier: secrain, R&D, Saltware.
+ * Info: http://www.saltware.co.kr/
+ * M.C.: 010 8957 9389
+ */
+body {}
+div.me img {
+	border: none;
+}
+
+div.me{
+	color: #222;
+	height: auto;
+	border-color: #BBB;
+	border-width: 1px;
+	border-style: solid;
+	margin: 0px auto;
+}
+div.me-header{ 
+	float: center;
+}
+
+div.me-header-left{
+	float: left;
+	text-align: center;
+}
+div.me-header-left img.today{
+	position: relative;
+	width: 40px;
+	height: 14px;
+	cursor: pointer;
+}
+
+div.me-header-center { 
+	float: left;
+	text-align: center;
+}
+div.me-header-center img.prev-button { 
+	position: relative;
+	width:16px;
+	height: 16px;
+	cursor: pointer;
+	float: center;
+}
+div.me-header-center img.month { 
+	position: relative;
+	width:30px;
+	height: 21px;
+	float: center;
+}
+div.me-header-center img.next-button { 
+	position: relative;
+	width:16px;
+	height: 16px;
+	cursor: pointer;
+	float: center;
+}
+
+div.me-header-right {
+	height: 100%;
+	float: left;
+	text-align: center;
+}
+div.me-header-right img.year_0 { 
+	position: relative;
+	width: 7px;
+	height: 11px;
+}
+div.me-header-right img.year_1 { 
+	position: relative;
+	width: 7px;
+	height: 11px;
+}
+div.me-header-right img.year_2 { 
+	position: relative;
+	width: 7px;
+	height: 11px;
+}
+div.me-header-right img.year_3 { 
+	position: relative;
+	width: 7px;
+	height: 11px;
+}
+
+
+div.me-calendar { 
+	height: auto; 
+	border: none;
+}
+
+table.me-calendar-table { 
+	border-collapse: collapse;
+}
+
+table.me-calendar-table  tr {
+	margin: 0px;
+}
+
+table.me-calendar-table td {
+	border: 1px solid #BBB;
+	text-align: center;	
+	height: 22px;
+	text-align: center; 
+	padding: 0px;
+	margin: 0px;
+	cursor: default;
+}
+
+table.me-calendar-table td.week { 
+	color: #555;
+}
+
+table.me-calendar-table td.date {
+	background: none;
+	color: #000;
+	cursor: pointer;
+}
+table.me-calendar-table td.date:HOVER {
+	font-weight: bold;
+	cursor: pointer;
+	background-color: #ccf;
+}
+
+/*table.me-calendar-table td.hasEvents:HOVER {
+	font-weight: bold;
+	cursor: pointer;
+	background-color: #ccf;
+}
+*/
+table.me-calendar-table td.selected {
+	font-weight: bold;
+	cursor: pointer;
+	background-color: #aaf;
+}
+
+table.me-calendar-table td.sun { color: red; }
+table.me-calendar-table td.sat { color:	blue; }
+
+table.me-calendar-table td.col_0 { border-left: 0px solid #BBB; }
+table.me-calendar-table td.col_6 { border-right: 0px solid #BBB; }
+
+table.me-calendar-table td.today {
+	background: none;
+	color: green;
+	font-weight: bold;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+table.me-calendar-table td.other_month {
+	color: #AAA;
+}
+
+table.me-calendar-table td.private {
+	font-weight: bold;
+	color: #00F;	
+	cursor: pointer;
+}
+
+table.me-calendar-table td.public	{
+	font-weight: bold;
+	color: #3A3;
+	cursor: pointer;
+}
+
+
+div.triangle {
+	border-color: transparent transparent transparent blue;
+	border-style: solid;
+	height: 0px;
+	width: 0px;
+	position: absolute;
+}
+
+table.me-calendar-table td.private-over {
+	font-weight: bold;
+	color: #00F;	
+	cursor: pointer;
+	background-color: #ccf;
+}
+
+table.me-calendar-table td.public-over	{
+	font-weight: bold;
+	color: #3A3;
+	cursor: pointer;
+	background-color: #ccf;
+}
+
+div.me-content { 
+	/* width: 183px; */
+	font-size: 11px;
+	font-family: gulim;
+	padding-bottom: 5px;
+}
+
+div.me-content-title {
+	position: relative;
+	height: 27px;
+	text-align: center;
+}
+
+div.me-content-title img{ 
+	position: relative;
+	top: 7px;
+	width: 55px;
+	height: 14px;
+}
+	
+div.me-content-event { 
+	position: relative;
+	text-align: left;
+	margin-left: 7px;
+	overflow: hidden;
+	cursor: default;
+	
+}
+
+
+div.private {
+	color: #00f;	
+}
+
+div.public	{
+	color: #3a3;
+}
+
+div.me-content-noevents	{
+	position: relative;
+	text-align: left;
+	margin-left: 7px;
+	overflow: hidden;
+	cursor: default;
+	color: #323232;
+	font-weight: bold;
+}
+
+
+/*
+div.me-content-event:HOVER {
+	background-color: #ccf;
+}
+
+div.me-content-noevents:HOVER {
+	background-color: #ccf;
+}
+*/

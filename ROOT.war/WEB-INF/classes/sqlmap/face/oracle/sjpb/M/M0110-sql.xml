@@ -1,0 +1,161 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0110VO" id="M0110VO.list">
+		<result property="atdcReqNotcNum" column="ATDC_REQ_NOTC_NUM"/>
+		<result property="atdcReqDt" column="ATDC_REQ_DT"/>
+		<result property="atdcPersDiv" column="ATDC_PERS_DIV"/>
+		<result property="atdcPersDivDesc" column="ATDC_PERS_DIV_DESC"/>
+		<result property="atdcPersNm" column="ATDC_PERS_NM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="atdcReqNotcDt" column="ATDC_REQ_NOTC_DT"/>
+		<result property="atdcReqNotcWay" column="ATDC_REQ_NOTC_WAY"/>
+		<result property="atdcReqNotcWayDesc" column="ATDC_REQ_NOTC_WAY_DESC"/>
+		<result property="atdcReqRst" column="ATDC_REQ_RST"/>
+		<result property="atdcReqRespMb" column="ATDC_REQ_RESP_MB"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="docNum" column="DOC_NUM"/>
+		<result property="incPoint" column="INC_POINT"/>
+		<result property="reqDocs" column="REQ_DOCS"/>
+	</resultMap>
+ 	<select id="M0110.SJPB_ATDC_REQ_NOTC_DOC.selectList" resultMap="M0110VO.list">  /* M0110.SJPB_ATDC_REQ_NOTC_DOC.selectList */
+ 		SELECT A.ATDC_REQ_NOTC_NUM  /* 출석요구통지부번호 */
+		       ,A.ATDC_REQ_DT  /* 출석요구일시 */
+		       ,A.ATDC_PERS_DIV  /* 출석자구분코드 */
+		       ,C.CODE_NAME AS ATDC_PERS_DIV_DESC  /* 출석자구분 */
+		       ,A.ATDC_PERS_NM AS ATDC_PERS_NM  /* 출석자성명 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,B.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.ATDC_REQ_NOTC_DT  /* 출석요구통지일 */
+		       ,A.ATDC_REQ_NOTC_WAY  /* 출석요구통지방법코드 */
+		       ,D.CODE_NAME AS ATDC_REQ_NOTC_WAY_DESC  /* 출석요구통지방법 */
+		       ,A.ATDC_REQ_RST  /* 결과 */
+		       ,A.ATDC_REQ_RESP_MB  /* 담당자 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,E.NM_KOR  /* 작성자이름 */
+		       ,DOC_NUM	  /* 문서번호 */
+			   ,INC_POINT  /*  사건의 요지  */
+			   ,REQ_DOCS  /* 구비서류 등 */
+		FROM SJPB_ATDC_REQ_NOTC_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+		JOIN CODEBASE C ON C.CODE_ID = 'SJPB_00036' AND C.CODE = A.ATDC_PERS_DIV AND C.SYSTEM_CODE ='PT' AND C.LANG_KND='ko'
+		LEFT JOIN CODEBASE D ON D.CODE_ID = 'SJPB_00037' AND D.CODE = A.ATDC_REQ_NOTC_WAY AND D.SYSTEM_CODE ='PT' AND D.LANG_KND='ko'
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				B.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				A.ATDC_PERS_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				B.RCPT_NUM = #rcptNumSc# OR B.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0110.SJPB_ATDC_REQ_NOTC_DOC.insertAtdcReq" parameterClass="com.saltware.enface.sjpb.M.service.M0110VO">  /* M0110.SJPB_ATDC_REQ_NOTC_DOC.insertAtdcReq */
+ 		INSERT INTO SJPB_ATDC_REQ_NOTC_DOC (
+		    ATDC_REQ_NOTC_NUM,
+		    ATDC_REQ_DT,
+		    ATDC_PERS_DIV,
+		    ATDC_PERS_NM,
+		    RCPT_NUM,
+		    ATDC_REQ_NOTC_DT,
+		    ATDC_REQ_NOTC_WAY,
+		    ATDC_REQ_RST,
+		    ATDC_REQ_RESP_MB,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE,
+		    DOC_NUM,
+			INC_POINT,
+			REQ_DOCS
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_ATDC_REQ_NOTC_DOC.ATDC_REQ_NOTC_NUM')
+		    ,#atdcReqDt#
+		    ,#atdcPersDiv#
+		    ,#atdcPersNm#
+		    ,#rcptNum#
+		    ,#atdcReqNotcDt#
+		    ,#atdcReqNotcWay#
+		    ,#atdcReqRst#
+		    ,#atdcReqRespMb#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#docNum#
+		    ,#incPoint#
+		    ,#reqDocs#
+		)
+ 	</update>
+ 	<update id="M0110.SJPB_ATDC_REQ_NOTC_DOC.updateAtdcReq" parameterClass="com.saltware.enface.sjpb.M.service.M0110VO">  /* M0110.SJPB_ATDC_REQ_NOTC_DOC.updateAtdcReq */
+ 		UPDATE SJPB_ATDC_REQ_NOTC_DOC
+		SET ATDC_REQ_DT = #atdcReqDt#
+			,ATDC_PERS_DIV = #atdcPersDiv#
+		    ,ATDC_PERS_NM = #atdcPersNm#
+		    ,ATDC_REQ_NOTC_DT = #atdcReqNotcDt#
+		    ,ATDC_REQ_NOTC_WAY = #atdcReqNotcWay#
+		    ,ATDC_REQ_RST = #atdcReqRst#
+		    ,ATDC_REQ_RESP_MB = #atdcReqRespMb#
+		    ,UPD_USER_ID = #regUserId#
+		    ,UPD_DATE = SYSDATE
+		    ,DOC_NUM = #docNum#
+		    ,INC_POINT = #incPoint#
+		    ,REQ_DOCS = #reqDocs#
+		WHERE ATDC_REQ_NOTC_NUM =#atdcReqNotcNum#
+ 	</update>
+ 	<resultMap class="com.saltware.enface.sjpb.M.service.M0110VO" id="M0110VO.listPrn">
+		<result property="atdcReqNotcNum" column="ATDC_REQ_NOTC_NUM"/>
+		<result property="atdcReqDt" column="ATDC_REQ_DT"/>
+		<result property="atdcPersDiv" column="ATDC_PERS_DIV"/>
+		<result property="atdcPersDivDesc" column="ATDC_PERS_DIV_DESC"/>
+		<result property="atdcPersNm" column="ATDC_PERS_NM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="atdcReqNotcDt" column="ATDC_REQ_NOTC_DT"/>
+		<result property="atdcReqNotcWay" column="ATDC_REQ_NOTC_WAY"/>
+		<result property="atdcReqNotcWayDesc" column="ATDC_REQ_NOTC_WAY_DESC"/>
+		<result property="atdcReqRst" column="ATDC_REQ_RST"/>
+		<result property="atdcReqRespMb" column="ATDC_REQ_RESP_MB"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+ 	<select id="M0110.SJPB_ATDC_REQ_NOTC_DOC.prnCheckReport" resultMap="M0110VO.listPrn">  /* M0110.SJPB_ATDC_REQ_NOTC_DOC.prnCheckReport */
+ 		SELECT A.ATDC_REQ_NOTC_NUM  /* 출석요구통지부번호 */
+		       ,DECODE(A.ATDC_REQ_DT,NULL,'',SUBSTR(A.ATDC_REQ_DT,1,4)||'.'||SUBSTR(A.ATDC_REQ_DT,5,2) ||'.'||SUBSTR(A.ATDC_REQ_DT,7,2)) AS ATDC_REQ_DT  /* 출석요구일시 */
+		       ,A.ATDC_PERS_DIV  /* 출석자구분코드 */
+		       ,C.CODE_NAME AS ATDC_PERS_DIV_DESC  /* 출석자구분 */
+		       ,A.ATDC_PERS_NM AS ATDC_PERS_NM  /* 출석자성명 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,B.RCPT_INC_NUM  /* 사건번호 */
+               ,DECODE(A.ATDC_REQ_NOTC_DT,NULL,'',SUBSTR(A.ATDC_REQ_NOTC_DT,1,4)||'.'||SUBSTR(A.ATDC_REQ_NOTC_DT,5,2) ||'.'||SUBSTR(A.ATDC_REQ_NOTC_DT,7,2)) AS ATDC_REQ_NOTC_DT  /* 출석요구통지일 */
+		       ,A.ATDC_REQ_NOTC_WAY  /* 출석요구통지방법코드 */
+		       ,D.CODE_NAME AS ATDC_REQ_NOTC_WAY_DESC  /* 출석요구통지방법 */
+		       ,A.ATDC_REQ_RST  /* 결과 */
+		       ,A.ATDC_REQ_RESP_MB  /* 담당자 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,E.NM_KOR
+		FROM SJPB_ATDC_REQ_NOTC_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+		JOIN CODEBASE C ON C.CODE_ID = 'SJPB_00036' AND C.CODE = A.ATDC_PERS_DIV AND C.SYSTEM_CODE ='PT' AND C.LANG_KND='ko'
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		LEFT JOIN CODEBASE D ON D.CODE_ID = 'SJPB_00037' AND D.CODE = A.ATDC_REQ_NOTC_WAY AND D.SYSTEM_CODE ='PT' AND D.LANG_KND='ko'
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="atdcReqNotcNumList" prepend="AND">
+				<iterate property="atdcReqNotcNumList" open="ATDC_REQ_NOTC_NUM IN(" close=")" conjunction=",">
+					 #atdcReqNotcNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+</sqlMap>

@@ -1,0 +1,103 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ PAGE_METADATA : 페이지 다국어 ] Table -->
+	<resultMap id="admin_PageMetadataVO_PK" class="com.saltware.enview.admin.page.service.PageMetadataPK">
+	
+		<result property="metadataId" column="METADATA_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_PageMetadataVO" class="com.saltware.enview.admin.page.service.PageMetadataVO">
+	 
+		<result property="metadataId" column="METADATA_ID" columnIndex="1"/>	 
+		<result property="pageId" column="PAGE_ID" columnIndex="2"/>	 
+		<result property="name" column="NAME" columnIndex="3"/>	 
+		<result property="value" column="VALUE" columnIndex="4"/>	 
+		<result property="locale" column="LOCALE" columnIndex="5"/>	
+	</resultMap>
+	
+	<select id="pageMetadata.totalCount" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM PAGE_METADATA
+			WHERE 1=1	
+				<isNotEqual prepend=" AND " property="pageId" compareValue="0">PAGE_ID=#pageId#</isNotEqual>
+	</select>
+	
+	<select id="pageMetadata.exist" resultClass="int">
+
+			SELECT COUNT(*) cnt
+			FROM PAGE_METADATA
+			WHERE PAGE_ID=#pageId# AND NAME=#name# AND LOCALE=#locale#
+	</select>
+	
+	<select id="pageMetadata.findByPage" resultMap="admin_PageMetadataVO_PK">
+			SELECT * FROM ( 
+				SELECT Row_Number() OVER (<isNull property="sortColumn">ORDER BY METADATA_ID ASC</isNull><isNotNull property="sortColumn"> ORDER BY $sortColumn$ $sortMethod$ </isNotNull>) AS rownum, METADATA_ID
+				FROM PAGE_METADATA 
+				WHERE 1=1 
+					<isNotEqual prepend=" AND " property="pageId" compareValue="0">PAGE_ID=#pageId#</isNotEqual>
+			) T1
+			WHERE rownum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="pageMetadata.findAll" resultMap="admin_PageMetadataVO">
+			SELECT METADATA_ID,PAGE_ID,NAME,VALUE,LOCALE
+			FROM PAGE_METADATA
+	</select>
+	
+	<select id="pageMetadata.findByMaster" resultMap="admin_PageMetadataVO_PK">
+			SELECT METADATA_ID
+			FROM PAGE_METADATA
+			WHERE PAGE_ID=#pageId#
+	</select>
+	
+
+	<select id="pageMetadata.detail" resultMap="admin_PageMetadataVO">
+		<![CDATA[
+			SELECT METADATA_ID,PAGE_ID,NAME,VALUE,LOCALE
+			FROM PAGE_METADATA
+			WHERE 1=1 
+				AND METADATA_ID=#metadataId#
+		]]>
+	</select>
+	
+	<insert id="pageMetadata.insert">
+		<![CDATA[
+			INSERT INTO PAGE_METADATA
+				( METADATA_ID,PAGE_ID,NAME,VALUE,LOCALE )
+			VALUES ( #metadataId#,#pageId#,#name#,#value#,#locale# )
+		]]>
+	</insert>
+	
+	<update id="pageMetadata.update">
+		<![CDATA[
+			UPDATE PAGE_METADATA
+			SET METADATA_ID=#metadataId#,PAGE_ID=#pageId#,NAME=#name#,VALUE=#value#,LOCALE=#locale#
+			WHERE 1=1 
+				AND METADATA_ID=#metadataId#
+		]]>
+	</update>
+	
+	<delete id="pageMetadata.delete">
+		<![CDATA[
+			DELETE FROM PAGE_METADATA
+			WHERE 1=1 
+				AND METADATA_ID=#metadataId#
+		]]>
+	</delete>
+	
+	<delete id="pageMetadata.deleteChildren">
+		<![CDATA[
+			DELETE FROM PAGE_METADATA
+			WHERE 1=1 
+				AND PAGE_ID=#pageId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

@@ -1,0 +1,49 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	<!-- Query for [ USER_STATISTICS : 사용자로그 ] Table -->
+	<resultMap id="admin_PushManagerVO_PK" class="com.saltware.enview.admin.pushManager.service.PushManagerPK">
+	</resultMap>
+	
+	<resultMap id="admin_PushManagerVO" class="com.saltware.enview.admin.pushManager.service.PushManagerVO">
+	 	<result property="userId" column="ID" columnIndex="1"/>	 
+	 	<result property="deviceKey" column="KEY" columnIndex="2"/>
+	 	<result property="phoneType" column="TYPE" columnIndex="3"/>	 	 
+	</resultMap>
+	
+	<select id="pushManager.findByPage" resultMap="admin_PushManagerVO">
+			SELECT *
+			from PUSH_INFO
+	</select>
+	
+	<select id="pushManager.findById" resultMap="admin_PushManagerVO">
+			SELECT *
+            from PUSH_INFO
+            where ID=#userId#
+	</select>
+	
+	
+	<insert id="pushManager.insert">
+      	    INSERT INTO PUSH_INFO(ID, KEY, TYPE)
+			VALUES(#userId#,#deviceKey#,#phoneType#)  
+	</insert>
+		
+<!-- 
+     <insert id="pushManager.insert">
+      	    INSERT INTO PUSH_INFO(ID, KEY)
+			VALUES('test','testgood')  
+	</insert>
+-->
+		
+<!--  <insert id="pushManager.insert">
+		<![CDATA[
+			INSERT INTO PORTLET_CONTENT_TYPE
+				( CONTENT_TYPE_ID,PORTLET_ID,CONTENT_TYPE,MODES )
+			VALUES ( #contentTypeId#,#portletId#,#contentType#,#modes# )
+		]]>
+	</insert> 
+-->
+
+</sqlMap>
+

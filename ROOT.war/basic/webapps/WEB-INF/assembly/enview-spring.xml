@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <bean id="PortalConfiguration" class="com.saltware.enview.administration.PortalConfigurationImpl">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <ref bean="portal_configuration" />
+    </constructor-arg>
+	<constructor-arg>
+		<value>messages</value>
+	</constructor-arg>
+  </bean>
+
+
+  <!-- Template Locators -->
+  <bean id="TemplateLocator" class="com.saltware.enview.locator.EnviewTemplateLocator" init-method="start"
+    destroy-method="stop">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <list>
+        <value>${portal.core.templates.path}</value>
+      </list>
+    </constructor-arg>
+    <constructor-arg>
+      <value>${applicationRoot}</value>
+    </constructor-arg>
+  </bean>
+
+  <bean id="DecorationLocator" class="com.saltware.enview.locator.EnviewTemplateLocator" init-method="start"
+    destroy-method="stop">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <list>
+        <value>${portal.core.decorations.path}</value>
+      </list>
+    </constructor-arg>
+    <constructor-arg>
+      <value>${applicationRoot}</value>
+    </constructor-arg>
+  </bean>
+
+  <bean id="Powertools" class="com.saltware.enview.velocity.EnviewPowerToolFactory">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index="0">
+      <value>com.saltware.enview.velocity.EnviewPowerToolImpl</value>
+    </constructor-arg>
+    <!-- Added so we can render portlets in JPT -->
+    <constructor-arg index="1">
+      <ref bean="com.saltware.enview.aggregator.PortletRenderer" />
+    </constructor-arg>
+  </bean>
+
+  <!-- Request Context -->
+  <bean id="com.saltware.enview.request.RequestContextComponent"
+    class="com.saltware.enview.request.EnviewRequestContextComponent">
+    <meta key="j2:cat" value="default or registry" />
+    <constructor-arg index='0'><ref bean="com.saltware.enview.components.portletregistry.PortletRegistry" /></constructor-arg>
+    <constructor-arg index='1'><ref bean="com.saltware.enview.userinfo.UserInfoManager" /></constructor-arg>
+    <constructor-arg index='2'><ref bean="RequestContextObjects" /></constructor-arg>
+  </bean>
+
+  <bean class="com.saltware.enview.components.factorybeans.NullReferenceFactoryBean">
+    <meta key="j2:cat" value="noRequestContext" />
+    <meta key="j2:alias" value="com.saltware.enview.request.RequestContextComponent" />
+    <property name="objectType" value="com.saltware.enview.request.RequestContextComponent"></property>
+  </bean>
+
+  <!-- Pluto Portlet Container -->
+  <bean id="Pluto" class="org.apache.pluto.container.impl.PortletContainerImpl">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg><value>${portal.name}</value></constructor-arg>
+    <constructor-arg><ref bean="org.apache.pluto.services.PlutoServices"/></constructor-arg>
+  </bean>
+
+  <!-- Enview 2's wrapper around Pluto -->
+  <!-- settings for this bean will start the underlying pluto portlet container -->
+  <bean id="org.apache.pluto.PortletContainer" class="com.saltware.enview.container.EnviewPortletContainerWrapper"
+    init-method="init" destroy-method="destroy">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg>
+      <ref bean="Pluto" />
+    </constructor-arg>
+    <constructor-arg>
+      <value>${portal.name}</value>
+    </constructor-arg>
+  </bean>
+
+  <!-- HeaderResource Factory -->
+  <bean id="com.saltware.enview.headerresource.HeaderResourceFactory"
+    class="com.saltware.enview.headerresource.impl.HeaderResourceFactoryImpl">
+    <meta key="j2:cat" value="default" />
+  </bean>
+
+  <!-- Security: Session Manager -->
+  <bean id="com.saltware.enview.container.session.PortalSessionsManager"
+    class="com.saltware.enview.container.session.PortalSessionsManagerImpl">
+    <meta key="j2:cat" value="default" />
+    <!-- By default force invalidate portal and portlet applications when a user logs out (or a session timesout)
+      For Jetty 6.x which does that already automatically set to false to prevent ConcurrentModificationException
+      see https://issues.apache.org/jira/browse/JS2-735
+    -->
+    <constructor-arg>
+      <value type="boolean">true</value>
+    </constructor-arg>
+  </bean>
+
+</beans>

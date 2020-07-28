@@ -1,0 +1,97 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0130VO" id="M0130VO.list">
+		<result property="criNotiRcptNum" column="CRI_NOTI_RCPT_NUM"/>
+		<result property="criNotiSiNum" column="CRI_NOTI_SI_NUM"/>
+		<result property="rcptDt" column="RCPT_DT"/>
+		<result property="notiPernNm" column="NOTI_PERN_NM"/>
+		<result property="notiCont" column="NOTI_CONT"/>
+		<result property="notiCnttNum" column="NOTI_CNTT_NUM"/>
+		<result property="notiAplt" column="NOTI_APLT"/>
+		<result property="trsr" column="TRSR"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+	
+ 	<select id="M0130.SJPB_CRI_NOTI_RCPT_BK_DOC.selectList" resultMap="M0130VO.list">  /* M0130.SJPB_CRI_NOTI_RCPT_BK_DOC.selectList */
+ 		SELECT A.CRI_NOTI_RCPT_NUM  /* 범죄신고접수번호 */
+		       ,A.CRI_NOTI_SI_NUM  /* 연번 */
+		       ,A.RCPT_DT  /* 접수일자 */
+		       ,A.NOTI_PERN_NM  /* 신고인성명 */
+		       ,A.NOTI_CONT  /* 신고내용 */
+		       ,A.NOTI_CNTT_NUM  /* 신고인연락처 */
+		       ,A.NOTI_APLT  /* 신고접수자 */
+		       ,A.TRSR  /* 취급자 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,D.NM_KOR  /* 작성자 이름 */
+		FROM SJPB_CRI_NOTI_RCPT_BK_DOC A
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+ 	</select>
+ 	
+ 	<update id="M0130.SJPB_CRI_NOTI_RCPT_BK_DOC.insert" parameterClass="com.saltware.enface.sjpb.M.service.M0130VO">  /* M0130.SJPB_CRI_NOTI_RCPT_BK_DOC.insert */
+ 		INSERT INTO SJPB_CRI_NOTI_RCPT_BK_DOC (
+			    CRI_NOTI_RCPT_NUM,
+			    CRI_NOTI_SI_NUM,
+			    RCPT_DT,
+			    NOTI_PERN_NM,
+			    NOTI_CONT,
+			    NOTI_CNTT_NUM,
+			    NOTI_APLT,
+			    TRSR,
+			    REG_USER_ID,
+			    REG_DATE,
+			    UPD_USER_ID,
+			    UPD_DATE
+			) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_CRI_NOTI_RCPT_BK_DOC.CRI_NOTI_RCPT_NUM')
+		    ,#criNotiSiNum#
+		    ,#rcptDt#
+		    ,#notiPernNm#
+		    ,#notiCont#
+		    ,#notiCnttNum#
+		    ,#notiAplt#
+		    ,#trsr#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		)
+ 	</update>
+ 	<update id="M0130.SJPB_CRI_NOTI_RCPT_BK_DOC.update" parameterClass="com.saltware.enface.sjpb.M.service.M0130VO">  /* M0130.SJPB_CRI_NOTI_RCPT_BK_DOC.update */
+ 		UPDATE SJPB_CRI_NOTI_RCPT_BK_DOC 
+		SET RCPT_DT = #rcptDt#,
+			CRI_NOTI_SI_NUM = #criNotiSiNum#,
+		    NOTI_PERN_NM = #notiPernNm#,
+		    NOTI_CONT = #notiCont#,
+		    NOTI_CNTT_NUM = #notiCnttNum#,
+		    NOTI_APLT = #notiAplt#,
+		    TRSR = #trsr#,
+		    UPD_USER_ID = #regUserId#,
+		    UPD_DATE = SYSDATE
+		WHERE CRI_NOTI_RCPT_NUM = #criNotiRcptNum#
+ 	</update>
+ 	
+ 	<select id="M0130.SJPB_CRI_NOTI_RCPT_BK_DOC.prnCheckReport" resultMap="M0130VO.list">  /* M0130.SJPB_CRI_NOTI_RCPT_BK_DOC.prnCheckReport */
+		SELECT A.CRI_NOTI_RCPT_NUM  /* 범죄신고접수번호 */
+		       ,A.CRI_NOTI_SI_NUM  /* 연번 */
+		       ,DECODE(A.RCPT_DT,NULL,'',SUBSTR(A.RCPT_DT,1,4)||'.'|| SUBSTR(A.RCPT_DT,5,2) ||'.'||SUBSTR(A.RCPT_DT,7,2)) AS RCPT_DT  /* 접수일자 */
+		       ,A.NOTI_PERN_NM  /* 신고인성명 */
+		       ,A.NOTI_CONT  /* 신고내용 */
+		       ,A.NOTI_CNTT_NUM  /* 신고인연락처 */
+		       ,A.NOTI_APLT  /* 신고접수자 */
+		       ,A.TRSR  /* 취급자 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,E.NM_KOR
+		FROM SJPB_CRI_NOTI_RCPT_BK_DOC A
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="criNotiRcptNumList" prepend="AND">
+				<iterate property="criNotiRcptNumList" open="A.CRI_NOTI_RCPT_NUM IN(" close=")" conjunction=",">
+					 #criNotiRcptNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+</sqlMap>

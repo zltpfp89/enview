@@ -1,0 +1,15 @@
+<fragment fragmentId="" parentId="" pageId="" name="enview-layouts::VelocityOneColumn" type="layout" actionMask="7999" layoutRow="0" layoutColumn="0" layoutSizes="100%">
+	<fragment fragmentId="" parentId="" pageId="" name="encola::CafeTitlePortlet" type="portlet" actionMask="7999" layoutRow="0" layoutColumn="0" layoutSizes="100%"/>
+	<fragment fragmentId="" parentId="" pageId="" name="enview-layouts::VelocityThreeColumns" type="layout" actionMask="7999" layoutRow="1" layoutColumn="0" layoutSizes="183,549px,183px">
+		<fragment fragmentId="" parentId="" pageId="" name="enview-layouts::VelocityOneColumn" type="layout" actionMask="7999" layoutRow="0" layoutColumn="0" layoutSizes="100%" area="CafeBuga5Area"/>
+		<fragment fragmentId="" parentId="" pageId="" name="encola::CafeGatePortlet" type="portlet" actionMask="7999" layoutRow="0" layoutColumn="1" layoutSizes="100%"/>
+		<fragment fragmentId="" parentId="" pageId="" name="encola::CafeCnttPortlet" type="portlet" actionMask="7999" layoutRow="1" layoutColumn="1" layoutSizes="100%"/>
+		<fragment fragmentId="" parentId="" pageId="" name="enview-layouts::VelocityThreeColumns" type="layout" actionMask="7999" layoutRow="2" layoutColumn="1" layoutSizes="183px,183px,183px">
+			<fragment fragmentId="" parentId="" pageId="" name="enview-layouts::VelocityOneColumn" type="layout" actionMask="7999" layoutRow="1" layoutColumn="0" layoutSizes="100%" area="CafeBuga2Area"/>
+			<fragment fragmentId="" parentId="" pageId="" name="enview-layouts::VelocityOneColumn" type="layout" actionMask="7999" layoutRow="1" layoutColumn="1" layoutSizes="100%" area="CafeBuga3Area"/>
+			<fragment fragmentId="" parentId="" pageId="" name="enview-layouts::VelocityOneColumn" type="layout" actionMask="7999" layoutRow="1" layoutColumn="2" layoutSizes="100%" area="CafeBuga4Area"/>
+		</fragment>
+		<fragment fragmentId="" parentId="" pageId="" name="enview-layouts::VelocityOneColumn" type="layout" actionMask="7999" layoutRow="0" layoutColumn="2" layoutSizes="100%" area="CafeMenuArea"/>
+		<fragment fragmentId="" parentId="" pageId="" name="enview-layouts::VelocityOneColumn" type="layout" actionMask="7999" layoutRow="1" layoutColumn="2" layoutSizes="100%" area="CafeBuga1Area"/>
+	</fragment>
+</fragment>

@@ -1,0 +1,327 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0104VO" id="M0104VO.list">
+		<result property="cathWrntReqBkNum" column="CATH_WRNT_REQ_BK_NUM"/>
+		<result property="prgsNum" column="PRGS_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>		
+		<result property="reqDt" column="REQ_DT"/>
+		<result property="apltTitl" column="APLT_TITL"/>
+		<result property="apltNm" column="APLT_NM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="cathWrntPstrRjctDt" column="CATH_WRNT_PSTR_RJCT_DT"/>
+		<result property="cathWrntJudgRjctDt" column="CATH_WRNT_JUDG_RJCT_DT"/>
+		<result property="cathWrntIsueDt" column="CATH_WRNT_ISUE_DT"/>
+		<result property="cathWrntReReqDt" column="CATH_WRNT_RE_REQ_DT"/>
+		<result property="cathWrntReReqPstrRjctDt" column="CATH_WRNT_RE_REQ_PSTR_RJCT_DT"/>
+		<result property="cathWrntReReqJudgRjctDt" column="CATH_WRNT_RE_REQ_JUDG_RJCT_DT"/>
+		<result property="cathWrntReReqIsueDt" column="CATH_WRNT_RE_REQ_ISUE_DT"/>
+		<result property="valdPi" column="VALD_PI"/>
+		<result property="execDt" column="EXEC_DT"/>
+		<result property="execPla" column="EXEC_PLA"/>
+		<result property="execHandRst" column="EXEC_HAND_RST"/>
+		<result property="arstWrntReqBkNum" column="ARST_WRNT_REQ_BK_NUM"/>
+		<result property="arstWrntReqIsueDt" column="ARST_WRNT_REQ_ISUE_DT"/>
+		<result property="relsDt" column="RELS_DT"/>
+		<result property="relsRsn" column="RELS_RSN"/>
+		<result property="cathWrntRetn" column="CATH_WRNT_RETN"/>
+		<result property="cathWrntComn" column="CATH_WRNT_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="docNum" column="DOC_NUM"/>
+		<result property="attoNm" column="ATTO_NM"/>
+		<result property="overWeekResn" column="OVER_WEEK_RESN"/>
+		<result property="overTwoPersRes" column="OVER_TWO_PERS_RES"/>
+	</resultMap>
+ 	<select id="M0104.SJPB_CATH_WRNT_REQ_BK_DOC.selectList" resultMap="M0104VO.list">  /* M0104.SJPB_CATH_WRNT_REQ_BK_DOC.selectList */
+ 		SELECT A.CATH_WRNT_REQ_BK_NUM  /* 체포영장신청부번호 */
+		       ,A.PRGS_NUM  /* 진행번호 */
+		       ,C.RCPT_INC_NUM  /* 사건번호 */ 
+		       ,A.REQ_DT  /* 신청일자 */
+		       ,A.APLT_TITL  /* 신청자관직 */
+		       ,A.APLT_NM  /* 신청자성명 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */
+		       ,A.CATH_WRNT_PSTR_RJCT_DT  /* 체포영장검사기각일시 */
+		       ,A.CATH_WRNT_JUDG_RJCT_DT  /* 체포영장판사기각일시 */
+		       ,A.CATH_WRNT_ISUE_DT  /* 체포영장발부일시 */
+		       ,A.CATH_WRNT_RE_REQ_DT  /* 체포영장재신청일시 */
+		       ,A.CATH_WRNT_RE_REQ_PSTR_RJCT_DT  /* 체포영장재신청검사기각일시 */
+		       ,A.CATH_WRNT_RE_REQ_JUDG_RJCT_DT /* 체포영장재신청판사기각일시 */
+		       ,A.CATH_WRNT_RE_REQ_ISUE_DT  /* 체포영장재신청발부일시 */
+		       ,A.VALD_PI  /* 유효기간 */
+		       ,A.EXEC_DT  /* 집행일시 */
+		       ,A.EXEC_PLA  /* 집행장소 */
+		       ,A.EXEC_HAND_RST  /* 집행처리결과 */
+		       ,A.ARST_WRNT_REQ_BK_NUM  /* 구속영장신청부번호 */
+		       ,A.ARST_WRNT_REQ_ISUE_DT  /* 구속영장신청발부일자 */
+		       ,A.RELS_DT  /* 석방일자 */
+		       ,A.RELS_RSN  /* 석방사유 */
+		       ,A.CATH_WRNT_RETN  /* 반환 */
+		       ,A.CATH_WRNT_COMN  /* 비고 */
+		       ,A.REG_USER_ID /* 작성자 */
+		       ,D.NM_KOR /* 작성자이름 */
+		       ,DOC_NUM  /* 문서번호 */
+			   ,ATTO_NM  /* 변호인 */
+			   ,OVER_WEEK_RESN  /* 7일을 넘는 유효기간을 필요로 하는 취지와 사유 */
+			   ,OVER_TWO_PERS_RES  /* 둘 이상의 영장을 신청하는 취지와 사유 */
+		FROM SJPB_CATH_WRNT_REQ_BK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				C.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				C.RCPT_NUM = #rcptNumSc# OR C.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				B.SP_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0104.SJPB_CATH_WRNT_REQ_BK_DOC.insertCathWrnt" parameterClass="com.saltware.enface.sjpb.M.service.M0104VO">  /* M0104.SJPB_CATH_WRNT_REQ_BK_DOC.insertCathWrnt */
+ 		INSERT INTO SJPB_CATH_WRNT_REQ_BK_DOC (
+		    CATH_WRNT_REQ_BK_NUM,
+		    PRGS_NUM,
+		    RCPT_NUM,
+		    REQ_DT,
+		    APLT_TITL,
+		    APLT_NM,
+		    INC_SP_NUM,
+		    CATH_WRNT_PSTR_RJCT_DT,
+		    CATH_WRNT_JUDG_RJCT_DT,
+		    CATH_WRNT_ISUE_DT,
+		    CATH_WRNT_RE_REQ_DT,
+		    CATH_WRNT_RE_REQ_PSTR_RJCT_DT,
+		    CATH_WRNT_RE_REQ_JUDG_RJCT_DT,
+		    CATH_WRNT_RE_REQ_ISUE_DT,
+		    VALD_PI,
+		    EXEC_DT,
+		    EXEC_PLA,
+		    EXEC_HAND_RST,
+		    ARST_WRNT_REQ_BK_NUM,
+		    ARST_WRNT_REQ_ISUE_DT,
+		    RELS_DT,
+		    RELS_RSN,
+		    CATH_WRNT_RETN,
+		    CATH_WRNT_COMN,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE,
+		    DOC_NUM,
+		    ATTO_NM,
+		    OVER_WEEK_RESN,
+		    OVER_TWO_PERS_RES
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_CATH_WRNT_REQ_BK_DOC.CATH_WRNT_REQ_BK_NUM')
+		    ,#prgsNum#
+		    ,#rcptNum#
+		    ,#reqDt#
+		    ,#apltTitl#
+		    ,#apltNm#
+		    ,#incSpNum#
+		    ,#cathWrntPstrRjctDt#
+		    ,#cathWrntJudgRjctDt#
+		    ,#cathWrntIsueDt#
+		    ,#cathWrntReReqDt#
+		    ,#cathWrntReReqPstrRjctDt#
+		    ,#cathWrntReReqJudgRjctDt#
+		    ,#cathWrntReReqIsueDt#
+		    ,#valdPi#
+		    ,#execDt#
+		    ,#execPla#
+		    ,#execHandRst#
+		    ,#arstWrntReqBkNum#
+		    ,#arstWrntReqIsueDt#
+		    ,#relsDt#
+		    ,#relsRsn#
+		    ,#cathWrntRetn#
+		    ,#cathWrntComn#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#docNum#
+		    ,#attoNm#
+		    ,#overWeekResn#
+		    ,#overTwoPersRes#
+		)
+ 	</update>
+ 	<update id="M0104.SJPB_CATH_WRNT_REQ_BK_DOC.updateCathWrnt" parameterClass="com.saltware.enface.sjpb.M.service.M0104VO">  /* M0104.SJPB_CATH_WRNT_REQ_BK_DOC.updateCathWrnt */
+ 		UPDATE SJPB_CATH_WRNT_REQ_BK_DOC 
+ 		SET PRGS_NUM = #prgsNum#
+ 			,INC_SP_NUM = #incSpNum#
+ 			,REQ_DT = #reqDt#
+ 			,APLT_TITL = #apltTitl#
+ 			,APLT_NM = #apltNm#
+ 			,CATH_WRNT_PSTR_RJCT_DT = #cathWrntPstrRjctDt#
+ 			,CATH_WRNT_JUDG_RJCT_DT = #cathWrntJudgRjctDt#
+ 			,CATH_WRNT_ISUE_DT = #cathWrntIsueDt#
+ 			,CATH_WRNT_RE_REQ_DT = #cathWrntReReqDt#
+ 			,CATH_WRNT_RE_REQ_PSTR_RJCT_DT = #cathWrntReReqPstrRjctDt#
+ 			,CATH_WRNT_RE_REQ_JUDG_RJCT_DT = #cathWrntReReqJudgRjctDt#
+ 			,CATH_WRNT_RE_REQ_ISUE_DT = #cathWrntReReqIsueDt#
+ 			,VALD_PI = #valdPi#
+ 			,EXEC_DT = #execDt#
+ 			,EXEC_PLA = #execPla#
+ 			,EXEC_HAND_RST = #execHandRst#
+ 			,ARST_WRNT_REQ_BK_NUM = #arstWrntReqBkNum#
+ 			,ARST_WRNT_REQ_ISUE_DT = #arstWrntReqIsueDt#
+ 			,RELS_DT = #relsDt#
+ 			,RELS_RSN = #relsRsn#
+ 			,CATH_WRNT_RETN = #cathWrntRetn#
+ 			,CATH_WRNT_COMN = #cathWrntComn#
+ 			,UPD_USER_ID = #regUserId#
+ 			,UPD_DATE = SYSDATE
+ 			,DOC_NUM = #docNum#
+		    ,ATTO_NM = #attoNm#
+		    ,OVER_WEEK_RESN = #overWeekResn#
+		    ,OVER_TWO_PERS_RES = #overTwoPersRes#
+ 		WHERE CATH_WRNT_REQ_BK_NUM = #cathWrntReqBkNum# 
+ 	</update>
+ 	
+ 	<resultMap class="com.saltware.enface.sjpb.M.service.M0104VO" id="M0104VO.list">
+		<result property="cathWrntReqBkNum" column="CATH_WRNT_REQ_BK_NUM"/>
+		<result property="prgsNum" column="PRGS_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="mergeRcptIncNum" column="MERGE_RCPT_INC_NUM"/>		
+		<result property="reqDt" column="REQ_DT"/>
+		<result property="apltTitl" column="APLT_TITL"/>
+		<result property="apltNm" column="APLT_NM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="cathWrntPstrRjctDt" column="CATH_WRNT_PSTR_RJCT_DT"/>
+		<result property="cathWrntJudgRjctDt" column="CATH_WRNT_JUDG_RJCT_DT"/>
+		<result property="cathWrntIsueDt" column="CATH_WRNT_ISUE_DT"/>
+		<result property="cathWrntReReqDt" column="CATH_WRNT_RE_REQ_DT"/>
+		<result property="cathWrntReReqPstrRjctDt" column="CATH_WRNT_RE_REQ_PSTR_RJCT_DT"/>
+		<result property="cathWrntReReqJudgRjctDt" column="CATH_WRNT_RE_REQ_JUDG_RJCT_DT"/>
+		<result property="cathWrntReReqIsueDt" column="CATH_WRNT_RE_REQ_ISUE_DT"/>
+		<result property="valdPi" column="VALD_PI"/>
+		<result property="execDt" column="EXEC_DT"/>
+		<result property="execPla" column="EXEC_PLA"/>
+		<result property="execHandRst" column="EXEC_HAND_RST"/>
+		<result property="arstWrntReqBkNum" column="ARST_WRNT_REQ_BK_NUM"/>
+		<result property="arstWrntReqIsueDt" column="ARST_WRNT_REQ_ISUE_DT"/>
+		<result property="relsDt" column="RELS_DT"/>
+		<result property="relsRsn" column="RELS_RSN"/>
+		<result property="cathWrntRetn" column="CATH_WRNT_RETN"/>
+		<result property="cathWrntComn" column="CATH_WRNT_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+	</resultMap>
+ 	
+ 	<select id="M0104.SJPB_CATH_WRNT_REQ_BK_DOC.prnReport" resultMap="M0104VO.list">  /* M0104.SJPB_CATH_WRNT_REQ_BK_DOC.prnReport */
+ 		SELECT A.CATH_WRNT_REQ_BK_NUM  /* 체포영장신청부번호 */
+		       ,A.PRGS_NUM  /* 진행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,REGEXP_SUBSTR(C.RCPT_INC_NUM,'[^-]+',1,1) ||'년 형제'||REGEXP_SUBSTR(REGEXP_SUBSTR(C.RCPT_INC_NUM,'[^-]+',1,2),'[^,]+',1,1)||'호' AS RCPT_INC_NUM /* 사건번호 */
+		       ,CASE WHEN REGEXP_SUBSTR(C.RCPT_INC_NUM,'[^,]+',1,2) is NOT NULL THEN REGEXP_SUBSTR(REGEXP_SUBSTR(C.RCPT_INC_NUM,'[^,]+',1,2),'[^-]+',1,1) ||'년 형제'||REGEXP_SUBSTR(REGEXP_SUBSTR(C.RCPT_INC_NUM,'[^,]+',1,2),'[^-]+',1,2)||'호' END AS MERGE_RCPT_INC_NUM 
+		       ,DECODE(A.REQ_DT,NULL,'',SUBSTR(A.REQ_DT,1,4)||'.'||SUBSTR(A.REQ_DT,5,2)||'.'||SUBSTR(A.REQ_DT,7,2)) AS REQ_DT  /* 신청일자 */
+		       ,A.APLT_TITL  /* 신청자관직 */
+		       ,A.APLT_NM  /* 신청자성명 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */
+		       ,DECODE(A.CATH_WRNT_PSTR_RJCT_DT,NULL,'',SUBSTR(A.CATH_WRNT_PSTR_RJCT_DT,1,4)||'.'|| SUBSTR(A.CATH_WRNT_PSTR_RJCT_DT,5,2) ||'.'||SUBSTR(A.CATH_WRNT_PSTR_RJCT_DT,7,2)||'  '||SUBSTR(A.CATH_WRNT_PSTR_RJCT_DT,9,2) ||'시'|| SUBSTR(A.CATH_WRNT_PSTR_RJCT_DT,11,2) || '분') AS CATH_WRNT_PSTR_RJCT_DT  /* 체포영장검사기각일시 */
+		       ,DECODE(A.CATH_WRNT_JUDG_RJCT_DT,NULL,'',SUBSTR(A.CATH_WRNT_JUDG_RJCT_DT,1,4)||'.'|| SUBSTR(A.CATH_WRNT_JUDG_RJCT_DT,5,2) ||'.'||SUBSTR(A.CATH_WRNT_JUDG_RJCT_DT,7,2)||'  '||SUBSTR(A.CATH_WRNT_JUDG_RJCT_DT,9,2) ||'시'|| SUBSTR(A.CATH_WRNT_JUDG_RJCT_DT,11,2)||'분') AS CATH_WRNT_JUDG_RJCT_DT  /* 체포영장판사기각일시 */
+		       ,DECODE(A.CATH_WRNT_ISUE_DT,NULL,'',SUBSTR(A.CATH_WRNT_ISUE_DT,1,4)||'.'|| SUBSTR(A.CATH_WRNT_ISUE_DT,5,2) ||'.'||SUBSTR(A.CATH_WRNT_ISUE_DT,7,2)||'  '||SUBSTR(A.CATH_WRNT_ISUE_DT,9,2)||'시'||SUBSTR(A.CATH_WRNT_ISUE_DT,11,2)||'분') AS CATH_WRNT_ISUE_DT  /* 체포영장발부일시 */
+		       ,DECODE(A.CATH_WRNT_RE_REQ_DT,NULL,'',SUBSTR(A.CATH_WRNT_RE_REQ_DT,1,4)||'.'|| SUBSTR(A.CATH_WRNT_RE_REQ_DT,5,2) ||'.'||SUBSTR(A.CATH_WRNT_RE_REQ_DT,7,2)||'  '||SUBSTR(A.CATH_WRNT_RE_REQ_DT,9,2)||'시'||SUBSTR(A.CATH_WRNT_RE_REQ_DT,11,2)||'분') AS CATH_WRNT_RE_REQ_DT  /* 체포영장재신청일시 */
+		       ,DECODE(A.CATH_WRNT_RE_REQ_PSTR_RJCT_DT,NULL,'',SUBSTR(A.CATH_WRNT_RE_REQ_PSTR_RJCT_DT,1,4)||'.'||SUBSTR(A.CATH_WRNT_RE_REQ_PSTR_RJCT_DT,5,2) ||'.'||SUBSTR(A.CATH_WRNT_RE_REQ_PSTR_RJCT_DT,7,2)||'  '||SUBSTR(A.CATH_WRNT_RE_REQ_PSTR_RJCT_DT,9,2)||'시'||SUBSTR(A.CATH_WRNT_RE_REQ_PSTR_RJCT_DT,11,2)||'분') AS CATH_WRNT_RE_REQ_PSTR_RJCT_DT  /* 체포영장재신청검사기각일시 */
+		       ,DECODE(A.CATH_WRNT_RE_REQ_JUDG_RJCT_DT,NULL,'',SUBSTR(A.CATH_WRNT_RE_REQ_JUDG_RJCT_DT,1,4)||'.'|| SUBSTR(A.CATH_WRNT_RE_REQ_JUDG_RJCT_DT,5,2) ||'.'||SUBSTR(A.CATH_WRNT_RE_REQ_JUDG_RJCT_DT,7,2)||'  '||SUBSTR(A.CATH_WRNT_RE_REQ_JUDG_RJCT_DT,9,2)||'시'||SUBSTR(A.CATH_WRNT_RE_REQ_JUDG_RJCT_DT,11,2)||'분') AS CATH_WRNT_RE_REQ_JUDG_RJCT_DT  /* 체포영장재신청판사기각일시 */
+		       ,DECODE(A.CATH_WRNT_RE_REQ_ISUE_DT,NULL,'',SUBSTR(A.CATH_WRNT_RE_REQ_ISUE_DT,1,4)||'.'|| SUBSTR(A.CATH_WRNT_RE_REQ_ISUE_DT,5,2) ||'.'||SUBSTR(A.CATH_WRNT_RE_REQ_ISUE_DT,7,2)||'  '||SUBSTR(A.CATH_WRNT_RE_REQ_ISUE_DT,9,2)||'시'||SUBSTR(A.CATH_WRNT_RE_REQ_ISUE_DT,11,2)||'분') AS CATH_WRNT_RE_REQ_ISUE_DT  /* 체포영장재신청발부일시 */
+		       ,DECODE(A.VALD_PI,NULL,'',SUBSTR(A.VALD_PI,1,4)||'.'|| SUBSTR(A.VALD_PI,5,2) ||'.'||SUBSTR(A.VALD_PI,7,2)) AS VALD_PI  /* 유효기간 */
+			   ,DECODE(A.EXEC_DT,NULL,'',SUBSTR(A.EXEC_DT,1,4)||'.'|| SUBSTR(A.EXEC_DT,5,2) ||'.'||SUBSTR(A.EXEC_DT,7,2)||'  '||SUBSTR(A.EXEC_DT,9,2)||'시'||SUBSTR(A.EXEC_DT,11,2)||'분') AS EXEC_DT  /* 집행일시 */
+		       ,A.EXEC_PLA  /* 집행장소 */
+		       ,A.EXEC_HAND_RST  /* 집행처리결과 */
+		       ,A.ARST_WRNT_REQ_BK_NUM  /* 구속영장신청부번호 */
+		       ,DECODE(A.ARST_WRNT_REQ_ISUE_DT,NULL,'',SUBSTR(A.ARST_WRNT_REQ_ISUE_DT,1,4)||'.'|| SUBSTR(A.ARST_WRNT_REQ_ISUE_DT,5,2) ||'.'||SUBSTR(A.ARST_WRNT_REQ_ISUE_DT,7,2)) AS ARST_WRNT_REQ_ISUE_DT  /* 구속영장신청발부일자 */
+		       ,DECODE(A.RELS_DT,NULL,'',SUBSTR(A.RELS_DT,1,4)||'.'|| SUBSTR(A.RELS_DT,5,2) ||'.'||SUBSTR(A.RELS_DT,7,2)) AS RELS_DT  /* 석방일자 */
+		       ,A.RELS_RSN  /* 석방사유 */
+		       ,DECODE(A.CATH_WRNT_RETN,NULL,'',SUBSTR(A.CATH_WRNT_RETN,1,4)||'.'|| SUBSTR(A.CATH_WRNT_RETN,5,2) ||'.'||SUBSTR(A.CATH_WRNT_RETN,7,2)) AS CATH_WRNT_RETN  /* 반환 */
+		       ,A.CATH_WRNT_COMN  /* 비고 */
+		       ,A.REG_USER_ID /* 작성자 */
+		FROM SJPB_CATH_WRNT_REQ_BK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		WHERE A.CATH_WRNT_REQ_BK_NUM = #cathWrntReqBkNum# 
+	</select>
+	<select id="M0104.SJPB_CATH_WRNT_REQ_BK_DOC.prnCheckReport" resultMap="M0104VO.list">  /* M0104.SJPB_CATH_WRNT_REQ_BK_DOC.prnCheckReport */
+ 		SELECT A.CATH_WRNT_REQ_BK_NUM  /* 체포영장신청부번호 */
+		       ,A.PRGS_NUM  /* 진행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM /* 사건번호 */
+		       ,CASE WHEN REGEXP_SUBSTR(C.RCPT_INC_NUM,'[^,]+',1,2) is NOT NULL THEN REGEXP_SUBSTR(REGEXP_SUBSTR(C.RCPT_INC_NUM,'[^,]+',1,2),'[^-]+',1,1) ||'년 형제'||REGEXP_SUBSTR(REGEXP_SUBSTR(C.RCPT_INC_NUM,'[^,]+',1,2),'[^-]+',1,2)||'호' END AS MERGE_RCPT_INC_NUM 
+		       ,DECODE(A.REQ_DT,NULL,'',SUBSTR(A.REQ_DT,1,4)||'.'||SUBSTR(A.REQ_DT,5,2)||'.'||SUBSTR(A.REQ_DT,7,2)) AS REQ_DT  /* 신청일자 */
+		       ,A.APLT_TITL  /* 신청자관직 */
+		       ,A.APLT_NM  /* 신청자성명 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */
+		       ,DECODE(A.CATH_WRNT_PSTR_RJCT_DT,NULL,'',SUBSTR(A.CATH_WRNT_PSTR_RJCT_DT,1,4)||'.'|| SUBSTR(A.CATH_WRNT_PSTR_RJCT_DT,5,2) ||'.'||SUBSTR(A.CATH_WRNT_PSTR_RJCT_DT,7,2)||'  '||SUBSTR(A.CATH_WRNT_PSTR_RJCT_DT,9,2) ||'시'|| SUBSTR(A.CATH_WRNT_PSTR_RJCT_DT,11,2) || '분') AS CATH_WRNT_PSTR_RJCT_DT  /* 체포영장검사기각일시 */
+		       ,DECODE(A.CATH_WRNT_JUDG_RJCT_DT,NULL,'',SUBSTR(A.CATH_WRNT_JUDG_RJCT_DT,1,4)||'.'|| SUBSTR(A.CATH_WRNT_JUDG_RJCT_DT,5,2) ||'.'||SUBSTR(A.CATH_WRNT_JUDG_RJCT_DT,7,2)||'  '||SUBSTR(A.CATH_WRNT_JUDG_RJCT_DT,9,2) ||'시'|| SUBSTR(A.CATH_WRNT_JUDG_RJCT_DT,11,2)||'분') AS CATH_WRNT_JUDG_RJCT_DT  /* 체포영장판사기각일시 */
+		       ,DECODE(A.CATH_WRNT_ISUE_DT,NULL,'',SUBSTR(A.CATH_WRNT_ISUE_DT,1,4)||'.'|| SUBSTR(A.CATH_WRNT_ISUE_DT,5,2) ||'.'||SUBSTR(A.CATH_WRNT_ISUE_DT,7,2)||'  '||SUBSTR(A.CATH_WRNT_ISUE_DT,9,2)||'시'||SUBSTR(A.CATH_WRNT_ISUE_DT,11,2)||'분') AS CATH_WRNT_ISUE_DT  /* 체포영장발부일시 */
+		       ,DECODE(A.CATH_WRNT_RE_REQ_DT,NULL,'',SUBSTR(A.CATH_WRNT_RE_REQ_DT,1,4)||'.'|| SUBSTR(A.CATH_WRNT_RE_REQ_DT,5,2) ||'.'||SUBSTR(A.CATH_WRNT_RE_REQ_DT,7,2)||'  '||SUBSTR(A.CATH_WRNT_RE_REQ_DT,9,2)||'시'||SUBSTR(A.CATH_WRNT_RE_REQ_DT,11,2)||'분') AS CATH_WRNT_RE_REQ_DT  /* 체포영장재신청일시 */
+		       ,DECODE(A.CATH_WRNT_RE_REQ_PSTR_RJCT_DT,NULL,'',SUBSTR(A.CATH_WRNT_RE_REQ_PSTR_RJCT_DT,1,4)||'.'||SUBSTR(A.CATH_WRNT_RE_REQ_PSTR_RJCT_DT,5,2) ||'.'||SUBSTR(A.CATH_WRNT_RE_REQ_PSTR_RJCT_DT,7,2)||'  '||SUBSTR(A.CATH_WRNT_RE_REQ_PSTR_RJCT_DT,9,2)||'시'||SUBSTR(A.CATH_WRNT_RE_REQ_PSTR_RJCT_DT,11,2)||'분') AS CATH_WRNT_RE_REQ_PSTR_RJCT_DT  /* 체포영장재신청검사기각일시 */
+		       ,DECODE(A.CATH_WRNT_RE_REQ_JUDG_RJCT_DT,NULL,'',SUBSTR(A.CATH_WRNT_RE_REQ_JUDG_RJCT_DT,1,4)||'.'|| SUBSTR(A.CATH_WRNT_RE_REQ_JUDG_RJCT_DT,5,2) ||'.'||SUBSTR(A.CATH_WRNT_RE_REQ_JUDG_RJCT_DT,7,2)||'  '||SUBSTR(A.CATH_WRNT_RE_REQ_JUDG_RJCT_DT,9,2)||'시'||SUBSTR(A.CATH_WRNT_RE_REQ_JUDG_RJCT_DT,11,2)||'분') AS CATH_WRNT_RE_REQ_JUDG_RJCT_DT  /* 체포영장재신청판사기각일시 */
+		       ,DECODE(A.CATH_WRNT_RE_REQ_ISUE_DT,NULL,'',SUBSTR(A.CATH_WRNT_RE_REQ_ISUE_DT,1,4)||'.'|| SUBSTR(A.CATH_WRNT_RE_REQ_ISUE_DT,5,2) ||'.'||SUBSTR(A.CATH_WRNT_RE_REQ_ISUE_DT,7,2)||'  '||SUBSTR(A.CATH_WRNT_RE_REQ_ISUE_DT,9,2)||'시'||SUBSTR(A.CATH_WRNT_RE_REQ_ISUE_DT,11,2)||'분') AS CATH_WRNT_RE_REQ_ISUE_DT  /* 체포영장재신청발부일시 */
+		       ,DECODE(A.VALD_PI,NULL,'',SUBSTR(A.VALD_PI,1,4)||'.'|| SUBSTR(A.VALD_PI,5,2) ||'.'||SUBSTR(A.VALD_PI,7,2)) AS VALD_PI  /* 유효기간 */
+			   ,DECODE(A.EXEC_DT,NULL,'',SUBSTR(A.EXEC_DT,1,4)||'.'|| SUBSTR(A.EXEC_DT,5,2) ||'.'||SUBSTR(A.EXEC_DT,7,2)||'  '||SUBSTR(A.EXEC_DT,9,2)||'시'||SUBSTR(A.EXEC_DT,11,2)||'분') AS EXEC_DT  /* 집행일시 */
+		       ,A.EXEC_PLA  /* 집행장소 */
+		       ,A.EXEC_HAND_RST  /* 집행처리결과 */
+		       ,A.ARST_WRNT_REQ_BK_NUM  /* 구속영장신청부번호 */
+		       ,DECODE(A.ARST_WRNT_REQ_ISUE_DT,NULL,'',SUBSTR(A.ARST_WRNT_REQ_ISUE_DT,1,4)||'.'|| SUBSTR(A.ARST_WRNT_REQ_ISUE_DT,5,2) ||'.'||SUBSTR(A.ARST_WRNT_REQ_ISUE_DT,7,2)) AS ARST_WRNT_REQ_ISUE_DT  /* 구속영장신청발부일자 */
+		       ,DECODE(A.RELS_DT,NULL,'',SUBSTR(A.RELS_DT,1,4)||'.'|| SUBSTR(A.RELS_DT,5,2) ||'.'||SUBSTR(A.RELS_DT,7,2)) AS RELS_DT  /* 석방일자 */
+		       ,A.RELS_RSN  /* 석방사유 */
+		       ,DECODE(A.CATH_WRNT_RETN,NULL,'',SUBSTR(A.CATH_WRNT_RETN,1,4)||'.'|| SUBSTR(A.CATH_WRNT_RETN,5,2) ||'.'||SUBSTR(A.CATH_WRNT_RETN,7,2)) AS CATH_WRNT_RETN  /* 반환 */
+		       ,A.CATH_WRNT_COMN  /* 비고 */
+		       ,A.REG_USER_ID /* 작성자 */
+		FROM SJPB_CATH_WRNT_REQ_BK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="cathWrntReqBkNumList" prepend="AND">
+				<iterate property="cathWrntReqBkNumList" open="CATH_WRNT_REQ_BK_NUM IN(" close=")" conjunction=",">
+					 #cathWrntReqBkNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

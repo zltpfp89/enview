@@ -1,0 +1,153 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0118VO" id="M0118VO.list">
+		<result property="emgyCmctActnBkNum" column="EMGY_CMCT_ACTN_BK_NUM"/>
+		<result property="execNum" column="EXEC_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="rstrActnTrgt" column="RSTR_ACTN_TRGT"/>
+		<result property="rstrActnType" column="RSTR_ACTN_TYPE"/>
+		<result property="rstrActnWay" column="RSTR_ACTN_WAY"/>
+		<result property="rstrActnPi" column="RSTR_ACTN_PI"/>
+		<result property="rstrActnExecPla" column="RSTR_ACTN_EXEC_PLA"/>
+		<result property="execCnsmDt" column="EXEC_CNSM_DT"/>
+		<result property="execCnsmOfic" column="EXEC_CNSM_OFIC"/>
+		<result property="execDt" column="EXEC_DT"/>
+		<result property="notcDocSendYn" column="NOTC_DOC_SEND_YN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+	
+ 	<select id="M0118.SJPB_EMGY_CMCT_ACTN_BK_DOC.selectList" resultMap="M0118VO.list">  /* M0118.SJPB_EMGY_CMCT_ACTN_BK_DOC.selectList */
+ 		SELECT A.EMGY_CMCT_ACTN_BK_NUM  /* 긴급통신제한조치대장번호 */
+		       ,A.EXEC_NUM  /* 집행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자성명 */
+		       ,A.RSTR_ACTN_TRGT  /* 긴급통신제한조치대상 */
+		       ,A.RSTR_ACTN_TYPE  /* 긴급통신제한조치종류 */
+		       ,A.RSTR_ACTN_WAY  /* 긴급통신제한조치방법 */
+		       ,A.RSTR_ACTN_PI  /* 긴급통신제한조치기간 */
+		       ,A.RSTR_ACTN_EXEC_PLA  /* 긴급통신제한조치집행장소 */
+		       ,A.EXEC_CNSM_DT  /* 집행위탁연월일 */
+		       ,A.EXEC_CNSM_OFIC  /* 집행위탁관서 */
+		       ,A.EXEC_DT  /* 집행일시 */
+		       ,A.NOTC_DOC_SEND_YN  /* 사후신청또는통보서발송여부 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,D.NM_KOR  /* 작성자 이름 */
+		FROM SJPB_EMGY_CMCT_ACTN_BK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				C.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				B.SP_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				C.RCPT_NUM = #rcptNumSc# OR C.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0118.SJPB_EMGY_CMCT_ACTN_BK_DOC.insertActnBk" parameterClass="com.saltware.enface.sjpb.M.service.M0118VO">  /* M0118.SJPB_EMGY_CMCT_ACTN_BK_DOC.insertActnBk */
+		INSERT INTO SJPB_EMGY_CMCT_ACTN_BK_DOC (
+		    EMGY_CMCT_ACTN_BK_NUM,
+		    EXEC_NUM,
+		    RCPT_NUM,
+		    INC_SP_NUM,
+		    RSTR_ACTN_TRGT,
+		    RSTR_ACTN_TYPE,
+		    RSTR_ACTN_WAY,
+		    RSTR_ACTN_PI,
+		    RSTR_ACTN_EXEC_PLA,
+		    EXEC_CNSM_DT,
+		    EXEC_CNSM_OFIC,
+		    EXEC_DT,
+		    NOTC_DOC_SEND_YN,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_EMGY_CMCT_ACTN_BK_DOC.EMGY_CMCT_ACTN_BK_NUM')
+		    ,#execNum#
+		    ,#rcptNum#
+		    ,#incSpNum#
+		    ,#rstrActnTrgt#
+		    ,#rstrActnType#
+		    ,#rstrActnWay#
+		    ,#rstrActnPi#
+		    ,#rstrActnExecPla#
+		    ,#execCnsmDt#
+		    ,#execCnsmOfic#
+		    ,#execDt#
+		    ,#notcDocSendYn#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		)
+ 	</update>
+ 	
+ 	<update id="M0118.SJPB_EMGY_CMCT_ACTN_BK_DOC.updateActnBk" parameterClass="com.saltware.enface.sjpb.M.service.M0118VO">  /* M0118.SJPB_EMGY_CMCT_ACTN_BK_DOC.updateActnBk */
+ 		UPDATE SJPB_EMGY_CMCT_ACTN_BK_DOC 
+		SET INC_SP_NUM = #incSpNum#,
+			EXEC_NUM = #execNum#,
+		    RSTR_ACTN_TRGT = #rstrActnTrgt#,
+		    RSTR_ACTN_TYPE = #rstrActnType#,
+		    RSTR_ACTN_WAY = #rstrActnWay#,
+		    RSTR_ACTN_PI = #rstrActnPi#,
+		    RSTR_ACTN_EXEC_PLA = #rstrActnExecPla#,
+		    EXEC_CNSM_DT = #execCnsmDt#,
+		    EXEC_CNSM_OFIC = #execCnsmOfic#,
+		    EXEC_DT = #execDt#,
+		    NOTC_DOC_SEND_YN = #notcDocSendYn#,
+		    UPD_USER_ID = #regUserId#,
+		    UPD_DATE = SYSDATE
+		WHERE EMGY_CMCT_ACTN_BK_NUM = #emgyCmctActnBkNum#
+ 	</update>
+ 	
+ 	<select id="M0118.SJPB_EMGY_CMCT_ACTN_BK_DOC.prnCheckReport" resultMap="M0118VO.list">  /* M0118.SJPB_EMGY_CMCT_ACTN_BK_DOC.prnCheckReport */
+ 		SELECT A.EMGY_CMCT_ACTN_BK_NUM  /* 긴급통신제한조치대장번호 */
+		       ,A.EXEC_NUM  /* 집행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자성명 */
+		       ,A.RSTR_ACTN_TRGT  /* 긴급통신제한조치대상 */
+		       ,A.RSTR_ACTN_TYPE  /* 긴급통신제한조치종류 */
+		       ,A.RSTR_ACTN_WAY  /* 긴급통신제한조치방법 */
+		       ,A.RSTR_ACTN_PI  /* 긴급통신제한조치기간 */
+		       ,A.RSTR_ACTN_EXEC_PLA  /* 긴급통신제한조치집행장소 */
+               ,DECODE(A.EXEC_CNSM_DT,NULL,'',SUBSTR(A.EXEC_CNSM_DT,1,4)||'.'|| SUBSTR(A.EXEC_CNSM_DT,5,2) ||'.'||SUBSTR(A.EXEC_CNSM_DT,7,2)) AS EXEC_CNSM_DT  /* 집행위탁연월일 */ 
+		       ,A.EXEC_CNSM_OFIC  /* 집행위탁관서 */
+               ,DECODE(A.EXEC_DT,NULL,'',SUBSTR(A.EXEC_DT,1,4)||'.'|| SUBSTR(A.EXEC_DT,5,2) ||'.'||SUBSTR(A.EXEC_DT,7,2)) AS EXEC_DT  /* 집행일시 */ 
+		       ,A.NOTC_DOC_SEND_YN  /* 사후신청또는통보서발송여부 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,E.NM_KOR
+		FROM SJPB_EMGY_CMCT_ACTN_BK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="emgyCmctActnBkNumList" prepend="AND">
+				<iterate property="emgyCmctActnBkNumList" open="A.EMGY_CMCT_ACTN_BK_NUM IN(" close=")" conjunction=",">
+					 #emgyCmctActnBkNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+</sqlMap>

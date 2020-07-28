@@ -1,0 +1,15 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+ 
+<!-- Query for [ SJPB_HAWR_CRI_DTA_TAB : 수기수사자료표 ] Table -->
+ 
+	 
+	<!-- 수기수사자료표 비고 업데이트 -->
+	<update id="E0302VO.updateComn" parameterClass="com.saltware.enface.sjpb.E.service.E0302VO">  /*  E0302VO.updateComn  */
+		UPDATE SJPB_HAWR_CRI_DTA_TAB
+		SET DTA_TAB_COMN = #dtaTabComn# ,UPD_USER_ID = #updUserId# ,UPD_DATE = SYSDATE
+		WHERE BK_SI_NUM = #bkSiNum# AND BK_PUBL_YR =#bkPublYr#
+	</update>
+ 
+</sqlMap>

@@ -1,0 +1,302 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0106VO" id="M0106VO.list">
+		<result property="sjpbEmgyCathBookNum" column="SJPB_EMGY_CATH_BOOK_NUM"/>
+		<result property="execNum" column="EXEC_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="emgyCathDocFillDt" column="EMGY_CATH_DOC_FILL_DT"/>
+		<result property="emgyCathDt" column="EMGY_CATH_DT"/>
+		<result property="emgyCathPla" column="EMGY_CATH_PLA"/>
+		<result property="emgyCathPersTitl" column="EMGY_CATH_PERS_TITL"/>
+		<result property="emgyCathPersNm" column="EMGY_CATH_PERS_NM"/>
+		<result property="emgyCathCstdDt" column="EMGY_CATH_CSTD_DT"/>
+		<result property="emgyCathCstdPla" column="EMGY_CATH_CSTD_PLA"/>
+		<result property="emgyCathDetnDt" column="EMGY_CATH_DETN_DT"/>
+		<result property="emgyCathDetnPla" column="EMGY_CATH_DETN_PLA"/>
+		<result property="pstrCmdApprDt" column="PSTR_CMD_APPR_DT"/>
+		<result property="pstrCmdNonApprDt" column="PSTR_CMD_NON_APPR_DT"/>
+		<result property="relsDt" column="RELS_DT"/>
+		<result property="relsRsn" column="RELS_RSN"/>
+		<result property="arstWrntReqBkNum" column="ARST_WRNT_REQ_BK_NUM"/>
+		<result property="arstWrntIsueDt" column="ARST_WRNT_ISUE_DT"/>
+		<result property="sjpbEmgyCathBookComn" column="SJPB_EMGY_CATH_BOOK_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="attoNm" column="ATTO_NM"/>
+		<result property="dentPersNm" column="DENT_PERS_NM"/>
+		<result property="dentPersTitl" column="DENT_PERS_TITL"/>
+		<result property="relsPla" column="RELS_PLA"/>
+		<result property="relsPersNm" column="RELS_PERS_NM"/>
+		<result property="relsPersTitl" column="RELS_PERS_TITL"/>
+	</resultMap>
+ 	<select id="M0106.SJPB_EMGY_CATH_BOOK_DOC.selectList" resultMap="M0106VO.list">  /* M0106.SJPB_EMGY_CATH_BOOK_DOC.selectList */
+ 		SELECT A.SJPB_EMGY_CATH_BOOK_NUM  /* 긴급체포원부번호 */
+		       ,A.EXEC_NUM  /* 집행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM  /* 사건번호 */ 
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM AS SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB AS SP_JOB		/* 피의자 직업 */
+		       ,B.SP_ADDR AS SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */ 
+		       ,A.EMGY_CATH_DOC_FILL_DT  /* 긴급체포서작성일시 */
+		       ,A.EMGY_CATH_DT  /* 긴급체포일시 */
+		       ,A.EMGY_CATH_PLA  /* 긴급체포장소 */
+		       ,A.EMGY_CATH_PERS_TITL  /* 긴급체포자관직 */
+		       ,A.EMGY_CATH_PERS_NM  /* 긴급체포자성명 */
+		       ,A.EMGY_CATH_CSTD_DT  /* 긴급체포인치일시 */
+		       ,A.EMGY_CATH_CSTD_PLA  /* 긴급체포인치장소 */
+		       ,A.EMGY_CATH_DETN_DT  /* 긴급체포구금일시 */
+		       ,A.EMGY_CATH_DETN_PLA  /* 긴급체포구금장소 */
+		       ,A.PSTR_CMD_APPR_DT  /* 검사지휘승인일시 */
+		       ,A.PSTR_CMD_NON_APPR_DT  /* 검사지휘불승인일시 */
+		       ,A.RELS_DT  /* 석방일시 */
+		       ,A.RELS_RSN  /* 석방사유 */
+		       ,A.ARST_WRNT_REQ_BK_NUM  /* 구속영장신청부번호 */
+		       ,A.ARST_WRNT_ISUE_DT  /* 구속영장발부일시 */
+		       ,A.SJPB_EMGY_CATH_BOOK_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,D.NM_KOR  /* 작성자이름 */
+		       ,A.ATTO_NM	/* 변호인 */
+			   ,A.DENT_PERS_NM	/* 구금 집행자 성명 */
+			   ,A.DENT_PERS_TITL	/* 구금 집행자 관직 */
+			   ,A.RELS_PLA	/* 석방한 장소 */
+			   ,A.RELS_PERS_NM	/* 석방한 자의 성명 */
+			   ,A.RELS_PERS_TITL	/* 석방한 자의 관직 */
+		FROM SJPB_EMGY_CATH_BOOK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="spNmSc" prepend="AND">
+				B.SP_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				C.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				C.RCPT_NUM = #rcptNumSc# OR C.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0106.SJPB_EMGY_CATH_BOOK_DOC.insertEmgyCath" parameterClass="com.saltware.enface.sjpb.M.service.M0106VO">  /* M0106.SJPB_EMGY_CATH_BOOK_DOC.insertEmgyCath */
+ 		INSERT INTO SJPB_EMGY_CATH_BOOK_DOC (
+		    SJPB_EMGY_CATH_BOOK_NUM,
+		    EXEC_NUM,
+		    RCPT_NUM,
+		    INC_SP_NUM,
+		    EMGY_CATH_DOC_FILL_DT,
+		    EMGY_CATH_DT,
+		    EMGY_CATH_PLA,
+		    EMGY_CATH_PERS_TITL,
+		    EMGY_CATH_PERS_NM,
+		    EMGY_CATH_CSTD_DT,
+		    EMGY_CATH_CSTD_PLA,
+		    EMGY_CATH_DETN_DT,
+		    EMGY_CATH_DETN_PLA,
+		    PSTR_CMD_APPR_DT,
+		    PSTR_CMD_NON_APPR_DT,
+		    RELS_DT,
+		    RELS_RSN,
+		    ARST_WRNT_REQ_BK_NUM,
+		    ARST_WRNT_ISUE_DT,
+		    SJPB_EMGY_CATH_BOOK_COMN,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE,
+		    ATTO_NM,
+		    DENT_PERS_NM,
+		    DENT_PERS_TITL,
+		    RELS_PLA,
+		    RELS_PERS_NM,
+		    RELS_PERS_TITL
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_EMGY_CATH_BOOK_DOC.SJPB_EMGY_CATH_BOOK_NUM')
+		    ,#execNum#
+		    ,#rcptNum#
+		    ,#incSpNum#
+		    ,#emgyCathDocFillDt#
+		    ,#emgyCathDt#
+		    ,#emgyCathPla#
+		    ,#emgyCathPersTitl#
+		    ,#emgyCathPersNm#
+		    ,#emgyCathCstdDt#
+		    ,#emgyCathCstdPla#
+		    ,#emgyCathDetnDt#		    
+		    ,#emgyCathDetnPla#
+		    ,#pstrCmdApprDt#
+		    ,#pstrCmdNonApprDt#
+		    ,#relsDt#
+		    ,#relsRsn#
+		    ,#arstWrntReqBkNum#
+		    ,#arstWrntIsueDt#
+		    ,#sjpbEmgyCathBookComn#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#attoNm#
+			,#dentPersNm#
+			,#dentPersTitl#
+			,#relsPla#
+			,#relsPersNm#
+			,#relsPersTitl#
+		)
+ 	</update>
+ 	<update id="M0106.SJPB_EMGY_CATH_BOOK_DOC.updateEmgyCath" parameterClass="com.saltware.enface.sjpb.M.service.M0106VO">  /* M0106.SJPB_EMGY_CATH_BOOK_DOC.updateEmgyCath */
+ 		UPDATE SJPB_EMGY_CATH_BOOK_DOC 
+ 		SET EXEC_NUM = #execNum#
+ 			,EMGY_CATH_DOC_FILL_DT = #emgyCathDocFillDt#
+ 			,EMGY_CATH_DT = #emgyCathDt#
+ 			,EMGY_CATH_PLA = #emgyCathPla#
+ 			,EMGY_CATH_PERS_TITL = #emgyCathPersTitl#
+ 			,EMGY_CATH_PERS_NM = #emgyCathPersNm#
+ 			,EMGY_CATH_CSTD_DT = #emgyCathCstdDt#
+ 			,EMGY_CATH_CSTD_PLA = #emgyCathCstdPla#
+ 			,EMGY_CATH_DETN_DT = #emgyCathDetnDt#
+ 			,EMGY_CATH_DETN_PLA = #emgyCathDetnPla#
+ 			,PSTR_CMD_APPR_DT = #pstrCmdApprDt#
+ 			,PSTR_CMD_NON_APPR_DT = #pstrCmdNonApprDt#
+ 			,RELS_DT = #relsDt#
+ 			,RELS_RSN = #relsRsn#
+ 			,ARST_WRNT_REQ_BK_NUM = #arstWrntReqBkNum#
+ 			,ARST_WRNT_ISUE_DT = #arstWrntIsueDt#
+ 			,SJPB_EMGY_CATH_BOOK_COMN = #sjpbEmgyCathBookComn#
+ 			,UPD_USER_ID = #regUserId#
+ 			,UPD_DATE = SYSDATE
+ 			,ATTO_NM = #attoNm#
+			,DENT_PERS_NM = #dentPersNm#
+			,DENT_PERS_TITL = #dentPersTitl#
+			,RELS_PLA = #relsPla#
+			,RELS_PERS_NM = #relsPersNm#
+			,RELS_PERS_TITL = #relsPersTitl#
+ 		WHERE SJPB_EMGY_CATH_BOOK_NUM = #sjpbEmgyCathBookNum# 
+ 	</update>
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0106VO" id="M0106VO.prn">
+		<result property="sjpbEmgyCathBookNum" column="SJPB_EMGY_CATH_BOOK_NUM"/>
+		<result property="execNum" column="EXEC_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="spJob" column="SP_JOB"/>
+		<result property="spAddr" column="SP_ADDR"/>
+		<result property="rltActCriNmCdDesc" column="RLT_ACT_CRI_NM_CD_DESC"/>
+		<result property="emgyCathDocFillDt" column="EMGY_CATH_DOC_FILL_DT"/>
+		<result property="emgyCathDt" column="EMGY_CATH_DT"/>
+		<result property="emgyCathPla" column="EMGY_CATH_PLA"/>
+		<result property="emgyCathPersTitl" column="EMGY_CATH_PERS_TITL"/>
+		<result property="emgyCathPersNm" column="EMGY_CATH_PERS_NM"/>
+		<result property="emgyCathCstdDt" column="EMGY_CATH_CSTD_DT"/>
+		<result property="emgyCathCstdPla" column="EMGY_CATH_CSTD_PLA"/>
+		<result property="emgyCathDetnDt" column="EMGY_CATH_DETN_DT"/>
+		<result property="emgyCathDetnPla" column="EMGY_CATH_DETN_PLA"/>
+		<result property="pstrCmdApprDt" column="PSTR_CMD_APPR_DT"/>
+		<result property="pstrCmdNonApprDt" column="PSTR_CMD_NON_APPR_DT"/>
+		<result property="relsDt" column="RELS_DT"/>
+		<result property="relsRsn" column="RELS_RSN"/>
+		<result property="arstWrntReqBkNum" column="ARST_WRNT_REQ_BK_NUM"/>
+		<result property="arstWrntIsueDt" column="ARST_WRNT_ISUE_DT"/>
+		<result property="sjpbEmgyCathBookComn" column="SJPB_EMGY_CATH_BOOK_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+	</resultMap>
+ 	<select id="M0106.SJPB_EMGY_CATH_BOOK_DOC.prnReport" resultMap="M0106VO.prn">  /* M0106.SJPB_EMGY_CATH_BOOK_DOC.prnReport */
+ 		SELECT A.SJPB_EMGY_CATH_BOOK_NUM  /* 긴급체포원부번호 */
+		       ,A.EXEC_NUM  /* 집행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM AS SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR AS SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */ 
+		       ,SUBSTR(A.EMGY_CATH_DOC_FILL_DT,1,4)||'.'||SUBSTR(A.EMGY_CATH_DOC_FILL_DT,5,2) ||'.'||SUBSTR(A.EMGY_CATH_DOC_FILL_DT,7,2) AS EMGY_CATH_DOC_FILL_DT  /* 긴급체포서작성일시 */
+		       ,DECODE(A.EMGY_CATH_DT,NULL,'',SUBSTR(A.EMGY_CATH_DT,1,4)||'.'||SUBSTR(A.EMGY_CATH_DT,5,2) ||'.'||SUBSTR(A.EMGY_CATH_DT,7,2)||'  '||SUBSTR(A.EMGY_CATH_DT,9,2)||'시 '||SUBSTR(A.EMGY_CATH_DT,11,2)||'분') AS EMGY_CATH_DT  /* 긴급체포일시 */
+		       ,A.EMGY_CATH_PLA  /* 긴급체포장소 */
+		       ,A.EMGY_CATH_PERS_TITL  /* 긴급체포자관직 */
+		       ,A.EMGY_CATH_PERS_NM  /* 긴급체포자성명 */
+               ,DECODE(A.EMGY_CATH_CSTD_DT,NULL,'',SUBSTR(A.EMGY_CATH_CSTD_DT,1,4)||'.'||SUBSTR(A.EMGY_CATH_CSTD_DT,5,2) ||'.'||SUBSTR(A.EMGY_CATH_CSTD_DT,7,2)||'  '||SUBSTR(A.EMGY_CATH_CSTD_DT,9,2)||'시 '||SUBSTR(A.EMGY_CATH_CSTD_DT,11,2)||'분') AS EMGY_CATH_CSTD_DT  /* 긴급체포인치일시 */
+		       ,A.EMGY_CATH_CSTD_PLA  /* 긴급체포인치장소 */
+               ,DECODE(A.EMGY_CATH_DETN_DT,NULL,'',SUBSTR(A.EMGY_CATH_DETN_DT,1,4)||'.'||SUBSTR(A.EMGY_CATH_DETN_DT,5,2) ||'.'||SUBSTR(A.EMGY_CATH_DETN_DT,7,2)||'  '||SUBSTR(A.EMGY_CATH_DETN_DT,9,2)||'시 '||SUBSTR(A.EMGY_CATH_DETN_DT,11,2)||'분') AS EMGY_CATH_DETN_DT  /* 긴급체포구금일시 */
+		       ,A.EMGY_CATH_DETN_PLA  /* 긴급체포구금장소 */
+               ,DECODE(A.PSTR_CMD_APPR_DT,NULL,'',SUBSTR(A.PSTR_CMD_APPR_DT,1,4)||'.'||SUBSTR(A.PSTR_CMD_APPR_DT,5,2) ||'.'||SUBSTR(A.PSTR_CMD_APPR_DT,7,2)||'  '||SUBSTR(A.PSTR_CMD_APPR_DT,9,2)||'시 '||SUBSTR(A.PSTR_CMD_APPR_DT,11,2)||'분') AS PSTR_CMD_APPR_DT  /* 검사지휘승인일시 */
+               ,DECODE(A.PSTR_CMD_NON_APPR_DT,NULL,'',SUBSTR(A.PSTR_CMD_NON_APPR_DT,1,4)||'.'||SUBSTR(A.PSTR_CMD_NON_APPR_DT,5,2) ||'.'||SUBSTR(A.PSTR_CMD_NON_APPR_DT,7,2)||'  '||SUBSTR(A.PSTR_CMD_NON_APPR_DT,9,2)||'시 '||SUBSTR(A.PSTR_CMD_NON_APPR_DT,11,2)||'분') AS PSTR_CMD_NON_APPR_DT  /* 검사지휘불승인일시 */
+               ,DECODE(A.RELS_DT,NULL,'',SUBSTR(A.RELS_DT,1,4)||'.'||SUBSTR(A.RELS_DT,5,2) ||'.'||SUBSTR(A.RELS_DT,7,2))  AS RELS_DT  /* 석방일시 */
+		       ,A.RELS_RSN  /* 석방사유 */
+		       ,A.ARST_WRNT_REQ_BK_NUM  /* 구속영장신청부번호 */
+               ,DECODE(A.ARST_WRNT_ISUE_DT,NULL,'',SUBSTR(A.ARST_WRNT_ISUE_DT,1,4)||'.'||SUBSTR(A.ARST_WRNT_ISUE_DT,5,2) ||'.'||SUBSTR(A.ARST_WRNT_ISUE_DT,7,2)||'  ') AS ARST_WRNT_ISUE_DT  /* 구속영장발부일시 */
+		       ,A.SJPB_EMGY_CATH_BOOK_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		FROM SJPB_EMGY_CATH_BOOK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		WHERE A.SJPB_EMGY_CATH_BOOK_NUM = #sjpbEmgyCathBookNum#
+ 	</select>
+ 	
+ 	<select id="M0106.SJPB_EMGY_CATH_BOOK_DOC.prnCheckReport" resultMap="M0106VO.prn">  /* M0106.SJPB_EMGY_CATH_BOOK_DOC.prnCheckReport */
+ 		SELECT A.SJPB_EMGY_CATH_BOOK_NUM  /* 긴급체포원부번호 */
+		       ,A.EXEC_NUM  /* 집행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM) AS SP_NM  /* 피의자 성명 */
+		       ,B.SP_ID_NUM AS SP_ID_NUM  /* 피의자 주민등록번호 */
+		       ,B.SP_JOB  /* 피의자 직업 */
+		       ,B.SP_ADDR AS SP_ADDR  /* 피의자 주거 */
+		       ,(SELECT LISTAGG(F.CODE_NAME,',') WITHIN GROUP (ORDER BY E.ACT_VIO_NUM )
+		        FROM SJPB_ACT_VIO E
+		        JOIN CODEBASE F ON F.CODE_ID = 'SJPB_00012' AND F.CODE = E.RLT_ACT_CRI_NM_CD AND F.SYSTEM_CODE ='PT' AND F.LANG_KND='ko'
+		        WHERE E.INC_SP_NUM = A.INC_SP_NUM) AS RLT_ACT_CRI_NM_CD_DESC  /* 죄명 */ 
+		       ,SUBSTR(A.EMGY_CATH_DOC_FILL_DT,1,4)||'.'||SUBSTR(A.EMGY_CATH_DOC_FILL_DT,5,2) ||'.'||SUBSTR(A.EMGY_CATH_DOC_FILL_DT,7,2) AS EMGY_CATH_DOC_FILL_DT  /* 긴급체포서작성일시 */
+		       ,DECODE(A.EMGY_CATH_DT,NULL,'',SUBSTR(A.EMGY_CATH_DT,1,4)||'.'||SUBSTR(A.EMGY_CATH_DT,5,2) ||'.'||SUBSTR(A.EMGY_CATH_DT,7,2)||'  '||SUBSTR(A.EMGY_CATH_DT,9,2)||'시 '||SUBSTR(A.EMGY_CATH_DT,11,2)||'분') AS EMGY_CATH_DT  /* 긴급체포일시 */
+		       ,A.EMGY_CATH_PLA  /* 긴급체포장소 */
+		       ,A.EMGY_CATH_PERS_TITL  /* 긴급체포자관직 */
+		       ,A.EMGY_CATH_PERS_NM  /* 긴급체포자성명 */
+               ,DECODE(A.EMGY_CATH_CSTD_DT,NULL,'',SUBSTR(A.EMGY_CATH_CSTD_DT,1,4)||'.'||SUBSTR(A.EMGY_CATH_CSTD_DT,5,2) ||'.'||SUBSTR(A.EMGY_CATH_CSTD_DT,7,2)||'  '||SUBSTR(A.EMGY_CATH_CSTD_DT,9,2)||'시 '||SUBSTR(A.EMGY_CATH_CSTD_DT,11,2)||'분') AS EMGY_CATH_CSTD_DT  /* 긴급체포인치일시 */
+		       ,A.EMGY_CATH_CSTD_PLA  /* 긴급체포인치장소 */
+               ,DECODE(A.EMGY_CATH_DETN_DT,NULL,'',SUBSTR(A.EMGY_CATH_DETN_DT,1,4)||'.'||SUBSTR(A.EMGY_CATH_DETN_DT,5,2) ||'.'||SUBSTR(A.EMGY_CATH_DETN_DT,7,2)||'  '||SUBSTR(A.EMGY_CATH_DETN_DT,9,2)||'시 '||SUBSTR(A.EMGY_CATH_DETN_DT,11,2)||'분') AS EMGY_CATH_DETN_DT  /* 긴급체포구금일시 */
+		       ,A.EMGY_CATH_DETN_PLA  /* 긴급체포구금장소 */
+               ,DECODE(A.PSTR_CMD_APPR_DT,NULL,'',SUBSTR(A.PSTR_CMD_APPR_DT,1,4)||'.'||SUBSTR(A.PSTR_CMD_APPR_DT,5,2) ||'.'||SUBSTR(A.PSTR_CMD_APPR_DT,7,2)||'  '||SUBSTR(A.PSTR_CMD_APPR_DT,9,2)||'시 '||SUBSTR(A.PSTR_CMD_APPR_DT,11,2)||'분') AS PSTR_CMD_APPR_DT  /* 검사지휘승인일시 */
+               ,DECODE(A.PSTR_CMD_NON_APPR_DT,NULL,'',SUBSTR(A.PSTR_CMD_NON_APPR_DT,1,4)||'.'||SUBSTR(A.PSTR_CMD_NON_APPR_DT,5,2) ||'.'||SUBSTR(A.PSTR_CMD_NON_APPR_DT,7,2)||'  '||SUBSTR(A.PSTR_CMD_NON_APPR_DT,9,2)||'시 '||SUBSTR(A.PSTR_CMD_NON_APPR_DT,11,2)||'분') AS PSTR_CMD_NON_APPR_DT  /* 검사지휘불승인일시 */
+               ,DECODE(A.RELS_DT,NULL,'',SUBSTR(A.RELS_DT,1,4)||'.'||SUBSTR(A.RELS_DT,5,2) ||'.'||SUBSTR(A.RELS_DT,7,2))  AS RELS_DT  /* 석방일시 */
+		       ,A.RELS_RSN  /* 석방사유 */
+		       ,A.ARST_WRNT_REQ_BK_NUM  /* 구속영장신청부번호 */
+               ,DECODE(A.ARST_WRNT_ISUE_DT,NULL,'',SUBSTR(A.ARST_WRNT_ISUE_DT,1,4)||'.'||SUBSTR(A.ARST_WRNT_ISUE_DT,5,2) ||'.'||SUBSTR(A.ARST_WRNT_ISUE_DT,7,2)||'  ') AS ARST_WRNT_ISUE_DT  /* 구속영장발부일시 */
+		       ,A.SJPB_EMGY_CATH_BOOK_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		FROM SJPB_EMGY_CATH_BOOK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="sjpbEmgyCathBookNumList" prepend="AND">
+				<iterate property="sjpbEmgyCathBookNumList" open="A.SJPB_EMGY_CATH_BOOK_NUM IN(" close=")" conjunction=",">
+					 #sjpbEmgyCathBookNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+</sqlMap>

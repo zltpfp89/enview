@@ -1,0 +1,220 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0120VO" id="M0120VO.list">
+		<result property="cmctRstrExecFactNum" column="CMCT_RSTR_EXEC_FACT_NUM"/>
+		<result property="notcBkSiNum" column="NOTC_BK_SI_NUM"/>
+		<result property="apprDocNum" column="APPR_DOC_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="execMbTitl" column="EXEC_MB_TITL"/>
+		<result property="execMbNm" column="EXEC_MB_NM"/>
+		<result property="handDt" column="HAND_DT"/>
+		<result property="handRst" column="HAND_RST"/>
+		<result property="handRstNotcDt" column="HAND_RST_NOTC_DT"/>
+		<result property="notcDt" column="NOTC_DT"/>
+		<result property="notcBkComn" column="NOTC_BK_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="execMbTitlNm" column="EXEC_MB_TITL_NM"/>
+		<result property="handDtRst" column="HAND_DT_RST"/>
+	
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="nmKor" column="NM_KOR"/>
+
+	</resultMap>
+ 	<select id="M0120.selectList" resultMap="M0120VO.list">  /* M0120.selectList */
+ 		SELECT 
+ 			A.CMCT_RSTR_EXEC_FACT_NUM  /* 통신제한조치집행사실통지부번호 */
+			,A.NOTC_BK_SI_NUM  /* 연번 */
+			,A.APPR_DOC_NUM  /* 통신제한조치허가서번호 */
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.EXEC_MB_TITL  /* 집행자의관직 */
+			,A.EXEC_MB_NM  /* 집행자의성명 */
+			,TO_CHAR(A.EXEC_MB_TITL || ' ' || A.EXEC_MB_NM) AS EXEC_MB_TITL_NM 
+			,TO_DATE(A.HAND_DT, 'YYYY.MM.DD') AS HAND_DT  /* 처리일자 */
+			,A.HAND_RST  /* 처리결과 */
+			,(TO_DATE(A.HAND_DT, 'YYYY.MM.DD') || ' ' || A.HAND_RST) AS HAND_DT_RST
+			,TO_DATE(A.HAND_RST_NOTC_DT, 'YYYY.MM.DD') AS HAND_RST_NOTC_DT  /* 처리결과를통보받은일자 */
+			,TO_DATE(A.NOTC_DT, 'YYYY.MM.DD') AS NOTC_DT  /* 통지일자 */
+			,A.NOTC_BK_COMN  /* 비고 */
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_CMCT_RSTR_EXEC_FACT_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				B.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				B.RCPT_NUM = #rcptNumSc# OR B.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="notcBkSiNumSc" prepend="AND">
+				A.NOTC_BK_SI_NUM = #notcBkSiNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="apprDocNumSc" prepend="AND">
+				A.APPR_DOC_NUM = #apprDocNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				C.SP_NM LIKE '%' || #spNmSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="execMbNmSc" prepend="AND">
+				A.EXEC_MB_NM LIKE '%' || #execMbNmSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="sHandDtSc" prepend="AND">
+				A.HAND_DT &gt;= TO_DATE(#sHandDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="eHandDtSc" prepend="AND">
+				A.HAND_DT &lt;= TO_DATE(#eHandDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="sNotcDtSc" prepend="AND">
+				A.NOTC_DT &gt;= TO_DATE(#sNotcDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="eNotcDtSc" prepend="AND">
+				A.NOTC_DT &lt;= TO_DATE(#eNotcDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="regUserNmSc" prepend="AND">
+				D.NM_KOR LIKE '%' || #regUserNmSc# || '%' 
+			</isNotEmpty>
+		</dynamic>
+        ORDER BY REG_DATE DESC
+ 	</select>
+ 	
+	<!-- 데이터 조회 (pk 일련번호)-->
+	<select id="M0120.selectData" resultMap="M0120VO.list"> /* M0120.selectData */
+		SELECT 
+ 			A.CMCT_RSTR_EXEC_FACT_NUM
+			,A.NOTC_BK_SI_NUM
+			,A.APPR_DOC_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.EXEC_MB_TITL
+			,A.EXEC_MB_NM
+			,TO_CHAR(A.EXEC_MB_TITL || ' ' || A.EXEC_MB_NM) AS EXEC_MB_TITL_NM
+			,TO_DATE(A.HAND_DT, 'YYYY.MM.DD') AS HAND_DT
+			,A.HAND_RST
+			,(TO_DATE(A.HAND_DT, 'YYYY.MM.DD') || ' ' || A.HAND_RST) AS HAND_DT_RST
+			,TO_DATE(A.HAND_RST_NOTC_DT, 'YYYY.MM.DD') AS HAND_RST_NOTC_DT
+			,TO_DATE(A.NOTC_DT, 'YYYY.MM.DD') AS NOTC_DT
+			,A.NOTC_BK_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_CMCT_RSTR_EXEC_FACT_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		WHERE A.CMCT_RSTR_EXEC_FACT_NUM = #cmctRstrExecFactNum#
+	</select>
+ 	
+ 	<!-- 데이터 추가 -->
+	<insert id="M0120.insertData"> /* M0120.insertData */
+		INSERT INTO SJPB_CMCT_RSTR_EXEC_FACT_DOC
+			(
+				CMCT_RSTR_EXEC_FACT_NUM
+				,NOTC_BK_SI_NUM
+				,APPR_DOC_NUM
+				,RCPT_NUM
+				,INC_SP_NUM
+				,EXEC_MB_TITL
+				,EXEC_MB_NM
+				,HAND_DT
+				,HAND_RST
+				,HAND_RST_NOTC_DT
+				,NOTC_DT
+				,NOTC_BK_COMN
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE
+			)
+		VALUES (
+				#cmctRstrExecFactNum#
+				,#notcBkSiNum#
+				,#apprDocNum#
+				,#rcptNum#
+				,#incSpNum#
+				,#execMbTitl#
+				,#execMbNm#
+				,#handDt#
+				,#handRst#
+				,#handRstNotcDt#
+				,#notcDt#
+				,#notcBkComn#
+				,#regUserId#
+				,SYSDATE
+				,#updUserId#
+				,SYSDATE
+			)
+	</insert>
+	
+	<!-- 데이터 수정 -->	 		
+	<update id="M0120.updateData"> /* M0120.updateData */	
+		UPDATE SJPB_CMCT_RSTR_EXEC_FACT_DOC
+			SET	RCPT_NUM = #rcptNum#
+				,INC_SP_NUM = #incSpNum#
+				,NOTC_BK_SI_NUM = #notcBkSiNum#
+				,APPR_DOC_NUM = #apprDocNum#
+				,EXEC_MB_TITL = #execMbTitl#
+				,EXEC_MB_NM = #execMbNm#
+				,HAND_DT = #handDt#
+				,HAND_RST = #handRst#
+				,HAND_RST_NOTC_DT = #handRstNotcDt#
+				,NOTC_DT = #notcDt#
+				,NOTC_BK_COMN = #notcBkComn#
+				,UPD_USER_ID = #updUserId#
+				,UPD_DATE = SYSDATE
+			WHERE CMCT_RSTR_EXEC_FACT_NUM = #cmctRstrExecFactNum#
+	</update>
+ 	
+ 	<select id="M0120.SJPB_CMCT_RSTR_EXEC_FACT_DOC.prnCheckReport" resultMap="M0120VO.list">  /* M0120.SJPB_CMCT_RSTR_EXEC_FACT_DOC.prnCheckReport */
+ 		SELECT 
+ 			A.CMCT_RSTR_EXEC_FACT_NUM
+			,A.NOTC_BK_SI_NUM
+			,A.APPR_DOC_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.EXEC_MB_TITL
+			,A.EXEC_MB_NM
+			,TO_CHAR(A.EXEC_MB_TITL || ' ' || A.EXEC_MB_NM) AS EXEC_MB_TITL_NM
+			,TO_DATE(A.HAND_DT, 'YYYY.MM.DD') AS HAND_DT
+			,A.HAND_RST
+			,(TO_DATE(A.HAND_DT, 'YYYY.MM.DD') || ' ' || A.HAND_RST) AS HAND_DT_RST
+			,TO_DATE(A.HAND_RST_NOTC_DT, 'YYYY.MM.DD') AS HAND_RST_NOTC_DT
+			,TO_DATE(A.NOTC_DT, 'YYYY.MM.DD') AS NOTC_DT
+			,A.NOTC_BK_COMN
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_CMCT_RSTR_EXEC_FACT_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="cmctRstrExecFactNumList" prepend="AND">
+				<iterate property="cmctRstrExecFactNumList" open="A.CMCT_RSTR_EXEC_FACT_NUM IN(" close=")" conjunction=",">
+					 #cmctRstrExecFactNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

@@ -1,0 +1,30 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sche">
+
+	<insert id="schedule.insert.postgresql">
+	/* schedule.insert.postgresql */
+		INSERT INTO SCHEDULE (SCHEDULE_ID, CALENDAR_ID, ALLDAY, OWNER_ID, PERMISSIONS, ALARM_PATTERN, FREQ, UNTIL, INTERVAL, BYMONTHDAY, BYDAY, START_DATIM, END_DATIM, INS_DATIM, UPD_DATIM)
+		VALUES (CAST(#scheduleId# AS INTEGER), CAST(#calendarId# AS INTEGER), $allday$, #ownerId#, #permissions#, #alarmPattern#, #freq#, #until#, #interval#, #bymonthday#, #byday#,
+		TO_TIMESTAMP(#start#, 'YYYY-MM-DD HH24:MI'), TO_TIMESTAMP(#end#, 'YYYY-MM-DD HH24:MI'), LOCALTIMESTAMP, LOCALTIMESTAMP)
+	</insert>
+	
+	<update id="schedule.update.postgresql">
+		/* schedule.update.postgresql */
+		UPDATE SCHEDULE SET UPD_DATIM=LOCALTIMESTAMP
+		<isNotNull property="start">, START_DATIM=TO_TIMESTAMP(#start#, 'YYYY-MM-DD HH24:MI')</isNotNull>
+		<isNotNull property="end">, END_DATIM=TO_TIMESTAMP(#end#, 'YYYY-MM-DD HH24:MI')</isNotNull>
+		<isNotNull property="permissions">, PERMISSIONS=#permissions#</isNotNull>
+		<isNotNull property="calendarId">, CALENDAR_ID=CAST(#calendarId# AS INTEGER)</isNotNull>
+		<isNotNull property="allday">, ALLDAY=$allday$</isNotNull> 
+		<isNotNull property="alarmPattern">, ALARM_PATTERN=#alarmPattern#</isNotNull>
+		<isNotNull property="freq">, FREQ=#freq#</isNotNull>
+		<isNotNull property="until">, UNTIL=#until#</isNotNull>
+		<isNotNull property="interval">, INTERVAL=#interval#</isNotNull>
+		<isNotNull property="bymonthday">, BYMONTHDAY=#bymonthday#</isNotNull>
+		<isNotNull property="byday">, BYDAY=#byday#</isNotNull>
+		WHERE SCHEDULE_ID=CAST(#scheduleId# AS INTEGER)
+	</update>
+
+</sqlMap>
+

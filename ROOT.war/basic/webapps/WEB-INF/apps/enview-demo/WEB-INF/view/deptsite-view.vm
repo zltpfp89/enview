@@ -1,0 +1,637 @@
+
+#set($req = $request)
+#set($rooturl = "${req.scheme}://${req.serverName}:${req.serverPort}")
+#set($messages = $portletConfig.getResourceBundle($renderRequest.Locale))
+
+<link rel="stylesheet" type="text/css" href="${rooturl}${req.contextPath}/css/dit-common.css">
+<script language="JavaScript" src="${rooturl}/enview/javascript/common.js"></script>
+<script language="JavaScript" src="${rooturl}/enview/javascript/portal.js"></script>
+<script language="JavaScript" src="${rooturl}/enview/javascript/utility.js"></script>
+
+<script language="JavaScript">
+DeptsiteManager = function()
+{
+	this.m_ajax = new enview.util.Ajax();
+	this.m_checkBox = new enview.util.CheckBoxUtil();
+	enviewMessageBox = new enview.portal.MessageBox(200, 100, 2000);
+	this.init();
+	
+	this.m_retrieveHandler = function()
+	{
+	  this.populate = function(data) 
+	  { 
+		deptsiteManager.doRetrieveHandler( data );
+	  }
+	  this.failure = function(msg)
+	  {
+		alert(msg);
+	  }
+	};
+	
+	this.m_selectHandler = function(dept_cd, dept_name)
+	{
+	  this.dept_cd = dept_cd;
+	  this.dept_name = dept_name;
+	  this.populate = function(data) 
+	  {
+		deptsiteManager.doSelectHandler( data, this.dept_cd, this.dept_name );
+	  }     
+	  this.failure = function(msg)
+	  {
+		alert(msg);
+	  }
+	};
+
+	this.m_deleteHandler = function()
+	{
+	  this.populate = function(data) 
+	  { 
+		//enviewMessageBox.doShow("요청하신 정상적으로 삭제 되었습니다.");
+		alert("요청하신 정상적으로 삭제 되었습니다.");
+		document.getElementById("DeptsiteManager.EditFormPanel").style.display = 'none';
+		deptsiteManager.doRetrieve();
+	  }
+	  this.failure = function(msg)
+	  {
+		alert(msg);
+	  }
+	};
+	
+	this.m_updateHandler = function()
+	{
+	  this.populate = function(data) 
+	  {
+		//enviewMessageBox.doShow("요청하신 정상적으로 저장 되었습니다.");
+		alert("요청하신 정상적으로 저장 되었습니다.");
+		//document.getElementById("DeptsiteManager.EditFormPanel").style.display = 'none';
+		//deptsiteManager.doRetrieve();
+	  }     
+	  this.failure = function(msg)
+	  {
+		alert(msg);
+	  }
+	};
+	
+	this.m_emptyHandler = function()
+	{
+	  this.populate = function(data) 
+	  { 
+	  }
+	  this.failure = function(msg)
+	  {
+		alert(msg);
+	  }
+	};  
+	
+	this.doRetrieve();
+}
+DeptsiteManager.prototype =
+{
+	m_retrieveHandler : null,
+	m_selectHandler : null,
+	m_updateHandler : null,
+	m_deleteHandler : null,
+	m_emptyHandler : null,
+	m_propertyTab : null,
+	m_ajax : null,
+	m_checkBox : null,
+
+	init : function() {
+
+	},
+	whenSrchFocus : function ( obj, lvS ) {
+		if( obj.value == lvS ) obj.value = "";
+	},
+	whenSrchBlur : function ( obj, lvS ) {
+		if( obj.value == "" ) obj.value = lvS;
+	},
+	doRetrieve : function () {
+		document.getElementById("DeptsiteManager.EditFormPanel").style.display = 'none';
+		
+		var names = new Array();
+		var values = new Array();
+		
+		var formElem = document.forms[ "DeptsiteManager.SearchForm" ];
+	    var formData = "";
+	    for (var i=0; i < formElem.elements.length; i++) {
+			names[i] = formElem.elements[ i ].name;
+			var tmp = formElem.elements[ i ].value;
+			if( tmp.lastIndexOf("*") > 0 ) {
+				values[i] = "";
+			}
+			else {
+				values[i] = encodeURIComponent( tmp );
+				//alert("tmp=" + tmp + ", encode=" + values[i]);
+			}
+	    }
+		
+		names[i] = "method";
+		values[i] = "retrieve";
+		
+		var contextPath = document.location.protocol + "/" + "/" + document.location.host + "/" + "dit";
+	    var requestUrl = contextPath + "/DeptSiteAction.do?";
+	    if (names != null)
+	    {
+	        for (var ix=0;  ix<names.length; ix++)
+	        {
+	            requestUrl = requestUrl + "&" + names[ix] + "=" + values[ix];
+	        }    
+	    }
+	
+		this.m_ajax.invokeCommon(requestUrl, new this.m_retrieveHandler(), "text/json"); 
+	},
+	doRetrieveHandler : function( resultObject ) {
+		//alert(this.m_ajax);
+		var bodyElem = document.getElementById('DeptsiteManager.DeptsiteListBody');
+	    var tr_tag = null;
+	    var td_tag = null;
+
+		//var f = document.getElementById("DeptsiteManager.ListForm");
+		//alert("f.elements=" + f.elements);
+		this.m_checkBox.unChkAll( document.getElementById("DeptsiteManager.ListForm") );
+		for(; bodyElem.hasChildNodes(); )
+			bodyElem.removeChild( bodyElem.childNodes[0] );
+		var formElem = document.forms[ "DeptsiteManager.SearchForm" ];
+	    var page_no = formElem.elements[ "pageNo" ].value;
+		var page_size = formElem.elements[ "pageSize" ].value;
+		
+		for(i=0; i<resultObject.Data.length; i++) {
+			tr_tag = document.createElement('tr');
+			tr_tag.id = "DeptsiteManager.ListForm:Deptsite[" + i + "]";
+			tr_tag.setAttribute("ch", i);
+			tr_tag.setAttribute("style", "cursor:pointer;");
+			if( i % 2 == 0 ) {
+				tr_tag.setAttribute("class", "even");
+				tr_tag.setAttribute("className", "even");
+			}
+			else {
+				tr_tag.setAttribute("class", "odd");
+				tr_tag.setAttribute("className", "odd");
+			}
+
+			td_tag = document.createElement('td');
+			td_tag.align = "center";
+			td_tag.setAttribute("class", "webgridbody");
+			td_tag.setAttribute("className", "webgridbody");
+			td_tag.innerHTML = "<input type=\"checkbox\" id=\"Deptsite[" + i + "].checkRow\" class=\"webcheckbox\"/>";
+			td_tag.innerHTML += "<input type=\"hidden\" id=\"Deptsite[" + i + "].dept_cd\" value=\"" + resultObject.Data[ i ].dept_cd + "\"/>";
+			td_tag.innerHTML += "<input type=\"hidden\" id=\"Deptsite[" + i + "].dept_name\" value=\"" + resultObject.Data[ i ].dept_m_alias + "\"/>";
+			tr_tag.appendChild( td_tag );
+			
+			td_tag = document.createElement('td');
+			td_tag.setAttribute("class", "webgridbody");
+			td_tag.setAttribute("className", "webgridbody");
+			td_tag.innerHTML = "<span>" + (((page_no-1) * page_size) + i + 1) + "</span>";
+			tr_tag.appendChild( td_tag );
+			
+			td_tag = document.createElement('td');
+			td_tag.setAttribute("class", "webgridbody");
+			td_tag.setAttribute("className", "webgridbody");
+			td_tag.onclick = new Function( "deptsiteManager.doSelect(this)" );
+			td_tag.align = "left";
+			td_tag.innerHTML = "<span class=\"webgridrowlabel\" id=\"Deptsite[" + i + "].dept_cd.label\">" + resultObject.Data[ i ].dept_cd + "</span>";
+			tr_tag.appendChild( td_tag );
+			td_tag = document.createElement('td');
+			td_tag.setAttribute("class", "webgridbody");
+			td_tag.setAttribute("className", "webgridbody");
+			td_tag.onclick = new Function( "deptsiteManager.doSelect(this)" );
+			td_tag.align = "left";
+			td_tag.innerHTML = "<span class=\"webgridrowlabel\" id=\"Deptsite[" + i + "].dept_l_alias.label\">" + resultObject.Data[ i ].dept_l_alias + "</span>";
+			tr_tag.appendChild( td_tag );
+			td_tag = document.createElement('td');
+			td_tag.setAttribute("class", "webgridbody");
+			td_tag.setAttribute("className", "webgridbody");
+			td_tag.onclick = new Function( "deptsiteManager.doSelect(this)" );
+			td_tag.align = "left";
+			td_tag.innerHTML = "<span class=\"webgridrowlabel\" id=\"Deptsite[" + i + "].dept_m_alias.label\">" + resultObject.Data[ i ].dept_m_alias + "</span>";
+			tr_tag.appendChild( td_tag );
+			td_tag = document.createElement('td');
+			td_tag.setAttribute("class", "webgridbody");
+			td_tag.setAttribute("className", "webgridbody");
+			td_tag.onclick = new Function( "deptsiteManager.doSelect(this)" );
+			td_tag.align = "left";
+			td_tag.innerHTML = "<span class=\"webgridrowlabel\" id=\"Deptsite[" + i + "].dept_s_alias.label\">" + resultObject.Data[ i ].dept_s_alias + "</span>";
+			tr_tag.appendChild( td_tag );
+
+			bodyElem.appendChild( tr_tag );
+		}
+
+		if(resultObject.Data.length == 0) {
+			//alert("not found");
+			tr_tag = document.createElement('tr');
+			tr_tag.setAttribute("class", "row-empty");
+			tr_tag.setAttribute("className", "row-empty");
+			td_tag = document.createElement('td');
+			td_tag.colSpan = "100";
+			td_tag.innerHTML = "<span>요청한 데이터를 찾을 수 없습니다.</span>";
+			tr_tag.appendChild( td_tag );
+			bodyElem.appendChild( tr_tag );
+		}
+		else {
+			tr_tag = document.createElement('tr');
+			tr_tag.setAttribute("class", "row-empty");
+			tr_tag.setAttribute("className", "row-empty");
+			td_tag = document.createElement('td');
+			td_tag.colSpan = "100";
+			td_tag.innerHTML = "<span>" + resultObject.ResultSize + "</span>";
+			tr_tag.appendChild( td_tag );
+			bodyElem.appendChild( tr_tag );
+		}
+		//document.getElementById("DeptsiteManager.PAGE_ITERATOR").innerHTML = resultObject.PageIterator;
+		var formElem = document.forms[ "DeptsiteManager.SearchForm" ];
+		var pageNo = formElem.elements[ "pageNo" ].value;
+		var pageSize = formElem.elements[ "pageSize" ].value;
+		var pageFunction = formElem.elements[ "pageFunction" ].value;
+		var formName = formElem.elements[ "formName" ].value;
+		document.getElementById("DeptsiteManager.PAGE_ITERATOR").innerHTML = 
+				(new enview.util.PageNavigationUtil()).getPageIteratorHtmlString(pageNo, pageSize, resultObject.TotalSize, formName, pageFunction);
+				
+		if(resultObject.Data.length != 0) {
+			this.doDefaultSelect();
+		}
+		
+	},
+	doPage : function (formName, pageNo)
+	{
+		var formElem = document.forms[ formName ];
+	    formElem.elements[ "pageNo" ].value = pageNo;
+		
+		document.getElementById("DeptsiteManager.EditFormPanel").style.display = 'none';
+		
+		this.doRetrieve();
+	},
+	doSearch : function (formName)
+	{
+		var formElem = document.forms[ formName ];
+	    formElem.elements[ "pageNo" ].value = 1;
+		
+		document.getElementById("DeptsiteManager.EditFormPanel").style.display = 'none';
+		
+		this.doRetrieve();
+	},
+	doSort : function (obj, sortColumn)
+	{
+		var formElem = document.forms[ "DeptsiteManager.SearchForm" ];
+	    formElem.elements[ "sortColumn" ].value = sortColumn;
+	    if( obj.ch % 2 == 0 ) {
+			formElem.elements[ "sortMethod" ].value = "ASC";
+	        obj.ch = 1;
+	    }
+	    else {
+	        formElem.elements[ "sortMethod" ].value = "DESC";
+	        obj.ch = 0;
+	    }
+		
+		document.getElementById("DeptsiteManager.EditFormPanel").style.display = 'none';
+		
+		this.doRetrieve();
+	},
+	doDefaultSelect : function ()
+	{
+		if( document.getElementById('Deptsite[0].checkRow') ) {
+		    document.getElementById('Deptsite[0].checkRow').checked = true;
+			
+			var names = new Array();
+		    var values = new Array();
+		    names[0] = "method";
+		    values[0] = "select";
+		    names[1] = "dept_cd";
+		    values[1] = document.getElementById('Deptsite[0].dept_cd').value;
+			
+			var contextPath = document.location.protocol + "/" + "/" + document.location.host + "/" + "dit";
+		    var requestUrl = contextPath + "/DeptSiteAction.do?";
+		    if (names != null)
+		    {
+		        for (var ix=0;  ix<names.length; ix++)
+		        {
+		            requestUrl = requestUrl + "&" + names[ix] + "=" + values[ix];
+		        }    
+		    }
+		
+			this.m_ajax.invokeCommon(requestUrl, new this.m_selectHandler(), "text/json"); 
+		}
+	},
+	doSelect : function (obj)
+	{
+		var rowSeq = 0;
+	    if(obj.nodeName=="SPAN") {
+	        rowSeq = obj.parentNode.parentNode.getAttribute("ch");
+	    }
+	    else if(obj.nodeName=="TD") {
+	        rowSeq = obj.parentNode.getAttribute("ch");
+	    }
+	    else if(obj.nodeName=="TR") {
+	        rowSeq = obj.getAttribute("ch");
+	    }
+		
+	    this.m_checkBox.unChkAll( document.getElementById("DeptsiteManager.ListForm") );
+	    document.getElementById('Deptsite[' + rowSeq + '].checkRow').checked = true;
+		
+		var dept_cd = document.getElementById('Deptsite[' + rowSeq + '].dept_cd').value;
+		var dept_name = document.getElementById('Deptsite[' + rowSeq + '].dept_name').value;
+		
+		var names = new Array();
+	    var values = new Array();
+	    names[0] = "method";
+	    values[0] = "select";
+	    names[1] = "dept_cd";
+	    values[1] = dept_cd;
+		
+		var contextPath = document.location.protocol + "/" + "/" + document.location.host + "/" + "dit";
+		var requestUrl = contextPath + "/DeptSiteAction.do?";
+		if (names != null)
+		{
+			for (var ix=0;  ix<names.length; ix++)
+			{
+				requestUrl = requestUrl + "&" + names[ix] + "=" + values[ix];
+			}    
+		}
+	
+		this.m_ajax.invokeCommon(requestUrl, new this.m_selectHandler(dept_cd, dept_name), "text/json"); 
+	},
+	doSelectHandler : function(resultObject, dept_cd, dept_name)
+	{
+		document.getElementById("DeptsiteManager.isCreate").value = "false";
+		if( resultObject.Data.length > 0 ) {
+			document.getElementById("DeptsiteManager.dept_cd").value = resultObject.Data[ 0 ].dept_cd;
+			document.getElementById("DeptsiteManager.dept_nm").value = resultObject.Data[ 0 ].dept_nm;
+			document.getElementById("DeptsiteManager.sitename").value = resultObject.Data[ 0 ].sitename;
+		}
+		else {
+			this.doCreate(dept_cd, dept_name);
+		}
+		
+		document.getElementById("DeptsiteManager.EditFormPanel").style.display = '';
+	},
+	doCreate : function(dept_cd, dept_nm) {
+		document.getElementById("DeptsiteManager.isCreate").value = "true";
+		document.getElementById("DeptsiteManager.dept_cd").value = dept_cd;
+		document.getElementById("DeptsiteManager.dept_nm").value = dept_nm;
+		document.getElementById("DeptsiteManager.sitename").value = "";
+	},
+	doDelete : function () {
+		var rowCnts = this.m_checkBox.getCheckedElements( document.getElementById("DeptsiteManager.ListForm") );
+		if( rowCnts == "" ) return;
+		
+		var ret = confirm( "정말 삭제하시겠습니까 ?" );
+	    if( ret == true ) {
+	        var formData = "";
+	        var rowCntArray = rowCnts.split(",");
+			
+			var names = new Array();
+		    var values = new Array();
+		    names[0] = "method";
+		    values[0] = "delete";
+			
+			names[1] = "ids";
+			var ids = "";
+	        for(i=0; i<rowCntArray.length; i++) {
+				if( i > 0 ) {
+					ids += ",";
+				}
+				
+				ids += rowCntArray[i];
+	        }
+			values[1] = ids;
+			
+			var contextPath = document.location.protocol + "/" + "/" + document.location.host + "/" + "dit";
+			var requestUrl = contextPath + "/DeptSiteAction.do?";
+			if (names != null)
+			{
+				for (var ix=0;  ix<names.length; ix++)
+				{
+					requestUrl = requestUrl + "&" + names[ix] + "=" + values[ix];
+				}    
+			}
+		
+			this.m_ajax.invokeCommon(requestUrl, new this.m_deleteHandler(), "text/json"); 
+		}
+
+	},
+	doUpdate : function ()
+	{
+		var names = new Array();
+	    var values = new Array();
+		
+		var ix=0;
+		var elm = null;
+		var isCreate = document.getElementById("DeptsiteManager.isCreate").value;
+	    names[ix] = "isCreate";
+		values[ix++] = isCreate;
+		
+		names[ix] = 'dept_cd';
+		values[ix++] = document.getElementById("DeptsiteManager.dept_cd").value;
+		names[ix] = 'dept_nm';
+		values[ix++] = encodeURIComponent( document.getElementById("DeptsiteManager.dept_nm").value );
+		names[ix] = 'sitename';
+		values[ix++] = encodeURIComponent( document.getElementById("DeptsiteManager.sitename").value );
+		names[ix] = "method";
+		values[ix++] = "update";
+
+		var contextPath = document.location.protocol + "/" + "/" + document.location.host + "/" + "dit";
+		var requestUrl = contextPath + "/DeptSiteAction.do?";
+		if (names != null)
+		{
+			for (var ix=0;  ix<names.length; ix++)
+			{
+				requestUrl = requestUrl + "&" + names[ix] + "=" + values[ix];
+			}    
+		}
+		
+		//alert("requestUrl=" + requestUrl);
+	
+		this.m_ajax.invokeCommon(requestUrl, new this.m_updateHandler(), "text/json"); 
+	},
+	validationField : function(obj, name, required, maxsize) {
+		var value = obj.value.trim();
+		
+		if( required==true && (value==null || value.length==0) ) {
+			obj.value = "";
+			var msg = name + '필드는 필수 항목입니다.';
+			alert( msg );
+			return false;
+		}
+		
+		if(value!=null && value.length>maxsize) {
+			var msg = name + '필드의 최대 크기는 ' + maxsize + '입니다.';
+			alert( msg );
+			return false;
+		}
+		
+		return true;
+	}
+}
+
+function initDeptsiteManager() {
+	deptsiteManager = new DeptsiteManager();
+}
+function finishDeptsiteManager() {
+	
+}
+// Attach to the onload event
+if (window.attachEvent)
+{
+    window.attachEvent ( "onload", initDeptsiteManager );
+	window.attachEvent ( "onunload", finishDeptsiteManager );
+}
+else if (window.addEventListener )
+{
+    window.addEventListener ( "load", initDeptsiteManager, false );
+	window.addEventListener ( "unload", finishDeptsiteManager, false );
+}
+else
+{
+    window.onload = initDeptsiteManager;
+	window.onunload = finishDeptsiteManager;
+}
+</script>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"> 
+<tr>
+	<td width="100%" valign="top">
+		<div class="webpanel">
+			<div id="DeptsiteManager.DeptsiteTabPage" style="width:100%; height:700px; ">
+				<br style='line-height:5px;'>
+				<div>
+					<form id="DeptsiteManager.SearchForm" name="DeptsiteManager.SearchForm" style="display:inline" action="javascript:deptsiteManager.doSearch('DeptsiteManager.SearchForm');" method="post">
+					  <table width="100%">
+						<input type='hidden' name='sortMethod' value='ASC'/>                    
+						<input type='hidden' name='sortColumn' value=''/>  
+						<input type='hidden' name='pageNo' value='1'/>
+						<input type='hidden' name='pageSize' value='5'/>
+						<input type='hidden' name='pageFunction' value='deptsiteManager.doPage'/>
+						<input type='hidden' name='formName' value='DeptsiteManager.SearchForm'/>
+					  <tr>
+						<td align="right">
+							<input type="text" name="searchString" size="20" class="webtextfield" value="*부서(학과)명-중분류*" onfocus="deptsiteManager.whenSrchFocus(this,'*부서(학과)명-중분류*');" onblur="deptsiteManager.whenSrchBlur(this,'*부서(학과)명-중분류*');">
+							<input type="image" src="/dit/images/button/btn_search.gif" hspace="2" align="absmiddle" style="cursor:hand">
+						</td>
+					  </tr>
+					  </table>    
+					</form>
+				</div>
+				<div class="webgridpanel">
+				  <form id="DeptsiteManager.ListForm" style="display:inline" name="DeptsiteManager.ListForm" action="" method="post">
+				  <table id="grid-table" width="100%" border="0" cellspacing="0" cellpadding="0">
+					<thead>
+						<tr> 
+							<td colspan="6" class="webgridheaderline"></td>
+						</tr>
+						<tr style="cursor: pointer;">
+							<th class="webgridheader" align="center" width="30px">
+								<input type="checkbox" id="delCheck" class="webcheckbox" onclick="deptsiteManager.m_checkBox.chkAll(this)"/>
+							</th>
+							<th class="webgridheader" align="center" width="30px">No</th>
+							<th class="webgridheader" ch="0" width="35%" onclick="deptsiteManager.doSort(this, 'DEPT_CD');" >
+								<span >부서코드&nbsp;</span>
+							</th>
+							<th class="webgridheader" ch="0" onclick="deptsiteManager.doSort(this, 'DEPT_L_ALIAS');" >
+								<span >부서(학과)명-대분류&nbsp;</span>
+							</th>
+							<th class="webgridheader" ch="0" onclick="deptsiteManager.doSort(this, 'DEPT_M_ALIAS');" >
+								<span >부서(학과)명-중분류&nbsp;</span>
+							</th>
+							<th class="webgridheader" ch="0" onclick="deptsiteManager.doSort(this, 'DEPT_S_ALIAS');" >
+								<span >부서(학과)명-소분류&nbsp;</span>
+							</th>
+						</tr>
+					</thead>
+					<tbody id="DeptsiteManager.DeptsiteListBody"></tbody>
+				  </table>
+				  </form>
+				</div>
+				<div>
+					<table style="width:100%;" class="webbuttonpanel">
+					<tr>
+					    <td align="center">
+					    <div id="DeptsiteManager.PAGE_ITERATOR" class="webnavigationpanel">
+					    </div>
+					    </td>    
+					</tr>
+					<tr>
+					    <td align="right">
+							<img src="/dit/images/button/btn_delete.gif" hspace="2" style="cursor:hand" onclick="javascript:deptsiteManager.doDelete()">
+					    </td>
+					</tr>
+					</table>
+				
+					<div id="DeptsiteManager.EditFormPanel" class="webformpanel" >
+						<div id="DeptsiteManager.DetailTabPage" style="width:100%;">
+							<div class="webformpanel" >
+								<form id="DeptsiteManager.EditForm" style="display:inline" action="" method="post">
+									<table cellpadding=0 cellspacing=0 border=0 width='100%'>
+									<input type="hidden" id="DeptsiteManager.isCreate">
+									<tr> 
+										<td colspan="4" width="100%" class="webformheaderline"></td>
+									</tr>
+									<tr >
+										<td width="20%" class="webformlabel"><img src="/dit/images/tb_icon.gif" width="5" height="5" align="absmiddle">&nbsp;부서코드 *</td>
+										<td class="webformfield"><input type="text" id="DeptsiteManager.dept_cd" maxLength="20" value=""  class="full_webtextfield" readOnly="true"/></td>
+									</tr>
+									<tr >
+										<td width="20%" class="webformlabelmiddle"><img src="/dit/images/tb_icon.gif" width="5" height="5" align="absmiddle">&nbsp;부서(학과)명 *</td>
+										<td class="webformfield"><input type="text" id="DeptsiteManager.dept_nm" maxLength="25" value="" class="full_webtextfield" readOnly="true"/></td>
+									</tr>
+									<tr >
+										<td width="20%" class="webformlabelmiddle"><img src="/dit/images/tb_icon.gif" width="5" height="5" align="absmiddle">&nbsp;사이트명 *</td>
+										<td class="webformfield">
+											<select name='sitename' id='DeptsiteManager.sitename'>
+												<option value=""></option>
+											#*
+											#foreach($site in $siteList)
+												<!--<option value="$site.get("sitepath")">$site.get("sitename")</option>-->
+											#end
+											*#
+												<option value="architecture">건축과</option>
+												<option value="police">경찰경호행정계열</option>
+												<option value="chinese">국제관광계열-관광중국어전공</option>
+												<option value="japanese">국제관광계열-일본어전공</option>
+												<option value="tour">국제관광계열-호텔관광외식경영전공</option>
+												<option value="id">디지털디자인계열</option>
+												<option value="digitalimage">디지털영상계열-방송영상전공</option>
+												<option value="graphic">디지털영상계열-컴퓨터그래픽전공</option>
+												<option value="digital">디지털정보전자과</option>
+												<option value="slim">미용계열</option>
+												<option value="rad">방사선과</option>
+												<option value="remc">부동산경영과</option>
+												<option value="welfare">사회복지과</option>
+												<option value="ls">사회체육과</option>
+												<option value="food">식품과학계열</option>
+												<option value="chem">신소재응용화학과</option>
+												<option value="in">실내건축과</option>
+												<option value="herb">약재자원관리과</option>
+												<option value="child">유아교육과</option>
+												<option value="medicine">의무행정과</option>
+												<option value="mls">임상병리과</option>
+												<option value="motor">자동차과</option>
+												<option value="elect">전기과</option>
+												<option value="com">정보통신과</option>
+												<option value="me">컴퓨터응용기계계열</option>
+												<option value="cs">컴퓨터정보계열</option>
+												<option value="civil">토목과</option>
+												<option value="mi">e-경영정보계열</option>
+											</select>
+										</td>
+									</tr>
+									
+								</table>
+								<table style="width:100%;" class="webbuttonpanel">
+								<tr>
+									<td align="right">
+										<img src="/dit/images/button/btn_save.gif" hspace="2" style="cursor:hand" onclick="javascript:deptsiteManager.doUpdate()">
+									</td>
+								</tr>
+								</table>
+								</form>
+							</div>
+						</div> <!-- End DeptsiteManager.DetailTabPage -->
+						
+					</div> <!-- End DeptsiteManager.EditFormPanel -->
+				</div> <!-- End webformpanel -->
+			</div> <!-- End DeptsiteManager.DeptsiteTabPage -->
+		</div>
+	</td>
+<tr>
+</table>
+
+</html>

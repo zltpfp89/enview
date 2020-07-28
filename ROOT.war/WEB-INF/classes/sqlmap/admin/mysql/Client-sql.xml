@@ -1,0 +1,126 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ CLIENT : 사용브라우저 ] Table -->
+	<resultMap id="admin_ClientVO_PK" class="com.saltware.enview.admin.capability.service.ClientPK">
+	
+		<result property="clientId" column="CLIENT_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_ClientVO" class="com.saltware.enview.admin.capability.service.ClientVO">
+	 
+		<result property="clientId" column="CLIENT_ID" columnIndex="1"/>	 
+		<result property="evalOrder" column="EVAL_ORDER" columnIndex="2"/>	 
+		<result property="name" column="NAME" columnIndex="3"/>	 
+		<result property="userAgentPattern" column="USER_AGENT_PATTERN" columnIndex="4"/>	 
+		<result property="manufacturer" column="MANUFACTURER" columnIndex="5"/>	 
+		<result property="model" column="MODEL" columnIndex="6"/>	 
+		<result property="version" column="VERSION" columnIndex="7"/>	 
+		<result property="preferredMimetypeId" column="PREFERRED_MIMETYPE_ID" columnIndex="8"/>	
+		<result property="useTheme" column="USE_THEME" columnIndex="9"/>	 
+	</resultMap>
+	
+	<select id="client.totalCount" resultClass="int">
+	/* client.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM CLIENT
+	</select>
+	
+	<select id="client.findByPage" resultMap="admin_ClientVO_PK">
+	/* client.findByPage */
+	SELECT CLIENT_ID
+	FROM CLIENT
+	<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+	<isNull property="sortColumn">ORDER BY EVAL_ORDER ASC</isNull>
+	LIMIT #limit# OFFSET #offset# 
+	</select>
+
+	<select id="client.findAll" resultMap="admin_ClientVO">
+			SELECT CLIENT_ID,EVAL_ORDER,NAME,USER_AGENT_PATTERN,MANUFACTURER,MODEL,VERSION,PREFERRED_MIMETYPE_ID,USE_THEME
+			FROM CLIENT
+			ORDER BY EVAL_ORDER ASC
+	</select>
+	
+
+	<select id="client.detail" resultMap="admin_ClientVO">
+		<![CDATA[
+			SELECT CLIENT_ID,EVAL_ORDER,NAME,USER_AGENT_PATTERN,MANUFACTURER,MODEL,VERSION,PREFERRED_MIMETYPE_ID,USE_THEME
+			FROM CLIENT
+			WHERE 1=1 
+				AND CLIENT_ID=#clientId#
+		]]>
+	</select>
+	
+	<select id="client.exist" resultClass="int">
+			SELECT COUNT(*) cnt
+			FROM CLIENT
+			WHERE 1=1 
+				AND CLIENT_ID=#clientId#
+	</select>
+	
+	<insert id="client.insert">
+		<![CDATA[
+			INSERT INTO CLIENT
+				( CLIENT_ID,EVAL_ORDER,NAME,USER_AGENT_PATTERN,MANUFACTURER,MODEL,VERSION,PREFERRED_MIMETYPE_ID,USE_THEME )
+			VALUES ( #clientId#,(SELECT max(EVAL_ORDER) FROM CLIENT)+1,#name#,#userAgentPattern#,#manufacturer#,#model#,#version#,#preferredMimetypeId#,#useTheme# )
+		]]>
+	</insert>
+	<insert id="client.insertToCapability">
+		<![CDATA[
+			INSERT INTO CLIENT_TO_CAPABILITY
+				( CLIENT_ID,CAPABILITY_ID )
+			VALUES ( #clientId#, 43 )
+		]]>
+	</insert>
+	<insert id="client.insertToMimetype">
+		<![CDATA[
+			INSERT INTO CLIENT_TO_MIMETYPE
+				( CLIENT_ID,MIMETYPE_ID )
+			VALUES ( #clientId#, 2 )
+		]]>
+	</insert>
+	
+	<update id="client.update">
+		<![CDATA[
+			UPDATE CLIENT
+			SET CLIENT_ID=#clientId#,EVAL_ORDER=#evalOrder#,NAME=#name#,USER_AGENT_PATTERN=#userAgentPattern#,MANUFACTURER=#manufacturer#,MODEL=#model#,VERSION=#version#,PREFERRED_MIMETYPE_ID=#preferredMimetypeId#,USE_THEME=#useTheme#
+			WHERE 1=1 
+				AND CLIENT_ID=#clientId#
+		]]>
+	</update>
+	
+	<delete id="client.delete">
+		<![CDATA[
+			DELETE FROM CLIENT
+			WHERE 1=1 
+				AND CLIENT_ID=#clientId#
+		]]>
+	</delete>
+	<delete id="client.deleteToCapability">
+		<![CDATA[
+			DELETE FROM CLIENT_TO_CAPABILITY
+			WHERE 1=1 
+				AND CLIENT_ID=#clientId#
+		]]>
+	</delete>
+	<delete id="client.deleteToMimetype">
+		<![CDATA[
+			DELETE FROM CLIENT_TO_MIMETYPE
+			WHERE 1=1 
+				AND CLIENT_ID=#clientId#
+		]]>
+	</delete>
+	
+	<update id="client.changeOrder">
+		<![CDATA[
+			UPDATE CLIENT
+			SET EVAL_ORDER=#evalOrder#
+			WHERE CLIENT_ID=#clientId#
+		]]>
+	</update>
+
+</sqlMap>
+

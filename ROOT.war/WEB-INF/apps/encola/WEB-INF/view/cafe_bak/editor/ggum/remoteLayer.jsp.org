@@ -1,0 +1,472 @@
+<%@ page language="java" contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+  <%--BEGIN::GGum Area--%>
+  <%--div id="remoteLayer" class="remote_max" style="width: 796px; position: fixed"--%>
+	<div id="remoteLeft">
+	  <div id="remoteLayerTitle" style="cursor: move;">
+		<ul class="remote_deco_toolbar">
+		  <li>
+			<a class="btn_foldRemote" title="접기/펴기(ctrl+alt+m)" onclick="javascript:cube.controller.home.RemoteController.onClickFold(); return false;" href="#">접기/펴기</a>
+		  </li>
+		  <li>
+			<a id="remoteControlLockButton" class="lock" title="위치고정" onclick="javascript:cube.controller.home.RemoteController.onClickLock(); return false;" href="#">위치고정</a>
+		  </li>
+		</ul>
+		<ul class="remote_data_toolbar">
+		  <li>
+			<a class="btn_remoteApply" title="적용" onclick="cube.controller.home.RemoteController.onClickSave(); return false;" href="#">적용</a>
+		  </li>
+		</ul>
+		<ul class="remote_mini_menu">
+		  <li class="btn_remote_mini_Skin">
+			<a class="selected" onclick="javascript:cube.controller.home.RemoteController.onClickMenu('Skin','list');return false;" href="#">스킨</a>
+		  </li>
+		  <li class="btn_remote_mini_Layout">
+			<a onclick="javascript:cube.controller.home.RemoteController.onClickMenu('Layout','Column'); return false;" href="#">레이아웃</a>
+		  </li>
+		  <li class="btn_remote_mini_Design">
+			<a onclick="javascript:cube.controller.home.RemoteController.onClickMenu('Design','CafeInfoBox'); return false;" href="#">상세꾸미기</a>
+		  </li>
+		</ul>
+	  </div>
+	  <div id="remoteControl">
+		<div id="remoteMenu">
+		  <ul class="remote_menu_dep1">
+			<li class="rmd1_skin">
+			  <a class="selected" onclick="cube.controller.home.RemoteController.onClickMenu('Skin','list'); return false;" href="#">스킨</a>
+			</li>
+			<li class="rmd1_layout">
+			  <a onclick="cube.controller.home.RemoteController.onClickMenu('Layout','Column'); return false;" href="#">레이아웃</a>
+			</li>
+			<li class="rmd1_design">
+			  <a onclick="cube.controller.home.RemoteController.onClickMenu('Design','CafeInfoBox'); return false;" href="#">상세디자인</a>
+			</li>
+		  </ul>
+		</div>
+		<div id="remoteSubMenu">
+          <!--BEGIN::Substitution Area-->
+		  <ul class="remote_menu_dep2 rmd2_skin">
+			<li class="rmd2_skin_txt" style="width: 37px">
+			  <a class="home_stxt555 selected" onclick="cube.controller.home.RemoteController.onClickSkinMenu('list'); return false;" href="#">스킨</a>
+			</li>
+			<li class="rmd2_skin_txt">
+			  <span class="rmd_bar">|</span>
+			</li>
+			<li class="rmd2_skin_txt" style="width: 37px">
+			  <a class="home_stxt555" onclick="cube.controller.home.RemoteController.onClickSkinMenu('CafeBackground');return false;" href="#">배경</a>
+			</li>
+			<li class="rmd2_list_one">
+			  <a id="RemoteSubMenuSkinOne" title="크게 보기" onclick="cube.controller.home.RemoteController.onClickSkinSubMenu('one');return false;" href="#">한개씩</a>
+			</li>
+			<li class="rmd2_list_list">
+			  <a id="RemoteSubMenuSkinList" class="selected" title="리스트형태로 보기" onclick="cube.controller.home.RemoteController.onClickSkinSubMenu('list');return false;" href="#">리스트</a>
+			</li>
+		  </ul>
+          <!--END::Substitution Area-->
+		</div>
+		<div id="remoteControlContent" class="remoteControlBg">
+          <!--BEGIN::Substitution Area-->
+		  <div id="menuControlMaster" class="remoteZindexM">
+			<div id="SkinSetList">
+			  <ul class="ssl_block">
+				<li class="ssl_item">
+				  <div id="SkinIcon_20" style="position: relative;">
+					<a id="SkinIcon_20_1" class="ssl_lnk_dep1" onclick="javascript:(new cube.controller.home.SkinController()).onSelectSkin('20', '#7c84f6', '0'); return false;" style="display: block;" href="#">
+					  <img id="SkinThum_20" class="ssl_thum" width="80" height="101" alt="" src="http://cafeimg.daum-img.net/cf_img4/thumb/skin_set/b01_1_s.gif">
+					</a>
+					<a id="SkinIcon_20_2" class="ssl_lnk_dep1" onclick="javascript:(new cube.controller.home.SkinController()).onSelectSkin('20', '#ffffff', '0'); return false;" style="display:none;" href="#">
+					  <img id="SkinThum_20" class="ssl_thum" width="80" height="101" alt="" src="http://cafeimg.daum-img.net/cf_img4/thumb/skin_set/b01_2_s.gif">
+					</a>
+					<a id="SkinIcon_20_3" class="ssl_lnk_dep1" onclick="javascript:(new cube.controller.home.SkinController()).onSelectSkin('20', '#737373', '0'); return false;" style="display:none;" href="#">
+					  <img id="SkinThum_20" class="ssl_thum" width="80" height="101" alt="" src="http://cafeimg.daum-img.net/cf_img4/thumb/skin_set/b01_3_s.gif">
+					</a>
+					<a id="SkinIcon_20_4" class="ssl_lnk_dep1" onclick="javascript:(new cube.controller.home.SkinController()).onSelectSkin('20', '#73bbca', '0'); return false;" style="display:none;" href="#">
+					  <img id="SkinThum_20" class="ssl_thum" width="80" height="101" alt="" src="http://cafeimg.daum-img.net/cf_img4/thumb/skin_set/b01_4_s.gif">
+					</a>
+					<a id="SkinIcon_20_5" class="ssl_lnk_dep1" onclick="javascript:(new cube.controller.home.SkinController()).onSelectSkin('20', '#8bc144', '0'); return false;" style="display:none;" href="#">
+					  <img id="SkinThum_20" class="ssl_thum" width="80" height="101" alt="" src="http://cafeimg.daum-img.net/cf_img4/thumb/skin_set/b01_5_s.gif">
+					</a>
+				  </div>
+				  <ul class="ssl_chip_area">
+					<li class="first">
+					  <a style="background-color:#7c84f6;" onclick="javascript:(new cube.controller.home.SkinController()).onSelectSkin('20', '#7c84f6', '0'); return false;" onmouseover="javascript:(new cube.controller.home.SkinController()).onOverSkin('SkinIcon_20_1');" href="#"></a>
+					</li>
+					<li>
+					  <a style="background-color:#ffffff;" onclick="javascript:(new cube.controller.home.SkinController()).onSelectSkin('20', '#ffffff', '0'); return false;" onmouseover="javascript:(new cube.controller.home.SkinController()).onOverSkin('SkinIcon_20_2');" href="#"></a>
+					</li>
+					<li>
+					  <a style="background-color:#737373;" onclick="javascript:(new cube.controller.home.SkinController()).onSelectSkin('20', '#737373', '0'); return false;" onmouseover="javascript:(new cube.controller.home.SkinController()).onOverSkin('SkinIcon_20_3');" href="#"></a>
+					</li>
+					<li>
+					  <a style="background-color:#73bbca;" onclick="javascript:(new cube.controller.home.SkinController()).onSelectSkin('20', '#73bbca', '0'); return false;" onmouseover="javascript:(new cube.controller.home.SkinController()).onOverSkin('SkinIcon_20_4');" href="#"></a>
+					</li>
+					<li>
+					  <a style="background-color:#8bc144;" onclick="javascript:(new cube.controller.home.SkinController()).onSelectSkin('20', '#8bc144', '0'); return false;" onmouseover="javascript:(new cube.controller.home.SkinController()).onOverSkin('SkinIcon_20_5');" href="#"></a>
+					</li>
+				  </ul>				
+				</li>
+				<li class="ssl_item">
+				</li>
+				<li class="ssl_item">
+				</li>
+				<li class="ssl_item">
+				</li>
+				<li class="ssl_item">
+				</li>
+				<li class="ssl_item">
+				</li>
+			  </ul>
+			</div>
+			<div id="paging" align="center"><!--원래 align="center"는 없었다.좌측으로 정렬되어서 추가함.2012.04.25.KWShin.-->
+			  <table class="pg_area" align="center">
+				<tbody>
+				  <tr>
+					<td>
+					  <span class="pg_btn prev_btn">이전</span>
+					  <span class="page_selected">1</span>
+					  <a onclick="javascript:(new cube.controller.home.SkinController()).onPageSelected('20', '24', '2', '1');return false;" href="#">2</a>
+					  <a onclick="javascript:(new cube.controller.home.SkinController()).onPageSelected('20', '24', '3', '1');return false;" href="#">3</a>
+					  <a onclick="javascript:(new cube.controller.home.SkinController()).onPageSelected('20', '24', '4', '1');return false;" href="#">4</a>
+					  <a onclick="javascript:(new cube.controller.home.SkinController()).onPageSelected('20', '24', '5', '1');return false;" href="#">5</a>
+					  <span class="pg_btn next_btn">다음</span>
+					</td>
+				  </tr>
+				</tbody>
+			  </table>			
+			</div>
+		  </div>		
+          <!--END::Substitution Area-->
+		</div>
+		<div id="remoteFooter" class="remoteFooterTypeA">
+          <!--BEGIN::Substitution Area-->
+		  <div id="remoteFooterView" class="remoteZindexL">
+			<div class="skinView_footer">
+			  <div class="fl">
+				<img id="d2w_controlUseTitle" class="img_checkbox" width="12" height="13" src="http://i1.daumcdn.net/cafeimg/cf_img2/img_blank2.gif" tabindex="0">
+				<input id="controlUseTitle" class="checkradio_styled" type="checkbox" onclick="javascript:(new cube.controller.home.SkinController()).onChangeUseTitle();return false;">
+				<label class="hand" for="controlUseTitle">기존 타이틀 유지</label>
+			  </div>
+			  <div id="skinTitleTip" class="tip_icon"></div>
+			</div>
+		  </div>
+		  <a class="rollback home_stxt" onclick="javascript:restoreMemento(); return false;" href="#">원래대로</a>
+          <!--END::Substitution Area-->
+		</div>
+	  </div>
+	</div>	  
+	<div id="remoteRight" style="display:none">
+		<div id="remoteDummyTop" class="wireframe_top" style="cursor: move;">
+		  <a class="wireframe_close imgLink" onclick="cube.controller.home.RemoteController.onClickWireframeView(); return false;" href="#">닫기</a>
+		</div>
+		<div id="wireframeBg" class="wireframe_bg">
+		  <div id="wireframe" class="type2_1 fixed2_1">
+		    <div id="wf_EDITPANEL"></div>
+		    <div id="wf_ROOFPANEL">
+			  <!--ROOFPANEL은 항상 변화 없음-->
+			  <div id="wf_MINIDAUM">Daum 메뉴</div>
+		    </div>
+		    <div id="wf_TITLEPANEL">타이틀</div>
+		    <div id="wfEntrancePanel1" class="nosp">
+			  <!-- 1단형의 경우에만 나타나는 부분
+			  <div id="wf_ENTRANCEPANEL">
+				<div id="wf_ENTRANCE" class="wf_component wf_component_entrance">
+				  <a class="btn_wf_del imgLink">delete</a>
+				  대문
+				</div>
+			  </div-->
+			</div>
+		    <div id="side1">
+			  <!--side1은 항상 변화없음-->
+			  <div id="wf_MENUPANEL" class="wireframePanel">
+			    <div id="wf_CAFEINFOBOX" class="wf_component wf_component_l" style="cursor: move;">
+				  카페정보
+				  <br>
+				  내정보
+			    </div>
+			    <div id="wf_CAFEMENU" class="wf_component wf_component_l" style="cursor: move;">카페 메뉴</div>
+			    <div id="wf_SEARCHBOX" class="wf_component wf_component_s" style="cursor: move;">검색창</div>
+			    <div id="wf_CAFEON" class="wf_component wf_component_s" style="cursor: move;">
+				  <a class="btn_wf_del imgLink">delete</a>
+				  카페채팅
+			    </div>
+			  </div>
+			  <div id="wf_ACCESSARYPANEL1" class="wireframePanel">
+			    <div id="wf_MEMBERNOTICE" class="wf_component wf_component_m" style="cursor: move;">
+				  <a class="btn_wf_del imgLink">delete</a>
+				  회원 알림
+			    </div> 
+			  </div>		  
+		    </div>
+		    <div id="wfEntrancePanel3" class="nosp">
+			  <!--3단A,C 형에만 나타나는 부분
+			  <div id="wf_ENTRANCEPANEL">
+				<div id="wf_ENTRANCE" class="wf_component wf_component_entrance">
+				  <a class="btn_wf_del imgLink">delete</a>
+				  대문
+				</div>
+			  </div-->			
+			</div>
+		    <div id="wf_centralPanel">
+			  <div id="wfEntrancePanel2" class="nosp">
+			    <!--2단A,B/3단B,D 형에서 나타나는 부분
+			    <div id="wf_ENTRANCEPANEL">
+				  <div id="wf_ENTRANCE" class="wf_component wf_component_entrance">
+				    <a class="btn_wf_del imgLink">delete</a>
+				    대문
+				  </div>
+			    </div-->			
+			  </div>
+			  <div id="wf_HOMEBOARDPANEL">
+			    <div id="wf_HOMEBOARDGROUP_0" class="wf_board wf_board_TYPE_1" style="cursor: move;">
+				  <div class="wf_board_del_bg">
+				    <a class="btn_wf_del imgLink">delete</a>
+				  </div>
+				  <div>
+				    <div class="wf_board_sub wf_board_sub_up">
+					  <span class="wf_board_title_1">일반 게시판</span>
+					  <a id="homeBoardPot_OahN" class="btn_wf_modify imgLink" onclick="(new cube.controller.home.WireframeController()).editBoard('TYPE_1','OahN','pv_HOMEBOARDGROUP_0'); return false;" href="#">수정</a>
+					  <div class="wf_boardIcon wf_boardIcon_TITLE_TYPE"></div>
+				    </div>
+				  </div>
+			    </div>
+				<div id="wf_HOMEBOARDGROUP_5" class="wf_board wf_board_TYPE_2" style="cursor: move; position: relative;">
+				  <div class="wf_board_del_bg">
+					<a class="btn_wf_del imgLink">delete</a>
+				  </div>
+				  <div class="wf_board_empty">
+					<div class="wf_board_sub wf_board_sub_up wf_board_sub_hor">
+					  <span class="wf_board_title_1">게시판 없음</span>
+					  <a id="homeBoardPot_" class="btn_wf_modify imgLink" onclick="(new cube.controller.home.WireframeController()).editBoard('TYPE_2','','pv_HOMEBOARDGROUP_5_1'); return false;" href="#">수정</a>
+					  <div class="wf_boardIcon wf_boardIcon_TITLE_TYPE"></div>
+					</div>
+				  </div>
+				  <div class="wf_board_empty">
+					<div class="wf_board_sub wf_board_sub_up wf_board_sub_hor">
+					  <span class="wf_board_title_2">게시판 없음</span>
+					  <a id="homeBoardPot_" class="btn_wf_modify imgLink" onclick="(new cube.controller.home.WireframeController()).editBoard('TYPE_2','','pv_HOMEBOARDGROUP_5_2'); return false;" href="#">수정</a>
+					  <div class="wf_boardIcon wf_boardIcon_TITLE_TYPE"></div>
+					</div>
+				  </div>
+				</div>
+				<div id="wf_HOMEBOARDGROUP_6" class="wf_board wf_board_TYPE_3" style="cursor: move; position: relative;">
+				  <div class="wf_board_del_bg">
+					<a class="btn_wf_del imgLink">delete</a>
+				  </div>
+				  <div class="wf_board_empty">
+					<div class="wf_board_sub wf_board_sub_ver">
+					  <span class="wf_board_title_1">게시판 없음</span>
+					  <a id="homeBoardPot_" class="btn_wf_modify imgLink" onclick="(new cube.controller.home.WireframeController()).editBoard('TYPE_3','','pv_HOMEBOARDGROUP_6'); return false;" href="#">수정</a>
+					  <div class="wf_boardIcon wf_boardIcon_TITLE_TYPE"></div>
+					</div>
+				  </div>
+				</div>
+				<div id="wf_HOMEBOARDGROUP_7" class="wf_board wf_board_TYPE_4" style="cursor: move; position: relative;">
+				  <div class="wf_board_del_bg">
+					<a class="btn_wf_del imgLink">delete</a>
+				  </div>
+				  <div class="wf_board_empty">
+					<div class="wf_board_sub wf_board_sub_ver wf_board_sub_hor">
+					  <span class="wf_board_title_1">게시판 없음</span>
+					  <a id="homeBoardPot_" class="btn_wf_modify imgLink" onclick="(new cube.controller.home.WireframeController()).editBoard('TYPE_4','','pv_HOMEBOARDGROUP_7_1'); return false;" href="#">수정</a>
+					  <div class="wf_boardIcon wf_boardIcon_TITLE_TYPE"></div>
+					</div>
+				  </div>
+				  <div class="wf_board_empty">
+					<div class="wf_board_sub wf_board_sub_ver wf_board_sub_hor">
+					  <span class="wf_board_title_2">게시판 없음</span>
+					  <a id="homeBoardPot_" class="btn_wf_modify imgLink" onclick="(new cube.controller.home.WireframeController()).editBoard('TYPE_4','','pv_HOMEBOARDGROUP_7_2'); return false;" href="#">수정</a>
+					  <div class="wf_boardIcon wf_boardIcon_TITLE_TYPE"></div>
+					</div>
+				  </div>
+				</div>
+				<div id="wf_HOMEBOARDGROUP_8" class="wf_board wf_board_TYPE_5" style="cursor: move; position: relative;">
+				  <div class="wf_board_del_bg">
+					<a class="btn_wf_del imgLink">delete</a>
+				  </div>
+				  <div class="wf_board_empty">
+					<div class="wf_board_sub wf_board_sub_ver wf_board_sub_hor">
+					  <span class="wf_board_title_1">게시판 없음</span>
+					  <a id="homeBoardPot_" class="btn_wf_modify imgLink" onclick="(new cube.controller.home.WireframeController()).editBoard('TYPE_5','','pv_HOMEBOARDGROUP_8_1'); return false;" href="#">수정</a>
+					  <div class="wf_boardIcon wf_boardIcon_TITLE_TYPE"></div>
+					</div>
+				  </div>
+				  <div class="wf_board_sub wf_board_sub_hor">
+					<div class="wf_board_empty">
+					  <div class="wf_board_sub wf_board_sub_up">
+						<span class="wf_board_title_2">게시판 없음</span>
+						<a id="homeBoardPot_" class="btn_wf_modify imgLink" onclick="(new cube.controller.home.WireframeController()).editBoard('TYPE_5','','pv_HOMEBOARDGROUP_8_2'); return false;" href="#">수정</a>
+						<div class="wf_boardIcon wf_boardIcon_TITLE_TYPE"></div>
+					  </div>
+					</div>
+					<div class="wf_board_empty">
+					  <div class="wf_board_sub wf_board_sub_down">
+						<span class="wf_board_title_3">게시판 없음</span>
+						<a id="homeBoardPot_" class="btn_wf_modify imgLink" onclick="(new cube.controller.home.WireframeController()).editBoard('TYPE_5','','pv_HOMEBOARDGROUP_8_3'); return false;" href="#">수정</a>
+						<div class="wf_boardIcon wf_boardIcon_TITLE_TYPE"></div>
+					  </div>
+					</div>
+				  </div>
+				</div>
+				<div id="wf_HOMEBOARDGROUP_9" class="wf_board wf_board_TYPE_6" style="cursor: move; position: relative;">
+				  <div class="wf_board_del_bg">
+					<a class="btn_wf_del imgLink">delete</a>
+				  </div>
+				  <div class="wf_board_sub wf_board_sub_hor">
+					<div class="wf_board_empty">
+					  <div class="wf_board_sub wf_board_sub_up">
+						<span class="wf_board_title_1">게시판 없음</span>
+						<a id="homeBoardPot_" class="btn_wf_modify imgLink" onclick="(new cube.controller.home.WireframeController()).editBoard('TYPE_6','','pv_HOMEBOARDGROUP_9_1'); return false;" href="#">수정</a>
+						<div class="wf_boardIcon wf_boardIcon_TITLE_TYPE"></div>
+					  </div>
+					</div>
+					<div class="wf_board_empty">
+					  <div class="wf_board_sub wf_board_sub_down">
+						<span class="wf_board_title_4">게시판 없음</span>
+						<a id="homeBoardPot_" class="btn_wf_modify imgLink" onclick="(new cube.controller.home.WireframeController()).editBoard('TYPE_6','','pv_HOMEBOARDGROUP_9_2'); return false;" href="#">수정</a>
+						<div class="wf_boardIcon wf_boardIcon_TITLE_TYPE"></div>
+					  </div>
+					</div>
+				  </div>
+				  <div class="wf_board_empty">
+					<div class="wf_board_sub wf_board_sub_ver wf_board_sub_hor">
+					  <span class="wf_board_title_2">게시판 없음</span>
+					  <a id="homeBoardPot_" class="btn_wf_modify imgLink" onclick="(new cube.controller.home.WireframeController()).editBoard('TYPE_6','','pv_HOMEBOARDGROUP_9_3'); return false;" href="#">수정</a>
+					  <div class="wf_boardIcon wf_boardIcon_TITLE_TYPE"></div>
+					</div>
+				  </div>
+				</div>				
+			  </div>
+			  <div id="wf_INFOPANEL"></div>
+			  <div id="wf_ACCESSARYPANEL2" class="wireframePanel"></div>
+			  <div id="wf_ACCESSARYPANEL3" class="wireframePanel"></div>
+			  <div id="wf_ACCESSARYPANEL4" class="wireframePanel"></div>
+			  <div id="wfSidePanel1">
+			    <!-- 1단/2단A,B 형에만 나타나는 부분
+			    <div id="wf_ACCESSARYPANEL5" class="wireframePanel"></div-->			
+			  </div>
+		    </div>
+		    <div id="wfSidePanel2">
+			  <!--3단A,B,C,D 형에만 나타나는 부분
+			  <div id="wf_ACCESSARYPANEL5" class="wireframePanel"></div-->			
+			</div>
+		    <div class="cl"></div>
+		    <div id="wfHomeboardEditLayer" style="display:none">
+			  <div id="wfHomeboardEditLayerPng">
+				<div id="wfHomeboardEditLayerPng">
+				  <div class="boardPop_title">
+					<h3>게시판 수정</h3>
+					<a class="boardPop_btnClose imgLink" href="#" onclick="cube.controller.home.WireframeController.closeHomeBoardEdit(); return false;">닫기</a>
+				  </div>
+				  <div class="homeBoardEditLayer">
+					<div id="homeBoardEditList">
+					  <a id="d2w_homeBoardPotSel" class="img_selectbox" tabindex="0" style="width: 208px;">선택된 게시판이 없습니다.</a>
+					  <select id="homeBoardPotSel" class="selectbox_styled" scrollsize="308" fixedsize="243" onchange="cube.controller.home.WireframeController.onChangeEditBoard('TYPE_1', 'pv_HOMEBOARDGROUP_4')">
+						<option value="">선택된 게시판이 없습니다.</option>
+						<option value="cube.controller.home.HomeBoardGroupController.onMakeObj('fldid', '_rec', 'fldtype','M')"> 최신글 보기 </option>
+						<option value="cube.controller.home.HomeBoardGroupController.onMakeObj('fldid', 'OahN', 'fldtype','')"> 일반 게시판 </option>
+						<option value="cube.controller.home.HomeBoardGroupController.onMakeObj('fldid', 'MGZt', 'fldtype','')"> 기본 게시판 </option>
+						<option value="cube.controller.home.HomeBoardGroupController.onMakeObj('fldid', '_memo', 'fldtype','C')"> 한 줄 메모장 </option>
+						<option value="cube.controller.home.HomeBoardGroupController.onMakeObj('fldid', 'OaEQ', 'fldtype','5')"> 앨범 </option>
+						<option value="cube.controller.home.HomeBoardGroupController.onMakeObj('fldid', 'MGZu', 'fldtype','')"> 기본 자료실 </option>
+						<option value="cube.controller.home.HomeBoardGroupController.onMakeObj('fldid', 'MGZv', 'fldtype','5')"> 기본 앨범 </option>
+						<option value="cube.controller.home.HomeBoardGroupController.onMakeObj('fldid', 'MGZw', 'fldtype','2')"> 기본 폰/앨범 </option>
+						<option value="cube.controller.home.HomeBoardGroupController.onMakeObj('fldid', '_fav', 'fldtype','N')"> 인기글 보기 </option>
+						<option value="cube.controller.home.HomeBoardGroupController.onMakeObj('fldid', '_movie', 'fldtype','T')"> 동영상 보기 </option>
+						<option value="cube.controller.home.HomeBoardGroupController.onMakeObj('fldid', '_image', 'fldtype','S')"> 이미지 보기 </option>					  
+					  </select>
+					</div>
+					<div id="homeBoardEditType">
+					  <input id="wfBoardViewType" type="hidden" value="TITLE_TYPE">
+					  <!--선택된 게시판이 없을 때
+					  <p class="none_type">게시판을 선택해주세요.</p-->
+					  <!-- 최신글/일반/기본/기본자료/인기글 이 선택됐을 때
+					  <ul class="homeBoardEditTypeList">
+						<li class="first">
+						  <a class="home_stxt_666" onclick="cube.controller.home.WireframeController.onClickBoardType('TITLE_TYPE'); return false;" href="#">
+							<div id="wf_boardIcon_TITLE_TYPE" class="wf_boardEditIcon wf_boardIcon_TITLE_TYPE"></div>
+							목록형
+						  </a>
+						  <div id="selectedBoardType" class="selected_icon"></div>
+						</li>
+						<li>
+						  <a class="home_stxt_666" onclick="cube.controller.home.WireframeController.onClickBoardType('SUMMARY_TYPE_1'); return false;" href="#">
+							<div id="wf_boardIcon_SUMMARY_TYPE_1" class="wf_boardEditIcon wf_boardIcon_SUMMARY_TYPE_1"></div>
+							요약1
+						  </a>
+						</li>
+						<li>
+						  <a class="home_stxt_666" onclick="cube.controller.home.WireframeController.onClickBoardType('SUMMARY_TYPE_2'); return false;" href="#">
+							<div id="wf_boardIcon_SUMMARY_TYPE_2" class="wf_boardEditIcon wf_boardIcon_SUMMARY_TYPE_2"></div>
+							요약2
+						  </a>
+						</li>
+						<li>
+						  <a class="home_stxt_666" onclick="cube.controller.home.WireframeController.onClickBoardType('SUMMARY_TYPE_3'); return false;" href="#">
+							<div id="wf_boardIcon_SUMMARY_TYPE_3" class="wf_boardEditIcon wf_boardIcon_SUMMARY_TYPE_3"></div>
+							요약3
+						  </a>
+						</li>
+						<li>
+						  <a class="home_stxt_666" onclick="cube.controller.home.WireframeController.onClickBoardType('SUMMARY_TYPE_4'); return false;" href="#">
+							<div id="wf_boardIcon_SUMMARY_TYPE_4" class="wf_boardEditIcon wf_boardIcon_SUMMARY_TYPE_4"></div>
+							요약4
+						  </a>
+						</li>
+					  </ul-->
+					  <!-- 한줄메모장 이 선택됐을 때
+					  <ul class="homeBoardEditTypeList">
+						<li class="first">
+						  <a class="home_stxt_666" onclick="cube.controller.home.WireframeController.onClickBoardType('MEMO_TYPE'); return false;" href="#">
+							<div id="wf_boardIcon_MEMO_TYPE" class="wf_boardEditIcon wf_boardIcon_MEMO_TYPE"></div>
+							일반형
+						  </a>
+						  <div id="selectedBoardType" class="selected_icon"></div>
+						</li>
+					  </ul-->
+					  <!-- 앨범/기본앨범/기본폰.앨범/이미지보기 가 선택됐을 때
+					  <ul class="homeBoardEditTypeList">
+						<li class="first">
+						  <a class="home_stxt_666" onclick="cube.controller.home.WireframeController.onClickBoardType('THUMBNAIL_TYPE'); return false;" href="#">
+							<div id="wf_boardIcon_THUMBNAIL_TYPE" class="wf_boardEditIcon wf_boardIcon_THUMBNAIL_TYPE"></div>
+							썸네일
+						  </a>
+						  <div id="selectedBoardType" class="selected_icon"></div>
+						</li>
+						<li>
+						  <a class="home_stxt_666" onclick="cube.controller.home.WireframeController.onClickBoardType('ALBUM_TYPE_1'); return false;" href="#">
+							<div id="wf_boardIcon_ALBUM_TYPE_1" class="wf_boardEditIcon wf_boardIcon_ALBUM_TYPE_1"></div>
+							앨범1
+						  </a>
+						</li>
+						<li>
+						  <a class="home_stxt_666" onclick="cube.controller.home.WireframeController.onClickBoardType('ALBUM_TYPE_2'); return false;" href="#">
+							<div id="wf_boardIcon_ALBUM_TYPE_2" class="wf_boardEditIcon wf_boardIcon_ALBUM_TYPE_2"></div>
+							앨범2
+						  </a>
+						</li>
+					  </ul-->
+					  <!-- 동영상이 선택됐을 때
+					  <ul class="homeBoardEditTypeList">
+						<li class="first">
+						  <a class="home_stxt_666" onclick="cube.controller.home.WireframeController.onClickBoardType('THUMBNAIL_TYPE_MOVIE'); return false;" href="#">
+							<div id="wf_boardIcon_THUMBNAIL_TYPE_MOVIE" class="wf_boardEditIcon wf_boardIcon_THUMBNAIL_TYPE_MOVIE"></div>
+							썸네일
+						  </a>
+						  <div id="selectedBoardType" class="selected_icon"></div>
+						</li>
+					  </ul-->
+					</div>
+				  </div>
+				  <div class="popup_btnArea">
+					<a class="popup_btnConfirm imgLink" onclick="cube.controller.home.WireframeController.onClickSave('', 'pv_HOMEBOARDGROUP_4'); return false;" href="#">확인</a>
+					<a class="popup_btnCancel imgLink" onclick="cube.controller.home.WireframeController.closeHomeBoardEdit(); return false;" href="#">취소</a>
+				  </div>				
+				</div>
+			  </div>
+		    </div>
+		  </div>	
+		</div>
+		<div class="wireframe_bottom"></div>
+	</div>
+  <%--/div--%>
+  <%--END::GGum Area--%>

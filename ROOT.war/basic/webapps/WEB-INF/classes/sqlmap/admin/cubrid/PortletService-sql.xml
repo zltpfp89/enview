@@ -1,0 +1,97 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="portletService">
+
+	
+	
+	<!-- Query for [ PORTLET_SERVICE : 포틀릿서비스 ] Table -->
+	<resultMap id="portletService_PortletServiceVO_PK" class="com.saltware.enview.admin.portletService.service.PortletServicePK">
+	
+		<result property="serviceId" column="SERVICE_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="portletService_PortletServiceVO" class="com.saltware.enview.admin.portletService.service.PortletServiceVO">
+	 
+		<result property="serviceId" column="SERVICE_ID" columnIndex="1"/>	 
+		<result property="serviceName" column="SERVICE_NAME" columnIndex="2"/>	 
+		<result property="serviceData" column="SERVICE_DATA" columnIndex="3"/>	 
+	</resultMap>
+	
+	<select id="portletService.totalCount" resultClass="int">
+			/* portletService.totalCount */
+			SELECT COUNT(*) totcnt
+			FROM PORTLET_SERVICE
+			WHERE 1=1	
+			<isNotNull  prepend=" AND " property="searchField">SERVICE_NAME LIKE #searchField#||'%'</isNotNull>
+	</select>
+	
+	<select id="portletService.findByPage" resultMap="portletService_PortletServiceVO_PK">
+			/* portletService.findByPage */
+			SELECT tb2.* FROM (
+				SELECT tb1.*, rownum rnum FROM (
+					SELECT SERVICE_ID
+					FROM PORTLET_SERVICE
+					WHERE 1=1 
+					<isNotNull  prepend=" AND " property="searchField">SERVICE_NAME LIKE #searchField#||'%'</isNotNull>
+					<isNotNull property="sortColumn"> ORDER BY $sortColumn$ $sortMethod$ </isNotNull>
+				) tb1
+			) tb2 WHERE tb2.rnum BETWEEN #startRow# AND #endRow#
+			
+	</select>
+
+	<select id="portletService.findAll" resultMap="portletService_PortletServiceVO">
+			/* portletService.findAll */
+			SELECT SERVICE_ID,SERVICE_NAME,SERVICE_DATA
+			FROM PORTLET_SERVICE
+	</select>
+	
+
+	<select id="portletService.detail" resultMap="portletService_PortletServiceVO">
+		/* portletService.detail */
+		<![CDATA[
+			SELECT SERVICE_ID,SERVICE_NAME,SERVICE_DATA
+			FROM PORTLET_SERVICE
+			WHERE 1=1 
+				AND SERVICE_ID=#serviceId#
+		]]>
+	</select>
+	
+	<select id="portletService.exist" resultClass="int">
+			/* portletService.exist */
+			SELECT COUNT(*) cnt
+			FROM PORTLET_SERVICE
+			WHERE 1=1 
+				AND SERVICE_ID=#serviceId#
+	</select>
+	
+	<insert id="portletService.insert">
+		/* portletService.insert */
+		<![CDATA[
+			INSERT INTO PORTLET_SERVICE
+				( SERVICE_ID,SERVICE_NAME,SERVICE_DATA)
+			VALUES ( #serviceId#,#serviceName#,#serviceData#)
+		]]>
+	</insert>
+	
+	<update id="portletService.update">
+		/* portletService.update */
+		<![CDATA[
+			UPDATE PORTLET_SERVICE
+			SET SERVICE_ID=#serviceId#,SERVICE_NAME=#serviceName#, SERVICE_DATA = #serviceData#
+			WHERE 1=1 
+				AND SERVICE_ID=#serviceId#
+		]]>
+	</update>
+	
+	<delete id="portletService.delete">
+		/* portletService.delete */
+		<![CDATA[
+			DELETE FROM PORTLET_SERVICE
+			WHERE 1=1 
+				AND SERVICE_ID=#serviceId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

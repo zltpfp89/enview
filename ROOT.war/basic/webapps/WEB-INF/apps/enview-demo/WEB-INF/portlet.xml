@@ -1,0 +1,1507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app id="enview-demo"
+  xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+  version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+    <portlet id="enview-demoDepartmentBbs">
+        <portlet-name>DepartmentBbs</portlet-name>
+        <description xml:lang="en">Department BBS</description>
+        <description xml:lang="ko">부서 게시판</description>
+        <display-name xml:lang="en">Department BBS</display-name>
+        <display-name xml:lang="ko">부서 게시판</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>board.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>DepartmentBbs</title>
+            <short-title>DepartmentBbs</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>부서게시판</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/department_bbs.html</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+            <preference>
+                <name>ID</name>
+                <value>ditDepartmentBbs</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoMorgue">
+        <portlet-name>Morgue</portlet-name>
+        <description xml:lang="en">Morgue</description>
+        <description xml:lang="ko">자료실</description>
+        <display-name xml:lang="en">Morgue</display-name>
+        <display-name xml:lang="ko">자료실</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>data.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>Morgue</title>
+            <short-title>Morgue</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>자료실</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/morgue.html</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+            <preference>
+                <name>ID</name>
+                <value>ditMorgue</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoContentViewer">
+        <portlet-name>ContentViewer</portlet-name>
+        <description xml:lang="ko">파일 시스템상의 HTML, PDF 또는 다른 포멧의 파일들을 보여주기 위한 포틀릿</description>
+        <display-name xml:lang="en">Content Viewer</display-name>
+        <display-name xml:lang="ko">컨테츠 뷰어</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.FilePortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>folder-remote.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>-1</expiration-cache>
+        <supports>
+            <mime-type>text/csv</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>ContentViewer</title>
+            <short-title>ContentViewer</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>file</name>
+                <value>/_content/menu.html</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoTestPortlet">
+        <portlet-name>TestPortlet</portlet-name>
+        <description xml:lang="ko">테스트포틀릿</description>
+        <display-name xml:lang="ko">테스트포틀릿</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.DynamicContentPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>start-here.png</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>ViewPage</name>
+        	<value>http://www.naver.com</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>TestPortlet</title>
+            <short-title>TestPortlet</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>SRC</name>
+                <value>/static/news.html</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>100%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>100%</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoDemoSearch">
+        <portlet-name>DemoSearch</portlet-name>
+        <description xml:lang="en">DemoSearch</description>
+        <description xml:lang="ko">검색데모</description>
+        <display-name xml:lang="en">DemoSearch</display-name>
+        <display-name xml:lang="ko">검색데모</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>board.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>DemoSearch</title>
+            <short-title>DemoSearch</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>검색데모</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/info01.jsp</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoDITPoll">
+        <portlet-name>DITPoll</portlet-name>
+        <description xml:lang="en">DIT Poll</description>
+        <description xml:lang="ko">동의대 설문조사</description>
+        <display-name xml:lang="en">DIT Poll</display-name>
+        <display-name xml:lang="ko">동의대 설문조사</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>poll.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>DITPoll</title>
+            <short-title>DITPoll</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>동의대 설문조사</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>http://gwdev.dit.ac.kr/app/survey.nsf/nds_for_portal?OpenForm</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+            <preference>
+                <name>ID</name>
+                <value>ditPoll</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoRSS">
+        <portlet-name>RSS</portlet-name>
+        <description xml:lang="ko">네이버 뉴스를 RSS포맷으로 볼수 있도록 하여 주는 포틀릿.</description>
+        <display-name xml:lang="en">RSS Portlet</display-name>
+        <display-name xml:lang="ko">네이버 RSS 포틀릿</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.rss.RSSPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>HelpPage</name>
+        	<value>/WEB-INF/view/rss/rss-help.html</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>EditPage</name>
+        	<value>/WEB-INF/view/rss/edit-prefs.vm</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>stylesheet</name>
+        	<value>/WEB-INF/xsl/rss.xsl</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>stylesheet.text/html</name>
+        	<value>/WEB-INF/xsl/rss.xsl</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>stylesheet.text/vnd.wap.wml</name>
+        	<value>/WEB-INF/xsl/rss-wml.xsl</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>internet-news-reader.png</value>
+        </init-param>
+        <resource-bundle>com.saltware.enview.portlet.common.rss.resources.RssResources</resource-bundle>
+        <expiration-cache>1200</expiration-cache>
+        <supports>
+            <mime-type>text/vnd.wap.wml</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>RSS</title>
+            <short-title>RSS</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>showtextinput</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>showtitle</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>minrefresh</name>
+                <value>900</value>
+            </preference>
+            <preference>
+                <name>TITLE</name>
+                <value>네이버 RSS포틀릿</value>
+            </preference>
+            <preference>
+                <name>showdescription</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>itemdisplayed</name>
+                <value>15</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>http://newssearch.naver.com/search.naver?where=rss&amp;eq=nhn&amp;hw=1&amp;query=nhn</value>
+            </preference>
+            <preference>
+                <name>openinpopup</name>
+                <value>true</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoNewInformation">
+        <portlet-name>NewInformation</portlet-name>
+        <description xml:lang="en">New Information</description>
+        <description xml:lang="ko">새소식</description>
+        <display-name xml:lang="ko">새소식</display-name>
+        <display-name xml:lang="en">New Information</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>new_board.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>NewInformation</title>
+            <short-title>NewInformation</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>새소식</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/new_inform.html</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+            <preference>
+                <name>ID</name>
+                <value>ditNewInformation</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoDemoNews">
+        <portlet-name>DemoNews</portlet-name>
+        <description xml:lang="en">공지사항 데모</description>
+        <description xml:lang="ko">Hot Online</description>
+        <display-name xml:lang="en">공지사항 데모</display-name>
+        <display-name xml:lang="ko">Hot Online</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>board.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>DemoNews</title>
+            <short-title>DemoNews</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>공지사항 데모</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/info03.jsp</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoWebContentPortlet">
+        <portlet-name>WebContentPortlet</portlet-name>
+        <description xml:lang="ko">프레임을 사용하지 않고 다른 웹사이트의 컨텐츠를 삽입할 수 있는 포틀릿</description>
+        <display-name xml:lang="en">WebContent Portlet</display-name>
+        <display-name xml:lang="ko">웹스크랩핑 포틀릿</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.webcontent.WebContentPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>EditPage</name>
+        	<value>/WEB-INF/view/edit-wcprefs.vm</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>preferences-system-network-proxy.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>-1</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>WebContentPortlet</title>
+            <short-title>WebContentPortlet</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>SRC</name>
+                <value>http://www.google.com</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoCafeList">
+        <portlet-name>CafeList</portlet-name>
+        <description xml:lang="en">CafeList</description>
+        <description xml:lang="ko">카페목록 데모</description>
+        <display-name xml:lang="en">CafeList</display-name>
+        <display-name xml:lang="ko">카페목록 데모</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>board.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>CafeList</title>
+            <short-title>CafeList</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>카페목록 데모</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/info07.jsp</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoGoogleMapsPortlet">
+        <portlet-name>GoogleMapsPortlet</portlet-name>
+        <description xml:lang="ko">구글의 지도 프로그램을 이용하여 현재 지정한 위치를 보여준다.</description>
+        <display-name xml:lang="en">Google Maps Portlet</display-name>
+        <display-name xml:lang="ko">구글지도</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.GoogleMapsPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>ViewPage</name>
+        	<value>/WEB-INF/view/googlemaps/GoogleMaps.vm</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>EditPage</name>
+        	<value>/WEB-INF/view/googlemaps/EditGoogleMaps.vm</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>gmap.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>-1</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>GoogleMapsPortlet</title>
+            <short-title>GoogleMapsPortlet</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>MapHeight</name>
+                <value>400px</value>
+            </preference>
+            <preference>
+                <name>APIKey</name>
+                <value>ABQIAAAAisHr-hr7f_yfo_m3teTC5RQXGaCFRGWXJQavRKQcb1Ew_fwkKRQ26QnpXVIkxSMwwTECWDV23ZDaLQ</value>
+            </preference>
+            <preference>
+                <name>Location</name>
+                <value>Seoul</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoDemoAlbum">
+        <portlet-name>DemoAlbum</portlet-name>
+        <description xml:lang="en">DemoAlbum</description>
+        <description xml:lang="ko">앨범데모</description>
+        <display-name xml:lang="en">DemoAlbum</display-name>
+        <display-name xml:lang="ko">앨범데모</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>board.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>DemoAlbum</title>
+            <short-title>DemoAlbum</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>앨범데모</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/info08.jsp</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoPopularSearch">
+        <portlet-name>PopularSearch</portlet-name>
+        <description xml:lang="en">Popular Search</description>
+        <description xml:lang="ko">인기 검색어</description>
+        <display-name xml:lang="en">Popular Search</display-name>
+        <display-name xml:lang="ko">인기 검색어</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>hit_search.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>PopularSearch</title>
+            <short-title>PopularSearch</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>인기검색어</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/popular_search.html</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+            <preference>
+                <name>ID</name>
+                <value>ditPopularSearch</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoDitNews">
+        <portlet-name>DitNews</portlet-name>
+        <description xml:lang="en">DIT News</description>
+        <description xml:lang="ko">부산 동의과학대 뉴스</description>
+        <display-name xml:lang="en">DIT News</display-name>
+        <display-name xml:lang="ko">동의과학대 뉴스</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>dit_news.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>DitNews</title>
+            <short-title>DitNews</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>부산 동의과학대 뉴스</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>HEIGHT</name>
+                <value>100</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>http://www3.dit.ac.kr:90/homeplus/potal_mini.jsp?menuID=20080306191532573242&amp;rbSort=&amp;isLine=Y&amp;titleCut=33&amp;nextLineColor=ffffff&amp;showCount=5&amp;tableWidth=290&amp;sitePath=korea&amp;isPopup=N&amp;isDate=Y</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+            <preference>
+                <name>ID</name>
+                <value>ditNews</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoPortalQna">
+        <portlet-name>PortalQna</portlet-name>
+        <description xml:lang="en">Portal QNA</description>
+        <description xml:lang="ko">포탈 사용문의</description>
+        <display-name xml:lang="en">Portal QNA</display-name>
+        <display-name xml:lang="ko">포탈 사용문의</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>help.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>PortalQna</title>
+            <short-title>PortalQna</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>포탈 사용문의</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/portal_qna.html</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+            <preference>
+                <name>ID</name>
+                <value>ditPortalQna</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoDitNotice">
+        <portlet-name>DitNotice</portlet-name>
+        <description xml:lang="en">DIT Notice</description>
+        <description xml:lang="ko">부산 동의과학대 공지사항</description>
+        <display-name xml:lang="en">DIT Notice</display-name>
+        <display-name xml:lang="ko">동의과학대 공지사항</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>dit_notice.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>DitNotice</title>
+            <short-title>DitNotice</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>부산 동의과학대 공지사항</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>HEIGHT</name>
+                <value>100</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>http://www3.dit.ac.kr:90/homeplus/potal_mini.jsp?menuID=20080306191841673182&amp;rbSort=&amp;isLine=Y&amp;titleCut=33&amp;nextLineColor=ffffff&amp;showCount=5&amp;tableWidth=290&amp;sitePath=korea&amp;isPopup=N&amp;isDate=Y</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+            <preference>
+                <name>ID</name>
+                <value>ditNotice</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoDemoPoll">
+        <portlet-name>DemoPoll</portlet-name>
+        <description xml:lang="en">DemoPoll</description>
+        <description xml:lang="ko">투표데모</description>
+        <display-name xml:lang="en">DemoPoll</display-name>
+        <display-name xml:lang="ko">투표데모</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>board.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>DemoPoll</title>
+            <short-title>DemoPoll</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>투표데모</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/info05.jsp</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoHelloPortlet">
+        <portlet-name>HelloPortlet</portlet-name>
+        <description xml:lang="ko">핼로우 포틀릿</description>
+        <display-name xml:lang="ko">핼로우</display-name>
+        <display-name xml:lang="en">Hello Portlet</display-name>
+        <portlet-class>com.saltware.enview.portlet.helloworld.MyHelloWorld</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>ViewPage</name>
+        	<value>/WEB-INF/view/hello.jsp</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>EditPage</name>
+        	<value>/WEB-INF/view/helloEdit.jsp</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>HelpPage</name>
+        	<value>/WEB-INF/view/helloHelp.jsp</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>bookmark-new.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>-1</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>HelloPortlet</title>
+            <short-title>HelloPortlet</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoDemoInterest">
+        <portlet-name>DemoInterest</portlet-name>
+        <description xml:lang="en">DemoInterest</description>
+        <description xml:lang="ko">관심사항</description>
+        <display-name xml:lang="en">DemoInterest</display-name>
+        <display-name xml:lang="ko">관심사항</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>board.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>DemoInterest</title>
+            <short-title>DemoInterest</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>관심사항</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/info04.jsp</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoDemoEssay">
+        <portlet-name>DemoEssay</portlet-name>
+        <description xml:lang="en">DemoEssay</description>
+        <description xml:lang="ko">한줄에세이 데모</description>
+        <display-name xml:lang="en">DemoEssay</display-name>
+        <display-name xml:lang="ko">한줄에세이 데모</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>board.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>DemoEssay</title>
+            <short-title>DemoEssay</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>한줄에세이 데모</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/info09.jsp</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoHotOnline">
+        <portlet-name>HotOnline</portlet-name>
+        <description xml:lang="en">HotOnline</description>
+        <description xml:lang="ko">Hot Online</description>
+        <display-name xml:lang="en">HotOnline</display-name>
+        <display-name xml:lang="ko">Hot Online</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>board.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>HotOnline</title>
+            <short-title>HotOnline</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>Hot Online</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/info02.jsp</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoDITSchedule">
+        <portlet-name>DITSchedule</portlet-name>
+        <description xml:lang="en">DIT Schedule</description>
+        <description xml:lang="ko">학사일정</description>
+        <display-name xml:lang="en">DIT Schedule</display-name>
+        <display-name xml:lang="ko">학사일정</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>schedule.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>DITSchedule</title>
+            <short-title>DITSchedule</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>학사일정</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/schedule.html</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+            <preference>
+                <name>ID</name>
+                <value>ditSchedule</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoDemoInfo">
+        <portlet-name>DemoInfo</portlet-name>
+        <description xml:lang="en">DemoInfo</description>
+        <description xml:lang="ko">정보데모</description>
+        <display-name xml:lang="en">DemoInfo</display-name>
+        <display-name xml:lang="ko">정보데모</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>board.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>DemoInfo</title>
+            <short-title>DemoInfo</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>정보데모</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/info06.jsp</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoMutualAidBbs">
+        <portlet-name>MutualAidBbs</portlet-name>
+        <description xml:lang="en">Mutual Aid BBS</description>
+        <description xml:lang="ko">상조회 게시판</description>
+        <display-name xml:lang="en">Mutual Aid BBS</display-name>
+        <display-name xml:lang="ko">상조회 게시판</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.IFrameGenericPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>board.png</value>
+        </init-param>
+        <resource-bundle></resource-bundle>
+        <expiration-cache>0</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>MutualAidBbs</title>
+            <short-title>MutualAidBbs</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>TITLE</name>
+                <value>상조회 게시판</value>
+            </preference>
+            <preference>
+                <name>AUTO-RESIZE</name>
+                <value>true</value>
+            </preference>
+            <preference>
+                <name>SRC</name>
+                <value>/enview/demo/static/mutual_aid_bbs.html</value>
+            </preference>
+            <preference>
+                <name>MAX-WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>WIDTH</name>
+                <value>99%</value>
+            </preference>
+            <preference>
+                <name>SCROLLING</name>
+                <value>no</value>
+            </preference>
+            <preference>
+                <name>ID</name>
+                <value>ditMutualAidBbs</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+
+    <portlet id="enview-demoBookmarkPortlet">
+        <portlet-name>BookmarkPortlet</portlet-name>
+        <description xml:lang="ko">즐겨찾기를 할 수 있는 포틀릿</description>
+        <display-name xml:lang="en">Bookmark Portlet</display-name>
+        <display-name xml:lang="ko">즐겨찾기</display-name>
+        <portlet-class>com.saltware.enview.portlet.common.desktop.BookmarkPortlet</portlet-class>
+        <init-param>
+        	<description></description>
+        	<name>ViewPage</name>
+        	<value>/WEB-INF/view/bookmark-view.jsp</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>EditPage</name>
+        	<value>/WEB-INF/view/bookmark-edit.jsp</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>HelpPage</name>
+        	<value>/WEB-INF/view/bookmark-help.jsp</value>
+        </init-param>
+        <init-param>
+        	<description></description>
+        	<name>portlet-icon</name>
+        	<value>bookmark-new.png</value>
+        </init-param>
+        <resource-bundle>com.saltware.enview.portlet.common.desktop.resources.Bookmark</resource-bundle>
+        <expiration-cache>-1</expiration-cache>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>help</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>BookmarkPortlet</title>
+            <short-title>BookmarkPortlet</short-title>
+			<keywords>demo</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>Bluesunrise Site</name>
+                <value>http://www.bluesunrise.com/</value>
+            </preference>
+            <preference>
+                <name>Enview-2 Site</name>
+                <value>http://portals.apache.org/enview-2/</value>
+            </preference>
+            <preference>
+                <name>Apache Home</name>
+                <value>http://www.apache.org/</value>
+            </preference>
+        </portlet-preferences>
+    </portlet>
+	<portlet id="enview-demoPickANumberPortlet">
+		<description>This portlet runs the popular 'Pick A Number' guessing game. The goal is to guess, in the least number of guesses, a number between [1..{Range}]</description>
+		<description xml:lang="ko">숫자 예측게임 포틀릿</description>
+		<portlet-name>PickANumberPortlet</portlet-name>
+		<display-name xml:lang="en">Pick a number game</display-name>
+        <display-name xml:lang="ko">숫자 예측게임</display-name>
+		<portlet-class>com.saltware.demo.portlet.simple.PickANumberPortlet</portlet-class>
+		<init-param>
+		  <name>ViewPage</name>
+		  <value>/WEB-INF/apps/enview-demo/WEB-INF/view/simple/PickANumber.jsp</value>
+		</init-param>
+		<init-param>
+		  <name>HelpPage</name>
+		  <value>/WEB-INF/apps/enview-demo/WEB-INF/demo/simple/PickANumberHelp.jsp</value>
+		</init-param>
+		<init-param>
+		  <name>EditPage</name>
+		  <value>/WEB-INF/apps/enview-demo/WEB-INF/demo/simple/PickANumberEdit.jsp</value>
+		</init-param>
+		<init-param>
+		  <name>portlet-icon</name>
+		  <value>applications-games.png</value>
+		</init-param>
+		<expiration-cache>-1</expiration-cache>
+		<supports>
+		  <mime-type>text/html</mime-type>
+		  <portlet-mode>VIEW</portlet-mode>
+		  <portlet-mode>HELP</portlet-mode>
+		  <portlet-mode>EDIT</portlet-mode>
+		  <!--  support custom about mode -->
+		  <portlet-mode>about</portlet-mode>
+		  <!--  support custom edit_defaults mode -->
+		  <portlet-mode>edit_defaults</portlet-mode>
+		  <!--  support custom preview mode -->
+		  <portlet-mode>preview</portlet-mode>
+		  <!--  support custom print mode -->
+		  <portlet-mode>print</portlet-mode>
+		</supports>
+		<supported-locale>en</supported-locale>
+		<supported-locale>ko</supported-locale>
+        <portlet-info>
+            <title>Pick a Number</title>
+            <short-title>Pick a Number</short-title>
+			<keywords>demo,game</keywords>
+        </portlet-info>
+		<resource-bundle>com.saltware.demo.portlet.simple.resources.PickANumberResources</resource-bundle>
+		<portlet-preferences>
+		  <preference>
+			<name>TopRange</name>
+			<value>100</value>
+		  </preference>
+		</portlet-preferences>
+	</portlet>
+
+</portlet-app>

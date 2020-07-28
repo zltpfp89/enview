@@ -1,0 +1,222 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ CODEBASE : 코드관리 ] Table -->
+	<resultMap id="admin_CodebaseVO_PK" class="com.saltware.enview.admin.codebase.service.CodebasePK">
+	
+		<result property="systemCode" column="SYSTEM_CODE" columnIndex="1"/>	
+		<result property="codeId" column="CODE_ID" columnIndex="2"/>	
+		<result property="code" column="CODE" columnIndex="3"/>	
+		<result property="langKnd" column="LANG_KND" columnIndex="4"/>	
+		<result property="domainId" column="DOMAIN_ID" columnIndex="5"/>	
+	</resultMap>
+	
+	<resultMap id="admin_Codebase" class="com.saltware.enview.codebase.impl.CodebaseImpl">
+		<result property="siteId" column="SYSTEM_CODE" columnIndex="1"/>	 
+		<result property="codeId" column="CODE_ID" columnIndex="2"/>	 
+		<result property="code" column="CODE" columnIndex="3"/>	 
+		<result property="langKnd" column="LANG_KND" columnIndex="4"/>	 
+		<result property="codeName" column="CODE_NAME" columnIndex="5"/>	 
+		<result property="codeName2" column="CODE_NAME2" columnIndex="6"/>	 
+		<result property="codeTag" column="CODE_TAG1" columnIndex="7"/>	 
+		<result property="codeTag2" column="CODE_TAG2" columnIndex="8"/>	 
+		<result property="remark" column="REMARK" columnIndex="9"/>	
+		<result property="domainId" column="DOMAIN_ID" columnIndex="10"/>	 
+	</resultMap>
+	
+	<resultMap id="admin_CodebaseVO" class="com.saltware.enview.admin.codebase.service.CodebaseVO">
+		<result property="systemCode" column="SYSTEM_CODE" columnIndex="1"/>	 
+		<result property="codeId" column="CODE_ID" columnIndex="2"/>	 
+		<result property="code" column="CODE" columnIndex="3"/>	 
+		<result property="langKnd" column="LANG_KND" columnIndex="4"/>	 
+		<result property="codeName" column="CODE_NAME" columnIndex="5"/>	 
+		<result property="codeName2" column="CODE_NAME2" columnIndex="6"/>	 
+		<result property="codeTag1" column="CODE_TAG1" columnIndex="7"/>	 
+		<result property="codeTag2" column="CODE_TAG2" columnIndex="8"/>	 
+		<result property="remark" column="REMARK" columnIndex="9"/>	
+		<result property="domainId" column="DOMAIN_ID" columnIndex="10"/>	 
+	</resultMap>
+	
+	<select id="codebase.totalCount" resultClass="int">
+	/*	codebase.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM CODEBASE
+		WHERE 1=1 AND CODE='0000000000' AND LANG_KND=#langKnd#	
+			<isNotNull  prepend=" AND " property="codeIdCond">CODE_ID LIKE '%'|| #codeIdCond# ||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="codeNameCond">CODE_NAME LIKE '%'|| #codeNameCond# ||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="domainIdCond">DOMAIN_ID=#domainIdCond#</isNotNull>
+	</select>
+	
+	<select id="codebase.exist" resultClass="int">
+	/*	codebase.exist */
+		SELECT COUNT(*) cnt
+		FROM CODEBASE
+		WHERE SYSTEM_CODE=#systemCode#
+		AND CODE_ID=#codeId#
+		AND CODE=#code#
+		AND LANG_KND=#langKnd#
+		AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+	</select>
+	
+	<select id="codebase.findByPage" resultMap="admin_CodebaseVO_PK">
+	/* codebase.findByPage */
+		SELECT * FROM (
+			SELECT SYSTEM_CODE,CODE_ID,CODE,LANG_KND, DOMAIN_ID,ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY CODE_ID ASC</isNull>	
+			) as rnum
+			FROM CODEBASE
+			WHERE 1=1 AND CODE='0000000000' AND LANG_KND=#langKnd#
+			<isNotNull  prepend=" AND " property="codeIdCond">CODE_ID LIKE '%'|| #codeIdCond# ||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="codeNameCond">CODE_NAME LIKE '%'|| #codeNameCond# ||'%'</isNotNull>
+			<isNotNull  prepend=" AND " property="domainIdCond">DOMAIN_ID = #domainIdCond# </isNotNull>
+		) tb1 WHERE tb1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="codebase.getAllCodes" resultMap="admin_Codebase">
+		/* codebase.getAllCodes */
+			SELECT SYSTEM_CODE,CODE_ID,CODE,LANG_KND,CODE_NAME,CODE_NAME2,CODE_TAG1,CODE_TAG2,REMARK,DOMAIN_ID
+			FROM CODEBASE
+	</select>
+
+	<select id="codebase.getSubcodes" resultMap="admin_Codebase">
+		/* codebase.getSubcodes */
+		<![CDATA[
+		SELECT SYSTEM_CODE,CODE_ID,CODE,LANG_KND,CODE_NAME,CODE_NAME2,CODE_TAG1,CODE_TAG2,REMARK,DOMAIN_ID
+		FROM CODEBASE
+		WHERE 1=1 
+			AND SYSTEM_CODE=#systemCode#
+			AND CODE_ID=#codeId#
+			AND LANG_KND=#langKnd#
+			AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+			AND CODE <> '0000000000'
+		ORDER BY CODE ASC
+		]]>
+	</select>
+	
+	<select id="codebase.findLang" resultMap="admin_CodebaseVO">
+		/* codebase.findLang */
+		SELECT SYSTEM_CODE,CODE_ID,CODE,LANG_KND,CODE_NAME,CODE_NAME2,CODE_TAG1,CODE_TAG2,REMARK,DOMAIN_ID
+		FROM CODEBASE
+		WHERE 1=1 
+			AND SYSTEM_CODE=#systemCode#
+			AND CODE_ID=#codeId#
+			AND CODE='0000000000'
+			AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+		<isNotNull prepend=" ORDER BY " property="sortColumn">$sortColumn$ $sortMethod$</isNotNull>
+		<isNull prepend=" ORDER BY " property="sortColumn">LANG_KND ASC</isNull>
+	</select>
+		
+	<select id="codebase.subcodesTotalCount" resultClass="int">
+		/*	codebase.subcodesTotalCount */
+		<![CDATA[
+			SELECT COUNT(*) totcnt
+			FROM CODEBASE
+			WHERE 1=1 
+			AND SYSTEM_CODE=#systemCode#
+			AND CODE_ID=#codeId#
+			AND LANG_KND=#langKnd#
+			AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+			AND CODE <> '0000000000'
+		]]>
+	</select>
+		
+	<select id="codebase.findSubcodes" resultMap="admin_CodebaseVO">
+		/* codebase.findSubcodes */
+		SELECT * 
+		FROM (		
+			SELECT SYSTEM_CODE,CODE_ID,CODE,LANG_KND,CODE_NAME,CODE_NAME2,CODE_TAG1,CODE_TAG2,REMARK,DOMAIN_ID,ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY CODE ASC</isNull>	
+			) as rnum
+			FROM CODEBASE
+			WHERE 1=1 
+				AND SYSTEM_CODE=#systemCode#
+				AND CODE_ID=#codeId#
+				AND LANG_KND=#langKnd#
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+				<![CDATA[
+				AND CODE <> '0000000000'
+				]]>
+		    ) tb1 
+		where tb1.rnum between #startRow# AND #endRow#			
+	</select>
+
+	<select id="codebase.detail" resultMap="admin_CodebaseVO">
+		/* codebase.detail */
+		<![CDATA[
+			SELECT SYSTEM_CODE,CODE_ID,CODE,LANG_KND,CODE_NAME,CODE_NAME2,CODE_TAG1,CODE_TAG2,REMARK,DOMAIN_ID
+			FROM CODEBASE
+			WHERE 1=1 
+				AND SYSTEM_CODE=#systemCode#
+				AND CODE_ID=#codeId#
+				AND CODE=#code#
+				AND LANG_KND=#langKnd#
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+		]]>
+	</select>
+	
+	<insert id="codebase.insert">
+		/* codebase.insert */
+		<![CDATA[
+			INSERT INTO CODEBASE
+				( SYSTEM_CODE,CODE_ID,CODE,LANG_KND,CODE_NAME,CODE_NAME2,CODE_TAG1,CODE_TAG2,REMARK,DOMAIN_ID )
+			VALUES ( #systemCode:VARCHAR#,#codeId:VARCHAR#,#code:VARCHAR#,#langKnd:VARCHAR#,#codeName:VARCHAR#,#codeName2:VARCHAR#,#codeTag1:VARCHAR#,#codeTag2:VARCHAR#,#remark:VARCHAR#,CAST(#domainId# AS INTEGER) )
+		]]>
+	</insert>
+	
+	<update id="codebase.update">
+		/* codebase.update */
+		<![CDATA[
+		    UPDATE CODEBASE
+			SET SYSTEM_CODE=#systemCode:VARCHAR#,CODE_ID=#codeId:VARCHAR#,CODE=#code:VARCHAR#,LANG_KND=#langKnd:VARCHAR#,CODE_NAME=#codeName:VARCHAR#,CODE_NAME2=#codeName2:VARCHAR#,CODE_TAG1=#codeTag1:VARCHAR#,CODE_TAG2=#codeTag2:VARCHAR#,REMARK=#remark:VARCHAR#,DOMAIN_ID=CAST(#domainId# AS INTEGER)
+			WHERE 1=1 
+				AND SYSTEM_CODE=#systemCode:VARCHAR#
+				AND CODE_ID=#codeId:VARCHAR#
+				AND CODE=#code:VARCHAR#
+				AND LANG_KND=#langKnd:VARCHAR#
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+		]]>
+	</update>
+	
+	<delete id="codebase.delete">
+		/* codebase.delete */
+		<![CDATA[
+			DELETE FROM CODEBASE
+			WHERE 1=1 
+				AND SYSTEM_CODE=#systemCode#
+				AND CODE_ID=#codeId#
+				AND CODE=#code#
+				AND LANG_KND=#langKnd#
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+		]]>
+	</delete>
+	
+	<delete id="codebase.deleteMaster">
+		/* codebase.deleteMaster */
+		<![CDATA[
+			DELETE FROM CODEBASE
+			WHERE 1=1 
+				AND SYSTEM_CODE=#systemCode#
+				AND CODE_ID=#codeId#
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+		]]>
+	</delete>
+	
+	<delete id="codebase.deleteLanguage">
+		/* codebase.deleteLanguage */
+		<![CDATA[
+			DELETE FROM CODEBASE
+			WHERE 1=1 
+				AND SYSTEM_CODE=#systemCode#
+				AND CODE_ID=#codeId#
+				AND LANG_KND=#langKnd#
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+		]]>
+	</delete>
+
+</sqlMap>
+

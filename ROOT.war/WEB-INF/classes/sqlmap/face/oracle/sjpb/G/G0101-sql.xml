@@ -1,0 +1,414 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="face">
+	<!-- Query for [ SJPB_FORS_INVE_REQ_BK : 포렌식조사의뢰대장 ] Table -->
+	<resultMap class="com.saltware.enface.sjpb.Z.service.ForsInveReqBkVO" id="G0101VO.selectReqBkList">
+		<result property="forsInveReqSiNum" column="FORS_INVE_REQ_SI_NUM"/>
+		<result property="inveReqBeDt" column="INVE_REQ_BE_DT"/>
+		<result property="inveReqEdDt" column="INVE_REQ_ED_DT"/>
+		<result property="inveFiDt" column="INVE_FI_DT"/>
+		<result property="forsInveReqStatCd" column="FORS_INVE_REQ_STAT_CD"/>
+		<result property="forsInveReqMb" column="FORS_INVE_REQ_MB"/>
+		<result property="respCriOffi" column="RESP_CRI_OFFI"/>
+		<result property="dtaCollArea" column="DTA_COLL_AREA"/>
+		<result property="incNum" column="INC_NUM"/>
+		<result property="reqComn" column="REQ_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="criTmNm" column="CRI_TM_NM"/>
+		
+		<result property="inDate" column="IN_DATE"/>
+		<result property="dateDay" column="DATE_DAY"/>
+		<result property="dateDayNm" column="DATE_DAY_NM"/>
+	</resultMap>
+	
+	<!-- 포렌식지원요청 리스트 -->
+	<select id="G0101.selectReqBkList" resultMap="G0101VO.selectReqBkList"> /* G0101.selectReqBkList */
+		SELECT
+		    A.IN_DATE
+		    ,A.DATE_DAY
+		    ,A.DATE_DAY_NM
+		    ,B.FORS_INVE_REQ_SI_NUM
+		    ,B.INVE_REQ_BE_DT
+		    ,B.INVE_REQ_ED_DT
+		    ,B.INVE_FI_DT
+		    ,B.FORS_INVE_REQ_STAT_CD
+		    ,B.FORS_INVE_REQ_MB
+		    ,B.RESP_CRI_OFFI
+		    ,B.DTA_COLL_AREA
+		    ,B.INC_NUM
+		    ,B.REQ_COMN
+		    ,B.REG_USER_ID
+		    ,B.REG_DATE
+		    ,B.UPD_USER_ID
+		    ,B.UPD_DATE
+		    ,C.NM_KOR
+    		,D.CRI_TM_NM
+		FROM ( SELECT TO_CHAR(TO_DATE(#sDateSc#, 'YYYY-MM-DD') + LEVEL - 1, 'YYYY-MM-DD') AS IN_DATE
+				, TO_CHAR(TO_DATE(#sDateSc#, 'YYYY-MM-DD') + LEVEL - 1, 'DD') AS DATE_DAY
+				, TO_CHAR(TO_DATE(#sDateSc#, 'YYYY-MM-DD') + LEVEL - 1, 'dy') AS DATE_DAY_NM
+		        FROM   DUAL CONNECT BY LEVEL &lt;= TO_DATE(#eDateSc#, 'YYYY-MM-DD') - TO_DATE(#sDateSc#, 'YYYY-MM-DD') + 1 ) A
+		LEFT OUTER JOIN SJPB_FORS_INVE_REQ_BK B ON TO_DATE(A.IN_DATE, 'YYYY-MM-DD') &gt;= B.INVE_REQ_BE_DT AND TO_DATE(A.IN_DATE, 'YYYY-MM-DD') &lt;= B.INVE_REQ_ED_DT
+		LEFT OUTER JOIN USERPASS C ON C.USER_ID = B.FORS_INVE_REQ_MB
+		LEFT OUTER JOIN SJPB_CRI_TM D ON D.CRI_TM_ID = C.ORG_CD
+	</select>
+	
+	<!-- 포렌식지원요청 리스트 (중복체크용, LEFT OUTER JOIN을 JOIN으로 변경) -->
+	<select id="G0101.selectReqBkIsDuplicateList" resultMap="G0101VO.selectReqBkList"> /* G0101.selectReqBkIsDuplicateList */
+		SELECT
+		    A.IN_DATE
+		    ,A.DATE_DAY
+		    ,A.DATE_DAY_NM
+		    ,B.FORS_INVE_REQ_SI_NUM
+		    ,B.INVE_REQ_BE_DT
+		    ,B.INVE_REQ_ED_DT
+		    ,B.INVE_FI_DT
+		    ,B.FORS_INVE_REQ_STAT_CD
+		    ,B.FORS_INVE_REQ_MB
+		    ,B.RESP_CRI_OFFI
+		    ,B.DTA_COLL_AREA
+		    ,B.INC_NUM
+		    ,B.REQ_COMN
+		    ,B.REG_USER_ID
+		    ,B.REG_DATE
+		    ,B.UPD_USER_ID
+		    ,B.UPD_DATE
+		    ,C.NM_KOR
+    		,D.CRI_TM_NM
+		FROM ( SELECT TO_CHAR(TO_DATE(#sDateSc#, 'YYYY-MM-DD') + LEVEL - 1, 'YYYY-MM-DD') AS IN_DATE
+				, TO_CHAR(TO_DATE(#sDateSc#, 'YYYY-MM-DD') + LEVEL - 1, 'DD') AS DATE_DAY
+				, TO_CHAR(TO_DATE(#sDateSc#, 'YYYY-MM-DD') + LEVEL - 1, 'dy') AS DATE_DAY_NM
+		        FROM   DUAL CONNECT BY LEVEL &lt;= TO_DATE(#eDateSc#, 'YYYY-MM-DD') - TO_DATE(#sDateSc#, 'YYYY-MM-DD') + 1 ) A
+		JOIN SJPB_FORS_INVE_REQ_BK B ON TO_DATE(A.IN_DATE, 'YYYY-MM-DD') &gt;= B.INVE_REQ_BE_DT AND TO_DATE(A.IN_DATE, 'YYYY-MM-DD') &lt;= B.INVE_REQ_ED_DT
+		LEFT OUTER JOIN USERPASS C ON C.USER_ID = B.FORS_INVE_REQ_MB
+		LEFT OUTER JOIN SJPB_CRI_TM D ON D.CRI_TM_ID = C.ORG_CD
+		<isNotEqual property="forsInveReqSiNum" compareValue="">WHERE B.FORS_INVE_REQ_SI_NUM NOT IN(#forsInveReqSiNum#)</isNotEqual>
+	</select>
+	
+	
+	<!-- Query for [ SJPB_FORS_INVE_OFFI_SCHD : 포렌식조사일정관리 ] Table -->
+	<resultMap class="com.saltware.enface.sjpb.Z.service.ForsInveOffiSchdMngVO" id="G0101VO.selectOffiSchdMngList">
+		<result property="schdMngSiNum" column="SCHD_MNG_SI_NUM"/>
+		<result property="forsCriOffi" column="FORS_CRI_OFFI"/>
+		<result property="schdBeDt" column="SCHD_BE_DT"/>
+		<result property="schdEdDt" column="SCHD_ED_DT"/>
+		<result property="schdStatCd" column="SCHD_STAT_CD"/>
+		<result property="schdRsn" column="SCHD_RSN"/>
+		<result property="schdComn" column="SCHD_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		
+		<result property="nmKor" column="NM_KOR"/>
+		
+		<result property="inDate" column="IN_DATE"/>
+		<result property="dateDay" column="DATE_DAY"/>
+	</resultMap>
+	
+	<!-- 포렌식조사일정관리 리스트 -->
+	<select id="G0101.selectOffiSchdMngList" resultMap="G0101VO.selectOffiSchdMngList"> /* G0101.selectOffiSchdMngList */
+		SELECT 
+		    A.IN_DATE
+		    ,A.DATE_DAY
+		    ,B.SCHD_MNG_SI_NUM
+		    ,B.FORS_CRI_OFFI
+		    ,B.SCHD_BE_DT
+		    ,B.SCHD_ED_DT
+		    ,B.SCHD_STAT_CD
+		    ,B.SCHD_RSN
+		    ,B.SCHD_COMN
+		    ,B.REG_USER_ID
+		    ,B.REG_DATE
+		    ,B.UPD_USER_ID
+		    ,B.UPD_DATE
+		    ,C.NM_KOR
+		FROM ( SELECT TO_CHAR(TO_DATE(#sDateSc#, 'YYYY-MM-DD') + LEVEL - 1, 'YYYY-MM-DD') AS IN_DATE
+				, TO_CHAR(TO_DATE(#sDateSc#, 'YYYY-MM-DD') + LEVEL - 1, 'DD') AS DATE_DAY
+				FROM   DUAL CONNECT BY LEVEL &lt;= TO_DATE(#eDateSc#, 'YYYY-MM-DD') - TO_DATE(#sDateSc#, 'YYYY-MM-DD') + 1 ) A
+		LEFT OUTER JOIN SJPB_FORS_INVE_OFFI_SCHD B ON TO_DATE(A.IN_DATE, 'YYYY-MM-DD') &gt;= B.SCHD_BE_DT AND TO_DATE(A.IN_DATE, 'YYYY-MM-DD') &lt;= B.SCHD_ED_DT
+		LEFT OUTER JOIN USERPASS C ON C.USER_ID = B.FORS_CRI_OFFI
+		ORDER BY IN_DATE ASC, NM_KOR ASC
+	</select>
+	
+	<!-- 포렌식조사일정관리 리스트 (중복체크용, LEFT OUTER JOIN을 JOIN으로 변경) -->
+	<select id="G0101.selectOffiSchdMngIsDuplicateList" resultMap="G0101VO.selectOffiSchdMngList"> /* G0101.selectOffiSchdMngIsDuplicateList */
+		SELECT 
+		    A.IN_DATE
+		    ,A.DATE_DAY
+		    ,B.SCHD_MNG_SI_NUM
+		    ,B.FORS_CRI_OFFI
+		    ,B.SCHD_BE_DT
+		    ,B.SCHD_ED_DT
+		    ,B.SCHD_STAT_CD
+		    ,B.SCHD_RSN
+		    ,B.SCHD_COMN
+		    ,B.REG_USER_ID
+		    ,B.REG_DATE
+		    ,B.UPD_USER_ID
+		    ,B.UPD_DATE
+		    ,C.NM_KOR
+		FROM ( SELECT TO_CHAR(TO_DATE(#sDateSc#, 'YYYY-MM-DD') + LEVEL - 1, 'YYYY-MM-DD') AS IN_DATE
+				, TO_CHAR(TO_DATE(#sDateSc#, 'YYYY-MM-DD') + LEVEL - 1, 'DD') AS DATE_DAY
+				FROM   DUAL CONNECT BY LEVEL &lt;= TO_DATE(#eDateSc#, 'YYYY-MM-DD') - TO_DATE(#sDateSc#, 'YYYY-MM-DD') + 1 ) A
+		JOIN SJPB_FORS_INVE_OFFI_SCHD B ON TO_DATE(A.IN_DATE, 'YYYY-MM-DD') &gt;= B.SCHD_BE_DT AND TO_DATE(A.IN_DATE, 'YYYY-MM-DD') &lt;= B.SCHD_ED_DT
+		LEFT OUTER JOIN USERPASS C ON C.USER_ID = B.FORS_CRI_OFFI
+		WHERE FORS_CRI_OFFI = #forsCriOffi#
+		<isNotEqual property="schdMngSiNum" compareValue="">AND B.SCHD_MNG_SI_NUM NOT IN(#schdMngSiNum#)</isNotEqual>
+	</select>
+
+	<!-- 포렌식조사의뢰대장 추가 -->
+	<insert id="G0101.SJPB_FORS_INVE_REQ_BK.insert"> /* G0101.SJPB_FORS_INVE_REQ_BK.insert */
+		
+		INSERT INTO SJPB_FORS_INVE_REQ_BK
+			(
+				FORS_INVE_REQ_SI_NUM
+				,INVE_REQ_BE_DT
+				,INVE_REQ_ED_DT
+				,INVE_FI_DT
+				,FORS_INVE_REQ_STAT_CD
+				,FORS_INVE_REQ_MB
+				,RESP_CRI_OFFI
+				,DTA_COLL_AREA
+				,INC_NUM
+				,REQ_COMN
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE
+			)
+		VALUES (
+				#forsInveReqSiNum#
+				,TO_DATE(#inveReqBeDt#,'YYYY-MM-DD')
+				,TO_DATE(#inveReqEdDt#,'YYYY-MM-DD')
+				,null
+				,#forsInveReqStatCd#
+				,#forsInveReqMb#
+				,null
+				,#dtaCollArea#
+				,#incNum#
+				,#reqComn#
+				,#regUserId#
+				,TO_DATE(SYSDATE,'YYYY-MM-DD')
+				,#updUserId#
+				,TO_DATE(SYSDATE,'YYYY-MM-DD')
+			)
+	</insert>
+	
+	<!-- 포렌식조사관일정관리 추가 -->
+	<insert id="G0101.SJPB_FORS_INVE_OFFI_SCHD.insert"> /* G0101.SJPB_FORS_INVE_OFFI_SCHD.insert */
+		INSERT INTO SJPB_FORS_INVE_OFFI_SCHD
+			(
+				SCHD_MNG_SI_NUM
+				,FORS_CRI_OFFI
+				,SCHD_BE_DT
+				,SCHD_ED_DT
+				,SCHD_STAT_CD
+				,SCHD_RSN
+				,SCHD_COMN
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE
+			)
+		VALUES (
+				#schdMngSiNum#
+				,#forsCriOffi#
+				,TO_DATE(#schdBeDt#,'YYYY-MM-DD')
+				,TO_DATE(#schdEdDt#,'YYYY-MM-DD')
+				,#schdStatCd#
+				,#schdRsn#
+				,#schdComn#
+				,#regUserId#
+				,TO_DATE(SYSDATE,'YYYY-MM-DD')
+				,#updUserId#
+				,TO_DATE(SYSDATE,'YYYY-MM-DD')
+			)
+	</insert>
+	
+	<!-- Query for [ SJPB_FORS_INVE_REQ_BK : 포렌식조사의뢰대장 상세 ] Table -->
+	<resultMap class="com.saltware.enface.sjpb.G.service.G0101VO" id="G0101VO.selectReqBk">
+		<result property="forsInveReqSiNum" column="FORS_INVE_REQ_SI_NUM"/>
+		<result property="inveReqBeDt" column="INVE_REQ_BE_DT"/>
+		<result property="inveReqEdDt" column="INVE_REQ_ED_DT"/>
+		<result property="inveFiDt" column="INVE_FI_DT"/>
+		<result property="forsInveReqStatCd" column="FORS_INVE_REQ_STAT_CD"/>
+		<result property="forsInveReqMb" column="FORS_INVE_REQ_MB"/>
+		<result property="respCriOffi" column="RESP_CRI_OFFI"/>
+		<result property="dtaCollArea" column="DTA_COLL_AREA"/>
+		<result property="incNum" column="INC_NUM"/>
+		<result property="reqComn" column="REQ_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+	
+	<!-- 포렌식지원요청 상세조회 (pk 일련번호)-->
+	<select id="G0101.selectReqBk" resultMap="G0101VO.selectReqBk"> /* G0101.selectReqBk */
+		SELECT
+		    A.FORS_INVE_REQ_SI_NUM
+		    ,TO_CHAR(A.INVE_REQ_BE_DT,'YYYY-MM-DD') AS  INVE_REQ_BE_DT             
+			,TO_CHAR(A.INVE_REQ_ED_DT,'YYYY-MM-DD') AS  INVE_REQ_ED_DT         
+		    ,TO_CHAR(A.INVE_FI_DT,'YYYY-MM-DD') AS  INVE_FI_DT        
+		    ,A.FORS_INVE_REQ_STAT_CD
+		    ,A.FORS_INVE_REQ_MB
+		    ,A.RESP_CRI_OFFI
+		    ,A.DTA_COLL_AREA
+		    ,A.INC_NUM
+		    ,A.REQ_COMN
+		    ,A.REG_USER_ID
+		    ,A.REG_DATE
+		    ,A.UPD_USER_ID
+		    ,A.UPD_DATE
+		    ,B.NM_KOR
+		FROM SJPB_FORS_INVE_REQ_BK A
+		LEFT OUTER JOIN USERPASS B ON B.USER_ID = A.FORS_INVE_REQ_MB
+		WHERE A.FORS_INVE_REQ_SI_NUM = #forsInveReqSiNum#
+	</select>
+	
+	<!-- 포렌식지원요청 상세조회 (date)-->
+	<select id="G0101.selectDateReqBk" resultMap="G0101VO.selectReqBk"> /* G0101.selectDateReqBk */
+		SELECT
+		    B.FORS_INVE_REQ_SI_NUM
+		    ,TO_CHAR(B.INVE_REQ_BE_DT,'YYYY-MM-DD') AS  INVE_REQ_BE_DT             
+			,TO_CHAR(B.INVE_REQ_ED_DT,'YYYY-MM-DD') AS  INVE_REQ_ED_DT      
+		    ,TO_CHAR(B.INVE_FI_DT,'YYYY-MM-DD') AS  INVE_FI_DT        
+		    ,B.FORS_INVE_REQ_STAT_CD
+		    ,B.FORS_INVE_REQ_MB
+		    ,B.RESP_CRI_OFFI
+		    ,B.DTA_COLL_AREA
+		    ,B.INC_NUM
+		    ,B.REQ_COMN
+		    ,B.REG_USER_ID
+		    ,B.REG_DATE
+		    ,B.UPD_USER_ID
+		    ,B.UPD_DATE
+		    ,C.NM_KOR
+		FROM ( SELECT TO_CHAR(TO_DATE(#dateSc#, 'YYYY-MM-DD') + LEVEL - 1, 'YYYY-MM-DD') AS IN_DATE
+		        FROM   DUAL CONNECT BY LEVEL &lt;= TO_DATE(#dateSc#, 'YYYY-MM-DD') - TO_DATE(#dateSc#, 'YYYY-MM-DD') + 1 ) A
+		LEFT OUTER JOIN SJPB_FORS_INVE_REQ_BK B ON TO_DATE(A.IN_DATE, 'YYYY-MM-DD') &gt;= B.INVE_REQ_BE_DT AND TO_DATE(A.IN_DATE, 'YYYY-MM-DD') &lt;= B.INVE_REQ_ED_DT
+		LEFT OUTER JOIN USERPASS C ON C.USER_ID = B.FORS_INVE_REQ_MB
+	</select>
+
+	<!--  포렌식조사의뢰대장 삭제 -->
+	<delete id="G0101.SJPB_FORS_INVE_REQ_BK.delete">  /* G0101.SJPB_FORS_INVE_REQ_BK.delete */
+		<![CDATA[	
+			DELETE FROM SJPB_FORS_INVE_REQ_BK WHERE FORS_INVE_REQ_SI_NUM=#forsInveReqSiNum#
+		]]>
+	</delete>
+	
+	<!--  포렌식조사관일정관리 삭제 -->
+	<delete id="G0101.SJPB_FORS_INVE_OFFI_SCHD.delete">  /* G0101.SJPB_FORS_INVE_OFFI_SCHD.delete */
+		<![CDATA[	
+			DELETE FROM SJPB_FORS_INVE_OFFI_SCHD WHERE SCHD_MNG_SI_NUM=#schdMngSiNum#
+		]]>
+	</delete>
+	
+	<!-- 포렌식조사의뢰대장 업데이트 -->	 		
+	<update id="G0101.SJPB_FORS_INVE_REQ_BK.update"> /* G0101.SJPB_FORS_INVE_REQ_BK.update */				
+			UPDATE SJPB_FORS_INVE_REQ_BK
+			SET INVE_REQ_BE_DT = TO_DATE(#inveReqBeDt#,'YYYY-MM-DD')
+				,INVE_REQ_ED_DT = TO_DATE(#inveReqEdDt#,'YYYY-MM-DD')
+				,INVE_FI_DT = TO_DATE(#inveFiDt#,'YYYY-MM-DD')
+				,FORS_INVE_REQ_STAT_CD = #forsInveReqStatCd#
+				,FORS_INVE_REQ_MB = #forsInveReqMb#
+				,RESP_CRI_OFFI = #respCriOffi#
+				,DTA_COLL_AREA = #dtaCollArea#
+				,INC_NUM = #incNum#
+				,REQ_COMN = #reqComn#
+				,UPD_USER_ID = #updUserId#
+				,UPD_DATE = TO_DATE(SYSDATE,'YYYY-MM-DD')
+			WHERE FORS_INVE_REQ_SI_NUM = #forsInveReqSiNum#		
+	</update>
+	
+	<!-- 포렌식조사관일정관리 업데이트 -->	 		
+	<update id="G0101.SJPB_FORS_INVE_OFFI_SCHD.update"> /* G0101.SJPB_FORS_INVE_OFFI_SCHD.update */				
+			UPDATE SJPB_FORS_INVE_OFFI_SCHD
+			SET SCHD_BE_DT = TO_DATE(#schdBeDt#,'YYYY-MM-DD')
+				,SCHD_ED_DT = TO_DATE(#schdEdDt#,'YYYY-MM-DD')
+				,SCHD_STAT_CD = #schdStatCd#
+				,SCHD_RSN = #schdRsn#
+				,SCHD_COMN = #schdComn#
+				,UPD_USER_ID = #updUserId#
+				,UPD_DATE = TO_DATE(SYSDATE,'YYYY-MM-DD')
+			WHERE SCHD_MNG_SI_NUM = #schdMngSiNum#	
+	</update>
+	
+	<!-- 포렌식조사의뢰대장 확정 업데이트 -->	 		
+	<update id="G0101.SJPB_FORS_INVE_REQ_BK.fix.update"> /* G0101.SJPB_FORS_INVE_REQ_BK.fix.update */				
+			UPDATE SJPB_FORS_INVE_REQ_BK
+			SET INVE_REQ_BE_DT = TO_DATE(#inveFiDt#, 'YYYY-MM-DD')
+				,INVE_REQ_ED_DT = TO_DATE(#inveFiDt#, 'YYYY-MM-DD')
+				,INVE_FI_DT = TO_DATE(#inveFiDt#, 'YYYY-MM-DD')
+				,FORS_INVE_REQ_STAT_CD = #forsInveReqStatCd#
+				,UPD_USER_ID = #updUserId#
+				,UPD_DATE = TO_DATE(SYSDATE, 'YYYY-MM-DD')
+			WHERE FORS_INVE_REQ_SI_NUM = #forsInveReqSiNum#		
+	</update>
+	
+	<!-- Query for [ SJPB_FORS_INVE_OFFI_SCHD : 포렌식조사관일정관리 상세 ] Table -->
+	<resultMap class="com.saltware.enface.sjpb.Z.service.ForsInveOffiSchdMngVO" id="G0101VO.selectOffiSchdMng">
+		<result property="schdMngSiNum" column="SCHD_MNG_SI_NUM"/>
+		<result property="forsCriOffi" column="FORS_CRI_OFFI"/>
+		<result property="schdBeDt" column="SCHD_BE_DT"/>
+		<result property="schdEdDt" column="SCHD_ED_DT"/>
+		<result property="schdStatCd" column="SCHD_STAT_CD"/>
+		<result property="schdRsn" column="SCHD_RSN"/>
+		<result property="schdComn" column="SCHD_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+	</resultMap>
+	
+	<!-- 포렌식조사관일정관리 상세-->
+	<select id="G0101.selectOffiSchdMng" resultMap="G0101VO.selectOffiSchdMng"> /* G0101.selectOffiSchdMng */
+		SELECT 
+		    B.SCHD_MNG_SI_NUM
+		    ,B.FORS_CRI_OFFI
+		    ,TO_CHAR(B.SCHD_BE_DT,'YYYY-MM-DD') AS  SCHD_BE_DT       
+		    ,TO_CHAR(B.SCHD_ED_DT,'YYYY-MM-DD') AS  SCHD_ED_DT       
+		    ,B.SCHD_STAT_CD
+		    ,B.SCHD_RSN
+		    ,B.SCHD_COMN
+		    ,B.REG_USER_ID
+		    ,B.REG_DATE
+		    ,B.UPD_USER_ID
+		    ,B.UPD_DATE
+		FROM SJPB_FORS_INVE_OFFI_SCHD B
+		WHERE B.SCHD_MNG_SI_NUM = #schdMngSiNum#
+	</select>
+	
+	<!-- 포렌식조사관일정관리 상세 (date)-->
+	<select id="G0101.selectDateOffiSchdMng" resultMap="G0101VO.selectOffiSchdMng"> /* G0101.selectDateOffiSchdMng */
+		SELECT
+			*
+		FROM (
+			SELECT 
+			    B.SCHD_MNG_SI_NUM
+			    ,B.FORS_CRI_OFFI
+			    ,TO_CHAR(B.SCHD_BE_DT,'YYYY-MM-DD') AS  SCHD_BE_DT       
+			    ,TO_CHAR(B.SCHD_ED_DT,'YYYY-MM-DD') AS  SCHD_ED_DT       
+			    ,B.SCHD_STAT_CD
+			    ,B.SCHD_RSN
+			    ,B.SCHD_COMN
+			    ,B.REG_USER_ID
+			    ,B.REG_DATE
+			    ,B.UPD_USER_ID
+			    ,B.UPD_DATE
+			FROM ( SELECT TO_CHAR(TO_DATE(#dateSc#, 'YYYY-MM-DD') + LEVEL - 1, 'YYYY-MM-DD') AS IN_DATE
+					FROM   DUAL CONNECT BY LEVEL &lt;= TO_DATE(#dateSc#, 'YYYY-MM-DD') - TO_DATE(#dateSc#, 'YYYY-MM-DD') + 1 ) A
+			LEFT OUTER JOIN SJPB_FORS_INVE_OFFI_SCHD B ON TO_DATE(A.IN_DATE, 'YYYY-MM-DD') &gt;= B.SCHD_BE_DT AND TO_DATE(A.IN_DATE, 'YYYY-MM-DD') &lt;= B.SCHD_ED_DT
+			WHERE B.FORS_CRI_OFFI = #forsCriOffi#
+		) WHERE ROWNUM = 1
+	</select>
+
+</sqlMap>
+

@@ -1,0 +1,110 @@
+package com.saltware.enface.sjpb.F.service;
+
+import com.saltware.enface.common.BaseVO;
+
+
+/**
+ * 범죄수사자료조회관리대장 VO
+ * 
+ * @author shju
+ * @since 2018.08.16
+ * @version 1.0
+ */
+public class F0101VO extends BaseVO{
+	private String mngBkPublYr;
+	private String mngBkSiNum;
+	private String respIo;
+	private String sp;
+	private String mngBkComn;
+	private String regUserId;
+	private String regDate;
+	private String updUserId;
+	private String updDate;
+	private String startDay;
+	private String endDay;
+	
+	private String criTmNm;
+	
+	private String criMbNm;
+	public String getMngBkPublYr() {
+		return mngBkPublYr;
+	}
+	public void setMngBkPublYr(String mngBkPublYr) {
+		this.mngBkPublYr = mngBkPublYr;
+	}
+	public String getMngBkSiNum() {
+		return mngBkSiNum;
+	}
+	public void setMngBkSiNum(String mngBkSiNum) {
+		this.mngBkSiNum = mngBkSiNum;
+	}
+	public String getRespIo() {
+		return respIo;
+	}
+	public void setRespIo(String respIo) {
+		this.respIo = respIo;
+	}
+	public String getSp() {
+		return sp;
+	}
+	public void setSp(String sp) {
+		this.sp = sp;
+	}
+	public String getMngBkComn() {
+		return mngBkComn;
+	}
+	public void setMngBkComn(String mngBkComn) {
+		this.mngBkComn = mngBkComn;
+	}
+	public String getRegUserId() {
+		return regUserId;
+	}
+	public void setRegUserId(String regUserId) {
+		this.regUserId = regUserId;
+	}
+	public String getRegDate() {
+		return regDate;
+	}
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
+	public String getUpdUserId() {
+		return updUserId;
+	}
+	public void setUpdUserId(String updUserId) {
+		this.updUserId = updUserId;
+	}
+	public String getUpdDate() {
+		return updDate;
+	}
+	public void setUpdDate(String updDate) {
+		this.updDate = updDate;
+	}
+	public String getCriTmNm() {
+		return criTmNm;
+	}
+	public void setCriTmNm(String criTmNm) {
+		this.criTmNm = criTmNm;
+	}
+	public String getCriMbNm() {
+		return criMbNm;
+	}
+	public void setCriMbNm(String criMbNm) {
+		this.criMbNm = criMbNm;
+	}
+	public String getStartDay() {
+		return startDay;
+	}
+	public void setStartDay(String startDay) {
+		this.startDay = startDay;
+	}
+	public String getEndDay() {
+		return endDay;
+	}
+	public void setEndDay(String endDay) {
+		this.endDay = endDay;
+	}
+	
+	
+	
+}

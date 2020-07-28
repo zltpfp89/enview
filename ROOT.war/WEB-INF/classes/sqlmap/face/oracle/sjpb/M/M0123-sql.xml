@@ -1,0 +1,246 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0123VO" id="M0123VO.list">
+		<result property="emgyCmctFactCnfmNum" column="EMGY_CMCT_FACT_CNFM_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="execNum" column="EXEC_NUM"/>
+		<result property="emgyCmctReqTrgt" column="EMGY_CMCT_REQ_TRGT"/>
+		<result property="emgyCmctReqType" column="EMGY_CMCT_REQ_TYPE"/>
+		<result property="emgyCmctReqRnge" column="EMGY_CMCT_REQ_RNGE"/>
+		<result property="execDt" column="EXEC_DT"/>
+		<result property="notcDocSendYn" column="NOTC_DOC_SEND_YN"/>
+		<result property="notcDocSendYnDesc" column="NOTC_DOC_SEND_YN_DESC"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+				
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="nmKor" column="NM_KOR"/>
+		<result property="docNum" column="DOC_NUM"/>
+		<result property="recvNm" column="RECV_NM"/>
+		<result property="reqResn" column="REQ_RESN"/>
+		<result property="subsConn" column="SUBS_CONN"/>
+		<result property="requMatr" column="REQU_MATR"/>
+		<result property="notGetPermResn" column="NOT_GET_PERM_RESN"/>
+	</resultMap>
+ 	<select id="M0123.selectList" resultMap="M0123VO.list">  /* M0123.selectList */
+ 		SELECT 
+ 			A.EMGY_CMCT_FACT_CNFM_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.EXEC_NUM
+			,A.EMGY_CMCT_REQ_TRGT
+			,A.EMGY_CMCT_REQ_TYPE
+			,A.EMGY_CMCT_REQ_RNGE
+			,TO_DATE(A.EXEC_DT, 'YYYY.MM.DD') AS EXEC_DT
+			,A.NOTC_DOC_SEND_YN
+			,DECODE(A.NOTC_DOC_SEND_YN, 'Y', '발송', '미발송') AS NOTC_DOC_SEND_YN_DESC
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+            ,A.DOC_NUM
+			,A.RECV_NM
+			,A.REQ_RESN
+			,A.SUBS_CONN
+			,A.REQU_MATR
+			,A.NOT_GET_PERM_RESN
+ 		FROM SJPB_EMGY_CMCT_FACT_CNFM_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="execNumSc" prepend="AND">
+				A.EXEC_NUM LIKE '%' || #execNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				B.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				C.SP_NM LiKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="emgyCmctReqTrgtSc" prepend="AND">
+				A.EMGY_CMCT_REQ_TRGT LIKE '%' || #emgyCmctReqTrgtSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="emgyCmctReqTypeSc" prepend="AND">
+				A.EMGY_CMCT_REQ_TYPE LIKE '%' || #emgyCmctReqTypeSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="sExecDtSc" prepend="AND">
+				A.EXEC_DT &gt;= TO_DATE(#sExecDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="eExecDtSc" prepend="AND">
+				A.EXEC_DT &lt;= TO_DATE(#eExecDtSc#, 'YYYY-MM-DD')
+			</isNotEmpty>
+			<isNotEmpty property="notcDocSendYnDescSc" prepend="AND">
+				DECODE(A.NOTC_DOC_SEND_YN, 'Y', '발송', '미발송') = #notcDocSendYnDescSc# 
+			</isNotEmpty>
+			<isNotEmpty property="regUserNmSc" prepend="AND">
+				D.NM_KOR LIKE '%' || #regUserNmSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				B.RCPT_NUM = #rcptNumSc# OR B.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+		</dynamic>
+        ORDER BY REG_DATE DESC
+ 	</select>
+ 	
+	<!-- 데이터 조회 (pk 일련번호)-->
+	<select id="M0123.selectData" resultMap="M0123VO.list"> /* M0123.selectData */
+		SELECT 
+ 			A.EMGY_CMCT_FACT_CNFM_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.EXEC_NUM
+			,A.EMGY_CMCT_REQ_TRGT
+			,A.EMGY_CMCT_REQ_TYPE
+			,A.EMGY_CMCT_REQ_RNGE
+			,TO_DATE(A.EXEC_DT, 'YYYY.MM.DD') AS EXEC_DT
+			,A.NOTC_DOC_SEND_YN
+			,DECODE(A.NOTC_DOC_SEND_YN, 'Y', '발송', '미발송') AS NOTC_DOC_SEND_YN_DESC
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+            ,A.DOC_NUM
+			,A.RECV_NM
+			,A.REQ_RESN
+			,A.SUBS_CONN
+			,A.REQU_MATR
+			,A.NOT_GET_PERM_RESN
+ 		FROM SJPB_EMGY_CMCT_FACT_CNFM_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		WHERE A.EMGY_CMCT_FACT_CNFM_NUM = #emgyCmctFactCnfmNum#
+	</select>
+ 	
+ 	<!-- 데이터 추가 -->
+	<insert id="M0123.insertData"> /* M0123.insertData */
+		INSERT INTO SJPB_EMGY_CMCT_FACT_CNFM_DOC
+			(
+				EMGY_CMCT_FACT_CNFM_NUM
+				,RCPT_NUM
+				,INC_SP_NUM
+				,EXEC_NUM
+				,EMGY_CMCT_REQ_TRGT
+				,EMGY_CMCT_REQ_TYPE
+				,EMGY_CMCT_REQ_RNGE
+				,EXEC_DT
+				,NOTC_DOC_SEND_YN
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE
+				,DOC_NUM
+			    ,RECV_NM
+			    ,REQ_RESN
+			    ,SUBS_CONN
+			    ,REQU_MATR
+			    ,NOT_GET_PERM_RESN
+			)
+		VALUES (
+				#emgyCmctFactCnfmNum#
+				,#rcptNum#
+				,#incSpNum#
+				,#execNum#
+				,#emgyCmctReqTrgt#
+				,#emgyCmctReqType#
+				,#emgyCmctReqRnge#
+				,#execDt#
+				,#notcDocSendYn#
+				,#regUserId#
+				,SYSDATE
+				,#updUserId#
+				,SYSDATE
+				,#docNum#
+				,#recvNm#
+				,#reqResn#
+				,#subsConn#
+				,#requMatr#
+				,#notGetPermResn#
+			)
+	</insert>
+	
+	<!-- 데이터 수정 -->	 		
+	<update id="M0123.updateData"> /* M0123.updateData */	
+		UPDATE SJPB_EMGY_CMCT_FACT_CNFM_DOC
+			SET	EXEC_NUM = #execNum#
+				,RCPT_NUM = #rcptNum#
+				,INC_SP_NUM = #incSpNum#
+				,EMGY_CMCT_REQ_TRGT = #emgyCmctReqTrgt#
+				,EMGY_CMCT_REQ_TYPE = #emgyCmctReqType#
+				,EMGY_CMCT_REQ_RNGE = #emgyCmctReqRnge#
+				,EXEC_DT = #execDt#
+				,NOTC_DOC_SEND_YN = #notcDocSendYn#
+				,UPD_USER_ID = #updUserId#
+				,UPD_DATE = SYSDATE
+				,DOC_NUM = #docNum#
+				,RECV_NM = #recvNm#
+				,REQ_RESN = #reqResn#
+				,SUBS_CONN = #subsConn#
+				,REQU_MATR = #requMatr#
+				,NOT_GET_PERM_RESN = #notGetPermResn#
+			WHERE EMGY_CMCT_FACT_CNFM_NUM = #emgyCmctFactCnfmNum#
+	</update>
+ 	<resultMap class="com.saltware.enface.sjpb.M.service.M0123VO" id="M0123VO.listPrn">
+		<result property="emgyCmctFactCnfmNum" column="EMGY_CMCT_FACT_CNFM_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="execNum" column="EXEC_NUM"/>
+		<result property="emgyCmctReqTrgt" column="EMGY_CMCT_REQ_TRGT"/>
+		<result property="emgyCmctReqType" column="EMGY_CMCT_REQ_TYPE"/>
+		<result property="emgyCmctReqRnge" column="EMGY_CMCT_REQ_RNGE"/>
+		<result property="execDt" column="EXEC_DT"/>
+		<result property="notcDocSendYn" column="NOTC_DOC_SEND_YN"/>
+		<result property="notcDocSendYnDesc" column="NOTC_DOC_SEND_YN_DESC"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+				
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+ 	<select id="M0123.SJPB_EMGY_CMCT_FACT_CNFM_DOC.prnCheckReport" resultMap="M0123VO.listPrn">  /* M0123.SJPB_EMGY_CMCT_FACT_CNFM_DOC.prnCheckReport */
+ 		SELECT 
+ 			A.EMGY_CMCT_FACT_CNFM_NUM
+			,A.RCPT_NUM
+			,A.INC_SP_NUM
+			,A.EXEC_NUM
+			,A.EMGY_CMCT_REQ_TRGT
+			,A.EMGY_CMCT_REQ_TYPE
+			,A.EMGY_CMCT_REQ_RNGE
+			,TO_DATE(A.EXEC_DT, 'YYYY.MM.DD') AS EXEC_DT
+			,A.NOTC_DOC_SEND_YN
+			,DECODE(A.NOTC_DOC_SEND_YN, 'Y', '발송', '미발송') AS NOTC_DOC_SEND_YN_DESC
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+ 			,B.RCPT_INC_NUM	
+            ,C.SP_NM AS SP_NM
+            ,D.NM_KOR 
+ 		FROM SJPB_EMGY_CMCT_FACT_CNFM_DOC A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM
+        JOIN SJPB_INC_SP C ON C.INC_SP_NUM = A.INC_SP_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="emgyCmctFactCnfmNumList" prepend="AND">
+				<iterate property="emgyCmctFactCnfmNumList" open="A.EMGY_CMCT_FACT_CNFM_NUM IN(" close=")" conjunction=",">
+					 #emgyCmctFactCnfmNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

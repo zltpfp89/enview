@@ -1,0 +1,131 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ LANG : 용어사전관리 ] Table -->
+	<resultMap id="admin_LangVO_PK" class="com.saltware.enview.admin.lang.service.LangPK">
+		<result property="domainId" column="DOMAIN_ID" columnIndex="1"/>	
+		<result property="langKnd" column="LANG_KND" columnIndex="2"/>	
+		<result property="langCd" column="LANG_CD" columnIndex="3"/>	
+	</resultMap>
+	
+	<resultMap id="admin_LangVO" class="com.saltware.enview.admin.lang.service.LangVO">
+		<result property="domainId" column="DOMAIN_ID" columnIndex="1"/>	
+		<result property="langKnd" column="LANG_KND" columnIndex="2"/>	 
+		<result property="langCd" column="LANG_CD" columnIndex="3"/>	 
+		<result property="langDesc" column="LANG_DESC" columnIndex="4"/>	 
+		<result property="langUpdDate" column="LANG_UPD_DATE" columnIndex="5"/>	 
+		<result property="langUpdId" column="LANG_UPD_ID" columnIndex="6"/>	
+	</resultMap>
+	
+	<select id="lang.totalCount" resultClass="int">
+	/* lang.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM LANG
+		WHERE 1=1 AND LANG_KND=#langKnd#
+		<isNotNull  prepend=" AND " property="domainIdCond">DOMAIN_ID=#domainIdCond#</isNotNull>
+		<isNotNull  prepend=" AND " property="langCdCond">LANG_CD LIKE CONCAT('%',#langCdCond#,'%')</isNotNull>
+		<isNotNull  prepend=" AND " property="langDescCond">LANG_DESC LIKE CONCAT('%',#langDescCond#,'%')</isNotNull>
+	</select>
+	
+	<select id="lang.exist" resultClass="int">
+	/* lang.exists */
+		SELECT COUNT(*) cnt
+		FROM LANG
+		WHERE DOMAIN_ID = #domainId# AND LANG_KND=#langKnd# AND LANG_CD=#langCd#
+	</select>
+	
+	<select id="lang.findByPage" resultMap="admin_LangVO_PK">
+	/* lang.findByPage */
+		SELECT DOMAIN_ID, LANG_KND, LANG_CD
+		FROM LANG
+		WHERE 1=1 AND LANG_KND=#langKnd#
+		<isNotNull  prepend=" AND " property="domainIdCond">DOMAIN_ID=#domainIdCond#</isNotNull>
+		<isNotNull  prepend=" AND " property="langCdCond">LANG_CD LIKE CONCAT('%',#langCdCond#,'%')</isNotNull>
+		<isNotNull  prepend=" AND " property="langDescCond">LANG_DESC LIKE CONCAT('%',#langDescCond#,'%')</isNotNull>
+		<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+		<isNull property="sortColumn">ORDER BY  DOMAIN_ID, LANG_KND, LANG_CD </isNull>
+		LIMIT #limit# OFFSET #offset# 
+	</select>
+
+	<select id="lang.findAll" resultMap="admin_LangVO">
+			/* lang.findAll */
+			SELECT DOMAIN_ID, LANG_KND,LANG_CD,LANG_DESC,LANG_UPD_DATE,LANG_UPD_ID
+			FROM LANG
+	</select>
+	
+	<select id="lang.findLang" resultMap="admin_LangVO">
+			/* lang.findLang */
+			SELECT DOMAIN_ID, LANG_KND,LANG_CD,LANG_DESC,LANG_UPD_DATE,LANG_UPD_ID
+			FROM LANG
+			WHERE DOMAIN_ID=#domainId# 
+			  AND LANG_CD=#langCd#
+		<isNotNull prepend=" ORDER BY " property="sortColumn">$sortColumn$ $sortMethod$</isNotNull>
+		<isNull prepend=" ORDER BY " property="sortColumn">LANG_KND ASC</isNull>
+	</select>
+	
+	<select id="lang.findByLangKnd" resultMap="admin_LangVO">
+			/* lang.findByLangKnd */
+			SELECT DOMAIN_ID, LANG_KND,LANG_CD,LANG_DESC,LANG_UPD_DATE,LANG_UPD_ID
+			FROM LANG
+			WHERE LANG_KND=#langKnd# 
+	</select>
+	
+	<select id="lang.detail" resultMap="admin_LangVO">
+			/* lang.detail */
+		<![CDATA[
+			SELECT DOMAIN_ID, LANG_KND,LANG_CD,LANG_DESC,LANG_UPD_DATE,LANG_UPD_ID
+			FROM LANG
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+				AND LANG_KND=#langKnd#
+				AND LANG_CD=#langCd#
+		]]>
+	</select>
+	
+	<insert id="lang.insert">
+			/* lang.insert */
+		<![CDATA[
+			INSERT INTO LANG
+				( DOMAIN_ID, LANG_KND,LANG_CD,LANG_DESC,LANG_UPD_DATE,LANG_UPD_ID )
+			VALUES ( #domainId#, #langKnd#,#langCd#,#langDesc#,#langUpdDate#,#langUpdId# )
+		]]>
+	</insert>
+	
+	<update id="lang.update">
+			/* lang.update */
+		<![CDATA[
+			UPDATE LANG
+			SET DOMAIN_ID=#domainId#, LANG_KND=#langKnd#,LANG_CD=#langCd#,LANG_DESC=#langDesc#,LANG_UPD_DATE=#langUpdDate#,LANG_UPD_ID=#langUpdId#
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+				AND LANG_KND=#langKnd#
+				AND LANG_CD=#langCd#
+		]]>
+	</update>
+	
+	<delete id="lang.delete">
+			/* lang.delete */
+		<![CDATA[
+			DELETE FROM LANG
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+				AND LANG_KND=#langKnd#
+				AND LANG_CD=#langCd#
+		]]>
+	</delete>
+	
+	<delete id="lang.deleteMaster">
+			/* lang.deleteMaster */
+		<![CDATA[
+			DELETE FROM LANG
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+				AND LANG_CD=#langCd#
+		]]>
+	</delete>
+
+</sqlMap>
+

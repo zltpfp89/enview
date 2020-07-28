@@ -1,0 +1,1045 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>:: 포털 표준 ::</title>
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+<link rel="stylesheet" type="text/css" href="./css/jquery.gridster.min.css" />
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.gridster.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/slider.js"></script>
+<script type="text/javascript">
+	var gridster;
+	$(function(){ //DOM Ready
+		gridster = $(".gridster").gridster({
+			widget_margins: [6, 8],
+			widget_base_dimensions: [140, 123],
+			min_rows : 8,
+			max_rows : 8,
+			  min_cols : 8,
+			  max_cols : 8,
+			widget_selector : ".portlet-my"
+								
+		}).data( 'gridster');
+		});
+</script>
+
+</head>
+<body>
+<!-- header -->
+<div id="header">
+ <!-- top -->   
+    <div class="top">
+        <div class="wrap">
+        <h1><a href="#"><img src="images/logo.png" alt="로고"></a></h1>
+            <div class="searchArae">
+                <fieldset class="search">
+                    <input type="text" id="search" name="search" value="검색어를 입력해주세요" /><label for="search"></label>
+                    <a href="#" class="btn_search"><img src="images/icon_search.png" alt="검색" /></a>
+                <div class="guide_query">
+                    <ul>
+                        <li class="pdl_0"><a href="#">공통지표</a></li>
+                        <li><a href="#">정책자료</a></li>
+                        <li><a href="#">개인업적</a></li>
+                        <li><a href="#">사표</a></li>
+                        <li><a href="#">포털시스템 설치</a></li>
+                    </ul>
+                </div>                
+                </fieldset>
+            </div>
+            <div class="top_menu">
+                <ul>
+                    <li><a href="#">설문</a></li>
+                    <li><a href="#">투표 </a></li>
+                    <li><a href="#">쪽지</a></li>
+                    <li><a href="#">Team Site</a></li>
+                    <li><a href="#">English </a></li>
+                    <li><a href="#">마이페이지</a></li>
+                    <li><a href="#"><span>[홍길동 팀장]</span></a></li>
+                </ul>
+             <a href="#" class="logout"><span>로그아웃</span></a>
+            </div>  
+            <div class="btn_allmenu">
+                <a href="#"><img src="images/gnb_menu.png" alt="전체메뉴보기" /></a>
+                    <ul>
+                        <li><a href="#">전자결재</a></li>
+                        <li><a href="#">웹메일</a></li>
+                        <li><a href="#">경영정보</a></li>
+                        <li><a href="#">업무지원</a></li>
+                        <li><a href="#">회의관리</a></li>
+                        <li><a href="#">자원관리</a></li>
+                        <li><a href="#">캘린더</a></li>
+                        <li><a href="#">행사/이벤트</a></li>
+                        <li><a href="#">통합게시판</a></li>
+                        <li><a href="#">고객지원</a></li>
+                    </ul>
+            </div>
+
+	</div>
+    <!-- top //-->   
+    <div class="menu">
+		<div class="wrap">
+			<ul class="gnb">
+				<li><a href="#">전자결재</a></li>
+				<li><a href="#">웹메일</a></li>
+				<li><a href="#">경영정보</a></li>
+				<li><a href="#">업무지원</a></li>
+				<li><a href="#">회의관리</a></li>
+				<li><a href="#">자원관리</a></li>
+				<li><a href="#">캘린더</a></li>
+				<li><a href="#">행사/이벤트</a></li>
+				<li><a href="#">통합게시판</a></li>
+				<li><a href="#">고객지원</a></li>
+			</ul>
+			<div class="search_rank">
+				<p><em>01. </em><a href="#">전자결재</a></p>
+				<div class="cont">
+					<h4>실시간 검색어</h4>
+					<ul>
+						<li><em>01</em><a href="#">전자결재전자결재전자결재전자결재전자결재</a></li>
+						<li><em>02</em><a href="#">전자결재</a></li>
+						<li><em>03</em><a href="#">전자결재</a></li>
+						<li><em>04</em><a href="#">전자결재</a></li>
+						<li><em>05</em><a href="#">전자결재</a></li>
+						<li><em>06</em><a href="#">전자결재</a></li>
+						<li><em>07</em><a href="#">전자결재</a></li>
+						<li><em>08</em><a href="#">전자결재</a></li>
+						<li><em>09</em><a href="#">전자결재</a></li>
+						<li><em>10</em><a href="#">전자결재</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+<!-- header //-->
+<!-- contents -->
+<div id="contents">
+    <!-- FixArea -->
+    <div class="fixArea">
+        <div class="wrap">
+            <!-- 전자결재 -->
+			<div class="approval">
+				<h3>전자결재<a href="#" class="btn_refresh"><img src="images/icon_reset.png" alt="새로고침" /></a></h3>
+				<div class="line">
+					<h5>결제할<br />문서</h5>
+					<ul>
+						<li><a href="#"><em>999</em>건</a></li>
+					</ul>
+                </div>    
+				<div class="line mgr_0">
+					<h5>진행중인<br />문서</h5>
+                    <ul>
+						<li><a href="#"><em>999</em>건</a></li> 
+                    </ul>
+                </div>
+				<div class="line">
+					<h5>부결<br />문서</h5>
+					<ul>
+						<li><a href="#"><em>9</em>건</a></li>
+					</ul>
+                </div>
+				<div class="line">
+					<h5>임시<br />보관함</h5>
+                    <ul>
+						<li><a href="#"><em>996</em>건</a></li>
+                    </ul>
+                </div>
+				<div class="line">
+					<h5>진행 중인<br />설문</h5>
+					<ul>
+						<li><a href="#"><em>9929</em>건</a></li>
+					</ul>
+                </div>
+				<div class="line ">                 
+					<h5>진행중인<br />Q&amp;A</h5>
+                    <ul>
+						<li><a href="#"><em>999</em>건</a></li>
+                    </ul>
+                </div>                
+				<a href="#" class="btn_more"><span>+ MORE</span></a>
+			</div>
+            <!-- 전자결재 //-->
+            <!-- 전자결재 -->
+			<div class="mail_tab">
+				<ul class="tab_title">
+					<li data="tab0" class="tabtitle first tab_on"><a href="#" class="txt">To Do List</a><a href="#" class="btn_refresh"><img src="images/icon_reset.png" alt="새로고침" /></a></li>
+					<li data="tab1" class="tabtitle"><a href="#" class="txt">메일[<em>21</em>건]</a><a href="#" class="btn_refresh"><img src="images/icon_reset.png" alt="새로고침" /></a></li>
+				</ul>
+				<div class="tab_content">
+					<div class="tab0">
+						<ul class="notice_list">
+							<li><a href="#"><em>[결재]</em><span class="title">1111SNU 국제교수회 comment on presidentiaSNU 국제교수회 comment on presidentia</span></a><span class="date">2018.09.10</span></li>
+							<li><a href="#"><em>[공람]</em><span class="title">11"여성의 몸, 인권을 이야기하다 - 임신 그리고...</span></a><span class="date">2018.09.10</span></li>
+							<li><a href="#"><em>[공람]</em><span class="title">홍보팀: 2018년 9월 10일(월) 뉴스클리핑</span></a><span class="date">2018.09.10</span></li>
+							<li><a href="#"><em>[기안]</em><span class="title">홍보팀: 2018년 9월 8일(토) 뉴스클리핑</span></a><span class="date">2018.09.10</span></li>
+							<li><a href="#"><em>[대기]</em><span class="title">서울대학교 구성원 대상 영화상영회</span></a><span class="date">2018.09.10</span></li>
+							<li><a href="#"><em>[공지]</em><span class="title">관악학생생활관 작은음악회에 여러분을 초대합니다.</span></a><span class="date">2018.09.10</span></li>
+						</ul>
+						<a href="#" class="btn_more"><span>+ MORE</span></a>
+					</div>
+					<div class="tab1 none">
+						<ul class="notice_list">
+							<li><a href="#"><em>[결재]</em><span class="title">2222SNU 국제교수회 comment on presidentiaSNU 국제교수회 comment on presidentia</span></a><span class="date">2018.09.10</span></li>
+							<li><a href="#"><em>[공람]</em><span class="title">11"여성의 몸, 인권을 이야기하다 - 임신 그리고...</span></a><span class="date">2018.09.10</span></li>
+							<li><a href="#"><em>[공람]</em><span class="title">홍보팀: 2018년 9월 10일(월) 뉴스클리핑</span></a><span class="date">2018.09.10</span></li>
+							<li><a href="#"><em>[기안]</em><span class="title">홍보팀: 2018년 9월 8일(토) 뉴스클리핑</span></a><span class="date">2018.09.10</span></li>
+							<li><a href="#"><em>[대기]</em><span class="title">서울대학교 구성원 대상 영화상영회</span></a><span class="date">2018.09.10</span></li>
+							<li><a href="#"><em>[공지]</em><span class="title">관악학생생활관 작은음악회에 여러분을 초대합니다.</span></a><span class="date">2018.09.10</span></li>
+						</ul>
+						<a href="#" class="btn_more"><span>+ MORE</span></a>
+					</div>
+				</div>
+			</div>
+            <!-- 전자결재 //-->
+            <!-- 개인영역 -->
+			<div class="profile">
+				<h3><em>ABCABCABCABCABCABCABC</em>직원님 환영합니다.</h3>
+				<ul>
+					<li><b>안 읽은 메일</b><a href="#"><em>9999</em>건</a><a href="#" class="btn_write_mail"><span>메일작성</span></a></li>
+					<li><b>쪽지</b><a href="#"><em>9999</em>건</a></li>                    
+                    <li><b>최종로그인</b>2018.09.10 12:54 [147.123.456.789]</li>
+				</ul>
+				<div class="inputbox">
+					<p class="txt"></p>
+					<select>
+						<option>나의관련사이트</option>
+					</select>
+				</div>
+				<div class="btnArea">
+					<a href="#" class="first">출퇴근</a>
+					<a href="#">비밀번호 변경</a>
+				</div>
+			</div>
+            <!-- 개인영역 //-->
+            <!-- 근태현황 -->
+            <div class="current_status">
+                <h3>근태현황<a href="#" class="btn_refresh"><img src="images/icon_reset.png" alt="새로고침" /></a></h3>
+                <div class="muscle">
+                    <h4 class="clock">금주 근무 시간<span>(현 시간/총 시간)</span></h4>
+                    <ul>
+                        <li><p class="graph"><span class="W80"><em>32</em>시간</span></p><span class="clock_txt">52<em>시간</em></span></li>  
+                    </ul>    
+                </div>
+                <div class="vacation">
+                    <h4 class="clock">년차 휴가<span>(사용 일수/총 일수)</span></h4>
+                    <ul>
+                        <li><p class="graph"><span class="W75"><em>8</em>일</span></p><span class="clock_txt">15<em>일</em></span></li>  
+                    </ul>    
+                </div>
+                <div class="off_work">
+                    <h4>전일 퇴근시간</h4>
+                    <p><em>PM</em> 08<span>시</span> 42<span>분</span></p>
+                </div>
+                <div class="work">
+                    <h4 class="clock">금일 출근 시간</h4>
+                    <p><em>AM</em> 08<span>시</span> 42<span>분</span></p>
+                </div>
+            </div>
+            <!-- 근태현황 //-->
+            <!-- 서비스 바로가기 -->
+            <div class="quickservice">
+                <h3>서비스 바로가기</h3>
+                <ul>
+                    <li class="lock"><a href="#"><span class="icon"><img src="images/icon_01.png" alt="전자결재" /></span><span class="txt">전자결재</span></a></li>
+                    <li class="lock"><a href="#"><span class="icon"><img src="images/icon_02.png" alt="웹메일" /></span><span class="txt">웹메일</span></a></li>
+                    <li><a href="#"><span class="icon"><img src="images/icon_03.png" alt="WIKI" /></span><span class="txt">WIKI</span></a></li>    
+                    <li><a href="#"><span class="icon"><img src="images/icon_04.png" alt="요청처리" /></span><span class="txt">요청처리</span></a></li>    
+                    <li><a href="#"><span class="icon"><img src="images/icon_05.png" alt="경영보고" /></span><span class="txt">경영보고</span></a></li>    
+                    <li><a href="#"><span class="icon"><img src="images/icon_06.png" alt="업무공유방" /></span><span class="txt">업무공유방</span></a></li>    
+                    <li><a href="#"><span class="icon"><img src="images/icon_07.png" alt="애사" /></span><span class="txt">애사</span></a></li>    
+                    <li><a href="#"><span class="icon"><img src="images/icon_08.png" alt="나의 동호회" /></span><span class="txt">나의 동호회</span></a></li>    
+                    <li><a href="#"><span class="icon"><img src="images/icon_09.png" alt="Q&amp;A" /></span><span class="txt">Q&amp;A</span></a></li> 
+                    <li><a href="#"><span class="icon"><img src="images/icon_10.png" alt="회의게시판" /></span><span class="txt">회의게시판</span></a></li>  
+                </ul> 
+                <a href="#" class="btn_more"><span>+ SET</span></a>  
+            </div>    
+            <!-- 서비스 바로가기 //-->
+            <!-- 자주 찾는 서비스 -->
+            <div class="usallyservice">
+                <h3>자주 찾는 서비스</h3>
+                <ul class="service_rank">
+                    <li><em>01.</em><a href="#">주간식단표주간식단표주간식단표주간식단표주간식단표</a></li>
+                    <li><em>02.</em><a href="#">애경사</a></li>
+                    <li><em>03.</em><a href="#">도서검색</a></li>
+                    <li><em>04.</em><a href="#">시설예약/신고</a></li>
+                    <li><em>05.</em><a href="#">구성원 검색</a></li>
+                    <li><em>06.</em><a href="#">전자결재</a></li>
+                    <li><em>07.</em><a href="#">전자결재</a></li>
+                </ul>
+            </div>
+            <!-- 자주 찾는 서비스 //-->
+        </div>    
+    </div>    
+    <!-- FixArea //-->
+	<!-- portetArea -->
+    <div class="wrap">
+		<div class="portlet_btnArea">
+			<a href="#"><span>포틀릿 잠금</span></a>
+			<a href="#"><span>포틀릿추가</span></a>
+			<a href="#"><span>초기화</span></a>
+		</div>
+        <!-- EnviewConetntArea -->
+		<div id="EnviewConetntArea" class="gridster">
+            <div class="portlet-my" data-col="1" data-row="1" data-sizex="4" data-sizey="2">
+				<div class="p_42 calendar">
+					<h3>캘린더</h3>
+					<ul class="tab">
+						<li class="first on"><a href="#"><span>회의</span></a></li>
+						<li><a href="#"><span>부서</span></a></li>
+						<li><a href="#"><span>행사</span></a></li>
+						<li><a href="#"><span>근무</span></a></li>
+						<li><a href="#"><span>개인</span></a></li>
+						<li><a href="#"><span>관심</span></a></li>
+					</ul>
+					<div class="calendar_table">
+						<p><a href="#"><img src="images/icon_next.png" alt="이전달" /></a><span>2018<br/><em>08</em></span><a href="#"><img src="images/icon_previous.png" alt="다음" /></a></p>
+						<table cellpadding="0" cellspacing="0">
+							<colgroup>
+								<col width="*%" />
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="sun">일</th>
+									<th>월</th>
+									<th>화</th>
+									<th>수</th>
+									<th>목</th>
+									<th>금</th>
+									<th class="sat">토</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sun gray">26</td>
+									<td class="gray">27</td>
+									<td class="gray">28</td>
+									<td class="gray">29</td>
+									<td class="gray">30</td>
+									<td>1</td>
+									<td class="sat">2</td>
+								</tr>
+								<tr>
+									<td class="sun">3</td>
+									<td>4</td>
+									<td>5</td>
+									<td>6</td>
+									<td>7</td>
+									<td>8</td>
+									<td class="sat">9</td>
+								</tr>
+								<tr>
+									<td class="sun">10</td>
+									<td>11</td>
+									<td>12</td>
+									<td>13</td>
+									<td>14</td>
+									<td>15</td>
+									<td class="sat">16</td>
+								</tr>
+								<tr>
+									<td class="sun">17</td>
+									<td>18</td>
+									<td>19</td>
+									<td>20</td>
+									<td>21</td>
+									<td>22</td>
+									<td class="sat">23</td>
+								</tr>
+								<tr>
+									<td class="sun">24</td>
+									<td>25</td>
+									<td>26</td>
+									<td>27</td>
+									<td>28</td>
+									<td>29</td>
+									<td class="sat">30</td>
+								</tr>
+								<tr>
+									<td class="sun">31</td>
+									<td class="gray">1</td>
+									<td class="gray">2</td>
+									<td class="gray">3</td>
+									<td class="gray">4</td>
+									<td class="gray">5</td>
+									<td class="sat gray">6</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="cont">
+						<ul class="normal_list">
+							<li><a href="#"><span class="title">2018. 9월 월례특강 안내1111</span></a></li>
+							<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a></li>
+							<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a></li>
+							<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a></li>
+							<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a></li>
+						</ul>
+					</div>
+					<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+					<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+				</div>
+			</div>            
+            <div class="portlet-my" data-col="5" data-row="1" data-sizex="4" data-sizey="2">
+				<div class="p_42 notice">
+					<div class="tab_normal">
+						<ul class="tab_title">
+							<li data="tab01" class="tabtitle first tab_on"><a href="#">공지사항</a></li>
+							<li data="tab02" class="tabtitle"><a href="#">최신소식</a></li>
+							<li data="tab03" class="tabtitle"><a href="#">정책자료</a></li>
+						</ul>
+						<div class="tab_content">
+							<div class="tab01">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내1111</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+							<div class="tab02 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내2222</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+							<div class="tab03 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내3333</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+            <div class="portlet-my" data-col="1" data-row="3" data-sizex="4" data-sizey="2">
+				<div class="p_42 notice">
+					<div class="tab_normal">
+						<ul class="tab_title">
+							<li data="tab01" class="tabtitle first tab_on"><a href="#">경영진 지시사항</a></li>
+							<li data="tab02" class="tabtitle"><a href="#">경영보고</a></li>
+							<li data="tab03" class="tabtitle"><a href="#">CEO 동정</a></li>
+						</ul>
+						<div class="tab_content">
+							<div class="tab01">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내1111</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+							<div class="tab02 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내2222</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+							<div class="tab03 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내3333</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+            <div class="portlet-my" data-col="5" data-row="3" data-sizex="4" data-sizey="2">
+				<div class="p_42 notice">
+					<div class="tab_normal">
+						<ul class="tab_title">
+							<li data="tab01" class="tabtitle first tab_on"><a href="#">업무게시판</a></li>
+							<li data="tab02" class="tabtitle"><a href="#">업무자료</a></li>
+							<li data="tab03" class="tabtitle"><a href="#">업무공유방</a></li>
+							<li data="tab04" class="tabtitle"><a href="#">부서게시판</a></li>
+						</ul>
+						<div class="tab_content">
+							<div class="tab01">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내1111</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+							<div class="tab02 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내2222</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+							<div class="tab03 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내3333</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+							<div class="tab04 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내3333</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>            
+            <div class="portlet-my" data-col="1" data-row="5" data-sizex="4" data-sizey="2">
+				<div class="p_42 notice">
+					<div class="tab_normal">
+					  <ul class="tab_title">
+							<li data="tab01" class="tabtitle first tab_on"><a href="#">회의게시판</a></li>
+							<li data="tab02" class="tabtitle"><a href="#">회의자료</a></li>
+							<li data="tab03" class="tabtitle"><a href="#">회의공유방</a></li>
+						</ul>
+						<div class="tab_content">
+							<div class="tab01">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내1111</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+						  </div>
+							<div class="tab02 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내2222</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+							<div class="tab03 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내3333</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+					  </div>
+					</div>
+				</div>
+			</div>
+            <div class="portlet-my" data-col="5" data-row="5" data-sizex="2" data-sizey="2">
+				<div class="p_42 notice">
+					<div class="tab_normal">
+					  <ul class="tab_title">
+							<li data="tab01" class="tabtitle first tab_on"><a href="#">회의실 예약</a></li>
+							<li data="tab02" class="tabtitle"><a href="#">차량예약</a></li>
+						</ul>
+						<div class="tab_content">
+						  <div class="tab01">
+							<ul class="notice_list">
+                                    <li><a href="#"><span class="title">[본관 11층]</span></a><em class="room">1102호</em><a href class="reservation_gray"><span>예약중</span></a></li>
+                                    <li><a href="#"><span class="title">[본관 11층]</span></a><em class="room">1102호</em><a href class="reservation_blue"><span>예약</span></a></li>
+                                    <li><a href="#"><span class="title">[본관 11층]</span></a><em class="room">1102호</em><a href class="reservation_blue"><span>예약</span></a></li>
+                                    <li><a href="#"><span class="title">[본관 11층]</span></a><em class="room">1102호</em><a href class="reservation_gray"><span>예약중</span></a></li>
+                                    <li><a href="#"><span class="title">[본관 11층]</span></a><em class="room">1102호</em><a href class="reservation_blue"><span>예약</span></a></li>
+                                    <li><a href="#"><span class="title">[본관 11층]</span></a><em class="room">1102호</em><a href class="reservation_gray"><span>예약중</span></a></li>
+							  </ul>
+							  <a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+						  </div>
+							<div class="tab02 none">
+							<ul class="notice_list">
+                                    <li><a href="#"><span class="title">[본관 11층]</span></a><em>1102호</em><a href class="reservation_gray"><span>예약중</span></a></li>
+                                    <li><a href="#"><span class="title">[본관 11층]</span></a><em>1102호</em><a href class="reservation_gray"><span>예약</span></a></li>
+                                    <li><a href="#"><span class="title">[본관 11층]</span></a><em>1102호</em><a href class="reservation_gray"><span>예약</span></a></li>
+                                    <li><a href="#"><span class="title">[본관 11층]</span></a><em>1102호</em><a href class="reservation_gray"><span>예약중</span></a></li>
+                                    <li><a href="#"><span class="title">[본관 11층]</span></a><em>1102호</em><a href class="reservation_gray"><span>예약</span></a></li>
+                                    <li><a href="#"><span class="title">[본관 11층]</span></a><em>1102호</em><a href class="reservation_gray"><span>예약중</span></a></li>
+							  </ul>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+                        </div>
+					</div>
+				</div>
+			</div>            
+			<div class="portlet-my" data-col="7" data-row="5" data-sizex="2" data-sizey="2">
+				<div class="p_22 executives">
+					<h3>임원재실현황</h3>
+                    <ul class="bt_line">
+                          <li><a href="#" ><span class="icon_gray">CEO</span><br /><em class="outside"><span>부재</span></em></a></li>
+                          <li><a href="#" ><span class="icon_blue">임원1</span><br /><em class="on_duty"><span>재실</span></em></a></li>
+                          <li><a href="#" ><span class="icon_gray">임원2</span><br /><em class="outside"><span>부재</span></em></a></li>
+                          <li><a href="#" ><span class="icon_blue">임원3</span><br /><em class="on_duty"><span>재실</span></em></a></li>
+                      </ul>                    
+                      <ul>
+                          <li><a href="#" ><span class="icon_gray">CEO</span><br /><em class="outside"><span>부재</span></em></a></li>
+                          <li><a href="#" ><span class="icon_blue">임원1</span><br /><em class="on_duty"><span>재실</span></em></a></li>
+                          <li><a href="#" ><span class="icon_gray">임원2</span><br /><em class="outside"><span>부재</span></em></a></li>
+                          <li><a href="#" ><span class="icon_blue">임원3</span><br /><em class="on_duty"><span>재실</span></em></a></li>
+                        </ul>
+                      <a href="#" class="btn_set_02"><img src="images/icon_set.png" alt="설정" /></a>
+				</div>
+			</div>
+			<div class="portlet-my" data-col="1" data-row="7" data-sizex="4" data-sizey="2">
+				<div class="p_42 event">
+					<h3 class="no_line">행사</h3>
+					<a href="#">
+						<span class="img"><!--<img src="images/main/img_event.gif" alt="행사" />--></span>
+						<div class="txtwrap">
+							<p class="date">2018..09.07~2018.09.20</p>
+							<p class="title">DAAD 독일 유학 및 장학 설명회 2018 </p>
+							<p class="txt">DAAD 독일 유학 및 장학 설명회 2018 (DAAD Scholarship Talk 2018)을 아래…</p>
+						</div>
+					</a>
+					<ul>
+						<li class="first"><a href="#"><span class="date">2018.09.07 ~ 2018.09.20</span><span class="title">여성의 몸, 인권을 이야기하다</span></a></li>
+						<li><a href="#"><span class="date">2018.09.07 ~ 2018.09.20</span><span class="title">제37회 서울대학교 의류학과 패션쇼제37회 서울대학교 의류학과 패션쇼제37회 서울대학교 의류학과 패션쇼제37회 서울대학교 의류학과 패션쇼</span></a></li>
+					</ul>
+					<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+				</div>
+			</div>            
+            <div class="portlet-my" data-col="5" data-row="7" data-sizex="2" data-sizey="2">
+            <div class="p_22 day_work">
+            	<h3>당직현황</h3> 
+                <div class="scroll">
+					<div class="day">
+                    <h6>오늘 <span>(2019.09.01)</span></h6>
+                        <ul class="normal_list_small">
+							<li><em>홍길동</em> (기획관리실 / 기획평가팀)</li>                        
+							<li><em>장산길</em> (기획관리실 / 기획평가팀) </li>                        
+                        </ul>
+                    </div>
+					<div class="today">
+                    <h6>내일 <span>(2019.09.01)</span></h6>
+                        <ul class="normal_list_small">
+							<li><em>홍길동</em> (기획관리실 / 기획평가팀) </li>                        
+							<li><em>장산길</em> (기획관리실 / 기획평가팀) </li>                        
+							<li><em>장산길</em> (기획관리실 / 기획평가팀) </li>                        
+							<li><em>장산길</em> (기획관리실 / 기획평가팀) </li>                        
+							<li><em>장산길</em> (기획관리실 / 기획평가팀) </li>                        
+                        </ul>
+                    </div>
+					<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+                </div>
+            </div>
+            </div>    
+			<div class="portlet-my" data-col="7" data-row="5" data-sizex="2" data-sizey="2">
+				<div class="p_22 search_person">
+					<h3>직원검색</h3>
+					<h6>* 구성원의 소속 및 연락처 등을 확인하실 수 있습니다.</h6>
+					<fieldset>
+						<input type="text" id="person_search" name="person_search" value="이름/부서/이메일 등" /><label for="person_search"></label>
+						<a href="#" class="btn_search"><img src="images/member_search.png" alt="검색" /></a>
+					</fieldset>
+					<h6>* 검색 가능 항목</h6>
+					<p>이름 / 직무 / 부서 / 직책/직급 / 내선번호 / <br/>이메일 / 모바일번호</p>
+					<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+				</div>
+			</div>
+            <div class="portlet-my" data-col="1" data-row="9" data-sizex="4" data-sizey="2">
+				<div class="p_42 notice">
+					<div class="tab_normal">
+					  <ul class="tab_title">
+							<li data="tab01" class="tabtitle first tab_on"><a href="#">애사</a></li>
+							<li data="tab02" class="tabtitle"><a href="#">경사</a></li>
+							<li data="tab03" class="tabtitle"><a href="#">자유토론방</a></li>
+							<li data="tab04" class="tabtitle"><a href="#">노동조합</a></li>
+						</ul>
+						<div class="tab_content">
+							<div class="tab01">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내1111</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+						  </div>
+							<div class="tab02 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내2222</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+							<div class="tab03 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내3333</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+							<div class="tab04 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내3333</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+					  </div>
+					</div>
+				</div>
+			</div>
+            <div class="portlet-my" data-col="5" data-row="9" data-sizex="4" data-sizey="2">
+				<div class="p_42 notice">
+					<div class="tab_normal">
+					  <ul class="tab_title">
+							<li data="tab01" class="tabtitle first tab_on"><a href="#">다운로드</a></li>
+						    <li data="tab02" class="tabtitle"><a href="#">FAQ</a></li>
+							<li data="tab03" class="tabtitle"><a href="#">Q&amp;A</a></li>
+							<li data="tab04" class="tabtitle"><a href="#">CoP</a></li>
+						</ul>
+						<div class="tab_content">
+							<div class="tab01">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내11112018. 9월 월례특강 안내1111</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+						  </div>
+							<div class="tab02 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내2222</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+							<div class="tab03 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내3333</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+							<div class="tab04 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">2018. 9월 월례특강 안내3333</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">연구처 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">국제협력본부 직원 인사발령 알림(2018. 9. 10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">재정전략실 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+									<li><a href="#"><span class="title">학생처 직원 인사발령 알림(2018.9.10.자)</span></a><span class="date">2018.09.10</span></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+					  </div>
+				    </div>
+				</div>
+			</div>         
+            <div class="portlet-my" data-col="1" data-row="11" data-sizex="4" data-sizey="2">
+				<div class="p_42 team_site">
+					<h3>Team Site</h3>
+                    <ul>
+                        <li><a href="#">전산포털 고도화 프로젝트<em>소프트웨어사업본부</em><span class="date">2018/09/07~2018/09/20</span></a></li>
+                        <li><a href="#">ERP 업무 개선프로젝트<em>인프라사업본부</em><span class="date">2018/09/07~2018/09/20</span></a></li>
+                        <li><a href="#">통합인증구축프로젝트<em>경영지원본부</em><span class="date">2018/09/07~2018/09/20</span></a></li>
+                        <li><a href="#">ERP 업무 개선프로젝트<em>소프트웨어사업본부</em><span class="date">2018/09/07~2018/09/20</span></a></li>
+                        <li><a href="#">통합인증구축프로젝트<em>소프트웨어사업본부</em><span class="date">2018/09/07~2018/09/20</span></a></li>
+                        <li><a href="#">ERP 업무 개선프로젝트<em>인프라사업본부</em><span class="date">2018/09/07~2018/09/20</span></a></li>
+                    </ul>                    
+					<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+				</div>
+			</div>            
+            <div class="portlet-my" data-col="5" data-row="11" data-sizex="2" data-sizey="2">
+				<div class="p_42 notice">
+					<div class="tab_normal">
+						<ul class="tab_title">
+							<li data="tab01" class="tabtitle first tab_on"><a href="#">전체 동호회</a></li>
+							<li data="tab02" class="tabtitle"><a href="#">나의 동호회</a></li>
+						</ul>
+						<div class="tab_content">
+							<div class="tab01">
+								<ul class="team_site">
+									<li><a href="#"><span class="title">자바연구원자바연구원자바연구원자바연구원자바연구원자바연구원자바연구원</span></a></li>
+									<li><a href="#"><span class="title">LG트윈스 펜모</span></a></li>
+									<li><a href="#"><span class="title">방탈출 동호</span></a></li>
+									<li><a href="#"><span class="title">디자인 동호</span></a></li>
+									<li><a href="#"><span class="title">출사동호회</span></a></li>
+									<li><a href="#"><span class="title">출사동호회</span></a></li>
+								</ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+							<div class="tab02 none">
+								<ul class="notice_list">
+									<li><a href="#"><span class="title">자바연구원자바연구원자바연구원자바연구원자바연구원자바연구원자바연구원</span></a></li>
+									<li><a href="#"><span class="title">LG트윈스 펜모</span></a></li>
+									<li><a href="#"><span class="title">방탈출 동호</span></a></li>
+									<li><a href="#"><span class="title">디자인 동호</span></a></li>
+									<li><a href="#"><span class="title">출사동호회</span></a></li>
+									<li><a href="#"><span class="title">출사동호회</span></a></li>
+                                </ul>
+								<a href="#" class="btn_set"><img src="images/icon_set.png" alt="설정" /></a>
+								<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+							</div>
+ 						</div>
+					</div>
+				</div>
+			</div>
+                
+            <div class="portlet-my" data-col="5" data-row="11" data-sizex="2" data-sizey="2">
+				<div class="p_42 quick">
+					<h3>Quick Poll</h3>
+                    <p class="sub_txt"><span>전산 포털시스템</span>을<br> 이용해 보신 <span>소감</span>을 말해주세요.</p>
+                        <ul class="quest_list">
+                            <li><input type="radio" name="quest_radio" id="verysatisfied" value=""><label for="verysatisfied">매우만족</label></li>
+                            <li><input type="radio" name="quest_radio" id="satisfied" value=""><label for="satisfied">만족</label></li>
+                            <li><input type="radio" name="quest_radio" id="dissatisfied" value=""><label for="dissatisfied">불만족</label></li>
+                            <li><input type="radio" name="quest_radio" id="verydissatisfied" value=""><label for="verydissatisfied">매우불만족</label></li>
+                        </ul>       
+                        <div class="participate_btn">
+                            <a href="#"><span>참여하기</span></a>
+                        </div>                        
+					<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+				</div>
+			</div>            
+                 
+            <div class="portlet-my" data-col="1" data-row="13" data-sizex="2" data-sizey="2">
+				<div class="p_42 team_site">
+					<h3>설문</h3>
+                    <ul>
+                        <li><a href="#"><span class="title">[진행중] MIS 개선에 따라 사용자 MIS 개선에 따라 사용자 MIS 개선에 따라 사용자</span></a></li>
+                        <li><a href="#"><span class="title">[진행중]  업무포털 디자인 개선</span></a></li>
+                        <li><a href="#"><span class="title">[완료] 전직원 연말연시 휴가처</span></a></li>
+                        <li><a href="#"><span class="title">[진행중]  MLS 개선에 따른 사용자</span></a></li>
+                        <li><a href="#"><span class="title">[진행중]  MLS 개선에 따른 사용자</span></a></li>
+                        <li><a href="#"><span class="title">[완료]  전직원 연말연시 휴가처</span></a></li>
+                    </ul>
+					<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+				</div>
+			</div>            
+            <div class="portlet-my" data-col="3" data-row="13" data-sizex="2" data-sizey="2">
+				<div class="p_42 team_site">
+					<h3>투표</h3>
+                    <ul>
+                        <li><a href="#"><span class="title">[진행중] MIS 개선에 따라 사용자 MIS 개선에 따라 사용자 MIS 개선에 따라 사용자</span></a></li>
+                        <li><a href="#"><span class="title">[진행중]  업무포털 디자인 개선</span></a></li>
+                        <li><a href="#"><span class="title">[완료] 전직원 연말연시 휴가처</span></a></li>
+                        <li><a href="#"><span class="title">[진행중]  MLS 개선에 따른 사용자</span></a></li>
+                        <li><a href="#"><span class="title">[진행중]  MLS 개선에 따른 사용자</span></a></li>
+                        <li><a href="#"><span class="title">[완료]  전직원 연말연시 휴가처</span></a></li>
+                    </ul>
+					<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+				</div>
+			</div>            
+            
+            <div class="portlet-my" data-col="1" data-row="15" data-sizex="2" data-sizey="2">
+				<div class="p_42 team_site">
+					<h3>WIKI</h3>
+                    <ul>
+                        <li><a href="#"><span class="title">자바</span></a></li>
+                        <li><a href="#"><span class="title">디자인</span></a></li>
+                        <li><a href="#"><span class="title">출사</span></a></li>
+                        <li><a href="#"><span class="title">방탈출</span></a></li>
+                        <li><a href="#"><span class="title">디자인</span></a></li>
+                        <li><a href="#"><span class="title">출사</span></a></li>
+                    </ul>
+					<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+				</div>
+			</div>            
+
+            <div class="portlet-my" data-col="5" data-row="13" data-sizex="4" data-sizey="2">
+				<div class="p_42 sms">
+					<h3>SMS</h3>
+                    <ul>
+                        <li>
+                        	<a href="#">
+                        		<img src="images/sms_bg.gif" alt="sms이미지" /><span class="mail_id">abc@saltware.co.kr</span>업무진행에 대한 의견을 나누고자합니다.<em class="clock_notice">5분전</em>
+                            </a></li>
+
+                        <li>
+                        	<a href="#">
+                            	<img src="images/sms_bg.gif" alt="sms이미지" /><span class="mail_id">abc@saltware.co.kr</span>업무진행에 대한 의견을 나누고자합니다.<em class="clock_notice">5분전</em>
+                            </a></li>
+                        <li>
+                        	<a href="#">
+                            	<img src="images/sms_bg.gif" alt="sms이미지" /><span class="mail_id">abc@saltware.co.kr</span>업무진행에 대한 의견을 나누고자합니다.<em class="clock_notice">5분전</em>
+                            </a></li>
+                    </ul>
+					<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+				</div>
+			</div>            
+            <div class="portlet-my" data-col="1" data-row="15" data-sizex="2" data-sizey="2">
+				<div class="p_42 team_site">
+					<h3>요청처리</h3>
+                    <ul>
+                        <li><a href="#"><span class="title">[진행중] MIS 개선에 따라 사용자 MIS 개선에 따라 사용자 MIS 개선에 따라 사용자</span></a></li>
+                        <li><a href="#"><span class="title">[진행중]  업무포털 디자인 개선</span></a></li>
+                        <li><a href="#"><span class="title">[완료] 전직원 연말연시 휴가처</span></a></li>
+                        <li><a href="#"><span class="title">[진행중]  MLS 개선에 따른 사용자</span></a></li>
+                        <li><a href="#"><span class="title">[진행중]  MLS 개선에 따른 사용자</span></a></li>
+                        <li><a href="#"><span class="title">[완료]  전직원 연말연시 휴가처</span></a></li>
+                    </ul>
+					<a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+				</div>
+			</div>            
+            <div class="portlet-my" data-col="1" data-row="15" data-sizex="2" data-sizey="2">
+				<div class="p_42 team_site">
+				   <h3>도움말</h3>
+                    <ul>
+                        <li><a href="#"><span class="title">자바</span></a></li>
+                        <li><a href="#"><span class="title">디자인</span></a></li>
+                        <li><a href="#"><span class="title">출사</span></a></li>
+                        <li><a href="#"><span class="title">방탈출</span></a></li>
+                        <li><a href="#"><span class="title">디자인</span></a></li>
+                        <li><a href="#"><span class="title">출사</span></a></li>                        
+                    </ul>
+				    <a href="#" class="btn_more"><img src="images/icon_more.png" alt="더보기" /></a>
+				</div>
+			</div>   
+			<div class="portlet-my" data-col="7" data-row="7" data-sizex="2" data-sizey="2">
+				<div class="p_22 banner">
+					<div class="flexslider1">
+						<ul class="content_bannner_list slides">
+							<li>
+								<div class="contents">
+									<h4><span>세계영어</span>영어교육의 패러다임<br/>재검토</h4>
+									<p class="date">2018년 10월 26일(금)<br/>오후 3시 ~ 5시</p>
+									<p class="location">사범대학 11동 107호<br/>서울대학교 국어연구소</p>
+								</div>
+							</li>
+							<li>
+								<div class="contents">
+									<h4><span>세계영어</span>영어교육의 패러다임<br/>재검토</h4>
+									<p class="date">2018년 10월 26일(금)<br/>오후 3시 ~ 5시</p>
+									<p class="location">사범대학 11동 107호<br/>서울대학교 국어연구소</p>
+								</div>
+							</li>
+							<li>
+								<div class="contents">
+									<h4><span>세계영어</span>영어교육의 패러다임<br/>재검토</h4>
+									<p class="date">2018년 10월 26일(금)<br/>오후 3시 ~ 5시</p>
+									<p class="location">사범대학 11동 107호<br/>서울대학교 국어연구소</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+        </div>    
+        <!-- EnviewConetntArea //-->    </div>
+	<!-- portetArea //-->  
+</div>    
+<!-- contents //-->  
+<!-- footer -->
+<div id="footer">
+    <div class="copyright">
+        <div class="wrap">
+            <ul>
+                <li>COPYRIGHT©2019 by Saltware.CO.LTD. ALL RIGHTS RESERVED.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- footer //-->
+
+</body>
+</html>
+
+
+ 
+
+
+
+
+
+

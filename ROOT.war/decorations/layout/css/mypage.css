@@ -1,0 +1,11 @@
+.column-my { width: 99%; float: left; min-height: 100px }
+.column-fixed { width: 99%; float: left; min-height: 100px }
+.portlet-my { margin: 0 1px 1px 0; }
+.portlet-fixed { margin: 0 1px 1px 0; }
+.portlet-header-my { margin: 0.3em; padding-bottom: 4px; padding-left: 0.2em; }
+.portlet-header-my .ui-icon { float: right; }
+.portlet-content-my { padding: 0.4em; }
+.ui-sortable-placeholder { border: 1px dotted black; visibility: visible !important; }
+.ui-sortable-placeholder * { visibility: hidden; }
+.ui-icon-plus {cursor:pointer;}
+.ui-icon-close {cursor:pointer;}

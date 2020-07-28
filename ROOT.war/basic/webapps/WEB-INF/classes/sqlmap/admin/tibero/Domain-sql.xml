@@ -1,0 +1,119 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	<!-- Query for [ DOMAIN : 도메인관리 ] Table -->
+	<resultMap id="admin_DomainVO_PK" class="com.saltware.enview.admin.domain.service.DomainPK">
+		<result property="domainId" column="DOMAIN_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_DomainVO" class="com.saltware.enview.admin.domain.service.DomainVO">
+		<result property="domainId" column="DOMAIN_ID" columnIndex="1"/>
+		<result property="domainCode" column="DOMAIN_CODE" columnIndex="2"/>	 
+		<result property="domain" column="DOMAIN" columnIndex="3"/>	 
+		<result property="pagePath" column="PAGE_PATH" columnIndex="4"/>
+		<result property="loginPage" column="LOGIN_PAGE" columnIndex="5"/>
+		<result property="useYn" column="USE_YN" columnIndex="6"/>	 
+		<result property="updUserId" column="UPD_USER_ID" columnIndex="7"/>	 
+		<result property="updDatim" column="UPD_DATIM" columnIndex="8"/>	
+		<result property="domainNm" column="DOMAIN_NM" columnIndex="9"/>
+		<result property="domainDesc" column="DOMAIN_DESC" columnIndex="10"/>
+	</resultMap>
+	
+	<select id="domain.totalCount" resultClass="int">
+	/* domain.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM DOMAIN
+		WHERE 1=1 
+		<isNotNull  prepend=" AND " property="domainCond">DOMAIN LIKE COALESCE(#domainCond#,'%')||'%'</isNotNull>
+	</select>
+	
+	<select id="domain.findByPage" resultMap="admin_DomainVO_PK">
+	/* domain.findByPage */
+		SELECT * FROM (
+			SELECT DOMAIN_ID, ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY DOMAIN_ID ASC</isNull>
+			) as rnum
+			FROM DOMAIN
+			WHERE 1=1
+			<isNotNull prepend=" AND " property="domainCond"> (DOMAIN_CODE LIKE '%'||#domainCond#||'%' OR DOMAIN LIKE '%'||#domainCond#||'%') </isNotNull>	      
+		) t1 WHERE t1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="domain.findAll" resultMap="admin_DomainVO">
+			/* domain.findAll */
+			SELECT a.DOMAIN_ID,a.DOMAIN_CODE,a.DOMAIN,a.PAGE_PATH,a.LOGIN_PAGE,a.USE_YN,a.UPD_USER_ID,a.UPD_DATIM, b.DOMAIN_NM, b.DOMAIN_DESC
+			FROM DOMAIN a 
+			LEFT OUTER JOIN DOMAIN_LANG b ON a.DOMAIN_ID = b.DOMAIN_ID
+			<!-- WHERE USE_YN='Y' -->
+			ORDER BY a.DOMAIN_ID ASC
+	</select>
+    
+	<select id="domain.selfDomainSecury" resultClass="int">
+			/* domain.selfDomainSecury */
+	         SELECT DISTINCT(SP.DOMAIN_ID) AS DO
+	         FROM SECURITY_PRINCIPAL SP 
+	         WHERE SP.PRINCIPAL_ID = #id#
+    </select>
+	
+	<select id="domain.detail" resultMap="admin_DomainVO">
+		/* domain.detail */
+		<![CDATA[
+			SELECT a.DOMAIN_ID,a.DOMAIN_CODE,a.DOMAIN,a.PAGE_PATH,a.LOGIN_PAGE,a.USE_YN,a.UPD_USER_ID,a.UPD_DATIM, b.DOMAIN_NM,b.DOMAIN_DESC
+			FROM DOMAIN a
+			JOIN DOMAIN_LANG b ON b.DOMAIN_ID = a.DOMAIN_ID
+			WHERE a.DOMAIN_ID =  CAST(#domainId# AS INTEGER)
+			AND b.LANG_KND = #langKnd#
+		]]> 
+	</select>
+	
+	<select id="domain.exist" resultClass="int">
+			/* domain.exist*/
+			SELECT COUNT(*) cnt
+			FROM DOMAIN
+			WHERE 1=1 
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+	</select>
+	
+	<insert id="domain.insert">
+		/* domain.insert */
+		<![CDATA[
+			INSERT INTO DOMAIN
+				( DOMAIN_ID,DOMAIN_CODE,DOMAIN,PAGE_PATH,LOGIN_PAGE,USE_YN,UPD_USER_ID,UPD_DATIM )
+			VALUES ( CAST(#domainId# AS INTEGER),#domainCode#,#domain#,#pagePath#,#loginPage#,#useYn#,#updUserId#,SYSDATE )
+		]]>
+	</insert>
+	
+	<select id="domain.validateInsertable" resultClass="int">
+		/* domain.validateInsertable */
+		SELECT COUNT(*) FROM DOMAIN 
+		WHERE DOMAIN=#domain# OR DOMAIN_CODE=#domainCode# OR PAGE_PATH = #pagePath# OR LOGIN_PAGE = #loginPage#
+	</select>
+	
+	<update id="domain.update">
+		/* domain.update */
+		<![CDATA[
+			UPDATE DOMAIN
+			SET DOMAIN_ID=CAST(#domainId# AS INTEGER),DOMAIN_CODE=#domainCode#,DOMAIN=#domain#,PAGE_PATH=#pagePath#,LOGIN_PAGE=#loginPage#,USE_YN=#useYn#,UPD_USER_ID=#updUserId#,UPD_DATIM=SYSDATE
+			WHERE 1=1
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+		]]>
+	</update>
+	
+	<select id="domain.validateDeletable" resultClass="int">
+		/* domain.validateDeletable */
+	    SELECT DOMAIN_ID
+		FROM DOMAIN
+		WHERE DOMAIN_ID = CAST(#domainId# AS INTEGER)
+	</select>
+		
+	<delete id="domain.delete">
+		/* domain.delete */
+		<![CDATA[
+			DELETE FROM DOMAIN
+			WHERE 1=1 
+				AND DOMAIN_ID=CAST(#domainId# AS INTEGER)
+		]]>
+	</delete>
+</sqlMap>

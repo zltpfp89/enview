@@ -1,0 +1,94 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ DOMAIN : 도몌인관리 ] Table -->
+	<resultMap id="admin_DomainVO_PK" class="com.saltware.enview.admin.domain.service.DomainPK">
+	
+		<result property="domainId" column="DOMAIN_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_DomainVO" class="com.saltware.enview.admin.domain.service.DomainVO">
+	 
+		<result property="domainId" column="DOMAIN_ID" columnIndex="1"/>	 
+		<result property="domain" column="DOMAIN" columnIndex="2"/>	 
+		<result property="pagePath" column="PAGE_PATH" columnIndex="3"/>	 
+		<result property="useYn" column="USE_YN" columnIndex="4"/>	 
+		<result property="updUserId" column="UPD_USER_ID" columnIndex="5"/>	 
+		<result property="updDatim" column="UPD_DATIM" columnIndex="6"/>	
+	</resultMap>
+	
+	<select id="domain.totalCount" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM DOMAIN
+			WHERE USE_YN='Y'	
+					<isNotNull  prepend=" AND " property="domainCond">DOMAIN LIKE nvl(#domainCond#,'%')||'%'</isNotNull>
+	</select>
+	
+	<select id="domain.findByPage" resultMap="admin_DomainVO_PK">
+			SELECT tb2.* FROM (
+				SELECT tb1.*, rownum rnum FROM (
+					SELECT DOMAIN_ID
+					FROM DOMAIN
+					WHERE USE_YN='Y'
+					<isNotNull  prepend=" AND " property="domainCond">DOMAIN LIKE nvl(#domainCond#,'%')||'%'</isNotNull>
+					<isNotNull property="sortColumn"> ORDER BY $sortColumn$ $sortMethod$ </isNotNull>
+				) tb1
+			) tb2 WHERE tb2.rnum BETWEEN #startRow# AND #endRow#
+			
+	</select>
+
+	<select id="domain.findAll" resultMap="admin_DomainVO">
+			SELECT DOMAIN_ID,DOMAIN,PAGE_PATH,USE_YN,UPD_USER_ID,UPD_DATIM
+			FROM DOMAIN
+			WHERE USE_YN='Y'
+	</select>
+	
+
+	<select id="domain.detail" resultMap="admin_DomainVO">
+		<![CDATA[
+			SELECT DOMAIN_ID,DOMAIN,PAGE_PATH,USE_YN,UPD_USER_ID,UPD_DATIM
+			FROM DOMAIN
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+		]]>
+	</select>
+	
+	<select id="domain.exist" resultClass="int">
+			SELECT COUNT(*) cnt
+			FROM DOMAIN
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+	</select>
+	
+	<insert id="domain.insert">
+		<![CDATA[
+			INSERT INTO DOMAIN
+				( DOMAIN_ID,DOMAIN,PAGE_PATH,USE_YN,UPD_USER_ID,UPD_DATIM )
+			VALUES ( #domainId#,#domain#,#pagePath#,#useYn#,#updUserId#,#updDatim# )
+		]]>
+	</insert>
+	
+	<update id="domain.update">
+		<![CDATA[
+			UPDATE DOMAIN
+			SET DOMAIN_ID=#domainId#,DOMAIN=#domain#,PAGE_PATH=#pagePath#,USE_YN=#useYn#,UPD_USER_ID=#updUserId#,UPD_DATIM=#updDatim#
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+		]]>
+	</update>
+	
+	<delete id="domain.delete">
+		<![CDATA[
+			DELETE FROM DOMAIN
+			WHERE 1=1 
+				AND DOMAIN_ID=#domainId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

@@ -1,0 +1,247 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="face">
+	<!-- Query for [ SJPB_FINC_DTA : 금융자료 ] Table -->
+	<resultMap class="com.saltware.enface.sjpb.N.service.N0101VO" id="N0101VO.selectList">
+		<result property="fincDtaBkNum" column="FINC_DTA_BK_NUM"/>
+		<result property="fincDtaSbjt" column="FINC_DTA_SBJT"/>
+		<result property="fincCd" column="FINC_CD"/>
+		<result property="fincNm" column="FINC_NM"/>
+		<result property="wrntTrgtAcctNum" column="WRNT_TRGT_ACCT_NUM"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+		<result property="remainDay" column="REMAIN_DAY"/>
+		<result property="fincDtaResetDay" column="FINC_DTA_RESET_DAY"/>
+	</resultMap>
+	
+	<resultMap class="com.saltware.enface.sjpb.N.service.N0101VO" id="N0101VO.selectAll">
+		<result property="fincDtaBkNum" column="FINC_DTA_BK_NUM"/>
+		<result property="fincDtaSbjt" column="FINC_DTA_SBJT"/>
+		<result property="fincCd" column="FINC_CD"/>
+		<result property="fincNm" column="FINC_NM"/>
+		<result property="wrntTrgtAcctNum" column="WRNT_TRGT_ACCT_NUM"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+	</resultMap>	
+	
+	<resultMap class="com.saltware.enface.sjpb.N.service.N0101VO" id="N0101VO.selectFincDtaFileAll">
+		<result property="cmctFincDtaNum" column="CMCT_FINC_DTA_NUM"/>
+		<result property="fileId" column="FILE_ID"/>
+		<result property="cmctFincDiv" column="CMCT_FINC_DIV"/>
+		<result property="fileNm" column="FILE_NM"/>
+		<result property="fileMask" column="FILE_MASK"/>
+		<result property="fileType" column="FILE_TYPE"/>
+		<result property="filePath" column="FILE_PATH"/>	
+	</resultMap>
+	
+	
+	<!-- 금융대장 마스터  리스트 -->
+	<select id="N0101.selectList" resultMap="N0101VO.selectList"> /* N0101.selectList */
+		SELECT
+		    FINC_DTA_BK_NUM,
+		    FINC_DTA_SBJT,
+		    FINC_CD,
+		    (SELECT CODE_NAME FROM CODEBASE WHERE CODE_ID='SJPB_00024' AND CODE !='0000000000' AND LANG_KND='ko' AND CODE=FINC_CD ) ||'('||FINC_CD||')' AS FINC_NM ,
+		    CRYPTO.DEC('normal',WRNT_TRGT_ACCT_NUM) AS WRNT_TRGT_ACCT_NUM,
+		    REG_USER_ID,
+		    UPD_USER_ID,
+		    TO_CHAR(REG_DATE,'yyyy-MM-dd') AS REG_DATE,
+		    TO_CHAR(UPD_DATE,'yyyy-MM-dd') AS UPD_DATE,
+            TO_CHAR(REG_DATE+180,'yyyy-MM-dd') AS END_DATE,
+            'D-'||ROUND(REG_DATE+#fincDtaResetDay# -SYSDATE) AS REMAIN_DAY,		    
+		    #fincDtaResetDay# AS FINC_DTA_RESET_DAY
+		FROM
+		    SJPB_FINC_DTA
+		WHERE 1=1
+		 AND REG_USER_ID =#regUserId#
+		<isNotEmpty  prepend=" AND " property="fincCd">FINC_CD =#fincCd#</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="wrntTrgtAcctNum">CRYPTO.DEC('normal',WRNT_TRGT_ACCT_NUM) LIKE '%'||#wrntTrgtAcctNum#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="fincDtaSbjt">FINC_DTA_SBJT LIKE '%'||#fincDtaSbjt#||'%'</isNotEmpty>		 
+	 	ORDER BY FINC_DTA_BK_NUM ASC
+	</select>
+	
+	<!-- 금융대장 마스터  리스트 -->
+	<select id="N0101.selectFincDtaInfo" resultMap="N0101VO.selectAll"> /* N0101.selectFincDtaInfo */
+		SELECT
+		    FINC_DTA_BK_NUM,
+		    FINC_DTA_SBJT,
+		    FINC_CD,
+		    (SELECT CODE_NAME FROM CODEBASE WHERE CODE_ID='SJPB_00024' AND CODE !='0000000000' AND LANG_KND='ko' AND CODE=FINC_CD ) AS FINC_NM,
+		    CRYPTO.DEC('normal',WRNT_TRGT_ACCT_NUM) AS WRNT_TRGT_ACCT_NUM,
+		    REG_USER_ID,
+		    UPD_USER_ID,
+		    TO_CHAR(REG_DATE,'yyyy-MM-dd') AS REG_DATE,
+		    TO_CHAR(UPD_DATE,'yyyy-MM-dd') AS UPD_DATE,
+            TO_CHAR(REG_DATE+180,'yyyy-MM-dd') AS END_DATE
+		FROM
+		    SJPB_FINC_DTA
+		WHERE 1=1
+		 AND FINC_DTA_BK_NUM =#fincDtaBkNum#	 
+	 	ORDER BY FINC_DTA_BK_NUM ASC
+	</select>	
+
+	<!-- 금융자료 마스터  추가 -->
+	<insert id="N0101.SJPB_FINC_DTA.insert"> /* N0101.SJPB_FINC_DTA.insert*/		
+		INSERT INTO SJPB_FINC_DTA (
+		    FINC_DTA_BK_NUM,
+		    FINC_DTA_SBJT,
+		    FINC_CD,
+		    WRNT_TRGT_ACCT_NUM,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+		    #fincDtaBkNum#,
+		    #fincDtaSbjt#,
+		    #fincCd#,
+		    CRYPTO.ENC('normal',#wrntTrgtAcctNum#),
+		    #regUserId#,
+		    SYSDATE,
+		    #updUserId#,
+		    SYSDATE
+		)
+	</insert>
+	
+<!-- 디지털포렌식지원업무현황 추가 -->
+	<update id="N0101.SJPB_FINC_DTA.update"> /* N0101.SJPB_FINC_DTA.update*/		
+		UPDATE SJPB_FINC_DTA
+		SET
+		     FINC_DTA_SBJT = #fincDtaSbjt#
+		     ,FINC_CD =#fincCd#
+		     ,WRNT_TRGT_ACCT_NUM =  CRYPTO.ENC('normal',#wrntTrgtAcctNum#),
+		     ,UPD_USER_ID =#updUserId#
+		     ,UPD_DATE =SYSDATE
+		     
+		WHERE
+		    FINC_DTA_BK_NUM =  #fincDtaBkNum#
+	</update>	
+	
+	<delete id="N0101.SJPB_FINC_DTA_DTS.delete">  /* N0101.SJPB_FINC_DTA_DTS.delete */
+		<![CDATA[	
+			DELETE FROM SJPB_FINC_DTA_DTS WHERE FINC_DTA_BK_NUM=#fincDtaBkNum#
+		]]>
+	</delete>
+	
+	<delete id="N0101.SJPB_CMCT_FINC_DTA_FILE.delete">  /* N0101.SJPB_CMCT_FINC_DTA_FILE.delete */
+		<![CDATA[	
+			DELETE FROM SJPB_CMCT_FINC_DTA_FILE WHERE CMCT_FINC_DTA_NUM =#fincDtaBkNum# AND CMCT_FINC_DIV=#cmctFincDiv#
+		]]>
+	</delete>
+	
+	<delete id="N0101.SJPB_FINC_DTA.delete">  /* N0101.SJPB_FINC_DTA.delete */
+		<![CDATA[	
+			DELETE FROM SJPB_FINC_DTA WHERE FINC_DTA_BK_NUM=#fincDtaBkNum#
+		]]>
+	</delete>	
+	
+	<select id="N0101.SJPB_FINC_DTA.FINC_CD.select" resultClass="java.lang.String">  /* N0101.SJPB_FINC_DTA.FINC_CD.select */
+			SELECT FINC_CD
+			FROM   SJPB_FINC_DTA
+			WHERE  FINC_DTA_BK_NUM =#fincDtaBkNum#
+	</select>			
+	
+	<insert id="N0101.SJPB_CMCT_FINC_DTA_FILE.insert"> /* N0101.SJPB_CMCT_FINC_DTA_FILE.insert*/		
+		INSERT INTO SJPB_CMCT_FINC_DTA_FILE (
+		    CMCT_FINC_DTA_NUM,
+		    FILE_ID,
+		    CMCT_FINC_DIV,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+		    #fincDtaBkNum#,
+		    #fileId#,
+		    #cmctFincDiv#,
+		    #regUserId#,
+		    SYSDATE,
+		    #updUserId#,
+		    SYSDATE
+		)
+	</insert>	
+	
+	<!-- 금융대장 마스터  리스트 -->
+	<select id="N0101.selectFincFileInfo" resultMap="N0101VO.selectAll"> /* N0101.selectFincDtaInfo */
+		SELECT
+		    FINC_DTA_BK_NUM,
+		    FINC_DTA_SBJT,
+		    FINC_CD,
+		    (SELECT CODE_NAME FROM CODEBASE WHERE CODE_ID='SJPB_00024' AND CODE !='0000000000' AND LANG_KND='ko' AND CODE=FINC_CD ) AS FINC_NM,
+		    CRYPTO.DEC('normal',WRNT_TRGT_ACCT_NUM) AS WRNT_TRGT_ACCT_NUM,
+		    REG_USER_ID,
+		    UPD_USER_ID,
+		    TO_CHAR(REG_DATE,'yyyy-MM-dd') AS REG_DATE,
+		    TO_CHAR(UPD_DATE,'yyyy-MM-dd') AS UPD_DATE,
+            TO_CHAR(REG_DATE+180,'yyyy-MM-dd') AS END_DATE
+		FROM
+		    SJPB_FINC_DTA
+		WHERE 1=1
+		 AND FINC_DTA_BK_NUM =#fincDtaBkNum#	 
+	 	ORDER BY FINC_DTA_BK_NUM ASC
+	</select>	
+	
+	<select id="N0101.selectFincDtaFileInfo" resultMap="N0101VO.selectFincDtaFileAll"> /* N0101.selectFincDtaFileInfo */
+		SELECT CMCT_FINC_DTA_NUM,
+		       A.FILE_ID,
+		       CMCT_FINC_DIV,
+		       FILE_NM,
+		       FILE_MASK,
+		       FILE_TYPE,
+		       FILE_PATH
+		FROM   SJPB_CMCT_FINC_DTA_FILE A
+		       JOIN SJPB_COMM_FILE B
+		       ON     A.FILE_ID =B.FILE_ID
+		WHERE  1                =1
+		AND    A.CMCT_FINC_DIV  ='F'
+		AND    A.CMCT_FINC_DTA_NUM = #cmctFincDtaNum#
+	</select>	
+	
+	<!-- 금융자료 상세정보 추가 -->
+	<insert id="N0101.SJPB_FINC_DTA_DTS.insert"> /* N0101.SJPB_FINC_DTA_DTS.insert*/		
+		INSERT INTO SJPB_FINC_DTA_DTS (
+		    FINC_DTA_DTS_NUM,
+		    FINC_DTA_BK_NUM,
+		    FINC_CD,
+		    WRNT_TRGT_ACCT_NUM,
+		    INPT_OUPT_DIV,
+		    TRNT_DT,
+		    TRNT_AMT,
+		    OPNT_ACCT_NUM,
+		    OPNT_FINC_CD,
+		    INPT_OUPT_NM,
+		    ACCT_ABST,
+		    FINC_DTA_COMN,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+			#fincDtaDtsNum#,
+		    #fincDtaBkNum#,
+		    #fincCd#,
+		    CRYPTO.ENC('normal',#wrntTrgtAcctNum#),
+		    #inptOuptDiv#,
+		    #trntDt#,
+		    #trntAmt#,
+		    CRYPTO.ENC('normal',#opntAcctNum#),
+		    #opntFincCd#,
+		    CRYPTO.ENC('normal',#inptOuptNm#),
+		    CRYPTO.ENC('normal',#acctAbst#),
+		    CRYPTO.ENC('normal',#fincDtaComn#),
+		    #regUserId#,
+		    SYSDATE,
+		    #updUserId#,
+		    SYSDATE		       
+		)
+	</insert>	
+	
+
+</sqlMap>
+

@@ -1,0 +1,146 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0129VO" id="M0129VO.list">
+		<result property="rcpnPhbtHandNum" column="RCPN_PHBT_HAND_NUM"/>
+		<result property="prgsNum" column="PRGS_NUM"/>
+		<result property="rcptNum" column="RCPT_NUM"/>
+		<result property="rcptIncNum" column="RCPT_INC_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="deciDt" column="DECI_DT"/>
+		<result property="sjpbPolfOffi" column="SJPB_POLF_OFFI"/>
+		<result property="criNm" column="CRI_NM"/>
+		<result property="deciRsn" column="DECI_RSN"/>
+		<result property="phbtCont" column="PHBT_CONT"/>
+		<result property="cnclDt" column="CNCL_DT"/>
+		<result property="cnclRsn" column="CNCL_RSN"/>
+		<result property="rcpnComn" column="RCPN_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="nmKor" column="NM_KOR"/>
+	</resultMap>
+	
+ 	<select id="M0129.SJPB_RCPN_PHBT_HAND_BK_DOC.selectList" resultMap="M0129VO.list">  /* M0129.SJPB_RCPN_PHBT_HAND_BK_DOC.selectList */
+ 		SELECT A.RCPN_PHBT_HAND_NUM  /* 접견등금지결정처리번호 */
+		       ,A.PRGS_NUM  /* 진행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM  /* 사건번호 */
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 이름 */
+		       ,A.DECI_DT  /* 결정일 */
+		       ,A.SJPB_POLF_OFFI  /* 특별사법경찰관 */
+		       ,A.CRI_NM  /* 죄명 */
+		       ,A.DECI_RSN  /* 결정이유 */
+		       ,A.PHBT_CONT  /* 금지내용 */
+		       ,A.CNCL_DT  /* 취소일 */
+		       ,A.CNCL_RSN  /* 취소사유 */
+		       ,A.RCPN_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,D.NM_KOR  /* 작성자 이름 */
+		FROM SJPB_RCPN_PHBT_HAND_BK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS D ON D.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcptIncNumSc" prepend="AND">
+				C.RCPT_INC_NUM LIKE '%' || #rcptIncNumSc# || '%' 
+			</isNotEmpty>
+			<isNotEmpty property="rcptNumSc" prepend="AND">
+				C.RCPT_NUM = #rcptNumSc# OR C.PARE_RCPT_NUM = #rcptNumSc# 
+			</isNotEmpty>
+			<isNotEmpty property="spNmSc" prepend="AND">
+				B.SP_NM LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<update id="M0129.SJPB_RCPN_PHBT_HAND_BK_DOC.insert" parameterClass="com.saltware.enface.sjpb.M.service.M0129VO">  /* M0129.SJPB_RCPN_PHBT_HAND_BK_DOC.insert */
+ 		INSERT INTO SJPB_RCPN_PHBT_HAND_BK_DOC (
+		    RCPN_PHBT_HAND_NUM,
+		    PRGS_NUM,
+		    RCPT_NUM,
+		    INC_SP_NUM,
+		    DECI_DT,
+		    SJPB_POLF_OFFI,
+		    CRI_NM,
+		    DECI_RSN,
+		    PHBT_CONT,
+		    CNCL_DT,
+		    CNCL_RSN,
+		    RCPN_COMN,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_RCPN_PHBT_HAND_BK_DOC.RCPN_PHBT_HAND_NUM')
+		    ,#prgsNum#
+		    ,#rcptNum#
+		    ,#incSpNum#
+		    ,#deciDt#
+		    ,#sjpbPolfOffi#
+		    ,#criNm#
+		    ,#deciRsn#
+		    ,#phbtCont#
+		    ,#cnclDt#
+		    ,#cnclRsn#
+		    ,#rcpnComn#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		)
+ 	</update>
+ 	<update id="M0129.SJPB_RCPN_PHBT_HAND_BK_DOC.update" parameterClass="com.saltware.enface.sjpb.M.service.M0129VO">  /* M0129.SJPB_RCPN_PHBT_HAND_BK_DOC.update */
+ 		UPDATE SJPB_RCPN_PHBT_HAND_BK_DOC 
+		SET INC_SP_NUM = #incSpNum#,
+			PRGS_NUM = #prgsNum#,
+		    DECI_DT = #deciDt#,
+		    SJPB_POLF_OFFI = #sjpbPolfOffi#,
+		    CRI_NM = #criNm#,
+		    DECI_RSN = #deciRsn#,
+		    PHBT_CONT = #phbtCont#,
+		    CNCL_DT = #cnclDt#,
+		    CNCL_RSN = #cnclRsn#,
+		    RCPN_COMN = #rcpnComn#,
+		    UPD_USER_ID = #regUserId#,
+		    UPD_DATE = SYSDATE
+		WHERE RCPN_PHBT_HAND_NUM = #rcpnPhbtHandNum#
+ 	</update>
+ 	
+ 	<select id="M0129.SJPB_RCPN_PHBT_HAND_BK_DOC.prnCheckReport" resultMap="M0129VO.list">  /* M0129.SJPB_RCPN_PHBT_HAND_BK_DOC.prnCheckReport */
+		SELECT A.RCPN_PHBT_HAND_NUM  /* 접견등금지결정처리번호 */
+		       ,A.PRGS_NUM  /* 진행번호 */
+		       ,A.RCPT_NUM  /* 접수번호 */
+		       ,C.RCPT_INC_NUM
+		       ,A.INC_SP_NUM  /* 사건피의자번호 */
+		       ,B.SP_NM AS SP_NM  /* 피의자 이름 */
+		       ,DECODE(A.DECI_DT,NULL,'',SUBSTR(A.DECI_DT,1,4)||'.'|| SUBSTR(A.DECI_DT,5,2) ||'.'||SUBSTR(A.DECI_DT,7,2)) AS DECI_DT  /* 결정일 */
+		       ,A.SJPB_POLF_OFFI  /* 특별사법경찰관 */
+		       ,A.CRI_NM  /* 죄명 */
+		       ,A.DECI_RSN  /* 결정이유 */
+		       ,A.PHBT_CONT  /* 금지내용 */
+		       ,DECODE(A.CNCL_DT,NULL,'',SUBSTR(A.CNCL_DT,1,4)||'.'|| SUBSTR(A.CNCL_DT,5,2) ||'.'||SUBSTR(A.CNCL_DT,7,2)) AS CNCL_DT  /* 취소일 */
+		       ,A.CNCL_RSN  /* 취소사유 */
+		       ,A.RCPN_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		       ,E.NM_KOR
+		FROM SJPB_RCPN_PHBT_HAND_BK_DOC A
+		JOIN SJPB_INC_SP B ON B.INC_SP_NUM = A.INC_SP_NUM
+		JOIN SJPB_INC_MAST C ON C.RCPT_NUM = A.RCPT_NUM
+		JOIN USERPASS E ON E.USER_ID = A.REG_USER_ID
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="rcpnPhbtHandNumList" prepend="AND">
+				<iterate property="rcpnPhbtHandNumList" open="A.RCPN_PHBT_HAND_NUM IN(" close=")" conjunction=",">
+					 #rcpnPhbtHandNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+</sqlMap>

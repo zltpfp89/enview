@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <!-- ************** Security SPI Handlers ************** -->
+
+  <!-- require a non-empty password -->
+  <bean id="com.saltware.enview.security.spi.CredentialPasswordValidator"
+    class="com.saltware.enview.security.spi.impl.DefaultCredentialPasswordValidator">
+    <meta key="j2:cat" value="default or security" />
+
+    <!-- UNCOMMENT TO TURN ON Regex-based password validation. The pattern below gives:
+      * Must be at least 6 characters
+      * Must contain at least one one lower case letter, one upper case letter, one digit and one special character
+      * Valid special characters are @#$%^&+=
+      <constructor-arg index="1"><value><![CDATA[^.*(?=.{6,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$]]></value></constructor-arg>       
+    -->
+  </bean>
+
+  <!-- MessageDigest encode passwords using SHA-1 -->
+  <bean id="com.saltware.enview.security.spi.CredentialPasswordEncoder"
+    class="com.saltware.enview.security.spi.impl.MessageDigestCredentialPasswordEncoder">
+    <meta key="j2:cat" value="default or security" />
+    <constructor-arg index="0">
+      <value>SHA-1</value>
+    </constructor-arg>
+  </bean>
+
+  <!-- Alternate Password Encoder with Enview-1 algorithm -->
+  <!--
+    <bean id="com.saltware.enview.security.spi.CredentialPasswordEncoder" 
+    class="com.saltware.enview.security.spi.impl.Enview1CredentialPasswordEncoder">
+    <constructor-arg index="0"><value>SHA</value></constructor-arg>
+    <constructor-arg index="1"><value>base64</value></constructor-arg>
+    </bean>       
+  -->
+  <!--
+    <bean id="com.saltware.enview.security.spi.PasswordCredentialProvider"
+    class="com.saltware.enview.security.spi.impl.DefaultPasswordCredentialProvider">
+    <meta key="j2:cat" value="default or security" />
+    <constructor-arg index="0">
+    <ref bean="com.saltware.enview.security.spi.CredentialPasswordValidator" />
+    </constructor-arg>
+    <constructor-arg index="1">
+    <ref bean="com.saltware.enview.security.spi.CredentialPasswordEncoder" />
+    </constructor-arg>
+    </bean>-->
+
+  <!-- A Two-way encoding password service which also implements CredentialPasswordEncoder
+    this Service can be used instead of for example the default provided MessageDigestCredentialPasswordEncoder
+    <bean id="com.saltware.enview.security.PasswordEncodingService"
+    name="com.saltware.enview.security.spi.CredentialPasswordEncoder"
+    class="com.saltware.enview.security.spi.impl.PBEPasswordService">
+    <constructor-arg index="0">
+    <!- secret PBE key password ->
+    <value>********</value>
+    </constructor-arg>       
+    </bean>       
+  -->
+
+  <!-- A Two-way encoding password service which also implements CredentialPasswordEncoder
+    Furthermore, this extension of the PBEPasswordService supports lazy upgrading from an old CredentialPasswordEncoder
+    like the default provided MessageDigestCredentialPasswordEncoder
+    ->
+    <bean id="com.saltware.enview.security.PasswordEncodingService"
+    name="com.saltware.enview.security.spi.CredentialPasswordEncoder"
+    class="com.saltware.enview.security.spi.impl.AlgorithmUpgradePBEPasswordService">
+    <constructor-arg index="0">
+    <!- secret PBE key password ->
+    <value>********</value>
+    </constructor-arg>
+    <constructor-arg index="1">
+    <!- old MessageDigestCredentialPasswordEncoder to be upgrading from, using SHA-1 ->
+    <bean class="com.saltware.enview.security.spi.impl.MessageDigestCredentialPasswordEncoder">
+    <constructor-arg index="0"><value>SHA-1</value></constructor-arg>       
+    </bean>       
+    </constructor-arg>
+    <constructor-arg index="2">
+    <!- startPBEPasswordEncodingService: date before which old encoded passwords need to be recoded (on authentication)
+    (SimpleDateFormat) format: yyyy-MM-dd HH:mm:ss
+    ->
+    <value>2006-07-02 15:00:00</value>
+    </constructor-arg>
+    </bean>
+  -->
+
+  <!-- allow multiple InternalPasswordCredentialInterceptors to be used for DefaultCredentialHandler -->
+  <!--
+    <bean id="com.saltware.enview.security.spi.InternalPasswordCredentialInterceptor"
+    class="com.saltware.enview.security.spi.impl.InternalPasswordCredentialInterceptorsProxy">
+    <meta key="j2:cat" value="default or security" />
+    <constructor-arg index="0">
+    <list>
+    
+    <bean class="com.saltware.enview.security.spi.impl.ValidatePasswordOnLoadInterceptor" />
+    
+    
+    <bean class="com.saltware.enview.security.spi.impl.EncodePasswordOnFirstLoadInterceptor" />
+    </list>
+    </constructor-arg>
+    </bean>-->
+
+  <!-- Security SPI: CredentialHandler -->
+  <!--
+    <bean id="com.saltware.enview.security.spi.CredentialHandler"
+    class="com.saltware.enview.security.spi.impl.DefaultCredentialHandler">
+    <meta key="j2:cat" value="default or security" />
+    <constructor-arg index="0">
+    <ref bean="com.saltware.enview.security.spi.SecurityAccess" />
+    </constructor-arg>
+    <constructor-arg index="1">
+    <ref bean="com.saltware.enview.security.spi.PasswordCredentialProvider" />
+    </constructor-arg>
+    <constructor-arg index="2">
+    <ref bean="com.saltware.enview.security.spi.InternalPasswordCredentialInterceptor" />
+    </constructor-arg>
+    </bean>
+    
+  -->
+  <!-- Security SPI: UserSecurityHandler -->
+  <!-- The DefaultUSerSecurityHandler uses the raw SecurityAccessImpl so that it
+    may demarcate its own transactions -->
+  <!--<bean id="com.saltware.enview.security.spi.UserSecurityHandlerImpl"
+    class="com.saltware.enview.security.spi.impl.DefaultUserSecurityHandler">
+    <meta key="j2:cat" value="default or security" />
+    <constructor-arg>
+    <ref bean="com.saltware.enview.security.spi.SecurityAccess" />
+    </constructor-arg>
+    </bean>
+    
+    <bean id="com.saltware.enview.security.spi.UserSecurityHandler" parent="baseTransactionProxy"
+    name="userSecurityHandler">
+    <meta key="j2:cat" value="default or security" />
+    <property name="proxyInterfaces">
+    <value>com.saltware.enview.security.spi.UserSecurityHandler</value>
+    </property>
+    <property name="target">
+    <ref bean="com.saltware.enview.security.spi.UserSecurityHandlerImpl" />
+    </property>
+    <property name="transactionAttributes">
+    <props>				
+    <prop key="add*">PROPAGATION_REQUIRED</prop>
+    <prop key="update*">PROPAGATION_REQUIRED</prop>
+    <prop key="remove*">PROPAGATION_REQUIRED</prop>
+    <prop key="*">PROPAGATION_SUPPORTS</prop>
+    </props>
+    </property>
+    </bean>-->
+</beans>

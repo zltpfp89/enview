@@ -1,0 +1,367 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="face">
+	<!-- Query for [ SJPB_FORS_SUPP_WORK_CUST : 디지털포렌식지원업무현황 ] Table -->
+	<resultMap class="com.saltware.enface.sjpb.H.service.H0101VO" id="H0101VO.selectSuppWork">
+		<result property="forsSuppSiNum" column="FORS_SUPP_SI_NUM"/>
+		<result property="forsSuppPublYr" column="FORS_SUPP_PUBL_YR"/>
+		<result property="recdSiNum" column="RECD_SI_NUM"/>
+		<result property="docuNum" column="DOCU_NUM"/>
+		<result property="collDt" column="COLL_DT"/>
+		<result property="incNum" column="INC_NUM"/>
+		<result property="criTm" column="CRI_TM"/>
+		<result property="respIo" column="RESP_IO"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+		<result property="regDate" column="REG_DATE"/>
+		<result property="updUserId" column="UPD_USER_ID"/>
+		<result property="updDate" column="UPD_DATE"/>
+		<result property="mediCount" column="MEDI_COUNT"/>
+	</resultMap>
+	
+	<!-- 디지털포렌식지원업무현황 리스트 -->
+	<select id="H0101.selectList" resultMap="H0101VO.selectSuppWork"> /* H0101.selectList */
+		SELECT 
+			A.FORS_SUPP_SI_NUM
+			,A.FORS_SUPP_PUBL_YR
+			,A.RECD_SI_NUM
+			,A.DOCU_NUM
+			,TO_CHAR(A.COLL_DT,'YYYY-MM-DD') AS COLL_DT	
+			,A.INC_NUM
+			,A.CRI_TM
+			,A.RESP_IO
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+			,B.MEDI_COUNT
+		FROM SJPB_FORS_SUPP_WORK_CUST A
+		LEFT JOIN (
+					SELECT FORS_SUPP_SI_NUM,COUNT(MEDI_SI_NUM) AS MEDI_COUNT 
+					FROM SJPB_FORS_SUPP_MEDI 
+					WHERE MEDI_STAT_CD =1
+					GROUP BY FORS_SUPP_SI_NUM
+				  ) B ON A.FORS_SUPP_SI_NUM = B.FORS_SUPP_SI_NUM
+		WHERE 1=1
+		<isNotEmpty  prepend=" AND " property="incNumSc">A.INC_NUM LIKE '%'||#incNumSc#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="forsSuppPublYrSc">A.FORS_SUPP_PUBL_YR = #forsSuppPublYrSc# </isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="criTmSc">A.CRI_TM LIKE '%'||#criTmSc#||'%'</isNotEmpty>
+		<isNotEmpty  prepend=" AND " property="sDateSc">A.COLL_DT &gt;= #sDateSc#</isNotEmpty>
+	 	<isNotEmpty  prepend=" AND " property="eDateSc">A.COLL_DT &lt;= TO_DATE(#eDateSc#, 'YYYY-MM-DD')</isNotEmpty>
+	 	ORDER BY A.RECD_SI_NUM ASC
+	
+	</select>
+	
+	<!-- 디지털포렌식지원업무현황 조회 (pk 일련번호)-->
+	<select id="H0101.selectSuppWork" resultMap="H0101VO.selectSuppWork"> /* H0101.selectSuppWork */
+		SELECT
+			A.FORS_SUPP_SI_NUM
+			,A.FORS_SUPP_PUBL_YR
+			,A.RECD_SI_NUM
+			,A.DOCU_NUM
+			,TO_CHAR(A.COLL_DT,'YYYY-MM-DD') AS COLL_DT	
+			,A.INC_NUM
+			,A.CRI_TM
+			,A.RESP_IO
+			,A.REG_USER_ID
+			,A.REG_DATE
+			,A.UPD_USER_ID
+			,A.UPD_DATE
+			,B.MEDI_COUNT
+		FROM SJPB_FORS_SUPP_WORK_CUST A
+		LEFT JOIN (
+					SELECT FORS_SUPP_SI_NUM,COUNT(MEDI_SI_NUM) AS MEDI_COUNT 
+					FROM SJPB_FORS_SUPP_MEDI 
+					WHERE MEDI_STAT_CD =1
+					GROUP BY FORS_SUPP_SI_NUM
+				  ) B ON A.FORS_SUPP_SI_NUM = B.FORS_SUPP_SI_NUM
+		WHERE A.FORS_SUPP_SI_NUM = #forsSuppSiNum#
+	</select>
+	
+	<!-- 디지털포렌식지원업무현황 조회 (pk 일련번호)-->
+	<select id="H0101.selectRcptIncNum" resultMap="H0101VO.selectSuppWork"> /* H0101.selectRcptIncNum */
+		SELECT
+			FORS_SUPP_SI_NUM
+			,FORS_SUPP_PUBL_YR
+			,RECD_SI_NUM
+			,DOCU_NUM
+			,TO_CHAR(COLL_DT,'YYYY-MM-DD') AS COLL_DT	
+			,INC_NUM
+			,CRI_TM
+			,RESP_IO
+			,REG_USER_ID
+			,REG_DATE
+			,UPD_USER_ID
+			,UPD_DATE
+		FROM SJPB_FORS_SUPP_WORK_CUST 
+		WHERE INC_NUM = #rcptIncNum#
+	</select>
+	
+	<!-- 디지털포렌식지원업무현황 추가 -->
+	<insert id="H0101.SJPB_FORS_SUPP_WORK_CUST.insert"> /* H0101.SJPB_FORS_SUPP_WORK_CUST.insert */
+		
+		INSERT INTO SJPB_FORS_SUPP_WORK_CUST
+			(
+				FORS_SUPP_SI_NUM
+				,FORS_SUPP_PUBL_YR
+				,RECD_SI_NUM
+				,DOCU_NUM
+				,COLL_DT
+				,INC_NUM
+				,CRI_TM
+				,RESP_IO
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE
+			)
+		VALUES (
+				#forsSuppSiNum#
+				,TO_CHAR(TO_DATE(#collDt#),'YYYY')
+				,#recdSiNum#
+				,#docuNum#
+				,#collDt#
+				,#incNum#
+				,#criTm#
+				,#respIo#
+				,#regUserId#
+				,SYSDATE
+				,#updUserId#
+				,SYSDATE
+			)
+	</insert>
+	
+	<!-- 디지털포렌식지원업무 추가 -->
+	<insert id="H0101.SJPB_FORS_SUPP_MEDI.insert"> /* H0101.SJPB_FORS_SUPP_MEDI.insert */
+		
+		INSERT INTO SJPB_FORS_SUPP_MEDI
+			(
+				FORS_SUPP_MEDI_SI_NUM
+				,FORS_SUPP_SI_NUM
+				,MEDI_SI_NUM
+				,REV_SEIZ_PERS
+				,COMP_NM_ADDR
+				,SEIZ_IO
+				,MEDI_DIV
+				,MEDI_TYPE
+				,PHON_NUM
+				,MAFT_INFO
+				,MODL_NM
+				,SI_NUM
+				,MEDI_CONT
+				,ANAS_OFFI
+				,ANAS_DT
+				,OBSR_YN
+				,OBSR_DT
+				,OBSR_PERN
+				,OBSR_RM_COMN
+				,DIGT_TRF_DT
+				,DIGT_TRF_SI_NUM
+				,DIGT_TRF_MNG_NUM
+				,SUPP_WORK_COMN
+				,MEDI_STAT_CD
+				,REG_USER_ID
+				,REG_DATE
+				,UPD_USER_ID
+				,UPD_DATE
+			)
+		VALUES (
+				#forsSuppMediSiNum#
+				,#forsSuppSiNum#
+				,#mediSiNum#
+				,#revSeizPers#
+				,#compNmAddr#
+				,#seizIo#
+				,#mediDiv#
+				,#mediType#
+				,#phonNum#
+				,#maftInfo#
+				,#modlNm#
+				,#siNum#
+				,#mediCont#
+				,#anasOffi#
+				,#anasDt#
+				,#obsrYn#
+				,#obsrDt#
+				,#obsrPern#
+				,#obsrRmComn#
+				,#digtTrfDt#
+				,#digtTrfSiNum#
+				,#digtTrfMngNum#
+				,#suppWorkComn#
+				,'1'
+				,#regUserId#
+				,SYSDATE
+				,#updUserId#
+				,SYSDATE
+			)
+	</insert>
+	
+	<!-- 디지털포렌식지원업무현황 매체연번 조회-->
+	<select id="H0101.selectMaxMediSiNum" resultClass="String"> /* H0101.selectMaxMediSiNum */
+		SELECT 
+		    DECODE(A.MEDI_SI_NUM, NULL, '1', A.MEDI_SI_NUM) AS MEDI_SI_NUM
+		FROM (
+		    SELECT 
+		        MAX(MEDI_SI_NUM)+1 AS MEDI_SI_NUM 
+		    FROM SJPB_FORS_SUPP_WORK_CUST 
+		    WHERE RECD_SI_NUM = #recdSiNum#
+		    ) A
+	</select>
+	
+	<!-- 디지털포렌식지원업무현황 연번 조회-->
+	<select id="H0101.selectRecdSiNum" resultClass="String"> /* H0101.selectRecdSiNum */
+	    SELECT 
+	    	RECD_SI_NUM
+	    FROM SJPB_FORS_SUPP_WORK_CUST 
+	    WHERE FORS_SUPP_SI_NUM = #forsSuppSiNum#
+	</select>
+	
+	<!-- 디지털포렌식지원업무현황 매체 연번 조회-->
+	<select id="H0101.selectMediSiNum" resultClass="String"> /* H0101.selectMediSiNum */
+	    SELECT 
+	    	Max(MEDI_SI_NUM)
+	    FROM SJPB_FORS_SUPP_MEDI 
+	    WHERE FORS_SUPP_SI_NUM = #forsSuppSiNum#
+	</select>
+	
+	<!-- 디지털포렌식지원업무현황 리스트 (매체연번 업데이트를위해, 매체연번이 뒤에있는 리스트를 가져온다) -->
+	<select id="H0101.SJPB_FORS_SUPP_WORK_CUST.preRecd.list" resultMap="H0101VO.selectSuppWork"> /* H0101.SJPB_FORS_SUPP_WORK_CUST.preRecd.list */
+		SELECT 
+			FORS_SUPP_SI_NUM
+			,FORS_SUPP_PUBL_YR
+			,RECD_SI_NUM
+			,MEDI_SI_NUM
+			,INC_NUM
+			,CRI_TM
+			,RESP_IO
+			,COMP_NM_ADDR
+			,REV_SEIZ_PERS
+			,DOCU_NUM
+			,COLL_DT
+			,ANAS_DT
+			,ANAS_OFFI
+			,MEDI_DIV
+			,MEDI_TYPE
+			,PHON_NUM
+			,MODL_INFO
+			,OBSR_YN
+			,OBSR_DT
+			,OBSR_PERN
+			,OBSR_RM_COMN
+			,SUPP_WORK_COMN
+			,DIGT_TRF_DT
+			,DIGT_TRF_SI_NUM
+			,DIGT_TRF_MNG_NUM
+			,REG_USER_ID
+			,REG_DATE
+			,UPD_USER_ID
+			,UPD_DATE
+		FROM SJPB_FORS_SUPP_WORK_CUST
+		WHERE FORS_SUPP_SI_NUM = #forsSuppSiNum# 	
+	</select>
+	
+	<!-- 매체연번 -1 업데이트 -->	 		
+	<update id="H0101.SJPB_FORS_SUPP_WORK_CUST.preRecd.update"> /* H0101.SJPB_FORS_SUPP_WORK_CUST.preRecd.update */			
+		UPDATE SJPB_FORS_SUPP_WORK_CUST
+		SET MEDI_SI_NUM = MEDI_SI_NUM - 1
+			,UPD_USER_ID = #updUserId#
+		    ,UPD_DATE = SYSDATE
+		WHERE FORS_SUPP_SI_NUM=#forsSuppSiNum#
+	</update>
+	
+	<!-- 디지털포렌식지원업무현황 수정 -->	 		
+	<update id="H0101.updateSuppWork"> /* H0101.updateSuppWork */			
+		UPDATE SJPB_FORS_SUPP_WORK_CUST
+		SET 
+			RECD_SI_NUM = #recdSiNum#
+			,DOCU_NUM = #docuNum#
+			,COLL_DT = #collDt#
+			,INC_NUM = #incNum#
+			,CRI_TM = #criTm#
+			,RESP_IO = #respIo#
+			,UPD_USER_ID = #updUserId#
+			,UPD_DATE = SYSDATE
+		WHERE FORS_SUPP_SI_NUM=#forsSuppSiNum#
+	</update>
+	
+	<!--  디지털포렌식지원업무 삭제 -->
+	<update id="H0101.SJPB_FORS_SUPP_MEDI.delete">  /* H0101.SJPB_FORS_SUPP_MEDI.delete */
+		<![CDATA[	
+			DELETE FROM SJPB_FORS_SUPP_MEDI WHERE FORS_SUPP_SI_NUM=#forsSuppSiNum#
+		]]>
+	</update>
+
+	<!--  디지털포렌식지원업무현황 삭제 -->
+	<delete id="H0101.SJPB_FORS_SUPP_WORK_CUST.delete">  /* H0101.SJPB_FORS_SUPP_WORK_CUST.delete */
+		<![CDATA[	
+			DELETE FROM SJPB_FORS_SUPP_WORK_CUST WHERE FORS_SUPP_SI_NUM=#forsSuppSiNum#
+		]]>
+	</delete>
+	
+	<!--  디지털포렌식지원업무 수정 -->
+	<update id="H0101.SJPB_FORS_SUPP_MEDI.update">	/* H0101.SJPB_FORS_SUPP_MEDI.update */
+		<![CDATA[	
+			UPDATE SJPB_FORS_SUPP_MEDI
+			SET MEDI_SI_NUM = #mediSiNum#
+				,REV_SEIZ_PERS = #revSeizPers#
+				,COMP_NM_ADDR = #compNmAddr#
+				,SEIZ_IO = #seizIo#
+				,MEDI_DIV = #mediDiv#
+				,MEDI_TYPE = #mediType#
+				,PHON_NUM = #phonNum#
+				,MAFT_INFO = #maftInfo#
+				,MODL_NM = #modlNm#
+				,SI_NUM = #siNum#
+				,MEDI_CONT = #mediCont#
+				,ANAS_OFFI = #anasOffi#
+				,ANAS_DT = #anasDt#
+				,OBSR_YN = #obsrYn#
+				,OBSR_DT = #obsrDt#
+				,OBSR_PERN = #obsrPern#
+				,OBSR_RM_COMN = #obsrRmComn#
+				,DIGT_TRF_DT = #digtTrfDt#
+				,DIGT_TRF_SI_NUM = #digtTrfSiNum#
+				,DIGT_TRF_MNG_NUM = #digtTrfMngNum#
+				,SUPP_WORK_COMN = #suppWorkComn#
+				,UPD_USER_ID = #updUserId#
+				,UPD_DATE = SYSDATE
+			WHERE FORS_SUPP_MEDI_SI_NUM=#forsSuppMediSiNum#
+		]]>
+	</update>
+	
+	
+	<update id="H0101.SJPB_FORS_SUPP_MEDI.stat.update">  /* H0101.SJPB_FORS_SUPP_MEDI.stat.update */
+		<![CDATA[	
+			UPDATE SJPB_FORS_SUPP_MEDI
+				SET MEDI_STAT_CD = #mediStatCd#
+					,UPD_USER_ID = #updUserId#
+					,UPD_DATE = SYSDATE
+				WHERE FORS_SUPP_MEDI_SI_NUM=#forsSuppMediSiNum#
+		]]>
+	</update>
+	<resultMap class="com.saltware.enface.sjpb.H.service.H0101VO" id="H0101VO.selectMedi">
+		<result property="mediSiNum" column="MEDI_SI_NUM"/>
+		<result property="recdSiNum" column="RECD_SI_NUM"/>		
+	</resultMap>
+	<select id="H0101.selectMediNum" resultMap="H0101VO.selectMedi">  /* H0101.selectMediNum */
+		SELECT (SELECT DISTINCT RECD_SI_NUM
+				FROM SJPB_FORS_SUPP_WORK_CUST
+				WHERE INC_NUM = #rcptIncNum#
+				) AS RECD_SI_NUM
+				,(SELECT COUNT(B.MEDI_SI_NUM)+1 AS MEDI_COUNT 
+				  FROM SJPB_FORS_SUPP_WORK_CUST A
+				  JOIN SJPB_FORS_SUPP_MEDI B ON B.FORS_SUPP_SI_NUM = A.FORS_SUPP_SI_NUM
+				  WHERE A.INC_NUM = #rcptIncNum# AND B.MEDI_STAT_CD =1
+                ) AS MEDI_SI_NUM
+        FROM DUAL
+	</select>
+
+	<select id="H0101.selectMediSiNumMax" resultClass="String">
+		SELECT COUNT(A.MEDI_SI_NUM)+1 AS MEDI_COUNT 
+		FROM SJPB_FORS_SUPP_MEDI A
+        JOIN SJPB_FORS_SUPP_WORK_CUST B ON B.FORS_SUPP_SI_NUM = A.FORS_SUPP_SI_NUM
+		WHERE A.MEDI_STAT_CD =1 AND B.INC_NUM = #rcptIncNum#
+		GROUP BY B.INC_NUM
+	</select>
+</sqlMap>
+

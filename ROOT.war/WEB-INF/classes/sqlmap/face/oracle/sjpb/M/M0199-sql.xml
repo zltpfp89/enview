@@ -1,0 +1,165 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+	<resultMap class="com.saltware.enface.sjpb.M.service.M0199VO" id="M0199VO.list">
+		<result property="ptinIncBkNum" column="PTIN_INC_BK_NUM"/>
+		<result property="prgsNum" column="PRGS_NUM"/>
+		<result property="rcptDt" column="RCPT_DT"/>
+		<result property="chifPstr" column="CHIF_PSTR"/>
+		<result property="ptinNm" column="PTIN_NM"/>
+		<result property="ptinAddr" column="PTIN_ADDR"/>
+		<result property="spPtinNm" column="SP_PTIN_NM"/>
+		<result property="spPtinIdNum" column="SP_PTIN_ID_NUM"/>
+		<result property="spPtinAddr" column="SP_PTIN_ADDR"/>
+		<result property="spPtinJob" column="SP_PTIN_JOB"/>
+		<result property="incCmdDt" column="INC_CMD_DT"/>
+		<result property="incCmdOfic" column="INC_CMD_OFIC"/>
+		<result property="incCmdReptPi" column="INC_CMD_REPT_PI"/>
+		<result property="incCmdReptDt" column="INC_CMD_REPT_DT"/>
+		<result property="edDt" column="ED_DT"/>
+		<result property="edSpll" column="ED_SPLL"/>
+		<result property="ptinRstNotcDt" column="PTIN_RST_NOTC_DT"/>
+		<result property="ptinComn" column="PTIN_COMN"/>
+		<result property="regUserId" column="REG_USER_ID"/>
+	</resultMap>
+	
+ 	<select id="M0199.SJPB_PTIN_INC_BK_DOC.selectList" resultMap="M0199VO.list">  /* M0199.SJPB_PTIN_INC_BK_DOC.selectList */
+ 		SELECT A.PTIN_INC_BK_NUM  /* 진정사건부번호 */
+		       ,A.PRGS_NUM  /* 진행번호 */
+		       ,A.RCPT_DT  /* 수리일자 */
+		       ,A.CHIF_PSTR  /* 주임검사 */
+		       ,CRYPTO.DEC('normal',A.PTIN_NM) AS PTIN_NM  /* 진정인성명 */
+		       ,CRYPTO.DEC('normal',A.PTIN_ADDR) AS PTIN_ADDR  /* 진정인주거 */
+		       ,CRYPTO.DEC('normal',A.SP_PTIN_NM) AS SP_PTIN_NM  /* 피진정인성명 */
+		       ,CRYPTO.DEC('normal',A.SP_PTIN_ID_NUM) AS SP_PTIN_ID_NUM  /* 피진정인주민등록번호 */
+		       ,CRYPTO.DEC('normal',A.SP_PTIN_ADDR) AS SP_PTIN_ADDR   /* 피진정인주거 */
+		       ,CRYPTO.DEC('normal',A.SP_PTIN_JOB) AS SP_PTIN_JOB  /* 피진정인직업 */
+		       ,A.INC_CMD_DT  /* 진정사건지휘연월일 */
+		       ,A.INC_CMD_OFIC  /* 진정사건지휘관서 */
+		       ,A.INC_CMD_REPT_PI  /* 진정사건지휘보고기한 */
+		       ,A.INC_CMD_REPT_DT  /* 진정사건지휘보고연월일 */
+		       ,A.ED_DT  /* 종결연월일 */
+		       ,A.ED_SPLL  /* 종결주문 */
+		       ,A.PTIN_RST_NOTC_DT  /* 진정인결과통지일 */
+		       ,A.PTIN_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		FROM SJPB_PTIN_INC_BK_DOC A
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="spNmSc" prepend="AND">
+				CRYPTO.DEC('normal',A.PTIN_NM) LIKE '%' || #spNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="spPtinNmSc" prepend="AND">
+				CRYPTO.DEC('normal',A.SP_PTIN_NM) LIKE '%' || #spPtinNmSc# || '%'
+			</isNotEmpty>
+			<isNotEmpty property="regStart">
+				<isNotEmpty property="regEnd" prepend="AND">
+					TO_CHAR(A.REG_DATE,'YYYY-MM-DD') BETWEEN TO_DATE(#regStart#,'YYYY-MM-DD') AND  TO_DATE(#regEnd#,'YYYY-MM-DD')
+				</isNotEmpty>
+			</isNotEmpty>
+		</dynamic>
+		ORDER BY TO_NUMBER(REGEXP_SUBSTR(REGEXP_SUBSTR(A.PRGS_NUM,'[^-]+',1,1),'[^,]+',1,1)) DESC,TO_NUMBER(REGEXP_SUBSTR(REGEXP_SUBSTR(A.PRGS_NUM,'[^-]+',1,2),'[^,]+',1,1)) DESC 
+ 	</select>
+ 	
+ 	<update id="M0199.SJPB_PTIN_INC_BK_DOC.insert" parameterClass="com.saltware.enface.sjpb.M.service.M0199VO">  /* M0199.SJPB_PTIN_INC_BK_DOC.insert */
+ 		INSERT INTO SJPB_PTIN_INC_BK_DOC (
+		    PTIN_INC_BK_NUM,
+		    PRGS_NUM,
+		    RCPT_DT,
+		    CHIF_PSTR,
+		    PTIN_NM,
+		    PTIN_ADDR,
+		    SP_PTIN_NM,
+		    SP_PTIN_ID_NUM,
+		    SP_PTIN_ADDR,
+		    SP_PTIN_JOB,
+		    INC_CMD_DT,
+		    INC_CMD_OFIC,
+		    INC_CMD_REPT_PI,
+		    INC_CMD_REPT_DT,
+		    ED_DT,
+		    ED_SPLL,
+		    PTIN_RST_NOTC_DT,
+		    PTIN_COMN,
+		    REG_USER_ID,
+		    REG_DATE,
+		    UPD_USER_ID,
+		    UPD_DATE
+		) VALUES (
+		    (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_PTIN_INC_BK_DOC.PTIN_INC_BK_NUM')
+		    ,TO_CHAR(SYSDATE,'YYYY') || '-' || (SELECT SEQ FROM KEYGEN WHERE entity_name = 'SJPB_PTIN_INC_BK_DOC.PRGS_NUM')
+		    ,#rcptDt#
+		    ,#chifPstr#
+		    ,CRYPTO.ENC('normal',#ptinNm#)
+		    ,CRYPTO.ENC('normal',#ptinAddr#)
+		    ,CRYPTO.ENC('normal',#spPtinNm#)
+		    ,CRYPTO.ENC('normal',#spPtinIdNum#)
+		    ,CRYPTO.ENC('normal',#spPtinAddr#)
+		    ,CRYPTO.ENC('normal',#spPtinJob#)
+		    ,#incCmdDt#
+		    ,#incCmdOfic#
+		    ,#incCmdReptPi#
+		    ,#incCmdReptDt#
+		    ,#edDt#
+		    ,#edSpll#
+		    ,#ptinRstNotcDt#
+		    ,#ptinComn#
+		    ,#regUserId#
+		    ,SYSDATE
+		    ,#regUserId#
+		    ,SYSDATE
+		)
+ 	</update>
+ 	<update id="M0199.SJPB_PTIN_INC_BK_DOC.update" parameterClass="com.saltware.enface.sjpb.M.service.M0199VO">  /* M0199.SJPB_PTIN_INC_BK_DOC.update */
+ 		UPDATE SJPB_PTIN_INC_BK_DOC 
+		SET RCPT_DT = #rcptDt#,
+		    CHIF_PSTR = #chifPstr#,
+		    PTIN_NM = CRYPTO.ENC('normal',#ptinNm#),
+		    PTIN_ADDR = CRYPTO.ENC('normal',#ptinAddr#),
+		    SP_PTIN_NM = CRYPTO.ENC('normal',#spPtinNm#),
+		    SP_PTIN_ID_NUM = CRYPTO.ENC('normal',#spPtinIdNum#),
+		    SP_PTIN_ADDR = CRYPTO.ENC('normal',#spPtinAddr#),
+		    SP_PTIN_JOB = CRYPTO.ENC('normal',#spPtinJob#),
+		    INC_CMD_DT = #incCmdDt#,
+		    INC_CMD_OFIC = #incCmdOfic#,
+		    INC_CMD_REPT_PI = #incCmdReptPi#,
+		    INC_CMD_REPT_DT = #incCmdReptDt#,
+		    ED_DT = #edDt#,
+		    ED_SPLL = #edSpll#,
+		    PTIN_RST_NOTC_DT = #ptinRstNotcDt#,
+		    PTIN_COMN = #ptinComn#,
+		    UPD_USER_ID = #regUserId#,
+		    UPD_DATE = SYSDATE
+		WHERE PTIN_INC_BK_NUM = #ptinIncBkNum#
+ 	</update>
+ 	
+ 	<select id="M0199.SJPB_PTIN_INC_BK_DOC.prnCheckReport" resultMap="M0199VO.list">  /* M0199.SJPB_PTIN_INC_BK_DOC.prnCheckReport */ 		
+ 		SELECT A.PTIN_INC_BK_NUM  /* 진정사건부번호 */
+		       ,A.PRGS_NUM  /* 진행번호 */
+               ,DECODE(A.RCPT_DT,NULL,'',SUBSTR(A.RCPT_DT,1,4)||'.'|| SUBSTR(A.RCPT_DT,5,2) ||'.'||SUBSTR(A.RCPT_DT,7,2)) AS RCPT_DT  /* 수리일자 */ 
+		       ,A.CHIF_PSTR  /* 주임검사 */
+		       ,CRYPTO.DEC('normal',A.PTIN_NM) AS PTIN_NM  /* 진정인성명 */
+		       ,CRYPTO.DEC('normal',A.PTIN_ADDR) AS PTIN_ADDR  /* 진정인주거 */
+		       ,CRYPTO.DEC('normal',A.SP_PTIN_NM) AS SP_PTIN_NM  /* 피진정인성명 */
+		       ,CRYPTO.DEC('normal',A.SP_PTIN_ID_NUM) AS SP_PTIN_ID_NUM  /* 피진정인주민등록번호 */
+		       ,CRYPTO.DEC('normal',A.SP_PTIN_ADDR) AS SP_PTIN_ADDR   /* 피진정인주거 */
+		       ,CRYPTO.DEC('normal',A.SP_PTIN_JOB) AS SP_PTIN_JOB  /* 피진정인직업 */
+               ,DECODE(A.INC_CMD_DT,NULL,'',SUBSTR(A.INC_CMD_DT,1,4)||'.'|| SUBSTR(A.INC_CMD_DT,5,2) ||'.'||SUBSTR(A.INC_CMD_DT,7,2)) AS INC_CMD_DT  /* 진정사건지휘연월일 */ 
+		       ,A.INC_CMD_OFIC  /* 진정사건지휘관서 */
+               ,DECODE(A.INC_CMD_REPT_PI,NULL,'',SUBSTR(A.INC_CMD_REPT_PI,1,4)||'.'|| SUBSTR(A.INC_CMD_REPT_PI,5,2) ||'.'||SUBSTR(A.INC_CMD_REPT_PI,7,2)) AS INC_CMD_REPT_PI  /* 진정사건지휘보고기한 */ 
+               ,DECODE(A.INC_CMD_REPT_DT,NULL,'',SUBSTR(A.INC_CMD_REPT_DT,1,4)||'.'|| SUBSTR(A.INC_CMD_REPT_DT,5,2) ||'.'||SUBSTR(A.INC_CMD_REPT_DT,7,2)) AS INC_CMD_REPT_DT  /* 진정사건지휘보고연월일 */ 
+               ,DECODE(A.ED_DT,NULL,'',SUBSTR(A.ED_DT,1,4)||'.'|| SUBSTR(A.ED_DT,5,2) ||'.'||SUBSTR(A.ED_DT,7,2)) AS ED_DT  /* 종결연월일 */ 
+		       ,A.ED_SPLL  /* 종결주문 */
+               ,DECODE(A.PTIN_RST_NOTC_DT,NULL,'',SUBSTR(A.PTIN_RST_NOTC_DT,1,4)||'.'|| SUBSTR(A.PTIN_RST_NOTC_DT,5,2) ||'.'||SUBSTR(A.PTIN_RST_NOTC_DT,7,2)) AS PTIN_RST_NOTC_DT  /* 진정인결과통지일 */ 
+		       ,A.PTIN_COMN  /* 비고 */
+		       ,A.REG_USER_ID  /* 등록자 */
+		FROM SJPB_PTIN_INC_BK_DOC A
+        <dynamic prepend="WHERE">
+			<isNotEmpty property="ptinIncBkNumList" prepend="AND">
+				<iterate property="ptinIncBkNumList" open="A.PTIN_INC_BK_NUM IN(" close=")" conjunction=",">
+					 #ptinIncBkNumList[]#
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+</sqlMap>

@@ -1,0 +1,101 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ BATCH_ACTION : 배치 실행모듈관리 ] Table -->
+	<resultMap id="admin_BatchActionVO_PK" class="com.saltware.enview.admin.batchSchedule.service.BatchActionPK">
+	
+		<result property="actionId" column="ACTION_ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_BatchActionVO" class="com.saltware.enview.admin.batchSchedule.service.BatchActionVO">
+	 
+		<result property="actionId" column="ACTION_ID" columnIndex="1"/>	 
+		<result property="name" column="NAME" columnIndex="2"/>	 
+		<result property="actionType" column="ACTION_TYPE" columnIndex="3"/>	 
+		<result property="program" column="PROGRAM" columnIndex="4"/>	 
+		<result property="parameter" column="PARAMETER" columnIndex="5"/>	 
+		<result property="useYn" column="USE_YN" columnIndex="6"/>	 
+		<result property="updUserId" column="UPD_USER_ID" columnIndex="7"/>	 
+		<result property="updDatim" column="UPD_DATIM" columnIndex="8"/>	
+	</resultMap>
+	
+	<select id="batchAction.totalCount" resultClass="int">
+	/* batchAction.totalCount */
+		SELECT COUNT(*) totcnt
+		FROM BATCH_ACTION
+		WHERE 1=1	
+		<isNotNull  prepend=" AND " property="nameCond">NAME LIKE #nameCond#||'%'</isNotNull>
+	</select>
+	
+	<select id="batchAction.findByPage" resultMap="admin_BatchActionVO_PK">
+	/* batchAction.findByPage */
+		SELECT * FROM (
+			SELECT ACTION_ID, ROW_NUMBER() OVER(
+			<isNotNull property="sortColumn">ORDER BY $sortColumn$ $sortMethod$</isNotNull>
+			<isNull property="sortColumn">ORDER BY ACTION_ID ASC</isNull>
+			) as rnum
+			FROM BATCH_ACTION
+			WHERE 1=1 
+			<isNotNull  prepend=" AND " property="nameCond">NAME LIKE #nameCond#||'%'</isNotNull>
+		) t1 WHERE t1.rnum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="batchAction.findAll" resultMap="admin_BatchActionVO_PK">
+			SELECT ACTION_ID
+			FROM BATCH_ACTION
+	</select>
+	
+
+	<select id="batchAction.detail" resultMap="admin_BatchActionVO">
+		<![CDATA[
+			SELECT ACTION_ID,NAME,ACTION_TYPE,PROGRAM,PARAMETER,USE_YN,UPD_USER_ID,UPD_DATIM
+			FROM BATCH_ACTION
+			WHERE 1=1 
+				AND ACTION_ID=#actionId#
+		]]>
+	</select>
+	
+	<select id="batchAction.exist" resultClass="int">
+			SELECT COUNT(*) cnt
+			FROM BATCH_ACTION
+			WHERE 1=1 
+				AND ACTION_ID=#actionId#
+	</select>
+	
+	<insert id="batchAction.insert">
+			INSERT INTO BATCH_ACTION
+			<isNotNull  property="parameter">
+				( ACTION_ID,NAME,ACTION_TYPE,PROGRAM,PARAMETER,USE_YN,UPD_USER_ID,UPD_DATIM )
+			VALUES ( #actionId#,#name#,#actionType#,#program#,#parameter#,#useYn#,#updUserId#,#updDatim# )
+			</isNotNull>
+			<isNull  property="parameter">
+				( ACTION_ID,NAME,ACTION_TYPE,PROGRAM,USE_YN,UPD_USER_ID,UPD_DATIM )
+			VALUES ( #actionId#,#name#,#actionType#,#program#,#useYn#,#updUserId#,#updDatim# )
+			</isNull>
+	</insert>
+	
+	<update id="batchAction.update">
+			UPDATE BATCH_ACTION
+			<isNotNull  property="parameter">
+			SET ACTION_ID=#actionId#,NAME=#name#,ACTION_TYPE=#actionType#,PROGRAM=#program#,PARAMETER=#parameter#,USE_YN=#useYn#,UPD_USER_ID=#updUserId#,UPD_DATIM=#updDatim#
+			</isNotNull>
+			<isNull  property="parameter">
+			SET ACTION_ID=#actionId#,NAME=#name#,ACTION_TYPE=#actionType#,PROGRAM=#program#,USE_YN=#useYn#,UPD_USER_ID=#updUserId#,UPD_DATIM=#updDatim#
+			</isNull>
+			WHERE 1=1 AND ACTION_ID=#actionId#
+	</update>
+	
+	<delete id="batchAction.delete">
+		<![CDATA[
+			DELETE FROM BATCH_ACTION
+			WHERE 1=1 
+				AND ACTION_ID=#actionId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

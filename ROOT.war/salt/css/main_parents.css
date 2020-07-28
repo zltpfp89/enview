@@ -1,0 +1,83 @@
+@charset "utf-8";
+/* CSS Document */
+@import url("common.css");
+
+body{background:url("../images/main/parent_main_bg.gif") no-repeat 0px 0px #f5f8fa; background-size:100%;}
+.wrap{position:relative;}
+#header{background:none; height:auto;margin:40px 0 60px 0; height:48px; line-height:48px;}
+h1{float:left; display:inline-block; height:48px; line-height:48px;}
+h1 span{font-size:30px; color:#01397e; font-weight:600; margin-left:10px;}
+
+.userinfo{float:right;height:36px; line-height:36px; margin-top:6px;}
+.userinfo:after{clear:both; display:block; content:"";}
+.userinfo p{float:left; font-size:16px; color:#787878; font-weight:400; background:url("../images/main/icon_user.png") no-repeat left center; padding-left:20px; height:36px; line-height:36px; margin-right:5px;}
+.userinfo p em{font-size:18px; color:#23316e;}
+.userinfo a{display:inline-block; padding:0 15px; height:32px; line-height:32px; box-sizing:border-box; text-align:center; background-color:#616161; border-radius:4px; margin-left:5px;}
+.userinfo a span{font-size:14px; color:#fff; font-weight:400; padding:0; margin:0;}
+.userinfo .btn_logout{display:inline-block; padding:0 15px; height:32px; line-height:32px; box-sizing:border-box; text-align:center; background-color:#23316e; border-radius:4px;}
+.userinfo .btn_logout span{font-size:14px; color:#fff; font-weight:400; padding:0; margin:0;}
+
+/*
+h1 p{float:right; margin:0 210px 0 0; font-size:16px; color:#787878; font-weight:400; background:url("../images/main/icon_user.png") no-repeat left center; padding-left:20px;}
+h1 p em{font-size:18px; color:#23316e;}
+h1 p a.btn_logout{margin-left:10px;}
+h1 p a.btn_logout:hover{text-decoration:underline;}
+h1 p a.btn_logout span{padding:0; margin:0; font-size:15px; color:#5569c8; font-weight:normal; font-weight:400; }
+.btn_addstu{display:inline-block; width:200px; height:36px; line-height:36px; box-sizing:border-box; text-align:center; background-color:#23316e; border-radius:4px;}
+.btn_addstu span{font-size:14px; color:#fff; font-weight:400; padding:0; margin:0;}
+
+*/
+
+.openeventwrap:after{clear:both; display:block; content:"";}
+.openeventwrap div{float:left; width:300px; height:320px; background:url("../images/main/bg_opacity.png") repeat left top; margin:0 2px; box-sizing:border-box; text-align:center; padding:20px; border-radius:4px; box-shadow:#dde3e5 3px 3px 10px;}
+.openeventwrap div a{width:100%; height:100%; box-sizing:border-box;}
+.openeventwrap div h5{font-size:18px; font-weight:500; margin-top:10px;}
+.openeventwrap div.ygreen h5{color:#bcc65c;}
+.openeventwrap div.green h5{color:#009db2;}
+.openeventwrap div.darkblue h5{color:#0f3e8e;}
+.openeventwrap div.purple h5{color:#5569c8;}
+.openeventwrap div a p{height:90px; line-height:30px; font-size:22px; color:#333; font-weight:400; margin:20px 0; overflow:hidden;}
+.openeventwrap div a p.info{height:120px; border-top:1px solid #d9e1e3; padding:15px 5px; text-align:right; box-sizing:border-box; margin:30px 0 0 0;}
+.openeventwrap div a p.info span{display:block; height:28px; line-height:28px; box-sizing:border-box; font-size:15px; color:#898989;}
+.openeventwrap div a p.info span.location{background:url("../images/sub/icon_location.png") no-repeat right center; padding-right:22px;}
+.openeventwrap div a p.info span.date{background:url("../images/sub/icon_date.png") no-repeat right center; padding-right:22px;}
+.openeventwrap div a p.info span.time{background:url("../images/sub/icon_time.png") no-repeat right center; padding-right:22px;}
+.openeventwrap div ul{margin:20px 0 30px 0; height:90px;}
+.openeventwrap div ul li{background:url("../images/main/bullet_gray.gif") no-repeat left 9px; padding-left:10px; line-height:20px; font-size:15px; color:#555; text-align:left; margin-bottom:10px;}
+.openeventwrap div ul li em{color:#ff5c44;}
+.openeventwrap div .donate{ display:inline-block; width:100%; height:100px; box-sizing:border-box; background-color:#5569c8; border-radius:4px; padding:23px 30px; text-align:left;}
+.openeventwrap div .donate h4{height:48px;line-height:24px; font-size:24px; color:#fff; font-weight:400; background:url("../images/main/icon_donate.png") no-repeat right 8px; padding-right:50px;}
+.openeventwrap div .donate h4 span{font-size:16px; display:block;}
+
+.linkArea{margin-top:20px;}
+.linkArea:after{clear:both; display:block; content:"";}
+.linkArea > div{float:left; width:300px; height:160px; background-color:#fff; margin:0 2px; border-radius:4px; padding:15px 20px; box-sizing:border-box; box-shadow:#dde3e5 3px 3px 10px;}
+.linkArea div.educenter{background:url("../images/main/bg_page.png") no-repeat right bottom #02acc4;}
+.linkArea div.homepage{background:url("../images/main/bg_page.png") no-repeat right bottom #23316e;}
+.linkArea div h5{height:40px; line-height:40px; font-size:20px; color:#333; font-weight:400;}
+.linkArea div.school_schedule h5{background:url("../images/main/bullet_calendar.png") no-repeat left center; padding-left:35px; text-align:left;}
+.linkArea div.educenter h5,
+.linkArea div.homepage h5{color:#fff; height:60px; line-height:28px; font-weight:300; font-size:24px; margin:10px;}
+
+.openclass h5{border-bottom:1px dashed #ccc;}
+.openclass ul{margin-top:10px; padding:0 5px; box-sizing:border-box;}
+.openclass ul li{height:24px; line-height:24px; font-size:14px; color:#666; background:url("../images/main/bullet_gray.gif") no-repeat left center; padding-left:10px;}
+
+.school_schedule{text-align:center;}
+.school_schedule p{line-height:20px; font-size:15px; color:#666; height:40px; margin:10px 0; text-align:center; overflow:hidden;}
+.school_schedule span{background:url("../images/main/bullet_date.png") no-repeat left center; padding-left:18px; font-size:13px; color:#999;}
+
+
+.stuArea{ height:70px; margin-bottom:20px;}
+.stuArea:after{clear:both; display:block; content:"";}
+.stuArea .stu_info{float:left; border:1px solid #23316e; border-radius:4px; background-color:#fff; box-sizing:border-box; margin:0 2px; width:1212px; height:70px; box-shadow:#dde3e5 3px 3px 10px;}
+.stuArea .stu_info h5{float:left; display:inline-block; background-color:#23316e; width:300px; height:70px; line-height:22px; padding:13px 10px; font-size:17px; color:#fff; font-weight:400; box-sizing:border-box;}
+.stuArea .stu_info span{display:block; font-size:15px; color:#DEDEF1; font-weight:300;}
+.stuArea .btn{float:left; width:910px; padding:12px 0;}
+.stuArea .btn span{float:left; display:inline-block; width:300px; height:45px; line-height:45px; border-left:1px solid #ededed; box-sizing:border-box; text-align:center;}
+.stuArea .btn span.first{padding:0; border:none;}
+.stuArea .btn a{font-size:16px; color:#333; }
+.stuArea .btn a:hover{color:#23316e;}
+.stuArea .btn a img{margin-right:5px;}
+
+.bg{position:fixed; bottom:0; right:0; width:100%; height:100%; background:url("../images/main/bg_bottom.png") no-repeat right bottom; z-index:-1; background-size:45%;}

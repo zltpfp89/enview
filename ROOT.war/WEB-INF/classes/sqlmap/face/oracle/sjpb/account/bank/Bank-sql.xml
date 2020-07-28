@@ -1,0 +1,411 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="face">	
+    
+    <resultMap class="com.saltware.enface.sjpb.account.bank.BankAccVO" id="bankAccVO">
+        <result property="baseDate" column="BASE_DATE"/>
+		<result property="membNm" column="MEMB_NM"/>
+		<result property="brNm" column="BR_NM"/>
+		<result property="depoDivNm" column="DEPO_DIV_NM"/>
+		<result property="accNo" column="ACC_NO"/>
+		<result property="trusterNm" column="TRUSTER_NM"/>
+		<result property="rgno" column="RGNO"/>
+		<result property="corpNo" column="CORP_NO"/>
+		<result property="passportNo" column="PASSPORT_NO"/>
+		<result property="cstmDivNm" column="CSTM_DIV_NM"/>
+		<result property="natoforDivNm" column="NATOFOR_DIV_NM"/>
+		<result property="homeTelNo" column="HOME_TEL_NO"/>
+		<result property="moPhoneNo" column="MO_PHONE_NO"/>
+		<result property="emailAddr" column="EMAIL_ADDR"/>
+		<result property="homeFaxNo" column="HOME_FAX_NO"/>
+		<result property="homePostNo" column="HOME_POST_NO"/>
+		<result property="homeAddr" column="HOME_ADDR"/>
+		<result property="workNm" column="WORK_NM"/>
+		<result property="workTelNo" column="WORK_TEL_NO"/>
+		<result property="workAddr" column="WORK_ADDR"/>
+		<result property="corpAddr" column="CORP_ADDR"/>
+		<result property="repMan" column="REP_MAN"/>
+		<result property="repRgno" column="REP_RGNO"/>
+		<result property="accOpnDate" column="ACC_OPN_DATE"/>
+		<result property="accStateNm" column="ACC_STATE_NM"/>
+		<result property="docNo" column="DOC_NO"/>
+		<result property="membNo" column="MEMB_NO"/>
+		<result property="branchNo" column="BRANCH_NO"/>
+		<result property="lastDealDate" column="LAST_DEAL_DATE"/>
+		<result property="accNo1" column="ACC_NO1"/>
+    </resultMap>
+    
+    <select id="bank.selectBankAcc" resultMap="bankAccVO">
+    	SELECT *
+    	  FROM (
+		    	SELECT 
+		    		 TO_CHAR(TO_DATE(A.BASE_DATE, 'YYYY.MM.DD'), 'YYYY.MM.DD') AS BASE_DATE
+		    		,FN_MEMB_NM@JOSAONDB_JOSA(A.MEMB_NO,'1') AS MEMB_NM
+		    		,FN_BR_NM@JOSAONDB_JOSA(A.MEMB_NO,A.BRANCH_NO,'1') AS BR_NM
+		    		,DECODE(DEPO_DIV, '1', '보통에금', '2', '저축예금', '3', '당좌예금', '4', '정기예금', '5', '정기적금', '6', '신탁', '7', '펀드', '8', '대출계좌') AS DEPO_DIV_NM
+		    		,A.ACC_NO
+		    		,A.TRUSTER_NM
+		    		,A.RGNO
+		    		,A.CORP_NO
+		    		,A.PASSPORT_NO
+		    		,DECODE(A.CSTM_DIV, '1', '법인', '2', '개인', '3', '임의단체') AS CSTM_DIV_NM
+		    		,DECODE(A.NATOFOR_DIV, '1', '내국인', '2', '외국인') AS NATOFOR_DIV_NM
+		    		,A.HOME_TEL_NO
+		    		,A.MO_PHONE_NO
+		    		,A.EMAIL_ADDR
+		    		,A.HOME_FAX_NO
+		    		,A.HOME_POST_NO
+		    		,A.HOME_ADDR
+		    		,A.WORK_NM
+		    		,A.WORK_TEL_NO
+		    		,A.WORK_ADDR
+		    		,A.CORP_ADDR
+		    		,A.REP_MAN
+		    		,A.REP_RGNO
+		    		,A.ACC_OPN_DATE
+		    		,DECODE(ACC_STATE, '1', '정상', '2', '해지', '3', '기타') AS ACC_STATE_NM
+		    		,NVL(A.DOC_NO, B.DOC_NO) AS DOC_NO
+		    		,A.MEMB_NO
+		    		,A.BRANCH_NO
+		    		,TO_CHAR(A.LAST_DEAL_DATE, 'YYYY.MM.DD') AS LAST_DEAL_DATE
+		    		,A.ACC_NO1
+		    	FROM 
+		    		TB_JCDA316 A,
+		    		EM_FAX_SEND B
+		    	WHERE 1=1
+		    	<isNotEmpty property="srchCaseNo" prepend="AND">
+		    		TRIM(A.CASE_NO) = TRIM(#srchCaseNo#)
+		    	</isNotEmpty>
+		    	<isNotEmpty property="srchDocNo" prepend="AND">
+		    		TRIM(A.DOC_NO) IN (SELECT distinct DOC_NO FROM EM_FAX_SEND WHERE SUSA_DOC_NO LIKE '%' || #srchDocNo# || '%')
+		    	</isNotEmpty>
+<!-- 		    		AND A.DT_SUBM_REQ_NO=B.DT_SUBM_REQ_NO -->
+<!-- 		    		AND A.DT_SUBM_SEQ_NO=B.DT_SUBM_SEQ_NO -->
+		    	)
+    	ORDER BY LAST_DEAL_DATE, MEMB_NM, BR_NM, ACC_NO
+    </select>
+    
+    <select id="bank.selectBankAccCnt" resultClass="int">
+    	SELECT
+    		COUNT(*)
+    	FROM
+    		TB_JCDA316 A,
+    		EM_FAX_SEND B
+    	WHERE 1=1
+    	<isNotEmpty property="srchCaseNo" prepend="AND">
+    		TRIM(A.CASE_NO) = TRIM(#srchCaseNo#)
+    	</isNotEmpty>
+    	<isNotEmpty property="srchDocNo" prepend="AND">
+    		TRIM(A.DOC_NO) IN (SELECT distinct DOC_NO FROM EM_FAX_SEND WHERE SUSA_DOC_NO LIKE '%' || #srchDocNo# || '%')
+    	</isNotEmpty>
+    </select>
+    
+    <resultMap class="com.saltware.enface.sjpb.account.bank.BankDealSummaryVO" id="bankDealSummaryVO">
+        <result property="membNm" column="MEMB_NM"/>
+		<result property="membBrNm" column="MEMB_BR_NM"/>
+		<result property="trusterNm" column="TRUSTER_NM"/>
+		<result property="accNo" column="ACC_NO"/>
+		<result property="tranDate" column="TRAN_DATE"/>
+		<result property="tranHours" column="TRAN_HOURS"/>
+		<result property="tranNo" column="TRAN_NO"/>
+		<result property="acntCode" column="ACNT_CODE"/>
+		<result property="tranDivNm" column="TRAN_DIV_NM"/>
+		<result property="tranCntnNm" column="TRAN_CNTN_NM"/>
+		<result property="remark" column="REMARK"/>
+		<result property="currDivNm" column="CURR_DIV_NM"/>
+		<result property="inAmt" column="IN_AMT"/>
+		<result property="outAmt" column="OUT_AMT"/>
+		<result property="amt" column="AMT"/>
+		<result property="bllncAmt" column="BLLNC_AMT"/>
+		<result property="ordMdDivNm" column="ORD_MD_DIV_NM"/>
+		<result property="dealMebNm" column="DEAL_MEB_NM"/>
+		<result property="dealBrNm" column="DEAL_BR_NM"/>
+		<result property="tranDiv" column="TRAN_DIV"/>
+		<result property="relativeMembNm" column="RELATIVE_MEMB_NM"/>
+		<result property="relativeBrNm" column="RELATIVE_BR_NM"/>
+		<result property="relativeAccNo" column="RELATIVE_ACC_NO"/>
+		<result property="relativeAccNm" column="RELATIVE_ACC_NM"/>
+		<result property="docNo" column="DOC_NO"/>
+		<result property="membNo" column="MEMB_NO"/>
+		<result property="branchNo" column="BRANCH_NO"/>
+		<result property="rgno" column="RGNO"/>
+    </resultMap>
+    
+    <select id="bank.selectBankDealSummary" resultMap="bankDealSummaryVO">
+    	SELECT
+    		 FN_MEMB_NM@JOSAONDB_JOSA(MEMB_NO,'1') AS MEMB_NM
+    		,FN_BR_NM@JOSAONDB_JOSA(MEMB_NO, BRANCH_NO, '1') AS MEMB_BR_NM
+    		,TRUSTER_NM
+    		,ACC_NO
+    		,TO_CHAR(TO_DATE(TRAN_DATE), 'YYYY.MM.DD') AS TRAN_DATE
+    		,SUBSTR(TRAN_HOURS, 1, 2) || ':' || SUBSTR(TRAN_HOURS, 3, 2) || ':' || SUBSTR(TRAN_HOURS, 5, 2) AS TRAN_HOURS
+    		,TRAN_NO
+    		,ACNT_CODE
+    		,DECODE(TRAN_DIV, '1', '입급', '출금') AS TRAN_DIV_NM
+    		,FN_BODY_NM@JOSAONDB_JOSA('JC101', TRAN_CNTN) AS TRAN_CNTN_NM
+    		,REMARK
+    		,FN_BODY_NM@JOSAONDB_JOSA('JC103', CURR_DIV) AS CURR_DIV_NM
+    		,IN_AMT
+    		,OUT_AMT
+    		,DECODE(TRAN_DIV, '1', IN_AMT, OUT_AMT) AS AMT
+    		,BLLNC_AMT
+    		,FN_BODY_NM@JOSAONDB_JOSA('JC102', ORD_MD_DIV) AS ORD_MD_DIV_NM
+    		,FN_MEMB_NM@JOSAONDB_JOSA(DEAL_MEB_NO,'1') AS DEAL_MEB_NM
+    		,DECODE(TRAN_DIV, '1', IN_REMARK, OUT_REMARK) AS TRAN_DIV
+    		,FN_MEMB_NM@JOSAONDB_JOSA(RELATIVE_MEM_NO,'1') AS RELATIVE_MEMB_NM
+    		,FN_BR_NM@JOSAONDB_JOSA(RELATIVE_MEM_NO, RELATIVE_BRANCH_NO,'1') AS RELATIVE_BR_NM
+    		,RELATIVE_ACC_NO
+    		,RELATIVE_ACC_NM
+    		,DOC_NO
+    		,MEMB_NO
+    		,BRANCH_NO
+    		,RGNO
+		  FROM TB_JCDA319_EC
+		 WHERE ROWID IN (SELECT AROWID
+	 					   FROM (SELECT AROWID, ROWNUM AS RNUM
+	 					  		  FROM (SELECT ROWID AS AROWID
+	 					  		  		  FROM TB_JCDA319_EC
+	 					  		  		 WHERE 1=1
+	 					  		  		 <isNotEmpty property="srchCaseNo" prepend="AND">
+	 					  		  		 	CASE_NO=#srchCaseNo#
+	 					  		  		 </isNotEmpty>
+	 					  		  		 AND TRAN_DATE BETWEEN #srchStartDate# AND #srchEndDate#
+	 					  		  		 <isNotEmpty property="srchAccNo" prepend="AND">
+	 					  		  		 	ACC_NO=#srchAccNo#
+	 					  		  		 </isNotEmpty>
+	 					  		  		 ORDER BY TRAN_DATE, TRAN_HOURS, TRAN_NO
+	 					  		  		)
+	 					  		 )
+	 					  )
+		 ORDER BY TRAN_DATE, TRAN_HOURS, TRAN_NO
+    </select>
+    
+    <select id="bank.selectBankDealSummaryListCnt" resultClass="int">
+    	SELECT
+    		COUNT(*)
+    	FROM TB_JCDA319_EC
+		 WHERE ROWID IN (SELECT AROWID
+	 					   FROM (SELECT AROWID, ROWNUM AS RNUM
+	 					  		  FROM (SELECT ROWID AS AROWID
+	 					  		  		  FROM TB_JCDA319_EC
+	 					  		  		 WHERE 1=1
+	 					  		  		 <isNotEmpty property="srchCaseNo" prepend="AND">
+	 					  		  		 	CASE_NO=#srchCaseNo#
+	 					  		  		 </isNotEmpty>
+	 					  		  		 AND TRAN_DATE BETWEEN #srchStartDate# AND #srchEndDate#
+	 					  		  		 <isNotEmpty property="srchAccNo" prepend="AND">
+	 					  		  		 	ACC_NO=#srchAccNo#
+	 					  		  		 </isNotEmpty>
+	 					  		  		 ORDER BY TRAN_DATE, TRAN_HOURS, TRAN_NO
+	 					  		  		)
+	 					  		 )
+	 					  )
+    </select>
+    
+    <resultMap class="com.saltware.enface.sjpb.account.bank.BankAccMngBranchVO" id="bankAccMngBranchVO">
+        <result property="baseDate" column="BASE_DATE"/>
+		<result property="membNm" column="MEMB_NM"/>
+		<result property="brNm" column="BR_NM"/>
+		<result property="accNo" column="ACC_NO"/>
+		<result property="docNo" column="DOC_NO"/>
+		<result property="branchNo" column="BRANCH_NO"/>
+		<result property="lastDealDate" column="LAST_DEAL_DATE"/>
+    </resultMap>
+    
+    <select id="bank.selectBankAccMngBranch" resultMap="bankAccMngBranchVO">
+    	SELECT
+    		 TO_CHAR(TO_DATE(BASE_DATE, 'YYYY.MM.DD'), 'YYYY.MM.DD') AS BASE_DATE
+    		,FN_MEMB_NM@JOSAONDB_JOSA(A.MEMB_NO, '1') AS MEMB_NM
+    		,FN_BR_NM@JOSAONDB_JOSA(A.MEMB_NO, A.BRANCH_NO, '1') AS BR_NM
+    		,ACC_NO
+    		,DOC_NO
+    		,MEMB_NO
+    		,BRANCH_NO
+    		,TO_CHAR(LAST_DEAL_DATE, 'YYYY.MM.DD hh24:mi:ss') AS LAST_DEAL_DATE
+    	  FROM TB_JCDA317 A
+    	 WHERE 1=1
+    	 <isNotEmpty property="srchCaseNo" prepend="AND">
+    	 	TRIM(A.CASE_NO)=TRIM(#srchCaseNo#)
+    	 </isNotEmpty>
+    	 ORDER BY LAST_DEAL_DATE DESC
+    </select>
+    
+    <select id="bank.selectBankAccMngBranchCnt" resultClass="int">
+    	SELECT
+    		COUNT(*)
+    	FROM TB_JCDA317 A
+    	 WHERE 1=1
+    	 <isNotEmpty property="srchCaseNo" prepend="AND">
+    	 	TRIM(A.CASE_NO)=TRIM(#srchCaseNo#)
+    	 </isNotEmpty>
+    </select>
+    
+    <resultMap class="com.saltware.enface.sjpb.account.bank.BankAccTrsfHistVO" id="bankAccTrsfHistVO">
+        <result property="membNm" column="MEMB_NM"/>
+		<result property="membBrNm" column="MEMB_BR_NM"/>
+		<result property="trusterNm" column="TRUSTER_NM"/>
+		<result property="accNo" column="ACC_NO"/>
+		<result property="tranDate" column="TRAN_DATE"/>
+		<result property="tranHours" column="TRAN_HOURS"/>
+		<result property="tranNo" column="TRAN_NO"/>
+		<result property="acntCode" column="ACNT_CODE"/>
+		<result property="tranDivNm" column="TRAN_DIV_NM"/>
+		<result property="tranCntnNm" column="TRAN_CNTN_NM"/>
+		<result property="remark" column="REMARK"/>
+		<result property="currDivNm" column="CURR_DIV_NM"/>
+		<result property="inAmt" column="IN_AMT"/>
+		<result property="outAmt" column="OUT_AMT"/>
+		<result property="bllncAmt" column="BLLNC_AMT"/>
+		<result property="ordMdDivNm" column="ORD_MD_DIV_NM"/>
+		<result property="dealMebNm" column="DEAL_MEB_NM"/>
+		<result property="dealBrNm" column="DEAL_BR_NM"/>
+		<result property="tranDiv" column="TRAN_DIV"/>
+		<result property="relativeMembNm" column="RELATIVE_MEMB_NM"/>
+		<result property="relativeBrNm" column="RELATIVE_BR_NM"/>
+		<result property="relativeAccNo" column="RELATIVE_ACC_NO"/>
+		<result property="relativeAccNm" column="RELATIVE_ACC_NM"/>
+		<result property="docNo" column="DOC_NO"/>
+		<result property="membNo" column="MEMB_NO"/>
+		<result property="branchNo" column="BRANCH_NO"/>
+    </resultMap>
+    
+    <select id="bank.selectBankAccTrsfHist" resultMap="bankAccTrsfHistVO">
+    	SELECT
+    		 FN_MEMB_NM@JOSAONDB_JOSA(MEMB_NO,'1') AS MEMB_NM
+    		,FN_BR_NM@JOSAONDB_JOSA(MEMB_NO, BRANCH_NO, '1') AS MEMB_BR_NM
+    		,TRUSTER_NM
+    		,ACC_NO
+    		,TO_CHAR(TO_DATE(TRAN_DATE, 'YYYY.MM.DD'), 'YYYY.MM.DD') AS TRAN_DATE
+    		,SUBSTR(TRAN_HOURS, 1, 2) || ':' || SUBSTR(TRAN_HOURS, 3, 2) || ':' || SUBSTR(TRAN_HOURS, 5, 2) AS TRAN_HOURS
+    		,TRAN_NO
+    		,ACNT_CODE
+    		,DECODE(TRAN_DIV, '1', '입금', '출금') AS TRAN_DIV_NM
+    		,FN_BODY_NM@JOSAONDB_JOSA('JC101', TRAN_CNTN) AS TRAN_CNTN_NM
+    		,REMARK
+    		,FN_BODY_NM@JOSAONDB_JOSA('JC103', CURR_DIV) AS CUR_DIV_NM
+    		,IN_AMT
+    		,OUT_AMT
+    		,BLLNC_AMT
+    		,FN_BODY_NM@JOSAONDB_JOSA('JC102', ORD_MD_DIV) AS ORD_MD_DIV_NM
+    		,FN_MEMB_NM@JOSAONDB_JOSA(DEAL_MEB_NO,'1') AS DEAL_MEB_NM
+    		,FN_BR_NM@JOSAONDB_JOSA(DEAL_MEB_NO, DEAL_BRANCH_NO, '1') AS DEAL_BR_NM
+    		,DECODE(TRAN_DIV, '1', IN_REMARK, OUT_REMARK) AS TRAN_DIV
+    		,FN_MEMB_NM@JOSAONDB_JOSA(RELATIVE_MEM_NO,'1') AS RELATIVE_MEMB_NM
+    		,FN_BR_NM@JOSAONDB_JOSA(RELATIVE_MEMB_NO, RELATIVE_BRANCH_NO,'1') AS RELATVE_BR_NM
+    		,RELATIVE_ACC_NO
+    		,RELATIVE_ACC_NM
+    		,DOC_NO
+    		,MEMB_NO
+    		,BRANCH_NO
+		  FROM TB_JCDA319_EC
+		 WHERE ROWID IN (SELECT AROWID
+	 					   FROM (SELECT AROWID, ROWNUM AS RNUM
+	 					  		  FROM (SELECT ROWID AS AROWID
+	 					  		  		  FROM TB_JCDA319_EC
+	 					  		  		 WHERE 1=1
+	 					  		  		 <isNotEmpty property="srchCaseNo" prepend="AND">
+	 					  		  		 	TRIM(CASE_NO)=TRIM(#srchCaseNo#)
+	 					  		  		 </isNotEmpty>
+	 					  		  		 <isNotEmpty property="srchDiv" prepend="AND">
+	 					  		  		 	TRIM(TRAN_DIV)=DECODE(#srchDiv#,'0',TRIM(TRAN_DIV), '1', '1', '2', '2')
+	 					  		  		 </isNotEmpty>
+	 					  		  		 AND TO_DATE(TRIM(TRAN_DATE), 'YYYY-MM-DD') BETWEEN TO_DATE(#srchStartDate#, 'YYYY-MM-DD') AND TO_DATE(#srchEndDate#, 'YYYY-MM-DD')
+	 					  		  		 <isNotEmpty property="srchMembNo" prepend="AND">
+	 					  		  		 	MEMB_NO=#srchMembNo#
+	 					  		  		 </isNotEmpty>
+	 					  		  		 <isNotEmpty property="srchBranchNo" prepend="AND">
+	 					  		  		 	BRANCH_NO=#srchBranchNo#
+	 					  		  		 </isNotEmpty>
+	 					  		  		 <isNotEmpty property="srchAccNo" prepend="AND">
+	 					  		  		 	ACC_NO=#srchAccNo#
+	 					  		  		 </isNotEmpty>
+	 					  		  		 ORDER BY TRAN_DATE, TRAN_HOURS, TRAN_NO
+	 					  		  		)
+	 					  		 )
+	 					  )
+		 ORDER BY TRAN_DATE, TRAN_HOURS, TRAN_NO
+    </select>
+    
+    <select id="bank.selectBankAccTrsfHistCnt" resultClass="int">
+    	SELECT
+    		COUNT(*)
+    	FROM TB_JCDA319_EC
+		 WHERE ROWID IN (SELECT AROWID
+	 					   FROM (SELECT AROWID, ROWNUM AS RNUM
+	 					  		  FROM (SELECT ROWID AS AROWID
+	 					  		  		  FROM TB_JCDA319_EC
+	 					  		  		 WHERE 1=1
+	 					  		  		 <isNotEmpty property="srchCaseNo" prepend="AND">
+	 					  		  		 	TRIM(CASE_NO)=TRIM(#srchCaseNo#)
+	 					  		  		 </isNotEmpty>
+	 					  		  		 <isNotEmpty property="srchDiv" prepend="AND">
+	 					  		  		 	TRIM(TRAN_DIV)=DECODE(#srchDiv#,'0',TRIM(TRAN_DIV), '1', '1', '2', '2')
+	 					  		  		 </isNotEmpty>
+	 					  		  		 AND TO_DATE(TRIM(TRAN_DATE), 'YYYY-MM-DD') BETWEEN TO_DATE(#srchStartDate#, 'YYYY-MM-DD') AND TO_DATE(#srchEndDate#, 'YYYY-MM-DD')
+	 					  		  		 <isNotEmpty property="srchMembNo" prepend="AND">
+	 					  		  		 	MEMB_NO=#srchMembNo#
+	 					  		  		 </isNotEmpty>
+	 					  		  		 <isNotEmpty property="srchBranchNo" prepend="AND">
+	 					  		  		 	BRANCH_NO=#srchBranchNo#
+	 					  		  		 </isNotEmpty>
+	 					  		  		 <isNotEmpty property="srchAccNo" prepend="AND">
+	 					  		  		 	ACC_NO=#srchAccNo#
+	 					  		  		 </isNotEmpty>
+	 					  		  		 ORDER BY TRAN_DATE, TRAN_HOURS, TRAN_NO
+	 					  		  		)
+	 					  		 )
+	 					  )
+    </select>
+    
+    <resultMap class="com.saltware.enface.sjpb.account.bank.ChitVO" id="chitVO">
+        <result property="membNm" column="MEMB_NM"/>
+		<result property="branchNm" column="BRANCH_NM"/>
+<!-- 		<result property="personDataRelaAcc" column="PERSON_DATA_RELA_ACC"/> -->
+<!-- 		<result property="reqCntn" column="REQ_CNTN"/> -->
+		<result property="attachFileNm" column="ATTACH_FILE_NM"/>
+		<result property="saveFileNm" column="SAVE_FILE_NM"/>
+		<result property="docNo" column="DOC_NO"/>
+		<result property="lastDealDate" column="LAST_DEAL_DATE"/>
+    </resultMap>
+    
+    <select id="bank.selectChit" resultMap="chitVO">
+    	SELECT
+    		 FN_MEMB_NM@JOSAONDB_JOSA(A.MEMB_NO, '1') AS MEMB_NM
+    		,FN_BR_NM@JOSAONDB_JOSA(A.MEMB_NO, A.BRANCH_NO, '1') AS BRANCH_NM
+<!--     		,PERSON_DATA_RELA_ACC -->
+<!--     		,REQ_CNTN -->
+    		,ATTACH_FILE_NM
+    		,SAVE_FILE_NM
+    		,DOC_NO
+    		,TO_CHAR(A.LAST_DEAL_DATE, 'YYYY.MM.DD') AS LAST_DEAL_DATE
+    	  FROM TB_JCDA318 A
+<!--     	  	 , TB_JAFT018 B -->
+    	 WHERE 1=1
+<!--     	   AND A.DT_SUBM_REQ_NO=B.DT_SUBM_REQ_NO -->
+<!--     	   AND A.DT_SUBM_SEQ_NO=B.DT_SUBM_SEQ_NO -->
+    	   <isNotEmpty property="srchCaseNo" prepend="AND">
+    	   		TRIM(A.CASE_NO)=TRIM(#srchCaseNo#)
+    	   </isNotEmpty>
+    	   <isNotEmpty property="srchDocNo" prepend="AND">
+    	   		TRIM(DOC_NO) IN (SELECT distinct DOC_NO FROM EM_FAX_SEND WHERE SUSA_DOC_NO LIKE '%' || #srchDocNo# || '%')
+    	   </isNotEmpty>
+    	 ORDER BY A.LAST_DEAL_DATE DESC, DOC_NO, ATTACH_FILE_NM, MEMB_NM, BRANCH_NM
+    </select>
+    
+    <select id="bank.selectChitCnt" resultClass="int">
+    	SELECT
+    		COUNT(*)
+    	FROM TB_JCDA318 A
+<!--     	  	 , TB_JAFT018 B -->
+   	 	WHERE 1=1
+<!--     	   AND A.DT_SUBM_REQ_NO=B.DT_SUBM_REQ_NO -->
+<!--     	   AND A.DT_SUBM_SEQ_NO=B.DT_SUBM_SEQ_NO -->
+    	   <isNotEmpty property="srchCaseNo" prepend="AND">
+    	   		TRIM(A.CASE_NO)=TRIM(#srchCaseNo#)
+    	   </isNotEmpty>
+    	   <isNotEmpty property="srchDocNo" prepend="AND">
+    	   		TRIM(DOC_NO) IN (SELECT distinct DOC_NO FROM EM_FAX_SEND WHERE SUSA_DOC_NO LIKE '%' || #srchDocNo# || '%')
+    	   </isNotEmpty>
+    </select>
+     
+</sqlMap>

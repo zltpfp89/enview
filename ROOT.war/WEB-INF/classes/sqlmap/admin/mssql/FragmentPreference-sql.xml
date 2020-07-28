@@ -1,0 +1,106 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="admin">
+
+	
+	
+	<!-- Query for [ FRAGMENT_PREFERENCE : 페이지구성요소 선택사항 ] Table -->
+	<resultMap id="admin_FragmentPreferenceVO_PK" class="com.saltware.enview.admin.page.service.FragmentPreferencePK">
+	
+		<result property="id" column="ID" columnIndex="1"/>	
+	</resultMap>
+	
+	<resultMap id="admin_FragmentPreferenceVO" class="com.saltware.enview.admin.page.service.FragmentPreferenceVO">
+	 
+		<result property="id" column="ID" columnIndex="1"/>	 
+		<result property="fragmentId" column="FRAGMENT_ID" columnIndex="2"/>	 
+		<result property="name" column="NAME" columnIndex="3"/>	 
+		<result property="value" column="VALUE" columnIndex="4"/>	
+	</resultMap>
+	
+	<select id="fragmentPreference.totalCount" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM FRAGMENT_PREFERENCE
+			WHERE 1=1	
+				<isNotEqual prepend=" AND " property="fragmentId" compareValue="0">FRAGMENT_ID=#fragmentId#</isNotEqual>
+	</select>
+	
+	<select id="fragmentPreference.findByPage" resultMap="admin_FragmentPreferenceVO_PK">
+			SELECT * FROM ( 
+				SELECT Row_Number() OVER (<isNull property="sortColumn">ORDER BY ID ASC</isNull><isNotNull property="sortColumn"> ORDER BY $sortColumn$ $sortMethod$ </isNotNull>) AS rownum, ID
+				FROM FRAGMENT_PREFERENCE 
+				WHERE 1=1 
+					<isNotEqual prepend=" AND " property="fragmentId" compareValue="0">FRAGMENT_ID=#fragmentId#</isNotEqual>
+			) T1
+			WHERE rownum BETWEEN #startRow# AND #endRow#
+	</select>
+
+	<select id="fragmentPreference.findAll" resultMap="admin_FragmentPreferenceVO">
+			SELECT ID,FRAGMENT_ID,NAME,VALUE
+			FROM FRAGMENT_PREFERENCE
+	</select>
+	
+	<select id="fragmentPreference.findByMasterIds" resultMap="admin_FragmentPreferenceVO">
+			SELECT ID,FRAGMENT_ID,NAME,VALUE
+			FROM FRAGMENT_PREFERENCE
+			WHERE FRAGMENT_ID IN ($fragmentIds$)
+	</select>
+	
+	<select id="fragmentPreference.findByMaster" resultMap="admin_FragmentPreferenceVO">
+			SELECT ID,FRAGMENT_ID,NAME,VALUE
+			FROM FRAGMENT_PREFERENCE
+			WHERE FRAGMENT_ID=#fragmentId#
+	</select>
+	
+	<select id="fragmentPreference.findByName" resultMap="admin_FragmentPreferenceVO">
+			SELECT ID,FRAGMENT_ID,NAME,VALUE
+			FROM FRAGMENT_PREFERENCE
+			WHERE FRAGMENT_ID=#fragmentId# AND NAME=#name#
+	</select>
+
+	<select id="fragmentPreference.detail" resultMap="admin_FragmentPreferenceVO">
+		<![CDATA[
+			SELECT ID,FRAGMENT_ID,NAME,VALUE
+			FROM FRAGMENT_PREFERENCE
+			WHERE 1=1 
+				AND ID=#id#
+		]]>
+	</select>
+	
+	<insert id="fragmentPreference.insert">
+		<![CDATA[
+			INSERT INTO FRAGMENT_PREFERENCE
+				( ID,FRAGMENT_ID,NAME,VALUE )
+			VALUES ( #id#,#fragmentId#,#name#,#value# )
+		]]>
+	</insert>
+	
+	<update id="fragmentPreference.update">
+		<![CDATA[
+			UPDATE FRAGMENT_PREFERENCE
+			SET ID=#id#,FRAGMENT_ID=#fragmentId#,NAME=#name#,VALUE=#value#
+			WHERE 1=1 
+				AND ID=#id#
+		]]>
+	</update>
+	
+	<delete id="fragmentPreference.delete">
+		<![CDATA[
+			DELETE FROM FRAGMENT_PREFERENCE
+			WHERE 1=1 
+				AND ID=#id#
+		]]>
+	</delete>
+	
+	<delete id="fragmentPreference.deleteChildren">
+		<![CDATA[
+			DELETE FROM FRAGMENT_PREFERENCE
+			WHERE 1=1 
+				AND FRAGMENT_ID=#fragmentId#
+		]]>
+	</delete>
+	
+
+</sqlMap>
+

@@ -1,0 +1,63 @@
+package com.saltware.enface.sjpb.F.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.saltware.enface.sjpb.B.dao.B0101DAO;
+import com.saltware.enface.sjpb.F.dao.F0101DAO;
+import com.saltware.enface.sjpb.F.service.F0101Service;
+import com.saltware.enface.sjpb.F.service.F0101VO;
+import com.saltware.enview.idgenerator.IdGenerator;
+
+@Service("com.saltware.enface.sjpb.F.service.F0101Service")
+public class F0101ServiceImpl implements F0101Service{
+	
+	protected Log log = LogFactory.getLog(getClass());
+	
+	@Autowired
+	protected F0101DAO f0101DAO = null;
+	
+	@Autowired
+	protected IdGenerator idGenerator = null;
+
+	/**
+	 * 사용자메뉴DAO를 설정한다.
+	 * 
+	 * @param userMenuDAO
+	 */
+	public void setUserMenuDAO(F0101DAO f0101DAO) {
+		this.f0101DAO = f0101DAO;
+	}
+	
+	/**
+	 * 범죄수사자료조회관리대장 화면(리스트)을 가져온다.
+	 * @return List
+	 * @throws Exception
+	 */
+	@Override
+	public List selectList(F0101VO vo) throws Exception {
+		return (List) f0101DAO.selectList(vo);
+	}
+	/**
+	 * 범죄수사자료조회관리대장 신규 등록한다.
+	 * @return int
+	 * @throws Exception
+	 */
+	@Override
+	public int insertCriData(F0101VO vo) throws Exception {
+		return f0101DAO.insertCriData(vo);
+	}
+
+	@Override
+	public F0101VO selectCriData(String mngBkSiNum) throws Exception {
+		return f0101DAO.selectCriData(mngBkSiNum);
+	}
+	
+	
+	
+}

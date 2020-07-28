@@ -1,0 +1,18 @@
+<js>
+    <status>$status</status>
+    <action>$action</action>
+    <method>$method</method>
+    <name>$fragment.getName()</name>
+	
+    <content><![CDATA[$!content]]></content>
+    <attribute><![CDATA[
+    	{"attribute" : { "id" : "$fragment.getId()", "name" : "$fragment.getName()", "type" : "$fragment.getType()", "contentType" : "$!fragment.getContentType()", "actionMask" : "7999", "columns" : "$columns", "sizes" : "$sizes" },
+    	 "preference" : {
+#set ($idx = 0)
+#foreach($pref in $preferences.keySet())
+			#if($idx > 0), #end"$pref" : "$preferences.get($pref)"
+#set ($idx = $idx + 1)
+#end
+		}} ]]>
+	</attribute>
+</js>

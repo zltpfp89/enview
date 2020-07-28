@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>036 setAbleCell sample</title>
+	<style type="text/css"></style>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<script type="text/javascript">
+		var RightTechPath = './';
+	</script>	
+	<script type="text/javascript" src="/QCELL/qcell.js"></script>
+	<script>
+		var formatData =
+		[
+			{"date":20160518,"name":"Haley Ayers","price":'',"code":"bc0ab338dfca499c8621cc71fb813d20","identification":9999998888888, able: true},
+			{"date":20140524,"name":"Susan Benson","price":88729534.21,"code":"6dd11a0b2c8149bfbf7ecfc2ee38c9ad","identification":6666665555555},
+			{"date":20150710,"name":"Ella Williams","price":41188424,"code":"32665cfae58b4d5482803204d38f6aaa","identification":6666660000000},
+			{"date":20170712,"name":"Rose Melton","price":23329298,"code":"b89a0c38fe624a1ea402a51b24a34ad8","identification":1111112222222, able: true},
+			{"date":20170614,"name":"Bridgette Barlow","price":33845431,"code":"8d2a0d76746f4bef8a0f3f586aa85a8d","identification":9999995555555},
+			{"date":20170221,"name":"Lora Diaz","price":68129743,"code":"ae68f6308485407f976714ef8b6c91eb","identification":9999991111111},
+			{"date":20130609,"name":"Willa Buchanan","price":65680746,"code":"312f8a1585124cd1912e472c017bbb5b","identification":4444447777777},
+			{"date":20120528,"name":"Shelia Molina","price":73575968,"code":"53cb172429fc4e25b7b1f539975306c3","identification":1111119999999},
+			{"date":20170405,"name":"Morris Walton","price":75192465,"code":"30238703184849538a1f1ecdfd847551","identification":5555551111111},
+			{"date":20110306,"name":"Monique Brock","price":35146853,"code":"aa45a8202c134d65a902cf56b28759ff","identification":5555556666666},
+			{"date":20170424,"name":"Melody Pacheco","price":83271291,"code":"3cdee8a30f47421c8f674e4cfd6ac19e","identification":3333334444444},
+			{"date":20100408,"name":"Wells Cooper","price":7108955,"code":"77f7eebde66141d3a02639fa239fca7b","identification":7777770000000},
+			{"date":20170504,"name":"Thomas Hebert","price":17299477,"code":"16ff07e1b9cc41c78522e48dd77972b1","identification":2222227777777},
+			{"date":20150111,"name":"Solis Sandoval","price":71378259.322112,"code":"72b3a6204bf84f1493be5a511024a5a2","identification":666668888888},
+			{"date":20170626,"name":"Padilla Peterson","price":99354274,"code":"9cdf78ad779b4fb1931b7429d58621f2","identification":1111111111111},
+			{"date":20170625,"name":"Rosemarie Bernard","price":59620827,"code":"6e2c8a01d7fa455099edb2491d1db064","identification":8888889999999},
+			{"date":20130506,"name":"Rachelle Church","price":71859354,"code":"daf17c41f9514945b41f9024b30d4823","identification":2222227777777},
+			{"date":20120410,"name":"Malinda Holland","price":18050854,"code":"a86749bce8a14868b295ae19e00472cc","identification":8888880000000},
+			{"date":20170220,"name":"Kitty Shaw","price":36903014,"code":"9b377c4c2f934d59951e65e2c9d5b103","identification":666664444444},
+			{"date":20120520,"name":"Rutledge Wilkinson","price":15857116,"code":"54c75f57e64a4be3bb1e20169417f727","identification":3333332222222},
+			{"date":20170106,"name":"Bettie Crosby","price":43130782,"code":"2fd8f980c5724db38674475b541fb9c2","identification":1111111111111},
+			{"date":20110311,"name":"Jocelyn Hays","price":18192427,"code":"cf747a7f19204b9b9f23db60ac864c37","identification":5555559999999},
+			{"date":20170318,"name":"Adkins Randolph","price":97274067,"code":"86209aff90784ea8aefdc3f27555a70c","identification":4444440000000},
+			{"date":20170506,"name":"Tracie Ware","price":30288460,"code":"de0e5feae1764bbda013d62d9ec54889","identification":2222224444444},
+			{"date":20140315,"name":"Bridges Kirk","price":89949018,"code":"0d0d6be99b814160b2a04ecc0c5892a7","identification":666666666666},
+			{"date":20170614,"name":"Vega Nash","price":43798546,"code":"efc59ea2830243179469c443720c298f","identification":1111118888888},
+			{"date":20170110,"name":"Velez Weiss","price":45962552,"code":"66f3e472dfde4c5aa1fdac4a5146e575","identification":1111118888888},
+			{"date":20170421,"name":"Jacquelyn Cooley","price":98192251,"code":"fc352f3f97b54637abb17a05bb7a0c8c","identification":5555555555555},
+			{"date":20170507,"name":"Baird Bean","price":29459096,"code":"8195490db3ce4db18fb5d3862b7b5024","identification":666667777777},
+			{"date":20120115,"name":"Powers Hicks","price":21453285,"code":"0d06be4c548049899565980be4d4ddcf","identification":5555559999999},
+			{"date":20110322,"name":"Maribel Hernandez","price":6409007,"code":"6a11e0f2e30140fd92f20d7414003b0e","identification":666662222222},
+			{"date":20140508,"name":"Adrian Henderson","price":46994351,"code":"7397c7d0ecb24516bccba3c60f8e68ca","identification":3333334444444},
+			{"date":20170615,"name":"Coffey Petersen","price":34509869,"code":"1d34b8c0b41342919ad58ed650acf03d","identification":1111111111111},
+			{"date":20150405,"name":"Whitney Greene","price":19856875,"code":"f9b3454db8e24462bee3f87c95402db5","identification":7777770000000, able: true},
+			{"date":20170624,"name":"Hayes Charles","price":14802740.332,"code":"afddb2e2711c4b3e86adece810e713eb","identification":9999994444444}
+		];
+	
+		var qcell1;
+		
+		$(document).ready(function(){
+			createQCELL();
+		});
+		
+		function createQCELL(){
+			removeQCELL();
+			
+			QCELL.create({
+				id			: "qcell1",
+				parentid	: "sheetarea",
+				columns		: [
+					{ type : "html", width : "150", key : "name", title : ["이름1"], options : {format: {type: "string", rule:"@ 님"}, html: {header: fnHeader, data: fnData}} },
+					{ type : "input", width : "200", key : "date", title : ["날짜"], options : {format: {type: "date", origin:"YYYYMMDD", rule: "YYYY-MM-DD a hh:mm:ss"}} }, // limit num은 '0부터9 -와 ,'사용 가능
+					{ type : "input", width : "150", key : "name", title : ["이름"], options : {format: {type: "string", rule:"Mr. @"}} }, // limit string은 0부터9 숫자를 제외한 나머지 입력 가능 
+					{ type : "input", width : "150", key : "price", title : ["가격"], options : {format: {type: "number", rule:"￦ #,###.00"}} },
+					{ type : "input", width : "200", key : "code", title : ["코드번호"], options : {format: {type: "custom", callback: customCd}}, disabled: true },
+					{ type : "input", width : "200", key : "identification", title : ["개인번호"], options : {format: {type: "custom", callback: customIden}} }
+				],
+				rowheader	: "sequence",
+				data		: {"input":formatData},
+				frozenrows		: 3,
+				frozenbottomrows	: 3,
+				frozencols	: 2
+			});
+			
+			qcell1 = QCELL.getInstance("qcell1");
+			setCellAble();
+		};
+		
+		function setCellAble(){ // 코드번호 열 중 데이터 able이 true일 때만 cell 사용 가능
+			var rows = qcell1.getRows(),
+			headerrows = qcell1.getRows('header'),
+			targetCol = qcell1.getColsOfKey('code');
+			
+			for(var i=headerrows; i<rows; i++){
+				var rowdata = qcell1.getRowData(i);
+				
+				if(_.isUndefined(rowdata.able) === false && rowdata.able === true){
+					qcell1.setAbleCell(i, targetCol[0]);
+				}
+			}
+			qcell1.refresh();
+		}
+		
+		
+		function removeQCELL(){
+			if(QCELL.getInstance("qcell1") !== null){
+				QCELL.deleteInstance("qcell1");
+				qcell1 = null;
+			}
+		};
+		
+		function fnHeader(id, row, col, val, obj){
+			return "<span style='color: orange;'>"+val+"</span>";
+		};
+		
+		function fnData(id, row, col, val, obj){
+			return "<span style='color: deeppink;'>"+val+"</span>";
+		};
+		
+		function customCd(data){
+			var data_1st = data.substr(0, 8);
+			var data_2nd = data.substr(8, 4);
+			var data_3rd = data.substr(12, 4);
+			var data_4th = data.substr(16, 4);
+			var data_5th = data.substr(20, data.length);
+			
+			return data_1st +"-"+ data_2nd +"-"+ data_3rd +"-"+ data_4th +"-"+ data_5th;
+		};
+
+		function customIden(data){
+			var data_1st = data.substr(0, 6);
+			var data_2nd = data.substr(6, 1);
+			
+			return data_1st +"-"+ data_2nd +"XXXXXX";
+		};
+	</script>
+</head>
+<body>
+	<div>
+		<div id="sheetarea" style="width:100%;height:600px;"></div>
+	</div>
+</body>
+</html>

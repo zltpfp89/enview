@@ -1,0 +1,52 @@
+@charset "utf-8";
+
+/*  ///////////////////////
+
+	Base		
+
+//////////////////////// */
+body {
+	font-family:Dotum, "돋움","맑은 고딕", AppleGothic, 굴림, AppleGothic,;
+	font-size:12px; line-height:150% ; 
+	margin:0; padding:0;  color:#494949; -webkit-text-size-adjust:none;word-break: break-all; letter-spacing:; scrollbar:yes;
+	scrollbar-base-color: #ffffff;
+	scrollbar-arrow-color: #adadad;
+	scrollbar-3dlight-color: #ffffff;
+	scrollbar-darkshadow-color: #ffffff;
+	scrollbar-face-color: #ffffff;
+	scrollbar-highlight-color: #adadad;
+	scrollbar-shadow-color: #adadad;
+	scrollbar-track-color: #f0f0f0;
+	}
+
+ul, li, dl, dt, dd, ol {list-style: none; padding:0; margin:0;}
+a{  color:#494949; text-decoration:none; border:0px;}	
+a:hover {color:#494949;text-decoration: underline; }
+caption{ display:none}
+img {border:0px;}
+
+
+/* 인풋 관련 */
+input, textarea, select, button{	font-family:"돋움",Dotum;	font-size:12px;  color:#494949;  border:1px solid #d5d5d5;}
+input[type=radio]{			margin-top:3px; vertical-align: middle;	vertical-align: bottom\0/;	border:0px solid red;	}
+
+select{						padding:1px; margin:0px 0px 0px 0px}
+input[type=text]{			padding-top:2px; padding-bottom:2px; margin:0px;} 
+input[type="checkbox"] {	margin:0px 3px 0px 0px;	padding:0px 0px 0px 0px;border:0px solid red; }
+textarea{					height:100px; width:100%; padding:2px; overflow:auto;}
+
+
+.required{					background:#efefef;} /* 입력창 필수 칼라 */
+.freeze{					background:#ffffff; border:0px solid #ffffff; color:#aaaaaa !important;} /* 입력창 필수 칼라 */
+
+.left{text-align:left !important;}
+.center{text-align:center !important;}
+.right{text-align:right !important;}
+
+.bold { font-weight:bold}
+.chip_color { color:#c03500}
+.eng{ font-family:Arial, Helvetica, sans-serif; font-size:11px; letter-spacing:0px;}
+
+/* 인풋 추가 */
+fieldset, legend {margin:0;padding:0;border:0 none;} /* add_s */
+legend {display:none;}

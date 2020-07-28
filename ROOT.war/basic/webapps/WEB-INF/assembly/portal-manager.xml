@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="com.saltware.enview.domain.EnviewDomainManager" class="com.saltware.enview.domain.impl.EnviewDomainManagerImpl" >
+		<constructor-arg index="0">
+            <value>${enview.db.type}</value>
+        </constructor-arg>
+    </bean>
+	
+	<bean id="com.saltware.enview.session.SessionManager" class="com.saltware.enview.session.SessionManagerImpl" >
+		<constructor-arg index="0">
+            <value>${enview.db.type}</value>
+        </constructor-arg>
+    </bean>
+	
+    <bean id="com.saltware.enview.codebase.Codebases" name="codebases" class="com.saltware.enview.codebase.impl.EnviewCodebase" >
+        <constructor-arg index="0">
+            <value>ENVIEW-INF/ojb/codebase_repository.xml</value>
+        </constructor-arg>
+		<constructor-arg index="1">
+            <value>${enview.db.type}</value>
+        </constructor-arg>
+    </bean>
+
+	<bean id="com.saltware.enview.notice.Notices" name="Noticesr" class="com.saltware.enview.notice.impl.EnviewNotices" >
+        <constructor-arg index="0">
+            <value>ENVIEW-INF/ojb/notice_repository.xml</value>
+        </constructor-arg>
+		<constructor-arg index="1">
+            <value>${enview.db.type}</value>
+        </constructor-arg>
+    </bean>
+
+	<bean id="com.saltware.enview.notice.impl.NoticeManager" class="com.saltware.enview.notice.impl.NoticeManager">  	   
+		<constructor-arg index="0">
+			<ref bean="com.saltware.enview.notice.Notices"/>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="com.saltware.enview.multiresource.EnviewMultiResource" name="multiResources" class="com.saltware.enview.multiresource.impl.EnviewMultiResource" >
+		<constructor-arg index="0">
+            <value>${enview.db.type}</value>
+        </constructor-arg>
+    </bean>
+
+	<bean id="com.saltware.enview.decoration.ThemeMappingManager" 
+  	   class="com.saltware.enview.decoration.ThemeMappingManagerImpl" >  	   
+		<constructor-arg index="0">
+			<value>${enview.db.type}</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="com.saltware.enview.administration.MasterBatchServerCheckJob" class="com.saltware.enview.administration.MasterBatchServerCheckJob" /> 
+	
+	<bean id="com.saltware.enview.administration.EnviewMemoryJobManager" class="com.saltware.enview.administration.EnviewMemoryJobManagerImpl" >
+		<constructor-arg>
+			<list>
+				<ref bean="DecorationFactory" />
+				<!--ref bean="com.saltware.enview.administration.MasterBatchServerCheckJob" /-->
+			</list>
+		</constructor-arg>
+    </bean>
+	
+	<bean id="com.saltware.enview.administration.ConfigurationManager" class="com.saltware.enview.administration.ConfigurationManagerImpl"></bean>
+
+	<bean id="com.saltware.enview.administration.BatchScheduleManager" class="com.saltware.enview.administration.BatchScheduleManagerImpl"></bean>
+	
+	<bean id="com.saltware.enview.portlet.service.config.PortletServiceConfigManager" class="com.saltware.enview.portlet.service.config.PortletServiceConfigManagerImpl"></bean>
+	
+</beans>

@@ -1,0 +1,42 @@
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="face">
+ 
+<!-- Query for [ SJPB_CRI_DTA_INQ_MNG_BK : 범죄수사자료조회관리대장 ] Table -->
+		
+	<resultMap class="com.saltware.enface.sjpb.Z.service.IncSpVO" id="F0301.IncSpVO.listSp">
+		<result property="incNum" column="RCPT_INC_NUM"/>
+		<result property="spNm" column="SP_NM"/>
+		<result property="spIdNum" column="SP_ID_NUM"/>
+		<result property="incSpNum" column="INC_SP_NUM"/>
+		<result property="indvCorpDiv" column="INDV_CORP_DIV"/>
+		<result property="indvCorpDivDesc" column="INDV_CORP_DIV_DESC"/>
+	</resultMap>
+	<!-- 범죄수사자료관리대장 리스트 -->
+	<select id="F0301.SJPB_INC_SP.listSp" resultMap="F0301.IncSpVO.listSp"> /* F0301.SJPB_INC_SP.listSp */
+		SELECT B.RCPT_INC_NUM /* 사건번호 */
+		       ,CRYPTO.DEC('normal',A.SP_NM) AS SP_NM /* 피의자명 */
+		       ,CRYPTO.DEC('normal',A.SP_ID_NUM) AS SP_ID_NUM /* 피의자 주민번호 */
+		       ,A.INC_SP_NUM /* 사건 피의자 번호*/
+		       ,A.INDV_CORP_DIV  /* 개인법인구분 */
+		       ,C.CODE_NAME AS INDV_CORP_DIV_DESC /* 개인법인구분 */
+               ,B.CRI_TM_ID
+		FROM SJPB_INC_SP A
+		JOIN SJPB_INC_MAST B ON B.RCPT_NUM = A.RCPT_NUM AND B.CRI_TM_ID = #orgCd# AND B.RCPT_INC_NUM IS NOT NULL
+		LEFT JOIN CODEBASE C ON C.CODE_ID = 'SJPB_00007' AND C.CODE = A.INDV_CORP_DIV AND C.SYSTEM_CODE ='PT' AND C.LANG_KND='ko'
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="incNum" prepend="AND">
+				B.RCPT_INC_NUM = #incNum#
+			</isNotEmpty>
+			<isNotEmpty property="spNm" prepend="AND">
+				CRYPTO.DEC('normal',A.SP_NM) LiKE '%' || CRYPTO.DEC('normal',#spNm#) || '%'
+			</isNotEmpty>
+			<isNotEmpty property="spIdNum" prepend="AND">
+				CRYPTO.DEC('normal',A.SP_ID_NUM) LiKE '%' || CRYPTO.DEC('normal',#spIdNum#) || '%'
+			</isNotEmpty>
+		</dynamic>
+		ORDER BY TO_NUMBER(REGEXP_SUBSTR(REGEXP_SUBSTR(B.RCPT_INC_NUM,'[^-]+',1,1),'[^,]+',1,1)) DESC,TO_NUMBER(REGEXP_SUBSTR(REGEXP_SUBSTR(B.RCPT_INC_NUM,'[^-]+',1,2),'[^,]+',1,1)) DESC
+	</select>
+		
+</sqlMap>
+ 
